@@ -1,0 +1,21 @@
+{
+  "mcpServers": {
+    "Figma Desktop": {
+      "url": "http://127.0.0.1:3845/mcp"
+    },
+    "playwright-mcp": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["@playwright/mcp"],
+      "env": {}
+    },
+    "notionMCP": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://mcp.notion.com/mcp"]
+    },
+    "chrome-devtools": {
+      "command": "npx",
+      "args": ["chrome-devtools-mcp@latest"]
+    }
+  }
+}
