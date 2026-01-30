@@ -1,17 +1,20 @@
-# 不動産会社Webサイト 要件定義書
+# アイ企画Webサイト 要件定義書
 
 ## 1. プロジェクト概要
 
 ### 1.1 目的
+
 不動産会社「アイ企画」のコーポレートWebサイトを構築し、物件情報の掲載、ストーリーコンテンツの発信、会社情報の提供を行う。
 
 ### 1.2 対象ユーザー
+
 - 不動産を探している個人・法人
 - 不動産を売却・賃貸したいオーナー
 - 地域の住民
 - 求職者
 
 ### 1.3 技術スタック要件
+
 - フロントエンド: Next.js + TypeScript
 - CMS: ヘッドレスCMS（WYSIWYGエディタ搭載）
 - ホスティング: 静的サイト生成に対応したプラットフォーム
@@ -22,20 +25,20 @@
 
 ### 2.1 ページ一覧
 
-| ページ名 | パス | 説明 |
-|---------|------|------|
-| TOP | `/` | トップページ |
-| 物件一覧 | `/properties` | 物件の一覧・検索 |
-| 物件詳細 | `/properties/[id]` | 個別物件の詳細情報 |
-| ストーリー一覧 | `/stories` | 暮らしを知るストーリー一覧 |
-| ストーリー詳細 | `/stories/[id]` | 個別ストーリーの詳細 |
-| アイ企画について | `/about` | 会社概要・理念 |
-| ご挨拶 | `/message` | 代表挨拶 |
-| スタッフインタビュー | `/staff-interview` | スタッフ紹介 |
-| 不動産をお探しの方へ | `/for-customer` | 購入・賃貸希望者向け |
-| 不動産をお持ちの方へ | `/for-owner` | 売却・賃貸希望者向け |
-| お客様の声 | `/voice` | 顧客レビュー |
-| プライバシーポリシー | `/privacy-policy` | 個人情報保護方針 |
+| ページ名 | パス | 説明 | Figma URL |
+| --- | --- | --- | --- |
+| TOP | `/` | トップページ | @[https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-9967&m=dev](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-9967&m=dev) |
+| 物件一覧 | `/properties` | 物件の一覧・検索 | @[https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-10279&m=dev](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10279&m=dev) |
+| 物件詳細 | `/properties/[id]` | 個別物件の詳細情報 | @[https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-10156&m=dev](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10156&m=dev) |
+| ストーリー一覧 | `/stories` | 暮らしを知るストーリー一覧 | @[https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-11217&m=dev](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-11217&m=dev) |
+| ストーリー詳細 | `/stories/[id]` | 個別ストーリーの詳細 | @[https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-10492&m=dev](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10492&m=dev) |
+| アイ企画について | `/about` | 会社概要・理念 | @[https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-10018&m=dev](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10018&m=dev) |
+| ご挨拶 | `/message` | 代表挨拶 | @[https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-10129&m=dev](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10129&m=dev) |
+| スタッフインタビュー | `/staff-interview` | スタッフ紹介 | @[https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-11303&m=dev](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-11303&m=dev) |
+| 不動産をお探しの方へ | `/for-customer` | 購入・賃貸希望者向け | @[https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-11398&m=dev](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-11398&m=dev) |
+| 不動産をお持ちの方へ | `/for-owner` | 売却・賃貸希望者向け | @[https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-11453&m=dev](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-11453&m=dev) |
+| お客様の声 | `/voice` | 顧客レビュー | @[https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-11510&m=dev](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-11510&m=dev) |
+| プライバシーポリシー | `/privacy-policy` | 個人情報保護方針 | @[https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-11540&m=dev](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-11540&m=dev) |
 
 ---
 
@@ -43,8 +46,9 @@
 
 ### 3.1 Property（物件）エンティティ
 
-#### 基本情報
-```typescript
+### 基本情報
+
+```tsx
 interface Property {
   // ID
   id: string; // UUID
@@ -83,25 +87,30 @@ interface Property {
   updatedAt: Date;
   publishedAt?: Date;
 }
+
 ```
 
-#### 物件種別ごとの表示項目
+### 物件種別ごとの表示項目
 
 **売物件:**
+
 - 所在地、最寄駅、種別、土地面積、間取り、築年月、学区、取引態様、価格、備考
 
 **売土地:**
+
 - 所在地、最寄駅、種別、土地面積、学区、取引態様、価格、備考
 
 **貸物件:**
+
 - 所在地、最寄駅、種別、建物面積、間取り、築年月、学区、取引態様、賃料、備考
 
 **貸土地:**
+
 - 所在地、最寄駅、種別、土地面積、学区、取引態様、賃料、備考
 
 ### 3.2 Story（ストーリー）エンティティ
 
-```typescript
+```tsx
 interface Story {
   id: string;
   title: string;
@@ -115,22 +124,24 @@ interface Story {
   updatedAt: Date;
   publishedAt?: Date;
 }
+
 ```
 
 ### 3.3 Region（地域）エンティティ
 
-```typescript
+```tsx
 interface Region {
   id: string;
   name: string; // 三島市、長泉町、清水町、沼津市、裾野市、函南町、伊豆の国市、そのほかの地域
   slug: string;
   order: number; // 表示順序
 }
+
 ```
 
 ### 3.4 Image エンティティ
 
-```typescript
+```tsx
 interface Image {
   id: string;
   url: string;
@@ -139,11 +150,12 @@ interface Image {
   height: number;
   caption?: string;
 }
+
 ```
 
 ### 3.5 CustomerVoice（お客様の声）エンティティ
 
-```typescript
+```tsx
 interface CustomerVoice {
   id: string;
   customerName: string;
@@ -153,11 +165,12 @@ interface CustomerVoice {
   content: RichText;
   order: number;
 }
+
 ```
 
 ### 3.6 StaffInterview（スタッフインタビュー）エンティティ
 
-```typescript
+```tsx
 interface StaffInterview {
   id: string;
   staffName: string;
@@ -171,11 +184,12 @@ interface QA {
   question: string;
   answer: string;
 }
+
 ```
 
 ### 3.7 Page（静的ページ）エンティティ
 
-```typescript
+```tsx
 interface Page {
   id: string;
   slug: string; // about, message, for-customer, for-owner, privacy-policy
@@ -183,6 +197,7 @@ interface Page {
   content: RichText;
   updatedAt: Date;
 }
+
 ```
 
 ---
@@ -191,45 +206,48 @@ interface Page {
 
 ### 4.1 物件関連機能
 
-#### 4.1.1 物件一覧ページ (/properties)
+### 4.1.1 物件一覧ページ (/properties)
 
 **表示機能:**
+
 - 物件カード表示（グリッドレイアウト、3列）
 - 注目物件セクション（上部に大きく1件表示）
 - ラベル表示（色分け: 売り系=赤、貸し系=青）
 - 物件情報: サムネイル、タイトル、価格/賃料、間取り、面積、地域
 
 **フィルター機能:**
+
 1. **ステータス切替:**
-   - 「すべて」: 商談中 + 成約済みの全物件を表示（デフォルト）
-   - 「ご案内中の物件」: 商談中の物件のみ表示
-
+    - 「すべて」: 商談中 + 成約済みの全物件を表示（デフォルト）
+    - 「ご案内中の物件」: 商談中の物件のみ表示
 2. **物件種別フィルター（複数選択可）:**
-   - 売物件
-   - 売土地
-   - 貸物件
-   - 貸土地
-
+    - 売物件
+    - 売土地
+    - 貸物件
+    - 貸土地
 3. **地域フィルター（複数選択可）:**
-   - 三島市
-   - 長泉町
-   - 清水町
-   - 沼津市
-   - 裾野市
-   - 函南町
-   - 伊豆の国市
-   - そのほかの地域
+    - 三島市
+    - 長泉町
+    - 清水町
+    - 沼津市
+    - 裾野市
+    - 函南町
+    - 伊豆の国市
+    - そのほかの地域
 
 **検索機能:**
+
 - キーワード検索（物件名、所在地などで検索）
 
 **ページネーション:**
+
 - 1ページあたり12件表示
 - ページ送り機能
 
-#### 4.1.2 物件詳細ページ (/properties/[id])
+### 4.1.2 物件詳細ページ (/properties/[id])
 
 **表示機能:**
+
 - メイン画像 + サムネイルギャラリー
 - 物件タイトル
 - ラベル表示
@@ -241,35 +259,41 @@ interface Page {
 - お問い合わせボタン
 
 **画像ギャラリー:**
+
 - メイン画像表示エリア
 - サムネイル一覧（クリックでメイン画像切替）
 - 画像の拡大表示機能
 
-#### 4.1.3 TOPページの新着物件セクション
+### 4.1.3 TOPページの新着物件セクション
 
 **表示ルール:**
+
 - ご案内中の物件のみ表示
 - 最新6件を表示
 - 「もっと物件を見る」ボタンで物件一覧（ご案内中フィルター）へ遷移
 
 ### 4.2 ストーリー関連機能
 
-#### 4.2.1 ストーリー一覧ページ (/stories)
+### 4.2.1 ストーリー一覧ページ (/stories)
 
 **表示機能:**
+
 - ストーリーカード表示（グリッドレイアウト）
 - カード情報: サムネイル、タイトル、サブタイトル、地域
 
 **フィルター機能:**
+
 - 地域フィルター（複数選択可）
 - 検索機能
 
 **ページネーション:**
+
 - 1ページあたり9件表示
 
-#### 4.2.2 ストーリー詳細ページ (/stories/[id])
+### 4.2.2 ストーリー詳細ページ (/stories/[id])
 
 **表示機能:**
+
 - タイトル・サブタイトル
 - メイン画像
 - リッチテキストコンテンツ
@@ -279,29 +303,34 @@ interface Page {
 
 ### 4.3 会社情報ページ
 
-#### 4.3.1 アイ企画について (/about)
+### 4.3.1 アイ企画について (/about)
+
 - 企業理念・ビジョン
 - 地域マップ・情報
 - 会社概要テーブル
 - 関連物件セクション
 
-#### 4.3.2 ご挨拶 (/message)
+### 4.3.2 ご挨拶 (/message)
+
 - 代表メッセージ（リッチテキスト）
 - 代表写真
 
-#### 4.3.3 スタッフインタビュー (/staff-interview)
+### 4.3.3 スタッフインタビュー (/staff-interview)
+
 - スタッフ情報表示
 - Q&A形式コンテンツ
 - スタッフ写真
 
 ### 4.4 サービスページ
 
-#### 4.4.1 不動産をお探しの方へ (/for-customer)
+### 4.4.1 不動産をお探しの方へ (/for-customer)
+
 - サービス説明（リッチテキスト）
 - 関連物件表示
 - FAQ
 
-#### 4.4.2 不動産をお持ちの方へ (/for-owner)
+### 4.4.2 不動産をお持ちの方へ (/for-owner)
+
 - サービス説明（リッチテキスト）
 - FAQ
 - お問い合わせCTA
@@ -309,29 +338,33 @@ interface Page {
 ### 4.5 お客様の声 (/voice)
 
 **表示機能:**
+
 - アコーディオン形式のレビュー表示
 - レビュー情報: 顧客名、地域、物件タイプ、日付、本文
 
 ### 4.6 共通機能
 
-#### 4.6.1 ヘッダー
+### 4.6.1 ヘッダー
+
 - ロゴ
 - グローバルナビゲーション
-  - 物件を探す
-  - 暮らしを知る
-  - アイ企画を知る
-  - お探しの方へ
-  - お持ちの方へ
+    - 物件を探す
+    - 暮らしを知る
+    - アイ企画を知る
+    - お探しの方へ
+    - お持ちの方へ
 - レスポンシブ対応（ハンバーガーメニュー）
 
-#### 4.6.2 フッター
+### 4.6.2 フッター
+
 - サイトマップ
 - 会社情報
 - SNSリンク（Instagram, YouTube）
 - お問い合わせリンク
 - プライバシーポリシーリンク
 
-#### 4.6.3 その他共通機能
+### 4.6.3 その他共通機能
+
 - パンくずリスト
 - ページトップへ戻るボタン
 - レスポンシブデザイン（PC、タブレット、モバイル対応）
@@ -344,6 +377,7 @@ interface Page {
 ### 5.1 物件管理
 
 **作成・編集機能:**
+
 - 物件基本情報の入力
 - タイプ・カテゴリー選択
 - ラベル入力（自由記述）
@@ -355,6 +389,7 @@ interface Page {
 - ストーリーとの紐づけ
 
 **管理機能:**
+
 - 物件一覧表示（フィルター、検索機能付き）
 - 公開/非公開設定
 - プレビュー機能
@@ -364,6 +399,7 @@ interface Page {
 ### 5.2 ストーリー管理
 
 **作成・編集機能:**
+
 - タイトル・サブタイトル入力
 - リッチテキストエディタ（本文用）
 - サムネイル画像アップロード
@@ -372,6 +408,7 @@ interface Page {
 - 物件との紐づけ
 
 **管理機能:**
+
 - ストーリー一覧表示
 - 公開/非公開設定
 - プレビュー機能
@@ -418,9 +455,9 @@ interface Page {
 
 - ページ読み込み速度: 3秒以内（モバイル環境）
 - Core Web Vitals対応
-  - LCP（Largest Contentful Paint）: 2.5秒以内
-  - FID（First Input Delay）: 100ms以内
-  - CLS（Cumulative Layout Shift）: 0.1以下
+    - LCP（Largest Contentful Paint）: 2.5秒以内
+    - FID（First Input Delay）: 100ms以内
+    - CLS（Cumulative Layout Shift）: 0.1以下
 - 画像の遅延読み込み（Lazy Loading）
 - Next.jsの静的生成（SSG）/インクリメンタル静的再生成（ISR）の活用
 
@@ -429,9 +466,9 @@ interface Page {
 - メタタグ設定（title, description）
 - OGP設定（Facebook, Twitter）
 - 構造化データ（JSON-LD）
-  - 物件情報（RealEstateListing）
-  - パンくずリスト（BreadcrumbList）
-  - 企業情報（Organization）
+    - 物件情報（RealEstateListing）
+    - パンくずリスト（BreadcrumbList）
+    - 企業情報（Organization）
 - サイトマップ自動生成
 - robots.txt設定
 
@@ -454,9 +491,9 @@ interface Page {
 ### 6.5 レスポンシブ対応
 
 - ブレークポイント:
-  - モバイル: ~767px
-  - タブレット: 768px~1023px
-  - デスクトップ: 1024px~
+    - モバイル: ~767px
+    - タブレット: 768px~1023px
+    - デスクトップ: 1024px~
 
 ### 6.6 ブラウザ対応
 
@@ -479,10 +516,11 @@ interface Page {
 
 ### 7.1 物件ラベルの色分けルール
 
-```typescript
+```tsx
 function getLabelColor(type: 'sell' | 'rent'): string {
   return type === 'sell' ? 'red' : 'blue';
 }
+
 ```
 
 - 売り物件、売り土地: 赤系
@@ -490,7 +528,7 @@ function getLabelColor(type: 'sell' | 'rent'): string {
 
 ### 7.2 物件概要テーブルの表示項目制御
 
-```typescript
+```tsx
 function getPropertyFields(type: 'sell' | 'rent', category: 'property' | 'land') {
   const commonFields = ['所在地', '最寄駅', '種別', '学区', '取引態様', '備考'];
 
@@ -510,14 +548,15 @@ function getPropertyFields(type: 'sell' | 'rent', category: 'property' | 'land')
     return [...commonFields, '土地面積', '賃料'];
   }
 }
+
 ```
 
 ### 7.3 ストーリー表示ロジック
 
 - 物件詳細ページでストーリーを表示する条件:
-  - 物件にstoryIdが設定されている
-  - 関連ストーリーが公開状態である
-  - 成約済み物件の場合に表示されることが多い（必須ではない）
+    - 物件にstoryIdが設定されている
+    - 関連ストーリーが公開状態である
+    - 成約済み物件の場合に表示されることが多い（必須ではない）
 
 ### 7.4 新着物件の定義
 
@@ -548,6 +587,7 @@ TOP (/)
 ├─ 不動産をお持ちの方へ (/for-owner)
 ├─ お客様の声 (/voice)
 └─ プライバシーポリシー (/privacy-policy)
+
 ```
 
 ---
@@ -555,19 +595,23 @@ TOP (/)
 ## 9. 今後の検討事項
 
 ### 9.1 お問い合わせフォーム
+
 - フォームの実装方法（外部サービス連携 or 自前実装）
 - メール送信機能
 - 自動返信機能
 
 ### 9.2 検索機能の拡張
+
 - 価格帯での絞り込み
 - 間取りでの絞り込み
 - 築年数での絞り込み
 
 ### 9.3 多言語対応
+
 - 将来的な英語対応の可能性
 
 ### 9.4 会員機能
+
 - お気に入り物件の保存
 - 新着物件の通知
 
@@ -576,19 +620,17 @@ TOP (/)
 ## 10. 制約事項
 
 1. BaaS（Backend as a Service）は使用しない
-   - 理由: Webアプリケーションではなく、コンテンツ管理中心のWebサイトのため
-
+    - 理由: Webアプリケーションではなく、コンテンツ管理中心のWebサイトのため
 2. CMSは必ずWYSIWYGエディタを搭載していること
-   - クライアントが直接コンテンツを編集できるように
-
+    - クライアントが直接コンテンツを編集できるように
 3. ヘッドレスCMSを推奨
-   - Next.jsとの親和性
-   - 将来的な拡張性
+    - Next.jsとの親和性
+    - 将来的な拡張性
 
 ---
 
 ## 改訂履歴
 
 | バージョン | 日付 | 変更内容 | 作成者 |
-|-----------|------|---------|--------|
+| --- | --- | --- | --- |
 | 1.0 | 2025-12-22 | 初版作成 | - |
