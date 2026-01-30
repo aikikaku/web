@@ -17,13 +17,10 @@ import {
   mockGetStaffInterviews,
   mockGetPageBySlug,
 } from '@/lib/mock/data';
-
-function isMockMode(): boolean {
-  return process.env.USE_MOCK === 'true';
-}
+import { isMockMode } from '@/lib/env';
 
 export async function getPageBySlug(slug: string): Promise<Page | null> {
-  if (isMockMode()) return mockGetPageBySlug(slug);
+  if (isMockMode) return mockGetPageBySlug(slug);
 
   const data = await client
     .getList<Page>({
@@ -36,7 +33,7 @@ export async function getPageBySlug(slug: string): Promise<Page | null> {
 }
 
 export async function getProperties(queries: Record<string, unknown> = {}) {
-  if (isMockMode()) return mockGetProperties(queries);
+  if (isMockMode) return mockGetProperties(queries);
 
   return client.getList<Property>({
     endpoint: 'properties',
@@ -45,7 +42,7 @@ export async function getProperties(queries: Record<string, unknown> = {}) {
 }
 
 export async function getProperty(id: string) {
-  if (isMockMode()) {
+  if (isMockMode) {
     const p = mockGetProperty(id);
     if (!p) throw new Error('Not found');
     return p;
@@ -59,7 +56,7 @@ export async function getProperty(id: string) {
 }
 
 export async function getStories(queries: Record<string, unknown> = {}) {
-  if (isMockMode()) return mockGetStories(queries);
+  if (isMockMode) return mockGetStories(queries);
 
   return client.getList<Story>({
     endpoint: 'stories',
@@ -68,7 +65,7 @@ export async function getStories(queries: Record<string, unknown> = {}) {
 }
 
 export async function getStory(id: string) {
-  if (isMockMode()) {
+  if (isMockMode) {
     const s = mockGetStory(id);
     if (!s) throw new Error('Not found');
     return s;
@@ -82,7 +79,7 @@ export async function getStory(id: string) {
 }
 
 export async function getRegions() {
-  if (isMockMode()) return mockGetRegions();
+  if (isMockMode) return mockGetRegions();
 
   return client.getList<Region>({
     endpoint: 'regions',
@@ -91,7 +88,7 @@ export async function getRegions() {
 }
 
 export async function getCustomerVoices() {
-  if (isMockMode()) return mockGetCustomerVoices();
+  if (isMockMode) return mockGetCustomerVoices();
 
   return client.getList<CustomerVoice>({
     endpoint: 'customer-voices',
@@ -100,7 +97,7 @@ export async function getCustomerVoices() {
 }
 
 export async function getStaffInterviews() {
-  if (isMockMode()) return mockGetStaffInterviews();
+  if (isMockMode) return mockGetStaffInterviews();
 
   return client.getList<StaffInterview>({
     endpoint: 'staff-interviews',

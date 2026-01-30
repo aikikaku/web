@@ -1,8 +1,7 @@
 import { createClient } from 'microcms-js-sdk';
+import { isMockMode } from '@/lib/env';
 
-const isMock = process.env.USE_MOCK === 'true';
-
-if (!isMock) {
+if (!isMockMode) {
   if (!process.env.MICROCMS_SERVICE_DOMAIN) {
     throw new Error('MICROCMS_SERVICE_DOMAIN is required');
   }
