@@ -25,7 +25,7 @@ export default function PropertyGallery({
       <div className="space-y-4">
         {/* メイン画像 */}
         <div
-          className="relative aspect-[4/3] rounded-lg overflow-hidden cursor-pointer"
+          className="relative aspect-[4/3] overflow-hidden cursor-pointer"
           onClick={() => setLightboxOpen(true)}
         >
           <Image
@@ -33,7 +33,7 @@ export default function PropertyGallery({
             alt="物件画像"
             fill
             className="object-cover"
-            sizes="(max-width: 768px) 100vw, 800px"
+            sizes="(max-width: 992px) 100vw, 800px"
             priority
           />
         </div>
@@ -45,9 +45,9 @@ export default function PropertyGallery({
               <button
                 key={index}
                 onClick={() => setSelectedIndex(index)}
-                className={`relative w-20 h-20 flex-shrink-0 rounded overflow-hidden border-2 transition-colors ${
+                className={`relative w-20 h-20 flex-shrink-0 overflow-hidden border-2 transition-colors ${
                   index === selectedIndex
-                    ? 'border-blue-600'
+                    ? 'border-dark-green'
                     : 'border-transparent hover:border-gray-300'
                 }`}
               >

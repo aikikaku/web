@@ -36,13 +36,16 @@ export default function Pagination({
   }
 
   return (
-    <nav aria-label="ページネーション" className="flex justify-center gap-2 mt-8">
+    <nav aria-label="ページネーション" className="flex justify-center items-center gap-2 mt-12">
       {currentPage > 1 && (
         <Link
           href={buildHref(currentPage - 1)}
-          className="px-3 py-2 border rounded hover:bg-gray-100 transition-colors"
+          className="w-8 h-8 flex items-center justify-center text-dark-green hover:bg-cream rounded-full transition-colors"
+          aria-label="前のページ"
         >
-          前へ
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
         </Link>
       )}
 
@@ -50,10 +53,10 @@ export default function Pagination({
         <Link
           key={page}
           href={buildHref(page)}
-          className={`px-3 py-2 border rounded transition-colors ${
+          className={`w-8 h-8 flex items-center justify-center text-body-s font-gothic rounded-full transition-colors ${
             page === currentPage
-              ? 'bg-blue-600 text-white border-blue-600'
-              : 'hover:bg-gray-100'
+              ? 'bg-dark-green text-white'
+              : 'text-dark-green hover:bg-cream'
           }`}
         >
           {page}
@@ -63,9 +66,12 @@ export default function Pagination({
       {currentPage < totalPages && (
         <Link
           href={buildHref(currentPage + 1)}
-          className="px-3 py-2 border rounded hover:bg-gray-100 transition-colors"
+          className="w-8 h-8 flex items-center justify-center text-dark-green hover:bg-cream rounded-full transition-colors"
+          aria-label="次のページ"
         >
-          次へ
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M9 18l6-6-6-6" />
+          </svg>
         </Link>
       )}
     </nav>

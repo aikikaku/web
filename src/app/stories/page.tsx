@@ -1,7 +1,10 @@
+import Link from 'next/link';
+import Image from 'next/image';
 import { getStories } from '@/lib/microcms/queries';
-import StoryCard from '@/components/story/StoryCard';
+import { Story } from '@/types/microcms';
+import { getImageUrl } from '@/lib/microcms/image';
 import Pagination from '@/components/ui/Pagination';
-import Breadcrumb from '@/components/ui/Breadcrumb';
+import StoriesFilter from '@/components/story/StoriesFilter';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -11,14 +14,133 @@ export const metadata: Metadata = {
 
 export const revalidate = 3600;
 
-const PER_PAGE = 9;
+const PER_PAGE = 10;
+
+// カテゴリのラベルマッピング（配列で管理、API連携時に拡張しやすい）
+const categoryLabels: { value: string; label: string }[] = [
+  { value: 'daily', label: '日々のこと' },
+  { value: 'regional', label: '地域のこと' },
+  { value: 'property', label: '物件のつづき' },
+];
+
+function getCategoryLabel(category?: string): string {
+  return categoryLabels.find((c) => c.value === category)?.label || '日々のこと';
+}
 
 interface StoriesPageProps {
   searchParams: {
+    category?: string;
     regions?: string;
-    q?: string;
     page?: string;
   };
+}
+
+function StoryCardLarge({ story }: { story: Story }) {
+  const regionNames = story.regions?.map((r) => r.name).join('・');
+
+  return (
+    <Link href={`/stories/${story.id}`} className="block group w-full">
+      <div className="flex flex-col items-start">
+        {/* Image */}
+        <div className="relative aspect-[410/308] w-full overflow-hidden rounded-[24px]">
+          <Image
+            src={getImageUrl(story.thumbnail, { width: 410, format: 'webp' })}
+            alt={story.title}
+            fill
+            className="object-cover transition-transform group-hover:scale-105"
+            sizes="(max-width: 992px) 100vw, 410px"
+          />
+        </div>
+
+        {/* Content */}
+        <div className="flex flex-col gap-6 items-start justify-center pt-[30px] px-3 w-full">
+          {/* Tags + Region */}
+          <div className="flex flex-col gap-4 items-start w-full">
+            <div className="flex gap-3 items-center">
+              <span className="tag-pill text-[14px] leading-none px-3 py-1.5">
+                {getCategoryLabel(story.category)}
+              </span>
+              {regionNames && (
+                <span className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green">
+                  {regionNames}
+                </span>
+              )}
+            </div>
+
+            {/* Title */}
+            <h3
+              className="font-mincho text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green line-clamp-2"
+              style={{ fontFeatureSettings: "'palt' 1" }}
+            >
+              {story.title}
+            </h3>
+          </div>
+
+          {/* Button */}
+          <span className="inline-flex items-center gap-1 h-[44px] px-6 border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-colors group-hover:bg-gray-50">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="shrink-0">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
+            </svg>
+            ストーリーを読む
+          </span>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+function FeaturedStoryCard({ story }: { story: Story }) {
+  const regionNames = story.regions?.map((r) => r.name).join('・');
+
+  return (
+    <Link href={`/stories/${story.id}`} className="block group w-full">
+      <div className="flex flex-col tablet:flex-row gap-6 tablet:gap-[30px] items-stretch">
+        {/* Image */}
+        <div className="relative w-full tablet:w-[850px] shrink-0 aspect-[850/639] overflow-hidden rounded-[24px]">
+          <Image
+            src={getImageUrl(story.thumbnail, { width: 850, format: 'webp' })}
+            alt={story.title}
+            fill
+            className="object-cover transition-transform group-hover:scale-105"
+            sizes="(max-width: 992px) 100vw, 850px"
+            priority
+          />
+        </div>
+
+        {/* Info */}
+        <div className="flex flex-col gap-6 items-start justify-center pb-8 flex-1 min-w-0">
+          <div className="flex flex-col gap-4 items-start w-full">
+            <div className="flex gap-3 items-center">
+              <span className="tag-pill text-[14px] leading-none px-3 py-1.5">
+                {getCategoryLabel(story.category)}
+              </span>
+              {regionNames && (
+                <span className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green">
+                  {regionNames}
+                </span>
+              )}
+            </div>
+
+            <h3
+              className="font-mincho text-[32px] leading-[1.4] text-dark-green"
+              style={{ fontFeatureSettings: "'palt' 1" }}
+            >
+              {story.title}
+            </h3>
+          </div>
+
+          <span className="inline-flex items-center gap-2 h-[44px] px-4 border border-dark-green rounded-full font-gothic font-medium text-[14px] leading-none tracking-[0.1px] text-dark-green transition-colors group-hover:bg-gray-50">
+            <svg width="20" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="shrink-0">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
+            </svg>
+            ストーリーを読む
+          </span>
+        </div>
+      </div>
+    </Link>
+  );
 }
 
 export default async function StoriesPage({ searchParams }: StoriesPageProps) {
@@ -29,45 +151,127 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
     limit: PER_PAGE,
     offset,
     orders: '-publishedAt',
-    q: searchParams.q || undefined,
   }).catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: PER_PAGE }));
 
   let filteredContents = data.contents;
+
+  // カテゴリフィルタ
+  if (searchParams.category) {
+    filteredContents = filteredContents.filter(
+      (story) => story.category === searchParams.category
+    );
+  }
+
+  // 地域フィルタ
   if (searchParams.regions) {
     const selectedRegions = searchParams.regions.split(',');
-    filteredContents = data.contents.filter((story) =>
+    filteredContents = filteredContents.filter((story) =>
       story.regions?.some((r) => selectedRegions.includes(r.name))
     );
   }
 
+  // 最初の1件をフィーチャード、残りをグリッド
+  const featuredStory = filteredContents[0];
+  const gridStories = filteredContents.slice(1);
+
   return (
-    <div className="container mx-auto px-4 py-8">
-      <Breadcrumb items={[{ label: '暮らしを知る' }]} />
-      <h1 className="text-3xl font-bold mb-8">暮らしを知る</h1>
+    <div className="bg-cream">
+      {/* ヘッダーセクション */}
+      <section className="px-4 tablet:px-[75px] py-16 tablet:py-24">
+        <div className="flex flex-col gap-8 tablet:gap-12">
+          <div className="flex flex-col gap-2">
+            <h1
+              className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[0.04em] text-dark-green"
+              style={{ fontFeatureSettings: "'palt' 1" }}
+            >
+              暮らしを知る
+            </h1>
+          </div>
+          <p className="font-gothic font-medium text-[16px] tablet:text-[18px] leading-[1.8] text-dark-green max-w-[768px]">
+            物件だけじゃわからない、三島での暮らしのこと。
+            <br />
+            ここで一緒に、のぞいてみませんか？
+          </p>
+        </div>
+      </section>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredContents.map((story) => (
-          <StoryCard key={story.id} story={story} />
-        ))}
-      </div>
+      {/* フィルター + リスト */}
+      <section className="px-4 tablet:px-[75px] pb-16 tablet:pb-24">
+        {/* フィルターバー */}
+        <StoriesFilter
+          categories={categoryLabels}
+          currentCategory={searchParams.category}
+          currentRegions={searchParams.regions}
+        />
 
-      {filteredContents.length === 0 && (
-        <p className="text-center text-gray-500 mt-8 py-12">
-          ストーリーがまだありません
-        </p>
-      )}
+        {/* コンテンツ */}
+        <div className="mt-10 tablet:mt-[60px]">
+          {filteredContents.length > 0 ? (
+            <>
+              {/* フィーチャードストーリー */}
+              {featuredStory && (
+                <div className="mb-16 tablet:mb-24">
+                  <FeaturedStoryCard story={featuredStory} />
+                </div>
+              )}
 
-      <Pagination
-        totalCount={data.totalCount}
-        perPage={PER_PAGE}
-        currentPage={currentPage}
-        basePath="/stories"
-        searchParams={
-          Object.fromEntries(
-            Object.entries(searchParams).filter(([key]) => key !== 'page')
-          ) as Record<string, string>
-        }
-      />
+              {/* 3カラムグリッド */}
+              {gridStories.length > 0 && (
+                <div className="grid grid-cols-1 tablet:grid-cols-3 gap-y-12 tablet:gap-y-[48px] gap-x-4 tablet:gap-x-[30px]">
+                  {gridStories.map((story) => (
+                    <StoryCardLarge key={story.id} story={story} />
+                  ))}
+                </div>
+              )}
+            </>
+          ) : (
+            <p className="text-center text-gray-500 py-12 font-gothic">
+              ストーリーがまだありません
+            </p>
+          )}
+
+          {/* ページネーション */}
+          <Pagination
+            totalCount={data.totalCount}
+            perPage={PER_PAGE}
+            currentPage={currentPage}
+            basePath="/stories"
+            searchParams={
+              Object.fromEntries(
+                Object.entries(searchParams).filter(([key]) => key !== 'page')
+              ) as Record<string, string>
+            }
+          />
+        </div>
+      </section>
+
+      {/* 仲人バナー */}
+      <section className="px-4 tablet:px-[45px] pb-24 tablet:pb-36 flex justify-center">
+        <Link
+          href="/about"
+          className="block group bg-light-green rounded-[24px] p-[30px] w-full max-w-[646px] overflow-hidden"
+        >
+          <div className="flex items-end justify-between">
+            <div className="flex flex-col gap-4 items-start justify-center p-3 flex-1">
+              {/* 仲 + NAKA-BITO デザイン */}
+              <div className="h-[56px] w-[260px] relative">
+                <span className="font-mincho text-[48px] leading-none text-dark-green">仲</span>
+                <span className="absolute bottom-0 left-[120px] font-gothic font-medium text-[11px] tracking-[0.2em] text-dark-green/60">NAKA-BITO</span>
+              </div>
+              <p className="font-gothic font-medium text-[16px] leading-[2] text-black">
+                想いが、ひとをつないでいく。
+              </p>
+            </div>
+
+            {/* 矢印リンク */}
+            <div className="w-10 h-10 rounded-full bg-accent-blue flex items-center justify-center shrink-0 transition-transform group-hover:translate-x-1">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+        </Link>
+      </section>
     </div>
   );
 }

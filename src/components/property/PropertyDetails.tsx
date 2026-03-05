@@ -71,17 +71,17 @@ export default function PropertyDetails({ property }: PropertyDetailsProps) {
 
   return (
     <div className="mt-8">
-      <h2 className="text-xl font-bold mb-4">物件概要</h2>
+      <h2 className="font-mincho text-2xl mb-6 tracking-wider">物件概要</h2>
       <table className="w-full border-collapse">
         <tbody>
           {fields.map(
             (field) =>
               field.value && (
-                <tr key={field.label} className="border-b">
-                  <th className="py-3 px-4 text-left bg-gray-50 w-1/4 text-sm font-semibold">
+                <tr key={field.label} className="border-b border-gray-200">
+                  <th className="py-4 px-4 text-left bg-cream w-1/4 text-body-s font-gothic font-medium text-gray-600">
                     {field.label}
                   </th>
-                  <td className="py-3 px-4 text-sm">{field.value}</td>
+                  <td className="py-4 px-4 text-body-s">{field.value}</td>
                 </tr>
               )
           )}

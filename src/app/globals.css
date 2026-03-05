@@ -2,7 +2,116 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  color: #171717;
-  background: #ffffff;
+@layer base {
+  body {
+    @apply text-dark-green bg-white font-gothic;
+    font-size: 16px;
+    line-height: 2;
+    letter-spacing: 0;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-mincho font-normal;
+    letter-spacing: 0.04em;
+    font-feature-settings: 'palt' 1;
+  }
+
+  h1 {
+    @apply text-4xl tablet:text-[56px] leading-[1.5];
+  }
+
+  h2 {
+    @apply text-3xl tablet:text-[48px] leading-[1.5];
+  }
+
+  h3 {
+    @apply text-2xl tablet:text-[32px] leading-[1.5];
+  }
+
+  h4 {
+    @apply text-xl tablet:text-[24px] leading-[1.6];
+  }
+
+  h5 {
+    @apply text-lg tablet:text-[18px] leading-[1.6];
+  }
+
+  h6 {
+    @apply text-base tablet:text-[16px] leading-[1.6];
+  }
+}
+
+@layer components {
+  /* Button L: 18px, lineHeight 1, letterSpacing ~0 */
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-8 py-3 bg-accent-blue text-white font-gothic font-medium text-lg leading-none tracking-normal rounded-full transition-opacity hover:opacity-80;
+  }
+
+  .btn-primary-dark {
+    @apply inline-flex items-center justify-center px-8 py-3 bg-dark-green text-white font-gothic font-medium text-lg leading-none tracking-normal rounded-full transition-opacity hover:opacity-80;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-8 py-3 bg-white text-dark-green border border-dark-green font-gothic font-medium text-lg leading-none tracking-normal rounded-full transition-colors hover:bg-gray-50;
+  }
+
+  /* Button M: 13px, lineHeight 1.4 */
+  .btn-secondary-m {
+    @apply inline-flex items-center justify-center px-6 py-2.5 bg-white text-dark-green border border-dark-green font-gothic font-medium text-[13px] leading-[1.4] tracking-normal rounded-full transition-colors hover:bg-gray-50;
+  }
+
+  /* Button S: 14px, lineHeight 1 */
+  .btn-secondary-s {
+    @apply inline-flex items-center justify-center px-5 py-2 bg-white text-dark-green border border-dark-green font-gothic font-medium text-sm leading-none tracking-normal rounded-full transition-colors hover:bg-gray-50;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center font-gothic font-medium text-dark-green underline underline-offset-4 transition-opacity hover:opacity-70;
+  }
+
+  .tag-pill {
+    @apply inline-flex items-center px-3 py-0.5 bg-light-blue text-dark-green text-caption rounded-full;
+  }
+
+  .tag-pill-dark {
+    @apply inline-flex items-center px-3 py-0.5 bg-dark-green text-white text-caption rounded-full;
+  }
+
+  .section-padding {
+    @apply py-section;
+  }
+
+  .page-container {
+    @apply max-w-container mx-auto px-5 tablet:px-page;
+  }
+
+  /* Body L: Zen Kaku Gothic New, Medium, 18px, lineHeight 1.8 */
+  .text-body-l {
+    @apply text-lg leading-[1.8] font-medium;
+  }
+
+  /* Body M: Zen Kaku Gothic New, Medium, 16px, lineHeight 2.0 */
+  .text-body-m {
+    @apply text-base leading-[2] font-medium;
+  }
+
+  /* Body S: Zen Kaku Gothic New, Medium, 14px, lineHeight 1.8 */
+  .text-body-s {
+    @apply text-sm leading-[1.8] font-medium;
+  }
+
+  /* Caption: Zen Kaku Gothic New, Medium, 12px, lineHeight 1.8 */
+  .text-caption {
+    @apply text-xs leading-[1.8] font-medium;
+  }
+
+  /* Category Title 1: Zen Kaku Gothic New, Medium, 24px, lineHeight 1.6 */
+  .text-category-1 {
+    @apply text-2xl leading-[1.6] font-medium font-gothic;
+  }
+
+  /* Category Title 2: Zen Kaku Gothic New, Medium, 20px, lineHeight 1.6 */
+  .text-category-2 {
+    @apply text-xl leading-[1.6] font-medium font-gothic;
+  }
 }

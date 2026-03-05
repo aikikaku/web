@@ -8,56 +8,149 @@ interface PropertyCardProps {
 }
 
 export default function PropertyCard({ property }: PropertyCardProps) {
-  const labelColor = property.type === 'sell' ? 'bg-red-500' : 'bg-blue-500';
+  const isSold = property.status === 'sold';
+  const categoryLabel =
+    property.category === 'property'
+      ? property.type === 'sell'
+        ? '中古住宅'
+        : '賃貸物件'
+      : property.type === 'sell'
+        ? '売土地'
+        : '貸土地';
+  const locationText = property.regions?.map((r) => r.name).join('・');
 
   return (
-    <Link href={`/properties/${property.id}`} className="block group">
-      <div className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition">
-        <div className="relative h-48">
-          <Image
-            src={getImageUrl(property.mainImage, { width: 400, format: 'webp' })}
-            alt={property.title}
-            fill
-            className="object-cover group-hover:scale-105 transition duration-300"
-            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          />
-          {property.label && (
-            <span
-              className={`absolute top-2 left-2 ${labelColor} text-white px-3 py-1 text-sm rounded`}
-            >
-              {property.label}
-            </span>
-          )}
-          {property.status === 'sold' && (
-            <span className="absolute top-2 right-2 bg-gray-600 text-white px-3 py-1 text-sm rounded">
-              成約済み
-            </span>
-          )}
+    <Link href={`/properties/${property.id}`} className="block group w-full">
+      {/* Tags above image */}
+      <div className="flex gap-3 items-center pb-3">
+        {isSold && (
+          <span className="tag-pill-dark text-[14px] leading-none px-3 py-1.5">
+            成約済み
+          </span>
+        )}
+        <span className="tag-pill text-[14px] leading-none px-3 py-1.5">
+          {categoryLabel}
+        </span>
+        {locationText && (
+          <span className="font-gothic font-medium text-[16px] leading-none text-dark-green">
+            {locationText}
+          </span>
+        )}
+      </div>
+
+      {/* Image */}
+      <div className="relative aspect-[294/220] tablet:aspect-auto tablet:h-[293px] w-full rounded-2xl tablet:rounded-lg overflow-hidden">
+        <Image
+          src={getImageUrl(property.mainImage, { width: 410, format: 'webp' })}
+          alt={property.title}
+          fill
+          className="object-cover"
+          sizes="(max-width: 992px) 100vw, 410px"
+        />
+        {isSold && (
+          <div className="absolute inset-0 bg-[rgba(42,54,59,0.5)]" />
+        )}
+      </div>
+
+      {/* Details */}
+      <div className="px-3">
+        {/* Title */}
+        <div className="py-6">
+          <h3
+            className="font-mincho text-[18px] tablet:text-[24px] leading-[1.6] tracking-[0.04em] text-dark-green"
+            style={{ fontFeatureSettings: "'palt' 1" }}
+          >
+            {property.title}
+          </h3>
         </div>
-        <div className="p-4">
-          <h3 className="font-bold text-lg mb-2 line-clamp-2">{property.title}</h3>
-          <div className="text-2xl font-bold text-blue-600 mb-2">
-            {property.price
-              ? `${property.price.toLocaleString()}万円`
-              : property.rent
-                ? `${property.rent.toLocaleString()}円/月`
-                : '価格応談'}
-          </div>
-          <div className="flex flex-wrap gap-2 text-sm text-gray-600">
-            {property.layout && <span>{property.layout}</span>}
-            {property.landArea && <span>{property.landArea}m&sup2;</span>}
-            {property.buildingArea && <span>建物 {property.buildingArea}m&sup2;</span>}
-          </div>
-          {property.regions && property.regions.length > 0 && (
-            <div className="mt-2 flex flex-wrap gap-1">
-              {property.regions.map((region) => (
-                <span
-                  key={region.id}
-                  className="text-xs bg-gray-200 px-2 py-1 rounded"
-                >
-                  {region.name}
+
+        {/* Price / Layout */}
+        <div className="pb-3">
+          <div className="flex border-t border-b border-dark-green/20">
+            <div className="flex-1 border-r border-dark-green/20 pt-2 pb-4">
+              <div className="pl-2">
+                <span className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green">
+                  {property.type === 'rent' ? '賃料' : '価格'}
                 </span>
-              ))}
+              </div>
+              <div className="flex items-end justify-center h-[38px]">
+                <span className="font-gothic font-medium text-[20px] tablet:text-[24px] leading-[1.6] text-dark-green px-2">
+                  {isSold
+                    ? '-'
+                    : property.price
+                      ? property.price.toLocaleString()
+                      : property.rent
+                        ? property.rent.toLocaleString()
+                        : '応談'}
+                </span>
+                <span className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green pb-1 w-7">
+                  {isSold ? '万円' : property.price ? '万円' : property.rent ? '円/月' : ''}
+                </span>
+              </div>
+            </div>
+            {property.layout && (
+              <div className="flex-1 pt-2 pb-4">
+                <div className="pl-2">
+                  <span className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green">
+                    間取り
+                  </span>
+                </div>
+                <div className="flex items-end justify-center">
+                  <span className="font-gothic font-medium text-[20px] tablet:text-[24px] leading-[1.6] text-dark-green">
+                    {property.layout}
+                  </span>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Station / Construction + Arrow (mobile) */}
+        <div className="flex items-center justify-between pb-2 tablet:pb-6">
+          <div className="flex flex-col tablet:flex-row tablet:items-center">
+            {property.nearestStation && (
+              <span className="font-gothic font-medium text-[16px] leading-[2] text-dark-green px-2">
+                {property.nearestStation}
+              </span>
+            )}
+            {property.constructionDate && (
+              <span className="font-gothic font-medium text-[16px] leading-[2] text-dark-green px-2">
+                築{property.constructionDate}
+              </span>
+            )}
+          </div>
+          {/* Circle arrow - mobile only */}
+          <span className="tablet:hidden flex items-center justify-center w-[44px] h-[44px] border border-dark-green rounded-full shrink-0">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </span>
+        </div>
+
+        {/* Buttons - desktop only */}
+        <div className={`hidden tablet:flex items-center ${isSold && property.story ? 'justify-between' : 'gap-2.5'}`}>
+          <div className={`h-[44px] ${isSold && property.story ? 'w-[187px]' : 'flex-1 min-w-[176px]'}`}>
+            <span className="flex items-center justify-center w-full h-full border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-colors hover:bg-gray-50">
+              物件詳細
+            </span>
+          </div>
+          {isSold && property.story && (
+            <div className="h-[44px] w-[187px]">
+              <span className="flex items-center justify-center gap-1 w-full h-full border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-colors hover:bg-gray-50">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  className="shrink-0"
+                >
+                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
+                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
+                </svg>
+                ストーリーを読む
+              </span>
             </div>
           )}
         </div>

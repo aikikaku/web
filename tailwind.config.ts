@@ -9,8 +9,27 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        'dark-green': '#2a363b',
+        'cream': '#fcfff7',
+        'accent-blue': '#3cb1ff',
+        'light-blue': '#d9e9f4',
+        'light-green': '#eff6ec',
+      },
+      fontFamily: {
+        mincho: ['var(--font-shippori-mincho)', 'serif'],
+        gothic: ['var(--font-zen-kaku)', 'sans-serif'],
+      },
+      maxWidth: {
+        'container': '1280px',
+      },
+      spacing: {
+        'section': '80px',
+        'page': '64px',
+      },
+      screens: {
+        'tablet': '993px',
+        'desktop': '1440px',
+        'ultrawide': '1920px',
       },
     },
   },

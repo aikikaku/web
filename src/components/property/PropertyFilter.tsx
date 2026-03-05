@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 
 const propertyTypes = [
   { value: 'sell_property', label: '売物件' },
@@ -26,8 +26,6 @@ export default function PropertyFilter() {
   const searchParams = useSearchParams();
 
   const currentStatus = searchParams.get('status') || 'all';
-  const currentKeyword = searchParams.get('q') || '';
-  const [keyword, setKeyword] = useState(currentKeyword);
 
   const updateParams = useCallback(
     (key: string, value: string) => {
@@ -43,119 +41,99 @@ export default function PropertyFilter() {
     [router, searchParams]
   );
 
-  const toggleArrayParam = useCallback(
-    (key: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      const current = params.get(key)?.split(',').filter(Boolean) || [];
-      const index = current.indexOf(value);
-      if (index >= 0) {
-        current.splice(index, 1);
-      } else {
-        current.push(value);
-      }
-      if (current.length > 0) {
-        params.set(key, current.join(','));
-      } else {
-        params.delete(key);
-      }
-      params.delete('page');
-      router.push(`/properties?${params.toString()}`);
-    },
-    [router, searchParams]
-  );
-
   const selectedTypes = searchParams.get('types')?.split(',').filter(Boolean) || [];
   const selectedRegions = searchParams.get('regions')?.split(',').filter(Boolean) || [];
 
+  const handleRegionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    if (value) {
+      updateParams('regions', value);
+    } else {
+      updateParams('regions', '');
+    }
+  };
+
+  const clearFilters = () => {
+    router.push('/properties');
+  };
+
+  const hasActiveFilters = selectedTypes.length > 0 || selectedRegions.length > 0 || currentStatus !== 'all';
+
   return (
-    <div className="space-y-4 bg-gray-50 p-6 rounded-lg">
-      {/* ステータス切替 */}
-      <div>
-        <h3 className="font-bold mb-2 text-sm">ステータス</h3>
-        <div className="flex gap-2">
-          {[
-            { value: 'all', label: 'すべて' },
-            { value: 'available', label: 'ご案内中の物件' },
-          ].map((option) => (
-            <button
-              key={option.value}
-              onClick={() => updateParams('status', option.value)}
-              className={`px-4 py-2 rounded text-sm transition-colors ${
-                currentStatus === option.value
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-white border hover:bg-gray-100'
-              }`}
-            >
-              {option.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* 物件種別 */}
-      <div>
-        <h3 className="font-bold mb-2 text-sm">物件種別</h3>
-        <div className="flex flex-wrap gap-2">
-          {propertyTypes.map((type) => (
-            <button
-              key={type.value}
-              onClick={() => toggleArrayParam('types', type.value)}
-              className={`px-4 py-2 rounded text-sm transition-colors ${
-                selectedTypes.includes(type.value)
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-white border hover:bg-gray-100'
-              }`}
-            >
-              {type.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* 地域 */}
-      <div>
-        <h3 className="font-bold mb-2 text-sm">地域</h3>
-        <div className="flex flex-wrap gap-2">
-          {regions.map((region) => (
-            <button
-              key={region}
-              onClick={() => toggleArrayParam('regions', region)}
-              className={`px-3 py-1.5 rounded text-sm transition-colors ${
-                selectedRegions.includes(region)
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-white border hover:bg-gray-100'
-              }`}
-            >
-              {region}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* キーワード検索 */}
-      <div>
-        <h3 className="font-bold mb-2 text-sm">キーワード検索</h3>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            updateParams('q', keyword);
-          }}
-          className="flex gap-2"
-        >
-          <input
-            type="text"
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-            placeholder="物件名、所在地など"
-            className="flex-1 px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+    <div className="hidden tablet:flex flex-wrap items-center gap-3 tablet:gap-4">
+      {/* ステータス切替トグル */}
+      <div className="flex rounded-lg overflow-hidden border border-gray-200 w-full tablet:w-auto">
+        {[
+          { value: 'all', label: 'すべて' },
+          { value: 'available', label: 'ご案内中の物件' },
+        ].map((option) => (
           <button
-            type="submit"
-            className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+            key={option.value}
+            onClick={() => updateParams('status', option.value)}
+            className={`flex-1 tablet:flex-none px-5 py-3 text-body-s font-gothic font-medium transition-colors ${
+              currentStatus === option.value
+                ? 'bg-dark-green text-white'
+                : 'bg-white text-dark-green hover:bg-cream'
+            }`}
           >
-            検索
+            {option.label}
           </button>
-        </form>
+        ))}
+      </div>
+
+      {/* 物件種別ドロップダウン */}
+      <select
+        value={selectedTypes[0] || ''}
+        onChange={(e) => {
+          if (e.target.value) {
+            updateParams('types', e.target.value);
+          } else {
+            updateParams('types', '');
+          }
+        }}
+        className="flex-1 tablet:flex-none px-4 py-3 border border-gray-200 rounded-lg text-body-s font-gothic bg-white min-w-0 tablet:min-w-[180px] appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%232a363b%22%20d%3D%22M2%204l4%204%204-4%22/%3E%3C/svg%3E')] bg-[length:12px] bg-[right_12px_center] bg-no-repeat pr-8"
+      >
+        <option value="">物件種別</option>
+        {propertyTypes.map((type) => (
+          <option key={type.value} value={type.value}>
+            {type.label}
+          </option>
+        ))}
+      </select>
+
+      {/* 地域ドロップダウン */}
+      <select
+        value={selectedRegions[0] || ''}
+        onChange={handleRegionChange}
+        className="flex-1 tablet:flex-none px-4 py-3 border border-gray-200 rounded-lg text-body-s font-gothic bg-white min-w-0 tablet:min-w-[180px] appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%232a363b%22%20d%3D%22M2%204l4%204%204-4%22/%3E%3C/svg%3E')] bg-[length:12px] bg-[right_12px_center] bg-no-repeat pr-8"
+      >
+        <option value="">エリア</option>
+        {regions.map((region) => (
+          <option key={region} value={region}>
+            {region}
+          </option>
+        ))}
+      </select>
+
+      {/* 並び替え・クリア */}
+      <div className="flex items-center gap-2 ml-auto">
+        <button
+          onClick={() => updateParams('orders', '-publishedAt')}
+          className="px-4 py-3 border border-gray-200 rounded-lg text-body-s font-gothic bg-white hover:bg-cream transition-colors"
+        >
+          新着順
+        </button>
+        {hasActiveFilters && (
+          <button
+            onClick={clearFilters}
+            className="p-3 border border-dark-green rounded-lg text-body-s font-gothic bg-white hover:bg-cream transition-colors"
+            aria-label="フィルターをクリア"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
+        )}
       </div>
     </div>
   );

@@ -56,14 +56,18 @@ export interface Story extends MicroCMSListContent {
   images?: MicroCMSImage[];
   property?: Property;
   regions?: Region[];
+  category?: 'daily' | 'regional' | 'property';
 }
 
 export interface CustomerVoice extends MicroCMSListContent {
+  title: string;
   customerName: string;
+  category?: 'inherited' | 'found' | 'other';
   location?: string;
   propertyType?: string;
   date?: string;
   content: string;
+  image?: MicroCMSImage;
   order?: number;
 }
 
