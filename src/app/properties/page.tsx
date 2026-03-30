@@ -51,25 +51,35 @@ export default async function PropertiesPage({
     }
   }
 
+  // 地域フィルタがある場合は全件取得→クライアント側でフィルタ＆ページネーション
+  const hasRegionFilter = !!searchParams.regions;
+
   const data = await getProperties({
-    limit: PER_PAGE,
-    offset,
+    limit: hasRegionFilter ? 100 : PER_PAGE,
+    offset: hasRegionFilter ? 0 : offset,
     filters: filters.length > 0 ? filters.join('[and]') : undefined,
     orders: '-publishedAt',
     q: searchParams.q || undefined,
   }).catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: PER_PAGE }));
 
-  // 地域フィルターはクライアントサイドで適用
-  let filteredContents = data.contents;
-  if (searchParams.regions) {
-    const selectedRegions = searchParams.regions.split(',');
-    filteredContents = data.contents.filter((property) =>
+  // 地域フィルターをクライアントサイドで適用
+  let allFiltered = data.contents;
+  if (hasRegionFilter) {
+    const selectedRegions = searchParams.regions!.split(',');
+    allFiltered = data.contents.filter((property) =>
       property.regions?.some((r) => selectedRegions.includes(r.name))
     );
   }
 
-  const featuredProperty = filteredContents[0];
-  const gridProperties = filteredContents.slice(1);
+  const filteredTotalCount = hasRegionFilter ? allFiltered.length : data.totalCount;
+
+  // 地域フィルタ時はクライアントでページネーション
+  const paginatedContents = hasRegionFilter
+    ? allFiltered.slice(offset, offset + PER_PAGE)
+    : allFiltered;
+
+  const featuredProperty = paginatedContents[0];
+  const gridProperties = paginatedContents.slice(1);
 
   return (
     <div className="bg-cream">
@@ -246,14 +256,14 @@ export default async function PropertiesPage({
                 <PropertyCard key={property.id} property={property} />
               ))}
             </div>
-          ) : filteredContents.length === 0 ? (
+          ) : paginatedContents.length === 0 ? (
             <p className="text-center text-gray-500 py-12">
               条件に一致する物件が見つかりませんでした
             </p>
           ) : null}
 
           <Pagination
-            totalCount={data.totalCount}
+            totalCount={filteredTotalCount}
             perPage={PER_PAGE}
             currentPage={currentPage}
             basePath="/properties"
