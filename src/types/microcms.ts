@@ -21,6 +21,7 @@ export interface MicroCMSListResponse<T> {
 
 export interface Region extends MicroCMSListContent {
   name: string;
+  slug: string;
   order?: number;
 }
 
@@ -60,15 +61,15 @@ export interface Story extends MicroCMSListContent {
 }
 
 export interface CustomerVoice extends MicroCMSListContent {
-  title: string;
+  title?: string;
   customerName: string;
   category?: 'inherited' | 'found' | 'other';
-  location?: string;
-  propertyType?: string;
-  date?: string;
+  location: string;
+  propertyType: string;
+  date: string;
   content: string;
   image?: MicroCMSImage;
-  order?: number;
+  order: number;
 }
 
 export interface QA {

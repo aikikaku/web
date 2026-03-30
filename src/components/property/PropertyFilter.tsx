@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 const propertyTypes = [
   { value: 'sell_property', label: '売物件' },
@@ -21,115 +21,213 @@ const regions = [
   'そのほかの地域',
 ];
 
+function CheckboxDropdown({
+  label,
+  options,
+  selected,
+  onToggle,
+}: {
+  label: string;
+  options: { value: string; label: string }[];
+  selected: string[];
+  onToggle: (value: string) => void;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  return (
+    <div className="relative flex-1" ref={ref}>
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full h-[56px] px-4 border border-dark-green rounded-lg font-gothic font-medium text-[16px] bg-white flex items-center justify-between"
+      >
+        <span className={selected.length > 0 ? 'text-dark-green' : 'text-black/30'}>
+          {label}
+        </span>
+        <span className="flex items-center gap-2">
+          {selected.length > 0 && (
+            <span className="bg-dark-green text-white text-[12px] w-5 h-5 rounded-full flex items-center justify-center">
+              {selected.length}
+            </span>
+          )}
+          <svg
+            width="16" height="16" viewBox="0 0 16 16" fill="none"
+            className={`transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          >
+            <path d="M3 5l5 6 5-6" fill="#2a363b" />
+          </svg>
+        </span>
+      </button>
+      {isOpen && (
+        <div className="absolute top-[60px] left-0 w-full bg-white border border-dark-green/20 rounded-lg shadow-lg z-20 py-2">
+          {options.map((option) => (
+            <label
+              key={option.value}
+              className="flex items-center gap-3 px-4 py-2.5 hover:bg-cream cursor-pointer"
+            >
+              <input
+                type="checkbox"
+                checked={selected.includes(option.value)}
+                onChange={() => onToggle(option.value)}
+                className="w-4 h-4 accent-dark-green"
+              />
+              <span className="font-gothic font-medium text-[14px] text-dark-green">
+                {option.label}
+              </span>
+            </label>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function PropertyFilter() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [keyword, setKeyword] = useState(searchParams.get('q') || '');
 
   const currentStatus = searchParams.get('status') || 'all';
-
-  const updateParams = useCallback(
-    (key: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      if (value && value !== 'all') {
-        params.set(key, value);
-      } else {
-        params.delete(key);
-      }
-      params.delete('page');
-      router.push(`/properties?${params.toString()}`);
-    },
-    [router, searchParams]
-  );
-
   const selectedTypes = searchParams.get('types')?.split(',').filter(Boolean) || [];
   const selectedRegions = searchParams.get('regions')?.split(',').filter(Boolean) || [];
 
-  const handleRegionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value;
-    if (value) {
-      updateParams('regions', value);
-    } else {
-      updateParams('regions', '');
-    }
-  };
+  const buildUrl = useCallback(
+    (overrides: Record<string, string | undefined>) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete('page');
+      for (const [key, value] of Object.entries(overrides)) {
+        if (value) {
+          params.set(key, value);
+        } else {
+          params.delete(key);
+        }
+      }
+      const qs = params.toString();
+      return qs ? `/properties?${qs}` : '/properties';
+    },
+    [searchParams]
+  );
+
+  const toggleType = useCallback(
+    (value: string) => {
+      const next = selectedTypes.includes(value)
+        ? selectedTypes.filter((t) => t !== value)
+        : [...selectedTypes, value];
+      router.push(buildUrl({ types: next.length > 0 ? next.join(',') : undefined }));
+    },
+    [selectedTypes, router, buildUrl]
+  );
+
+  const toggleRegion = useCallback(
+    (value: string) => {
+      const next = selectedRegions.includes(value)
+        ? selectedRegions.filter((r) => r !== value)
+        : [...selectedRegions, value];
+      router.push(buildUrl({ regions: next.length > 0 ? next.join(',') : undefined }));
+    },
+    [selectedRegions, router, buildUrl]
+  );
+
+  const applySearch = useCallback(() => {
+    router.push(buildUrl({ q: keyword || undefined }));
+  }, [keyword, router, buildUrl]);
 
   const clearFilters = () => {
+    setKeyword('');
     router.push('/properties');
   };
 
-  const hasActiveFilters = selectedTypes.length > 0 || selectedRegions.length > 0 || currentStatus !== 'all';
+  const hasActiveFilters =
+    selectedTypes.length > 0 ||
+    selectedRegions.length > 0 ||
+    currentStatus !== 'all' ||
+    !!searchParams.get('q');
 
   return (
-    <div className="hidden tablet:flex flex-wrap items-center gap-3 tablet:gap-4">
-      {/* ステータス切替トグル */}
-      <div className="flex rounded-lg overflow-hidden border border-gray-200 w-full tablet:w-auto">
-        {[
-          { value: 'all', label: 'すべて' },
-          { value: 'available', label: 'ご案内中の物件' },
-        ].map((option) => (
-          <button
-            key={option.value}
-            onClick={() => updateParams('status', option.value)}
-            className={`flex-1 tablet:flex-none px-5 py-3 text-body-s font-gothic font-medium transition-colors ${
-              currentStatus === option.value
-                ? 'bg-dark-green text-white'
-                : 'bg-white text-dark-green hover:bg-cream'
-            }`}
+    <div className="hidden tablet:flex flex-col gap-4">
+      {/* Row 1: Status + Search */}
+      <div className="flex items-center gap-[30px]">
+        {/* ステータス切替トグル */}
+        <div className="flex rounded-[50px] overflow-hidden border border-dark-green shrink-0">
+          {[
+            { value: 'all', label: 'すべて' },
+            { value: 'available', label: 'ご案内中の物件' },
+          ].map((option) => (
+            <button
+              key={option.value}
+              onClick={() =>
+                router.push(buildUrl({ status: option.value === 'all' ? undefined : option.value }))
+              }
+              className={`h-[56px] px-6 font-gothic font-medium text-[16px] leading-none transition-colors ${
+                currentStatus === option.value
+                  ? 'bg-dark-green text-white rounded-[50px]'
+                  : 'bg-transparent text-dark-green'
+              }`}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
+
+        {/* 検索入力 */}
+        <div className="flex-1 relative">
+          <input
+            type="text"
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && applySearch()}
+            placeholder="キーワードで検索"
+            className="w-full h-[56px] pl-11 pr-4 border border-dark-green rounded-lg font-gothic font-medium text-[16px] bg-white placeholder:text-black/30"
+          />
+          <svg
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-dark-green/50"
+            width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
           >
-            {option.label}
-          </button>
-        ))}
+            <circle cx="11" cy="11" r="8" />
+            <path d="M21 21l-4.35-4.35" />
+          </svg>
+        </div>
       </div>
 
-      {/* 物件種別ドロップダウン */}
-      <select
-        value={selectedTypes[0] || ''}
-        onChange={(e) => {
-          if (e.target.value) {
-            updateParams('types', e.target.value);
-          } else {
-            updateParams('types', '');
-          }
-        }}
-        className="flex-1 tablet:flex-none px-4 py-3 border border-gray-200 rounded-lg text-body-s font-gothic bg-white min-w-0 tablet:min-w-[180px] appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%232a363b%22%20d%3D%22M2%204l4%204%204-4%22/%3E%3C/svg%3E')] bg-[length:12px] bg-[right_12px_center] bg-no-repeat pr-8"
-      >
-        <option value="">物件種別</option>
-        {propertyTypes.map((type) => (
-          <option key={type.value} value={type.value}>
-            {type.label}
-          </option>
-        ))}
-      </select>
+      {/* Row 2: Type + Region + Apply/Clear */}
+      <div className="flex items-center gap-2">
+        <CheckboxDropdown
+          label="物件"
+          options={propertyTypes}
+          selected={selectedTypes}
+          onToggle={toggleType}
+        />
+        <CheckboxDropdown
+          label="地域"
+          options={regions.map((r) => ({ value: r, label: r }))}
+          selected={selectedRegions}
+          onToggle={toggleRegion}
+        />
 
-      {/* 地域ドロップダウン */}
-      <select
-        value={selectedRegions[0] || ''}
-        onChange={handleRegionChange}
-        className="flex-1 tablet:flex-none px-4 py-3 border border-gray-200 rounded-lg text-body-s font-gothic bg-white min-w-0 tablet:min-w-[180px] appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%232a363b%22%20d%3D%22M2%204l4%204%204-4%22/%3E%3C/svg%3E')] bg-[length:12px] bg-[right_12px_center] bg-no-repeat pr-8"
-      >
-        <option value="">エリア</option>
-        {regions.map((region) => (
-          <option key={region} value={region}>
-            {region}
-          </option>
-        ))}
-      </select>
-
-      {/* 並び替え・クリア */}
-      <div className="flex items-center gap-2 ml-auto">
+        {/* 絞り込みボタン */}
         <button
-          onClick={() => updateParams('orders', '-publishedAt')}
-          className="px-4 py-3 border border-gray-200 rounded-lg text-body-s font-gothic bg-white hover:bg-cream transition-colors"
+          onClick={applySearch}
+          className="h-[56px] px-10 bg-dark-green border border-dark-green rounded-lg font-gothic font-medium text-[16px] leading-none text-white transition-opacity hover:opacity-90 shrink-0"
         >
-          新着順
+          絞り込み
         </button>
         {hasActiveFilters && (
           <button
             onClick={clearFilters}
-            className="p-3 border border-dark-green rounded-lg text-body-s font-gothic bg-white hover:bg-cream transition-colors"
+            className="w-[56px] h-[56px] border border-dark-green rounded-lg flex items-center justify-center hover:bg-cream transition-colors shrink-0"
             aria-label="フィルターをクリア"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
               <path d="M18 6L6 18M6 6l12 12" />
             </svg>
           </button>

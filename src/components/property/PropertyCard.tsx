@@ -38,7 +38,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
         )}
       </div>
 
-      {/* Image */}
+      {/* Image - rounded-2xl on SP, rounded-lg (8px) on tablet per Figma */}
       <div className="relative aspect-[294/220] tablet:aspect-auto tablet:h-[293px] w-full rounded-2xl tablet:rounded-lg overflow-hidden">
         <Image
           src={getImageUrl(property.mainImage, { width: 410, format: 'webp' })}
@@ -105,8 +105,8 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           </div>
         </div>
 
-        {/* Station / Construction + Arrow (mobile) */}
-        <div className="flex items-center justify-between pb-2 tablet:pb-6">
+        {/* Station / Construction */}
+        <div className="flex items-center pb-6">
           <div className="flex flex-col tablet:flex-row tablet:items-center">
             {property.nearestStation && (
               <span className="font-gothic font-medium text-[16px] leading-[2] text-dark-green px-2">
@@ -119,40 +119,44 @@ export default function PropertyCard({ property }: PropertyCardProps) {
               </span>
             )}
           </div>
-          {/* Circle arrow - mobile only */}
-          <span className="tablet:hidden flex items-center justify-center w-[44px] h-[44px] border border-dark-green rounded-full shrink-0">
+        </div>
+
+        {/* Buttons */}
+        <div className="flex items-center gap-2.5">
+          {/* Mobile: circle arrow */}
+          <span className="tablet:hidden flex items-center justify-center w-[44px] h-[44px] border border-dark-green rounded-full shrink-0 ml-auto">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           </span>
-        </div>
 
-        {/* Buttons - desktop only */}
-        <div className={`hidden tablet:flex items-center ${isSold && property.story ? 'justify-between' : 'gap-2.5'}`}>
-          <div className={`h-[44px] ${isSold && property.story ? 'w-[187px]' : 'flex-1 min-w-[176px]'}`}>
-            <span className="flex items-center justify-center w-full h-full border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-colors hover:bg-gray-50">
-              物件詳細
-            </span>
-          </div>
-          {isSold && property.story && (
-            <div className="h-[44px] w-[187px]">
-              <span className="flex items-center justify-center gap-1 w-full h-full border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-colors hover:bg-gray-50">
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  className="shrink-0"
-                >
-                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
-                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
-                </svg>
-                ストーリーを読む
+          {/* Desktop buttons */}
+          <div className={`hidden tablet:flex items-center w-full ${isSold && property.story ? 'justify-between' : 'gap-2.5'}`}>
+            <div className={`h-[44px] ${isSold && property.story ? 'w-[187px]' : 'flex-1 min-w-[176px]'}`}>
+              <span className="flex items-center justify-center w-full h-full border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-colors hover:bg-gray-50">
+                物件詳細
               </span>
             </div>
-          )}
+            {isSold && property.story && (
+              <div className="h-[44px] w-[187px]">
+                <span className="flex items-center justify-center gap-1 w-full h-full border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-colors hover:bg-gray-50">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    className="shrink-0"
+                  >
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
+                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
+                  </svg>
+                  ストーリーを読む
+                </span>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </Link>

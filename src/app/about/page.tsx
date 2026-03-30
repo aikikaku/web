@@ -267,11 +267,11 @@ export default function AboutPage() {
                   <dt className="w-[147px] shrink-0 text-body-l text-dark-green">設立</dt>
                   <dd className="text-body-l">昭和61年12月</dd>
                 </div>
-                <div className="flex flex-col gap-6 py-6">
-                  <div className="flex justify-between items-center">
-                    <dt className="text-body-m text-dark-green">所在地</dt>
-                    <dd className="flex items-center gap-3">
-                      <span className="text-body-m text-dark-green">静岡県三島市加茂18番地の7</span>
+                <div className="flex items-start justify-between py-6">
+                  <dt className="text-body-m text-dark-green shrink-0">所在地</dt>
+                  <dd className="flex flex-col gap-6 items-end w-[528px]">
+                    <div className="flex items-center gap-3">
+                      <span className="text-body-m text-dark-green text-right">静岡県三島市加茂18番地の7</span>
                       <a
                         href="https://maps.google.com/?q=静岡県三島市加茂18番地の7"
                         target="_blank"
@@ -280,16 +280,16 @@ export default function AboutPage() {
                       >
                         MAP
                       </a>
-                    </dd>
-                  </div>
-                  <div className="aspect-[528/370] relative rounded-2xl overflow-hidden border border-dark-green/20">
-                    <Image
-                      src="/images/about/map.jpg"
-                      alt="アイ企画の所在地マップ"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
+                    </div>
+                    <div className="w-full aspect-[528/370] relative rounded-2xl overflow-hidden border border-dark-green/20">
+                      <Image
+                        src="/images/about/map.jpg"
+                        alt="アイ企画の所在地マップ"
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                  </dd>
                 </div>
                 <div className="flex gap-8 py-6">
                   <dt className="w-[147px] shrink-0 text-body-l text-dark-green">電話</dt>
@@ -299,11 +299,13 @@ export default function AboutPage() {
                   <dt className="w-[147px] shrink-0 text-body-l text-dark-green">FAX</dt>
                   <dd className="text-body-l">055-976-5301</dd>
                 </div>
-                <div className="flex justify-between py-6">
-                  <dt className="text-body-m text-dark-green">営業時間</dt>
-                  <dd className="text-right">
-                    <p className="text-body-l text-dark-green">月曜日～土曜日</p>
-                    <p className="text-body-l text-dark-green">9:00～19:00</p>
+                <div className="flex items-center justify-between py-6">
+                  <dt className="text-body-m text-dark-green shrink-0">営業時間</dt>
+                  <dd className="flex flex-col gap-1 items-end text-right">
+                    <div className="text-body-l text-dark-green">
+                      <p>月曜日～土曜日</p>
+                      <p>9:00～19:00</p>
+                    </div>
                     <p className="text-body-s text-dark-green/50">※ご予約により営業時間外の対応も可能</p>
                   </dd>
                 </div>

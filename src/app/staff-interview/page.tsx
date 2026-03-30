@@ -120,7 +120,6 @@ const interviewSections: InterviewSection[] = [
       },
     ],
   },
-  { type: 'photos' },
   {
     type: 'heading-with-image',
     heading: '中古住宅も大切にする「もったいない精神」',
@@ -159,6 +158,14 @@ const interviewSections: InterviewSection[] = [
       },
     ],
   },
+];
+
+const sidebarLinks = [
+  { label: 'スタッフの紹介', href: '/staff-interview', active: true },
+  { label: '会社の理念', href: '/message', active: false },
+  { label: 'スタッフの専門性', href: '/about', active: false },
+  { label: 'お客様との関係', href: '/about', active: false },
+  { label: '地域貢献活動', href: '/about', active: false },
 ];
 
 const staffProfiles = [
@@ -225,172 +232,221 @@ export default function StaffInterviewPage() {
         <Breadcrumb items={[{ label: 'スタッフインタビュー' }]} />
       </div>
 
-      {/* ページタイトル */}
-      <section className="page-container pb-8">
-        <h1>スタッフインタビュー</h1>
-      </section>
+      {/* ヒーローセクション（3枚の写真レイアウト） */}
+      <section className="relative overflow-hidden">
+        <div className="page-container pt-12 pb-0">
+          <h1 className="font-mincho text-[48px] leading-[1.5] tracking-[0.04em]">
+            スタッフインタビュー
+          </h1>
+        </div>
 
-      {/* ヒーロー画像 */}
-      <section className="page-container mb-24">
-        <div className="aspect-[1350/600] relative rounded-3xl overflow-hidden">
-          <Image
-            src="/images/staff-interview/hero.jpg"
-            alt="髙野大地と髙野恒成のインタビュー風景"
-            fill
-            className="object-cover"
-            priority
-          />
+        <div className="relative h-[700px] tablet:h-[838px]">
+          {/* 左の縦長写真（下部） */}
+          <div className="hidden tablet:block absolute left-0 top-[470px] w-[280px] h-[368px] rounded-2xl overflow-hidden">
+            <Image
+              src="/images/staff-interview/photo-interview-1.jpg"
+              alt=""
+              fill
+              className="object-cover"
+            />
+          </div>
+
+          {/* 中央のメイン写真 */}
+          <div className="absolute left-1/2 -translate-x-1/2 top-[259px] w-full max-w-[704px] rounded-2xl overflow-hidden">
+            <div className="aspect-[704/469] relative">
+              <Image
+                src="/images/staff-interview/hero.jpg"
+                alt="髙野大地と髙野恒成のインタビュー風景"
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
+          </div>
+
+          {/* 右の縦長写真（上部） */}
+          <div className="hidden tablet:block absolute right-0 top-[96px] w-[280px] h-[374px] rounded-2xl overflow-hidden">
+            <Image
+              src="/images/staff-interview/photo-caption.jpg"
+              alt=""
+              fill
+              className="object-cover"
+            />
+          </div>
         </div>
       </section>
 
-      {/* インタビューセクション */}
+      {/* インタビューセクション（サイドバー付き） */}
       <section className="page-container">
-        {/* セクション見出し */}
-        <div className="max-w-[792px] mx-auto mb-16">
-          <p className="text-body-s text-dark-green mb-4">インタビュー</p>
-          <h2 className="mb-4">
-            地域に開かれたサステナブルな不動産屋を目指して
-          </h2>
-          <p className="text-body-m text-dark-green">髙野大地 × 髙野恒成</p>
-        </div>
+        <div className="flex gap-16">
+          {/* 左サイドバー（PC only） */}
+          <div className="hidden tablet:block w-[323px] shrink-0">
+            <div className="sticky top-8 bg-light-green rounded-2xl py-[45px] px-[30px]">
+              <nav className="flex flex-col gap-0">
+                {sidebarLinks.map((link) => (
+                  <Link
+                    key={link.label}
+                    href={link.href}
+                    className="flex items-center gap-0 py-2"
+                  >
+                    <span className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${link.active ? 'bg-dark-green' : ''}`}>
+                      {!link.active && (
+                        <span className="w-[10px] h-[10px] rounded-full bg-dark-green/30" />
+                      )}
+                    </span>
+                    <span className={`text-body-m text-dark-green ${link.active ? 'font-bold' : ''}`}>
+                      {link.label}
+                    </span>
+                  </Link>
+                ))}
+              </nav>
+            </div>
+          </div>
 
-        {/* インタビュー本文 */}
-        <div className="max-w-[792px] mx-auto">
-          {interviewSections.map((section, sIdx) => {
-            if (section.type === 'heading') {
-              return (
-                <div key={sIdx} className="py-12">
-                  <h3 className="text-2xl tablet:text-[32px]">
-                    {section.heading}
-                  </h3>
-                </div>
-              );
-            }
+          {/* 右コンテンツ */}
+          <div className="flex-1 max-w-[792px]">
+            {/* セクション見出し */}
+            <div className="mb-16">
+              <p className="text-body-s text-dark-green mb-4">インタビュー</p>
+              <h2 className="mb-4">
+                地域に開かれたサステナブルな不動産屋を目指して
+              </h2>
+              <p className="text-body-m text-dark-green">髙野大地 × 髙野恒成</p>
+            </div>
 
-            if (section.type === 'heading-with-image') {
-              return (
-                <div key={sIdx} className="py-12">
-                  <div className="flex flex-col tablet:flex-row gap-8 items-start">
-                    <div className="flex-1">
+            {/* インタビュー本文 */}
+            <div>
+              {interviewSections.map((section, sIdx) => {
+                if (section.type === 'heading') {
+                  return (
+                    <div key={sIdx} className="py-12">
                       <h3 className="text-2xl tablet:text-[32px]">
                         {section.heading}
                       </h3>
                     </div>
-                    {section.image && (
-                      <div className="w-full tablet:w-[360px] shrink-0 aspect-[3/2] relative rounded-2xl overflow-hidden">
+                  );
+                }
+
+                if (section.type === 'heading-with-image') {
+                  return (
+                    <div key={sIdx} className="py-12">
+                      <h3 className="text-2xl tablet:text-[32px] mb-8">
+                        {section.heading}
+                      </h3>
+                      {section.image && (
+                        <div className="w-full aspect-[792/528] relative rounded-2xl overflow-hidden">
+                          <Image
+                            src={section.image}
+                            alt=""
+                            fill
+                            className="object-cover"
+                            sizes="792px"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
+
+                if (section.type === 'photos') {
+                  return (
+                    <div
+                      key={sIdx}
+                      className="grid grid-cols-1 tablet:grid-cols-2 gap-6 my-12"
+                    >
+                      <div className="aspect-[3/2] relative rounded-2xl overflow-hidden">
                         <Image
-                          src={section.image}
-                          alt=""
+                          src="/images/staff-interview/hero.jpg"
+                          alt="インタビュー風景"
                           fill
                           className="object-cover"
-                          sizes="360px"
+                          sizes="(min-width: 993px) 50vw, 100vw"
                         />
                       </div>
-                    )}
-                  </div>
-                </div>
-              );
-            }
+                      <div className="aspect-[3/2] relative rounded-2xl overflow-hidden">
+                        <Image
+                          src="/images/staff-interview/photo-interview-1.jpg"
+                          alt="インタビュー風景"
+                          fill
+                          className="object-cover"
+                          sizes="(min-width: 993px) 50vw, 100vw"
+                        />
+                      </div>
+                    </div>
+                  );
+                }
 
-            if (section.type === 'photos') {
-              return (
-                <div
-                  key={sIdx}
-                  className="grid grid-cols-1 tablet:grid-cols-2 gap-6 my-12"
-                >
-                  <div className="aspect-[3/2] relative rounded-2xl overflow-hidden">
-                    <Image
-                      src="/images/staff-interview/hero.jpg"
-                      alt="インタビュー風景"
-                      fill
-                      className="object-cover"
-                      sizes="(min-width: 993px) 50vw, 100vw"
-                    />
+                return (
+                  <div key={sIdx}>
+                    {section.items?.map((item, iIdx) => (
+                      <div
+                        key={iIdx}
+                        className={
+                          iIdx < (section.items?.length ?? 0) - 1
+                            ? 'border-b border-dark-green/10'
+                            : ''
+                        }
+                      >
+                        <InterviewItemComponent item={item} />
+                      </div>
+                    ))}
                   </div>
-                  <div className="aspect-[3/2] relative rounded-2xl overflow-hidden">
-                    <Image
-                      src="/images/staff-interview/photo-interview-1.jpg"
-                      alt="インタビュー風景"
-                      fill
-                      className="object-cover"
-                      sizes="(min-width: 993px) 50vw, 100vw"
-                    />
-                  </div>
-                </div>
-              );
-            }
+                );
+              })}
+            </div>
 
-            return (
-              <div key={sIdx}>
-                {section.items?.map((item, iIdx) => (
-                  <div
-                    key={iIdx}
-                    className={
-                      iIdx < (section.items?.length ?? 0) - 1
-                        ? 'border-b border-dark-green/10'
-                        : ''
-                    }
-                  >
-                    <InterviewItemComponent item={item} />
+            {/* スタッフプロフィール */}
+            <div className="bg-light-green rounded-2xl p-12 mt-16">
+              <div className="grid grid-cols-1 tablet:grid-cols-2 gap-12">
+                {staffProfiles.map((staff) => (
+                  <div key={staff.name}>
+                    <div className="flex items-center gap-4 mb-2">
+                      <div className="w-[51px] h-[51px] rounded-full overflow-hidden relative shrink-0">
+                        <Image
+                          src={staff.avatar}
+                          alt={staff.name}
+                          fill
+                          className="object-cover"
+                          sizes="51px"
+                        />
+                      </div>
+                      <h4 className="font-gothic font-medium text-[18px] text-dark-green">
+                        {staff.name}
+                      </h4>
+                    </div>
+                    <p className="text-body-s text-dark-green leading-[1.8]">
+                      {staff.description}
+                    </p>
                   </div>
                 ))}
               </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* スタッフプロフィール */}
-      <section className="py-24">
-        <div className="page-container">
-          <div className="max-w-[792px] mx-auto">
-            <div className="grid grid-cols-1 tablet:grid-cols-2 gap-12">
-              {staffProfiles.map((staff) => (
-                <div key={staff.name} className="flex flex-col items-center text-center">
-                  <div className="w-[120px] h-[120px] rounded-full overflow-hidden relative mb-4">
-                    <Image
-                      src={staff.avatar}
-                      alt={staff.name}
-                      fill
-                      className="object-cover"
-                      sizes="120px"
-                    />
-                  </div>
-                  <h4 className="font-gothic font-medium text-[20px] text-dark-green mb-3">
-                    {staff.name}
-                  </h4>
-                  <p className="text-body-s text-dark-green leading-[1.8]">
-                    {staff.description}
-                  </p>
-                </div>
-              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* 関連リンク */}
-      <section className="pb-24">
+      {/* SP用関連リンク */}
+      <section className="tablet:hidden py-12">
         <div className="page-container">
-          <div className="max-w-[792px] mx-auto flex flex-wrap gap-4 justify-center">
-            <Link
-              href="/about"
-              className="btn-secondary-m"
-            >
-              スタッフの紹介
-            </Link>
-            <Link
-              href="/message"
-              className="btn-secondary-m"
-            >
-              会社の理念
-            </Link>
-            <Link
-              href="/about"
-              className="btn-secondary-m"
-            >
-              スタッフの専門性
-            </Link>
+          <div className="bg-light-green rounded-2xl py-[45px] px-[30px]">
+            <nav className="flex flex-col gap-0">
+              {sidebarLinks.map((link) => (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  className="flex items-center gap-0 py-2"
+                >
+                  <span className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${link.active ? 'bg-dark-green' : ''}`}>
+                    {!link.active && (
+                      <span className="w-[10px] h-[10px] rounded-full bg-dark-green/30" />
+                    )}
+                  </span>
+                  <span className={`text-body-m text-dark-green ${link.active ? 'font-bold' : ''}`}>
+                    {link.label}
+                  </span>
+                </Link>
+              ))}
+            </nav>
           </div>
         </div>
       </section>

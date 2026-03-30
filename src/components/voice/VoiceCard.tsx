@@ -23,7 +23,7 @@ export default function VoiceCard({ voice }: VoiceCardProps) {
         className="font-mincho text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green mb-4"
         style={{ fontFeatureSettings: "'palt' 1" }}
       >
-        {voice.title}
+        {voice.customerName}　{voice.location} / {voice.propertyType}
       </h3>
 
       {/* Content excerpt */}

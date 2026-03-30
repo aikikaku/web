@@ -20,10 +20,10 @@ const base = (id: string) => ({
 
 // ===== Regions =====
 export const mockRegions: Region[] = [
-  { ...base('region-1'), name: '三島市', order: 1 },
-  { ...base('region-2'), name: '沼津市', order: 2 },
-  { ...base('region-3'), name: '長泉町', order: 3 },
-  { ...base('region-4'), name: '清水町', order: 4 },
+  { ...base('region-1'), name: '三島市', slug: 'mishima', order: 1 },
+  { ...base('region-2'), name: '沼津市', slug: 'numazu', order: 2 },
+  { ...base('region-3'), name: '長泉町', slug: 'nagaizumi', order: 3 },
+  { ...base('region-4'), name: '清水町', slug: 'shimizu', order: 4 },
 ];
 
 const img = (path: string, w = 800, h = 600) => ({
@@ -53,7 +53,7 @@ export const mockProperties: Property[] = [
     schoolDistrict: '三島市立北小学校',
     transactionType: '仲介',
     price: 1800,
-    regions: [{ ...base('region-mishima-yata'), name: '三島市谷田', order: 1 }],
+    regions: [{ ...base('region-mishima-yata'), name: '三島市谷田', slug: 'mishima', order: 1 }],
   },
   {
     ...base('prop-2'),
@@ -124,7 +124,7 @@ export const mockProperties: Property[] = [
     layout: '4LDK+S',
     constructionDate: '昭和50年10月',
     price: undefined,
-    regions: [{ ...base('region-mishima-yata2'), name: '三島市谷田', order: 1 }],
+    regions: [{ ...base('region-mishima-yata2'), name: '三島市谷田', slug: 'mishima', order: 1 }],
     // story is assigned after mockStories is defined
   },
   {
@@ -238,7 +238,7 @@ export const mockStories: Story[] = [
     subtitle: '水の都・三島で見つけた理想の住まい',
     content: '<h2>三島の魅力</h2><p>三島市は富士山の伏流水が湧き出る「水の都」として知られています。街中を流れるせせらぎは、住む人の心を癒してくれます。</p>',
     thumbnail: { url: '/images/mock/story-1.jpg', width: 800, height: 600 },
-    regions: [{ ...base('region-hikari'), name: '光ヶ丘・富士見台', order: 1 }],
+    regions: [{ ...base('region-hikari'), name: '光ヶ丘・富士見台', slug: 'nagaizumi', order: 1 }],
     property: mockProperties[0],
     category: 'property',
   },
@@ -333,84 +333,91 @@ mockProperties[4].story = mockStories[0] as Story;
 export const mockCustomerVoices: CustomerVoice[] = [
   {
     ...base('voice-1'),
-    title: 'この人、この不動産屋さん、もうここしかないなと思えました',
     customerName: '匿名希望 様',
-    category: 'found',
     location: '三島市',
     propertyType: '土地の購入',
+    date: '2025-06-15',
     content: '<p>私は3年前、仕事の関係で三島に転勤となりました。不慣れな土地での生活も2年が経った頃、プライベートでは結婚・第一子誕生という...</p>',
-    image: { url: '/images/voice/letter-1.png', width: 1058, height: 1496 },
     order: 1,
   },
   {
     ...base('voice-2'),
-    title: '誠実さと親しみやすさを感じる不動産屋さん',
     customerName: 'y.k様',
-    category: 'found',
+    location: '沼津市',
+    propertyType: '中古住宅の購入',
+    date: '2025-05-20',
     content: '<p>物件を探すにあたり、信頼できる不動産屋さんに相談しながら決めたいと思っていました。アイ企画さんのホームページを拝見し誠実さと親しみやすさを感じ、お願いすることにしました。</p>',
     order: 2,
   },
   {
     ...base('voice-3'),
-    title: '誠実さと親しみやすさを感じる不動産屋さん',
-    customerName: 'y.k様',
-    category: 'inherited',
+    customerName: 'T.S様',
+    location: '三島市',
+    propertyType: '相続不動産の売却',
+    date: '2025-04-10',
     content: '<p>アイ企画さんに相談して本当に良かったです。丁寧な対応に感謝しています。</p>',
     order: 3,
   },
   {
     ...base('voice-4'),
-    title: '誠実さと親しみやすさを感じる不動産屋さん',
-    customerName: 'y.k様',
-    category: 'found',
+    customerName: 'M.H様',
+    location: '長泉町',
+    propertyType: '新築用土地の購入',
+    date: '2025-03-05',
     content: '<p>安心してお任せできる不動産屋さんです。</p>',
     order: 4,
   },
   {
     ...base('voice-5'),
-    title: '誠実さと親しみやすさを感じる不動産屋さん',
-    customerName: 'y.k様',
-    category: 'other',
+    customerName: 'K.N様',
+    location: '清水町',
+    propertyType: '賃貸物件',
+    date: '2025-02-18',
     content: '<p>友人にもおすすめしたいと思います。</p>',
     order: 5,
   },
   {
     ...base('voice-6'),
-    title: '誠実さと親しみやすさを感じる不動産屋さん',
-    customerName: 'y.k様',
-    category: 'found',
+    customerName: 'A.Y様',
+    location: '沼津市',
+    propertyType: '中古マンションの購入',
+    date: '2025-01-22',
     content: '<p>地域に密着した素晴らしいサービスでした。</p>',
     order: 6,
   },
   {
     ...base('voice-7'),
-    title: '誠実さと親しみやすさを感じる不動産屋さん',
-    customerName: 'y.k様',
-    category: 'inherited',
+    customerName: 'S.T様',
+    location: '三島市',
+    propertyType: '相続不動産の売却',
+    date: '2024-12-15',
     content: '<p>相続の相談にも親身に対応していただきました。</p>',
     order: 7,
   },
   {
     ...base('voice-8'),
-    title: '誠実さと親しみやすさを感じる不動産屋さん',
-    customerName: 'y.k様',
-    category: 'found',
+    customerName: 'R.I様',
+    location: '裾野市',
+    propertyType: '中古住宅の購入',
+    date: '2024-11-08',
     content: '<p>初めての不動産購入でしたが、安心して進めることができました。</p>',
     order: 8,
   },
   {
     ...base('voice-9'),
-    title: '誠実さと親しみやすさを感じる不動産屋さん',
-    customerName: 'y.k様',
-    category: 'other',
+    customerName: 'E.M様',
+    location: '函南町',
+    propertyType: '土地の売却',
+    date: '2024-10-20',
     content: '<p>丁寧な説明と対応に感謝しています。</p>',
     order: 9,
   },
   {
     ...base('voice-10'),
-    title: '誠実さと親しみやすさを感じる不動産屋さん',
-    customerName: 'y.k様',
-    category: 'found',
+    customerName: 'H.O様',
+    location: '長泉町',
+    propertyType: '新築用土地の購入',
+    date: '2024-09-12',
     content: '<p>アイ企画さんを選んで本当に良かったです。</p>',
     order: 10,
   },
@@ -557,7 +564,7 @@ export function mockGetProperties(queries: Record<string, unknown> = {}): MicroC
   let items = [...mockProperties];
   const filters = queries.filters as string | undefined;
   if (filters) {
-    if (filters.includes('status[equals]available')) {
+    if (filters.includes('status[contains]available') || filters.includes('status[equals]available')) {
       items = items.filter((p) => p.status === 'available');
     }
     const notEquals = filters.match(/id\[not_equals\](\S+)/);

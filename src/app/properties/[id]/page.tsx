@@ -6,7 +6,6 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getImageUrl } from '@/lib/microcms/image';
 import PropertyDetailClient from '@/components/property/PropertyDetailClient';
-import MobileFilterNav from '@/components/property/MobileFilterNav';
 
 export const revalidate = 3600;
 
@@ -97,16 +96,18 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
   ];
 
   // 価格フィールド（特別扱い）
-  const priceValue = property.price
-    ? property.price.toLocaleString()
-    : property.rent
-      ? property.rent.toLocaleString()
-      : null;
+  const isSold = property.status === 'sold';
+  const priceValue = isSold
+    ? '-'
+    : property.price
+      ? property.price.toLocaleString()
+      : property.rent
+        ? property.rent.toLocaleString()
+        : null;
   const priceUnit = property.price ? '万円' : property.rent ? '円/月' : '';
 
   return (
     <div className="bg-cream">
-      <MobileFilterNav />
       {/* ヒーローセクション - カード型 */}
       <section className="px-4 tablet:px-[45px] pt-12">
         <div className="bg-light-green rounded-[32px] p-4 tablet:p-[30px]">
@@ -116,6 +117,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
               <PropertyDetailClient
                 allImages={allImages}
                 title={property.title}
+                isSold={isSold}
               />
             </div>
 
@@ -125,6 +127,11 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                 {/* ラベル + 地域 */}
                 <div>
                   <div className="flex gap-3 items-center">
+                    {property.status === 'sold' && (
+                      <span className="tag-pill-dark text-[14px] leading-none px-3 py-1.5">
+                        成約済み
+                      </span>
+                    )}
                     <span className="tag-pill text-[14px] leading-none px-3 py-1.5">
                       {categoryLabel}
                     </span>
@@ -198,11 +205,13 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                 </div>
 
                 {/* 物件詳細ボタン */}
-                <div>
-                  <span className="inline-flex items-center justify-center h-[44px] px-6 border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green">
-                    物件詳細
-                  </span>
-                </div>
+                {!isSold && (
+                  <div>
+                    <span className="inline-flex items-center justify-center h-[44px] px-6 border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green">
+                      物件詳細
+                    </span>
+                  </div>
+                )}
               </div>
 
               {/* サムネイル一覧 (PCのみ) */}
@@ -366,36 +375,73 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
             </div>
 
             {/* アクションカード */}
-            <div className="flex flex-col tablet:flex-row gap-3">
-              <Link
-                href="/for-customer"
-                className="flex-1 bg-dark-green rounded-2xl p-[30px] h-[108px] flex items-center justify-between hover:opacity-90 transition-opacity"
-              >
-                <p className="font-gothic font-medium text-[20px] leading-[1.6] text-white px-3">
-                  物件資料
+            {!isSold && (
+              <div className="flex flex-col tablet:flex-row gap-3">
+                <Link
+                  href="/for-customer"
+                  className="flex-1 bg-dark-green rounded-2xl p-[30px] h-[108px] flex items-center justify-between hover:opacity-90 transition-opacity"
+                >
+                  <p className="font-gothic font-medium text-[20px] leading-[1.6] text-white px-3">
+                    物件資料
+                  </p>
+                  <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue shrink-0">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                      <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                </Link>
+                <Link
+                  href="/for-customer"
+                  className="flex-1 bg-dark-green rounded-2xl p-[30px] h-[108px] flex items-center justify-between hover:opacity-90 transition-opacity"
+                >
+                  <p className="font-gothic font-medium text-[20px] leading-[1.6] text-white px-3">
+                    お問い合わせ
+                  </p>
+                  <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue shrink-0">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                      <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                </Link>
+              </div>
+            )}
+
+            {/* 成約済み物件 - ストーリーリンク */}
+            {isSold && property.story && (
+              <div className="mt-12">
+                <p
+                  className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green mb-8"
+                  style={{ fontFeatureSettings: "'palt' 1" }}
+                >
+                  この物件のストーリーはこちら
                 </p>
-                <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue shrink-0">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                    <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </span>
-              </Link>
-              <Link
-                href="/for-customer"
-                className="flex-1 bg-dark-green rounded-2xl p-[30px] h-[108px] flex items-center justify-between hover:opacity-90 transition-opacity"
-              >
-                <p className="font-gothic font-medium text-[20px] leading-[1.6] text-white px-3">
-                  お問い合わせ
-                </p>
-                <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue shrink-0">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                    <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </span>
-              </Link>
-            </div>
+                <Link
+                  href={`/stories/${property.story.id}`}
+                  className="block group"
+                >
+                  <div className="relative aspect-[733/400] rounded-3xl overflow-hidden">
+                    {property.story.thumbnail && (
+                      <Image
+                        src={getImageUrl(property.story.thumbnail, { width: 733, format: 'webp' })}
+                        alt={property.story.title}
+                        fill
+                        className="object-cover transition-transform group-hover:scale-105"
+                      />
+                    )}
+                  </div>
+                  <div className="mt-4">
+                    <p
+                      className="font-mincho text-[20px] tablet:text-[24px] leading-[1.6] tracking-[0.04em] text-dark-green"
+                      style={{ fontFeatureSettings: "'palt' 1" }}
+                    >
+                      {property.story.title}
+                    </p>
+                  </div>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </section>

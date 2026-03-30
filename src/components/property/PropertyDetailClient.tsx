@@ -8,11 +8,13 @@ import { getImageUrl } from '@/lib/microcms/image';
 interface PropertyDetailClientProps {
   allImages: MicroCMSImage[];
   title: string;
+  isSold?: boolean;
 }
 
 export default function PropertyDetailClient({
   allImages,
   title,
+  isSold = false,
 }: PropertyDetailClientProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const selectedImage = allImages[selectedIndex];
@@ -29,6 +31,14 @@ export default function PropertyDetailClient({
           sizes="(max-width: 992px) 100vw, 646px"
           priority
         />
+        {isSold && (
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: 'linear-gradient(194deg, rgba(39,51,59,0.5) 4%, rgba(39,51,59,0.25) 52%, rgba(39,51,59,0.5) 104%)',
+            }}
+          />
+        )}
       </div>
 
       {/* SP用サムネイル */}

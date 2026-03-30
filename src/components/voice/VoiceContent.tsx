@@ -1,15 +1,21 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import { CustomerVoice } from '@/types/microcms';
 
 const categories = [
-  { value: 'all', label: 'すべて' },
-  { value: 'inherited', label: '不動産を継承した方' },
-  { value: 'found', label: '不動産を見つけた方' },
-  { value: 'other', label: 'その他' },
-] as const;
+  { key: 'all', label: 'すべて' },
+  { key: 'inherited', label: '不動産を継承した方' },
+  { key: 'found', label: '不動産を見つけた方' },
+  { key: 'other', label: 'その他' },
+];
+
+function getCategoryKey(voice: CustomerVoice): string {
+  const pt = voice.propertyType || '';
+  if (pt.includes('相続') || pt.includes('売却')) return 'inherited';
+  if (pt.includes('購入') || pt.includes('見つ')) return 'found';
+  return 'other';
+}
 
 function VoiceItem({
   voice,
@@ -28,10 +34,10 @@ function VoiceItem({
       >
         <div className="flex-1 min-w-0">
           <p className="font-gothic font-medium text-[16px] leading-[2] text-black">
-            {voice.title}
+            {voice.customerName}　{voice.location} / {voice.propertyType}
           </p>
           <p className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green/60">
-            {voice.customerName}
+            {voice.date}
           </p>
         </div>
         <svg
@@ -54,16 +60,6 @@ function VoiceItem({
             className="font-gothic font-medium text-[16px] leading-[2] text-black whitespace-pre-line"
             dangerouslySetInnerHTML={{ __html: voice.content }}
           />
-          {voice.image && (
-            <div className="mt-12 aspect-[260/368] relative w-full">
-              <Image
-                src={voice.image.url}
-                alt=""
-                fill
-                className="object-cover"
-              />
-            </div>
-          )}
         </div>
       )}
     </div>
@@ -75,61 +71,64 @@ export default function VoiceContent({
 }: {
   voices: CustomerVoice[];
 }) {
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [activeCategory, setActiveCategory] = useState('all');
 
   const filteredVoices =
-    selectedCategory === 'all'
+    activeCategory === 'all'
       ? voices
-      : voices.filter((v) => v.category === selectedCategory);
+      : voices.filter((v) => getCategoryKey(v) === activeCategory);
 
   return (
-    <div className="flex items-start justify-between gap-16">
-      {/* Left sidebar filter */}
-      <div className="hidden tablet:block w-[323px] shrink-0">
-        <div className="bg-light-green rounded-[32px] px-[30px] py-[45px]">
-          {categories.map((cat) => {
-            const isActive = selectedCategory === cat.value;
-            return (
-              <button
-                key={cat.value}
-                onClick={() => setSelectedCategory(cat.value)}
-                className={`flex items-center w-full h-[40px] rounded-[5px] overflow-hidden ${
-                  !isActive ? 'opacity-50' : ''
-                }`}
-              >
-                <div className="w-[40px] h-full flex items-center justify-center shrink-0">
+    <div className="flex flex-col tablet:flex-row gap-8 tablet:gap-16">
+      {/* カテゴリフィルター - PC: 左サイドバー, SP: 上部ピル */}
+      <div className="shrink-0">
+        {/* SP: ピルボタン */}
+        <div className="flex flex-wrap gap-2 tablet:hidden">
+          {categories.map((cat) => (
+            <button
+              key={cat.key}
+              onClick={() => setActiveCategory(cat.key)}
+              className={`px-4 py-2 rounded-full font-gothic font-medium text-[14px] leading-none transition-colors ${
+                activeCategory === cat.key
+                  ? 'bg-dark-green text-white'
+                  : 'bg-light-green text-dark-green'
+              }`}
+            >
+              {cat.label}
+            </button>
+          ))}
+        </div>
+
+        {/* PC: サイドバーリスト */}
+        <nav className="hidden tablet:block tablet:w-[200px]">
+          <ul className="flex flex-col gap-1">
+            {categories.map((cat) => (
+              <li key={cat.key}>
+                <button
+                  onClick={() => setActiveCategory(cat.key)}
+                  className={`flex items-center gap-3 w-full text-left py-2 font-gothic font-medium text-[14px] leading-[1.8] transition-colors ${
+                    activeCategory === cat.key
+                      ? 'text-dark-green'
+                      : 'text-dark-green/50'
+                  }`}
+                >
                   <span
-                    className={`w-[10px] h-[10px] rounded-full border-2 border-dark-green ${
-                      isActive ? 'bg-dark-green' : ''
+                    className={`w-[8px] h-[8px] rounded-full shrink-0 ${
+                      activeCategory === cat.key
+                        ? 'bg-dark-green'
+                        : 'bg-dark-green/30'
                     }`}
                   />
-                </div>
-                <span className="font-gothic font-medium text-[16px] leading-[1.5] text-dark-green text-left">
                   {cat.label}
-                </span>
-              </button>
-            );
-          })}
-        </div>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
 
-      {/* Mobile filter */}
-      <div className="tablet:hidden w-full mb-8">
-        <select
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
-          className="w-full bg-light-green rounded-2xl px-6 py-4 font-gothic font-medium text-[16px] text-dark-green border-none"
-        >
-          {categories.map((cat) => (
-            <option key={cat.value} value={cat.value}>
-              {cat.label}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {/* Right content - accordion */}
-      <div className="flex-1 max-w-[704px]">
+      {/* ボイスリスト */}
+      <div className="w-full tablet:flex-1 tablet:max-w-[704px]">
         {filteredVoices.length > 0 ? (
           filteredVoices.map((voice, index) => (
             <VoiceItem
