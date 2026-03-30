@@ -60,9 +60,9 @@ export default function PropertyFilter() {
   const hasActiveFilters = selectedTypes.length > 0 || selectedRegions.length > 0 || currentStatus !== 'all';
 
   return (
-    <div className="hidden tablet:flex flex-wrap items-center gap-3 tablet:gap-4">
-      {/* ステータス切替トグル */}
-      <div className="flex rounded-lg overflow-hidden border border-gray-200 w-full tablet:w-auto">
+    <div className="hidden tablet:flex items-center gap-[30px]">
+      {/* ステータス切替トグル - pill shape */}
+      <div className="flex rounded-[50px] overflow-hidden border border-dark-green shrink-0">
         {[
           { value: 'all', label: 'すべて' },
           { value: 'available', label: 'ご案内中の物件' },
@@ -70,10 +70,10 @@ export default function PropertyFilter() {
           <button
             key={option.value}
             onClick={() => updateParams('status', option.value)}
-            className={`flex-1 tablet:flex-none px-5 py-3 text-body-s font-gothic font-medium transition-colors ${
+            className={`h-[56px] px-6 font-gothic font-medium text-[16px] leading-none transition-colors ${
               currentStatus === option.value
-                ? 'bg-dark-green text-white'
-                : 'bg-white text-dark-green hover:bg-cream'
+                ? 'bg-dark-green text-white rounded-[50px]'
+                : 'bg-transparent text-dark-green'
             }`}
           >
             {option.label}
@@ -81,55 +81,63 @@ export default function PropertyFilter() {
         ))}
       </div>
 
-      {/* 物件種別ドロップダウン */}
-      <select
-        value={selectedTypes[0] || ''}
-        onChange={(e) => {
-          if (e.target.value) {
-            updateParams('types', e.target.value);
-          } else {
-            updateParams('types', '');
-          }
-        }}
-        className="flex-1 tablet:flex-none px-4 py-3 border border-gray-200 rounded-lg text-body-s font-gothic bg-white min-w-0 tablet:min-w-[180px] appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%232a363b%22%20d%3D%22M2%204l4%204%204-4%22/%3E%3C/svg%3E')] bg-[length:12px] bg-[right_12px_center] bg-no-repeat pr-8"
-      >
-        <option value="">物件種別</option>
-        {propertyTypes.map((type) => (
-          <option key={type.value} value={type.value}>
-            {type.label}
-          </option>
-        ))}
-      </select>
-
-      {/* 地域ドロップダウン */}
-      <select
-        value={selectedRegions[0] || ''}
-        onChange={handleRegionChange}
-        className="flex-1 tablet:flex-none px-4 py-3 border border-gray-200 rounded-lg text-body-s font-gothic bg-white min-w-0 tablet:min-w-[180px] appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%232a363b%22%20d%3D%22M2%204l4%204%204-4%22/%3E%3C/svg%3E')] bg-[length:12px] bg-[right_12px_center] bg-no-repeat pr-8"
-      >
-        <option value="">エリア</option>
-        {regions.map((region) => (
-          <option key={region} value={region}>
-            {region}
-          </option>
-        ))}
-      </select>
-
-      {/* 並び替え・クリア */}
-      <div className="flex items-center gap-2 ml-auto">
-        <button
-          onClick={() => updateParams('orders', '-publishedAt')}
-          className="px-4 py-3 border border-gray-200 rounded-lg text-body-s font-gothic bg-white hover:bg-cream transition-colors"
+      {/* ドロップダウン群 */}
+      <div className="flex flex-1 gap-2">
+        {/* 物件種別ドロップダウン */}
+        <select
+          value={selectedTypes[0] || ''}
+          onChange={(e) => {
+            if (e.target.value) {
+              updateParams('types', e.target.value);
+            } else {
+              updateParams('types', '');
+            }
+          }}
+          className="flex-1 h-[56px] px-4 border border-dark-green rounded-lg font-gothic font-medium text-[16px] bg-white appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20fill%3D%22%232a363b%22%20d%3D%22M3%205l5%206%205-6%22/%3E%3C/svg%3E')] bg-[length:16px] bg-[right_16px_center] bg-no-repeat pr-10 text-black/20"
         >
-          新着順
+          <option value="">物件</option>
+          {propertyTypes.map((type) => (
+            <option key={type.value} value={type.value}>
+              {type.label}
+            </option>
+          ))}
+        </select>
+
+        {/* 地域ドロップダウン */}
+        <select
+          value={selectedRegions[0] || ''}
+          onChange={handleRegionChange}
+          className="flex-1 h-[56px] px-4 border border-dark-green rounded-lg font-gothic font-medium text-[16px] bg-white appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20fill%3D%22%232a363b%22%20d%3D%22M3%205l5%206%205-6%22/%3E%3C/svg%3E')] bg-[length:16px] bg-[right_16px_center] bg-no-repeat pr-10 text-black/20"
+        >
+          <option value="">地域</option>
+          {regions.map((region) => (
+            <option key={region} value={region}>
+              {region}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* 絞り込みボタン + クリア */}
+      <div className="flex items-center gap-2 shrink-0">
+        <button
+          onClick={() => {
+            // trigger filter application (already applied via URL params)
+            const params = new URLSearchParams(searchParams.toString());
+            params.delete('page');
+            router.push(`/properties?${params.toString()}`);
+          }}
+          className="h-[56px] px-10 bg-dark-green border border-dark-green rounded-lg font-gothic font-medium text-[16px] leading-none text-white transition-opacity hover:opacity-90"
+        >
+          絞り込み
         </button>
         {hasActiveFilters && (
           <button
             onClick={clearFilters}
-            className="p-3 border border-dark-green rounded-lg text-body-s font-gothic bg-white hover:bg-cream transition-colors"
+            className="w-[56px] h-[56px] border border-dark-green rounded-lg flex items-center justify-center hover:bg-cream transition-colors"
             aria-label="フィルターをクリア"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
               <path d="M18 6L6 18M6 6l12 12" />
             </svg>
           </button>

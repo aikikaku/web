@@ -3,6 +3,16 @@ import Image from 'next/image';
 import { Story } from '@/types/microcms';
 import { getImageUrl } from '@/lib/microcms/image';
 
+const categoryLabels: Record<string, string> = {
+  daily: '日々のこと',
+  regional: '地域のこと',
+  property: '物件のつづき',
+};
+
+function getCategoryLabel(category?: string): string {
+  return (category && categoryLabels[category]) || '日々のこと';
+}
+
 interface StoryCardProps {
   story: Story;
   size?: 'l' | 'm' | 's';
@@ -10,9 +20,9 @@ interface StoryCardProps {
 }
 
 const sizeConfig = {
-  l: { imageH: 'h-[485px]', imageR: 'rounded-3xl', titleSize: 'text-[32px]', width: 'w-[646px]' },
-  m: { imageH: 'h-[250px]', imageR: 'rounded-2xl', titleSize: 'text-[24px]', width: 'w-[558px]' },
-  s: { imageH: 'h-[280px]', imageR: 'rounded-2xl', titleSize: 'text-[24px]', width: 'w-[351px]' },
+  l: { imageAspect: 'aspect-[410/308]', imageR: 'rounded-[24px]', titleSize: 'text-[32px]', width: 'w-full' },
+  m: { imageAspect: 'aspect-[410/308]', imageR: 'rounded-[24px]', titleSize: 'text-[24px]', width: 'w-full' },
+  s: { imageAspect: 'aspect-[4/3]', imageR: 'rounded-2xl', titleSize: 'text-[24px]', width: 'w-full' },
 };
 
 export default function StoryCard({ story, size = 'm', variant = 'light' }: StoryCardProps) {
@@ -23,7 +33,7 @@ export default function StoryCard({ story, size = 'm', variant = 'light' }: Stor
   return (
     <Link href={`/stories/${story.id}`} className={`block group ${cfg.width}`}>
       {/* Image */}
-      <div className={`${cfg.imageH} relative overflow-hidden ${cfg.imageR}`}>
+      <div className={`${cfg.imageAspect} relative overflow-hidden ${cfg.imageR}`}>
         <Image
           src={getImageUrl(story.thumbnail, { width: 646, format: 'webp' })}
           alt={story.title}
@@ -37,22 +47,20 @@ export default function StoryCard({ story, size = 'm', variant = 'light' }: Stor
       <div className="pt-[30px] px-3">
         {/* Tags */}
         <div className="flex gap-3 items-center mb-4">
-          {story.regions && story.regions.length > 0 && (
-            <>
-              <span className="tag-pill text-[14px] leading-none px-3 py-1.5">
-                地域のこと
-              </span>
-              <span className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green">
-                {regionNames}
-              </span>
-            </>
+          <span className="tag-pill text-[14px] leading-none px-3 py-1.5">
+            {getCategoryLabel(story.category)}
+          </span>
+          {regionNames && (
+            <span className={`font-gothic font-medium text-[14px] leading-[1.8] ${isDark ? 'text-white/80' : 'text-dark-green'}`}>
+              {regionNames}
+            </span>
           )}
         </div>
 
         {/* Title */}
         <h3
           className={`font-mincho ${cfg.titleSize} leading-[1.5] tracking-[0.04em] line-clamp-2 ${
-            isDark ? 'text-white' : 'text-black'
+            isDark ? 'text-white' : 'text-dark-green'
           }`}
           style={{ fontFeatureSettings: "'palt' 1" }}
         >

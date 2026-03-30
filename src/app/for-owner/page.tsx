@@ -182,8 +182,8 @@ export default async function ForOwnerPage() {
                 </div>
                 {i < steps.length - 1 && (
                   <div className="flex items-center justify-center">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-light-green">
-                      <path d="M12 4L4 18H20L12 4Z" fill="currentColor" transform="rotate(180 12 12)" />
+                    <svg width="16" height="10" viewBox="0 0 16 10" fill="none" className="text-dark-green">
+                      <path d="M8 10L0 0H16L8 10Z" fill="currentColor" />
                     </svg>
                   </div>
                 )}

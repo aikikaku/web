@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getStories } from '@/lib/microcms/queries';
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
 
 export const revalidate = 3600;
 
-const PER_PAGE = 10;
+const PER_PAGE = 9;
 
 // カテゴリのラベルマッピング（配列で管理、API連携時に拡張しやすい）
 const categoryLabels: { value: string; label: string }[] = [
@@ -69,7 +70,7 @@ function StoryCardLarge({ story }: { story: Story }) {
 
             {/* Title */}
             <h3
-              className="font-mincho text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green line-clamp-2"
+              className="font-mincho text-[20px] tablet:text-[24px] leading-[1.5] tracking-[0.04em] text-dark-green line-clamp-2"
               style={{ fontFeatureSettings: "'palt' 1" }}
             >
               {story.title}
@@ -77,8 +78,8 @@ function StoryCardLarge({ story }: { story: Story }) {
           </div>
 
           {/* Button */}
-          <span className="inline-flex items-center gap-1 h-[44px] px-6 border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-colors group-hover:bg-gray-50">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="shrink-0">
+          <span className="inline-flex items-center gap-1 h-[44px] px-5 border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-colors group-hover:bg-gray-50">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="shrink-0">
               <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
               <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
             </svg>
@@ -198,11 +199,13 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
       {/* フィルター + リスト */}
       <section className="px-4 tablet:px-[75px] pb-16 tablet:pb-24">
         {/* フィルターバー */}
-        <StoriesFilter
-          categories={categoryLabels}
-          currentCategory={searchParams.category}
-          currentRegions={searchParams.regions}
-        />
+        <Suspense fallback={<div className="h-14 bg-cream animate-pulse rounded-lg" />}>
+          <StoriesFilter
+            categories={categoryLabels}
+            currentCategory={searchParams.category}
+            currentRegions={searchParams.regions}
+          />
+        </Suspense>
 
         {/* コンテンツ */}
         <div className="mt-10 tablet:mt-[60px]">

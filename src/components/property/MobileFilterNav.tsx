@@ -110,9 +110,9 @@ export default function MobileFilterNav() {
           </button>
 
           {/* モーダルカード */}
-          <div className="relative bg-white rounded-3xl p-6 w-full max-w-[340px] max-h-[80vh] overflow-y-auto">
+          <div className="relative bg-white rounded-3xl px-6 py-8 w-full max-w-[340px] max-h-[80vh] overflow-y-auto">
             {/* ステータストグル */}
-            <div className="flex rounded-full overflow-hidden border border-gray-200 mb-6">
+            <div className="flex rounded-full border border-dark-green mb-6 h-[52px] overflow-hidden">
               {[
                 { value: 'all', label: 'すべて' },
                 { value: 'available', label: 'ご案内中の物件' },
@@ -120,9 +120,9 @@ export default function MobileFilterNav() {
                 <button
                   key={option.value}
                   onClick={() => setLocalStatus(option.value)}
-                  className={`flex-1 px-4 py-3 text-[14px] font-gothic font-medium transition-colors rounded-full ${
+                  className={`flex-1 font-gothic font-medium text-[14px] leading-none transition-colors ${
                     localStatus === option.value
-                      ? 'bg-dark-green text-white'
+                      ? 'bg-dark-green text-white rounded-full'
                       : 'bg-white text-dark-green'
                   }`}
                 >
@@ -136,7 +136,7 @@ export default function MobileFilterNav() {
               <select
                 value={localType}
                 onChange={(e) => setLocalType(e.target.value)}
-                className="w-full px-4 py-3.5 border border-gray-200 rounded-full text-[14px] font-gothic bg-white appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%232a363b%22%20d%3D%22M2%204l4%204%204-4%22/%3E%3C/svg%3E')] bg-[length:12px] bg-[right_16px_center] bg-no-repeat pr-10"
+                className="w-full h-[52px] px-5 border border-gray-200 rounded-full text-[14px] font-gothic font-medium bg-white text-dark-green/30 appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20fill%3D%22%232a363b%22%20d%3D%22M3%205l5%206%205-6%22/%3E%3C/svg%3E')] bg-[length:16px] bg-[right_20px_center] bg-no-repeat pr-12"
               >
                 <option value="">物件</option>
                 {propertyTypes.map((type) => (
@@ -148,11 +148,11 @@ export default function MobileFilterNav() {
             </div>
 
             {/* 地域ドロップダウン */}
-            <div className="mb-6">
+            <div className="mb-8">
               <select
                 value={localRegion}
                 onChange={(e) => setLocalRegion(e.target.value)}
-                className="w-full px-4 py-3.5 border border-gray-200 rounded-full text-[14px] font-gothic bg-white appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%232a363b%22%20d%3D%22M2%204l4%204%204-4%22/%3E%3C/svg%3E')] bg-[length:12px] bg-[right_16px_center] bg-no-repeat pr-10"
+                className="w-full h-[52px] px-5 border border-gray-200 rounded-full text-[14px] font-gothic font-medium bg-white text-dark-green/30 appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20fill%3D%22%232a363b%22%20d%3D%22M3%205l5%206%205-6%22/%3E%3C/svg%3E')] bg-[length:16px] bg-[right_20px_center] bg-no-repeat pr-12"
               >
                 <option value="">地域</option>
                 {regions.map((region) => (
@@ -167,13 +167,13 @@ export default function MobileFilterNav() {
             <div className="flex items-center gap-3">
               <button
                 onClick={applyFilters}
-                className="flex-1 bg-dark-green text-white rounded-full py-3.5 text-[14px] font-gothic font-medium"
+                className="flex-1 h-[52px] bg-dark-green text-white rounded-full font-gothic font-medium text-[14px] leading-none"
               >
                 絞り込み
               </button>
               <button
                 onClick={clearFilters}
-                className="w-12 h-12 border border-gray-200 rounded-full flex items-center justify-center shrink-0"
+                className="w-[52px] h-[52px] border border-gray-200 rounded-full flex items-center justify-center shrink-0"
                 aria-label="条件をクリア"
               >
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none">

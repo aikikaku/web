@@ -233,7 +233,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
           </div>
 
           {/* 右: リッチテキストコンテンツ */}
-          <div className="flex-1 tablet:pl-[calc(1440px-323px-75px-734px-45px)] max-tablet:pl-0">
+          <div className="flex-1 tablet:pl-[60px] max-tablet:pl-0">
             <div className="max-w-[734px]">
               {mockSections.map((section, sIdx) => (
                 <div key={sIdx}>
@@ -364,9 +364,9 @@ export default async function StoryPage({ params }: StoryPageProps) {
             </h3>
 
             {/* カード3列 */}
-            <div className="flex gap-[30px] max-tablet:overflow-x-auto max-tablet:pb-4">
+            <div className="grid grid-cols-1 tablet:grid-cols-3 gap-y-12 gap-x-[30px] max-tablet:flex max-tablet:overflow-x-auto max-tablet:pb-4 max-tablet:gap-x-4">
               {relatedStories.contents.map((s) => (
-                <div key={s.id} className="w-[410px] shrink-0 max-tablet:w-[300px]">
+                <div key={s.id} className="max-tablet:w-[300px] max-tablet:shrink-0">
                   <StoryCard story={s} />
                 </div>
               ))}

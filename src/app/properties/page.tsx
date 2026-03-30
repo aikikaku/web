@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 export const revalidate = 3600;
 
-const PER_PAGE = 9;
+const PER_PAGE = 12;
 
 interface PropertiesPageProps {
   searchParams: {
@@ -38,13 +38,13 @@ export default async function PropertiesPage({
   const filters: string[] = [];
 
   if (searchParams.status === 'available') {
-    filters.push('status[equals]available');
+    filters.push('status[contains]available');
   }
 
   if (searchParams.types) {
     const typeFilters = searchParams.types.split(',').map((t) => {
       const [type, category] = t.split('_');
-      return `(type[equals]${type}[and]category[equals]${category})`;
+      return `(type[contains]${type}[and]category[contains]${category})`;
     });
     if (typeFilters.length > 0) {
       filters.push(`(${typeFilters.join('[or]')})`);
@@ -73,7 +73,9 @@ export default async function PropertiesPage({
 
   return (
     <div className="bg-cream">
-      <MobileFilterNav />
+      <Suspense fallback={null}>
+        <MobileFilterNav />
+      </Suspense>
       <div className="page-container">
         <Breadcrumb items={[{ label: '物件を探す' }]} />
       </div>
@@ -231,13 +233,15 @@ export default async function PropertiesPage({
           )}
 
           {/* フィルター */}
-          <Suspense fallback={<div className="h-14 bg-cream animate-pulse rounded-lg" />}>
-            <PropertyFilter />
-          </Suspense>
+          <div className="tablet:px-[30px]">
+            <Suspense fallback={<div className="h-14 bg-cream animate-pulse rounded-lg" />}>
+              <PropertyFilter />
+            </Suspense>
+          </div>
 
           {/* 物件カードグリッド */}
           {gridProperties.length > 0 ? (
-            <div className="grid grid-cols-1 tablet:grid-cols-3 gap-6 mt-10">
+            <div className="grid grid-cols-1 tablet:grid-cols-3 gap-6 tablet:gap-x-[30px] tablet:gap-y-24 mt-8 tablet:mt-[96px]">
               {gridProperties.map((property) => (
                 <PropertyCard key={property.id} property={property} />
               ))}
@@ -269,12 +273,15 @@ export default async function PropertiesPage({
         <div className="page-container flex justify-center">
           <Link
             href="/for-customer"
-            className="block bg-light-green rounded-3xl px-8 py-6 max-w-[646px] w-full group"
+            className="block bg-light-green rounded-[24px] px-[30px] pt-6 pb-8 max-w-[646px] w-full group"
           >
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-body-m text-dark-green mb-2">駐車場を借りたい</p>
-                <p className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green">
+              <div className="flex flex-col gap-2 max-w-[449px]">
+                <p className="font-gothic font-medium text-[16px] leading-[2] text-dark-green">駐車場を借りたい</p>
+                <p
+                  className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green"
+                  style={{ fontFeatureSettings: "'palt' 1" }}
+                >
                   三島市で駐車場をお探しの方へ
                 </p>
               </div>
