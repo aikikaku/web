@@ -122,9 +122,25 @@ const sections: Section[] = [
   },
 ];
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp';
+
 export default function MessagePage() {
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'ホーム', item: BASE_URL },
+              { '@type': 'ListItem', position: 2, name: 'アイ企画について', item: `${BASE_URL}/about` },
+              { '@type': 'ListItem', position: 3, name: 'ご挨拶' },
+            ],
+          }),
+        }}
+      />
       <div className="page-container">
         <Breadcrumb items={[
           { label: 'アイ企画について', href: '/about' },

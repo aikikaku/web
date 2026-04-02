@@ -16,6 +16,7 @@ export const metadata: Metadata = {
 
 export const revalidate = 3600;
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp';
 const PER_PAGE = 12;
 
 interface PropertiesPageProps {
@@ -83,6 +84,19 @@ export default async function PropertiesPage({
 
   return (
     <div className="bg-cream">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'ホーム', item: BASE_URL },
+              { '@type': 'ListItem', position: 2, name: '物件を探す' },
+            ],
+          }),
+        }}
+      />
       <Suspense fallback={null}>
         <MobileFilterNav />
       </Suspense>

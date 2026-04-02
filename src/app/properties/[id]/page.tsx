@@ -52,6 +52,14 @@ export async function generateMetadata({
         getImageUrl(property.mainImage, { width: 1200, height: 630, format: 'webp' }),
       ],
     },
+    twitter: {
+      card: 'summary_large_image',
+      title: property.title,
+      description,
+      images: [
+        getImageUrl(property.mainImage, { width: 1200, height: 630, format: 'webp' }),
+      ],
+    },
   };
 }
 
@@ -106,8 +114,71 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
         : null;
   const priceUnit = property.price ? '万円' : property.rent ? '円/月' : '';
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'RealEstateListing',
+    name: property.title,
+    description: property.description
+      ? property.description.replace(/<[^>]*>/g, '').slice(0, 200)
+      : property.title,
+    url: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp'}/properties/${property.id}`,
+    image: property.mainImage?.url,
+    datePosted: property.publishedAt,
+    ...(property.location && {
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: property.location,
+        addressRegion: '静岡県',
+        addressCountry: 'JP',
+      },
+    }),
+    ...(property.price && {
+      offers: {
+        '@type': 'Offer',
+        price: property.price * 10000,
+        priceCurrency: 'JPY',
+        availability:
+          property.status === 'available'
+            ? 'https://schema.org/InStock'
+            : 'https://schema.org/SoldOut',
+      },
+    }),
+  };
+
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'ホーム',
+        item: process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: '物件を探す',
+        item: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp'}/properties`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: property.title,
+      },
+    ],
+  };
+
   return (
     <div className="bg-cream">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       {/* ヒーローセクション - カード型 */}
       <section className="px-4 tablet:px-[45px] pt-12">
         <div className="bg-light-green rounded-[32px] p-4 tablet:p-[30px]">

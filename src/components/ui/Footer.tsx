@@ -29,7 +29,7 @@ const footerNav = [
   },
   {
     label: 'お問い合わせ',
-    href: '/for-customer',
+    href: '/contact',
   },
   {
     label: '仲人',
@@ -44,8 +44,8 @@ export default function Footer() {
   return (
     <footer className="bg-dark-green text-white">
       {/* Mobile: single column, px-4, pt-16, pb-8 */}
-      {/* Desktop: two columns side-by-side, px-page, py-24 */}
-      <div className="px-4 pt-16 pb-8 tablet:px-page tablet:py-24 max-w-container mx-auto">
+      {/* Desktop: two columns side-by-side, px-[75px], py-[96px] */}
+      <div className="px-4 pt-16 pb-8 tablet:px-[75px] tablet:py-[96px] max-w-[1440px] mx-auto">
 
         {/* === Mobile Layout === */}
         <div className="flex flex-col gap-12 tablet:hidden">
