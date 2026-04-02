@@ -32,7 +32,7 @@ const dropdownCards = [
 
 const navLinksAfter = [
   { href: '/voice', label: 'お客様の声' },
-  { href: '/for-customer', label: 'お問い合わせ' },
+  { href: '/contact', label: 'お問い合わせ' },
 ];
 
 // Mobile用: 全navItems
@@ -45,7 +45,7 @@ const allNavItems = [
     cards: dropdownCards,
   },
   { href: '/voice', label: 'お客様の声' },
-  { href: '/for-customer', label: 'お問い合わせ' },
+  { href: '/contact', label: 'お問い合わせ' },
 ];
 
 export default function Header() {

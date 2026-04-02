@@ -37,7 +37,7 @@ function VoiceItem({
             {voice.customerName}　{voice.location} / {voice.propertyType}
           </p>
           <p className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green/60">
-            {voice.date}
+            {new Date(voice.date).toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })}
           </p>
         </div>
         <svg

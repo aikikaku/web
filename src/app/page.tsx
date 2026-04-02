@@ -476,12 +476,9 @@ export default async function HomePage() {
       {voices.contents.length > 0 && (
         <section className="bg-light-green pt-[60px] pb-[40px] tablet:pt-[96px] tablet:pb-16">
           <div className="px-4 tablet:px-[75px]">
-            <div className="flex flex-col gap-2 mb-8 tablet:mb-16">
-              <p className="text-body-m font-gothic font-medium text-dark-green">
-                お客様の声
-              </p>
+            <div className="mb-8 tablet:mb-16">
               <h3 className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.96px] tablet:tracking-[1.28px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
-                お客様からいただいた声をご紹介
+                お客様の声
               </h3>
             </div>
           </div>
@@ -521,7 +518,7 @@ export default async function HomePage() {
               ))}
             </div>
           </div>
-          <div className="flex items-center justify-between mt-6 tablet:mt-8 px-4 tablet:px-[75px]">
+          <div className="flex items-center justify-between mt-6 tablet:mt-16 px-4 tablet:px-[75px]">
             {/* Pagination dots (decorative) */}
             <div className="flex items-center gap-2">
               <span className="hidden tablet:inline-block text-dark-green/40">&lt;</span>

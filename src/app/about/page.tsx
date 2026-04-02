@@ -8,9 +8,24 @@ export const metadata: Metadata = {
   description: 'アイ企画の企業理念・ビジョン・会社概要をご紹介します。',
 };
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp';
+
 export default function AboutPage() {
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'ホーム', item: BASE_URL },
+              { '@type': 'ListItem', position: 2, name: 'アイ企画について' },
+            ],
+          }),
+        }}
+      />
       <div className="page-container">
         <Breadcrumb items={[{ label: 'アイ企画について' }]} />
       </div>

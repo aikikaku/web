@@ -74,6 +74,8 @@ const features = [
   },
 ];
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp';
+
 export default async function ForCustomerPage() {
   const [properties, voices] = await Promise.all([
     getProperties({ limit: 3, filters: 'status[contains]available', orders: '-publishedAt' })
@@ -84,6 +86,19 @@ export default async function ForCustomerPage() {
 
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'ホーム', item: BASE_URL },
+              { '@type': 'ListItem', position: 2, name: '不動産をお探しの方へ' },
+            ],
+          }),
+        }}
+      />
       <div className="page-container">
         <Breadcrumb items={[{ label: '不動産をお探しの方へ' }]} />
       </div>
@@ -355,7 +370,7 @@ export default async function ForCustomerPage() {
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center">
               <h2 className="text-cream mb-8">お気軽にご相談ください</h2>
-              <Link href="/about" className="btn-primary">
+              <Link href="/contact" className="btn-primary">
                 お問い合わせ
               </Link>
             </div>

@@ -10,6 +10,8 @@ export const metadata: Metadata = {
 
 export const revalidate = 3600;
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp';
+
 export default async function VoicePage() {
   const data = await getCustomerVoices().catch(() => ({
     contents: [],
@@ -20,6 +22,19 @@ export default async function VoicePage() {
 
   return (
     <div className="bg-cream">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'ホーム', item: BASE_URL },
+              { '@type': 'ListItem', position: 2, name: 'お客様の声' },
+            ],
+          }),
+        }}
+      />
       <div className="page-container">
         <Breadcrumb items={[{ label: 'お客様の声' }]} />
       </div>

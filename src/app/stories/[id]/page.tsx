@@ -37,6 +37,14 @@ export async function generateMetadata({
         getImageUrl(story.thumbnail, { width: 1200, height: 630, format: 'webp' }),
       ],
     },
+    twitter: {
+      card: 'summary_large_image',
+      title: story.title,
+      description: story.subtitle || story.title,
+      images: [
+        getImageUrl(story.thumbnail, { width: 1200, height: 630, format: 'webp' }),
+      ],
+    },
   };
 }
 
@@ -130,8 +138,36 @@ export default async function StoryPage({ params }: StoryPageProps) {
 
   const regionNames = story.regions?.map((r) => r.name).join('・');
 
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'ホーム',
+        item: process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: '暮らしを知る',
+        item: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp'}/stories`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: story.title,
+      },
+    ],
+  };
+
   return (
     <div className="bg-cream">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       {/* パンくず */}
       <div className="px-[45px] max-w-[1440px] mx-auto max-tablet:px-4">
         <Breadcrumb

@@ -33,9 +33,24 @@ const sections = [
   },
 ];
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp';
+
 export default function PrivacyPolicyPage() {
   return (
     <div className="bg-cream">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'ホーム', item: BASE_URL },
+              { '@type': 'ListItem', position: 2, name: 'プライバシーポリシー' },
+            ],
+          }),
+        }}
+      />
       <div className="page-container">
         <Breadcrumb items={[{ label: 'プライバシーポリシー' }]} />
       </div>
