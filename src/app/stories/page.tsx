@@ -256,10 +256,22 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
         >
           <div className="flex items-end justify-between">
             <div className="flex flex-col gap-4 items-start justify-center p-3 flex-1">
-              {/* 仲 + NAKA-BITO デザイン */}
+              {/* 仲 + NAKA-BITO ロゴ */}
               <div className="h-[56px] w-[260px] relative">
-                <span className="font-mincho text-[48px] leading-none text-dark-green">仲</span>
-                <span className="absolute bottom-0 left-[120px] font-gothic font-medium text-[11px] tracking-[0.2em] text-dark-green/60">NAKA-BITO</span>
+                <Image
+                  src="/images/nakabito-kanji.svg"
+                  alt="仲"
+                  width={105}
+                  height={56}
+                  className="absolute left-0 top-0"
+                />
+                <Image
+                  src="/images/nakabito-text.svg"
+                  alt="NAKA-BITO"
+                  width={143}
+                  height={11}
+                  className="absolute left-[117px] top-[18px]"
+                />
               </div>
               <p className="font-gothic font-medium text-[16px] leading-[2] text-black">
                 想いが、ひとをつないでいく。
