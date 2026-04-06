@@ -17,6 +17,14 @@
     "chrome-devtools": {
       "command": "npx",
       "args": ["chrome-devtools-mcp@latest"]
+    },
+    "microcms": {
+      "command": "sh",
+      "args": ["-c", "set -a && source .env.local && set +a && MICROCMS_SERVICE_ID=$MICROCMS_SERVICE_DOMAIN npx -y microcms-mcp-server@latest"]
+    },
+    "microcms-document": {
+      "command": "npx",
+      "args": ["-y", "microcms-document-mcp-server"]
     }
   }
 }
