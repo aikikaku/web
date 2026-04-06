@@ -244,16 +244,17 @@ export default function StaffInterviewPage() {
         }}
       />
       {/* ヒーローセクション（3枚の写真レイアウト） */}
-      <section className="relative overflow-hidden">
-        <div className="page-container pt-12 pb-0">
-          <h1 className="font-mincho text-[48px] leading-[1.5] tracking-[0.04em]">
-            スタッフインタビュー
-          </h1>
-        </div>
+      <section className="relative overflow-visible">
+        <div className="relative h-[700px] tablet:h-[938px]">
+          {/* タイトル */}
+          <div className="absolute left-[20px] tablet:left-[75px] top-[100px] tablet:top-[196px] z-10">
+            <h1 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[0.04em] text-dark-green">
+              スタッフインタビュー
+            </h1>
+          </div>
 
-        <div className="relative h-[700px] tablet:h-[838px]">
           {/* 左の縦長写真（下部） */}
-          <div className="hidden tablet:block absolute left-0 top-[470px] w-[280px] h-[368px] rounded-2xl overflow-hidden">
+          <div className="hidden tablet:block absolute left-0 top-[570px] w-[280px] h-[368px] rounded-[16px] overflow-hidden">
             <Image
               src="/images/staff-interview/photo-interview-1.jpg"
               alt=""
@@ -263,7 +264,7 @@ export default function StaffInterviewPage() {
           </div>
 
           {/* 中央のメイン写真 */}
-          <div className="absolute left-1/2 -translate-x-1/2 top-[259px] w-full max-w-[704px] rounded-2xl overflow-hidden">
+          <div className="absolute left-1/2 -translate-x-1/2 top-[259px] tablet:top-[359px] w-full max-w-[704px] rounded-[16px] overflow-hidden">
             <div className="aspect-[704/469] relative">
               <Image
                 src="/images/staff-interview/hero.jpg"
@@ -276,7 +277,7 @@ export default function StaffInterviewPage() {
           </div>
 
           {/* 右の縦長写真（上部） */}
-          <div className="hidden tablet:block absolute right-0 top-[96px] w-[280px] h-[374px] rounded-2xl overflow-hidden">
+          <div className="hidden tablet:block absolute right-0 top-[196px] w-[280px] h-[374px] rounded-[24px] overflow-hidden">
             <Image
               src="/images/staff-interview/photo-caption.jpg"
               alt=""
@@ -288,7 +289,7 @@ export default function StaffInterviewPage() {
       </section>
 
       {/* インタビューセクション（サイドバー付き） */}
-      <section className="pb-24 px-4 tablet:pl-[45px] tablet:pr-[75px]">
+      <section className="pt-16 tablet:pt-24 pb-24 px-4 tablet:pl-[45px] tablet:pr-[75px]">
         <div className="flex max-tablet:flex-col items-start tablet:justify-between">
           {/* 左: TOCサイドバー（スクロール追従） */}
           <div className="tablet:w-[323px] shrink-0 tablet:sticky tablet:top-24 max-tablet:mb-8 max-tablet:w-full">
