@@ -66,9 +66,7 @@ export default function Header() {
   return (
     <header
       ref={headerRef}
-      className={`sticky top-0 z-50 border-b border-gray-100 ${
-        dropdownOpen ? 'bg-cream' : 'bg-white'
-      }`}
+      className="sticky top-0 z-50 bg-cream"
     >
       {/* ナビゲーションバー */}
       <nav className="px-[75px] py-[30px] max-w-[1440px] mx-auto max-tablet:px-5 max-tablet:py-4">

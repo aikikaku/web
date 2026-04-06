@@ -1,4 +1,3 @@
-import Breadcrumb from '@/components/ui/Breadcrumb';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
@@ -126,7 +125,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp';
 
 export default function MessagePage() {
   return (
-    <div>
+    <div className="bg-cream">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -141,13 +140,6 @@ export default function MessagePage() {
           }),
         }}
       />
-      <div className="page-container">
-        <Breadcrumb items={[
-          { label: 'アイ企画について', href: '/about' },
-          { label: 'ご挨拶' },
-        ]} />
-      </div>
-
       {/* ヒーローセクション */}
       <section className="relative bg-cream overflow-hidden">
         <div className="page-container pt-12 pb-0">

@@ -1,4 +1,3 @@
-import Breadcrumb from '@/components/ui/Breadcrumb';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -51,9 +50,6 @@ export default function PrivacyPolicyPage() {
           }),
         }}
       />
-      <div className="page-container">
-        <Breadcrumb items={[{ label: 'プライバシーポリシー' }]} />
-      </div>
 
       <section className="pt-24 pb-36 page-container">
         <h1 className="mb-24">プライバシーポリシーについて</h1>

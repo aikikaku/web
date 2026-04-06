@@ -1,6 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import Breadcrumb from '@/components/ui/Breadcrumb';
+import TocNav from '@/components/ui/TocNav';
+import StoryCard from '@/components/story/StoryCard';
+import SeeAllLink from '@/components/ui/SeeAllLink';
+import { getStories } from '@/lib/microcms/queries';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -160,12 +163,12 @@ const interviewSections: InterviewSection[] = [
   },
 ];
 
-const sidebarLinks = [
-  { label: 'スタッフの紹介', href: '/staff-interview', active: true },
-  { label: '会社の理念', href: '/message', active: false },
-  { label: 'スタッフの専門性', href: '/about', active: false },
-  { label: 'お客様との関係', href: '/about', active: false },
-  { label: '地域貢献活動', href: '/about', active: false },
+const tocItems = [
+  'スタッフの紹介',
+  '会社の理念',
+  'スタッフの専門性',
+  'お客様との関係',
+  '地域貢献活動',
 ];
 
 const staffProfiles = [
@@ -227,9 +230,13 @@ function InterviewItemComponent({ item }: { item: InterviewItem }) {
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp';
 
-export default function StaffInterviewPage() {
+export default async function StaffInterviewPage() {
+  const latestStories = await getStories({
+    limit: 3,
+    orders: '-publishedAt',
+  }).catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: 3 }));
   return (
-    <div>
+    <div className="bg-cream">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -243,21 +250,18 @@ export default function StaffInterviewPage() {
           }),
         }}
       />
-      <div className="page-container">
-        <Breadcrumb items={[{ label: 'スタッフインタビュー' }]} />
-      </div>
-
       {/* ヒーローセクション（3枚の写真レイアウト） */}
-      <section className="relative overflow-hidden">
-        <div className="page-container pt-12 pb-0">
-          <h1 className="font-mincho text-[48px] leading-[1.5] tracking-[0.04em]">
-            スタッフインタビュー
-          </h1>
-        </div>
+      <section className="relative overflow-visible">
+        <div className="relative h-[700px] tablet:h-[938px]">
+          {/* タイトル */}
+          <div className="absolute left-[20px] tablet:left-[75px] top-[100px] tablet:top-[196px] z-10">
+            <h1 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[0.04em] text-dark-green">
+              スタッフインタビュー
+            </h1>
+          </div>
 
-        <div className="relative h-[700px] tablet:h-[838px]">
           {/* 左の縦長写真（下部） */}
-          <div className="hidden tablet:block absolute left-0 top-[470px] w-[280px] h-[368px] rounded-2xl overflow-hidden">
+          <div className="hidden tablet:block absolute left-0 top-[570px] w-[280px] h-[368px] rounded-[16px] overflow-hidden">
             <Image
               src="/images/staff-interview/photo-interview-1.jpg"
               alt=""
@@ -267,7 +271,7 @@ export default function StaffInterviewPage() {
           </div>
 
           {/* 中央のメイン写真 */}
-          <div className="absolute left-1/2 -translate-x-1/2 top-[259px] w-full max-w-[704px] rounded-2xl overflow-hidden">
+          <div className="absolute left-1/2 -translate-x-1/2 top-[259px] tablet:top-[359px] w-full max-w-[704px] rounded-[16px] overflow-hidden">
             <div className="aspect-[704/469] relative">
               <Image
                 src="/images/staff-interview/hero.jpg"
@@ -280,7 +284,7 @@ export default function StaffInterviewPage() {
           </div>
 
           {/* 右の縦長写真（上部） */}
-          <div className="hidden tablet:block absolute right-0 top-[96px] w-[280px] h-[374px] rounded-2xl overflow-hidden">
+          <div className="hidden tablet:block absolute right-0 top-[196px] w-[280px] h-[374px] rounded-[24px] overflow-hidden">
             <Image
               src="/images/staff-interview/photo-caption.jpg"
               alt=""
@@ -292,37 +296,20 @@ export default function StaffInterviewPage() {
       </section>
 
       {/* インタビューセクション（サイドバー付き） */}
-      <section className="page-container">
-        <div className="flex gap-16">
-          {/* 左サイドバー（PC only） */}
-          <div className="hidden tablet:block w-[323px] shrink-0">
-            <div className="sticky top-8 bg-light-green rounded-2xl py-[45px] px-[30px]">
-              <nav className="flex flex-col gap-0">
-                {sidebarLinks.map((link) => (
-                  <Link
-                    key={link.label}
-                    href={link.href}
-                    className="flex items-center gap-0 py-2"
-                  >
-                    <span className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${link.active ? 'bg-dark-green' : ''}`}>
-                      {!link.active && (
-                        <span className="w-[10px] h-[10px] rounded-full bg-dark-green/30" />
-                      )}
-                    </span>
-                    <span className={`text-body-m text-dark-green ${link.active ? 'font-bold' : ''}`}>
-                      {link.label}
-                    </span>
-                  </Link>
-                ))}
-              </nav>
+      <section className="pt-16 tablet:pt-24 pb-24 px-4 tablet:pl-[45px] tablet:pr-[75px]">
+        <div className="flex max-tablet:flex-col items-start tablet:justify-between">
+          {/* 左: TOCサイドバー（スクロール追従） */}
+          <div className="tablet:w-[323px] shrink-0 tablet:sticky tablet:top-24 max-tablet:mb-8 max-tablet:w-full">
+            <div className="bg-light-green rounded-[32px] px-[30px] py-[45px]">
+              <TocNav items={tocItems} />
             </div>
           </div>
 
           {/* 右コンテンツ */}
-          <div className="flex-1 max-w-[792px]">
+          <div className="w-full tablet:w-[792px]">
             {/* セクション見出し */}
-            <div className="mb-16">
-              <p className="text-body-s text-dark-green mb-4">インタビュー</p>
+            <div className="mb-16" id="toc-0">
+              <p className="text-body-s text-dark-green mb-4">スタッフの紹介</p>
               <h2 className="mb-4">
                 地域に開かれたサステナブルな不動産屋を目指して
               </h2>
@@ -331,10 +318,13 @@ export default function StaffInterviewPage() {
 
             {/* インタビュー本文 */}
             <div>
-              {interviewSections.map((section, sIdx) => {
+              {(() => {
+                let headingIndex = 1; // toc-0 is the main heading
+                return interviewSections.map((section, sIdx) => {
                 if (section.type === 'heading') {
+                  const tocId = `toc-${headingIndex++}`;
                   return (
-                    <div key={sIdx} className="py-12">
+                    <div key={sIdx} className="py-12" id={tocId}>
                       <h3 className="text-2xl tablet:text-[32px]">
                         {section.heading}
                       </h3>
@@ -343,8 +333,9 @@ export default function StaffInterviewPage() {
                 }
 
                 if (section.type === 'heading-with-image') {
+                  const tocId = `toc-${headingIndex++}`;
                   return (
-                    <div key={sIdx} className="py-12">
+                    <div key={sIdx} className="py-12" id={tocId}>
                       <h3 className="text-2xl tablet:text-[32px] mb-8">
                         {section.heading}
                       </h3>
@@ -396,18 +387,15 @@ export default function StaffInterviewPage() {
                     {section.items?.map((item, iIdx) => (
                       <div
                         key={iIdx}
-                        className={
-                          iIdx < (section.items?.length ?? 0) - 1
-                            ? 'border-b border-dark-green/10'
-                            : ''
-                        }
+                        className=""
                       >
                         <InterviewItemComponent item={item} />
                       </div>
                     ))}
                   </div>
                 );
-              })}
+              });
+              })()}
             </div>
 
             {/* スタッフプロフィール */}
@@ -440,31 +428,22 @@ export default function StaffInterviewPage() {
         </div>
       </section>
 
-      {/* SP用関連リンク */}
-      <section className="tablet:hidden py-12">
-        <div className="page-container">
-          <div className="bg-light-green rounded-2xl py-[45px] px-[30px]">
-            <nav className="flex flex-col gap-0">
-              {sidebarLinks.map((link) => (
-                <Link
-                  key={link.label}
-                  href={link.href}
-                  className="flex items-center gap-0 py-2"
-                >
-                  <span className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${link.active ? 'bg-dark-green' : ''}`}>
-                    {!link.active && (
-                      <span className="w-[10px] h-[10px] rounded-full bg-dark-green/30" />
-                    )}
-                  </span>
-                  <span className={`text-body-m text-dark-green ${link.active ? 'font-bold' : ''}`}>
-                    {link.label}
-                  </span>
-                </Link>
-              ))}
-            </nav>
+      {/* 暮らしを知る（Stories） */}
+      {latestStories.contents.length > 0 && (
+        <section className="bg-dark-green py-[96px] px-[75px]">
+          <h2 className="font-mincho text-[32px] leading-[1.5] tracking-[0.04em] text-cream mb-12">
+            暮らしを知る
+          </h2>
+          <div className="grid grid-cols-1 tablet:grid-cols-3 gap-8">
+            {latestStories.contents.map((story) => (
+              <StoryCard key={story.id} story={story} variant="dark" />
+            ))}
           </div>
-        </div>
-      </section>
+          <div className="flex justify-end mt-12">
+            <SeeAllLink href="/stories" label="すべて見る" className="text-cream" />
+          </div>
+        </section>
+      )}
 
       {/* 下部CTA */}
       <section className="relative py-24">

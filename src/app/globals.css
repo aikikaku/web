@@ -193,9 +193,9 @@
     margin-bottom: 0;
   }
 
-  /* セクション区切り線 */
+  /* セクション区切り（線なし・余白のみ） */
   .rich-content hr {
-    @apply border-dark-green/10;
+    border: none;
     margin: 48px 0;
   }
 

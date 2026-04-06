@@ -1,5 +1,4 @@
 import { getCustomerVoices } from '@/lib/microcms/queries';
-import Breadcrumb from '@/components/ui/Breadcrumb';
 import VoiceContent from '@/components/voice/VoiceContent';
 import type { Metadata } from 'next';
 
@@ -35,9 +34,6 @@ export default async function VoicePage() {
           }),
         }}
       />
-      <div className="page-container">
-        <Breadcrumb items={[{ label: 'お客様の声' }]} />
-      </div>
 
       {/* Section heading */}
       <section className="px-[75px] py-24 max-tablet:px-4">
@@ -52,7 +48,7 @@ export default async function VoicePage() {
       </section>
 
       {/* Voice list */}
-      <section className="px-[75px] pb-36 max-tablet:px-4">
+      <section className="px-4 tablet:pl-[45px] tablet:pr-[75px] pb-36">
         <VoiceContent voices={data.contents} />
       </section>
     </div>

@@ -1,5 +1,6 @@
 import { getCustomerVoices, getStories } from '@/lib/microcms/queries';
-import Breadcrumb from '@/components/ui/Breadcrumb';
+import SeeAllLink from '@/components/ui/SeeAllLink';
+import FaqAccordion from '@/components/ui/FaqAccordion';
 import StoryCard from '@/components/story/StoryCard';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -99,7 +100,7 @@ export default async function ForOwnerPage() {
   ]);
 
   return (
-    <div>
+    <div className="bg-cream">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -113,9 +114,6 @@ export default async function ForOwnerPage() {
           }),
         }}
       />
-      <div className="page-container">
-        <Breadcrumb items={[{ label: '不動産をお持ちの方へ' }]} />
-      </div>
 
       {/* ヒーロー */}
       <section className="page-container pb-24">
@@ -394,60 +392,126 @@ export default async function ForOwnerPage() {
         </section>
       )}
 
-      {/* よくある質問 */}
-      <section className="py-24">
-        <div className="page-container">
-          <div className="flex flex-col tablet:flex-row gap-12 tablet:gap-12 items-start justify-center">
-            <div className="w-full tablet:w-[410px] shrink-0">
-              <h2 className="font-mincho text-[32px] tracking-wider">よくある質問</h2>
-            </div>
-            <div className="flex-1 max-w-[792px]">
-              {faqItems.map((item) => (
-                <details
-                  key={item.q}
-                  className="border-b border-dark-green/20 group"
-                >
-                  <summary className="flex items-center justify-between py-6 pr-2 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-                    <p className="font-gothic font-medium text-body-m text-black leading-[2] flex-1 pr-4">
-                      {item.q}
-                    </p>
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      className="shrink-0 text-dark-green transition-transform group-open:rotate-180"
+      {/* 不動産活用に関する記事 */}
+      <section className="py-[60px] tablet:py-[96px]">
+        <div className="px-4 tablet:px-[75px]">
+          <h2 className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[1.28px] text-dark-green mb-16" style={{ fontFeatureSettings: "'palt' 1" }}>
+            不動産活用に関する記事
+          </h2>
+          <div className="flex gap-[30px] overflow-x-auto pb-4">
+            {[
+              { tag: '不動産活用', title: '子どもに安心して引き継げる駐車場経営とは？ 今から始める管理の仕組み作り', date: '2025.09.18' },
+              { tag: '不動産活用', title: '契約が早い＝空きが埋まる！ 三島市の月極駐車場に電子契約を導入すべき理由', date: '2025.09.18' },
+              { tag: '不動産活用', title: '小さな駐車場でも"すぐに埋まる"借り手が見つかるGoogleマップ活用法', date: '2025.09.18' },
+            ].map((article, i) => (
+              <div key={i} className="w-[410px] shrink-0 flex flex-col">
+                <div className="relative h-[293px] rounded-lg overflow-hidden mb-0">
+                  <div className="absolute inset-0 bg-dark-green/10" />
+                  <span className="absolute top-4 left-4 tag-pill text-[14px] leading-none px-3 py-1.5">
+                    {article.tag}
+                  </span>
+                </div>
+                <div className="px-3">
+                  <div className="py-6">
+                    <h3
+                      className="font-mincho text-[24px] leading-[1.6] tracking-[0.96px] text-black"
+                      style={{ fontFeatureSettings: "'palt' 1" }}
                     >
-                      <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </summary>
-                  <div className="pb-6">
-                    <p className="font-gothic font-medium text-body-m text-dark-green/70 leading-[2]">
-                      {item.a}
-                    </p>
+                      {article.title}
+                    </h3>
                   </div>
-                </details>
+                  <div className="flex items-center gap-2.5">
+                    <span className="flex-1 font-gothic font-medium text-[16px] leading-[2] text-dark-green">
+                      {article.date}
+                    </span>
+                    <span className="h-[44px] w-[189px] flex items-center justify-center border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green">
+                      記事を読む
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="flex items-center justify-between mt-16">
+            <div className="flex items-center gap-2">
+              <span className="text-dark-green/40">&lt;</span>
+              {Array.from({ length: 6 }).map((_, i) => (
+                <span key={i} className={`w-2 h-2 rounded-full ${i === 0 ? 'bg-dark-green' : 'bg-dark-green/30'}`} />
               ))}
+              <span className="text-dark-green">&gt;</span>
             </div>
+            <SeeAllLink href="/for-owner" label="すべて見る" />
+          </div>
+        </div>
+      </section>
+
+      {/* よくある質問 */}
+      <section className="bg-light-green py-[60px] tablet:py-[96px]">
+        <div className="px-4 tablet:px-[75px]">
+          <div className="flex flex-col tablet:flex-row gap-8 tablet:gap-[88px]">
+            <div className="tablet:w-[410px] shrink-0">
+              <h2 className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.96px] tablet:tracking-[1.28px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+                よくある質問
+              </h2>
+            </div>
+            <FaqAccordion
+              items={faqItems.map((item) => ({ question: item.q, answer: item.a }))}
+            />
           </div>
         </div>
       </section>
 
       {/* CTA バナー */}
       <section className="relative overflow-hidden">
-        <div className="relative h-[400px] tablet:h-[480px]">
+        <div className="relative py-16 tablet:py-24">
           <Image
             src="/images/for-owner/banner-contact.jpg"
             alt="お問い合わせ"
             fill
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-dark-green/40" />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-center">
-              <h2 className="text-cream mb-8">お気軽にご相談ください</h2>
-              <Link href="/contact" className="btn-primary">
-                お問い合わせ
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: 'linear-gradient(218deg, rgba(39, 51, 59, 0.1) 26.6%, rgba(39, 51, 59, 0.25) 72.5%)',
+            }}
+          />
+          <div className="relative z-10 flex flex-col tablet:flex-row items-start tablet:items-center justify-between px-4 tablet:px-[75px] gap-8">
+            <div className="text-white">
+              <p className="text-body-m font-gothic font-medium mb-2">お問い合わせ</p>
+              <h2 className="text-white font-mincho text-[32px] leading-[1.5] tracking-[1.28px]" style={{ fontFeatureSettings: "'palt' 1" }}>
+                不動産に関すること、<br />
+                ぜひご相談ください。
+              </h2>
+            </div>
+            <div className="flex gap-3">
+              <Link
+                href="/contact"
+                className="bg-cream/95 rounded-3xl px-[30px] pt-8 pb-6 text-center w-[240px] flex flex-col items-center gap-6 hover:bg-white transition-colors"
+              >
+                <span className="font-gothic font-medium text-[18px] leading-[1.6] text-dark-green">
+                  不動産をお探しの方
+                </span>
+                <span className="bg-accent-blue w-12 h-12 rounded-full flex items-center justify-center">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                    <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
+              </Link>
+              <Link
+                href="/contact"
+                className="bg-cream/95 rounded-3xl px-[30px] pt-8 pb-6 text-center w-[240px] flex flex-col items-center gap-6 hover:bg-white transition-colors"
+              >
+                <span className="font-gothic font-medium text-[18px] leading-[1.6] text-dark-green">
+                  その他のお問い合わせ
+                </span>
+                <span className="bg-accent-blue w-12 h-12 rounded-full flex items-center justify-center">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                    <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
               </Link>
             </div>
           </div>

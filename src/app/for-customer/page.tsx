@@ -1,6 +1,7 @@
 import { getProperties, getCustomerVoices } from '@/lib/microcms/queries';
 import PropertyCard from '@/components/property/PropertyCard';
-import Breadcrumb from '@/components/ui/Breadcrumb';
+import SeeAllLink from '@/components/ui/SeeAllLink';
+import FaqAccordion from '@/components/ui/FaqAccordion';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
@@ -99,9 +100,6 @@ export default async function ForCustomerPage() {
           }),
         }}
       />
-      <div className="page-container">
-        <Breadcrumb items={[{ label: '不動産をお探しの方へ' }]} />
-      </div>
 
       {/* ヒーロー */}
       <section className="page-container pb-24">
@@ -340,38 +338,100 @@ export default async function ForCustomerPage() {
               </div>
             </div>
             <div className="flex items-center justify-end mt-8">
-              <Link
-                href="/voice"
-                className="inline-flex items-center gap-2 font-gothic font-medium text-[18px] text-dark-green hover:opacity-70 transition-opacity"
-              >
-                すべて見る
-                <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                    <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </span>
-              </Link>
+              <SeeAllLink href="/voice" />
             </div>
           </div>
         </section>
       )}
 
+      {/* よくある質問 */}
+      <section className="bg-light-green py-[60px] tablet:py-[96px]">
+        <div className="px-4 tablet:px-[75px]">
+          <div className="flex flex-col tablet:flex-row gap-8 tablet:gap-[88px]">
+            <div className="tablet:w-[410px] shrink-0">
+              <h2 className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.96px] tablet:tracking-[1.28px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+                よくある質問
+              </h2>
+            </div>
+            <FaqAccordion
+              items={[
+                {
+                  question: '購入にかかる諸経費は？',
+                  answer: '売買代金の約8%前後が目安です。広告の金額は売主様へ支払う売買代金のみで、別途、仲介手数料（上限＝3%＋6万円＋税）、登記費用（登録免許税・司法書士報酬）、ローン関連手数料（事務手数料・保証料・印紙）などが発生します。',
+                },
+                {
+                  question: '住宅ローン（購入）や入居審査（賃貸）のポイントは？',
+                  answer: '購入をご検討の際は、まず事前審査で「借入可能額」と「金利タイプ（固定・変動など）」を確認します。\n賃貸の入居審査では、収入状況・勤務先、連帯保証人または保証会社の利用などが確認されます。必要書類（本人確認書類、収入証明など）を事前に整えることで、審査から契約までの手続きがスムーズに進みます。',
+                },
+                {
+                  question: '物件の災害リスクはどう確認すれば安心ですか？',
+                  answer: 'まずは各市・町が発行するハザードマップ（洪水・土砂災害・津波など）を確認します。ただし、地図で「指定外」でもリスクがゼロではありません。後から指定される可能性や、地盤の弱い地域もあります。物件ごとの状況（地形・標高・周辺の排水計画・過去の災害履歴など）を踏まえて個別にご説明しますので、お気軽にお尋ねください。',
+                },
+                {
+                  question: '契約後の流れは？',
+                  answer: '契約後は、物件の引き渡しが行われます。その後、必要な手続きを進め、住民票の移動などを行います。何か不明点があれば、いつでもご相談ください。',
+                },
+                {
+                  question: '物件の内見は？',
+                  answer: '物件の内見は事前に予約が必要です。実際に見てみることで、雰囲気や設備を確認できます。お気軽にお問い合わせください。',
+                },
+              ]}
+            />
+          </div>
+        </div>
+      </section>
+
       {/* CTA バナー */}
       <section className="relative overflow-hidden">
-        <div className="relative h-[400px] tablet:h-[480px]">
+        <div className="relative py-16 tablet:py-24">
           <Image
             src="/images/for-customer/cta-banner.jpg"
             alt="お問い合わせ"
             fill
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-dark-green/40" />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-center">
-              <h2 className="text-cream mb-8">お気軽にご相談ください</h2>
-              <Link href="/contact" className="btn-primary">
-                お問い合わせ
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: 'linear-gradient(218deg, rgba(39, 51, 59, 0.1) 26.6%, rgba(39, 51, 59, 0.25) 72.5%)',
+            }}
+          />
+          <div className="relative z-10 flex flex-col tablet:flex-row items-start tablet:items-center justify-between px-4 tablet:px-[75px] gap-8">
+            <div className="text-white">
+              <p className="text-body-m font-gothic font-medium mb-2">お問い合わせ</p>
+              <h2 className="text-white font-mincho text-[32px] leading-[1.5] tracking-[1.28px]" style={{ fontFeatureSettings: "'palt' 1" }}>
+                不動産に関すること、<br />
+                ぜひご相談ください。
+              </h2>
+            </div>
+            <div className="flex gap-3">
+              <Link
+                href="/contact"
+                className="bg-cream/95 rounded-3xl px-[30px] pt-8 pb-6 text-center w-[240px] flex flex-col items-center gap-6 hover:bg-white transition-colors"
+              >
+                <span className="font-gothic font-medium text-[18px] leading-[1.6] text-dark-green">
+                  不動産をお探しの方
+                </span>
+                <span className="bg-accent-blue w-12 h-12 rounded-full flex items-center justify-center">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                    <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
+              </Link>
+              <Link
+                href="/contact"
+                className="bg-cream/95 rounded-3xl px-[30px] pt-8 pb-6 text-center w-[240px] flex flex-col items-center gap-6 hover:bg-white transition-colors"
+              >
+                <span className="font-gothic font-medium text-[18px] leading-[1.6] text-dark-green">
+                  その他のお問い合わせ
+                </span>
+                <span className="bg-accent-blue w-12 h-12 rounded-full flex items-center justify-center">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                    <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
               </Link>
             </div>
           </div>

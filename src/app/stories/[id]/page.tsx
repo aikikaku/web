@@ -1,6 +1,5 @@
 import { getStory, getStories } from '@/lib/microcms/queries';
 import StoryCard from '@/components/story/StoryCard';
-import Breadcrumb from '@/components/ui/Breadcrumb';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -8,6 +7,7 @@ import type { Metadata } from 'next';
 import { getImageUrl } from '@/lib/microcms/image';
 import RichText, { extractTocFromHtml } from '@/components/ui/RichText';
 import TocNav from '@/components/ui/TocNav';
+import SeeAllLink from '@/components/ui/SeeAllLink';
 
 export const revalidate = 3600;
 
@@ -99,15 +99,6 @@ export default async function StoryPage({ params }: StoryPageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      {/* パンくず */}
-      <div className="px-[45px] max-w-[1440px] mx-auto max-tablet:px-4">
-        <Breadcrumb
-          items={[
-            { label: '暮らしを知る', href: '/stories' },
-            { label: story.title },
-          ]}
-        />
-      </div>
 
       {/* ヒーローセクション */}
       <section className="pt-12 pb-24 px-[45px] max-w-[1440px] mx-auto max-tablet:px-4 max-tablet:pb-12">
@@ -163,7 +154,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
 
       {/* メインコンテンツ: TOC + リッチテキスト */}
       <section className="pb-24 px-[45px] tablet:pr-[75px] max-w-[1440px] mx-auto max-tablet:px-4">
-        <div className="flex max-tablet:flex-col gap-0 items-start">
+        <div className="flex max-tablet:flex-col items-start tablet:justify-between">
           {/* 左: 目次サイドバー（スクロール追従） */}
           {tocItems.length > 0 && (
             <div className="tablet:w-[323px] shrink-0 tablet:sticky tablet:top-24 max-tablet:mb-8 max-tablet:w-full">
@@ -174,8 +165,8 @@ export default async function StoryPage({ params }: StoryPageProps) {
           )}
 
           {/* 右: リッチテキストコンテンツ */}
-          <div className="flex-1 tablet:pl-[60px] max-tablet:pl-0">
-            <div className="max-w-[734px]">
+          <div className="w-full tablet:w-[734px]">
+            <div>
               {/* microCMS content フィールド（richEditorV2） */}
               {story.content && (
                 <div className="pt-6">
@@ -233,20 +224,8 @@ export default async function StoryPage({ params }: StoryPageProps) {
             </div>
 
             {/* ナビゲーション: すべて見る */}
-            <div className="flex items-center justify-between">
-              <div />
-              <Link
-                href="/stories"
-                className="inline-flex items-center gap-2 font-gothic font-medium text-[18px] text-dark-green hover:opacity-70 transition-opacity"
-              >
-                すべて見る
-                <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                    <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </span>
-              </Link>
+            <div className="flex items-center justify-end">
+              <SeeAllLink href="/stories" />
             </div>
           </div>
         </section>
