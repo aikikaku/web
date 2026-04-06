@@ -6,6 +6,8 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getImageUrl } from '@/lib/microcms/image';
 import PropertyDetailClient from '@/components/property/PropertyDetailClient';
+import RichText, { extractTocFromHtml } from '@/components/ui/RichText';
+import TocNav from '@/components/ui/TocNav';
 
 export const revalidate = 3600;
 
@@ -88,6 +90,12 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
   const locationText = property.regions?.map((r) => r.name).join('・') || property.location || '';
 
   const allImages = [property.mainImage, ...(property.images || [])];
+
+  // 目次データ: descriptionのh5見出し + 「物件概要」を動的生成
+  const tocFromContent = property.description
+    ? extractTocFromHtml(property.description)
+    : [];
+  const tocItems = [...tocFromContent, '物件概要'];
 
   // 物件概要フィールド
   const detailFields: { label: string; value: string | undefined; hasTag?: boolean }[] = [
@@ -314,44 +322,10 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
       {/* メインコンテンツ - 2カラムレイアウト */}
       <section className="px-4 tablet:pl-[45px] tablet:pr-[75px] py-16 tablet:py-24">
         <div className="flex flex-col tablet:flex-row gap-8 tablet:gap-0 tablet:justify-between">
-          {/* 左サイドバー - 目次ナビ */}
+          {/* 左サイドバー - 目次ナビ（スクロール追従） */}
           <aside className="w-full tablet:w-[323px] shrink-0">
             <div className="bg-light-green rounded-[32px] px-[30px] py-[45px] tablet:sticky tablet:top-[120px]">
-              <nav className="flex flex-col">
-                {[
-                  'この家との出会い',
-                  '物件の魅力',
-                  '周辺環境',
-                  '担当者より',
-                  '検討中の方へ',
-                  'オーナー様からのコメント',
-                  '物件概要',
-                ].map((item, index, arr) => (
-                  <div key={item} className="flex items-center h-[40px]">
-                    <div className="w-[40px] flex flex-col items-center h-full shrink-0">
-                      {/* 上の線 */}
-                      {index > 0 && (
-                        <div className="flex-1 w-[1.5px] bg-dark-green/30" />
-                      )}
-                      {index === 0 && <div className="flex-1" />}
-                      {/* ドット */}
-                      <div className={`w-[10px] h-[10px] rounded-full shrink-0 ${
-                        index === 0 ? 'bg-dark-green' : 'border-2 border-dark-green/30'
-                      }`} />
-                      {/* 下の線 */}
-                      {index < arr.length - 1 && (
-                        <div className="flex-1 w-[1.5px] bg-dark-green/30" />
-                      )}
-                      {index === arr.length - 1 && <div className="flex-1" />}
-                    </div>
-                    <span className={`font-gothic font-medium text-[16px] leading-[1.5] text-dark-green ${
-                      index > 0 ? 'opacity-50' : ''
-                    }`}>
-                      {item}
-                    </span>
-                  </div>
-                ))}
-              </nav>
+              <TocNav items={tocItems} />
             </div>
           </aside>
 
@@ -359,45 +333,8 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
           <div className="w-full tablet:w-[733px]">
             {/* リッチテキスト（description） */}
             {property.description && (
-              <div className="max-w-[768px]">
-                {/* セクション: この家との出会い */}
-                <div className="pt-6 pb-12">
-                  <div className="flex flex-col gap-2">
-                    <p className="font-gothic font-medium text-[16px] leading-[2] text-dark-green">
-                      この家との出会い
-                    </p>
-                    <h2
-                      className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green"
-                      style={{ fontFeatureSettings: "'palt' 1" }}
-                    >
-                      この家に、静けさとあたたかさがあった。
-                    </h2>
-                  </div>
-                </div>
-
-                <div className="pb-12">
-                  <div
-                    className="font-gothic font-medium text-[16px] tablet:text-[18px] leading-[1.8] text-dark-green"
-                    dangerouslySetInnerHTML={{ __html: property.description }}
-                  />
-                </div>
-
-                {/* 画像 + キャプション */}
-                {property.images && property.images.length > 0 && (
-                  <div className="pb-12">
-                    <div className="relative aspect-[763/509] rounded-3xl overflow-hidden">
-                      <Image
-                        src={getImageUrl(property.images[0], { width: 763, format: 'webp' })}
-                        alt={property.title}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                    <p className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green pl-[30px] mt-3">
-                      物件の外観
-                    </p>
-                  </div>
-                )}
+              <div className="max-w-[768px] pt-6">
+                <RichText content={property.description} />
               </div>
             )}
 
@@ -479,36 +416,61 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
               </div>
             )}
 
-            {/* 成約済み物件 - ストーリーリンク */}
+            {/* 継承者のストーリー */}
             {isSold && property.story && (
-              <div className="mt-12">
-                <p
-                  className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green mb-8"
-                  style={{ fontFeatureSettings: "'palt' 1" }}
-                >
-                  この物件のストーリーはこちら
-                </p>
+              <div className="mt-24">
+                <div className="flex flex-col gap-4 mb-8">
+                  <p
+                    className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green"
+                    style={{ fontFeatureSettings: "'palt' 1" }}
+                  >
+                    この物件を選んだ人の、
+                    <br />
+                    その後を尋ねました
+                  </p>
+                </div>
                 <Link
                   href={`/stories/${property.story.id}`}
-                  className="block group"
+                  className="block group bg-light-green rounded-[32px] p-6 tablet:p-[30px]"
                 >
-                  <div className="relative aspect-[733/400] rounded-3xl overflow-hidden">
-                    {property.story.thumbnail && (
-                      <Image
-                        src={getImageUrl(property.story.thumbnail, { width: 733, format: 'webp' })}
-                        alt={property.story.title}
-                        fill
-                        className="object-cover transition-transform group-hover:scale-105"
-                      />
-                    )}
-                  </div>
-                  <div className="mt-4">
-                    <p
-                      className="font-mincho text-[20px] tablet:text-[24px] leading-[1.6] tracking-[0.04em] text-dark-green"
-                      style={{ fontFeatureSettings: "'palt' 1" }}
-                    >
-                      {property.story.title}
-                    </p>
+                  <div className="flex flex-col tablet:flex-row gap-6">
+                    <div className="tablet:w-[320px] shrink-0 relative aspect-[4/3] rounded-2xl overflow-hidden">
+                      {property.story.thumbnail && (
+                        <Image
+                          src={getImageUrl(property.story.thumbnail, { width: 640, format: 'webp' })}
+                          alt={property.story.title}
+                          fill
+                          className="object-cover transition-transform group-hover:scale-105"
+                        />
+                      )}
+                    </div>
+                    <div className="flex flex-col justify-center gap-3">
+                      <div className="flex gap-2 items-center">
+                        <span className="tag-pill text-[14px] leading-none px-3 py-1.5">
+                          物件のつづき
+                        </span>
+                        {property.story.regions && property.story.regions.length > 0 && (
+                          <span className="font-gothic font-medium text-[14px] leading-[1.4] text-dark-green">
+                            {property.story.regions.map((r) => r.name).join('・')}
+                          </span>
+                        )}
+                      </div>
+                      <p
+                        className="font-mincho text-[20px] tablet:text-[24px] leading-[1.6] tracking-[0.04em] text-dark-green"
+                        style={{ fontFeatureSettings: "'palt' 1" }}
+                      >
+                        {property.story.title}
+                      </p>
+                      <span className="inline-flex items-center gap-2 font-gothic font-medium text-[16px] text-dark-green mt-2">
+                        ストーリーを読む
+                        <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-accent-blue shrink-0 group-hover:scale-110 transition-transform">
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                            <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </span>
+                      </span>
+                    </div>
                   </div>
                 </Link>
               </div>
