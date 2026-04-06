@@ -163,7 +163,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
 
       {/* メインコンテンツ: TOC + リッチテキスト */}
       <section className="pb-24 px-[45px] tablet:pr-[75px] max-w-[1440px] mx-auto max-tablet:px-4">
-        <div className="flex max-tablet:flex-col gap-0 items-start">
+        <div className="flex max-tablet:flex-col items-start tablet:justify-between">
           {/* 左: 目次サイドバー（スクロール追従） */}
           {tocItems.length > 0 && (
             <div className="tablet:w-[323px] shrink-0 tablet:sticky tablet:top-24 max-tablet:mb-8 max-tablet:w-full">
@@ -174,8 +174,8 @@ export default async function StoryPage({ params }: StoryPageProps) {
           )}
 
           {/* 右: リッチテキストコンテンツ */}
-          <div className="flex-1 tablet:pl-[60px] max-tablet:pl-0">
-            <div className="max-w-[734px]">
+          <div className="w-full tablet:w-[734px]">
+            <div>
               {/* microCMS content フィールド（richEditorV2） */}
               {story.content && (
                 <div className="pt-6">
