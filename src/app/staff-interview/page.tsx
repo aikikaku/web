@@ -243,10 +243,6 @@ export default function StaffInterviewPage() {
           }),
         }}
       />
-      <div className="page-container">
-        <Breadcrumb items={[{ label: 'スタッフインタビュー' }]} />
-      </div>
-
       {/* ヒーローセクション（3枚の写真レイアウト） */}
       <section className="relative overflow-hidden">
         <div className="page-container pt-12 pb-0">

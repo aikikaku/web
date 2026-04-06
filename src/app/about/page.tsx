@@ -31,7 +31,7 @@ export default function AboutPage() {
       </div>
 
       {/* ヒーローセクション */}
-      <section className="py-24">
+      <section className="bg-light-green py-24">
         <div className="page-container">
           <div className="text-center mb-12">
             <p className="text-body-m text-dark-green mb-2">アイ企画について</p>
@@ -120,7 +120,7 @@ export default function AboutPage() {
       </section>
 
       {/* ご挨拶セクション */}
-      <section className="bg-cream py-24">
+      <section className="bg-light-green py-24">
         <div className="flex flex-col tablet:flex-row items-center">
           <div className="tablet:w-1/2 px-8 tablet:pl-12 tablet:pr-0">
             <div className="max-w-[616px] ml-auto">
@@ -262,7 +262,7 @@ export default function AboutPage() {
       </section>
 
       {/* 会社概要セクション */}
-      <section className="py-24 pb-36">
+      <section className="bg-light-green py-24 pb-36">
         <div className="page-container">
           <div className="flex flex-col tablet:flex-row gap-16">
             {/* 左: 見出し */}

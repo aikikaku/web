@@ -89,7 +89,7 @@ export default async function HomePage() {
       </section>
 
       {/* アイ企画について */}
-      <section className="bg-cream tablet:bg-transparent">
+      <section className="bg-light-green">
         <div className="px-4 py-[60px] tablet:px-[45px] tablet:py-[96px] max-w-[1440px] mx-auto">
           <div className="flex flex-col tablet:flex-row items-start tablet:items-center justify-between">
             {/* テキスト */}
