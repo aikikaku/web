@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import Breadcrumb from '@/components/ui/Breadcrumb';
+import TocNav from '@/components/ui/TocNav';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -160,12 +160,10 @@ const interviewSections: InterviewSection[] = [
   },
 ];
 
-const sidebarLinks = [
-  { label: 'スタッフの紹介', href: '/staff-interview', active: true },
-  { label: '会社の理念', href: '/message', active: false },
-  { label: 'スタッフの専門性', href: '/about', active: false },
-  { label: 'お客様との関係', href: '/about', active: false },
-  { label: '地域貢献活動', href: '/about', active: false },
+const tocItems = [
+  'インタビュー',
+  '三島の魅力を伝え続けるということ',
+  '中古住宅も大切にする「もったいない精神」',
 ];
 
 const staffProfiles = [
@@ -229,7 +227,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp';
 
 export default function StaffInterviewPage() {
   return (
-    <div>
+    <div className="bg-cream">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -288,36 +286,19 @@ export default function StaffInterviewPage() {
       </section>
 
       {/* インタビューセクション（サイドバー付き） */}
-      <section className="page-container">
-        <div className="flex gap-16">
-          {/* 左サイドバー（PC only） */}
-          <div className="hidden tablet:block w-[323px] shrink-0">
-            <div className="sticky top-8 bg-light-green rounded-2xl py-[45px] px-[30px]">
-              <nav className="flex flex-col gap-0">
-                {sidebarLinks.map((link) => (
-                  <Link
-                    key={link.label}
-                    href={link.href}
-                    className="flex items-center gap-0 py-2"
-                  >
-                    <span className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${link.active ? 'bg-dark-green' : ''}`}>
-                      {!link.active && (
-                        <span className="w-[10px] h-[10px] rounded-full bg-dark-green/30" />
-                      )}
-                    </span>
-                    <span className={`text-body-m text-dark-green ${link.active ? 'font-bold' : ''}`}>
-                      {link.label}
-                    </span>
-                  </Link>
-                ))}
-              </nav>
+      <section className="pb-24 px-4 tablet:pl-[45px] tablet:pr-[75px]">
+        <div className="flex max-tablet:flex-col items-start tablet:justify-between">
+          {/* 左: TOCサイドバー（スクロール追従） */}
+          <div className="tablet:w-[323px] shrink-0 tablet:sticky tablet:top-24 max-tablet:mb-8 max-tablet:w-full">
+            <div className="bg-light-green rounded-[32px] px-[30px] py-[45px]">
+              <TocNav items={tocItems} />
             </div>
           </div>
 
           {/* 右コンテンツ */}
-          <div className="flex-1 max-w-[792px]">
+          <div className="w-full tablet:w-[792px]">
             {/* セクション見出し */}
-            <div className="mb-16">
+            <div className="mb-16" id="toc-0">
               <p className="text-body-s text-dark-green mb-4">インタビュー</p>
               <h2 className="mb-4">
                 地域に開かれたサステナブルな不動産屋を目指して
@@ -327,10 +308,13 @@ export default function StaffInterviewPage() {
 
             {/* インタビュー本文 */}
             <div>
-              {interviewSections.map((section, sIdx) => {
+              {(() => {
+                let headingIndex = 1; // toc-0 is the main heading
+                return interviewSections.map((section, sIdx) => {
                 if (section.type === 'heading') {
+                  const tocId = `toc-${headingIndex++}`;
                   return (
-                    <div key={sIdx} className="py-12">
+                    <div key={sIdx} className="py-12" id={tocId}>
                       <h3 className="text-2xl tablet:text-[32px]">
                         {section.heading}
                       </h3>
@@ -339,8 +323,9 @@ export default function StaffInterviewPage() {
                 }
 
                 if (section.type === 'heading-with-image') {
+                  const tocId = `toc-${headingIndex++}`;
                   return (
-                    <div key={sIdx} className="py-12">
+                    <div key={sIdx} className="py-12" id={tocId}>
                       <h3 className="text-2xl tablet:text-[32px] mb-8">
                         {section.heading}
                       </h3>
@@ -403,7 +388,8 @@ export default function StaffInterviewPage() {
                     ))}
                   </div>
                 );
-              })}
+              });
+              })()}
             </div>
 
             {/* スタッフプロフィール */}
@@ -432,32 +418,6 @@ export default function StaffInterviewPage() {
                 ))}
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SP用関連リンク */}
-      <section className="tablet:hidden py-12">
-        <div className="page-container">
-          <div className="bg-light-green rounded-2xl py-[45px] px-[30px]">
-            <nav className="flex flex-col gap-0">
-              {sidebarLinks.map((link) => (
-                <Link
-                  key={link.label}
-                  href={link.href}
-                  className="flex items-center gap-0 py-2"
-                >
-                  <span className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${link.active ? 'bg-dark-green' : ''}`}>
-                    {!link.active && (
-                      <span className="w-[10px] h-[10px] rounded-full bg-dark-green/30" />
-                    )}
-                  </span>
-                  <span className={`text-body-m text-dark-green ${link.active ? 'font-bold' : ''}`}>
-                    {link.label}
-                  </span>
-                </Link>
-              ))}
-            </nav>
           </div>
         </div>
       </section>
