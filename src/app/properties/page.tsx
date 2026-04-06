@@ -6,6 +6,7 @@ import Pagination from '@/components/ui/Pagination';
 import Breadcrumb from '@/components/ui/Breadcrumb';
 import Link from 'next/link';
 import Image from 'next/image';
+import { getImageUrl } from '@/lib/microcms/image';
 import MobileFilterNav from '@/components/property/MobileFilterNav';
 import type { Metadata } from 'next';
 
@@ -232,16 +233,21 @@ export default async function PropertiesPage({
                     </div>
                   </div>
 
-                  {/* サムネイル行 */}
-                  {featuredProperty.images && featuredProperty.images.length > 0 && (
+                  {/* サムネイル行（mainImage + images） */}
+                  {(() => {
+                    const allThumbs = [
+                      featuredProperty.mainImage,
+                      ...(featuredProperty.images || []),
+                    ].filter(Boolean).slice(0, 6);
+                    return allThumbs.length > 0 ? (
                     <div className="flex gap-2 mt-4 tablet:mt-0">
-                      {featuredProperty.images.slice(0, 6).map((img, i) => (
+                      {allThumbs.map((img, i) => (
                         <div
                           key={i}
-                          className={`flex-1 aspect-square relative rounded-lg tablet:rounded-xl overflow-hidden ${i > 0 ? 'opacity-15' : ''}`}
+                          className={`flex-1 aspect-square relative rounded-xl overflow-hidden ${i > 0 ? 'opacity-[0.15]' : ''}`}
                         >
                           <Image
-                            src={img.url}
+                            src={getImageUrl(img, { width: 140, height: 140, format: 'webp' })}
                             alt=""
                             fill
                             className="object-cover"
@@ -250,7 +256,8 @@ export default async function PropertiesPage({
                         </div>
                       ))}
                     </div>
-                  )}
+                    ) : null;
+                  })()}
                 </div>
               </div>
             </Link>
