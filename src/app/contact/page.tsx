@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <div>
+    <div className="bg-cream">
       <div className="page-container">
         <Breadcrumb items={[{ label: 'お問い合わせ' }]} />
       </div>
