@@ -8,6 +8,7 @@ import type { Metadata } from 'next';
 import { getImageUrl } from '@/lib/microcms/image';
 import RichText, { extractTocFromHtml } from '@/components/ui/RichText';
 import TocNav from '@/components/ui/TocNav';
+import SeeAllLink from '@/components/ui/SeeAllLink';
 
 export const revalidate = 3600;
 
@@ -233,20 +234,8 @@ export default async function StoryPage({ params }: StoryPageProps) {
             </div>
 
             {/* ナビゲーション: すべて見る */}
-            <div className="flex items-center justify-between">
-              <div />
-              <Link
-                href="/stories"
-                className="inline-flex items-center justify-between w-[186px] font-gothic font-medium text-[18px] text-dark-green hover:opacity-70 transition-opacity"
-              >
-                <span className="px-6 py-3">すべて見る</span>
-                <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue shrink-0">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                    <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </span>
-              </Link>
+            <div className="flex items-center justify-end">
+              <SeeAllLink href="/stories" />
             </div>
           </div>
         </section>

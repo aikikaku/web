@@ -1,6 +1,8 @@
 import { getProperties, getStories, getCustomerVoices } from '@/lib/microcms/queries';
 import PropertyCard from '@/components/property/PropertyCard';
 import StoryCard from '@/components/story/StoryCard';
+import NewsAccordion from '@/components/home/NewsAccordion';
+import SeeAllLink from '@/components/ui/SeeAllLink';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -289,18 +291,7 @@ export default async function HomePage() {
 
         {/* PC: すべて見る */}
         <div className="hidden tablet:flex items-center justify-end mt-[96px] px-[75px]">
-          <Link
-            href="/properties"
-            className="inline-flex items-center gap-2 font-gothic font-medium text-[18px] text-dark-green hover:opacity-70 transition-opacity"
-          >
-            <span className="px-6 py-3">すべて見る</span>
-            <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue shrink-0">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </span>
-          </Link>
+          <SeeAllLink href="/properties" />
         </div>
       </section>
 
@@ -457,18 +448,7 @@ export default async function HomePage() {
 
         {/* PC: すべて見る */}
         <div className="hidden tablet:flex items-center justify-end mt-[96px] px-[75px]">
-          <Link
-            href="/stories"
-            className="inline-flex items-center gap-2 font-gothic font-medium text-[18px] text-dark-green hover:opacity-70 transition-opacity"
-          >
-            <span className="px-6 py-3">すべて見る</span>
-            <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue shrink-0">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </span>
-          </Link>
+          <SeeAllLink href="/stories" />
         </div>
       </section>
 
@@ -530,24 +510,13 @@ export default async function HomePage() {
               ))}
               <span className="hidden tablet:inline-block text-dark-green/40">&gt;</span>
             </div>
-            <Link
-              href="/voice"
-              className="inline-flex items-center gap-2 font-gothic font-medium text-base tablet:text-[18px] text-dark-green hover:opacity-70 transition-opacity"
-            >
-              <span className="px-4 tablet:px-6 py-3">すべて見る</span>
-              <span className="inline-flex items-center justify-center w-10 h-10 tablet:w-12 tablet:h-12 rounded-full bg-accent-blue shrink-0">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                  <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </span>
-            </Link>
+            <SeeAllLink href="/voice" />
           </div>
         </section>
       )}
 
       {/* お知らせセクション */}
-      <section className="py-[60px] tablet:py-[96px]">
+      <section className="bg-light-green py-[60px] tablet:py-[96px]">
         <div className="px-4 tablet:px-[75px]">
           <div className="flex flex-col tablet:flex-row gap-8 tablet:gap-[88px]">
             {/* 見出し */}
@@ -557,31 +526,8 @@ export default async function HomePage() {
               </h2>
             </div>
 
-            {/* ニュースリスト */}
-            <div className="flex-1 tablet:w-[792px]">
-              {[
-                { title: '夏季休業のお知らせ', date: '2025.08.01' },
-                { title: 'ゴールデンウィークのお知らせ', date: '2025.04.22' },
-                { title: 'スタッフ募集のお知らせ', date: '2025.03.27' },
-              ].map((item, i) => (
-                <div
-                  key={i}
-                  className="flex items-center justify-between py-6 border-b border-dark-green/20 pr-2"
-                >
-                  <div>
-                    <p className="font-gothic font-medium text-[16px] leading-[2] text-black">
-                      {item.title}
-                    </p>
-                    <p className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green opacity-60">
-                      {item.date}
-                    </p>
-                  </div>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="shrink-0">
-                    <path d="M6 9l6 6 6-6" stroke="#2a363b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </div>
-              ))}
-            </div>
+            {/* ニュースリスト（アコーディオン） */}
+            <NewsAccordion />
           </div>
         </div>
       </section>
