@@ -293,8 +293,8 @@ export default async function HomePage() {
             href="/properties"
             className="inline-flex items-center gap-2 font-gothic font-medium text-[18px] text-dark-green hover:opacity-70 transition-opacity"
           >
-            すべて見る
-            <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue">
+            <span className="px-6 py-3">すべて見る</span>
+            <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue shrink-0">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
                 <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -461,8 +461,8 @@ export default async function HomePage() {
             href="/stories"
             className="inline-flex items-center gap-2 font-gothic font-medium text-[18px] text-dark-green hover:opacity-70 transition-opacity"
           >
-            すべて見る
-            <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue">
+            <span className="px-6 py-3">すべて見る</span>
+            <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue shrink-0">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
                 <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -534,8 +534,8 @@ export default async function HomePage() {
               href="/voice"
               className="inline-flex items-center gap-2 font-gothic font-medium text-base tablet:text-[18px] text-dark-green hover:opacity-70 transition-opacity"
             >
-              すべて見る
-              <span className="inline-flex items-center justify-center w-10 h-10 tablet:w-12 tablet:h-12 rounded-full bg-accent-blue">
+              <span className="px-4 tablet:px-6 py-3">すべて見る</span>
+              <span className="inline-flex items-center justify-center w-10 h-10 tablet:w-12 tablet:h-12 rounded-full bg-accent-blue shrink-0">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                   <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
                   <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
