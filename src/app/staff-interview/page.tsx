@@ -161,9 +161,11 @@ const interviewSections: InterviewSection[] = [
 ];
 
 const tocItems = [
-  'インタビュー',
-  '三島の魅力を伝え続けるということ',
-  '中古住宅も大切にする「もったいない精神」',
+  'スタッフの紹介',
+  '会社の理念',
+  'スタッフの専門性',
+  'お客様との関係',
+  '地域貢献活動',
 ];
 
 const staffProfiles = [
@@ -299,7 +301,7 @@ export default function StaffInterviewPage() {
           <div className="w-full tablet:w-[792px]">
             {/* セクション見出し */}
             <div className="mb-16" id="toc-0">
-              <p className="text-body-s text-dark-green mb-4">インタビュー</p>
+              <p className="text-body-s text-dark-green mb-4">スタッフの紹介</p>
               <h2 className="mb-4">
                 地域に開かれたサステナブルな不動産屋を目指して
               </h2>
