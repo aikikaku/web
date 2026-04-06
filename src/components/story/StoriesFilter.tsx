@@ -89,7 +89,7 @@ export default function StoriesFilter({
 
   return (
     <div className="flex flex-col tablet:flex-row gap-4 items-stretch tablet:items-start">
-      <div className="flex flex-1 flex-col tablet:flex-row gap-4">
+      <div className="flex flex-col tablet:flex-row gap-4">
         <CheckboxDropdown
           label="カテゴリ"
           options={categories}
