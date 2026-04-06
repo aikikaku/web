@@ -3,7 +3,6 @@ import { getProperties } from '@/lib/microcms/queries';
 import PropertyCard from '@/components/property/PropertyCard';
 import PropertyFilter from '@/components/property/PropertyFilter';
 import Pagination from '@/components/ui/Pagination';
-import Breadcrumb from '@/components/ui/Breadcrumb';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getImageUrl } from '@/lib/microcms/image';
@@ -101,9 +100,6 @@ export default async function PropertiesPage({
       <Suspense fallback={null}>
         <MobileFilterNav />
       </Suspense>
-      <div className="page-container">
-        <Breadcrumb items={[{ label: '物件を探す' }]} />
-      </div>
 
       <section className="section-padding">
         <div className="page-container">

@@ -1,6 +1,5 @@
 import { getProperties, getCustomerVoices } from '@/lib/microcms/queries';
 import PropertyCard from '@/components/property/PropertyCard';
-import Breadcrumb from '@/components/ui/Breadcrumb';
 import SeeAllLink from '@/components/ui/SeeAllLink';
 import FaqAccordion from '@/components/ui/FaqAccordion';
 import Image from 'next/image';
@@ -101,9 +100,6 @@ export default async function ForCustomerPage() {
           }),
         }}
       />
-      <div className="page-container">
-        <Breadcrumb items={[{ label: '不動産をお探しの方へ' }]} />
-      </div>
 
       {/* ヒーロー */}
       <section className="page-container pb-24">

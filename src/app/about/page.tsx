@@ -1,4 +1,3 @@
-import Breadcrumb from '@/components/ui/Breadcrumb';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
@@ -26,9 +25,6 @@ export default function AboutPage() {
           }),
         }}
       />
-      <div className="page-container">
-        <Breadcrumb items={[{ label: 'アイ企画について' }]} />
-      </div>
 
       {/* ヒーローセクション */}
       <section className="bg-light-green py-24">

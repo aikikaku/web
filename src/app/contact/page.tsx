@@ -1,4 +1,3 @@
-import Breadcrumb from '@/components/ui/Breadcrumb';
 import ContactForm from './ContactForm';
 import type { Metadata } from 'next';
 
@@ -11,9 +10,6 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <div className="bg-cream">
-      <div className="page-container">
-        <Breadcrumb items={[{ label: 'お問い合わせ' }]} />
-      </div>
 
       <section className="page-container pb-24">
         <div className="max-w-[792px] mx-auto">

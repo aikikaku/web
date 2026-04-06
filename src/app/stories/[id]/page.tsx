@@ -1,6 +1,5 @@
 import { getStory, getStories } from '@/lib/microcms/queries';
 import StoryCard from '@/components/story/StoryCard';
-import Breadcrumb from '@/components/ui/Breadcrumb';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -100,15 +99,6 @@ export default async function StoryPage({ params }: StoryPageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      {/* パンくず */}
-      <div className="px-[45px] max-w-[1440px] mx-auto max-tablet:px-4">
-        <Breadcrumb
-          items={[
-            { label: '暮らしを知る', href: '/stories' },
-            { label: story.title },
-          ]}
-        />
-      </div>
 
       {/* ヒーローセクション */}
       <section className="pt-12 pb-24 px-[45px] max-w-[1440px] mx-auto max-tablet:px-4 max-tablet:pb-12">

@@ -1,4 +1,3 @@
-import Breadcrumb from '@/components/ui/Breadcrumb';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
