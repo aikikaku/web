@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getImageUrl } from '@/lib/microcms/image';
+import RichText, { extractTocFromHtml } from '@/components/ui/RichText';
+import TocNav from '@/components/ui/TocNav';
 
 export const revalidate = 3600;
 
@@ -48,80 +50,6 @@ export async function generateMetadata({
   };
 }
 
-// モック: 目次データ
-const mockTocItems = [
-  'この家との出会い',
-  '〇〇の魅力',
-  '周辺環境',
-  '担当者より',
-  '検討中の方へ',
-  'オーナー様からのコメント',
-  '物件概要',
-];
-
-// モック: ストーリー構造化コンテンツ
-const mockSections = [
-  {
-    category: 'この家との出会い',
-    title: 'この家に、静けさとあたたかさがあった。',
-    body: `静かな住宅街の一角。
-地元・三島市谷田に建つこの家を初めて訪れたのは、春の昼下がりでした。
-やわらかな光が落ちる南向きの庭と、どこか落ち着いた佇まい。
-この家は、派手さではなく「ずっと暮らしていける安心感」が、最初の印象に残ります。
-
-私たちスタッフも、案内のたびに「ここに暮らす人は、きっとこんなふうに過ごすんだろうな」と思い描いてしまう、そんな家です。`,
-    image: { src: '/images/mock/property-1.jpg', caption: '南向きの外観' },
-    comment: 'ここに一言コメントが入ります',
-  },
-  {
-    category: '〇〇の魅力',
-    title: '暮らしの目線で、家の中を歩いてみる。',
-    body: `玄関を開けると、廊下が一直線に伸び、その先にひらけたLDKが迎えてくれます。
-南側から入る光が部屋を包み、冬でも日中は暖房いらず。キッチンに立った時の視線の抜けも心地よく、家族の様子を見渡せる安心感があります。
-
-2階には3部屋。子ども部屋、ワークスペース、寝室。ライフスタイルに合わせたアレンジも想像しやすく、何より収納がしっかり確保されているのも嬉しいポイント。`,
-    images: [
-      { src: '/images/home/hero-2.jpg', caption: '南向きの外観' },
-      { src: '/images/home/hero-3.jpg', caption: '南向きの外観' },
-    ],
-  },
-  {
-    category: '周辺環境',
-    title: '「生活圏としての谷田」が、この家を支えている。',
-    body: `この家が位置するのは、三島駅から車で10分ほどの「谷田」エリア。
-落ち着いた環境ながら、スーパー、コンビニ、小学校、公園が半径500m圏内に揃い、生活動線のよさが光ります。
-
-さらに、徒歩圏にある「楽寿園」や四季折々の景観が楽しめる散歩道など、自然と人との距離がちょうどよい街並みです。`,
-    comment: 'ここに一言コメントが入ります',
-  },
-  {
-    category: '担当者より',
-    title: 'この家を紹介したい理由',
-    body: `不動産屋として多くの物件を見てきた中で、
-「紹介したい家」と「ただ売れる家」は、少し違うと感じます。
-
-この家は、住んだ人の暮らしが想像できる家。
-売主さまも丁寧に手入れをされていて、次の方が気持ちよく住み始められる状態が整っています。
-地域に根差した私たちだからこそ、おすすめしたい理由がいくつもあるのです。`,
-    image: { src: '/images/home/about.jpg', caption: '担当者が物件を案内している様子' },
-    comment: 'ここに一言コメントが入ります',
-  },
-  {
-    category: '検討中の方へ',
-    title: 'まだ「迷っている方」へ、伝えたいこと。',
-    body: `この物件が合うかどうかは、実際に見てみないとわかりません。
-でも、気になったときが"その家と出会ったタイミング"かもしれません。
-
-「通りがかっただけで、ちょっと気になって…」
-「移住を考えていて、まずは話だけ聞きたい」
-そんなきっかけから、お手伝いできればと思っています。
-
-この家が、あなたにとっての"暮らしの入口"になれたら——
-そう願いながら、今日も私たちはこの家のカギを手に待っています。`,
-    image: { src: '/images/home/hero-1.jpg', caption: '空室の玄関に差し込む光' },
-    comment: 'ここに一言コメントが入ります',
-  },
-];
 
 export default async function StoryPage({ params }: StoryPageProps) {
   const story = await getStory(params.id).catch(() => null);
@@ -137,6 +65,9 @@ export default async function StoryPage({ params }: StoryPageProps) {
   }).catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: 3 }));
 
   const regionNames = story.regions?.map((r) => r.name).join('・');
+
+  // 目次データ: contentのh5見出しから動的生成
+  const tocItems = story.content ? extractTocFromHtml(story.content) : [];
 
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',
@@ -233,131 +164,24 @@ export default async function StoryPage({ params }: StoryPageProps) {
       {/* メインコンテンツ: TOC + リッチテキスト */}
       <section className="pb-24 px-[45px] tablet:pr-[75px] max-w-[1440px] mx-auto max-tablet:px-4">
         <div className="flex max-tablet:flex-col gap-0 items-start">
-          {/* 左: 目次サイドバー */}
-          <div className="tablet:w-[323px] shrink-0 tablet:sticky tablet:top-24 max-tablet:mb-8 max-tablet:w-full">
-            <div className="bg-light-green rounded-[32px] px-[30px] py-[45px]">
-              <nav className="flex flex-col">
-                {mockTocItems.map((item, i) => (
-                  <div key={i} className="flex items-center h-[40px]">
-                    {/* タイムラインドット */}
-                    <div className="w-[40px] flex flex-col items-center h-full shrink-0">
-                      {i > 0 && (
-                        <div className="w-[1.5px] flex-1 bg-dark-green/30" />
-                      )}
-                      {i === 0 && <div className="flex-1" />}
-                      <div
-                        className={`w-[10px] h-[10px] rounded-full shrink-0 ${
-                          i === 0 ? 'bg-dark-green' : 'bg-dark-green/30'
-                        }`}
-                      />
-                      {i < mockTocItems.length - 1 && (
-                        <div className="w-[1.5px] flex-1 bg-dark-green/30" />
-                      )}
-                      {i === mockTocItems.length - 1 && <div className="flex-1" />}
-                    </div>
-                    <span
-                      className={`font-gothic font-medium text-base leading-[1.5] text-dark-green ${
-                        i > 0 ? 'opacity-50' : ''
-                      }`}
-                    >
-                      {item}
-                    </span>
-                  </div>
-                ))}
-              </nav>
+          {/* 左: 目次サイドバー（スクロール追従） */}
+          {tocItems.length > 0 && (
+            <div className="tablet:w-[323px] shrink-0 tablet:sticky tablet:top-24 max-tablet:mb-8 max-tablet:w-full">
+              <div className="bg-light-green rounded-[32px] px-[30px] py-[45px]">
+                <TocNav items={tocItems} />
+              </div>
             </div>
-          </div>
+          )}
 
           {/* 右: リッチテキストコンテンツ */}
           <div className="flex-1 tablet:pl-[60px] max-tablet:pl-0">
             <div className="max-w-[734px]">
-              {mockSections.map((section, sIdx) => (
-                <div key={sIdx}>
-                  {/* サブ見出し */}
-                  <div className={`flex flex-col gap-2 ${sIdx === 0 ? 'pt-6 pb-12' : 'py-12'}`}>
-                    <p className="text-body-m font-gothic font-medium text-dark-green">
-                      {section.category}
-                    </p>
-                    <h3
-                      className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green"
-                      style={{ fontFeatureSettings: "'palt' 1" }}
-                    >
-                      {section.title}
-                    </h3>
-                  </div>
-
-                  {/* 本文 */}
-                  <div className="pb-12">
-                    <div className="text-body-l font-gothic font-medium text-dark-green leading-[1.8] whitespace-pre-wrap">
-                      {section.body}
-                    </div>
-                  </div>
-
-                  {/* 画像 + キャプション (単一) */}
-                  {'image' in section && section.image && (
-                    <div className="pb-12">
-                      <div className="flex flex-col gap-3">
-                        <div className="aspect-[763/509] relative rounded-3xl overflow-hidden">
-                          <Image
-                            src={section.image.src}
-                            alt={section.image.caption}
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
-                        <p className="text-body-s font-gothic font-medium text-dark-green pl-[30px]">
-                          {section.image.caption}
-                        </p>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* 画像 + キャプション (複数) */}
-                  {'images' in section && section.images && section.images.map((img, imgIdx) => (
-                    <div key={imgIdx} className="pb-12">
-                      <div className="flex flex-col gap-3">
-                        <div className="aspect-[763/509] relative rounded-3xl overflow-hidden">
-                          <Image
-                            src={img.src}
-                            alt={img.caption}
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
-                        <p className="text-body-s font-gothic font-medium text-dark-green pl-[30px]">
-                          {img.caption}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-
-                  {/* コメント */}
-                  {'comment' in section && section.comment && (
-                    <div className="pb-12">
-                      <div className="flex gap-6 items-start">
-                        <div className="flex flex-col items-center pt-2 shrink-0">
-                          <div className="w-[50px] h-[50px] bg-cream rounded-full overflow-hidden relative">
-                            <Image
-                              src="/images/home/about.jpg"
-                              alt="アイ企画"
-                              fill
-                              className="object-cover"
-                            />
-                          </div>
-                          <span className="text-body-s font-gothic font-medium text-dark-green mt-0.5">
-                            アイ企画
-                          </span>
-                        </div>
-                        <div className="flex-1 bg-light-green rounded-3xl px-[30px] py-[30px] flex items-center">
-                          <p className="text-body-m font-gothic font-medium text-dark-green">
-                            {section.comment}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  )}
+              {/* microCMS content フィールド（richEditorV2） */}
+              {story.content && (
+                <div className="pt-6">
+                  <RichText content={story.content} />
                 </div>
-              ))}
+              )}
 
               {/* 物件リンクカード */}
               {story.property && (
