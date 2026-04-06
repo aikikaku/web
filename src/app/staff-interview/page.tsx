@@ -377,11 +377,7 @@ export default function StaffInterviewPage() {
                     {section.items?.map((item, iIdx) => (
                       <div
                         key={iIdx}
-                        className={
-                          iIdx < (section.items?.length ?? 0) - 1
-                            ? 'border-b border-dark-green/10'
-                            : ''
-                        }
+                        className=""
                       >
                         <InterviewItemComponent item={item} />
                       </div>
