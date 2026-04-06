@@ -3,17 +3,18 @@ import Link from 'next/link';
 interface SeeAllLinkProps {
   href: string;
   label?: string;
+  className?: string;
 }
 
 /**
  * 「すべて見る」共通リンクコンポーネント。
  * Figma: w-[186px], justify-between, テキストにpx-6パディング, 48px青丸矢印
  */
-export default function SeeAllLink({ href, label = 'すべて見る' }: SeeAllLinkProps) {
+export default function SeeAllLink({ href, label = 'すべて見る', className }: SeeAllLinkProps) {
   return (
     <Link
       href={href}
-      className="inline-flex items-center justify-between w-[186px] font-gothic font-medium text-[18px] text-dark-green hover:opacity-70 transition-opacity"
+      className={`inline-flex items-center justify-between w-[186px] font-gothic font-medium text-[18px] hover:opacity-70 transition-opacity ${className || 'text-dark-green'}`}
     >
       <span className="px-6 py-3">{label}</span>
       <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue shrink-0">

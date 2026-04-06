@@ -1,6 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import TocNav from '@/components/ui/TocNav';
+import StoryCard from '@/components/story/StoryCard';
+import SeeAllLink from '@/components/ui/SeeAllLink';
+import { getStories } from '@/lib/microcms/queries';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -227,7 +230,11 @@ function InterviewItemComponent({ item }: { item: InterviewItem }) {
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp';
 
-export default function StaffInterviewPage() {
+export default async function StaffInterviewPage() {
+  const latestStories = await getStories({
+    limit: 3,
+    orders: '-publishedAt',
+  }).catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: 3 }));
   return (
     <div className="bg-cream">
       <script
@@ -420,6 +427,23 @@ export default function StaffInterviewPage() {
           </div>
         </div>
       </section>
+
+      {/* 暮らしを知る（Stories） */}
+      {latestStories.contents.length > 0 && (
+        <section className="bg-dark-green py-[96px] px-[75px]">
+          <h2 className="font-mincho text-[32px] leading-[1.5] tracking-[0.04em] text-cream mb-12">
+            暮らしを知る
+          </h2>
+          <div className="grid grid-cols-1 tablet:grid-cols-3 gap-8">
+            {latestStories.contents.map((story) => (
+              <StoryCard key={story.id} story={story} variant="dark" />
+            ))}
+          </div>
+          <div className="flex justify-end mt-12">
+            <SeeAllLink href="/stories" label="すべて見る" className="text-cream" />
+          </div>
+        </section>
+      )}
 
       {/* 下部CTA */}
       <section className="relative py-24">

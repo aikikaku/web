@@ -52,7 +52,7 @@ export default async function VoicePage() {
       </section>
 
       {/* Voice list */}
-      <section className="px-[75px] pb-36 max-tablet:px-4">
+      <section className="px-4 tablet:pl-[45px] tablet:pr-[75px] pb-36">
         <VoiceContent voices={data.contents} />
       </section>
     </div>

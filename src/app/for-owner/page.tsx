@@ -101,7 +101,7 @@ export default async function ForOwnerPage() {
   ]);
 
   return (
-    <div>
+    <div className="bg-cream">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

@@ -79,7 +79,7 @@ export default function VoiceContent({
       : voices.filter((v) => getCategoryKey(v) === activeCategory);
 
   return (
-    <div className="flex flex-col tablet:flex-row gap-8 tablet:gap-16">
+    <div className="flex flex-col tablet:flex-row gap-8 tablet:justify-between">
       {/* カテゴリフィルター - PC: 左サイドバー, SP: 上部ピル */}
       <div className="shrink-0">
         {/* SP: ピルボタン */}
@@ -99,32 +99,39 @@ export default function VoiceContent({
           ))}
         </div>
 
-        {/* PC: サイドバーリスト */}
-        <nav className="hidden tablet:block tablet:w-[200px]">
-          <ul className="flex flex-col gap-1">
-            {categories.map((cat) => (
-              <li key={cat.key}>
-                <button
-                  onClick={() => setActiveCategory(cat.key)}
-                  className={`flex items-center gap-3 w-full text-left py-2 font-gothic font-medium text-[14px] leading-[1.8] transition-colors ${
-                    activeCategory === cat.key
-                      ? 'text-dark-green'
-                      : 'text-dark-green/50'
-                  }`}
-                >
-                  <span
-                    className={`w-[8px] h-[8px] rounded-full shrink-0 ${
-                      activeCategory === cat.key
-                        ? 'bg-dark-green'
-                        : 'bg-dark-green/30'
-                    }`}
-                  />
-                  {cat.label}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        {/* PC: サイドバー（TocNavスタイル） */}
+        <div className="hidden tablet:block tablet:w-[323px]">
+          <div className="bg-light-green rounded-[32px] px-[30px] py-[45px] sticky top-24">
+            <nav className="flex flex-col">
+              {categories.map((cat, i, arr) => {
+                const isActive = activeCategory === cat.key;
+                return (
+                  <button
+                    key={cat.key}
+                    type="button"
+                    onClick={() => setActiveCategory(cat.key)}
+                    className="flex items-center h-[40px] text-left cursor-pointer"
+                  >
+                    <div className="w-[40px] flex flex-col items-center h-full shrink-0">
+                      {i > 0 && <div className="w-[1.5px] flex-1 bg-dark-green/30" />}
+                      {i === 0 && <div className="flex-1" />}
+                      <div className={`w-[10px] h-[10px] rounded-full shrink-0 transition-colors duration-300 ${
+                        isActive ? 'bg-dark-green' : 'border-2 border-dark-green/30'
+                      }`} />
+                      {i < arr.length - 1 && <div className="w-[1.5px] flex-1 bg-dark-green/30" />}
+                      {i === arr.length - 1 && <div className="flex-1" />}
+                    </div>
+                    <span className={`font-gothic font-medium text-[16px] leading-[1.5] text-dark-green transition-opacity duration-300 ${
+                      isActive ? 'opacity-100' : 'opacity-50'
+                    }`}>
+                      {cat.label}
+                    </span>
+                  </button>
+                );
+              })}
+            </nav>
+          </div>
+        </div>
       </div>
 
       {/* ボイスリスト */}
