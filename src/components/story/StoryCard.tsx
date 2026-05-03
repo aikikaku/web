@@ -20,9 +20,9 @@ interface StoryCardProps {
 }
 
 const sizeConfig = {
-  l: { imageAspect: 'aspect-[410/308]', imageR: 'rounded-[24px]', titleSize: 'text-[32px]', width: 'w-full' },
-  m: { imageAspect: 'aspect-[410/308]', imageR: 'rounded-[24px]', titleSize: 'text-[24px]', width: 'w-full' },
-  s: { imageAspect: 'aspect-[4/3]', imageR: 'rounded-2xl', titleSize: 'text-[24px]', width: 'w-full' },
+  l: { imageAspect: 'aspect-[410/308]', imageR: 'rounded-[24px]', titleSize: 'text-[32px]', titleLeading: 'leading-[1.5]', width: 'w-full' },
+  m: { imageAspect: 'aspect-[410/308]', imageR: 'rounded-[24px]', titleSize: 'text-[24px]', titleLeading: 'leading-[1.6]', width: 'w-full' },
+  s: { imageAspect: 'aspect-[4/3]', imageR: 'rounded-2xl', titleSize: 'text-[24px]', titleLeading: 'leading-[1.6]', width: 'w-full' },
 };
 
 export default function StoryCard({ story, size = 'm', variant = 'light' }: StoryCardProps) {
@@ -59,7 +59,7 @@ export default function StoryCard({ story, size = 'm', variant = 'light' }: Stor
 
         {/* Title */}
         <h3
-          className={`font-mincho ${cfg.titleSize} leading-[1.5] tracking-[0.04em] line-clamp-2 ${
+          className={`font-mincho ${cfg.titleSize} ${cfg.titleLeading} tracking-[0.04em] line-clamp-2 ${
             isDark ? 'text-white' : 'text-dark-green'
           }`}
           style={{ fontFeatureSettings: "'palt' 1" }}
@@ -70,10 +70,10 @@ export default function StoryCard({ story, size = 'm', variant = 'light' }: Stor
         {/* Button */}
         <div className="mt-6">
           <span
-            className={`inline-flex items-center gap-1 h-[44px] px-5 border rounded-full font-gothic font-medium text-[16px] leading-none transition-colors ${
+            className={`inline-flex items-center gap-1 h-[44px] px-6 border rounded-full font-gothic font-medium text-[16px] leading-none transition-colors ${
               isDark
-                ? 'border-white text-white hover:bg-white/10'
-                : 'border-dark-green text-dark-green hover:bg-gray-50'
+                ? 'border-white text-white hover:opacity-70'
+                : 'border-dark-green text-dark-green hover:opacity-70'
             }`}
           >
             <svg

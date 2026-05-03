@@ -141,17 +141,38 @@ export default function MessagePage() {
         }}
       />
       {/* ヒーローセクション */}
-      <section className="relative bg-cream overflow-hidden">
-        <div className="page-container pt-12 pb-0">
-          <h1 className="font-mincho text-[48px] leading-[1.5] tracking-[0.04em] mb-16">
-            ご挨拶
-          </h1>
+      <section className="relative bg-cream overflow-hidden pt-[100px] pb-24">
+        {/* モバイル: シンプルな縦並び */}
+        <div className="tablet:hidden">
+          <div className="page-container">
+            <h1 className="font-mincho text-[40px] leading-[1.5] tracking-[0.04em] text-dark-green mb-12">
+              ご挨拶
+            </h1>
+          </div>
+          <div className="relative h-[500px]">
+            <div className="absolute left-1/2 -translate-x-1/2 top-0 w-full max-w-[704px] px-4 rounded-2xl overflow-hidden">
+              <div className="aspect-[704/469] relative rounded-2xl overflow-hidden">
+                <Image
+                  src="/images/message/hero-center.jpg"
+                  alt="ご挨拶"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* 3枚の写真レイアウト */}
-        <div className="relative h-[700px] tablet:h-[838px]">
+        {/* タブレット以上: Figmaに準拠した3枚レイアウト */}
+        <div className="hidden tablet:block relative h-[838px] max-w-[1440px] mx-auto">
+          {/* タイトル（左上） */}
+          <h1 className="absolute left-[75px] top-[96px] w-[528px] font-mincho text-[48px] leading-[1.5] tracking-[0.04em] text-dark-green">
+            ご挨拶
+          </h1>
+
           {/* 左の縦長写真（下部） */}
-          <div className="hidden tablet:block absolute left-0 top-[470px] w-[280px] h-[368px] rounded-2xl overflow-hidden">
+          <div className="absolute left-0 top-[470px] w-[280px] h-[368px] rounded-2xl overflow-hidden">
             <Image
               src="/images/message/hero-left.jpg"
               alt=""
@@ -161,7 +182,7 @@ export default function MessagePage() {
           </div>
 
           {/* 中央のメイン写真 */}
-          <div className="absolute left-1/2 -translate-x-1/2 top-[259px] w-full max-w-[704px] rounded-2xl overflow-hidden">
+          <div className="absolute left-1/2 -translate-x-1/2 top-[259px] w-[704px] rounded-2xl overflow-hidden">
             <div className="aspect-[704/469] relative">
               <Image
                 src="/images/message/hero-center.jpg"
@@ -174,7 +195,7 @@ export default function MessagePage() {
           </div>
 
           {/* 右の縦長写真（上部） */}
-          <div className="hidden tablet:block absolute right-0 top-[96px] w-[280px] h-[374px] rounded-2xl overflow-hidden">
+          <div className="absolute right-0 top-[96px] w-[280px] h-[374px] rounded-2xl overflow-hidden">
             <Image
               src="/images/message/hero-right.jpg"
               alt=""
@@ -191,10 +212,10 @@ export default function MessagePage() {
           key={index}
           className={`bg-cream ${index === sections.length - 1 ? 'pt-24 pb-36' : index === 0 ? '' : 'pt-24'}`}
         >
-          <div className="max-w-[704px] mx-auto px-4">
+          <div className="max-w-[720px] mx-auto px-4 tablet:px-2">
             {/* 見出し */}
             <div className="pt-6 pb-12">
-              <h3 className="font-mincho text-[32px] leading-[1.5] tracking-[0.04em] text-center text-dark-green">
+              <h3 className="font-mincho text-[24px] tablet:text-[32px] leading-[1.6] tablet:leading-[1.5] tracking-[0.04em] text-center text-dark-green">
                 {Array.isArray(section.heading)
                   ? section.heading.map((line, i) => (
                       <span key={i}>
@@ -208,7 +229,7 @@ export default function MessagePage() {
 
             {/* 本文 */}
             <div className="pb-12">
-              <div className="font-gothic font-medium text-[18px] leading-[1.8] text-black">
+              <div className="font-gothic font-medium text-[16px] leading-[2] tablet:text-[18px] tablet:leading-[1.8] text-black">
                 {section.paragraphs.map((p, i) =>
                   p === '' ? (
                     <br key={i} />

@@ -67,7 +67,7 @@ export default function Pagination({
   const pageNumbers = getPageNumbers();
 
   return (
-    <nav aria-label="ページネーション" className="flex justify-center items-center gap-3 mt-16 tablet:mt-24">
+    <nav aria-label="ページネーション" className="flex justify-center items-center gap-2 mt-16 tablet:mt-24">
       {/* Prev arrow - light-green bg with opacity when disabled-looking */}
       <Link
         href={currentPage > 1 ? buildHref(currentPage - 1) : '#'}

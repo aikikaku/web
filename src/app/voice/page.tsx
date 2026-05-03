@@ -36,7 +36,7 @@ export default async function VoicePage() {
       />
 
       {/* Section heading */}
-      <section className="px-[75px] py-24 max-tablet:px-4">
+      <section className="px-4 tablet:px-[75px] py-24 max-w-[1440px] mx-auto">
         <div className="max-w-[1290px]">
           <h1 className="font-mincho text-[48px] leading-[1.5] tracking-[0.04em] text-dark-green text-left mb-8">
             お客様の声
@@ -48,7 +48,7 @@ export default async function VoicePage() {
       </section>
 
       {/* Voice list */}
-      <section className="px-4 tablet:pl-[45px] tablet:pr-[75px] pb-36">
+      <section className="px-4 tablet:px-[75px] pb-36 max-w-[1440px] mx-auto">
         <VoiceContent voices={data.contents} />
       </section>
     </div>

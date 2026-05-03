@@ -27,7 +27,7 @@ export default function AboutPage() {
       />
 
       {/* ヒーローセクション */}
-      <section className="bg-light-green py-24">
+      <section className="bg-cream py-24">
         <div className="page-container">
           <div className="text-center mb-12">
             <p className="text-body-m text-dark-green mb-2">アイ企画について</p>
@@ -57,7 +57,7 @@ export default function AboutPage() {
         </div>
         <div className="relative z-10 page-container">
           <div className="grid grid-cols-1 tablet:grid-cols-2 gap-8">
-            <Link href="/for-customer" className="group block bg-cream rounded-3xl p-8 overflow-hidden">
+            <Link href="/for-customer" className="group block bg-cream rounded-3xl p-[30px] overflow-hidden">
               <div className="flex gap-8 items-start">
                 <div className="flex-1">
                   <div className="mb-auto">
@@ -84,7 +84,7 @@ export default function AboutPage() {
                 </div>
               </div>
             </Link>
-            <Link href="/for-owner" className="group block bg-cream rounded-3xl p-8 overflow-hidden">
+            <Link href="/for-owner" className="group block bg-cream rounded-3xl p-[30px] overflow-hidden">
               <div className="flex gap-8 items-start">
                 <div className="flex-1">
                   <div className="mb-auto">
@@ -116,7 +116,7 @@ export default function AboutPage() {
       </section>
 
       {/* ご挨拶セクション */}
-      <section className="bg-light-green py-24">
+      <section className="bg-cream py-24">
         <div className="flex flex-col tablet:flex-row items-center">
           <div className="tablet:w-1/2 px-8 tablet:pl-12 tablet:pr-0">
             <div className="max-w-[616px] ml-auto">
@@ -228,7 +228,7 @@ export default function AboutPage() {
                 </p>
               </div>
 
-              <div className="bg-cream rounded-2xl p-8 mb-12">
+              <div className="bg-cream rounded-2xl p-[30px] mb-12">
                 <p className="font-gothic font-medium text-[20px] text-dark-green mb-2">コンポストとは</p>
                 <p className="text-body-l text-dark-green">
                   有機物を微生物の働きで分解させて堆肥にする処理方法、またはその堆肥のことをいいます。
@@ -258,7 +258,7 @@ export default function AboutPage() {
       </section>
 
       {/* 会社概要セクション */}
-      <section className="bg-light-green py-24 pb-36">
+      <section className="bg-cream py-24 pb-36">
         <div className="page-container">
           <div className="flex flex-col tablet:flex-row gap-16">
             {/* 左: 見出し */}
@@ -272,14 +272,14 @@ export default function AboutPage() {
               <dl className="divide-y divide-dark-green/20 border-b border-dark-green/20">
                 <div className="flex gap-8 py-6">
                   <dt className="w-[147px] shrink-0 text-body-l text-dark-green">商号</dt>
-                  <dd className="text-body-l">有限会社アイ企画</dd>
+                  <dd className="text-body-l text-black">有限会社アイ企画</dd>
                 </div>
                 <div className="flex gap-8 py-6">
                   <dt className="w-[147px] shrink-0 text-body-l text-dark-green">設立</dt>
-                  <dd className="text-body-l">昭和61年12月</dd>
+                  <dd className="text-body-l text-black">昭和61年12月</dd>
                 </div>
                 <div className="flex items-start justify-between py-6">
-                  <dt className="text-body-m text-dark-green shrink-0">所在地</dt>
+                  <dt className="text-body-l text-dark-green shrink-0">所在地</dt>
                   <dd className="flex flex-col gap-6 items-end w-[528px]">
                     <div className="flex items-center gap-3">
                       <span className="text-body-m text-dark-green text-right">静岡県三島市加茂18番地の7</span>
@@ -304,14 +304,14 @@ export default function AboutPage() {
                 </div>
                 <div className="flex gap-8 py-6">
                   <dt className="w-[147px] shrink-0 text-body-l text-dark-green">電話</dt>
-                  <dd className="text-body-l">055-976-5300</dd>
+                  <dd className="text-body-l text-black">055-976-5300</dd>
                 </div>
                 <div className="flex gap-8 py-6">
                   <dt className="w-[147px] shrink-0 text-body-l text-dark-green">FAX</dt>
-                  <dd className="text-body-l">055-976-5301</dd>
+                  <dd className="text-body-l text-black">055-976-5301</dd>
                 </div>
                 <div className="flex items-center justify-between py-6">
-                  <dt className="text-body-m text-dark-green shrink-0">営業時間</dt>
+                  <dt className="text-body-l text-dark-green shrink-0">営業時間</dt>
                   <dd className="flex flex-col gap-1 items-end text-right">
                     <div className="text-body-l text-dark-green">
                       <p>月曜日～土曜日</p>
@@ -322,23 +322,23 @@ export default function AboutPage() {
                 </div>
                 <div className="flex gap-8 py-6">
                   <dt className="w-[147px] shrink-0 text-body-l text-dark-green">休業日</dt>
-                  <dd className="text-body-l">日曜日・祝日</dd>
+                  <dd className="text-body-l text-black">日曜日・祝日</dd>
                 </div>
                 <div className="flex gap-8 py-6">
                   <dt className="w-[147px] shrink-0 text-body-l text-dark-green">事業案内</dt>
-                  <dd className="text-body-l">土地・中古住宅・店舗の売買媒介及び賃貸物件の管理・媒介</dd>
+                  <dd className="text-body-l text-black">土地・中古住宅・店舗の売買媒介及び賃貸物件の管理・媒介</dd>
                 </div>
                 <div className="flex gap-8 py-6">
                   <dt className="w-[147px] shrink-0 text-body-l text-dark-green">代表者</dt>
-                  <dd className="text-body-l">代表取締役　髙野大地</dd>
+                  <dd className="text-body-l text-black">代表取締役　髙野大地</dd>
                 </div>
                 <div className="flex gap-8 py-6">
                   <dt className="w-[147px] shrink-0 text-body-l text-dark-green">免許</dt>
-                  <dd className="text-body-l">宅地建物取引業免許　静岡県知事（10）第6124号</dd>
+                  <dd className="text-body-l text-black">宅地建物取引業免許　静岡県知事（10）第6124号</dd>
                 </div>
                 <div className="flex gap-8 py-6">
                   <dt className="w-[147px] shrink-0 text-body-l text-dark-green">加盟団体</dt>
-                  <dd className="text-body-l">
+                  <dd className="text-body-l text-black">
                     公益社団法人　全国宅地建物取引業保証協会<br />
                     公益社団法人　静岡県宅地建物取引業協会<br />
                     公益社団法人　東海不動産公正取引協議会
@@ -346,7 +346,7 @@ export default function AboutPage() {
                 </div>
                 <div className="flex gap-8 py-6">
                   <dt className="w-[147px] shrink-0 text-body-l text-dark-green">資本金</dt>
-                  <dd className="text-body-l">500万円</dd>
+                  <dd className="text-body-l text-black">500万円</dd>
                 </div>
               </dl>
             </div>

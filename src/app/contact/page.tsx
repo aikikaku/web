@@ -11,7 +11,7 @@ export default function ContactPage() {
   return (
     <div className="bg-cream">
 
-      <section className="page-container pb-24">
+      <section className="page-container py-16 tablet:py-24">
         <div className="max-w-[792px] mx-auto">
           {/* Heading */}
           <div className="flex flex-col gap-4 mb-12">

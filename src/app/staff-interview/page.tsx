@@ -167,8 +167,7 @@ const tocItems = [
   'スタッフの紹介',
   '会社の理念',
   'スタッフの専門性',
-  'お客様との関係',
-  '地域貢献活動',
+  '地域との関わり',
 ];
 
 const staffProfiles = [
@@ -188,7 +187,7 @@ const staffProfiles = [
 
 function ModeratorIcon() {
   return (
-    <div className="w-[50px] h-[50px] rounded-full bg-light-blue flex items-center justify-center shrink-0">
+    <div className="w-[50px] h-[50px] rounded-full bg-light-green flex items-center justify-center shrink-0">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
         <path
           d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
@@ -296,7 +295,7 @@ export default async function StaffInterviewPage() {
       </section>
 
       {/* インタビューセクション（サイドバー付き） */}
-      <section className="pt-16 tablet:pt-24 pb-24 px-4 tablet:pl-[45px] tablet:pr-[75px]">
+      <section className="pt-16 tablet:pt-24 pb-24 px-4 tablet:pl-[45px] tablet:pr-[75px] max-w-[1440px] mx-auto">
         <div className="flex max-tablet:flex-col items-start tablet:justify-between">
           {/* 左: TOCサイドバー（スクロール追従） */}
           <div className="tablet:w-[323px] shrink-0 tablet:sticky tablet:top-24 max-tablet:mb-8 max-tablet:w-full">
@@ -309,8 +308,8 @@ export default async function StaffInterviewPage() {
           <div className="w-full tablet:w-[792px]">
             {/* セクション見出し */}
             <div className="mb-16" id="toc-0">
-              <p className="text-body-s text-dark-green mb-4">スタッフの紹介</p>
-              <h2 className="mb-4">
+              <p className="text-body-m font-gothic font-medium text-dark-green mb-4">インタビュー</p>
+              <h2 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.92px] text-dark-green mb-4" style={{ fontFeatureSettings: "'palt' 1" }}>
                 地域に開かれたサステナブルな不動産屋を目指して
               </h2>
               <p className="text-body-m text-dark-green">髙野大地 × 髙野恒成</p>
@@ -325,7 +324,7 @@ export default async function StaffInterviewPage() {
                   const tocId = `toc-${headingIndex++}`;
                   return (
                     <div key={sIdx} className="py-12" id={tocId}>
-                      <h3 className="text-2xl tablet:text-[32px]">
+                      <h3 className="font-mincho text-2xl tablet:text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
                         {section.heading}
                       </h3>
                     </div>
@@ -336,7 +335,7 @@ export default async function StaffInterviewPage() {
                   const tocId = `toc-${headingIndex++}`;
                   return (
                     <div key={sIdx} className="py-12" id={tocId}>
-                      <h3 className="text-2xl tablet:text-[32px] mb-8">
+                      <h3 className="font-mincho text-2xl tablet:text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green mb-8" style={{ fontFeatureSettings: "'palt' 1" }}>
                         {section.heading}
                       </h3>
                       {section.image && (
@@ -413,7 +412,7 @@ export default async function StaffInterviewPage() {
                           sizes="51px"
                         />
                       </div>
-                      <h4 className="font-gothic font-medium text-[18px] text-dark-green">
+                      <h4 className="font-mincho text-[18px] leading-[1.6] tracking-[0.04em] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
                         {staff.name}
                       </h4>
                     </div>
@@ -431,6 +430,7 @@ export default async function StaffInterviewPage() {
       {/* 暮らしを知る（Stories） */}
       {latestStories.contents.length > 0 && (
         <section className="bg-dark-green py-[96px] px-[75px]">
+          <div className="max-w-[1440px] mx-auto">
           <h2 className="font-mincho text-[32px] leading-[1.5] tracking-[0.04em] text-cream mb-12">
             暮らしを知る
           </h2>
@@ -441,6 +441,7 @@ export default async function StaffInterviewPage() {
           </div>
           <div className="flex justify-end mt-12">
             <SeeAllLink href="/stories" label="すべて見る" className="text-cream" />
+          </div>
           </div>
         </section>
       )}

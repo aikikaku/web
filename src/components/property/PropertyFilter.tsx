@@ -95,7 +95,6 @@ function CheckboxDropdown({
 export default function PropertyFilter() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [keyword, setKeyword] = useState(searchParams.get('q') || '');
 
   const currentStatus = searchParams.get('status') || 'all';
   const selectedTypes = searchParams.get('types')?.split(',').filter(Boolean) || [];
@@ -138,101 +137,73 @@ export default function PropertyFilter() {
     [selectedRegions, router, buildUrl]
   );
 
-  const applySearch = useCallback(() => {
-    router.push(buildUrl({ q: keyword || undefined }));
-  }, [keyword, router, buildUrl]);
+  const applyFilters = useCallback(() => {
+    router.push(buildUrl({}));
+  }, [router, buildUrl]);
 
   const clearFilters = () => {
-    setKeyword('');
     router.push('/properties');
   };
 
   const hasActiveFilters =
     selectedTypes.length > 0 ||
     selectedRegions.length > 0 ||
-    currentStatus !== 'all' ||
-    !!searchParams.get('q');
+    currentStatus !== 'all';
 
   return (
-    <div className="hidden tablet:flex flex-col gap-4">
-      {/* Row 1: Status + Search */}
-      <div className="flex items-center gap-[30px]">
-        {/* ステータス切替トグル */}
-        <div className="flex rounded-[50px] overflow-hidden border border-dark-green shrink-0">
-          {[
-            { value: 'all', label: 'すべて' },
-            { value: 'available', label: 'ご案内中の物件' },
-          ].map((option) => (
-            <button
-              key={option.value}
-              onClick={() =>
-                router.push(buildUrl({ status: option.value === 'all' ? undefined : option.value }))
-              }
-              className={`h-[56px] px-6 font-gothic font-medium text-[16px] leading-none transition-colors ${
-                currentStatus === option.value
-                  ? 'bg-dark-green text-white rounded-[50px]'
-                  : 'bg-transparent text-dark-green'
-              }`}
-            >
-              {option.label}
-            </button>
-          ))}
-        </div>
-
-        {/* 検索入力 */}
-        <div className="flex-1 relative">
-          <input
-            type="text"
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && applySearch()}
-            placeholder="キーワードで検索"
-            className="w-full h-[56px] pl-11 pr-4 border border-dark-green rounded-lg font-gothic font-medium text-[16px] bg-white placeholder:text-black/30"
-          />
-          <svg
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-dark-green/50"
-            width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-          >
-            <circle cx="11" cy="11" r="8" />
-            <path d="M21 21l-4.35-4.35" />
-          </svg>
-        </div>
-      </div>
-
-      {/* Row 2: Type + Region + Apply/Clear */}
-      <div className="flex items-center gap-2">
-        <CheckboxDropdown
-          label="物件"
-          options={propertyTypes}
-          selected={selectedTypes}
-          onToggle={toggleType}
-        />
-        <CheckboxDropdown
-          label="地域"
-          options={regions.map((r) => ({ value: r, label: r }))}
-          selected={selectedRegions}
-          onToggle={toggleRegion}
-        />
-
-        {/* 絞り込みボタン */}
-        <button
-          onClick={applySearch}
-          className="h-[56px] px-10 bg-dark-green border border-dark-green rounded-lg font-gothic font-medium text-[16px] leading-none text-white transition-opacity hover:opacity-90 shrink-0"
-        >
-          絞り込み
-        </button>
-        {hasActiveFilters && (
+    <div className="hidden tablet:flex items-center gap-2">
+      {/* ステータス切替トグル */}
+      <div className="flex rounded-[50px] overflow-hidden border border-dark-green shrink-0 mr-4">
+        {[
+          { value: 'all', label: 'すべて' },
+          { value: 'available', label: 'ご案内中の物件' },
+        ].map((option) => (
           <button
-            onClick={clearFilters}
-            className="w-[56px] h-[56px] border border-dark-green rounded-lg flex items-center justify-center hover:bg-cream transition-colors shrink-0"
-            aria-label="フィルターをクリア"
+            key={option.value}
+            onClick={() =>
+              router.push(buildUrl({ status: option.value === 'all' ? undefined : option.value }))
+            }
+            className={`h-[56px] px-6 font-gothic font-medium text-[16px] leading-none transition-colors ${
+              currentStatus === option.value
+                ? 'bg-dark-green text-white rounded-[50px]'
+                : 'bg-transparent text-dark-green'
+            }`}
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <path d="M18 6L6 18M6 6l12 12" />
-            </svg>
+            {option.label}
           </button>
-        )}
+        ))}
       </div>
+
+      <CheckboxDropdown
+        label="物件"
+        options={propertyTypes}
+        selected={selectedTypes}
+        onToggle={toggleType}
+      />
+      <CheckboxDropdown
+        label="地域"
+        options={regions.map((r) => ({ value: r, label: r }))}
+        selected={selectedRegions}
+        onToggle={toggleRegion}
+      />
+
+      <button
+        onClick={applyFilters}
+        className="h-[56px] px-10 bg-dark-green border border-dark-green rounded-lg font-gothic font-medium text-[16px] leading-none text-white transition-opacity hover:opacity-90 shrink-0"
+      >
+        絞り込み
+      </button>
+      {hasActiveFilters && (
+        <button
+          onClick={clearFilters}
+          className="w-[56px] h-[56px] border border-dark-green rounded-lg flex items-center justify-center hover:bg-cream transition-colors shrink-0"
+          aria-label="フィルターをクリア"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
+      )}
     </div>
   );
 }

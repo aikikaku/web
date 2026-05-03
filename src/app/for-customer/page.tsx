@@ -1,5 +1,6 @@
-import { getProperties, getCustomerVoices } from '@/lib/microcms/queries';
+import { getProperties, getCustomerVoices, getStories } from '@/lib/microcms/queries';
 import PropertyCard from '@/components/property/PropertyCard';
+import StoryCard from '@/components/story/StoryCard';
 import SeeAllLink from '@/components/ui/SeeAllLink';
 import FaqAccordion from '@/components/ui/FaqAccordion';
 import Image from 'next/image';
@@ -78,11 +79,13 @@ const features = [
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp';
 
 export default async function ForCustomerPage() {
-  const [properties, voices] = await Promise.all([
+  const [properties, voices, stories] = await Promise.all([
     getProperties({ limit: 3, filters: 'status[contains]available', orders: '-publishedAt' })
       .catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: 3 })),
     getCustomerVoices()
       .catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: 50 })),
+    getStories({ limit: 3 })
+      .catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: 3 })),
   ]);
 
   return (
@@ -105,7 +108,7 @@ export default async function ForCustomerPage() {
       <section className="page-container pb-24">
         <div className="flex flex-col tablet:flex-row items-center gap-8 tablet:gap-0">
           <div className="flex-1 flex items-center">
-            <h1 className="tracking-wider">不動産をお探しの方へ</h1>
+            <h1 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.92px] text-dark-green tablet:whitespace-nowrap" style={{ fontFeatureSettings: "'palt' 1" }}>不動産をお探しの方へ</h1>
           </div>
           <div className="w-full tablet:w-[675px] shrink-0 tablet:pl-[30px]">
             <div className="relative h-[400px] tablet:h-[640px] rounded-3xl overflow-hidden">
@@ -247,7 +250,7 @@ export default async function ForCustomerPage() {
                       {feature.activities.map((activity) => (
                         <div
                           key={activity.title}
-                          className="bg-cream rounded-2xl p-6 tablet:px-8 tablet:py-8"
+                          className="bg-cream rounded-2xl p-6 tablet:px-[30px] tablet:pt-[30px] tablet:pb-[32px] flex flex-col gap-4"
                         >
                           <div className="flex flex-col gap-2">
                             <p className="font-gothic font-medium text-base tablet:text-[20px] leading-[2] tablet:leading-[1.6] text-dark-green">
@@ -258,18 +261,16 @@ export default async function ForCustomerPage() {
                             </p>
                           </div>
                           {activity.link && (
-                            <div className="mt-4">
-                              <Link
-                                href={activity.link.href}
-                                className="inline-flex items-center gap-1 text-body-s font-gothic font-medium text-dark-green hover:opacity-70 transition-opacity"
-                                {...(activity.link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                              >
-                                {activity.link.label}
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-dark-green">
-                                  <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                              </Link>
-                            </div>
+                            <Link
+                              href={activity.link.href}
+                              className="inline-flex items-center gap-1 self-start text-[14px] leading-none font-gothic font-medium text-dark-green hover:opacity-70 transition-opacity"
+                              {...(activity.link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                            >
+                              {activity.link.label}
+                              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-dark-green">
+                                <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                            </Link>
                           )}
                         </div>
                       ))}
@@ -296,9 +297,102 @@ export default async function ForCustomerPage() {
         </section>
       )}
 
+      {/* CTA バナー */}
+      <section className="px-4 tablet:px-[45px] pb-24">
+        <div className="relative overflow-hidden rounded-3xl max-w-[1350px] mx-auto">
+          <div className="relative px-6 tablet:px-[30px] py-16 tablet:py-[96px]">
+            <Image
+              src="/images/for-customer/cta-banner.jpg"
+              alt="お問い合わせ"
+              fill
+              className="object-cover"
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage:
+                  'linear-gradient(218deg, rgba(39, 51, 59, 0.1) 26.6%, rgba(39, 51, 59, 0.25) 72.5%)',
+              }}
+            />
+            <div className="relative z-10 flex flex-col tablet:flex-row items-start tablet:items-center justify-between gap-8 tablet:gap-[30px]">
+              <div className="text-white">
+                <p className="text-body-m font-gothic font-medium mb-2">お問い合わせ</p>
+                <h2
+                  className="text-white font-mincho text-[32px] leading-[1.5] tracking-[1.28px]"
+                  style={{ fontFeatureSettings: "'palt' 1" }}
+                >
+                  不動産に関すること、<br />
+                  ぜひご相談ください。
+                </h2>
+              </div>
+              <div className="flex gap-3">
+                <Link
+                  href="/contact"
+                  className="bg-cream/[0.96] rounded-3xl px-[30px] pt-[40px] pb-[30px] text-center w-[264px] flex flex-col items-center gap-[30px] hover:opacity-70 transition-opacity"
+                >
+                  <span className="font-gothic font-medium text-[20px] leading-[1.6] text-dark-green">
+                    不動産をお探しの方
+                  </span>
+                  <span className="bg-accent-blue w-12 h-12 rounded-full flex items-center justify-center">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                      <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                </Link>
+                <Link
+                  href="/contact"
+                  className="bg-cream/[0.96] rounded-3xl px-[30px] pt-[40px] pb-[30px] text-center w-[264px] flex flex-col items-center gap-[30px] hover:opacity-70 transition-opacity"
+                >
+                  <span className="font-gothic font-medium text-[20px] leading-[1.6] text-dark-green">
+                    その他のお問い合わせ
+                  </span>
+                  <span className="bg-accent-blue w-12 h-12 rounded-full flex items-center justify-center">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                      <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 暮らしを知る */}
+      {stories.contents.length > 0 && (
+        <section className="bg-dark-green pt-24 pb-16">
+          <div className="page-container">
+            <h2 className="font-mincho text-[32px] tracking-wider text-cream mb-16">
+              暮らしを知る
+            </h2>
+            <div className="grid grid-cols-1 tablet:grid-cols-3 gap-[30px] mb-16">
+              {stories.contents.map((story) => (
+                <StoryCard key={story.id} story={story} variant="dark" />
+              ))}
+            </div>
+            <div className="flex items-center justify-end">
+              <Link
+                href="/stories"
+                className="inline-flex items-center gap-2 font-gothic font-medium text-[18px] text-cream hover:opacity-70 transition-opacity"
+              >
+                すべて見る
+                <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                    <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* お客様の声 */}
       {voices.contents.length > 0 && (
-        <section className="bg-light-green py-24">
+        <section className="bg-light-green pt-24 pb-16">
           <div className="page-container">
             <h2 className="font-mincho text-[32px] tracking-wider mb-16">お客様の声</h2>
             <div className="overflow-x-auto pb-4 -mx-5 tablet:-mx-[64px] px-5 tablet:px-[64px]">
@@ -345,9 +439,9 @@ export default async function ForCustomerPage() {
       )}
 
       {/* よくある質問 */}
-      <section className="bg-light-green py-[60px] tablet:py-[96px]">
-        <div className="px-4 tablet:px-[75px]">
-          <div className="flex flex-col tablet:flex-row gap-8 tablet:gap-[88px]">
+      <section className="bg-cream pt-[60px] pb-[80px] tablet:pt-[96px] tablet:pb-[144px]">
+        <div className="px-4 tablet:px-[75px] max-w-[1440px] mx-auto">
+          <div className="flex flex-col tablet:flex-row tablet:justify-center gap-8 tablet:gap-[48px] items-start">
             <div className="tablet:w-[410px] shrink-0">
               <h2 className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.96px] tablet:tracking-[1.28px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
                 よくある質問
@@ -381,62 +475,6 @@ export default async function ForCustomerPage() {
         </div>
       </section>
 
-      {/* CTA バナー */}
-      <section className="relative overflow-hidden">
-        <div className="relative py-16 tablet:py-24">
-          <Image
-            src="/images/for-customer/cta-banner.jpg"
-            alt="お問い合わせ"
-            fill
-            className="object-cover"
-          />
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage: 'linear-gradient(218deg, rgba(39, 51, 59, 0.1) 26.6%, rgba(39, 51, 59, 0.25) 72.5%)',
-            }}
-          />
-          <div className="relative z-10 flex flex-col tablet:flex-row items-start tablet:items-center justify-between px-4 tablet:px-[75px] gap-8">
-            <div className="text-white">
-              <p className="text-body-m font-gothic font-medium mb-2">お問い合わせ</p>
-              <h2 className="text-white font-mincho text-[32px] leading-[1.5] tracking-[1.28px]" style={{ fontFeatureSettings: "'palt' 1" }}>
-                不動産に関すること、<br />
-                ぜひご相談ください。
-              </h2>
-            </div>
-            <div className="flex gap-3">
-              <Link
-                href="/contact"
-                className="bg-cream/95 rounded-3xl px-[30px] pt-8 pb-6 text-center w-[240px] flex flex-col items-center gap-6 hover:bg-white transition-colors"
-              >
-                <span className="font-gothic font-medium text-[18px] leading-[1.6] text-dark-green">
-                  不動産をお探しの方
-                </span>
-                <span className="bg-accent-blue w-12 h-12 rounded-full flex items-center justify-center">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                    <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </span>
-              </Link>
-              <Link
-                href="/contact"
-                className="bg-cream/95 rounded-3xl px-[30px] pt-8 pb-6 text-center w-[240px] flex flex-col items-center gap-6 hover:bg-white transition-colors"
-              >
-                <span className="font-gothic font-medium text-[18px] leading-[1.6] text-dark-green">
-                  その他のお問い合わせ
-                </span>
-                <span className="bg-accent-blue w-12 h-12 rounded-full flex items-center justify-center">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                    <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </span>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

@@ -104,7 +104,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
       <section className="pt-12 pb-24 px-[45px] max-w-[1440px] mx-auto max-tablet:px-4 max-tablet:pb-12">
         <div className="flex max-tablet:flex-col gap-0">
           {/* 左: 画像 */}
-          <div className="tablet:w-[675px] shrink-0 h-[640px] max-tablet:h-[300px] rounded-3xl overflow-hidden relative">
+          <div className="tablet:w-[675px] shrink-0 h-[640px] max-tablet:h-auto max-tablet:aspect-square rounded-3xl overflow-hidden relative">
             <Image
               src={getImageUrl(story.thumbnail, { width: 1350, format: 'webp' })}
               alt={story.title}
@@ -140,14 +140,10 @@ export default async function StoryPage({ params }: StoryPageProps) {
 
             {/* 説明テキスト */}
             {story.subtitle && (
-              <p className="text-body-l font-gothic font-medium text-dark-green text-left">
+              <p className="text-body-l font-gothic font-medium text-dark-green text-left leading-[1.8]">
                 {story.subtitle}
               </p>
             )}
-            {/* Figmaでは長めの説明テキストが入る */}
-            <p className="text-body-l font-gothic font-medium text-dark-green text-left leading-[1.8]">
-              三島市谷田・つつじヶ丘の高台に佇む、三角形の敷地に建つちょっと個性的な住まい。コンパクトながら、南側にひらけた玄関前の庭では季節の花や家庭菜園も楽しめます。昭和50年築の鉄骨造2階建。しっかりした構造で、まだまだ活かせる昭和の良き時代のつくり。室内はリフォーム前提ですが、そのぶん「自分好みに変えられる」余白があります。「この住まいを育てながら使っていく」という大人の暮らしにぴったりの物件です。
-            </p>
           </div>
         </div>
       </section>
@@ -179,7 +175,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
                 <div className="pt-12">
                   <Link
                     href={`/properties/${story.property.id}`}
-                    className="flex items-center justify-between bg-dark-green rounded-2xl p-[30px] h-[108px] group"
+                    className="flex items-center justify-between bg-dark-green rounded-2xl p-[30px] group"
                   >
                     <div className="flex-1 px-3">
                       <p className="font-gothic font-medium text-[20px] leading-[1.6] text-white">
