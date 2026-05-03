@@ -4,6 +4,7 @@ import NewsAccordion from '@/components/home/NewsAccordion';
 import VoiceCarousel from '@/components/home/VoiceCarousel';
 import PropertyCarousel from '@/components/home/PropertyCarousel';
 import StoryCarousel from '@/components/home/StoryCarousel';
+import HeroSlideshowSP from '@/components/home/HeroSlideshowSP';
 import SeeAllLink from '@/components/ui/SeeAllLink';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -29,7 +30,7 @@ export default async function HomePage() {
     <div>
       {/* ヒーローセクション */}
       <section className="bg-cream overflow-hidden relative">
-        {/* SP: テキスト上 → 画像下の縦レイアウト */}
+        {/* SP: テキスト上 → スライドショー画像（next + dots） */}
         <div className="flex flex-col gap-8 pt-12 px-4 tablet:hidden">
           <div className="pl-4">
             <h1 className="font-mincho text-[32px] leading-[1.5] tracking-[1.28px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
@@ -38,15 +39,7 @@ export default async function HomePage() {
               三島の暮らし
             </h1>
           </div>
-          <div className="relative h-[354px] rounded-l-3xl overflow-hidden -mr-4">
-            <Image
-              src="/images/home/hero-1.jpg"
-              alt="三島の風景"
-              fill
-              className="object-cover"
-              priority
-            />
-          </div>
+          <HeroSlideshowSP />
         </div>
 
         {/* PC: absolute配置レイアウト (1440フレーム中央寄せ + 右側画像は viewport右端アンカー) */}
@@ -181,29 +174,97 @@ export default async function HomePage() {
         }}
       >
         <div className="relative px-4 tablet:px-[45px] max-w-[1440px] mx-auto">
-          <div className="flex flex-col tablet:flex-row items-center justify-between gap-6">
+          {/* SP: 背景画像cover + ダークオーバーレイ */}
+          <div className="flex flex-col gap-6 tablet:hidden">
+            <Link
+              href="/for-customer"
+              className="group relative flex items-center gap-6 rounded-2xl overflow-hidden px-4 pt-9 pb-10"
+            >
+              <div className="absolute inset-0 -z-0">
+                <Image
+                  src="/images/home/service-customer.jpg"
+                  alt=""
+                  fill
+                  className="object-cover"
+                />
+                <div
+                  className="absolute inset-0"
+                  style={{ backgroundImage: 'linear-gradient(-28deg, rgba(39,51,59,0.2) 1.5%, rgba(39,51,59,0.5) 39.7%)' }}
+                />
+              </div>
+              <div className="relative z-10 flex-1 min-w-0 flex flex-col gap-2 text-white">
+                <h3 className="font-mincho text-[24px] leading-[1.6] tracking-[0.96px]" style={{ fontFeatureSettings: "'palt' 1" }}>
+                  不動産を<br />お探しの方
+                </h3>
+                <p className="text-body-m font-gothic font-medium leading-[2]">
+                  買いたい・借りたい
+                </p>
+              </div>
+              <span className="relative z-10 inline-flex items-center justify-center size-11 rounded-full bg-accent-blue shrink-0">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                  <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
+            </Link>
+
+            <Link
+              href="/for-owner"
+              className="group relative flex items-center gap-6 rounded-2xl overflow-hidden px-4 pt-9 pb-10"
+            >
+              <div className="absolute inset-0 -z-0">
+                <Image
+                  src="/images/home/service-owner.jpg"
+                  alt=""
+                  fill
+                  className="object-cover"
+                />
+                <div
+                  className="absolute inset-0"
+                  style={{ backgroundImage: 'linear-gradient(to left, rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 100%)' }}
+                />
+              </div>
+              <div className="relative z-10 flex-1 min-w-0 flex flex-col gap-2 text-white">
+                <h3 className="font-mincho text-[24px] leading-[1.6] tracking-[0.96px]" style={{ fontFeatureSettings: "'palt' 1" }}>
+                  不動産を<br />お持ちの方へ
+                </h3>
+                <p className="text-body-m font-gothic font-medium leading-[2]">
+                  売りたい・貸したい
+                </p>
+              </div>
+              <span className="relative z-10 inline-flex items-center justify-center size-11 rounded-full bg-accent-blue shrink-0">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                  <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
+            </Link>
+          </div>
+
+          {/* PC: 既存レイアウト維持 */}
+          <div className="hidden tablet:flex flex-row items-center justify-between gap-6">
             {/* カード1: お探しの方 */}
             <Link
               href="/for-customer"
-              className="group bg-cream rounded-3xl p-4 tablet:p-[30px] flex flex-row gap-4 tablet:gap-[30px] items-start w-full tablet:w-[646px] hover:shadow-lg transition-shadow overflow-hidden"
+              className="group bg-cream rounded-3xl p-[30px] flex flex-row gap-[30px] items-start w-[646px] hover:shadow-lg transition-shadow overflow-hidden"
             >
-              <div className="flex flex-col justify-between flex-1 min-w-0 h-[140px] tablet:h-[220px] pt-2 tablet:pt-2 px-3 tablet:px-3">
+              <div className="flex flex-col justify-between flex-1 min-w-0 h-[220px] pt-2 px-3">
                 <div className="flex flex-col gap-2">
-                  <h3 className="font-mincho text-2xl tablet:text-[32px] leading-[1.5] tracking-[0.96px] tablet:tracking-[1.28px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+                  <h3 className="font-mincho text-[32px] leading-[1.5] tracking-[1.28px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
                     不動産を<br />お探しの方へ
                   </h3>
-                  <p className="text-body-s tablet:text-[18px] tablet:leading-[1.8] font-gothic font-medium text-dark-green">
+                  <p className="text-[18px] leading-[1.8] font-gothic font-medium text-dark-green">
                     買いたい・借りたい
                   </p>
                 </div>
-                <span className="inline-flex items-center justify-center w-10 h-10 tablet:w-12 tablet:h-12 rounded-full bg-accent-blue">
+                <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                     <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
                     <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </span>
               </div>
-              <div className="w-[140px] h-[140px] tablet:w-[294px] tablet:h-[220px] relative rounded-xl overflow-hidden shrink-0">
+              <div className="w-[294px] h-[220px] relative rounded-xl overflow-hidden shrink-0">
                 <Image
                   src="/images/home/service-customer.jpg"
                   alt="不動産をお探しの方へ"
@@ -216,25 +277,25 @@ export default async function HomePage() {
             {/* カード2: お持ちの方 */}
             <Link
               href="/for-owner"
-              className="group bg-cream rounded-3xl p-4 tablet:p-[30px] flex flex-row gap-4 tablet:gap-[30px] items-start w-full tablet:w-[646px] hover:shadow-lg transition-shadow overflow-hidden"
+              className="group bg-cream rounded-3xl p-[30px] flex flex-row gap-[30px] items-start w-[646px] hover:shadow-lg transition-shadow overflow-hidden"
             >
-              <div className="flex flex-col justify-between flex-1 min-w-0 h-[140px] tablet:h-[220px] pt-2 tablet:pt-2 px-3 tablet:px-3">
+              <div className="flex flex-col justify-between flex-1 min-w-0 h-[220px] pt-2 px-3">
                 <div className="flex flex-col gap-2">
-                  <h3 className="font-mincho text-2xl tablet:text-[32px] leading-[1.5] tracking-[0.96px] tablet:tracking-[1.28px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+                  <h3 className="font-mincho text-[32px] leading-[1.5] tracking-[1.28px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
                     不動産を<br />お持ちの方へ
                   </h3>
-                  <p className="text-body-s tablet:text-[18px] tablet:leading-[1.8] font-gothic font-medium text-dark-green">
+                  <p className="text-[18px] leading-[1.8] font-gothic font-medium text-dark-green">
                     売りたい・貸したい
                   </p>
                 </div>
-                <span className="inline-flex items-center justify-center w-10 h-10 tablet:w-12 tablet:h-12 rounded-full bg-accent-blue">
+                <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                     <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
                     <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </span>
               </div>
-              <div className="w-[140px] h-[140px] tablet:w-[294px] tablet:h-[220px] relative rounded-xl overflow-hidden shrink-0">
+              <div className="w-[294px] h-[220px] relative rounded-xl overflow-hidden shrink-0">
                 <Image
                   src="/images/home/service-owner.jpg"
                   alt="不動産をお持ちの方へ"
