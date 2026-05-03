@@ -74,6 +74,7 @@ function AccordionItem({ item, isOpen, onToggle }: AccordionItemProps) {
         </svg>
       </button>
       <div
+        ref={contentRef}
         className="overflow-hidden transition-[max-height] duration-500 ease-in-out"
         style={{ maxHeight: `${maxHeight}px` }}
       >

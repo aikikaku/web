@@ -3,6 +3,7 @@ import PropertyCard from '@/components/property/PropertyCard';
 import Link from 'next/link';
 import SeeAllLink from '@/components/ui/SeeAllLink';
 import PropertyCarousel from '@/components/home/PropertyCarousel';
+import MobileTocNav from '@/components/ui/MobileTocNav';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
@@ -321,12 +322,15 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
         </div>
       </section>
 
+      {/* SP用 floating TOC bar */}
+      <MobileTocNav items={tocItems} />
+
       {/* メインコンテンツ - 2カラムレイアウト */}
-      <section className="px-4 tablet:pl-[45px] tablet:pr-[75px] py-16 tablet:py-24 max-w-[1440px] mx-auto">
+      <section data-mobile-toc-start className="px-4 tablet:pl-[45px] tablet:pr-[75px] py-16 tablet:py-24 max-w-[1440px] mx-auto">
         <div className="flex flex-col tablet:flex-row gap-8 tablet:gap-0 tablet:justify-between">
-          {/* 左サイドバー - 目次ナビ（スクロール追従） */}
-          <aside className="w-full tablet:w-[323px] shrink-0">
-            <div className="bg-light-green rounded-[32px] px-[30px] py-[45px] tablet:sticky tablet:top-[120px]">
+          {/* 左サイドバー - 目次ナビ（PC のみ、SP では floating bar） */}
+          <aside className="hidden tablet:block w-[323px] shrink-0">
+            <div className="bg-light-green rounded-[32px] px-[30px] py-[45px] sticky top-[120px]">
               <TocNav items={tocItems} />
             </div>
           </aside>
@@ -481,6 +485,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
         </div>
       </section>
 
+      <div data-mobile-toc-end />
       {/* もっと物件を見る */}
       {relatedProperties.contents.length > 0 && (
         <section className="px-4 tablet:px-[75px] pt-24 pb-36 max-w-[1440px] mx-auto">

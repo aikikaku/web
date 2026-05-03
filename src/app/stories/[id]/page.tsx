@@ -7,6 +7,7 @@ import type { Metadata } from 'next';
 import { getImageUrl } from '@/lib/microcms/image';
 import RichText, { extractTocFromHtml } from '@/components/ui/RichText';
 import TocNav from '@/components/ui/TocNav';
+import MobileTocNav from '@/components/ui/MobileTocNav';
 import SeeAllLink from '@/components/ui/SeeAllLink';
 
 export const revalidate = 3600;
@@ -148,12 +149,15 @@ export default async function StoryPage({ params }: StoryPageProps) {
         </div>
       </section>
 
+      {/* SP用 floating TOC bar */}
+      <MobileTocNav items={tocItems} />
+
       {/* メインコンテンツ: TOC + リッチテキスト */}
-      <section className="pb-24 px-[45px] tablet:pr-[75px] max-w-[1440px] mx-auto max-tablet:px-4">
+      <section data-mobile-toc-start className="pb-24 px-[45px] tablet:pr-[75px] max-w-[1440px] mx-auto max-tablet:px-4">
         <div className="flex max-tablet:flex-col items-start tablet:justify-between">
-          {/* 左: 目次サイドバー（スクロール追従） */}
+          {/* 左: 目次サイドバー（PC のみ） */}
           {tocItems.length > 0 && (
-            <div className="tablet:w-[323px] shrink-0 tablet:sticky tablet:top-24 max-tablet:mb-8 max-tablet:w-full">
+            <div className="hidden tablet:block tablet:w-[323px] shrink-0 tablet:sticky tablet:top-24">
               <div className="bg-light-green rounded-[32px] px-[30px] py-[45px]">
                 <TocNav items={tocItems} />
               </div>
@@ -198,6 +202,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
 
       {/* 区切り線 */}
       <div className="border-t border-dark-green/10" />
+      <div data-mobile-toc-end />
 
       {/* もっとストーリーを見る */}
       {relatedStories.contents.length > 0 && (
