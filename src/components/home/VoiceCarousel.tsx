@@ -9,9 +9,12 @@ interface Props {
   voices: CustomerVoice[];
 }
 
+const PAGE_SIZE = 3;
+
 export default function VoiceCarousel({ voices }: Props) {
   const trackRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activePage, setActivePage] = useState(0);
+  const totalPages = Math.max(1, Math.ceil(voices.length / PAGE_SIZE));
 
   useEffect(() => {
     const el = trackRef.current;
@@ -19,28 +22,30 @@ export default function VoiceCarousel({ voices }: Props) {
     const handleScroll = () => {
       const cardWidth = el.children[0]?.getBoundingClientRect().width || 1;
       const gap = 12;
-      const idx = Math.round(el.scrollLeft / (cardWidth + gap));
-      setActiveIndex(Math.min(idx, voices.length - 1));
+      const cardIdx = Math.round(el.scrollLeft / (cardWidth + gap));
+      const page = Math.min(totalPages - 1, Math.floor(cardIdx / PAGE_SIZE));
+      setActivePage(page);
     };
     el.addEventListener('scroll', handleScroll, { passive: true });
     return () => el.removeEventListener('scroll', handleScroll);
-  }, [voices.length]);
+  }, [voices.length, totalPages]);
 
-  const scrollTo = (index: number) => {
+  const scrollToPage = (page: number) => {
     const el = trackRef.current;
     if (!el) return;
-    const card = el.children[index] as HTMLElement | undefined;
+    const targetIndex = page * PAGE_SIZE;
+    const card = el.children[targetIndex] as HTMLElement | undefined;
     if (!card) return;
     el.scrollTo({ left: card.offsetLeft - el.offsetLeft, behavior: 'smooth' });
   };
 
-  const handlePrev = () => scrollTo(Math.max(0, activeIndex - 1));
-  const handleNext = () => scrollTo(Math.min(voices.length - 1, activeIndex + 1));
+  const handlePrev = () => scrollToPage(Math.max(0, activePage - 1));
+  const handleNext = () => scrollToPage(Math.min(totalPages - 1, activePage + 1));
 
   if (!voices.length) return null;
 
   return (
-    <div>
+    <div className="max-w-[1440px] mx-auto">
       <div
         ref={trackRef}
         className="overflow-x-auto pl-4 tablet:pl-[75px] pb-4 scroll-smooth snap-x snap-mandatory"
@@ -85,12 +90,12 @@ export default function VoiceCarousel({ voices }: Props) {
       </div>
 
       {/* Navigation */}
-      <div className="flex items-center justify-between mt-6 tablet:mt-16 px-4 tablet:px-[75px] max-w-[1440px] mx-auto">
+      <div className="flex items-center justify-between mt-6 tablet:mt-16 px-4 tablet:px-[75px]">
         <div className="flex items-center gap-3">
           <button
             type="button"
             onClick={handlePrev}
-            disabled={activeIndex === 0}
+            disabled={activePage === 0}
             aria-label="前へ"
             className="w-6 h-6 inline-flex items-center justify-center text-dark-green hover:opacity-70 transition-opacity disabled:opacity-20 disabled:cursor-not-allowed"
           >
@@ -99,20 +104,20 @@ export default function VoiceCarousel({ voices }: Props) {
             </svg>
           </button>
           <div className="flex items-center gap-2">
-            {voices.slice(0, Math.min(voices.length, 8)).map((_, i) => (
+            {Array.from({ length: totalPages }).map((_, i) => (
               <button
                 key={i}
                 type="button"
-                aria-label={`スライド${i + 1}`}
-                onClick={() => scrollTo(i)}
-                className={`w-2 h-2 rounded-full transition-colors ${i === activeIndex ? 'bg-dark-green' : 'bg-dark-green/30'}`}
+                aria-label={`ページ${i + 1}`}
+                onClick={() => scrollToPage(i)}
+                className={`w-2 h-2 rounded-full transition-colors ${i === activePage ? 'bg-dark-green' : 'bg-dark-green/30'}`}
               />
             ))}
           </div>
           <button
             type="button"
             onClick={handleNext}
-            disabled={activeIndex >= voices.length - 1}
+            disabled={activePage >= totalPages - 1}
             aria-label="次へ"
             className="w-6 h-6 inline-flex items-center justify-center text-dark-green hover:opacity-70 transition-opacity disabled:opacity-20 disabled:cursor-not-allowed"
           >

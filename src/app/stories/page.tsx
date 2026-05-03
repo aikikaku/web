@@ -179,7 +179,7 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
   return (
     <div className="bg-cream">
       {/* ヘッダーセクション */}
-      <section className="px-4 tablet:px-[75px] py-16 tablet:py-24 max-w-[1440px] mx-auto">
+      <section className="px-4 tablet:px-[45px] py-16 tablet:py-24 max-w-[1440px] mx-auto">
         <div className="flex flex-col gap-8 tablet:gap-12">
           <div className="flex flex-col gap-2">
             <h1
@@ -203,20 +203,9 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
       </Suspense>
 
       {/* フィルター + リスト */}
-      <section className="px-4 tablet:px-[75px] pb-16 tablet:pb-24 max-w-[1440px] mx-auto">
-        {/* PC用フィルターバー */}
-        <div className="hidden tablet:block">
-          <Suspense fallback={<div className="h-14 bg-cream animate-pulse rounded-lg" />}>
-            <StoriesFilter
-              categories={categoryLabels}
-              currentCategory={searchParams.category}
-              currentRegions={searchParams.regions}
-            />
-          </Suspense>
-        </div>
-
+      <section className="px-4 tablet:px-[45px] pb-16 tablet:pb-24 max-w-[1440px] mx-auto">
         {/* コンテンツ */}
-        <div className="tablet:mt-[96px]">
+        <div>
           {filteredContents.length > 0 ? (
             <>
               {/* フィーチャードストーリー */}
@@ -225,6 +214,17 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
                   <FeaturedStoryCard story={featuredStory} />
                 </div>
               )}
+
+              {/* PC用フィルターバー（pickup の下） */}
+              <div className="hidden tablet:block mb-12 tablet:mb-[96px]">
+                <Suspense fallback={<div className="h-14 bg-cream animate-pulse rounded-lg" />}>
+                  <StoriesFilter
+                    categories={categoryLabels}
+                    currentCategory={searchParams.category}
+                    currentRegions={searchParams.regions}
+                  />
+                </Suspense>
+              </div>
 
               {/* 3カラムグリッド */}
               {gridStories.length > 0 && (
@@ -258,7 +258,7 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
       </section>
 
       {/* 仲人バナー */}
-      <section className="px-4 tablet:px-[45px] pb-24 tablet:pb-36 flex justify-center">
+      <section className="px-4 tablet:px-[45px] pb-24 tablet:pb-36 max-w-[1440px] mx-auto flex justify-center">
         <Link
           href="/about"
           className="block group bg-light-green rounded-[24px] p-[30px] w-full max-w-[646px] overflow-hidden"

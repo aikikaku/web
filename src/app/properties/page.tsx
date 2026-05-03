@@ -5,7 +5,6 @@ import PropertyFilter from '@/components/property/PropertyFilter';
 import Pagination from '@/components/ui/Pagination';
 import Link from 'next/link';
 import Image from 'next/image';
-import { getImageUrl } from '@/lib/microcms/image';
 import MobileFilterNav from '@/components/property/MobileFilterNav';
 import type { Metadata } from 'next';
 
@@ -17,7 +16,7 @@ export const metadata: Metadata = {
 export const revalidate = 3600;
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp';
-const PER_PAGE = 12;
+const PER_PAGE = 9;
 
 interface PropertiesPageProps {
   searchParams: {
@@ -101,17 +100,10 @@ export default async function PropertiesPage({
         <MobileFilterNav />
       </Suspense>
 
-      <section className="section-padding">
-        <div className="page-container">
+      <section className="pt-16 tablet:pt-24 pb-16 tablet:pb-24">
+        <div className="max-w-[1440px] mx-auto px-4 tablet:px-[45px]">
           {/* ページタイトル（左寄せ） */}
           <h1 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.92px] text-dark-green mb-12" style={{ fontFeatureSettings: "'palt' 1" }}>物件を探す</h1>
-
-          {/* フィルター */}
-          <div className="tablet:px-[30px] mb-12">
-            <Suspense fallback={<div className="h-14 bg-cream animate-pulse rounded-lg" />}>
-              <PropertyFilter />
-            </Suspense>
-          </div>
 
           {/* 注目物件（XLカード） */}
           {featuredProperty && (
@@ -238,36 +230,17 @@ export default async function PropertiesPage({
                       )}
                     </div>
                   </div>
-
-                  {/* サムネイル行（mainImage + images） */}
-                  {(() => {
-                    const allThumbs = [
-                      featuredProperty.mainImage,
-                      ...(featuredProperty.images || []),
-                    ].filter(Boolean).slice(0, 6);
-                    return allThumbs.length > 0 ? (
-                    <div className="flex gap-2 mt-4 tablet:mt-0">
-                      {allThumbs.map((img, i) => (
-                        <div
-                          key={i}
-                          className={`flex-1 aspect-square relative rounded-xl overflow-hidden ${i > 0 ? 'opacity-[0.15]' : ''}`}
-                        >
-                          <Image
-                            src={getImageUrl(img, { width: 140, height: 140, format: 'webp' })}
-                            alt=""
-                            fill
-                            className="object-cover"
-                            sizes="70px"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                    ) : null;
-                  })()}
                 </div>
               </div>
             </Link>
           )}
+
+          {/* フィルター（pickup の下） */}
+          <div className="mb-12 tablet:mb-[96px]">
+            <Suspense fallback={<div className="h-14 bg-cream animate-pulse rounded-lg" />}>
+              <PropertyFilter />
+            </Suspense>
+          </div>
 
           {/* 物件カードグリッド */}
           {gridProperties.length > 0 ? (
@@ -301,16 +274,16 @@ export default async function PropertiesPage({
 
       {/* 駐車場セクション */}
       <section className="py-24">
-        <div className="page-container flex justify-center">
+        <div className="max-w-[1440px] mx-auto px-4 tablet:px-[45px] flex justify-center">
           <Link
             href="/for-customer"
             className="block bg-light-green rounded-[24px] px-[30px] pt-6 pb-8 max-w-[646px] w-full group"
           >
-            <div className="flex items-center justify-between">
-              <div className="flex flex-col gap-2 max-w-[449px]">
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex flex-col gap-2 min-w-0">
                 <p className="font-gothic font-medium text-[16px] leading-[2] text-dark-green">駐車場を借りたい</p>
                 <p
-                  className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green"
+                  className="font-mincho text-[20px] tablet:text-[28px] leading-[1.5] tracking-[0.04em] text-dark-green whitespace-nowrap"
                   style={{ fontFeatureSettings: "'palt' 1" }}
                 >
                   三島市で駐車場をお探しの方へ

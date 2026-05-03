@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, useTransition } from 'react';
 
 const propertyTypes = [
   { value: 'sell_property', label: '売物件' },
@@ -49,9 +49,9 @@ function CheckboxDropdown({
     <div className="relative flex-1" ref={ref}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full h-[56px] px-4 border border-dark-green rounded-lg font-gothic font-medium text-[16px] bg-white flex items-center justify-between"
+        className="w-full h-[56px] px-4 border border-dark-green rounded-lg font-gothic font-medium text-[16px] bg-transparent flex items-center justify-between"
       >
-        <span className={selected.length > 0 ? 'text-dark-green' : 'text-black/30'}>
+        <span className={selected.length > 0 ? 'text-dark-green' : 'text-dark-green/60'}>
           {label}
         </span>
         <span className="flex items-center gap-2">
@@ -69,11 +69,11 @@ function CheckboxDropdown({
         </span>
       </button>
       {isOpen && (
-        <div className="absolute top-[60px] left-0 w-full bg-white border border-dark-green/20 rounded-lg shadow-lg z-20 py-2">
+        <div className="absolute top-[60px] left-0 w-full bg-cream border border-dark-green/20 rounded-lg shadow-lg z-20 py-2">
           {options.map((option) => (
             <label
               key={option.value}
-              className="flex items-center gap-3 px-4 py-2.5 hover:bg-cream cursor-pointer"
+              className="flex items-center gap-3 px-4 py-2.5 hover:bg-light-green cursor-pointer"
             >
               <input
                 type="checkbox"
@@ -95,8 +95,27 @@ function CheckboxDropdown({
 export default function PropertyFilter() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [, startTransition] = useTransition();
 
   const currentStatus = searchParams.get('status') || 'all';
+  const [optimisticStatus, setOptimisticStatus] = useState(currentStatus);
+  const toggleRef = useRef<HTMLDivElement>(null);
+  const allBtnRef = useRef<HTMLButtonElement>(null);
+  const availableBtnRef = useRef<HTMLButtonElement>(null);
+  const [indicator, setIndicator] = useState<{ left: number; width: number } | null>(null);
+
+  useEffect(() => { setOptimisticStatus(currentStatus); }, [currentStatus]);
+
+  useEffect(() => {
+    const el = optimisticStatus === 'available' ? availableBtnRef.current : allBtnRef.current;
+    const container = toggleRef.current;
+    if (!el || !container) return;
+    setIndicator({
+      left: el.offsetLeft,
+      width: el.offsetWidth,
+    });
+  }, [optimisticStatus]);
+
   const selectedTypes = searchParams.get('types')?.split(',').filter(Boolean) || [];
   const selectedRegions = searchParams.get('regions')?.split(',').filter(Boolean) || [];
 
@@ -152,21 +171,36 @@ export default function PropertyFilter() {
 
   return (
     <div className="hidden tablet:flex items-center gap-2">
-      {/* ステータス切替トグル */}
-      <div className="flex rounded-[50px] overflow-hidden border border-dark-green shrink-0 mr-4">
+      {/* ステータス切替トグル（滑らかアニメーション） */}
+      <div
+        ref={toggleRef}
+        className="relative flex rounded-[50px] border border-dark-green shrink-0 mr-4 p-[2px] overflow-hidden"
+      >
+        {/* スライディングインジケーター */}
+        {indicator && (
+          <span
+            aria-hidden
+            className="absolute top-[2px] bottom-[2px] bg-dark-green rounded-[50px] transition-all duration-300 ease-out"
+            style={{ left: indicator.left, width: indicator.width }}
+          />
+        )}
         {[
-          { value: 'all', label: 'すべて' },
-          { value: 'available', label: 'ご案内中の物件' },
+          { value: 'all', label: 'すべて', ref: allBtnRef },
+          { value: 'available', label: 'ご案内中の物件', ref: availableBtnRef },
         ].map((option) => (
           <button
             key={option.value}
-            onClick={() =>
-              router.push(buildUrl({ status: option.value === 'all' ? undefined : option.value }))
-            }
-            className={`h-[56px] px-6 font-gothic font-medium text-[16px] leading-none transition-colors ${
-              currentStatus === option.value
-                ? 'bg-dark-green text-white rounded-[50px]'
-                : 'bg-transparent text-dark-green'
+            ref={option.ref}
+            onClick={() => {
+              setOptimisticStatus(option.value);
+              startTransition(() => {
+                router.push(
+                  buildUrl({ status: option.value === 'all' ? undefined : option.value })
+                );
+              });
+            }}
+            className={`relative z-10 h-[52px] px-6 font-gothic font-medium text-[16px] leading-none transition-colors duration-300 rounded-[50px] ${
+              optimisticStatus === option.value ? 'text-white' : 'text-dark-green'
             }`}
           >
             {option.label}
