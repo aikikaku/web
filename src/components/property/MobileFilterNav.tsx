@@ -98,7 +98,7 @@ export default function MobileFilterNav() {
       params.set('regions', localRegions.join(','));
     }
     const qs = params.toString();
-    router.push(qs ? `/properties?${qs}` : '/properties');
+    router.push(qs ? `/properties?${qs}` : '/properties', { scroll: false });
     closeModal();
   }, [router, localStatus, localTypes, localRegions, closeModal]);
 

@@ -71,6 +71,7 @@ export default function Pagination({
       {/* Prev arrow - light-green bg with opacity when disabled-looking */}
       <Link
         href={currentPage > 1 ? buildHref(currentPage - 1) : '#'}
+        scroll={false}
         className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors ${
           currentPage > 1
             ? 'bg-light-green text-dark-green hover:bg-light-green/80'
@@ -96,6 +97,7 @@ export default function Pagination({
           <Link
             key={page}
             href={buildHref(page)}
+            scroll={false}
             className={`w-8 h-8 flex items-center justify-center font-gothic font-medium text-[14px] rounded transition-colors ${
               page === currentPage
                 ? 'text-dark-green'
@@ -110,6 +112,7 @@ export default function Pagination({
       {/* Next arrow - dark-green bg, white arrow */}
       <Link
         href={currentPage < totalPages ? buildHref(currentPage + 1) : '#'}
+        scroll={false}
         className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors ${
           currentPage < totalPages
             ? 'bg-dark-green text-white hover:opacity-90'

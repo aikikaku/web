@@ -75,14 +75,15 @@ export default function StoriesFilter({
       buildUrl({
         category: selectedCategories[0] || undefined,
         regions: selectedRegions.length > 0 ? selectedRegions.join(',') : undefined,
-      })
+      }),
+      { scroll: false }
     );
   };
 
   const handleClear = () => {
     setSelectedCategories([]);
     setSelectedRegions([]);
-    router.push('/stories');
+    router.push('/stories', { scroll: false });
   };
 
   const hasFilters = selectedCategories.length > 0 || selectedRegions.length > 0;

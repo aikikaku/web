@@ -141,7 +141,7 @@ export default function PropertyFilter() {
       const next = selectedTypes.includes(value)
         ? selectedTypes.filter((t) => t !== value)
         : [...selectedTypes, value];
-      router.push(buildUrl({ types: next.length > 0 ? next.join(',') : undefined }));
+      router.push(buildUrl({ types: next.length > 0 ? next.join(',') : undefined }), { scroll: false });
     },
     [selectedTypes, router, buildUrl]
   );
@@ -151,17 +151,17 @@ export default function PropertyFilter() {
       const next = selectedRegions.includes(value)
         ? selectedRegions.filter((r) => r !== value)
         : [...selectedRegions, value];
-      router.push(buildUrl({ regions: next.length > 0 ? next.join(',') : undefined }));
+      router.push(buildUrl({ regions: next.length > 0 ? next.join(',') : undefined }), { scroll: false });
     },
     [selectedRegions, router, buildUrl]
   );
 
   const applyFilters = useCallback(() => {
-    router.push(buildUrl({}));
+    router.push(buildUrl({}), { scroll: false });
   }, [router, buildUrl]);
 
   const clearFilters = () => {
-    router.push('/properties');
+    router.push('/properties', { scroll: false });
   };
 
   const hasActiveFilters =
@@ -195,7 +195,8 @@ export default function PropertyFilter() {
               setOptimisticStatus(option.value);
               startTransition(() => {
                 router.push(
-                  buildUrl({ status: option.value === 'all' ? undefined : option.value })
+                  buildUrl({ status: option.value === 'all' ? undefined : option.value }),
+                  { scroll: false }
                 );
               });
             }}

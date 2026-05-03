@@ -81,7 +81,7 @@ export default function MobileStoriesFilter() {
     if (localCategory) params.set('category', localCategory);
     if (localRegions.length > 0) params.set('regions', localRegions.join(','));
     const qs = params.toString();
-    router.push(qs ? `/stories?${qs}` : '/stories');
+    router.push(qs ? `/stories?${qs}` : '/stories', { scroll: false });
     closeModal();
   }, [router, localCategory, localRegions, closeModal]);
 
