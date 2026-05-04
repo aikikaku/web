@@ -3,7 +3,7 @@
 import { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Story } from '@/types/microcms';
-import StoryCard from '@/components/story/StoryCard';
+import StoryCardOverlay from '@/components/story/StoryCardOverlay';
 
 interface Props {
   stories: Story[];
@@ -44,10 +44,10 @@ export default function StoryCarousel({ stories, href = '/stories' }: Props) {
         className="overflow-x-auto pl-4 pb-4 snap-x snap-mandatory scroll-smooth scroll-pl-4"
         style={{ scrollbarWidth: 'none' }}
       >
-        <div className="flex gap-4 min-w-max pr-4">
+        <div className="flex gap-5 min-w-max pr-4">
           {stories.map((story) => (
             <div key={story.id} className="w-[332px] shrink-0 snap-start">
-              <StoryCard story={story} size="m" />
+              <StoryCardOverlay story={story} />
             </div>
           ))}
         </div>
