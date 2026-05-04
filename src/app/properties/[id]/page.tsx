@@ -75,14 +75,14 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
     notFound();
   }
 
-  // 同じ category & type の物件を多めに取得 → サーバー側でシャッフル → MoreProperties へ。
+  // 同じ category & type の物件を多めに取得 → サーバー側でシャッフル → 最大 6 件で MoreProperties へ。
   // noStore() なのでアクセスごとに新しい順序になる。
   const relatedRaw = await getProperties({
     limit: 100,
     filters: `id[not_equals]${property.id}[and]category[contains]${property.category}[and]type[contains]${property.type}`,
     orders: '-publishedAt',
   }).catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: 100 }));
-  const shuffledRelated = [...relatedRaw.contents].sort(() => Math.random() - 0.5);
+  const shuffledRelated = [...relatedRaw.contents].sort(() => Math.random() - 0.5).slice(0, 6);
   const relatedProperties = { ...relatedRaw, contents: shuffledRelated };
 
   const categoryLabel =
@@ -197,22 +197,27 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
       {/* ヒーローセクション - カード型 */}
       <section className="px-4 tablet:px-[45px] pt-12 max-w-[1440px] mx-auto">
         <div className="bg-light-green rounded-[32px] p-4 tablet:p-[30px]">
-          <div className="flex flex-col tablet:flex-row gap-6 tablet:gap-[60px]">
-            {/* メイン画像 */}
-            <div className="w-full tablet:w-[646px] shrink-0">
-              <PropertyDetailClient
-                allImages={allImages}
-                title={property.title}
-                isSold={isSold}
-              />
-            </div>
-
-            {/* 物件概要 */}
-            <div className="flex flex-col justify-between flex-1">
-              <div className="flex flex-col gap-6 tablet:gap-10 pt-0 tablet:pt-3">
-                {/* ラベル + 地域 */}
+          <PropertyDetailClient
+            allImages={allImages}
+            title={property.title}
+            isSold={isSold}
+            spLabelsSlot={(
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="tag-pill text-[14px] leading-none px-3 py-1.5 shrink-0">
+                  {categoryLabel}
+                </span>
+                {locationText && (
+                  <span className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green truncate">
+                    {locationText}
+                  </span>
+                )}
+              </div>
+            )}
+            detailsSlot={(
+              <div className="flex flex-col gap-6 tablet:gap-10 pt-4 tablet:pt-3 min-w-0">
+                {/* ラベル + 地域 (PC のみ。SP は spLabelsSlot で画像 overlay) */}
                 <div>
-                  <div className="flex gap-3 items-center">
+                  <div className="hidden tablet:flex gap-3 items-center">
                     {property.status === 'sold' && (
                       <span className="tag-pill-dark text-[14px] leading-none px-3 py-1.5">
                         成約済み
@@ -302,30 +307,8 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                   </div>
                 )}
               </div>
-
-              {/* サムネイル一覧 (PCのみ) */}
-              {allImages.length > 1 && (
-                <div className="hidden tablet:flex gap-2 mt-6 w-full">
-                  {allImages.slice(0, 6).map((image, index) => (
-                    <div
-                      key={index}
-                      className={`relative flex-1 aspect-square rounded-xl overflow-hidden min-w-0 ${
-                        index > 0 ? 'opacity-[0.15]' : ''
-                      }`}
-                    >
-                      <Image
-                        src={getImageUrl(image, { width: 200, height: 200, format: 'webp' })}
-                        alt={`画像 ${index + 1}`}
-                        fill
-                        className="object-cover"
-                        sizes="100px"
-                      />
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
+            )}
+          />
         </div>
       </section>
 
@@ -351,8 +334,8 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
               </div>
             )}
 
-            {/* 物件概要テーブル */}
-            <div className="py-24">
+            {/* 物件概要テーブル (SP は下余白を縮めて action card との間 32px に) */}
+            <div className="pt-12 pb-8 tablet:py-24">
               <div className="border-b border-dark-green/20">
                 {detailFields.map((field) =>
                   field.value ? (
