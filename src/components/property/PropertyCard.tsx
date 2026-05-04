@@ -21,8 +21,8 @@ export default function PropertyCard({ property }: PropertyCardProps) {
 
   return (
     <Link href={`/properties/${property.id}`} className="block group w-full hover:opacity-70 transition-opacity">
-      {/* Tags above image */}
-      <div className="flex gap-3 items-center pb-3">
+      {/* Tags above image — PC のみ。SP では画像内オーバーレイ */}
+      <div className="hidden tablet:flex gap-3 items-center pb-3">
         <span className="tag-pill text-[14px] leading-none px-3 py-1.5">
           {categoryLabel}
         </span>
@@ -33,7 +33,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
         )}
       </div>
 
-      {/* Image - rounded-2xl on SP, rounded-lg (8px) on tablet per Figma */}
+      {/* Image - SP: rounded-[16px] aspect-[294/220] にラベル overlay */}
       <div className="relative aspect-[294/220] tablet:aspect-auto tablet:h-[293px] w-full rounded-2xl tablet:rounded-lg overflow-hidden">
         <Image
           src={getImageUrl(property.mainImage, { width: 410, format: 'webp' })}
@@ -45,18 +45,39 @@ export default function PropertyCard({ property }: PropertyCardProps) {
         {isSold && (
           <div className="absolute inset-0 bg-[rgba(42,54,59,0.5)]" />
         )}
-        {/* 商談中・成約済みのステータスを画像右上に表示 */}
+        {/* SP: 画像内に上下グラデ + ラベル */}
+        <div
+          className="tablet:hidden absolute inset-0 pointer-events-none"
+          aria-hidden="true"
+          style={{ backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0) 73.6%, rgba(0,0,0,0.2) 92.7%)' }}
+        />
+        <div className="tablet:hidden absolute inset-x-0 top-0 p-2.5 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="tag-pill text-[14px] leading-none px-3 py-1.5 shrink-0">{categoryLabel}</span>
+            {locationText && (
+              <span className="font-gothic font-medium text-[16px] leading-[2] text-cream truncate">
+                {locationText}
+              </span>
+            )}
+          </div>
+          {isSold && (
+            <span className="inline-flex items-center bg-dark-green text-white font-gothic font-medium text-[14px] leading-none rounded-full px-3 py-1.5 shrink-0">
+              成約済み
+            </span>
+          )}
+        </div>
+        {/* PC: 画像右上に成約済み */}
         {isSold && (
-          <span className="absolute top-3 right-3 inline-flex items-center bg-dark-green text-white font-gothic font-medium text-[14px] leading-none rounded-full px-3 py-1.5">
+          <span className="hidden tablet:inline-flex absolute top-3 right-3 items-center bg-dark-green text-white font-gothic font-medium text-[14px] leading-none rounded-full px-3 py-1.5">
             成約済み
           </span>
         )}
       </div>
 
-      {/* Details */}
-      <div className="px-3">
-        {/* Title */}
-        <div className="py-6">
+      {/* Details — SP: 外側 px なし / PC: 既存通り px-3 */}
+      <div className="tablet:px-3">
+        {/* Title — SP: px-2 py-6 / PC: py-6 */}
+        <div className="px-2 py-6 tablet:px-0">
           <h3
             className="font-mincho text-[18px] tablet:text-[24px] leading-[1.6] tracking-[0.04em] text-black"
             style={{ fontFeatureSettings: "'palt' 1" }}
@@ -65,17 +86,17 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           </h3>
         </div>
 
-        {/* Price / Layout */}
+        {/* Price / Layout — borders are full-width on SP */}
         <div className="pb-3">
-          <div className="flex border-t border-b border-dark-green/10">
-            <div className="flex-1 border-r border-dark-green/10 pt-2 pb-4">
+          <div className="flex border-t border-b border-dark-green/20">
+            <div className="flex-1 border-r border-dark-green/20 pt-2 pb-4">
               <div className="pl-2">
                 <span className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green">
                   {property.type === 'rent' ? '賃料' : '価格'}
                 </span>
               </div>
               <div className="flex items-end justify-center h-[38px]">
-                <span className="font-gothic font-medium text-[20px] tablet:text-[24px] leading-[1.6] text-dark-green px-2">
+                <span className="font-gothic font-medium text-[20px] tablet:text-[24px] leading-[1.6] text-black px-2">
                   {isSold
                     ? '-'
                     : property.price
@@ -84,7 +105,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
                         ? property.rent.toLocaleString()
                         : '応談'}
                 </span>
-                <span className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green pb-1 w-7">
+                <span className="font-gothic font-medium text-[14px] leading-[1.8] text-black pb-1 w-7">
                   {isSold ? '万円' : property.price ? '万円' : property.rent ? '円/月' : ''}
                 </span>
               </div>
@@ -97,7 +118,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
                   </span>
                 </div>
                 <div className="flex items-end justify-center">
-                  <span className="font-gothic font-medium text-[20px] tablet:text-[24px] leading-[1.6] text-dark-green">
+                  <span className="font-gothic font-medium text-[20px] tablet:text-[24px] leading-[1.6] text-black">
                     {property.layout}
                   </span>
                 </div>
@@ -106,16 +127,16 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           </div>
         </div>
 
-        {/* SP: Station/Construction（左・縦並び）+ Arrow（右）— justify-between */}
-        <div className="tablet:hidden flex items-center justify-between pb-2">
+        {/* SP: Station/Construction（左・縦並び）+ Arrow（右） */}
+        <div className="tablet:hidden flex items-center justify-between pb-2 pt-2">
           <div className="flex flex-col flex-1 min-w-0 pr-2">
             {property.nearestStation && (
-              <span className="font-gothic font-medium text-[16px] leading-[2] text-black px-2 truncate">
+              <span className="font-gothic font-medium text-[16px] leading-[2] text-black truncate">
                 {property.nearestStation}
               </span>
             )}
             {property.constructionDate && (
-              <span className="font-gothic font-medium text-[16px] leading-[2] text-black px-2 truncate">
+              <span className="font-gothic font-medium text-[16px] leading-[2] text-black truncate">
                 築{property.constructionDate}
               </span>
             )}
@@ -143,9 +164,8 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           </div>
         </div>
 
-        {/* Buttons */}
+        {/* PC Buttons */}
         <div className="hidden tablet:flex items-center gap-2.5">
-          {/* Desktop buttons */}
           <div className={`flex items-center w-full ${isSold && property.story ? 'justify-between' : 'gap-2.5'}`}>
             <div className={`h-[44px] ${isSold && property.story ? 'w-[187px]' : 'flex-1 min-w-[176px]'}`}>
               <span className="flex items-center justify-center w-full h-full border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-opacity hover:opacity-70">

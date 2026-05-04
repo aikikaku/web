@@ -72,6 +72,7 @@ export default function Pagination({
       <Link
         href={currentPage > 1 ? buildHref(currentPage - 1) : '#'}
         scroll={false}
+        replace
         className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors ${
           currentPage > 1
             ? 'bg-light-green text-dark-green hover:bg-light-green/80'
@@ -98,9 +99,11 @@ export default function Pagination({
             key={page}
             href={buildHref(page)}
             scroll={false}
-            className={`w-8 h-8 flex items-center justify-center font-gothic font-medium text-[14px] rounded transition-colors ${
+            replace
+            aria-current={page === currentPage ? 'page' : undefined}
+            className={`w-8 h-8 inline-flex items-center justify-center font-gothic font-medium text-[14px] rounded-full transition-colors ${
               page === currentPage
-                ? 'text-dark-green'
+                ? 'bg-dark-green text-white pointer-events-none'
                 : 'text-dark-green hover:bg-cream'
             }`}
           >
@@ -113,6 +116,7 @@ export default function Pagination({
       <Link
         href={currentPage < totalPages ? buildHref(currentPage + 1) : '#'}
         scroll={false}
+        replace
         className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors ${
           currentPage < totalPages
             ? 'bg-dark-green text-white hover:opacity-90'

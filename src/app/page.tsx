@@ -6,6 +6,7 @@ import PropertyCarousel from '@/components/home/PropertyCarousel';
 import StoryCarousel from '@/components/home/StoryCarousel';
 import HeroSlideshowSP from '@/components/home/HeroSlideshowSP';
 import SeeAllLink from '@/components/ui/SeeAllLink';
+import ParkingBanner from '@/components/ui/ParkingBanner';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -344,38 +345,7 @@ export default async function HomePage() {
       </section>
 
       {/* 駐車場セクション */}
-      <section className="pb-0 tablet:py-[96px]">
-        <div className="px-4 tablet:px-[45px] tablet:flex tablet:justify-center">
-          <Link
-            href="/for-customer"
-            className="block bg-light-green rounded-2xl tablet:rounded-3xl pt-9 pb-10 px-4 tablet:p-[30px] tablet:max-w-[646px] w-full group"
-          >
-            <div className="flex items-center tablet:items-end justify-between gap-6">
-              <div className="flex flex-col gap-2">
-                {/* SP: タイトル上・サブ下 / PC: サブ上・タイトル下 */}
-                <p className="font-mincho text-[24px] tablet:text-[32px] leading-[1.6] tablet:leading-[1.5] tracking-[0.96px] tablet:tracking-[1.28px] text-dark-green tablet:hidden" style={{ fontFeatureSettings: "'palt' 1" }}>
-                  三島市で駐車場を<br />お探しの方へ
-                </p>
-                <p className="hidden tablet:block text-body-m font-gothic font-medium text-dark-green">
-                  駐車場を借りたい
-                </p>
-                <p className="hidden tablet:block font-mincho text-[32px] leading-[1.5] tracking-[1.28px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
-                  三島市で駐車場をお探しの方へ
-                </p>
-                <p className="text-body-m font-gothic font-medium text-dark-green tablet:hidden">
-                  駐車場を借りたい
-                </p>
-              </div>
-              <span className="inline-flex items-center justify-center w-11 h-11 tablet:w-12 tablet:h-12 rounded-full bg-accent-blue shrink-0 group-hover:scale-110 transition-transform">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                  <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </span>
-            </div>
-          </Link>
-        </div>
-      </section>
+      <ParkingBanner />
 
       {/* ストーリーセクション - 暮らしを知る */}
       <section className="bg-cream py-[60px] tablet:py-[96px]">

@@ -1,11 +1,13 @@
 import { Suspense } from 'react';
+import { unstable_noStore as noStore } from 'next/cache';
 import { getProperties } from '@/lib/microcms/queries';
 import PropertyCard from '@/components/property/PropertyCard';
+import PickupCard from '@/components/property/PickupCard';
 import PropertyFilter from '@/components/property/PropertyFilter';
 import Pagination from '@/components/ui/Pagination';
-import Link from 'next/link';
-import Image from 'next/image';
 import MobileFilterNav from '@/components/property/MobileFilterNav';
+import ParkingBanner from '@/components/ui/ParkingBanner';
+import ContactBanner from '@/components/ui/ContactBanner';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -31,6 +33,7 @@ interface PropertiesPageProps {
 export default async function PropertiesPage({
   searchParams,
 }: PropertiesPageProps) {
+  noStore();
   const currentPage = Number(searchParams.page) || 1;
   const offset = (currentPage - 1) * PER_PAGE;
 
@@ -100,143 +103,20 @@ export default async function PropertiesPage({
         <MobileFilterNav />
       </Suspense>
 
-      <section className="pt-16 tablet:pt-24 pb-16 tablet:pb-24">
+      <section className="pt-[60px] tablet:pt-24 pb-[60px] tablet:pb-24">
         <div className="max-w-[1440px] mx-auto px-4 tablet:px-[45px]">
-          {/* ページタイトル（左寄せ） */}
-          <h1 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.92px] text-dark-green mb-12" style={{ fontFeatureSettings: "'palt' 1" }}>物件を探す</h1>
+          {/* ページタイトル */}
+          <h1 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.92px] text-dark-green mb-8 tablet:mb-12" style={{ fontFeatureSettings: "'palt' 1" }}>物件を探す</h1>
 
-          {/* 注目物件（XLカード） */}
+          {/* pickup 物件（サムネイル切替対応） */}
           {featuredProperty && (
-            <Link
-              data-mobile-filter-start
-              href={`/properties/${featuredProperty.id}`}
-              className="block rounded-[32px] bg-light-green p-4 tablet:p-[30px] mb-12 group"
-            >
-              <div className="flex flex-col tablet:flex-row tablet:gap-[60px] tablet:items-stretch">
-                {/* 左: メイン画像 */}
-                <div className="tablet:w-[646px] tablet:shrink-0">
-                  <div className="aspect-[294/220] tablet:aspect-[646/485] relative overflow-hidden rounded-2xl tablet:rounded-[24px]">
-                    <Image
-                      src={featuredProperty.mainImage?.url || '/images/home/service-customer.jpg'}
-                      alt={featuredProperty.title}
-                      fill
-                      className="object-cover transition-transform group-hover:scale-105"
-                    />
-                    {featuredProperty.status === 'sold' && (
-                      <>
-                        <div
-                          className="absolute inset-0"
-                          style={{
-                            backgroundImage: 'linear-gradient(194deg, rgba(39,51,59,0.5) 4%, rgba(39,51,59,0.25) 52%, rgba(39,51,59,0.5) 104%)',
-                          }}
-                        />
-                        <span className="absolute top-4 right-4 inline-flex items-center bg-dark-green text-white font-gothic font-medium text-[14px] leading-none rounded-full px-3 py-1.5">
-                          成約済み
-                        </span>
-                      </>
-                    )}
-                  </div>
-                </div>
-                {/* 右: 詳細情報 */}
-                <div className="flex-1 flex flex-col justify-between min-w-0 pt-4 tablet:pt-0">
-                  <div className="flex flex-col gap-0 tablet:pt-3">
-                    {/* Tags + Location */}
-                    <div className="flex flex-wrap items-center gap-3">
-                      {featuredProperty.type && (
-                        <span className="tag-pill text-[14px] leading-none px-3 py-1.5">
-                          {featuredProperty.category === 'property'
-                            ? featuredProperty.type === 'sell' ? '中古住宅' : '賃貸物件'
-                            : featuredProperty.type === 'sell' ? '売土地' : '貸土地'}
-                        </span>
-                      )}
-                      {featuredProperty.regions && featuredProperty.regions.length > 0 && (
-                        <span className="font-gothic font-medium text-[16px] leading-none text-dark-green">
-                          {featuredProperty.regions.map(r => r.name).join('・')}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* タイトル */}
-                    <div className="py-[30px]">
-                      <h3
-                        className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.04em] text-black"
-                        style={{ fontFeatureSettings: "'palt' 1" }}
-                      >
-                        {featuredProperty.title}
-                      </h3>
-                    </div>
-
-                    {/* Price / Layout split */}
-                    <div className="pb-4">
-                      <div className="flex border-t border-b border-dark-green/10">
-                        <div className="flex-1 border-r border-dark-green/10 pt-2 pb-4">
-                          <div className="pl-2">
-                            <span className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green">
-                              {featuredProperty.type === 'rent' ? '賃料' : '価格'}
-                            </span>
-                          </div>
-                          <div className="flex items-end justify-center">
-                            <span className="font-gothic font-medium text-[20px] tablet:text-[24px] leading-[1.6] text-black px-1">
-                              {featuredProperty.status === 'sold'
-                                ? '-'
-                                : featuredProperty.price
-                                  ? featuredProperty.price.toLocaleString()
-                                  : featuredProperty.rent
-                                    ? featuredProperty.rent.toLocaleString()
-                                    : '応談'}
-                            </span>
-                            <span className="font-gothic font-medium text-[14px] leading-[1.5] text-black pb-1 w-7">
-                              {featuredProperty.status === 'sold' ? '万円' : featuredProperty.price ? '万円' : featuredProperty.rent ? '円/月' : ''}
-                            </span>
-                          </div>
-                        </div>
-                        {featuredProperty.layout && (
-                          <div className="flex-1 pt-2 pb-4">
-                            <div className="pl-2">
-                              <span className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green">
-                                間取り
-                              </span>
-                            </div>
-                            <div className="flex items-end justify-center">
-                              <span className="font-gothic font-medium text-[20px] tablet:text-[24px] leading-[1.6] text-black">
-                                {featuredProperty.layout}
-                              </span>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Station / Construction */}
-                    <div className="flex items-center">
-                      {featuredProperty.nearestStation && (
-                        <span className="font-gothic font-medium text-[16px] leading-[2] text-black px-2">
-                          {featuredProperty.nearestStation}
-                        </span>
-                      )}
-                      {featuredProperty.constructionDate && (
-                        <span className="font-gothic font-medium text-[16px] leading-[2] text-black px-2">
-                          築{featuredProperty.constructionDate}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* 物件詳細ボタン */}
-                    <div className="mt-10">
-                      {featuredProperty.status !== 'sold' && (
-                        <span className="inline-flex items-center justify-center h-[44px] px-6 border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-opacity hover:opacity-70">
-                          物件詳細
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Link>
+            <div className="mb-8 tablet:mb-[120px]">
+              <PickupCard property={featuredProperty} />
+            </div>
           )}
 
-          {/* フィルター（pickup の下） */}
-          <div className="mb-12 tablet:mb-[96px]">
+          {/* PC: 検索バー (フィルター) */}
+          <div className="hidden tablet:block mb-[96px]">
             <Suspense fallback={<div className="h-14 bg-cream animate-pulse rounded-lg" />}>
               <PropertyFilter />
             </Suspense>
@@ -244,7 +124,7 @@ export default async function PropertiesPage({
 
           {/* 物件カードグリッド */}
           {gridProperties.length > 0 ? (
-            <div className="grid grid-cols-1 tablet:grid-cols-3 gap-6 tablet:gap-x-[30px] tablet:gap-y-24 mt-8 tablet:mt-[96px]">
+            <div className="grid grid-cols-1 tablet:grid-cols-3 gap-y-[60px] tablet:gap-x-[30px] tablet:gap-y-24">
               {gridProperties.map((property) => (
                 <PropertyCard key={property.id} property={property} />
               ))}
@@ -273,88 +153,10 @@ export default async function PropertiesPage({
       </section>
 
       {/* 駐車場セクション */}
-      <section className="py-24">
-        <div className="max-w-[1440px] mx-auto px-4 tablet:px-[45px] flex justify-center">
-          <Link
-            href="/for-customer"
-            className="block bg-light-green rounded-[24px] px-[30px] pt-6 pb-8 max-w-[646px] w-full group"
-          >
-            <div className="flex items-center justify-between gap-4">
-              <div className="flex flex-col gap-2 min-w-0">
-                <p className="font-gothic font-medium text-[16px] leading-[2] text-dark-green">駐車場を借りたい</p>
-                <p
-                  className="font-mincho text-[20px] tablet:text-[28px] leading-[1.5] tracking-[0.04em] text-dark-green whitespace-nowrap"
-                  style={{ fontFeatureSettings: "'palt' 1" }}
-                >
-                  三島市で駐車場をお探しの方へ
-                </p>
-              </div>
-              <span className="bg-accent-blue w-12 h-12 rounded-full flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg>
-              </span>
-            </div>
-          </Link>
-        </div>
-      </section>
+      <ParkingBanner />
 
       {/* お問い合わせバナー */}
-      <section className="px-4 tablet:px-12 pb-24">
-        <div className="relative rounded-3xl overflow-hidden px-6 py-16 tablet:px-8 tablet:py-24">
-          <div className="absolute inset-0">
-            <Image
-              src="/images/home/cta-banner.jpg"
-              alt=""
-              fill
-              className="object-cover"
-            />
-            <div
-              className="absolute inset-0"
-              style={{
-                backgroundImage: 'linear-gradient(216deg, rgba(39, 51, 59, 0.1) 26.6%, rgba(39, 51, 59, 0.25) 72.5%)',
-              }}
-            />
-          </div>
-          <div className="relative z-10 flex flex-col tablet:flex-row gap-6 tablet:gap-8 items-start">
-            <div className="text-white">
-              <p className="text-body-m mb-2">お問い合わせ</p>
-              <p className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.04em]">
-                不動産に関すること、<br />
-                ぜひご相談ください。
-              </p>
-            </div>
-            <div className="flex flex-col tablet:flex-row gap-3 tablet:ml-auto w-full tablet:w-auto">
-              <Link
-                href="/for-customer"
-                className="bg-cream/95 rounded-3xl px-6 py-8 tablet:px-8 tablet:py-10 text-center w-full tablet:w-[264px] flex flex-col items-center gap-6 tablet:gap-8 hover:opacity-70 transition-opacity"
-              >
-                <span className="font-gothic font-medium text-[18px] tablet:text-[20px] text-dark-green">
-                  不動産をお探しの方
-                </span>
-                <span className="bg-accent-blue w-12 h-12 rounded-full flex items-center justify-center">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
-                </span>
-              </Link>
-              <Link
-                href="/for-owner"
-                className="bg-cream/95 rounded-3xl px-6 py-8 tablet:px-8 tablet:py-10 text-center w-full tablet:w-[264px] flex flex-col items-center gap-6 tablet:gap-8 hover:opacity-70 transition-opacity"
-              >
-                <span className="font-gothic font-medium text-[18px] tablet:text-[20px] text-dark-green">
-                  その他のお問い合わせ
-                </span>
-                <span className="bg-accent-blue w-12 h-12 rounded-full flex items-center justify-center">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
-                </span>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      <ContactBanner />
     </div>
   );
 }
