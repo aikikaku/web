@@ -12,13 +12,15 @@ interface Props {
 
 export default function StoryCarousel({ stories, href = '/stories' }: Props) {
   const trackRef = useRef<HTMLDivElement>(null);
+  const flexRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     const el = trackRef.current;
-    if (!el) return;
+    const flex = flexRef.current;
+    if (!el || !flex) return;
     const handleScroll = () => {
-      const cardWidth = (el.children[0] as HTMLElement)?.getBoundingClientRect().width || 1;
+      const cardWidth = (flex.children[0] as HTMLElement | undefined)?.getBoundingClientRect().width || 1;
       const gap = 16;
       const idx = Math.round(el.scrollLeft / (cardWidth + gap));
       setActiveIndex(Math.min(idx, stories.length - 1));
@@ -29,10 +31,12 @@ export default function StoryCarousel({ stories, href = '/stories' }: Props) {
 
   const scrollTo = (index: number) => {
     const el = trackRef.current;
-    if (!el) return;
-    const card = el.children[index] as HTMLElement | undefined;
+    const flex = flexRef.current;
+    if (!el || !flex) return;
+    const card = flex.children[index] as HTMLElement | undefined;
     if (!card) return;
-    el.scrollTo({ left: card.offsetLeft - el.offsetLeft, behavior: 'smooth' });
+    const delta = card.getBoundingClientRect().left - el.getBoundingClientRect().left;
+    el.scrollTo({ left: el.scrollLeft + delta, behavior: 'smooth' });
   };
 
   if (!stories.length) return null;
@@ -44,7 +48,7 @@ export default function StoryCarousel({ stories, href = '/stories' }: Props) {
         className="overflow-x-auto pl-4 pb-4 snap-x snap-mandatory scroll-smooth scroll-pl-4"
         style={{ scrollbarWidth: 'none' }}
       >
-        <div className="flex gap-5 min-w-max pr-4">
+        <div ref={flexRef} className="flex gap-5 min-w-max pr-4">
           {stories.map((story) => (
             <div key={story.id} className="w-[332px] shrink-0 snap-start">
               <StoryCardOverlay story={story} />
@@ -53,8 +57,8 @@ export default function StoryCarousel({ stories, href = '/stories' }: Props) {
         </div>
       </div>
 
-      {/* SP Navigation: 中央寄せドット + 全幅すべて見るボタン */}
-      <div className="mt-6 px-4">
+      {/* SP Navigation: Figma 4211:10695 (gap-58 内部 / pb-16 nav) + section gap-32 で button へ */}
+      <div className="mt-8 px-4">
         <div className="flex items-center justify-center gap-[58px] pb-4">
           <div className="flex items-center gap-3">
             <button
@@ -92,7 +96,9 @@ export default function StoryCarousel({ stories, href = '/stories' }: Props) {
             </button>
           </div>
         </div>
-        <SeeAllButtonSP href={href} />
+        <div className="mt-8">
+          <SeeAllButtonSP href={href} />
+        </div>
       </div>
     </div>
   );

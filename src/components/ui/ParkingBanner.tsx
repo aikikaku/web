@@ -13,7 +13,7 @@ export default function ParkingBanner() {
           href="/for-customer"
           className="block bg-light-green rounded-2xl tablet:rounded-[24px] pt-9 pb-10 px-4 tablet:pt-6 tablet:pb-8 tablet:px-[30px] tablet:max-w-[646px] tablet:w-[646px] w-full group"
         >
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center justify-between gap-6 tablet:gap-4">
             <div className="flex flex-col gap-2 min-w-0">
               {/* SP: タイトル先 */}
               <p
