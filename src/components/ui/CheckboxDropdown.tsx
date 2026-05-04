@@ -52,23 +52,39 @@ export default function CheckboxDropdown({
         </svg>
       </button>
       {isOpen && (
-        <div className="absolute top-[64px] left-0 w-full bg-cream rounded-lg shadow-[0_0_16px_rgba(0,0,0,0.16)] z-20 px-6 py-4">
-          {options.map((option) => (
-            <label
-              key={option.value}
-              className="flex items-center gap-2 h-[40px] cursor-pointer"
-            >
-              <input
-                type="checkbox"
-                checked={selected.includes(option.value)}
-                onChange={() => onToggle(option.value)}
-                className="w-[18px] h-[18px] accent-dark-green shrink-0"
-              />
-              <span className="font-gothic font-medium text-[16px] leading-[2] text-black">
-                {option.label}
-              </span>
-            </label>
-          ))}
+        <div className="absolute top-[64px] left-0 w-full bg-cream rounded-lg shadow-[0_0_8px_rgba(0,0,0,0.16)] z-20 px-6 py-4">
+          {options.map((option) => {
+            const checked = selected.includes(option.value);
+            return (
+              <button
+                key={option.value}
+                type="button"
+                onClick={() => onToggle(option.value)}
+                className="flex items-center gap-2 h-[40px] w-full text-left cursor-pointer"
+              >
+                <span
+                  className={`size-[18px] shrink-0 inline-flex items-center justify-center rounded-[3px] border ${
+                    checked ? 'bg-dark-green border-dark-green' : 'bg-transparent border-dark-green/40'
+                  }`}
+                >
+                  {checked && (
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path
+                        d="M2.5 6L5 8.5L9.5 3.5"
+                        stroke="white"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  )}
+                </span>
+                <span className="font-gothic font-medium text-[16px] leading-[2] text-black">
+                  {option.label}
+                </span>
+              </button>
+            );
+          })}
         </div>
       )}
     </div>

@@ -170,7 +170,8 @@ export default function PropertyFilter() {
     currentStatus !== 'all';
 
   return (
-    <div className="hidden tablet:flex items-center gap-2">
+    <div className="hidden tablet:flex items-center gap-2 justify-between">
+      <div className="flex items-center gap-2 min-w-0 flex-wrap">
       {/* ステータス切替トグル（滑らかアニメーション） */}
       <div
         ref={toggleRef}
@@ -221,24 +222,26 @@ export default function PropertyFilter() {
         selected={selectedRegions}
         onToggle={toggleRegion}
       />
+      </div>
 
-      <button
-        onClick={applyFilters}
-        className="h-[56px] px-10 bg-dark-green border border-dark-green rounded-lg font-gothic font-medium text-[16px] leading-none text-white transition-opacity hover:opacity-90 shrink-0"
-      >
-        絞り込み
-      </button>
-      {hasActiveFilters && (
+      <div className="flex gap-2 shrink-0">
+        <button
+          onClick={applyFilters}
+          className="h-[56px] px-10 bg-dark-green border border-dark-green rounded-lg font-gothic font-medium text-[16px] leading-none text-white transition-opacity hover:opacity-90 shrink-0"
+        >
+          絞り込み
+        </button>
         <button
           onClick={clearFilters}
-          className="w-[56px] h-[56px] border border-dark-green rounded-lg flex items-center justify-center hover:bg-cream transition-colors shrink-0"
+          disabled={!hasActiveFilters}
+          className="w-[56px] h-[56px] border border-dark-green rounded-lg flex items-center justify-center hover:bg-cream transition-colors shrink-0 disabled:opacity-30 disabled:cursor-not-allowed"
           aria-label="フィルターをクリア"
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
             <path d="M18 6L6 18M6 6l12 12" />
           </svg>
         </button>
-      )}
+      </div>
     </div>
   );
 }

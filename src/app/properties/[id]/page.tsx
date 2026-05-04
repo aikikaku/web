@@ -1,8 +1,7 @@
+import { unstable_noStore as noStore } from 'next/cache';
 import { getProperty, getProperties } from '@/lib/microcms/queries';
-import PropertyCard from '@/components/property/PropertyCard';
 import Link from 'next/link';
-import SeeAllLink from '@/components/ui/SeeAllLink';
-import PropertyCarousel from '@/components/home/PropertyCarousel';
+import MoreProperties from '@/components/property/MoreProperties';
 import MobileTocNav from '@/components/ui/MobileTocNav';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
@@ -69,6 +68,7 @@ export async function generateMetadata({
 }
 
 export default async function PropertyPage({ params }: PropertyPageProps) {
+  noStore();
   const property = await getProperty(params.id).catch(() => null);
 
   if (!property) {
@@ -76,10 +76,10 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
   }
 
   const relatedProperties = await getProperties({
-    limit: 3,
+    limit: 9,
     filters: `id[not_equals]${property.id}`,
     orders: '-publishedAt',
-  }).catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: 3 }));
+  }).catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: 9 }));
 
   const categoryLabel =
     property.category === 'property'
@@ -488,25 +488,15 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
       <div data-mobile-toc-end />
       {/* もっと物件を見る */}
       {relatedProperties.contents.length > 0 && (
-        <section className="px-4 tablet:px-[75px] pt-24 pb-36 max-w-[1440px] mx-auto">
+        <section className="px-4 tablet:px-[75px] pt-[60px] pb-[60px] tablet:pt-24 tablet:pb-36 max-w-[1440px] mx-auto">
           <div className="max-w-[1280px]">
             <h2
-              className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green mb-16"
+              className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green mb-8 tablet:mb-16"
               style={{ fontFeatureSettings: "'palt' 1" }}
             >
               もっと物件を見る
             </h2>
-            {/* SP: スライドショー */}
-            <PropertyCarousel properties={relatedProperties.contents} />
-            {/* PC: グリッド */}
-            <div className="hidden tablet:grid grid-cols-3 gap-[30px]">
-              {relatedProperties.contents.map((p) => (
-                <PropertyCard key={p.id} property={p} />
-              ))}
-            </div>
-            <div className="hidden tablet:flex items-center justify-end mt-16">
-              <SeeAllLink href="/properties" />
-            </div>
+            <MoreProperties properties={relatedProperties.contents} />
           </div>
         </section>
       )}

@@ -1,4 +1,8 @@
+'use client';
+
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useCallback } from 'react';
 
 interface PaginationProps {
   totalCount: number;
@@ -6,6 +10,8 @@ interface PaginationProps {
   currentPage: number;
   basePath: string;
   searchParams?: Record<string, string>;
+  /** クリック時に scrollIntoView する要素の id（指定がなければ window 先頭） */
+  scrollTargetId?: string;
 }
 
 export default function Pagination({
@@ -14,21 +20,44 @@ export default function Pagination({
   currentPage,
   basePath,
   searchParams = {},
+  scrollTargetId,
 }: PaginationProps) {
+  const router = useRouter();
   const totalPages = Math.ceil(totalCount / perPage);
 
-  if (totalPages <= 1) return null;
+  const buildHref = useCallback(
+    (page: number) => {
+      const params = new URLSearchParams(searchParams);
+      if (page > 1) params.set('page', page.toString());
+      else params.delete('page');
+      const qs = params.toString();
+      return qs ? `${basePath}?${qs}` : basePath;
+    },
+    [searchParams, basePath],
+  );
 
-  function buildHref(page: number) {
-    const params = new URLSearchParams(searchParams);
-    if (page > 1) {
-      params.set('page', page.toString());
-    } else {
-      params.delete('page');
-    }
-    const qs = params.toString();
-    return qs ? `${basePath}?${qs}` : basePath;
-  }
+  const handleNavigate = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>, page: number) => {
+      if (page === currentPage || page < 1 || page > totalPages) return;
+      e.preventDefault();
+      router.push(buildHref(page), { scroll: false });
+      // 一覧の先頭へ smooth scroll（Pagination がページ切替後に再描画されても同じ id 要素が残るのでズレない）
+      requestAnimationFrame(() => {
+        if (scrollTargetId) {
+          const target = document.getElementById(scrollTargetId);
+          if (target) {
+            const top = target.getBoundingClientRect().top + window.scrollY - 80;
+            window.scrollTo({ top, behavior: 'smooth' });
+            return;
+          }
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    },
+    [router, buildHref, currentPage, totalPages, scrollTargetId],
+  );
+
+  if (totalPages <= 1) return null;
 
   // Build page numbers with ellipsis
   const getPageNumbers = (): (number | '...')[] => {
@@ -37,42 +66,26 @@ export default function Pagination({
     }
 
     const pages: (number | '...')[] = [];
-
-    // Always show first page
     pages.push(1);
-
-    if (currentPage > 3) {
-      pages.push('...');
-    }
-
-    // Show pages around current
+    if (currentPage > 3) pages.push('...');
     const start = Math.max(2, currentPage - 1);
     const end = Math.min(totalPages - 1, currentPage + 1);
-    for (let i = start; i <= end; i++) {
-      pages.push(i);
-    }
-
-    if (currentPage < totalPages - 2) {
-      pages.push('...');
-    }
-
-    // Always show last page
-    if (totalPages > 1) {
-      pages.push(totalPages);
-    }
-
+    for (let i = start; i <= end; i++) pages.push(i);
+    if (currentPage < totalPages - 2) pages.push('...');
+    if (totalPages > 1) pages.push(totalPages);
     return pages;
   };
 
   const pageNumbers = getPageNumbers();
 
   return (
-    <nav aria-label="ページネーション" className="flex justify-center items-center gap-2 mt-16 tablet:mt-24">
-      {/* Prev arrow - light-green bg with opacity when disabled-looking */}
+    <nav
+      aria-label="ページネーション"
+      className="flex justify-center items-center gap-2 mt-16 tablet:mt-24"
+    >
       <Link
         href={currentPage > 1 ? buildHref(currentPage - 1) : '#'}
-        scroll={false}
-        replace
+        onClick={(e) => handleNavigate(e, currentPage - 1)}
         className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors ${
           currentPage > 1
             ? 'bg-light-green text-dark-green hover:bg-light-green/80'
@@ -98,8 +111,7 @@ export default function Pagination({
           <Link
             key={page}
             href={buildHref(page)}
-            scroll={false}
-            replace
+            onClick={(e) => handleNavigate(e, page)}
             aria-current={page === currentPage ? 'page' : undefined}
             className={`w-8 h-8 inline-flex items-center justify-center font-gothic font-medium text-[14px] rounded-full transition-colors ${
               page === currentPage
@@ -109,14 +121,12 @@ export default function Pagination({
           >
             {page}
           </Link>
-        )
+        ),
       )}
 
-      {/* Next arrow - dark-green bg, white arrow */}
       <Link
         href={currentPage < totalPages ? buildHref(currentPage + 1) : '#'}
-        scroll={false}
-        replace
+        onClick={(e) => handleNavigate(e, currentPage + 1)}
         className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors ${
           currentPage < totalPages
             ? 'bg-dark-green text-white hover:opacity-90'

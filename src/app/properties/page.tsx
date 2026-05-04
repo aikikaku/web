@@ -124,7 +124,7 @@ export default async function PropertiesPage({
 
           {/* 物件カードグリッド */}
           {gridProperties.length > 0 ? (
-            <div className="grid grid-cols-1 tablet:grid-cols-3 gap-y-[60px] tablet:gap-x-[30px] tablet:gap-y-24">
+            <div id="properties-grid" className="grid grid-cols-1 tablet:grid-cols-3 gap-y-[60px] tablet:gap-x-[30px] tablet:gap-y-24">
               {gridProperties.map((property) => (
                 <PropertyCard key={property.id} property={property} />
               ))}
@@ -141,6 +141,7 @@ export default async function PropertiesPage({
             perPage={PER_PAGE}
             currentPage={currentPage}
             basePath="/properties"
+            scrollTargetId="properties-grid"
             searchParams={
               Object.fromEntries(
                 Object.entries(searchParams).filter(
