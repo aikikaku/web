@@ -42,21 +42,59 @@ function StoryCardLarge({ story }: { story: Story }) {
 
   return (
     <Link href={`/stories/${story.id}`} className="block group w-full">
-      <div className="flex flex-col items-start">
-        {/* Image */}
+      {/* SP: 全面背景画像 + オーバーレイ（Figma 4211:10988） */}
+      <div className="tablet:hidden relative aspect-[341/442] w-full overflow-hidden rounded-[24px]">
+        <Image
+          src={getImageUrl(story.thumbnail, { width: 410, format: 'webp' })}
+          alt={story.title}
+          fill
+          className="object-cover transition-transform group-hover:scale-105"
+          sizes="100vw"
+        />
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ backgroundImage: 'linear-gradient(204deg, rgba(39,51,59,0.5) 4%, rgba(39,51,59,0.25) 52%, rgba(39,51,59,0.5) 104%)' }}
+        />
+        <div className="absolute inset-0 flex flex-col items-start justify-between pt-4 pb-6 px-4">
+          <div className="flex items-center gap-3">
+            <span className="tag-pill text-[14px] leading-none px-3 py-1.5">
+              {getCategoryLabel(story.category)}
+            </span>
+            {regionNames && (
+              <span className="font-gothic font-medium text-[14px] leading-[1.8] text-white">
+                {regionNames}
+              </span>
+            )}
+          </div>
+          <div className="flex items-end gap-4 w-full">
+            <p
+              className="flex-1 min-w-0 font-mincho text-[24px] leading-[1.6] tracking-[0.96px] text-white line-clamp-2"
+              style={{ fontFeatureSettings: "'palt' 1" }}
+            >
+              {story.title}
+            </p>
+            <span className="size-11 rounded-full bg-accent-blue inline-flex items-center justify-center shrink-0">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
+              </svg>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* PC: 既存（画像の下にテキスト） */}
+      <div className="hidden tablet:flex flex-col items-start">
         <div className="relative aspect-[410/308] w-full overflow-hidden rounded-[24px]">
           <Image
             src={getImageUrl(story.thumbnail, { width: 410, format: 'webp' })}
             alt={story.title}
             fill
             className="object-cover transition-transform group-hover:scale-105"
-            sizes="(max-width: 992px) 100vw, 410px"
+            sizes="410px"
           />
         </div>
-
-        {/* Content */}
         <div className="flex flex-col gap-6 items-start justify-center pt-[30px] px-3 w-full">
-          {/* Tags + Region */}
           <div className="flex flex-col gap-4 items-start w-full">
             <div className="flex gap-3 items-center">
               <span className="tag-pill text-[14px] leading-none px-3 py-1.5">
@@ -68,17 +106,13 @@ function StoryCardLarge({ story }: { story: Story }) {
                 </span>
               )}
             </div>
-
-            {/* Title */}
             <h3
-              className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green line-clamp-2"
+              className="font-mincho text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green line-clamp-2"
               style={{ fontFeatureSettings: "'palt' 1" }}
             >
               {story.title}
             </h3>
           </div>
-
-          {/* Button */}
           <span className="inline-flex items-center gap-1 h-[44px] px-6 border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-colors group-hover:opacity-70">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="shrink-0">
               <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
@@ -190,7 +224,7 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
             </h1>
           </div>
           <p className="font-gothic font-medium text-[16px] tablet:text-[18px] leading-[1.8] text-dark-green max-w-[768px]">
-            物件だけじゃわからない、三島での暮らしのこと。
+            物件だけじゃわからない、<br className="tablet:hidden" />三島での暮らしのこと。
             <br />
             ここで一緒に、のぞいてみませんか？
           </p>
@@ -203,32 +237,31 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
       </Suspense>
 
       {/* フィルター + リスト */}
-      <section className="px-4 tablet:px-[45px] pb-16 tablet:pb-24 max-w-[1440px] mx-auto">
-        {/* コンテンツ */}
+      <section className="px-4 tablet:px-[45px] pb-[60px] tablet:pb-24 max-w-[1440px] mx-auto">
         <div>
+          {/* PC用フィルターバー（pickup の上に配置） */}
+          <div className="hidden tablet:block mb-[96px]">
+            <Suspense fallback={<div className="h-14 bg-cream animate-pulse rounded-lg" />}>
+              <StoriesFilter
+                categories={categoryLabels}
+                currentCategory={searchParams.category}
+                currentRegions={searchParams.regions}
+              />
+            </Suspense>
+          </div>
+
           {filteredContents.length > 0 ? (
             <>
               {/* フィーチャードストーリー */}
               {featuredStory && (
-                <div data-stories-filter-start className="mb-16 tablet:mb-24">
+                <div data-stories-filter-start id="stories-list" className="mb-[60px] tablet:mb-24">
                   <FeaturedStoryCard story={featuredStory} />
                 </div>
               )}
 
-              {/* PC用フィルターバー（pickup の下） */}
-              <div className="hidden tablet:block mb-12 tablet:mb-[96px]">
-                <Suspense fallback={<div className="h-14 bg-cream animate-pulse rounded-lg" />}>
-                  <StoriesFilter
-                    categories={categoryLabels}
-                    currentCategory={searchParams.category}
-                    currentRegions={searchParams.regions}
-                  />
-                </Suspense>
-              </div>
-
-              {/* 3カラムグリッド */}
+              {/* グリッド: SP は overlay variant の縦並び、PC は 3 列 */}
               {gridStories.length > 0 && (
-                <div className="grid grid-cols-1 tablet:grid-cols-3 gap-y-12 tablet:gap-y-[48px] gap-x-4 tablet:gap-x-[30px]">
+                <div data-stories-grid className="grid grid-cols-1 tablet:grid-cols-3 gap-y-4 tablet:gap-y-[48px] gap-x-0 tablet:gap-x-[30px]">
                   {gridStories.map((story) => (
                     <StoryCardLarge key={story.id} story={story} />
                   ))}
@@ -248,6 +281,7 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
             perPage={PER_PAGE}
             currentPage={currentPage}
             basePath="/stories"
+            scrollTargetId="stories-list"
             searchParams={
               Object.fromEntries(
                 Object.entries(searchParams).filter(([key]) => key !== 'page')

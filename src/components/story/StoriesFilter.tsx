@@ -89,7 +89,7 @@ export default function StoriesFilter({
   const hasFilters = selectedCategories.length > 0 || selectedRegions.length > 0;
 
   return (
-    <div className="flex flex-col tablet:flex-row gap-4 items-stretch tablet:items-start">
+    <div className="flex flex-col tablet:flex-row gap-4 items-stretch tablet:items-start tablet:justify-between">
       <div className="flex flex-col tablet:flex-row gap-4">
         <CheckboxDropdown
           label="カテゴリ"
@@ -114,17 +114,16 @@ export default function StoriesFilter({
         >
           絞り込み
         </button>
-        {hasFilters && (
-          <button
-            onClick={handleClear}
-            className="h-[56px] w-[63px] border border-dark-green rounded-lg flex items-center justify-center transition-colors hover:bg-cream cursor-pointer"
-            aria-label="フィルターをクリア"
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M18 6L6 18M6 6l12 12" />
-            </svg>
-          </button>
-        )}
+        <button
+          onClick={handleClear}
+          disabled={!hasFilters}
+          className="h-[56px] w-[63px] border border-dark-green rounded-lg flex items-center justify-center transition-colors hover:bg-cream cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+          aria-label="フィルターをクリア"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
       </div>
     </div>
   );
