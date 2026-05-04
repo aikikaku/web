@@ -11,46 +11,43 @@ interface Props {
   href?: string;
 }
 
-const PER_PAGE_PC = 3;
+const PER_PAGE = 6;
 
 /**
- * 「もっと物件を見る」セクション。Figma 4211:10277 のスライドショーナビ準拠。
- * - PC: 3 件ずつページ単位で表示し、ドット + 矢印 + すべて見る を justify-between
- * - SP: 横スクロールのスナップカルーセル + 中央寄せドット + 全幅すべて見るボタン
+ * 「もっと物件を見る」セクション。Figma 4211:10269 (PC) / 4211:10881, 4211:10794 (SP) 準拠。
+ * - PER_PAGE = 6: page1 で 1-6 件目、矢印/dot で次ページ → 7-12 件目…
+ * - PC: 3 cols × 2 rows のグリッド + dot/矢印 + すべて見る (justify-between)
+ * - SP: 縦積み 6 件 + 中央ドット + 全幅すべて見る
+ * - 親の getProperties は同 category & type で random shuffle 済みを渡す前提。
  */
 export default function MoreProperties({ properties, href = '/properties' }: Props) {
   const [activePage, setActivePage] = useState(0);
-  const totalPages = Math.max(1, Math.ceil(properties.length / PER_PAGE_PC));
-  const pageProperties = properties.slice(activePage * PER_PAGE_PC, (activePage + 1) * PER_PAGE_PC);
+  const totalPages = Math.max(1, Math.ceil(properties.length / PER_PAGE));
+  const pageProperties = properties.slice(activePage * PER_PAGE, (activePage + 1) * PER_PAGE);
 
   if (!properties.length) return null;
 
+  const dots = Array.from({ length: totalPages });
+
   return (
     <div>
-      {/* PC: 3 列グリッド（現ページ） */}
-      <div className="hidden tablet:grid grid-cols-3 gap-[30px]">
+      {/* PC: 3 cols × 2 rows */}
+      <div className="hidden tablet:grid grid-cols-3 gap-x-[30px] gap-y-[96px]">
         {pageProperties.map((p) => (
           <PropertyCard key={p.id} property={p} />
         ))}
       </div>
 
-      {/* SP: 横スクロール（全件） */}
-      <div
-        className="tablet:hidden overflow-x-auto pl-4 pb-4 snap-x snap-mandatory scroll-smooth scroll-pl-4"
-        style={{ scrollbarWidth: 'none' }}
-      >
-        <div className="flex gap-5 min-w-max pr-4">
-          {properties.map((p) => (
-            <div key={p.id} className="w-[332px] shrink-0 snap-start">
-              <PropertyCard property={p} />
-            </div>
-          ))}
-        </div>
+      {/* SP: 縦積み */}
+      <div className="tablet:hidden flex flex-col gap-[60px]">
+        {pageProperties.map((p) => (
+          <PropertyCard key={p.id} property={p} />
+        ))}
       </div>
 
       {/* PC ナビ: ドット + 矢印（左） + すべて見る（右） */}
       {totalPages > 1 ? (
-        <div className="hidden tablet:flex items-center justify-between mt-16">
+        <div className="hidden tablet:flex items-center justify-between mt-24">
           <div className="flex items-center gap-3">
             <button
               type="button"
@@ -64,7 +61,7 @@ export default function MoreProperties({ properties, href = '/properties' }: Pro
               </svg>
             </button>
             <div className="flex items-center gap-2">
-              {Array.from({ length: totalPages }).map((_, i) => (
+              {dots.map((_, i) => (
                 <button
                   key={i}
                   type="button"
@@ -89,25 +86,53 @@ export default function MoreProperties({ properties, href = '/properties' }: Pro
           <SeeAllLink href={href} />
         </div>
       ) : (
-        <div className="hidden tablet:flex items-center justify-end mt-16">
+        <div className="hidden tablet:flex items-center justify-end mt-24">
           <SeeAllLink href={href} />
         </div>
       )}
 
       {/* SP ナビ: 中央ドット + 全幅すべて見る */}
-      <div className="tablet:hidden mt-6 px-4">
-        <div className="flex items-center justify-center pb-4">
-          <div className="flex items-center gap-2">
-            {properties.map((_, i) => (
-              <span
-                key={i}
-                aria-hidden="true"
-                className={`size-1 rounded-full ${i === 0 ? 'bg-dark-green' : 'bg-dark-green/30'}`}
-              />
-            ))}
+      <div className="tablet:hidden mt-8 px-4">
+        <div className="flex items-center justify-center gap-[58px] pb-4">
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setActivePage((p) => Math.max(0, p - 1))}
+              disabled={activePage === 0}
+              aria-label="前へ"
+              className="size-6 inline-flex items-center justify-center text-dark-green disabled:opacity-50"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+            <div className="flex items-center gap-2">
+              {dots.map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  aria-label={`ページ${i + 1}`}
+                  onClick={() => setActivePage(i)}
+                  className={`size-1 rounded-full transition-colors ${i === activePage ? 'bg-dark-green' : 'bg-dark-green/30'}`}
+                />
+              ))}
+            </div>
+            <button
+              type="button"
+              onClick={() => setActivePage((p) => Math.min(totalPages - 1, p + 1))}
+              disabled={activePage >= totalPages - 1}
+              aria-label="次へ"
+              className="size-6 inline-flex items-center justify-center text-dark-green disabled:opacity-50"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
           </div>
         </div>
-        <SeeAllButtonSP href={href} />
+        <div className="mt-8">
+          <SeeAllButtonSP href={href} />
+        </div>
       </div>
     </div>
   );

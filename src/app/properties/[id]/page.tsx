@@ -75,11 +75,15 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
     notFound();
   }
 
-  const relatedProperties = await getProperties({
-    limit: 9,
-    filters: `id[not_equals]${property.id}`,
+  // 同じ category & type の物件を多めに取得 → サーバー側でシャッフル → MoreProperties へ。
+  // noStore() なのでアクセスごとに新しい順序になる。
+  const relatedRaw = await getProperties({
+    limit: 100,
+    filters: `id[not_equals]${property.id}[and]category[contains]${property.category}[and]type[contains]${property.type}`,
     orders: '-publishedAt',
-  }).catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: 9 }));
+  }).catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: 100 }));
+  const shuffledRelated = [...relatedRaw.contents].sort(() => Math.random() - 0.5);
+  const relatedProperties = { ...relatedRaw, contents: shuffledRelated };
 
   const categoryLabel =
     property.category === 'property'
@@ -286,12 +290,15 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                   </div>
                 </div>
 
-                {/* 物件詳細ボタン */}
+                {/* 物件詳細ボタン: 詳細セクションへの anchor scroll */}
                 {!isSold && (
                   <div>
-                    <span className="inline-flex items-center justify-center h-[44px] px-6 border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green">
+                    <a
+                      href="#property-detail-body"
+                      className="inline-flex items-center justify-center h-[44px] px-6 border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green hover:opacity-70 transition-opacity"
+                    >
                       物件詳細
-                    </span>
+                    </a>
                   </div>
                 )}
               </div>
@@ -325,8 +332,8 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
       {/* SP用 floating TOC bar */}
       <MobileTocNav items={tocItems} />
 
-      {/* メインコンテンツ - 2カラムレイアウト */}
-      <section data-mobile-toc-start className="px-4 tablet:pl-[45px] tablet:pr-[75px] py-16 tablet:py-24 max-w-[1440px] mx-auto">
+      {/* メインコンテンツ - 2カラムレイアウト。id は ヒーローカード「物件詳細」ボタンのアンカー先 */}
+      <section id="property-detail-body" data-mobile-toc-start className="px-4 tablet:pl-[45px] tablet:pr-[75px] py-16 tablet:py-24 max-w-[1440px] mx-auto scroll-mt-20">
         <div className="flex flex-col tablet:flex-row gap-8 tablet:gap-0 tablet:justify-between">
           {/* 左サイドバー - 目次ナビ（PC のみ、SP では floating bar） */}
           <aside className="hidden tablet:block w-[323px] shrink-0">

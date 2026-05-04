@@ -123,15 +123,49 @@ SPサイズの時の問い合わせのコンポーネントの内部デザイン
 SPサイズの時の余白も異なる
 - https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10743&m=dev
 
+### 3-13. PCサイズ Dropdown横幅と地域選択の同期問題
+PCサイズ、dropdownコンポーネントの横幅がおかしい。また、地域について選択した時にAPIの問い合わせが完了してからチェックマークがつくので即時反応しなくなっている。呼び出しとチェックマークがつくのが同期実行されていないか。
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-26259&m=dev
+
+### 3-14. paginationの現在ページと次への矢印のスタイル衝突(PC)
+paginationについて、今表示されているページにあたってるスタイルと次への矢印にあたっているスタイルが同じで、スタイルの意味とUI上の意味が認知コスト産んでいる
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10338&m=dev
+
+### 3-15. paginationと「三島市で駐車場をお探しの方へ」の余白(PC)
+paginationの下に余白が入りすぎてるのか、「三島市で駐車場をお探しの方へ」の上下の余白が異なるように感じる
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10353&m=dev
+
+### 3-16. その他のお問い合わせが消えている(PC)
+その他のお問い合わせが消えている
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10360&m=dev
+
+### 3-17. SPサイズの余白
+余白が異なる
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10721&m=dev
+
+### 3-18. SPサイズの編みかけ(ザブトン)スタイル
+編みかけのスタイル(ザブトン)がデザインと異なる
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10721&m=dev
+
+### 3-19. SPサイズの余白(別箇所)
+余白がデザインと異なる
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10722&m=dev
+
+### 3-20. SPサイズ 価格のみデータの区切り線
+価格だけがデータに入ってる時に区切り線が右端に入ってしまっているので取り除きたい
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10725&m=dev
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10725&m=dev
+
 ---
 
 ## 4. `/`(トップページ)
 
-### 4-1. お客様の声 カルーセル(pagination)
+### 4-1. お客様の声 カルーセル(pagination + 横スクロール)
+- Figma の **peek 付き横スクロール** スタイルに揃えること(カードサイズ・gap・peek 量は Figma の実数値に従う)。
+- 全件レンダリングする。
 - pagination dot は `Math.ceil(全件数 / 3)` 個。新着順で、初期位置は 1 ページ目。
-- **PC**: 現ページの 3 件のみ DOM に描画する。dot / 矢印クリックで activePage を進め、4〜6 件目 → 7〜9 件目… と再レンダリングで切替。スクロールは使わない。
-- **SP**: 全件レンダリング + 横スクロール peek。dot / 矢印クリックで `voices[page*3]` を track 左端に smooth scroll。
-- カードサイズ・gap・section gap・「すべて見る」の配置・余白は Figma の実数値に従う(PC: dot 行右端 / SP: dot 行の下、全幅)。
+- dot / 矢印クリックで「対象ページの先頭カード(index = page × 3)」を track の左端に smooth scroll させる。これで「pagination を押したら4件目から表示」が成立する。
+- 「すべて見る」の配置・余白は Figma に従うこと(PC: dot 行右端 / SP: dot 行の下、全幅)。
 - https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10009&m=dev
 - https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10704&m=dev
 
@@ -275,3 +309,27 @@ SPサイズの時のslideshow navigationの上下の余白が異なります
 
 ##### disabled
 - https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-26043&m=dev
+
+---
+
+## 6. `/properties/prop-15`(物件詳細)
+
+### 6-1. PCサイズ CMSコンテンツ未投入
+CMSに`/docs/operations/richeditor-manual.md`の内容で詳細内容が記述されていないから確認ができない。デザイン通りにコンテンツを作ってほしい
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10160&m=dev
+
+### 6-2. 「物件詳細」押下時の挙動仕様確認(PC)
+この画面で「物件詳細」押したらどうなるべき・・?
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10159&m=dev
+
+### 6-3. 「もっと物件をみる」コンポーネント仕様(PC)
+[もっと物件をみる]コンポーネントは表示件数デフォルトで6件、slideshow-navigationで次のdotもしくは次へを意味する矢印を押したら7件目から6件表示される。そして、現在表示されている/properties/prop-15と同じ物件種別の物件を毎回ランダムで取得してきて表示する。CMSにデータがなければ作成してください
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10269&m=dev
+
+### 6-4. SPサイズ slideshow navigation上下余白
+slideshow navigationの上下の余白が異なる
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10881&m=dev
+
+### 6-5. SPサイズ 「もっと物件をみる」コンポーネント上下余白
+もっと物件をみるコンポーネントの上下の余白が異なる(一つのコンポーネントのfigma指示を守っても前後のコンポーネントの余白調整を肉眼で見て調整する必要があります)
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10794&m=dev

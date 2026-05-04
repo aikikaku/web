@@ -33,7 +33,8 @@ export default function PropertyCard({ property }: PropertyCardProps) {
         )}
       </div>
 
-      {/* Image - SP: rounded-[16px] aspect-[294/220] にラベル overlay */}
+      {/* Image - SP: rounded-[16px] aspect-[294/220] にラベル overlay
+          Figma 4211:10721 / 10725 準拠: sold 時は重いザブトン overlay 不要、商談中ピルのみで状態表示 */}
       <div className="relative aspect-[294/220] tablet:aspect-auto tablet:h-[293px] w-full rounded-2xl tablet:rounded-lg overflow-hidden">
         <Image
           src={getImageUrl(property.mainImage, { width: 410, format: 'webp' })}
@@ -42,9 +43,6 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           className="object-cover"
           sizes="(max-width: 992px) 100vw, 410px"
         />
-        {isSold && (
-          <div className="absolute inset-0 bg-[rgba(42,54,59,0.5)]" />
-        )}
         {/* SP: 画像内に上下グラデ + ラベル */}
         <div
           className="tablet:hidden absolute inset-0 pointer-events-none"
@@ -62,14 +60,14 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           </div>
           {isSold && (
             <span className="inline-flex items-center bg-dark-green text-white font-gothic font-medium text-[14px] leading-none rounded-full px-3 py-1.5 shrink-0">
-              成約済み
+              商談中
             </span>
           )}
         </div>
-        {/* PC: 画像右上に成約済み */}
+        {/* PC: 画像右上に商談中 */}
         {isSold && (
           <span className="hidden tablet:inline-flex absolute top-3 right-3 items-center bg-dark-green text-white font-gothic font-medium text-[14px] leading-none rounded-full px-3 py-1.5">
-            成約済み
+            商談中
           </span>
         )}
       </div>
@@ -86,10 +84,10 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           </h3>
         </div>
 
-        {/* Price / Layout — borders are full-width on SP */}
+        {/* Price / Layout — borders are full-width on SP。layout が無い場合は border-r を出さず単独セルに */}
         <div className="pb-3">
           <div className="flex border-t border-b border-dark-green/20">
-            <div className="flex-1 border-r border-dark-green/20 pt-2 pb-4">
+            <div className={`flex-1 ${property.layout ? 'border-r border-dark-green/20' : ''} pt-2 pb-4`}>
               <div className="pl-2">
                 <span className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green">
                   {property.type === 'rent' ? '賃料' : '価格'}

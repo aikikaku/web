@@ -103,7 +103,8 @@ export default async function PropertiesPage({
         <MobileFilterNav />
       </Suspense>
 
-      <section className="pt-[60px] tablet:pt-24 pb-[60px] tablet:pb-24">
+      {/* PC: 下余白は ParkingBanner 側 (tablet:py-24) で確保。SP: Figma 4211:10722 通り pagination→駐車場の gap を 120px に。 */}
+      <section className="pt-[60px] tablet:pt-24 pb-[120px] tablet:pb-0">
         <div className="max-w-[1440px] mx-auto px-4 tablet:px-[45px]">
           {/* ページタイトル */}
           <h1 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.92px] text-dark-green mb-8 tablet:mb-12" style={{ fontFeatureSettings: "'palt' 1" }}>物件を探す</h1>

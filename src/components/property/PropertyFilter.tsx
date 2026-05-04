@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useRef, useState, useTransition } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from 'react';
 
 const propertyTypes = [
   { value: 'sell_property', label: '売物件' },
@@ -45,16 +45,19 @@ function CheckboxDropdown({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Figma 4211:26259 準拠: trigger w-[279.5px]、popover も同幅。flex-wrap で trigger が縮まないよう min-w 固定。
   return (
-    <div className="relative flex-1" ref={ref}>
+    <div className="relative w-[279.5px] shrink-0" ref={ref}>
       <button
+        type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full h-[56px] px-4 border border-dark-green rounded-lg font-gothic font-medium text-[16px] bg-transparent flex items-center justify-between"
+        aria-expanded={isOpen}
+        className="w-full h-[56px] px-4 border border-dark-green rounded-lg font-gothic font-medium text-[16px] bg-transparent flex items-center justify-between gap-2"
       >
-        <span className={selected.length > 0 ? 'text-dark-green' : 'text-dark-green/60'}>
+        <span className={selected.length > 0 ? 'text-dark-green' : 'text-dark-green/40'}>
           {label}
         </span>
-        <span className="flex items-center gap-2">
+        <span className="flex items-center gap-2 shrink-0">
           {selected.length > 0 && (
             <span className="bg-dark-green text-white text-[12px] w-5 h-5 rounded-full flex items-center justify-center">
               {selected.length}
@@ -70,22 +73,32 @@ function CheckboxDropdown({
       </button>
       {isOpen && (
         <div className="absolute top-[60px] left-0 w-full bg-cream border border-dark-green/20 rounded-lg shadow-lg z-20 py-2">
-          {options.map((option) => (
-            <label
-              key={option.value}
-              className="flex items-center gap-3 px-4 py-2.5 hover:bg-light-green cursor-pointer"
-            >
-              <input
-                type="checkbox"
-                checked={selected.includes(option.value)}
-                onChange={() => onToggle(option.value)}
-                className="w-4 h-4 accent-dark-green"
-              />
-              <span className="font-gothic font-medium text-[14px] text-dark-green">
-                {option.label}
-              </span>
-            </label>
-          ))}
+          {options.map((option) => {
+            const isChecked = selected.includes(option.value);
+            return (
+              <button
+                key={option.value}
+                type="button"
+                onClick={() => onToggle(option.value)}
+                className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-light-green text-left whitespace-nowrap"
+              >
+                <span
+                  className={`size-4 inline-flex items-center justify-center rounded border shrink-0 ${
+                    isChecked ? 'bg-dark-green border-dark-green' : 'border-dark-green/40'
+                  }`}
+                >
+                  {isChecked && (
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path d="M2 6l3 3 5-6" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  )}
+                </span>
+                <span className="font-gothic font-medium text-[14px] text-dark-green">
+                  {option.label}
+                </span>
+              </button>
+            );
+          })}
         </div>
       )}
     </div>
@@ -98,13 +111,27 @@ export default function PropertyFilter() {
   const [, startTransition] = useTransition();
 
   const currentStatus = searchParams.get('status') || 'all';
+  const urlTypes = useMemo(
+    () => searchParams.get('types')?.split(',').filter(Boolean) || [],
+    [searchParams],
+  );
+  const urlRegions = useMemo(
+    () => searchParams.get('regions')?.split(',').filter(Boolean) || [],
+    [searchParams],
+  );
+
+  // 楽観更新: チェックの即時反映用ローカル state。URL の更新を待たずトリガーで切替。URL が変われば同期する。
   const [optimisticStatus, setOptimisticStatus] = useState(currentStatus);
+  const [optimisticTypes, setOptimisticTypes] = useState<string[]>(urlTypes);
+  const [optimisticRegions, setOptimisticRegions] = useState<string[]>(urlRegions);
+  useEffect(() => { setOptimisticStatus(currentStatus); }, [currentStatus]);
+  useEffect(() => { setOptimisticTypes(urlTypes); }, [urlTypes]);
+  useEffect(() => { setOptimisticRegions(urlRegions); }, [urlRegions]);
+
   const toggleRef = useRef<HTMLDivElement>(null);
   const allBtnRef = useRef<HTMLButtonElement>(null);
   const availableBtnRef = useRef<HTMLButtonElement>(null);
   const [indicator, setIndicator] = useState<{ left: number; width: number } | null>(null);
-
-  useEffect(() => { setOptimisticStatus(currentStatus); }, [currentStatus]);
 
   useEffect(() => {
     const el = optimisticStatus === 'available' ? availableBtnRef.current : allBtnRef.current;
@@ -115,9 +142,6 @@ export default function PropertyFilter() {
       width: el.offsetWidth,
     });
   }, [optimisticStatus]);
-
-  const selectedTypes = searchParams.get('types')?.split(',').filter(Boolean) || [];
-  const selectedRegions = searchParams.get('regions')?.split(',').filter(Boolean) || [];
 
   const buildUrl = useCallback(
     (overrides: Record<string, string | undefined>) => {
@@ -138,22 +162,28 @@ export default function PropertyFilter() {
 
   const toggleType = useCallback(
     (value: string) => {
-      const next = selectedTypes.includes(value)
-        ? selectedTypes.filter((t) => t !== value)
-        : [...selectedTypes, value];
-      router.push(buildUrl({ types: next.length > 0 ? next.join(',') : undefined }), { scroll: false });
+      const next = optimisticTypes.includes(value)
+        ? optimisticTypes.filter((t) => t !== value)
+        : [...optimisticTypes, value];
+      setOptimisticTypes(next); // 即時反映（API 待たずチェックマーク表示）
+      startTransition(() => {
+        router.push(buildUrl({ types: next.length > 0 ? next.join(',') : undefined }), { scroll: false });
+      });
     },
-    [selectedTypes, router, buildUrl]
+    [optimisticTypes, router, buildUrl],
   );
 
   const toggleRegion = useCallback(
     (value: string) => {
-      const next = selectedRegions.includes(value)
-        ? selectedRegions.filter((r) => r !== value)
-        : [...selectedRegions, value];
-      router.push(buildUrl({ regions: next.length > 0 ? next.join(',') : undefined }), { scroll: false });
+      const next = optimisticRegions.includes(value)
+        ? optimisticRegions.filter((r) => r !== value)
+        : [...optimisticRegions, value];
+      setOptimisticRegions(next); // 即時反映
+      startTransition(() => {
+        router.push(buildUrl({ regions: next.length > 0 ? next.join(',') : undefined }), { scroll: false });
+      });
     },
-    [selectedRegions, router, buildUrl]
+    [optimisticRegions, router, buildUrl],
   );
 
   const applyFilters = useCallback(() => {
@@ -161,23 +191,25 @@ export default function PropertyFilter() {
   }, [router, buildUrl]);
 
   const clearFilters = () => {
+    setOptimisticStatus('all');
+    setOptimisticTypes([]);
+    setOptimisticRegions([]);
     router.push('/properties', { scroll: false });
   };
 
   const hasActiveFilters =
-    selectedTypes.length > 0 ||
-    selectedRegions.length > 0 ||
-    currentStatus !== 'all';
+    optimisticTypes.length > 0 ||
+    optimisticRegions.length > 0 ||
+    optimisticStatus !== 'all';
 
   return (
     <div className="hidden tablet:flex items-center gap-2 justify-between">
-      <div className="flex items-center gap-2 min-w-0 flex-wrap">
-      {/* ステータス切替トグル（滑らかアニメーション） */}
+      <div className="flex items-center gap-2 min-w-0">
+      {/* ステータス切替トグル */}
       <div
         ref={toggleRef}
         className="relative flex rounded-[50px] border border-dark-green shrink-0 mr-4 p-[2px] overflow-hidden"
       >
-        {/* スライディングインジケーター */}
         {indicator && (
           <span
             aria-hidden
@@ -213,13 +245,13 @@ export default function PropertyFilter() {
       <CheckboxDropdown
         label="物件"
         options={propertyTypes}
-        selected={selectedTypes}
+        selected={optimisticTypes}
         onToggle={toggleType}
       />
       <CheckboxDropdown
         label="地域"
         options={regions.map((r) => ({ value: r, label: r }))}
-        selected={selectedRegions}
+        selected={optimisticRegions}
         onToggle={toggleRegion}
       />
       </div>
