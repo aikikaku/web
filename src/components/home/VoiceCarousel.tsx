@@ -15,15 +15,14 @@ const PAGE_SIZE = 3;
 /**
  * お客様の声カルーセル。Figma 4211:10009 (PC) / 4211:9317 (SP) 準拠。
  * - 共通: pagination dot は Math.ceil(voices / 3) 個。新着順、初期 activePage=0。
- * - PC: 現ページの 3 件のみ DOM に描画（スクロールしない、ドット切替で 4-6 件目 → 7-9 件目…）。
- * - SP: 全件レンダリング + 横スクロール peek。ドット切替で voices[page*3] を track 左端に smooth scroll。
+ * - PC/SP どちらも全件レンダリング + 横スクロール peek (PC card w-644 h-350 / SP w-322)。
+ * - dot/矢印クリックで voices[page*3] を track 左端に smooth scroll → ページ2 で 4 件目 〜 が表示される。
  */
 export default function VoiceCarousel({ voices }: Props) {
   const trackRef = useRef<HTMLDivElement>(null);
   const flexRef = useRef<HTMLDivElement>(null);
   const [activePage, setActivePage] = useState(0);
   const totalPages = Math.max(1, Math.ceil(voices.length / PAGE_SIZE));
-  const pageVoices = voices.slice(activePage * PAGE_SIZE, activePage * PAGE_SIZE + PAGE_SIZE);
 
   useEffect(() => {
     const el = trackRef.current;
@@ -61,26 +60,16 @@ export default function VoiceCarousel({ voices }: Props) {
 
   return (
     <div className="max-w-[1440px] mx-auto">
-      {/* PC: 現ページの 3 件のみ描画。ドット切替で再レンダリング */}
-      <div className="hidden tablet:block overflow-hidden px-[75px]">
-        <div className="flex gap-3">
-          {pageVoices.map((voice) => (
-            <div key={voice.id} className="w-[644px] shrink-0">
-              <VoiceCard voice={voice} />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* SP: 全件レンダリング + 横スクロール peek */}
+      {/* PC/SP 共通: 全件レンダリング + 横スクロール peek。Figma 4211:10009 (PC w-644 h-350 peek 横並び) / 4211:10704 (SP w-322 peek)
+          dot 切替で voices[page*3] を track 左端に smooth scroll → 「pagination で 4 件目から表示」が成立。 */}
       <div
         ref={trackRef}
-        className="tablet:hidden overflow-x-auto pl-4 pb-4 scroll-smooth snap-x snap-mandatory scroll-pl-4"
+        className="overflow-x-auto pl-4 tablet:pl-[75px] pb-4 scroll-smooth snap-x snap-mandatory scroll-pl-4 tablet:scroll-pl-[75px]"
         style={{ scrollbarWidth: 'none' }}
       >
-        <div ref={flexRef} className="flex gap-3 min-w-max pr-4">
+        <div ref={flexRef} className="flex gap-3 min-w-max pr-4 tablet:pr-[75px]">
           {voices.map((voice) => (
-            <div key={voice.id} className="w-[322px] shrink-0 snap-start">
+            <div key={voice.id} className="w-[322px] tablet:w-[644px] shrink-0 snap-start">
               <VoiceCard voice={voice} />
             </div>
           ))}

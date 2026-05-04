@@ -166,25 +166,28 @@ export default async function HomePage() {
 
       {/* 不動産サービスリンク */}
       <section className="relative py-[60px] tablet:py-[96px] overflow-hidden bg-[#d9d9d9]">
-        {/* SP: 50% center cover 背景（Figma 4211:10628）*/}
+        {/* SP 背景: Figma 4211:10628 専用画像（空のみ）/ cover 中央。
+            PC 用画像 service-bg.png は駅写真のためそのまま使うと地面しか見えなかった。
+            Figma が SP では別アセット（空のみ）を使っていたため、別ファイルとして配置。 */}
         <div
           aria-hidden
           className="tablet:hidden absolute inset-0 bg-[#d9d9d9] pointer-events-none select-none"
           style={{
-            backgroundImage: "url('/images/home/service-bg.png')",
+            backgroundImage: "url('/images/home/service-bg-sp.png')",
             backgroundRepeat: 'no-repeat',
             backgroundPosition: '50% 50%',
             backgroundSize: 'cover',
           }}
         />
-        {/* PC: Figma 4211:9984 の数値転記（top -1.43%, left -18.3%, w 205.33%, h 353.94%）*/}
+        {/* PC 背景: Figma 4211:9984 の `-263.466px -6.76px / 205.327% 353.941% no-repeat` を完全転記。
+            画像は駅写真だが、この拡大とオフセットで上部の空のみが可視範囲に入る。 */}
         <div
           aria-hidden
           className="hidden tablet:block absolute inset-0 bg-[#d9d9d9] pointer-events-none select-none"
           style={{
             backgroundImage: "url('/images/home/service-bg.png')",
             backgroundRepeat: 'no-repeat',
-            backgroundPosition: '-18.3% -1.43%',
+            backgroundPosition: '-263.466px -6.76px',
             backgroundSize: '205.327% 353.941%',
           }}
         />
