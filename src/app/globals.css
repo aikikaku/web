@@ -109,16 +109,19 @@
     @apply text-xs leading-[1.8] font-medium;
   }
 
-  /* ─── リッチテキスト（microCMS richEditorV2）─── */
+  /* ─── リッチテキスト（microCMS richEditorV2）Figma 4211:10802 (SP) 準拠 ─── */
+  /* セクションごとに pb-32 を共通の block マージンで再現する。h5+h3 のみ詰めて表示。 */
   .rich-content h3 {
-    @apply font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green pb-12;
+    @apply font-mincho text-[24px] tablet:text-[32px] leading-[1.6] text-black;
     font-feature-settings: 'palt' 1;
+    letter-spacing: 0.04em;
     margin-top: 0;
+    margin-bottom: 32px;
   }
 
   .rich-content h5 {
     font-family: var(--font-zen-kaku), sans-serif;
-    @apply font-medium text-[16px] leading-[2] text-dark-green tracking-normal;
+    @apply font-medium text-[14px] tablet:text-[16px] leading-[1.8] text-dark-green tracking-normal;
     font-feature-settings: normal;
     letter-spacing: 0;
     margin-bottom: 8px;
@@ -131,22 +134,23 @@
   }
 
   .rich-content p {
-    @apply font-gothic font-medium text-[16px] tablet:text-[18px] leading-[1.8] text-dark-green;
-    margin-bottom: 1.5em;
+    @apply font-gothic font-medium text-[16px] tablet:text-[18px] leading-[2] text-black;
+    margin-bottom: 32px;
   }
 
   .rich-content img {
-    @apply w-full rounded-3xl;
+    @apply w-full rounded-2xl;
     aspect-ratio: 763 / 509;
     object-fit: cover;
-    margin-bottom: 12px;
+    margin-bottom: 4px;
   }
 
-  /* 画像キャプション: img の直後の em を含む p */
+  /* 画像キャプション: img の直後の em を含む p (Figma SP: pl-8, pb-8, text-12 dark-green regular) */
   .rich-content p:has(> em:only-child) {
-    @apply font-gothic font-medium text-[14px] leading-[1.8] text-dark-green;
-    padding-left: 30px;
-    margin-bottom: 48px;
+    @apply font-gothic font-normal text-[12px] tablet:text-[14px] leading-[1.8] text-dark-green;
+    padding-left: 8px;
+    padding-bottom: 8px;
+    margin-bottom: 32px;
     font-style: normal;
   }
 
@@ -154,25 +158,26 @@
     font-style: normal;
   }
 
-  /* コメント吹き出し（アバター付き） */
+  /* コメント吹き出し（アバター付き） Figma SP: gap-16, pl-8, avatar 44, bubble p-24 light-green text-14 black */
   .rich-content .rich-comment {
     display: flex;
-    gap: 24px;
+    gap: 16px;
     align-items: flex-start;
-    margin-bottom: 48px;
+    padding-left: 8px;
+    margin-bottom: 32px;
   }
 
   .rich-content .rich-comment-avatar {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 8px;
     flex-shrink: 0;
+    gap: 2px;
   }
 
   .rich-content .rich-comment-avatar-circle {
-    width: 50px;
-    height: 50px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     @apply bg-dark-green/10;
     background-image: url('/images/home/about.jpg');
@@ -181,14 +186,13 @@
   }
 
   .rich-content .rich-comment-avatar-name {
-    @apply font-gothic font-medium text-[14px] leading-[1.8] text-dark-green;
-    margin-top: 2px;
+    @apply font-gothic font-normal text-[12px] leading-[1.8] text-dark-green;
   }
 
   .rich-content .rich-comment-bubble {
     flex: 1;
-    @apply bg-light-green rounded-3xl font-gothic font-medium text-[16px] leading-[2] text-dark-green;
-    padding: 30px;
+    @apply bg-light-green rounded-2xl font-gothic font-medium text-[14px] tablet:text-[16px] leading-[1.8] tablet:leading-[2] text-black;
+    padding: 24px;
     display: flex;
     align-items: center;
   }
@@ -200,7 +204,7 @@
   /* セクション区切り（線なし・余白のみ） */
   .rich-content hr {
     border: none;
-    margin: 48px 0;
+    margin: 0;
   }
 
   /* Category Title 1: Zen Kaku Gothic New, Medium, 24px, lineHeight 1.6 */

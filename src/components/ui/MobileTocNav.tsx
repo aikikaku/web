@@ -78,10 +78,10 @@ export default function MobileTocNav({ items }: Props) {
 
   return (
     <div className="tablet:hidden">
-      {/* Closed: 中央寄せ floating ピル */}
+      {/* Closed: 中央寄せ floating ピル (Figma 4211:10920 Column 342×56) */}
       <button
         onClick={open}
-        className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-40 inline-flex items-center bg-cream border border-dark-green/20 rounded-full pl-5 pr-6 py-2 shadow-[0_-1px_4px_rgba(0,0,0,0.1)] min-w-[200px] h-10 transition-opacity duration-300 ${showBar ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        className={`fixed bottom-4 left-1/2 -translate-x-1/2 z-40 inline-flex items-center bg-cream border border-dark-green/20 rounded-full pl-5 pr-6 py-2 shadow-[0_-1px_4px_rgba(0,0,0,0.1)] w-[342px] h-14 transition-opacity duration-300 ${showBar ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
         aria-label="目次を開く"
       >
         <span className="size-8 inline-flex items-center justify-center shrink-0">
