@@ -114,11 +114,11 @@ export default function Pagination({
             href={buildHref(page)}
             onClick={(e) => handleNavigate(e, page)}
             aria-current={page === currentPage ? 'page' : undefined}
-            // Figma 4211:10338 準拠: ページ番号は背景なしのテキストのみ。現在ページは下線で示す（矢印の塗り円と役割を分離）。
-            className={`w-8 h-8 inline-flex items-center justify-center font-gothic font-medium text-[14px] rounded-[4px] transition-colors ${
+            // Figma 4211:10338 / 4211:11254 準拠: 現在ページは太字、それ以外は半透明テキストのみ（塗り円は前/次矢印専用）
+            className={`w-8 h-8 inline-flex items-center justify-center text-[14px] rounded-[4px] transition-colors ${
               page === currentPage
-                ? 'text-dark-green underline underline-offset-4 decoration-2 pointer-events-none'
-                : 'text-dark-green/60 hover:text-dark-green hover:bg-cream'
+                ? 'font-gothic font-bold text-dark-green pointer-events-none'
+                : 'font-gothic font-medium text-dark-green/40 hover:text-dark-green hover:bg-cream'
             }`}
           >
             {page}

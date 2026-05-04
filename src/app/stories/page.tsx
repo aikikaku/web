@@ -177,8 +177,8 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
 
   return (
     <div className="bg-cream">
-      {/* ヘッダーセクション */}
-      <section className="px-4 tablet:px-[45px] py-16 tablet:py-24 max-w-[1440px] mx-auto">
+      {/* ヘッダーセクション (Figma 4211:10961: SP pt-60 pb-32 px-16, gap-32) */}
+      <section className="px-4 tablet:px-[45px] pt-[60px] pb-8 tablet:py-24 max-w-[1440px] mx-auto">
         <div className="flex flex-col gap-8 tablet:gap-12">
           <div className="flex flex-col gap-2">
             <h1
@@ -217,16 +217,16 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
 
           {filteredContents.length > 0 ? (
             <>
-              {/* フィーチャードストーリー */}
+              {/* フィーチャードストーリー (Figma 4211:10987: SP cards gap-32) */}
               {featuredStory && (
-                <div data-stories-filter-start id="stories-list" className="mb-[60px] tablet:mb-24">
+                <div data-stories-filter-start id="stories-list" className="mb-8 tablet:mb-24">
                   <FeaturedStoryCard story={featuredStory} />
                 </div>
               )}
 
-              {/* グリッド: SP は overlay variant の縦並び、PC は 3 列 */}
+              {/* グリッド: SP は overlay variant の縦並び gap-32、PC は 3 列 gap-y-48 */}
               {gridStories.length > 0 && (
-                <div data-stories-grid className="grid grid-cols-1 tablet:grid-cols-3 gap-y-4 tablet:gap-y-[48px] gap-x-0 tablet:gap-x-[30px]">
+                <div data-stories-grid className="grid grid-cols-1 tablet:grid-cols-3 gap-y-8 tablet:gap-y-[48px] gap-x-0 tablet:gap-x-[30px]">
                   {gridStories.map((story) => (
                     <StoryCardLarge key={story.id} story={story} />
                   ))}
