@@ -68,33 +68,21 @@ export default function HeroSlideshowSP() {
             ))}
           </div>
         </div>
-        {/* 次へアイコン: Figma 4211:10610 imgSubtract をそのまま転記。
-            cream(#FCFFF7) で塗った circle に play 三角を切り抜いた Subtract path、opacity 50%、drop shadow blur 16 */}
+        {/* 次へアイコン: Figma 4211:10605 で Subtract path は (334, 318)/24x24 配置 = component frame (358×354) の右端ぴったり / bottom-12px。
+            ボタンの bounding box そのものを 24x24 にして absolute right-0 bottom-3 で Figma 通りに配置。shadow は CSS drop-shadow で表現（SVG filter の 56x56 padding が不要に）*/}
         <button
           type="button"
           onClick={goNext}
           aria-label="次のスライド"
-          className="absolute right-4 bottom-4 size-14 inline-flex items-center justify-center active:scale-95 transition-transform"
+          className="absolute right-0 bottom-3 size-6 inline-flex items-center justify-center active:scale-95 transition-transform"
+          style={{ filter: 'drop-shadow(0 0 8px rgba(0,0,0,0.16))' }}
         >
-          <svg viewBox="0 0 56 56" fill="none" className="size-full">
-            <g opacity="0.5" filter="url(#hero-next-shadow)">
-              <path
-                d="M28 16C34.6274 16 40 21.3726 40 28C40 34.6274 34.6274 40 28 40C21.3726 40 16 34.6274 16 28C16 21.3726 21.3726 16 28 16ZM26.0215 23.7109C25.6882 23.5185 25.2716 23.7587 25.2715 24.1436V31.8594C25.2716 32.2442 25.6882 32.4844 26.0215 32.292L32.7031 28.4346C33.0365 28.2421 33.0365 27.7608 32.7031 27.5684L26.0215 23.7109Z"
-                fill="#FCFFF7"
-              />
-            </g>
-            <defs>
-              <filter id="hero-next-shadow" x="0" y="0" width="56" height="56" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
-                <feFlood floodOpacity="0" result="BackgroundImageFix" />
-                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
-                <feOffset />
-                <feGaussianBlur stdDeviation="8" />
-                <feComposite in2="hardAlpha" operator="out" />
-                <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.16 0" />
-                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_4" />
-                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_4" result="shape" />
-              </filter>
-            </defs>
+          <svg viewBox="0 0 24 24" fill="none" className="size-full">
+            <path
+              d="M12 0C18.6274 0 24 5.3726 24 12C24 18.6274 18.6274 24 12 24C5.3726 24 0 18.6274 0 12C0 5.3726 5.3726 0 12 0ZM10.0215 7.7109C9.6882 7.5185 9.2716 7.7587 9.2715 8.1436V15.8594C9.2716 16.2442 9.6882 16.4844 10.0215 16.292L16.7031 12.4346C17.0365 12.2421 17.0365 11.7608 16.7031 11.5684L10.0215 7.7109Z"
+              fill="#FCFFF7"
+              fillOpacity="0.5"
+            />
           </svg>
         </button>
       </div>
