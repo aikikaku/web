@@ -81,7 +81,8 @@ export default function Pagination({
   return (
     <nav
       aria-label="ページネーション"
-      className="flex justify-center items-center gap-2 mt-16 tablet:mt-24"
+      // Figma 4211:10722 SP / 4211:10269 PC: cards bottom → nav top は 96px gap
+      className="flex justify-center items-center gap-2 mt-24"
     >
       <Link
         href={currentPage > 1 ? buildHref(currentPage - 1) : '#'}
@@ -113,10 +114,11 @@ export default function Pagination({
             href={buildHref(page)}
             onClick={(e) => handleNavigate(e, page)}
             aria-current={page === currentPage ? 'page' : undefined}
-            className={`w-8 h-8 inline-flex items-center justify-center font-gothic font-medium text-[14px] rounded-full transition-colors ${
+            // Figma 4211:10338 準拠: ページ番号は背景なしのテキストのみ。現在ページは下線で示す（矢印の塗り円と役割を分離）。
+            className={`w-8 h-8 inline-flex items-center justify-center font-gothic font-medium text-[14px] rounded-[4px] transition-colors ${
               page === currentPage
-                ? 'bg-dark-green text-white pointer-events-none'
-                : 'text-dark-green hover:bg-cream'
+                ? 'text-dark-green underline underline-offset-4 decoration-2 pointer-events-none'
+                : 'text-dark-green/60 hover:text-dark-green hover:bg-cream'
             }`}
           >
             {page}

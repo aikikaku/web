@@ -29,7 +29,8 @@ export default function PickupCard({ property }: Props) {
     <Link
       data-mobile-filter-start
       href={`/properties/${property.id}`}
-      className="block bg-light-green rounded-2xl tablet:rounded-[32px] p-4 tablet:p-[30px] group"
+      // Figma 4211:10721: section bg-light-green px-16 py-32 を Link 単体で再現
+      className="block bg-light-green rounded-2xl tablet:rounded-[32px] py-8 px-4 tablet:p-[30px] group"
     >
       {/* SP: 縦積み image → thumbs → details / PC: 横並び image | details(thumbs下) */}
       <div className="flex flex-col tablet:flex-row tablet:gap-[60px] tablet:items-stretch">
@@ -47,19 +48,17 @@ export default function PickupCard({ property }: Props) {
                 priority={i === 0}
               />
             ))}
+            {/* Figma 4211:10721: 画像下端にラベル可読性向上のための微細な暗グラデのみ。
+                成約済 (sold) 時は重い ザブトン overlay は使わず、商談中ピルだけで状態を示す */}
+            <div
+              aria-hidden
+              className="absolute inset-0 z-10 pointer-events-none rounded-2xl tablet:rounded-[24px]"
+              style={{ backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0) 73.635%, rgba(0,0,0,0.2) 92.755%)' }}
+            />
             {isSold && (
-              <>
-                <div
-                  className="absolute inset-0 z-10 pointer-events-none"
-                  style={{
-                    backgroundImage:
-                      'linear-gradient(194deg, rgba(39,51,59,0.5) 4%, rgba(39,51,59,0.25) 52%, rgba(39,51,59,0.5) 104%)',
-                  }}
-                />
-                <span className="absolute top-4 right-4 z-20 inline-flex items-center bg-dark-green text-white font-gothic font-medium text-[14px] leading-none rounded-full px-3 py-1.5">
-                  成約済み
-                </span>
-              </>
+              <span className="absolute top-4 right-4 z-20 inline-flex items-center bg-dark-green text-white font-gothic font-medium text-[14px] leading-none rounded-full px-3 py-1.5">
+                商談中
+              </span>
             )}
           </div>
 
@@ -123,7 +122,7 @@ export default function PickupCard({ property }: Props) {
             {/* Price / Layout split — 余白なし、border full-width */}
             <div className="pb-4">
               <div className="flex border-t border-b border-dark-green/20">
-                <div className="flex-1 border-r border-dark-green/20 pt-2 pb-4">
+                <div className={`flex-1 ${property.layout ? 'border-r border-dark-green/20' : ''} pt-2 pb-4`}>
                   <div className="pl-2">
                     <span className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green">
                       {property.type === 'rent' ? '賃料' : '価格'}
