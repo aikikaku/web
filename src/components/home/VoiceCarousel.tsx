@@ -13,17 +13,26 @@ const PAGE_SIZE = 3;
 
 export default function VoiceCarousel({ voices }: Props) {
   const trackRef = useRef<HTMLDivElement>(null);
+  const flexRef = useRef<HTMLDivElement>(null);
   const [activePage, setActivePage] = useState(0);
   const totalPages = Math.max(1, Math.ceil(voices.length / PAGE_SIZE));
 
   useEffect(() => {
     const el = trackRef.current;
-    if (!el) return;
+    const flex = flexRef.current;
+    if (!el || !flex) return;
     const handleScroll = () => {
-      const cardWidth = el.children[0]?.getBoundingClientRect().width || 1;
+      const firstCard = flex.children[0] as HTMLElement | undefined;
+      if (!firstCard) return;
+      if (el.scrollLeft + el.clientWidth >= el.scrollWidth - 2) {
+        setActivePage(totalPages - 1);
+        return;
+      }
+      const baseline = firstCard.getBoundingClientRect().left - el.getBoundingClientRect().left + el.scrollLeft;
+      const cardWidth = firstCard.getBoundingClientRect().width;
       const gap = 12;
-      const cardIdx = Math.round(el.scrollLeft / (cardWidth + gap));
-      const page = Math.min(totalPages - 1, Math.floor(cardIdx / PAGE_SIZE));
+      const cardIdx = Math.round((el.scrollLeft - baseline) / (cardWidth + gap));
+      const page = Math.min(totalPages - 1, Math.max(0, Math.floor(cardIdx / PAGE_SIZE)));
       setActivePage(page);
     };
     el.addEventListener('scroll', handleScroll, { passive: true });
@@ -32,11 +41,12 @@ export default function VoiceCarousel({ voices }: Props) {
 
   const scrollToPage = (page: number) => {
     const el = trackRef.current;
-    if (!el) return;
-    const targetIndex = page * PAGE_SIZE;
-    const card = el.children[targetIndex] as HTMLElement | undefined;
+    const flex = flexRef.current;
+    if (!el || !flex) return;
+    const card = flex.children[page * PAGE_SIZE] as HTMLElement | undefined;
     if (!card) return;
-    el.scrollTo({ left: card.offsetLeft - el.offsetLeft, behavior: 'smooth' });
+    const delta = card.getBoundingClientRect().left - el.getBoundingClientRect().left;
+    el.scrollTo({ left: el.scrollLeft + delta, behavior: 'smooth' });
   };
 
   const handlePrev = () => scrollToPage(Math.max(0, activePage - 1));
@@ -51,7 +61,7 @@ export default function VoiceCarousel({ voices }: Props) {
         className="overflow-x-auto pl-4 tablet:pl-[75px] pb-4 scroll-smooth snap-x snap-mandatory"
         style={{ scrollbarWidth: 'none' }}
       >
-        <div className="flex gap-3 min-w-max pr-4 tablet:pr-[75px]">
+        <div ref={flexRef} className="flex gap-3 min-w-max pr-4 tablet:pr-[75px]">
           {voices.map((voice) => (
             <div key={voice.id} className="w-[320px] tablet:w-[644px] shrink-0 snap-start">
               <div className="bg-cream rounded-3xl px-6 tablet:px-[58px] pt-8 tablet:pt-12 pb-10 tablet:pb-14 h-full">
