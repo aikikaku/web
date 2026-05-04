@@ -166,14 +166,27 @@ export default async function HomePage() {
 
       {/* 不動産サービスリンク */}
       <section className="relative py-[60px] tablet:py-[96px] overflow-hidden bg-[#d9d9d9]">
-        {/* SP: 全面 cover 背景 / PC: 同じ image だが位置調整なしで cover */}
-        <Image
-          src="/images/home/service-bg.png"
-          alt=""
-          fill
+        {/* SP: 50% center cover 背景（Figma 4211:10628）*/}
+        <div
           aria-hidden
-          className="object-cover pointer-events-none select-none"
-          sizes="100vw"
+          className="tablet:hidden absolute inset-0 bg-[#d9d9d9] pointer-events-none select-none"
+          style={{
+            backgroundImage: "url('/images/home/service-bg.png')",
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: '50% 50%',
+            backgroundSize: 'cover',
+          }}
+        />
+        {/* PC: Figma 4211:9984 の数値転記（top -1.43%, left -18.3%, w 205.33%, h 353.94%）*/}
+        <div
+          aria-hidden
+          className="hidden tablet:block absolute inset-0 bg-[#d9d9d9] pointer-events-none select-none"
+          style={{
+            backgroundImage: "url('/images/home/service-bg.png')",
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: '-18.3% -1.43%',
+            backgroundSize: '205.327% 353.941%',
+          }}
         />
         <div className="relative px-4 tablet:px-[45px] max-w-[1440px] mx-auto">
           {/* SP: 背景画像cover + ダークオーバーレイ */}

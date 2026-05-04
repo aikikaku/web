@@ -13,37 +13,28 @@ interface Props {
 const PAGE_SIZE = 3;
 
 /**
- * お客様の声カルーセル。Figma 4211:10009 (PC) / 4211:10704 (SP) 準拠。
- * - PC: w-644 h-350 のカードを横スクロール、3 枚 + 4 枚目 peek
- * - SP: w-322 のカードを横スクロール、1 枚 + 2 枚目 peek
- * - 全件レンダリングし、pagination ドットは「PAGE_SIZE 単位の現在ページ」を示す
- * - dot クリック / 矢印で該当ページの先頭カードへ smooth scroll
- * - 「すべて見る」を pagination と同じ行（PC）/ 全幅（SP）で配置
+ * お客様の声カルーセル。Figma 4211:10009 (PC) / 4211:9317 (SP) 準拠。
+ * - 共通: pagination dot は Math.ceil(voices / 3) 個。新着順、初期 activePage=0。
+ * - PC: 現ページの 3 件のみ DOM に描画（スクロールしない、ドット切替で 4-6 件目 → 7-9 件目…）。
+ * - SP: 全件レンダリング + 横スクロール peek。ドット切替で voices[page*3] を track 左端に smooth scroll。
  */
 export default function VoiceCarousel({ voices }: Props) {
   const trackRef = useRef<HTMLDivElement>(null);
   const flexRef = useRef<HTMLDivElement>(null);
   const [activePage, setActivePage] = useState(0);
   const totalPages = Math.max(1, Math.ceil(voices.length / PAGE_SIZE));
+  const pageVoices = voices.slice(activePage * PAGE_SIZE, activePage * PAGE_SIZE + PAGE_SIZE);
 
   useEffect(() => {
     const el = trackRef.current;
     const flex = flexRef.current;
     if (!el || !flex) return;
     const handleScroll = () => {
-      if (el.scrollLeft + el.clientWidth >= el.scrollWidth - 2) {
-        setActivePage(totalPages - 1);
-        return;
-      }
-      const firstCard = flex.children[0] as HTMLElement | undefined;
-      if (!firstCard) return;
-      const cardRect = firstCard.getBoundingClientRect();
-      const trackRect = el.getBoundingClientRect();
-      const cardWidth = cardRect.width;
+      const card = flex.children[0] as HTMLElement | undefined;
+      if (!card) return;
+      const cardWidth = card.getBoundingClientRect().width;
       const gap = 12;
-      // baseline = scroll value at which card[0] aligns with the scroll-padding area
-      const baseline = cardRect.left - trackRect.left + el.scrollLeft;
-      const cardIdx = Math.max(0, Math.round((el.scrollLeft - baseline) / (cardWidth + gap)));
+      const cardIdx = Math.max(0, Math.round(el.scrollLeft / (cardWidth + gap)));
       const page = Math.min(totalPages - 1, Math.floor(cardIdx / PAGE_SIZE));
       setActivePage(page);
     };
@@ -51,7 +42,9 @@ export default function VoiceCarousel({ voices }: Props) {
     return () => el.removeEventListener('scroll', handleScroll);
   }, [voices.length, totalPages]);
 
-  const scrollToPage = (page: number) => {
+  const goToPage = (page: number) => {
+    setActivePage(page);
+    // SP: 該当ページ先頭のカードを track 左端に smooth scroll
     const el = trackRef.current;
     const flex = flexRef.current;
     if (!el || !flex) return;
@@ -61,32 +54,40 @@ export default function VoiceCarousel({ voices }: Props) {
     el.scrollTo({ left: el.scrollLeft + delta, behavior: 'smooth' });
   };
 
-  const handlePrev = () => scrollToPage(Math.max(0, activePage - 1));
-  const handleNext = () => scrollToPage(Math.min(totalPages - 1, activePage + 1));
+  const handlePrev = () => goToPage(Math.max(0, activePage - 1));
+  const handleNext = () => goToPage(Math.min(totalPages - 1, activePage + 1));
 
   if (!voices.length) return null;
 
   return (
     <div className="max-w-[1440px] mx-auto">
-      {/* 横スクロールトラック（PC/SP 共通） */}
-      <div
-        ref={trackRef}
-        className="overflow-x-auto pl-4 tablet:pl-[75px] pb-4 scroll-smooth snap-x snap-mandatory scroll-pl-4 tablet:scroll-pl-[75px]"
-        style={{ scrollbarWidth: 'none' }}
-      >
-        <div ref={flexRef} className="flex gap-3 min-w-max pr-4 tablet:pr-[75px]">
-          {voices.map((voice) => (
-            <div
-              key={voice.id}
-              className="w-[322px] tablet:w-[644px] shrink-0 snap-start"
-            >
+      {/* PC: 現ページの 3 件のみ描画。ドット切替で再レンダリング */}
+      <div className="hidden tablet:block overflow-hidden px-[75px]">
+        <div className="flex gap-3">
+          {pageVoices.map((voice) => (
+            <div key={voice.id} className="w-[644px] shrink-0">
               <VoiceCard voice={voice} />
             </div>
           ))}
         </div>
       </div>
 
-      {/* PC ナビ: dots（左） + すべて見る（右） */}
+      {/* SP: 全件レンダリング + 横スクロール peek */}
+      <div
+        ref={trackRef}
+        className="tablet:hidden overflow-x-auto pl-4 pb-4 scroll-smooth snap-x snap-mandatory scroll-pl-4"
+        style={{ scrollbarWidth: 'none' }}
+      >
+        <div ref={flexRef} className="flex gap-3 min-w-max pr-4">
+          {voices.map((voice) => (
+            <div key={voice.id} className="w-[322px] shrink-0 snap-start">
+              <VoiceCard voice={voice} />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* PC ナビ: 矢印 + dots（左） + すべて見る（右） */}
       <div className="hidden tablet:flex items-center justify-between mt-16 px-[75px]">
         <div className="flex items-center gap-3">
           <button
@@ -106,7 +107,7 @@ export default function VoiceCarousel({ voices }: Props) {
                 key={i}
                 type="button"
                 aria-label={`ページ${i + 1}`}
-                onClick={() => scrollToPage(i)}
+                onClick={() => goToPage(i)}
                 className={`size-2 rounded-full transition-colors ${i === activePage ? 'bg-dark-green' : 'bg-dark-green/30'}`}
               />
             ))}
@@ -126,16 +127,16 @@ export default function VoiceCarousel({ voices }: Props) {
         <SeeAllLink href="/voice" />
       </div>
 
-      {/* SP ナビ: 中央 dots + 全幅すべて見る */}
-      <div className="tablet:hidden mt-6 px-4">
-        <div className="flex items-center justify-center pb-4">
+      {/* SP ナビ: 中央 dots(gap-58 内に矢印+dots) + 全幅すべて見る (Figma 4211:10704: section gap-32) */}
+      <div className="tablet:hidden mt-8 px-4">
+        <div className="flex items-center justify-center gap-[58px] pb-4">
           <div className="flex items-center gap-3">
             <button
               type="button"
               onClick={handlePrev}
               disabled={activePage === 0}
               aria-label="前へ"
-              className="size-6 inline-flex items-center justify-center text-dark-green hover:opacity-70 transition-opacity disabled:opacity-50"
+              className="size-6 inline-flex items-center justify-center text-dark-green disabled:opacity-50"
             >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -147,7 +148,7 @@ export default function VoiceCarousel({ voices }: Props) {
                   key={i}
                   type="button"
                   aria-label={`ページ${i + 1}`}
-                  onClick={() => scrollToPage(i)}
+                  onClick={() => goToPage(i)}
                   className={`size-1 rounded-full transition-colors ${i === activePage ? 'bg-dark-green' : 'bg-dark-green/30'}`}
                 />
               ))}
@@ -157,7 +158,7 @@ export default function VoiceCarousel({ voices }: Props) {
               onClick={handleNext}
               disabled={activePage >= totalPages - 1}
               aria-label="次へ"
-              className="size-6 inline-flex items-center justify-center text-dark-green hover:opacity-70 transition-opacity disabled:opacity-50"
+              className="size-6 inline-flex items-center justify-center text-dark-green disabled:opacity-50"
             >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -165,7 +166,9 @@ export default function VoiceCarousel({ voices }: Props) {
             </button>
           </div>
         </div>
-        <SeeAllButtonSP href="/voice" />
+        <div className="mt-8">
+          <SeeAllButtonSP href="/voice" />
+        </div>
       </div>
     </div>
   );

@@ -81,7 +81,7 @@ pickup物件と検索バーの間の余白が不足していそう
 - https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10281&m=dev
 
 ### 3-3. paginationのスクロール挙動と現在ページ表示
-paginationを押したらスクロール位置が変わる挙動を直してほしい。あと、今何ページ目なのかを知らせるために現在のページ数をなんらかのスタイルで示してほしい
+paginationを押したら一覧の先頭にsmooth scrollしてほしい(2-3と同じ挙動)。あと、今何ページ目なのかを知らせるために現在のページ数をなんらかのスタイルで示してほしい
 - https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10338&m=dev
 
 ### 3-4. 「三島市で駐車場をお探しの方へ」上下余白
@@ -127,9 +127,13 @@ SPサイズの時の余白も異なる
 
 ## 4. `/`(トップページ)
 
-### 4-1. お客様の声のpagination仕様
-お客様の声については新着順で3件表示してあり、paginationを押したら4件目から表示される仕組みにしてください。今は全件初期表示されていて、paginationをしたら対象のものが一番左に来るような実装になってしまっています
+### 4-1. お客様の声 カルーセル(pagination)
+- pagination dot は `Math.ceil(全件数 / 3)` 個。新着順で、初期位置は 1 ページ目。
+- **PC**: 現ページの 3 件のみ DOM に描画する。dot / 矢印クリックで activePage を進め、4〜6 件目 → 7〜9 件目… と再レンダリングで切替。スクロールは使わない。
+- **SP**: 全件レンダリング + 横スクロール peek。dot / 矢印クリックで `voices[page*3]` を track 左端に smooth scroll。
+- カードサイズ・gap・section gap・「すべて見る」の配置・余白は Figma の実数値に従う(PC: dot 行右端 / SP: dot 行の下、全幅)。
 - https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10009&m=dev
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10704&m=dev
 
 ### 4-2. SPサイズのアイコン
 SPサイズにした時のここのアイコンが違います。半透明になっていませんし、小さいスタイルも違います。また押した時に何も動きません。
@@ -163,36 +167,65 @@ SPサイズの時、「暮らしを知る」の上に大きなスペースが入
 SPサイズの時、お客様の声一覧にも左側に余白がない
 - https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10704&m=dev
 
-### 4-10. お客様の声 カードスタイル・横スクロール挙動
-お客様の声について、無事paginationの挙動は修正されたものの、元々のスタイルから離れています。カード一つ一つの大きさや全体の横スクロールなどの挙動を見直してください
-- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10009&m=dev
-
-### 4-11. SPサイズのアイコン(再・押下時挙動)
+### 4-10. SPサイズのアイコン(再・押下時挙動)
 SPサイズにしたときのアイコンがまだ違います。またこれを押した時の挙動を考えて実装してください
 - https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10610&m=dev
 
-### 4-12. SPサイズの背景【再指摘】
+### 4-11. SPサイズの背景【再指摘】
 何度も指摘していますが、SPサイズの時のここの背景が違います。`background: url(<path-to-image>) lightgray 50% / cover no-repeat;
 Modes
 ` が効いてないのでしょうか?PCサイズの時はうまくいっています
 - https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10628&m=dev
 
-### 4-13. SPサイズのslideshowコンポーネント上下余白
+### 4-12. SPサイズのslideshowコンポーネント上下余白
 SPサイズの時のslideshowコンポーネントの上下の余白が違います
 - https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10629&m=dev
 
-### 4-14. 「三島市で駐車場をお探しの方へ」コンポーネント上下余白(SP)
+### 4-13. 「三島市で駐車場をお探しの方へ」コンポーネント上下余白(SP)
 SPサイズの時の「三島市で駐車場をお探しの方へ」コンポーネントの上下の余白も違う
 - https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10688&m=dev
 
-### 4-15. SPサイズのストーリーカード【再指摘】
+### 4-14. SPサイズのストーリーカード【再指摘】
 SPサイズの時のストーリーカードについても何度も指摘しているがストーリー一覧で使っていたやつを並べればよくて、その実装がFigmaと大きく違う。
 カード内にラベルやタイトルやアイコンが収まる感じ
 - https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10693&m=dev
 
-### 4-16. SPサイズのslideshowコンポーネント上下余白(別箇所)
+### 4-15. SPサイズのslideshowコンポーネント上下余白(別箇所)
 SPサイズの時のslideshowコンポーネント?の上下の余白が違う
 - https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10690&m=dev
+
+### 4-16. PCサイズの背景スタイル未反映
+PCサイズの時の`background: url(<path-to-image>) lightgray -263.466px -6.76px / 205.327% 353.941% no-repeat;
+Modes
+`スタイルが当たってないように思います
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-9984&m=dev
+
+### 4-17. お客様の声 ページング仕様【再指摘】
+お客様の声がまだ間違っています。デフォルトで表示されるのは3件です。slideshow navigationで2ページ目にいったときに4〜6件目が表示されるようなロジックにしてください
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10009&m=dev
+
+### 4-18. SPサイズのアイコン【再指摘】
+SPサイズの時のアイコンがまだfigma通りではないです。また押したときに何も起きません
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10610&m=dev
+
+### 4-19. SPサイズの背景スタイル未反映【再指摘】
+SPサイズの時、PCサイズと同じように`background: url(<path-to-image>) lightgray 50% / cover no-repeat;
+Modes
+`が当たってないです。背景がfigmaと異なります
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10628&m=dev
+
+### 4-20. SPサイズのslideshow navigation上下余白
+SPサイズの時のslideshow navigationの上下の余白が異なります
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10679&m=dev
+
+### 4-21. SPサイズの「三島市で駐車場をお探しの方へ」上下余白
+SPサイズの時の「三島市で駐車場をお探しの方へ」の上下の余白がデザインと異なります
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10689&m=dev
+
+### 4-22. SPサイズのslideshow navigation上下余白(別箇所)
+SPサイズの時のslideshow navigationの上下の余白が異なります
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10695&m=dev
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10704&m=dev
 
 ---
 
