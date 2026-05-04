@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from 'react';
+import CheckboxDropdown from '@/components/ui/CheckboxDropdown';
 
 const propertyTypes = [
   { value: 'sell_property', label: '売物件' },
@@ -20,90 +21,6 @@ const regions = [
   '伊豆の国市',
   'そのほかの地域',
 ];
-
-function CheckboxDropdown({
-  label,
-  options,
-  selected,
-  onToggle,
-}: {
-  label: string;
-  options: { value: string; label: string }[];
-  selected: string[];
-  onToggle: (value: string) => void;
-}) {
-  const [isOpen, setIsOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
-        setIsOpen(false);
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  // Figma 4211:26259 準拠: trigger w-[279.5px]、popover も同幅。flex-wrap で trigger が縮まないよう min-w 固定。
-  return (
-    <div className="relative w-[279.5px] shrink-0" ref={ref}>
-      <button
-        type="button"
-        onClick={() => setIsOpen(!isOpen)}
-        aria-expanded={isOpen}
-        className="w-full h-[56px] px-4 border border-dark-green rounded-lg font-gothic font-medium text-[16px] bg-transparent flex items-center justify-between gap-2"
-      >
-        <span className={selected.length > 0 ? 'text-dark-green' : 'text-dark-green/40'}>
-          {label}
-        </span>
-        <span className="flex items-center gap-2 shrink-0">
-          {selected.length > 0 && (
-            <span className="bg-dark-green text-white text-[12px] w-5 h-5 rounded-full flex items-center justify-center">
-              {selected.length}
-            </span>
-          )}
-          <svg
-            width="16" height="16" viewBox="0 0 16 16" fill="none"
-            className={`transition-transform ${isOpen ? 'rotate-180' : ''}`}
-          >
-            <path d="M3 5l5 6 5-6" fill="#2a363b" />
-          </svg>
-        </span>
-      </button>
-      {isOpen && (
-        <div className="absolute top-[60px] left-0 w-full bg-cream border border-dark-green/20 rounded-lg shadow-lg z-20 py-2">
-          {options.map((option) => {
-            const isChecked = selected.includes(option.value);
-            return (
-              <button
-                key={option.value}
-                type="button"
-                onClick={() => onToggle(option.value)}
-                className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-light-green text-left whitespace-nowrap"
-              >
-                <span
-                  className={`size-4 inline-flex items-center justify-center rounded border shrink-0 ${
-                    isChecked ? 'bg-dark-green border-dark-green' : 'border-dark-green/40'
-                  }`}
-                >
-                  {isChecked && (
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                      <path d="M2 6l3 3 5-6" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  )}
-                </span>
-                <span className="font-gothic font-medium text-[14px] text-dark-green">
-                  {option.label}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      )}
-    </div>
-  );
-}
 
 export default function PropertyFilter() {
   const router = useRouter();

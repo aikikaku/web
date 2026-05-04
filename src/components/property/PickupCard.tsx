@@ -48,15 +48,33 @@ export default function PickupCard({ property }: Props) {
                 priority={i === 0}
               />
             ))}
-            {/* Figma 4211:10721: 画像下端にラベル可読性向上のための微細な暗グラデのみ。
-                成約済 (sold) 時は重い ザブトン overlay は使わず、商談中ピルだけで状態を示す */}
+            {/* Figma 4211:10721: 画像上端の暗グラデ（ラベル可読性のため）。to top: 73.6% transparent → 92.7% rgba(0,0,0,0.2) */}
             <div
               aria-hidden
               className="absolute inset-0 z-10 pointer-events-none rounded-2xl tablet:rounded-[24px]"
               style={{ backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0) 73.635%, rgba(0,0,0,0.2) 92.755%)' }}
             />
+            {/* SP: ラベルを画像内 top に overlay（中古住宅 + 地域 / 商談中 right） */}
+            <div className="tablet:hidden absolute inset-x-0 top-0 z-20 p-2.5 flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="tag-pill text-[14px] leading-none px-3 py-1.5 shrink-0">
+                  {categoryLabel}
+                </span>
+                {locationText && (
+                  <span className="font-gothic font-medium text-[14px] leading-[1.8] text-cream truncate">
+                    {locationText}
+                  </span>
+                )}
+              </div>
+              {isSold && (
+                <span className="inline-flex items-center bg-dark-green text-white font-gothic font-medium text-[14px] leading-none rounded-full px-3 py-1.5 shrink-0">
+                  商談中
+                </span>
+              )}
+            </div>
+            {/* PC: 商談中バッジは右上に単独 */}
             {isSold && (
-              <span className="absolute top-4 right-4 z-20 inline-flex items-center bg-dark-green text-white font-gothic font-medium text-[14px] leading-none rounded-full px-3 py-1.5">
+              <span className="hidden tablet:inline-flex absolute top-4 right-4 z-20 items-center bg-dark-green text-white font-gothic font-medium text-[14px] leading-none rounded-full px-3 py-1.5">
                 商談中
               </span>
             )}
@@ -92,8 +110,8 @@ export default function PickupCard({ property }: Props) {
         {/* 右カラム: 詳細＋thumbs（PC 用） */}
         <div className="flex-1 flex flex-col justify-between min-w-0 pt-4 tablet:pt-0">
           <div className="flex flex-col tablet:pt-3">
-            {/* Tags + Location */}
-            <div className="flex flex-wrap items-center gap-2">
+            {/* Tags + Location: PC のみ（SP はラベルを画像内 overlay に表示）*/}
+            <div className="hidden tablet:flex flex-wrap items-center gap-2">
               {isSold && (
                 <span className="inline-flex items-center bg-dark-green text-white font-gothic font-medium text-[14px] leading-none rounded-full px-3 py-1.5">
                   商談中
