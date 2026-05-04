@@ -81,8 +81,15 @@ export default async function PropertiesPage({
     ? allFiltered.slice(offset, offset + PER_PAGE)
     : allFiltered;
 
-  const featuredProperty = paginatedContents[0];
-  const gridProperties = paginatedContents.slice(1);
+  // pickup 物件はフィルタ非依存に固定（最新の available 物件 = 全物件中 publishedAt 降順の最初）
+  const pickupData = await getProperties({
+    limit: 1,
+    filters: 'status[contains]available',
+    orders: '-publishedAt',
+  }).catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: 1 }));
+  const featuredProperty = pickupData.contents[0];
+  // grid は paginatedContents から pickup と同じ ID を除外（同じ物件を 2 回描画しないため）
+  const gridProperties = paginatedContents.filter((p) => p.id !== featuredProperty?.id);
 
   return (
     <div className="bg-cream">
@@ -110,8 +117,9 @@ export default async function PropertiesPage({
           <h1 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.92px] text-dark-green mb-8 tablet:mb-12" style={{ fontFeatureSettings: "'palt' 1" }}>物件を探す</h1>
 
           {/* pickup 物件（サムネイル切替対応） */}
+          {/* Figma 4211:10722 SP: pickup → grid 60px / PC: pickup → filter row 120px */}
           {featuredProperty && (
-            <div className="mb-8 tablet:mb-[120px]">
+            <div className="mb-[60px] tablet:mb-[120px]">
               <PickupCard property={featuredProperty} />
             </div>
           )}
