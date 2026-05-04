@@ -165,15 +165,16 @@ export default async function HomePage() {
       </section>
 
       {/* 不動産サービスリンク */}
-      <section
-        className="relative py-[60px] tablet:py-[96px] overflow-hidden bg-[#d9d9d9]"
-        style={{
-          backgroundImage: 'url(/images/home/service-bg.png)',
-          backgroundPosition: '-263.466px -6.76px',
-          backgroundSize: '205.327% 353.941%',
-          backgroundRepeat: 'no-repeat',
-        }}
-      >
+      <section className="relative py-[60px] tablet:py-[96px] overflow-hidden bg-[#d9d9d9]">
+        {/* SP: 全面 cover 背景 / PC: 同じ image だが位置調整なしで cover */}
+        <Image
+          src="/images/home/service-bg.png"
+          alt=""
+          fill
+          aria-hidden
+          className="object-cover pointer-events-none select-none"
+          sizes="100vw"
+        />
         <div className="relative px-4 tablet:px-[45px] max-w-[1440px] mx-auto">
           {/* SP: 背景画像cover + ダークオーバーレイ */}
           <div className="flex flex-col gap-6 tablet:hidden">
@@ -348,7 +349,7 @@ export default async function HomePage() {
       <ParkingBanner />
 
       {/* ストーリーセクション - 暮らしを知る */}
-      <section className="bg-cream py-[60px] tablet:py-[96px]">
+      <section className="bg-cream pt-0 pb-[60px] tablet:py-[96px]">
         <div className="px-4 tablet:px-[75px] max-w-[1440px] mx-auto">
           <div className="flex flex-col gap-2 mb-8 tablet:mb-[96px]">
             <p className="text-category-2 font-gothic font-medium text-dark-green">
@@ -457,7 +458,7 @@ export default async function HomePage() {
 
       {/* お客様の声セクション */}
       {voices.contents.length > 0 && (
-        <section className="bg-light-green pt-[60px] pb-[40px] tablet:pt-[96px] tablet:pb-16">
+        <section className="bg-light-green py-[60px] tablet:pt-[96px] tablet:pb-16">
           <div className="px-4 tablet:px-[75px] max-w-[1440px] mx-auto">
             <div className="mb-8 tablet:mb-16">
               <h3 className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.96px] tablet:tracking-[1.28px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>

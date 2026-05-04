@@ -162,3 +162,34 @@ SPサイズの時、「暮らしを知る」の上に大きなスペースが入
 ### 4-9. お客様の声一覧 左余白(SP)
 SPサイズの時、お客様の声一覧にも左側に余白がない
 - https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10704&m=dev
+
+### 4-10. お客様の声 カードスタイル・横スクロール挙動
+お客様の声について、無事paginationの挙動は修正されたものの、元々のスタイルから離れています。カード一つ一つの大きさや全体の横スクロールなどの挙動を見直してください
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10009&m=dev
+
+### 4-11. SPサイズのアイコン(再・押下時挙動)
+SPサイズにしたときのアイコンがまだ違います。またこれを押した時の挙動を考えて実装してください
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10610&m=dev
+
+### 4-12. SPサイズの背景【再指摘】
+何度も指摘していますが、SPサイズの時のここの背景が違います。`background: url(<path-to-image>) lightgray 50% / cover no-repeat;
+Modes
+` が効いてないのでしょうか?PCサイズの時はうまくいっています
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10628&m=dev
+
+### 4-13. SPサイズのslideshowコンポーネント上下余白
+SPサイズの時のslideshowコンポーネントの上下の余白が違います
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10629&m=dev
+
+### 4-14. 「三島市で駐車場をお探しの方へ」コンポーネント上下余白(SP)
+SPサイズの時の「三島市で駐車場をお探しの方へ」コンポーネントの上下の余白も違う
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10688&m=dev
+
+### 4-15. SPサイズのストーリーカード【再指摘】
+SPサイズの時のストーリーカードについても何度も指摘しているがストーリー一覧で使っていたやつを並べればよくて、その実装がFigmaと大きく違う。
+カード内にラベルやタイトルやアイコンが収まる感じ
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10693&m=dev
+
+### 4-16. SPサイズのslideshowコンポーネント上下余白(別箇所)
+SPサイズの時のslideshowコンポーネント?の上下の余白が違う
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10690&m=dev
