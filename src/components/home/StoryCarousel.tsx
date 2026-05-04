@@ -1,9 +1,9 @@
 'use client';
 
 import { useRef, useState, useEffect } from 'react';
-import Link from 'next/link';
 import { Story } from '@/types/microcms';
 import StoryCardOverlay from '@/components/story/StoryCardOverlay';
+import SeeAllButtonSP from '@/components/ui/SeeAllButtonSP';
 
 interface Props {
   stories: Story[];
@@ -92,12 +92,7 @@ export default function StoryCarousel({ stories, href = '/stories' }: Props) {
             </button>
           </div>
         </div>
-        <Link
-          href={href}
-          className="flex items-center justify-center w-full h-12 rounded-full bg-accent-blue font-gothic font-medium text-base text-white hover:opacity-80 transition-opacity"
-        >
-          すべて見る
-        </Link>
+        <SeeAllButtonSP href={href} />
       </div>
     </div>
   );

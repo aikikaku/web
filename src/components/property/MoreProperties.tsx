@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 import { Property } from '@/types/microcms';
 import PropertyCard from '@/components/property/PropertyCard';
 import SeeAllLink from '@/components/ui/SeeAllLink';
+import SeeAllButtonSP from '@/components/ui/SeeAllButtonSP';
 
 interface Props {
   properties: Property[];
@@ -107,12 +107,7 @@ export default function MoreProperties({ properties, href = '/properties' }: Pro
             ))}
           </div>
         </div>
-        <Link
-          href={href}
-          className="flex items-center justify-center w-full h-12 rounded-full bg-accent-blue font-gothic font-medium text-base text-white hover:opacity-80 transition-opacity"
-        >
-          すべて見る
-        </Link>
+        <SeeAllButtonSP href={href} />
       </div>
     </div>
   );

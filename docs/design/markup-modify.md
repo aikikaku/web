@@ -193,3 +193,52 @@ SPサイズの時のストーリーカードについても何度も指摘して
 ### 4-16. SPサイズのslideshowコンポーネント上下余白(別箇所)
 SPサイズの時のslideshowコンポーネント?の上下の余白が違う
 - https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10690&m=dev
+
+---
+
+## 5. コンポーネント
+
+### 5-1. Dropdown(物件とストーリー一覧で使用)
+
+#### デフォルトのデザイン
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-26259&m=dev
+
+#### hover時のデザイン
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-26263&m=dev
+
+#### pressed時のデザイン
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-26267&m=dev
+
+#### selected時のデザイン
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-26286&m=dev
+
+---
+
+### 5-2. buttons
+
+例えばで以下を示すがbutton全般について以下のスタイルです。
+
+#### すべてを見るコンポーネント(SP)
+
+##### デフォルト
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-26130&m=dev
+
+##### pressed
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-26133&m=dev
+
+##### disabled
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-26138&m=dev
+
+#### すべてを見るコンポーネント(PC)
+
+##### default
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-26034&m=dev
+
+##### hover
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-26037&m=dev
+
+##### pressed
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-26040&m=dev
+
+##### disabled
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-26043&m=dev

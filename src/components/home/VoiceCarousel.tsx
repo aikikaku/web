@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { CustomerVoice } from '@/types/microcms';
 import SeeAllLink from '@/components/ui/SeeAllLink';
+import SeeAllButtonSP from '@/components/ui/SeeAllButtonSP';
 
 interface Props {
   voices: CustomerVoice[];
@@ -165,12 +165,7 @@ export default function VoiceCarousel({ voices }: Props) {
             </button>
           </div>
         </div>
-        <Link
-          href="/voice"
-          className="flex items-center justify-center w-full h-12 rounded-full bg-accent-blue font-gothic font-medium text-base text-white hover:opacity-80 transition-opacity"
-        >
-          すべて見る
-        </Link>
+        <SeeAllButtonSP href="/voice" />
       </div>
     </div>
   );
