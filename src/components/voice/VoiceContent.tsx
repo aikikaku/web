@@ -99,31 +99,23 @@ export default function VoiceContent({
           ))}
         </div>
 
-        {/* PC: サイドバー（TocNavスタイル） */}
+        {/* PC: サイドバー（カテゴリリスト） */}
         <div className="hidden tablet:block tablet:w-[323px]">
           <div className="bg-light-green rounded-[32px] px-[30px] py-[45px] sticky top-24">
-            <nav className="flex flex-col">
-              {categories.map((cat, i, arr) => {
+            <nav className="flex flex-col gap-6">
+              {categories.map((cat) => {
                 const isActive = activeCategory === cat.key;
                 return (
                   <button
                     key={cat.key}
                     type="button"
                     onClick={() => setActiveCategory(cat.key)}
-                    className="flex items-center h-[40px] text-left cursor-pointer"
-                  >
-                    <div className="w-[40px] flex flex-col items-center h-full shrink-0">
-                      {i > 0 && <div className="w-[1.5px] flex-1 bg-dark-green/30" />}
-                      {i === 0 && <div className="flex-1" />}
-                      <div className={`w-[10px] h-[10px] rounded-full shrink-0 transition-colors duration-300 ${
-                        isActive ? 'bg-dark-green' : 'border-2 border-dark-green/30'
-                      }`} />
-                      {i < arr.length - 1 && <div className="w-[1.5px] flex-1 bg-dark-green/30" />}
-                      {i === arr.length - 1 && <div className="flex-1" />}
-                    </div>
-                    <span className={`font-gothic font-medium text-[16px] leading-[1.5] text-dark-green transition-opacity duration-300 ${
+                    className={`flex items-center gap-3 text-left cursor-pointer transition-opacity duration-300 ${
                       isActive ? 'opacity-100' : 'opacity-50'
-                    }`}>
+                    }`}
+                  >
+                    <div className="w-[10px] h-[10px] rounded-full shrink-0 bg-dark-green" />
+                    <span className="font-gothic font-medium text-[16px] leading-[1.5] text-dark-green">
                       {cat.label}
                     </span>
                   </button>

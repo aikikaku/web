@@ -137,7 +137,7 @@ export default function Footer() {
                 href="https://maps.google.com/?q=静岡県三島市加茂18番地の7"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center border border-white rounded-full px-4 pt-0.5 pb-1 text-xs text-white leading-[1.8] hover:bg-white/10 transition-colors"
+                className="inline-flex items-center justify-center border border-white rounded-full px-4 pt-0.5 pb-1 text-xs text-white leading-[1.8] hover:opacity-70 transition-opacity"
               >
                 Google Maps
               </a>
@@ -196,7 +196,7 @@ export default function Footer() {
                   href="https://maps.google.com/?q=静岡県三島市加茂18番地の7"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center border border-white rounded-full px-4 pt-0.5 pb-1 text-xs text-white leading-[1.8] hover:bg-white/10 transition-colors"
+                  className="inline-flex items-center justify-center border border-white rounded-full px-4 pt-0.5 pb-1 text-xs text-white leading-[1.8] hover:opacity-70 transition-opacity"
                 >
                   Google Maps
                 </a>

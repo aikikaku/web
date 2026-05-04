@@ -51,8 +51,8 @@ export default function PrivacyPolicyPage() {
         }}
       />
 
-      <section className="pt-24 pb-36 page-container">
-        <h1 className="mb-24">プライバシーポリシーについて</h1>
+      <section className="pt-24 pb-36 px-5 tablet:px-[75px] max-w-[1440px] mx-auto">
+        <h1 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.92px] text-dark-green mb-24" style={{ fontFeatureSettings: "'palt' 1" }}>プライバシーポリシーについて</h1>
 
         <div className="flex justify-center">
           <div className="w-full max-w-[704px] flex flex-col gap-16">
@@ -64,7 +64,7 @@ export default function PrivacyPolicyPage() {
             {/* セクション */}
             {sections.map((section) => (
               <div key={section.heading} className="flex flex-col gap-4">
-                <h4>{section.heading}</h4>
+                <h4 className="text-black">{section.heading}</h4>
                 <p className="text-body-l text-black whitespace-pre-line">
                   {section.body}
                 </p>

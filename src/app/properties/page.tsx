@@ -5,7 +5,6 @@ import PropertyFilter from '@/components/property/PropertyFilter';
 import Pagination from '@/components/ui/Pagination';
 import Link from 'next/link';
 import Image from 'next/image';
-import { getImageUrl } from '@/lib/microcms/image';
 import MobileFilterNav from '@/components/property/MobileFilterNav';
 import type { Metadata } from 'next';
 
@@ -17,7 +16,7 @@ export const metadata: Metadata = {
 export const revalidate = 3600;
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp';
-const PER_PAGE = 12;
+const PER_PAGE = 9;
 
 interface PropertiesPageProps {
   searchParams: {
@@ -101,14 +100,15 @@ export default async function PropertiesPage({
         <MobileFilterNav />
       </Suspense>
 
-      <section className="section-padding">
-        <div className="page-container">
+      <section className="pt-16 tablet:pt-24 pb-16 tablet:pb-24">
+        <div className="max-w-[1440px] mx-auto px-4 tablet:px-[45px]">
           {/* ページタイトル（左寄せ） */}
-          <h1 className="mb-12">物件を探す</h1>
+          <h1 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.92px] text-dark-green mb-12" style={{ fontFeatureSettings: "'palt' 1" }}>物件を探す</h1>
 
           {/* 注目物件（XLカード） */}
           {featuredProperty && (
             <Link
+              data-mobile-filter-start
               href={`/properties/${featuredProperty.id}`}
               className="block rounded-[32px] bg-light-green p-4 tablet:p-[30px] mb-12 group"
             >
@@ -123,12 +123,17 @@ export default async function PropertiesPage({
                       className="object-cover transition-transform group-hover:scale-105"
                     />
                     {featuredProperty.status === 'sold' && (
-                      <div
-                        className="absolute inset-0"
-                        style={{
-                          backgroundImage: 'linear-gradient(194deg, rgba(39,51,59,0.5) 4%, rgba(39,51,59,0.25) 52%, rgba(39,51,59,0.5) 104%)',
-                        }}
-                      />
+                      <>
+                        <div
+                          className="absolute inset-0"
+                          style={{
+                            backgroundImage: 'linear-gradient(194deg, rgba(39,51,59,0.5) 4%, rgba(39,51,59,0.25) 52%, rgba(39,51,59,0.5) 104%)',
+                          }}
+                        />
+                        <span className="absolute top-4 right-4 inline-flex items-center bg-dark-green text-white font-gothic font-medium text-[14px] leading-none rounded-full px-3 py-1.5">
+                          成約済み
+                        </span>
+                      </>
                     )}
                   </div>
                 </div>
@@ -137,9 +142,6 @@ export default async function PropertiesPage({
                   <div className="flex flex-col gap-0 tablet:pt-3">
                     {/* Tags + Location */}
                     <div className="flex flex-wrap items-center gap-3">
-                      {featuredProperty.status === 'sold' && (
-                        <span className="tag-pill-dark text-[14px] leading-none px-3 py-1.5">成約済み</span>
-                      )}
                       {featuredProperty.type && (
                         <span className="tag-pill text-[14px] leading-none px-3 py-1.5">
                           {featuredProperty.category === 'property'
@@ -157,7 +159,7 @@ export default async function PropertiesPage({
                     {/* タイトル */}
                     <div className="py-[30px]">
                       <h3
-                        className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green"
+                        className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.04em] text-black"
                         style={{ fontFeatureSettings: "'palt' 1" }}
                       >
                         {featuredProperty.title}
@@ -166,15 +168,15 @@ export default async function PropertiesPage({
 
                     {/* Price / Layout split */}
                     <div className="pb-4">
-                      <div className="flex border-t border-b border-dark-green/20">
-                        <div className="flex-1 border-r border-dark-green/20 pt-2 pb-4">
+                      <div className="flex border-t border-b border-dark-green/10">
+                        <div className="flex-1 border-r border-dark-green/10 pt-2 pb-4">
                           <div className="pl-2">
                             <span className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green">
                               {featuredProperty.type === 'rent' ? '賃料' : '価格'}
                             </span>
                           </div>
                           <div className="flex items-end justify-center">
-                            <span className="font-gothic font-medium text-[20px] tablet:text-[24px] leading-[1.6] text-dark-green px-1">
+                            <span className="font-gothic font-medium text-[20px] tablet:text-[24px] leading-[1.6] text-black px-1">
                               {featuredProperty.status === 'sold'
                                 ? '-'
                                 : featuredProperty.price
@@ -183,7 +185,7 @@ export default async function PropertiesPage({
                                     ? featuredProperty.rent.toLocaleString()
                                     : '応談'}
                             </span>
-                            <span className="font-gothic font-medium text-[14px] leading-[1.5] text-dark-green pb-1 w-7">
+                            <span className="font-gothic font-medium text-[14px] leading-[1.5] text-black pb-1 w-7">
                               {featuredProperty.status === 'sold' ? '万円' : featuredProperty.price ? '万円' : featuredProperty.rent ? '円/月' : ''}
                             </span>
                           </div>
@@ -196,7 +198,7 @@ export default async function PropertiesPage({
                               </span>
                             </div>
                             <div className="flex items-end justify-center">
-                              <span className="font-gothic font-medium text-[20px] tablet:text-[24px] leading-[1.6] text-dark-green">
+                              <span className="font-gothic font-medium text-[20px] tablet:text-[24px] leading-[1.6] text-black">
                                 {featuredProperty.layout}
                               </span>
                             </div>
@@ -208,12 +210,12 @@ export default async function PropertiesPage({
                     {/* Station / Construction */}
                     <div className="flex items-center">
                       {featuredProperty.nearestStation && (
-                        <span className="font-gothic font-medium text-[16px] leading-[2] text-dark-green px-2">
+                        <span className="font-gothic font-medium text-[16px] leading-[2] text-black px-2">
                           {featuredProperty.nearestStation}
                         </span>
                       )}
                       {featuredProperty.constructionDate && (
-                        <span className="font-gothic font-medium text-[16px] leading-[2] text-dark-green px-2">
+                        <span className="font-gothic font-medium text-[16px] leading-[2] text-black px-2">
                           築{featuredProperty.constructionDate}
                         </span>
                       )}
@@ -222,45 +224,19 @@ export default async function PropertiesPage({
                     {/* 物件詳細ボタン */}
                     <div className="mt-10">
                       {featuredProperty.status !== 'sold' && (
-                        <span className="inline-flex items-center justify-center h-[44px] px-6 border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-colors hover:bg-gray-50">
+                        <span className="inline-flex items-center justify-center h-[44px] px-6 border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-opacity hover:opacity-70">
                           物件詳細
                         </span>
                       )}
                     </div>
                   </div>
-
-                  {/* サムネイル行（mainImage + images） */}
-                  {(() => {
-                    const allThumbs = [
-                      featuredProperty.mainImage,
-                      ...(featuredProperty.images || []),
-                    ].filter(Boolean).slice(0, 6);
-                    return allThumbs.length > 0 ? (
-                    <div className="flex gap-2 mt-4 tablet:mt-0">
-                      {allThumbs.map((img, i) => (
-                        <div
-                          key={i}
-                          className={`flex-1 aspect-square relative rounded-xl overflow-hidden ${i > 0 ? 'opacity-[0.15]' : ''}`}
-                        >
-                          <Image
-                            src={getImageUrl(img, { width: 140, height: 140, format: 'webp' })}
-                            alt=""
-                            fill
-                            className="object-cover"
-                            sizes="70px"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                    ) : null;
-                  })()}
                 </div>
               </div>
             </Link>
           )}
 
-          {/* フィルター */}
-          <div className="tablet:px-[30px]">
+          {/* フィルター（pickup の下） */}
+          <div className="mb-12 tablet:mb-[96px]">
             <Suspense fallback={<div className="h-14 bg-cream animate-pulse rounded-lg" />}>
               <PropertyFilter />
             </Suspense>
@@ -279,6 +255,7 @@ export default async function PropertiesPage({
             </p>
           ) : null}
 
+          <div data-mobile-filter-end />
           <Pagination
             totalCount={filteredTotalCount}
             perPage={PER_PAGE}
@@ -297,16 +274,16 @@ export default async function PropertiesPage({
 
       {/* 駐車場セクション */}
       <section className="py-24">
-        <div className="page-container flex justify-center">
+        <div className="max-w-[1440px] mx-auto px-4 tablet:px-[45px] flex justify-center">
           <Link
             href="/for-customer"
             className="block bg-light-green rounded-[24px] px-[30px] pt-6 pb-8 max-w-[646px] w-full group"
           >
-            <div className="flex items-center justify-between">
-              <div className="flex flex-col gap-2 max-w-[449px]">
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex flex-col gap-2 min-w-0">
                 <p className="font-gothic font-medium text-[16px] leading-[2] text-dark-green">駐車場を借りたい</p>
                 <p
-                  className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green"
+                  className="font-mincho text-[20px] tablet:text-[28px] leading-[1.5] tracking-[0.04em] text-dark-green whitespace-nowrap"
                   style={{ fontFeatureSettings: "'palt' 1" }}
                 >
                   三島市で駐車場をお探しの方へ
@@ -350,7 +327,7 @@ export default async function PropertiesPage({
             <div className="flex flex-col tablet:flex-row gap-3 tablet:ml-auto w-full tablet:w-auto">
               <Link
                 href="/for-customer"
-                className="bg-cream/95 rounded-3xl px-6 py-8 tablet:px-8 tablet:py-10 text-center w-full tablet:w-[264px] flex flex-col items-center gap-6 tablet:gap-8 hover:bg-white transition-colors"
+                className="bg-cream/95 rounded-3xl px-6 py-8 tablet:px-8 tablet:py-10 text-center w-full tablet:w-[264px] flex flex-col items-center gap-6 tablet:gap-8 hover:opacity-70 transition-opacity"
               >
                 <span className="font-gothic font-medium text-[18px] tablet:text-[20px] text-dark-green">
                   不動産をお探しの方
@@ -363,7 +340,7 @@ export default async function PropertiesPage({
               </Link>
               <Link
                 href="/for-owner"
-                className="bg-cream/95 rounded-3xl px-6 py-8 tablet:px-8 tablet:py-10 text-center w-full tablet:w-[264px] flex flex-col items-center gap-6 tablet:gap-8 hover:bg-white transition-colors"
+                className="bg-cream/95 rounded-3xl px-6 py-8 tablet:px-8 tablet:py-10 text-center w-full tablet:w-[264px] flex flex-col items-center gap-6 tablet:gap-8 hover:opacity-70 transition-opacity"
               >
                 <span className="font-gothic font-medium text-[18px] tablet:text-[20px] text-dark-green">
                   その他のお問い合わせ

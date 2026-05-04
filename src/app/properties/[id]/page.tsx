@@ -1,6 +1,9 @@
 import { getProperty, getProperties } from '@/lib/microcms/queries';
 import PropertyCard from '@/components/property/PropertyCard';
 import Link from 'next/link';
+import SeeAllLink from '@/components/ui/SeeAllLink';
+import PropertyCarousel from '@/components/home/PropertyCarousel';
+import MobileTocNav from '@/components/ui/MobileTocNav';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
@@ -188,7 +191,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       {/* ヒーローセクション - カード型 */}
-      <section className="px-4 tablet:px-[45px] pt-12">
+      <section className="px-4 tablet:px-[45px] pt-12 max-w-[1440px] mx-auto">
         <div className="bg-light-green rounded-[32px] p-4 tablet:p-[30px]">
           <div className="flex flex-col tablet:flex-row gap-6 tablet:gap-[60px]">
             {/* メイン画像 */}
@@ -295,20 +298,20 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
 
               {/* サムネイル一覧 (PCのみ) */}
               {allImages.length > 1 && (
-                <div className="hidden tablet:flex flex-wrap gap-2 mt-6">
+                <div className="hidden tablet:flex gap-2 mt-6 w-full">
                   {allImages.slice(0, 6).map((image, index) => (
                     <div
                       key={index}
-                      className={`relative w-[70px] h-[70px] rounded-xl overflow-hidden ${
+                      className={`relative flex-1 aspect-square rounded-xl overflow-hidden min-w-0 ${
                         index > 0 ? 'opacity-[0.15]' : ''
                       }`}
                     >
                       <Image
-                        src={getImageUrl(image, { width: 100, height: 100, format: 'webp' })}
+                        src={getImageUrl(image, { width: 200, height: 200, format: 'webp' })}
                         alt={`画像 ${index + 1}`}
                         fill
                         className="object-cover"
-                        sizes="70px"
+                        sizes="100px"
                       />
                     </div>
                   ))}
@@ -319,12 +322,15 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
         </div>
       </section>
 
+      {/* SP用 floating TOC bar */}
+      <MobileTocNav items={tocItems} />
+
       {/* メインコンテンツ - 2カラムレイアウト */}
-      <section className="px-4 tablet:pl-[45px] tablet:pr-[75px] py-16 tablet:py-24">
+      <section data-mobile-toc-start className="px-4 tablet:pl-[45px] tablet:pr-[75px] py-16 tablet:py-24 max-w-[1440px] mx-auto">
         <div className="flex flex-col tablet:flex-row gap-8 tablet:gap-0 tablet:justify-between">
-          {/* 左サイドバー - 目次ナビ（スクロール追従） */}
-          <aside className="w-full tablet:w-[323px] shrink-0">
-            <div className="bg-light-green rounded-[32px] px-[30px] py-[45px] tablet:sticky tablet:top-[120px]">
+          {/* 左サイドバー - 目次ナビ（PC のみ、SP では floating bar） */}
+          <aside className="hidden tablet:block w-[323px] shrink-0">
+            <div className="bg-light-green rounded-[32px] px-[30px] py-[45px] sticky top-[120px]">
               <TocNav items={tocItems} />
             </div>
           </aside>
@@ -479,9 +485,10 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
         </div>
       </section>
 
+      <div data-mobile-toc-end />
       {/* もっと物件を見る */}
       {relatedProperties.contents.length > 0 && (
-        <section className="px-4 tablet:px-[75px] pt-24 pb-36">
+        <section className="px-4 tablet:px-[75px] pt-24 pb-36 max-w-[1440px] mx-auto">
           <div className="max-w-[1280px]">
             <h2
               className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green mb-16"
@@ -489,10 +496,16 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
             >
               もっと物件を見る
             </h2>
-            <div className="grid grid-cols-1 tablet:grid-cols-3 gap-[30px]">
+            {/* SP: スライドショー */}
+            <PropertyCarousel properties={relatedProperties.contents} />
+            {/* PC: グリッド */}
+            <div className="hidden tablet:grid grid-cols-3 gap-[30px]">
               {relatedProperties.contents.map((p) => (
                 <PropertyCard key={p.id} property={p} />
               ))}
+            </div>
+            <div className="hidden tablet:flex items-center justify-end mt-16">
+              <SeeAllLink href="/properties" />
             </div>
           </div>
         </section>

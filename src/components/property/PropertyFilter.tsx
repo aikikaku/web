@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, useTransition } from 'react';
 
 const propertyTypes = [
   { value: 'sell_property', label: '売物件' },
@@ -49,9 +49,9 @@ function CheckboxDropdown({
     <div className="relative flex-1" ref={ref}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full h-[56px] px-4 border border-dark-green rounded-lg font-gothic font-medium text-[16px] bg-white flex items-center justify-between"
+        className="w-full h-[56px] px-4 border border-dark-green rounded-lg font-gothic font-medium text-[16px] bg-transparent flex items-center justify-between"
       >
-        <span className={selected.length > 0 ? 'text-dark-green' : 'text-black/30'}>
+        <span className={selected.length > 0 ? 'text-dark-green' : 'text-dark-green/60'}>
           {label}
         </span>
         <span className="flex items-center gap-2">
@@ -69,11 +69,11 @@ function CheckboxDropdown({
         </span>
       </button>
       {isOpen && (
-        <div className="absolute top-[60px] left-0 w-full bg-white border border-dark-green/20 rounded-lg shadow-lg z-20 py-2">
+        <div className="absolute top-[60px] left-0 w-full bg-cream border border-dark-green/20 rounded-lg shadow-lg z-20 py-2">
           {options.map((option) => (
             <label
               key={option.value}
-              className="flex items-center gap-3 px-4 py-2.5 hover:bg-cream cursor-pointer"
+              className="flex items-center gap-3 px-4 py-2.5 hover:bg-light-green cursor-pointer"
             >
               <input
                 type="checkbox"
@@ -95,9 +95,27 @@ function CheckboxDropdown({
 export default function PropertyFilter() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [keyword, setKeyword] = useState(searchParams.get('q') || '');
+  const [, startTransition] = useTransition();
 
   const currentStatus = searchParams.get('status') || 'all';
+  const [optimisticStatus, setOptimisticStatus] = useState(currentStatus);
+  const toggleRef = useRef<HTMLDivElement>(null);
+  const allBtnRef = useRef<HTMLButtonElement>(null);
+  const availableBtnRef = useRef<HTMLButtonElement>(null);
+  const [indicator, setIndicator] = useState<{ left: number; width: number } | null>(null);
+
+  useEffect(() => { setOptimisticStatus(currentStatus); }, [currentStatus]);
+
+  useEffect(() => {
+    const el = optimisticStatus === 'available' ? availableBtnRef.current : allBtnRef.current;
+    const container = toggleRef.current;
+    if (!el || !container) return;
+    setIndicator({
+      left: el.offsetLeft,
+      width: el.offsetWidth,
+    });
+  }, [optimisticStatus]);
+
   const selectedTypes = searchParams.get('types')?.split(',').filter(Boolean) || [];
   const selectedRegions = searchParams.get('regions')?.split(',').filter(Boolean) || [];
 
@@ -123,7 +141,7 @@ export default function PropertyFilter() {
       const next = selectedTypes.includes(value)
         ? selectedTypes.filter((t) => t !== value)
         : [...selectedTypes, value];
-      router.push(buildUrl({ types: next.length > 0 ? next.join(',') : undefined }));
+      router.push(buildUrl({ types: next.length > 0 ? next.join(',') : undefined }), { scroll: false });
     },
     [selectedTypes, router, buildUrl]
   );
@@ -133,106 +151,94 @@ export default function PropertyFilter() {
       const next = selectedRegions.includes(value)
         ? selectedRegions.filter((r) => r !== value)
         : [...selectedRegions, value];
-      router.push(buildUrl({ regions: next.length > 0 ? next.join(',') : undefined }));
+      router.push(buildUrl({ regions: next.length > 0 ? next.join(',') : undefined }), { scroll: false });
     },
     [selectedRegions, router, buildUrl]
   );
 
-  const applySearch = useCallback(() => {
-    router.push(buildUrl({ q: keyword || undefined }));
-  }, [keyword, router, buildUrl]);
+  const applyFilters = useCallback(() => {
+    router.push(buildUrl({}), { scroll: false });
+  }, [router, buildUrl]);
 
   const clearFilters = () => {
-    setKeyword('');
-    router.push('/properties');
+    router.push('/properties', { scroll: false });
   };
 
   const hasActiveFilters =
     selectedTypes.length > 0 ||
     selectedRegions.length > 0 ||
-    currentStatus !== 'all' ||
-    !!searchParams.get('q');
+    currentStatus !== 'all';
 
   return (
-    <div className="hidden tablet:flex flex-col gap-4">
-      {/* Row 1: Status + Search */}
-      <div className="flex items-center gap-[30px]">
-        {/* ステータス切替トグル */}
-        <div className="flex rounded-[50px] overflow-hidden border border-dark-green shrink-0">
-          {[
-            { value: 'all', label: 'すべて' },
-            { value: 'available', label: 'ご案内中の物件' },
-          ].map((option) => (
-            <button
-              key={option.value}
-              onClick={() =>
-                router.push(buildUrl({ status: option.value === 'all' ? undefined : option.value }))
-              }
-              className={`h-[56px] px-6 font-gothic font-medium text-[16px] leading-none transition-colors ${
-                currentStatus === option.value
-                  ? 'bg-dark-green text-white rounded-[50px]'
-                  : 'bg-transparent text-dark-green'
-              }`}
-            >
-              {option.label}
-            </button>
-          ))}
-        </div>
-
-        {/* 検索入力 */}
-        <div className="flex-1 relative">
-          <input
-            type="text"
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && applySearch()}
-            placeholder="キーワードで検索"
-            className="w-full h-[56px] pl-11 pr-4 border border-dark-green rounded-lg font-gothic font-medium text-[16px] bg-white placeholder:text-black/30"
+    <div className="hidden tablet:flex items-center gap-2">
+      {/* ステータス切替トグル（滑らかアニメーション） */}
+      <div
+        ref={toggleRef}
+        className="relative flex rounded-[50px] border border-dark-green shrink-0 mr-4 p-[2px] overflow-hidden"
+      >
+        {/* スライディングインジケーター */}
+        {indicator && (
+          <span
+            aria-hidden
+            className="absolute top-[2px] bottom-[2px] bg-dark-green rounded-[50px] transition-all duration-300 ease-out"
+            style={{ left: indicator.left, width: indicator.width }}
           />
-          <svg
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-dark-green/50"
-            width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-          >
-            <circle cx="11" cy="11" r="8" />
-            <path d="M21 21l-4.35-4.35" />
-          </svg>
-        </div>
-      </div>
-
-      {/* Row 2: Type + Region + Apply/Clear */}
-      <div className="flex items-center gap-2">
-        <CheckboxDropdown
-          label="物件"
-          options={propertyTypes}
-          selected={selectedTypes}
-          onToggle={toggleType}
-        />
-        <CheckboxDropdown
-          label="地域"
-          options={regions.map((r) => ({ value: r, label: r }))}
-          selected={selectedRegions}
-          onToggle={toggleRegion}
-        />
-
-        {/* 絞り込みボタン */}
-        <button
-          onClick={applySearch}
-          className="h-[56px] px-10 bg-dark-green border border-dark-green rounded-lg font-gothic font-medium text-[16px] leading-none text-white transition-opacity hover:opacity-90 shrink-0"
-        >
-          絞り込み
-        </button>
-        {hasActiveFilters && (
-          <button
-            onClick={clearFilters}
-            className="w-[56px] h-[56px] border border-dark-green rounded-lg flex items-center justify-center hover:bg-cream transition-colors shrink-0"
-            aria-label="フィルターをクリア"
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <path d="M18 6L6 18M6 6l12 12" />
-            </svg>
-          </button>
         )}
+        {[
+          { value: 'all', label: 'すべて', ref: allBtnRef },
+          { value: 'available', label: 'ご案内中の物件', ref: availableBtnRef },
+        ].map((option) => (
+          <button
+            key={option.value}
+            ref={option.ref}
+            onClick={() => {
+              setOptimisticStatus(option.value);
+              startTransition(() => {
+                router.push(
+                  buildUrl({ status: option.value === 'all' ? undefined : option.value }),
+                  { scroll: false }
+                );
+              });
+            }}
+            className={`relative z-10 h-[52px] px-6 font-gothic font-medium text-[16px] leading-none transition-colors duration-300 rounded-[50px] ${
+              optimisticStatus === option.value ? 'text-white' : 'text-dark-green'
+            }`}
+          >
+            {option.label}
+          </button>
+        ))}
       </div>
+
+      <CheckboxDropdown
+        label="物件"
+        options={propertyTypes}
+        selected={selectedTypes}
+        onToggle={toggleType}
+      />
+      <CheckboxDropdown
+        label="地域"
+        options={regions.map((r) => ({ value: r, label: r }))}
+        selected={selectedRegions}
+        onToggle={toggleRegion}
+      />
+
+      <button
+        onClick={applyFilters}
+        className="h-[56px] px-10 bg-dark-green border border-dark-green rounded-lg font-gothic font-medium text-[16px] leading-none text-white transition-opacity hover:opacity-90 shrink-0"
+      >
+        絞り込み
+      </button>
+      {hasActiveFilters && (
+        <button
+          onClick={clearFilters}
+          className="w-[56px] h-[56px] border border-dark-green rounded-lg flex items-center justify-center hover:bg-cream transition-colors shrink-0"
+          aria-label="フィルターをクリア"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
+      )}
     </div>
   );
 }

@@ -20,14 +20,9 @@ export default function PropertyCard({ property }: PropertyCardProps) {
   const locationText = property.regions?.map((r) => r.name).join('・');
 
   return (
-    <Link href={`/properties/${property.id}`} className="block group w-full">
+    <Link href={`/properties/${property.id}`} className="block group w-full hover:opacity-70 transition-opacity">
       {/* Tags above image */}
       <div className="flex gap-3 items-center pb-3">
-        {isSold && (
-          <span className="tag-pill-dark text-[14px] leading-none px-3 py-1.5">
-            成約済み
-          </span>
-        )}
         <span className="tag-pill text-[14px] leading-none px-3 py-1.5">
           {categoryLabel}
         </span>
@@ -50,6 +45,12 @@ export default function PropertyCard({ property }: PropertyCardProps) {
         {isSold && (
           <div className="absolute inset-0 bg-[rgba(42,54,59,0.5)]" />
         )}
+        {/* 商談中・成約済みのステータスを画像右上に表示 */}
+        {isSold && (
+          <span className="absolute top-3 right-3 inline-flex items-center bg-dark-green text-white font-gothic font-medium text-[14px] leading-none rounded-full px-3 py-1.5">
+            成約済み
+          </span>
+        )}
       </div>
 
       {/* Details */}
@@ -57,7 +58,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
         {/* Title */}
         <div className="py-6">
           <h3
-            className="font-mincho text-[18px] tablet:text-[24px] leading-[1.6] tracking-[0.04em] text-dark-green"
+            className="font-mincho text-[18px] tablet:text-[24px] leading-[1.6] tracking-[0.04em] text-black"
             style={{ fontFeatureSettings: "'palt' 1" }}
           >
             {property.title}
@@ -66,8 +67,8 @@ export default function PropertyCard({ property }: PropertyCardProps) {
 
         {/* Price / Layout */}
         <div className="pb-3">
-          <div className="flex border-t border-b border-dark-green/20">
-            <div className="flex-1 border-r border-dark-green/20 pt-2 pb-4">
+          <div className="flex border-t border-b border-dark-green/10">
+            <div className="flex-1 border-r border-dark-green/10 pt-2 pb-4">
               <div className="pl-2">
                 <span className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green">
                   {property.type === 'rent' ? '賃料' : '価格'}
@@ -109,12 +110,12 @@ export default function PropertyCard({ property }: PropertyCardProps) {
         <div className="flex items-center pb-6">
           <div className="flex flex-col tablet:flex-row tablet:items-center">
             {property.nearestStation && (
-              <span className="font-gothic font-medium text-[16px] leading-[2] text-dark-green px-2">
+              <span className="font-gothic font-medium text-[16px] leading-[2] text-black px-2">
                 {property.nearestStation}
               </span>
             )}
             {property.constructionDate && (
-              <span className="font-gothic font-medium text-[16px] leading-[2] text-dark-green px-2">
+              <span className="font-gothic font-medium text-[16px] leading-[2] text-black px-2">
                 築{property.constructionDate}
               </span>
             )}
@@ -133,13 +134,13 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           {/* Desktop buttons */}
           <div className={`hidden tablet:flex items-center w-full ${isSold && property.story ? 'justify-between' : 'gap-2.5'}`}>
             <div className={`h-[44px] ${isSold && property.story ? 'w-[187px]' : 'flex-1 min-w-[176px]'}`}>
-              <span className="flex items-center justify-center w-full h-full border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-colors hover:bg-gray-50">
+              <span className="flex items-center justify-center w-full h-full border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-opacity hover:opacity-70">
                 物件詳細
               </span>
             </div>
             {isSold && property.story && (
               <div className="h-[44px] w-[187px]">
-                <span className="flex items-center justify-center gap-1 w-full h-full border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-colors hover:bg-gray-50">
+                <span className="flex items-center justify-center gap-1 w-full h-full border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-opacity hover:opacity-70">
                   <svg
                     width="24"
                     height="24"

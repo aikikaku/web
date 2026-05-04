@@ -14,9 +14,9 @@ export default function SeeAllLink({ href, label = 'すべて見る', className 
   return (
     <Link
       href={href}
-      className={`inline-flex items-center justify-between w-[186px] font-gothic font-medium text-[18px] hover:opacity-70 transition-opacity ${className || 'text-dark-green'}`}
+      className={`inline-flex items-center justify-between w-[186px] font-gothic font-medium text-[18px] leading-none tracking-[0.018px] hover:opacity-70 transition-opacity ${className || 'text-dark-green'}`}
     >
-      <span className="px-6 py-3">{label}</span>
+      <span className="px-6 py-[13px] whitespace-nowrap">{label}</span>
       <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue shrink-0">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />

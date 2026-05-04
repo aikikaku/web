@@ -6,6 +6,7 @@ import { Story } from '@/types/microcms';
 import { getImageUrl } from '@/lib/microcms/image';
 import Pagination from '@/components/ui/Pagination';
 import StoriesFilter from '@/components/story/StoriesFilter';
+import MobileStoriesFilter from '@/components/story/MobileStoriesFilter';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -70,7 +71,7 @@ function StoryCardLarge({ story }: { story: Story }) {
 
             {/* Title */}
             <h3
-              className="font-mincho text-[20px] tablet:text-[24px] leading-[1.5] tracking-[0.04em] text-dark-green line-clamp-2"
+              className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green line-clamp-2"
               style={{ fontFeatureSettings: "'palt' 1" }}
             >
               {story.title}
@@ -78,8 +79,8 @@ function StoryCardLarge({ story }: { story: Story }) {
           </div>
 
           {/* Button */}
-          <span className="inline-flex items-center gap-1 h-[44px] px-5 border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-colors group-hover:bg-gray-50">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="shrink-0">
+          <span className="inline-flex items-center gap-1 h-[44px] px-6 border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-colors group-hover:opacity-70">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="shrink-0">
               <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
               <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
             </svg>
@@ -131,7 +132,7 @@ function FeaturedStoryCard({ story }: { story: Story }) {
             </h3>
           </div>
 
-          <span className="inline-flex items-center gap-2 h-[44px] px-4 border border-dark-green rounded-full font-gothic font-medium text-[14px] leading-none tracking-[0.1px] text-dark-green transition-colors group-hover:bg-gray-50">
+          <span className="inline-flex items-center gap-2 h-[44px] px-4 border border-dark-green rounded-full font-gothic font-medium text-[14px] leading-[20px] tracking-[0.1px] text-dark-green transition-colors group-hover:opacity-70">
             <svg width="20" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="shrink-0">
               <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
               <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
@@ -178,7 +179,7 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
   return (
     <div className="bg-cream">
       {/* ヘッダーセクション */}
-      <section className="px-4 tablet:px-[75px] py-16 tablet:py-24">
+      <section className="px-4 tablet:px-[45px] py-16 tablet:py-24 max-w-[1440px] mx-auto">
         <div className="flex flex-col gap-8 tablet:gap-12">
           <div className="flex flex-col gap-2">
             <h1
@@ -196,27 +197,34 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
         </div>
       </section>
 
-      {/* フィルター + リスト */}
-      <section className="px-4 tablet:px-[75px] pb-16 tablet:pb-24">
-        {/* フィルターバー */}
-        <Suspense fallback={<div className="h-14 bg-cream animate-pulse rounded-lg" />}>
-          <StoriesFilter
-            categories={categoryLabels}
-            currentCategory={searchParams.category}
-            currentRegions={searchParams.regions}
-          />
-        </Suspense>
+      {/* SP用フローティングフィルター */}
+      <Suspense fallback={null}>
+        <MobileStoriesFilter />
+      </Suspense>
 
+      {/* フィルター + リスト */}
+      <section className="px-4 tablet:px-[45px] pb-16 tablet:pb-24 max-w-[1440px] mx-auto">
         {/* コンテンツ */}
-        <div className="mt-10 tablet:mt-[60px]">
+        <div>
           {filteredContents.length > 0 ? (
             <>
               {/* フィーチャードストーリー */}
               {featuredStory && (
-                <div className="mb-16 tablet:mb-24">
+                <div data-stories-filter-start className="mb-16 tablet:mb-24">
                   <FeaturedStoryCard story={featuredStory} />
                 </div>
               )}
+
+              {/* PC用フィルターバー（pickup の下） */}
+              <div className="hidden tablet:block mb-12 tablet:mb-[96px]">
+                <Suspense fallback={<div className="h-14 bg-cream animate-pulse rounded-lg" />}>
+                  <StoriesFilter
+                    categories={categoryLabels}
+                    currentCategory={searchParams.category}
+                    currentRegions={searchParams.regions}
+                  />
+                </Suspense>
+              </div>
 
               {/* 3カラムグリッド */}
               {gridStories.length > 0 && (
@@ -234,6 +242,7 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
           )}
 
           {/* ページネーション */}
+          <div data-stories-filter-end />
           <Pagination
             totalCount={data.totalCount}
             perPage={PER_PAGE}
@@ -249,13 +258,13 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
       </section>
 
       {/* 仲人バナー */}
-      <section className="px-4 tablet:px-[45px] pb-24 tablet:pb-36 flex justify-center">
+      <section className="px-4 tablet:px-[45px] pb-24 tablet:pb-36 max-w-[1440px] mx-auto flex justify-center">
         <Link
           href="/about"
           className="block group bg-light-green rounded-[24px] p-[30px] w-full max-w-[646px] overflow-hidden"
         >
-          <div className="flex items-end justify-between">
-            <div className="flex flex-col gap-4 items-start justify-center p-3 flex-1">
+          <div className="flex flex-col items-center text-center gap-[30px] tablet:flex-row tablet:items-end tablet:justify-between tablet:text-left">
+            <div className="flex flex-col gap-4 items-center tablet:items-start justify-center p-3 tablet:flex-1">
               {/* 仲 + NAKA-BITO ロゴ */}
               <div className="h-[56px] w-[260px] relative">
                 <Image
@@ -279,7 +288,7 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
             </div>
 
             {/* 矢印リンク */}
-            <div className="w-10 h-10 rounded-full bg-accent-blue flex items-center justify-center shrink-0 transition-transform group-hover:translate-x-1">
+            <div className="w-11 h-11 rounded-full bg-accent-blue flex items-center justify-center shrink-0 transition-transform group-hover:translate-x-1">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
