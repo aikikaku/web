@@ -70,16 +70,15 @@ export default function HeroSlideshowSP() {
             ))}
           </div>
         </div>
-        {/* 次へアイコン（右下、画像の角に重ねる） */}
+        {/* 次へアイコン: 半透明白円＋三角プレイ風 */}
         <button
           type="button"
           onClick={goNext}
           aria-label="次のスライド"
-          className="absolute right-2 bottom-3 size-6 flex items-center justify-center text-dark-green"
+          className="absolute right-3 bottom-3 size-9 inline-flex items-center justify-center rounded-full bg-white/30 backdrop-blur-[2px] shadow-[0_0_16px_rgba(0,0,0,0.16)] hover:bg-white/50 transition-colors"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="11.5" fill="white" stroke="#2a363b" />
-            <path d="M10.5 8L14.5 12L10.5 16" stroke="#2a363b" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M4 2.5L10 7L4 11.5V2.5Z" fill="white" />
           </svg>
         </button>
       </div>

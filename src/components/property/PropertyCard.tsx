@@ -106,9 +106,30 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           </div>
         </div>
 
-        {/* Station / Construction */}
-        <div className="flex items-center pb-6">
-          <div className="flex flex-col tablet:flex-row tablet:items-center">
+        {/* SP: Station/Construction（左・縦並び）+ Arrow（右）— justify-between */}
+        <div className="tablet:hidden flex items-center justify-between pb-2">
+          <div className="flex flex-col flex-1 min-w-0 pr-2">
+            {property.nearestStation && (
+              <span className="font-gothic font-medium text-[16px] leading-[2] text-black px-2 truncate">
+                {property.nearestStation}
+              </span>
+            )}
+            {property.constructionDate && (
+              <span className="font-gothic font-medium text-[16px] leading-[2] text-black px-2 truncate">
+                築{property.constructionDate}
+              </span>
+            )}
+          </div>
+          <span className="flex items-center justify-center w-[44px] h-[44px] border border-dark-green rounded-full shrink-0">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </span>
+        </div>
+
+        {/* PC: Station/Construction */}
+        <div className="hidden tablet:flex items-center pb-6">
+          <div className="flex flex-row items-center">
             {property.nearestStation && (
               <span className="font-gothic font-medium text-[16px] leading-[2] text-black px-2">
                 {property.nearestStation}
@@ -123,16 +144,9 @@ export default function PropertyCard({ property }: PropertyCardProps) {
         </div>
 
         {/* Buttons */}
-        <div className="flex items-center gap-2.5">
-          {/* Mobile: circle arrow */}
-          <span className="tablet:hidden flex items-center justify-center w-[44px] h-[44px] border border-dark-green rounded-full shrink-0 ml-auto">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </span>
-
+        <div className="hidden tablet:flex items-center gap-2.5">
           {/* Desktop buttons */}
-          <div className={`hidden tablet:flex items-center w-full ${isSold && property.story ? 'justify-between' : 'gap-2.5'}`}>
+          <div className={`flex items-center w-full ${isSold && property.story ? 'justify-between' : 'gap-2.5'}`}>
             <div className={`h-[44px] ${isSold && property.story ? 'w-[187px]' : 'flex-1 min-w-[176px]'}`}>
               <span className="flex items-center justify-center w-full h-full border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-opacity hover:opacity-70">
                 物件詳細

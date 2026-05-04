@@ -23,7 +23,7 @@ export default async function HomePage() {
     orders: '-publishedAt',
   }).catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: 3 }));
 
-  const voices = await getCustomerVoices()
+  const voices = await getCustomerVoices({ orders: '-publishedAt' })
     .catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: 50 }));
 
   return (
@@ -315,7 +315,9 @@ export default async function HomePage() {
             <p className="text-body-m font-gothic font-medium text-dark-green">
               新着物件
             </p>
-            <h2 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.28px] tablet:tracking-[1.92px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>今日の出会いを、さがしに</h2>
+            <h2 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.28px] tablet:tracking-[1.92px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+              今日の出会いを、<br className="tablet:hidden" />さがしに
+            </h2>
           </div>
         </div>
 
@@ -342,7 +344,7 @@ export default async function HomePage() {
       </section>
 
       {/* 駐車場セクション */}
-      <section className="pb-[60px] tablet:py-[96px]">
+      <section className="pb-0 tablet:py-[96px]">
         <div className="px-4 tablet:px-[45px] tablet:flex tablet:justify-center">
           <Link
             href="/for-customer"
@@ -382,7 +384,9 @@ export default async function HomePage() {
             <p className="text-category-2 font-gothic font-medium text-dark-green">
               暮らしを知る
             </p>
-            <h2 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.28px] tablet:tracking-[1.92px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>三島の暮らしに、ふれる・深まる。</h2>
+            <h2 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.28px] tablet:tracking-[1.92px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+              三島の暮らしに、<br className="tablet:hidden" />ふれる・深まる。
+            </h2>
           </div>
         </div>
 

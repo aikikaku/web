@@ -121,12 +121,23 @@ export async function getRegions() {
   });
 }
 
-export async function getCustomerVoices() {
-  if (isMockMode) return mockGetCustomerVoices();
+export async function getCustomerVoices(options?: { orders?: string; limit?: number }) {
+  if (isMockMode) {
+    const data = mockGetCustomerVoices();
+    if (options?.orders === '-publishedAt') {
+      return {
+        ...data,
+        contents: [...data.contents].sort(
+          (a, b) => new Date(b.publishedAt || 0).getTime() - new Date(a.publishedAt || 0).getTime(),
+        ),
+      };
+    }
+    return data;
+  }
 
   return client.getList<CustomerVoice>({
     endpoint: 'customer-voices',
-    queries: { limit: 50, orders: 'order' },
+    queries: { limit: options?.limit ?? 50, orders: options?.orders ?? 'order' },
   });
 }
 

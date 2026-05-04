@@ -1,9 +1,9 @@
 'use client';
 
 import { useRef, useState, useEffect } from 'react';
+import Link from 'next/link';
 import { Property } from '@/types/microcms';
 import PropertyCard from '@/components/property/PropertyCard';
-import SeeAllLink from '@/components/ui/SeeAllLink';
 
 interface Props {
   properties: Property[];
@@ -41,7 +41,7 @@ export default function PropertyCarousel({ properties, href = '/properties' }: P
     <div className="tablet:hidden">
       <div
         ref={trackRef}
-        className="overflow-x-auto pl-4 pb-4 snap-x snap-mandatory scroll-smooth"
+        className="overflow-x-auto pl-4 pb-4 snap-x snap-mandatory scroll-smooth scroll-pl-4"
         style={{ scrollbarWidth: 'none' }}
       >
         <div className="flex gap-5 min-w-max pr-4">
@@ -53,44 +53,51 @@ export default function PropertyCarousel({ properties, href = '/properties' }: P
         </div>
       </div>
 
-      {/* Navigation */}
-      <div className="flex items-center justify-between mt-6 px-4">
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={() => scrollTo(Math.max(0, activeIndex - 1))}
-            disabled={activeIndex === 0}
-            aria-label="前へ"
-            className="w-6 h-6 inline-flex items-center justify-center text-dark-green hover:opacity-70 transition-opacity disabled:opacity-20"
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-          <div className="flex items-center gap-2">
-            {properties.map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                aria-label={`スライド${i + 1}`}
-                onClick={() => scrollTo(i)}
-                className={`w-2 h-2 rounded-full transition-colors ${i === activeIndex ? 'bg-dark-green' : 'bg-dark-green/30'}`}
-              />
-            ))}
+      {/* SP Navigation: 中央寄せドット + 全幅すべて見るボタン */}
+      <div className="mt-6 px-4">
+        <div className="flex items-center justify-center gap-[58px] pb-4">
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => scrollTo(Math.max(0, activeIndex - 1))}
+              disabled={activeIndex === 0}
+              aria-label="前へ"
+              className="size-6 inline-flex items-center justify-center text-dark-green hover:opacity-70 transition-opacity disabled:opacity-50"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+            <div className="flex items-center gap-2">
+              {properties.map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  aria-label={`スライド${i + 1}`}
+                  onClick={() => scrollTo(i)}
+                  className={`size-1 rounded-full transition-colors ${i === activeIndex ? 'bg-dark-green' : 'bg-dark-green/30'}`}
+                />
+              ))}
+            </div>
+            <button
+              type="button"
+              onClick={() => scrollTo(Math.min(properties.length - 1, activeIndex + 1))}
+              disabled={activeIndex >= properties.length - 1}
+              aria-label="次へ"
+              className="size-6 inline-flex items-center justify-center text-dark-green hover:opacity-70 transition-opacity disabled:opacity-50"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
           </div>
-          <button
-            type="button"
-            onClick={() => scrollTo(Math.min(properties.length - 1, activeIndex + 1))}
-            disabled={activeIndex >= properties.length - 1}
-            aria-label="次へ"
-            className="w-6 h-6 inline-flex items-center justify-center text-dark-green hover:opacity-70 transition-opacity disabled:opacity-20"
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
         </div>
-        <SeeAllLink href={href} />
+        <Link
+          href={href}
+          className="flex items-center justify-center w-full h-12 rounded-full bg-accent-blue font-gothic font-medium text-base text-white hover:opacity-80 transition-opacity"
+        >
+          すべて見る
+        </Link>
       </div>
     </div>
   );
