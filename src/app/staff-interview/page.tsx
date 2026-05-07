@@ -18,7 +18,7 @@ interface InterviewItem {
 }
 
 interface InterviewSection {
-  type: 'conversation' | 'heading' | 'heading-with-image' | 'photos';
+  type: 'conversation' | 'heading' | 'image' | 'photos';
   heading?: string;
   image?: string;
   items?: InterviewItem[];
@@ -122,11 +122,9 @@ const interviewSections: InterviewSection[] = [
       },
     ],
   },
-  {
-    type: 'heading-with-image',
-    heading: '中古住宅も大切にする「もったいない精神」',
-    image: '/images/staff-interview/photo-caption.jpg',
-  },
+  // Figma 4211:11346: 画像は「三島の魅力」セクション会話の末尾に配置
+  { type: 'image', image: '/images/staff-interview/photo-caption.jpg' },
+  { type: 'heading', heading: '中古住宅も大切にする「もったいない精神」' },
   {
     type: 'conversation',
     items: [
@@ -201,7 +199,7 @@ function ModeratorIcon() {
 function InterviewItemComponent({ item }: { item: InterviewItem }) {
   const info = speakerInfo[item.speaker];
   return (
-    <div className="flex gap-4 tablet:gap-[51px] items-start">
+    <div className="flex gap-4 tablet:gap-[51px] items-start min-h-[90px] tablet:min-h-0 py-3 tablet:py-0">
       <div className="flex flex-col items-center shrink-0 w-[40px] tablet:w-auto">
         {info.avatar ? (
           <div className="w-10 h-10 tablet:w-[50px] tablet:h-[50px] rounded-full overflow-hidden relative shrink-0">
@@ -221,7 +219,7 @@ function InterviewItemComponent({ item }: { item: InterviewItem }) {
           {info.name}
         </p>
       </div>
-      <div className="flex-1 min-w-0 pb-8 tablet:pb-12 tablet:pt-2">
+      <div className="flex-1 min-w-0 tablet:pb-12 tablet:pt-2">
         <p className="font-gothic font-medium text-[14px] leading-[1.8] tablet:text-[18px] tablet:leading-[1.8] text-black">{item.text}</p>
       </div>
     </div>
@@ -246,11 +244,11 @@ export default function StaffInterviewPage() {
           }),
         }}
       />
-      {/* ヒーローセクション (Figma PC 4211:11332 / SP 4211:11614) */}
-      <section className="relative bg-cream overflow-hidden pt-12 tablet:pt-[100px] pb-12 tablet:pb-24">
-        {/* SP: 見出し → card-story */}
+      {/* ヒーローセクション (Figma PC 4211:11332 / SP 4211:11616) */}
+      <section className="relative bg-cream overflow-hidden pt-[60px] tablet:pt-[100px] pb-[60px] tablet:pb-24">
+        {/* SP: 見出し → card-story (Figma 4211:11616: 60px section padding, title 358×48, 32px gap to card-story) */}
         <div className="tablet:hidden px-4 mb-8">
-          <h1 className="font-mincho text-[28px] leading-[1.5] tracking-[1.12px] text-dark-green pl-2" style={{ fontFeatureSettings: "'palt' 1" }}>
+          <h1 className="font-mincho text-[32px] leading-[1.5] tracking-[1.28px] text-dark-green pl-2" style={{ fontFeatureSettings: "'palt' 1" }}>
             スタッフインタビュー
           </h1>
         </div>
@@ -309,26 +307,18 @@ export default function StaffInterviewPage() {
                   );
                 }
 
-                if (section.type === 'heading-with-image') {
-                  const tocId = `toc-${headingIndex++}`;
-                  return (
-                    <div key={sIdx} className="py-12" id={tocId}>
-                      <h3 className="font-mincho text-2xl tablet:text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green mb-8" style={{ fontFeatureSettings: "'palt' 1" }}>
-                        {section.heading}
-                      </h3>
-                      {section.image && (
-                        <div className="w-full aspect-[792/528] relative rounded-2xl overflow-hidden">
-                          <Image
-                            src={section.image}
-                            alt=""
-                            fill
-                            className="object-cover"
-                            sizes="792px"
-                          />
-                        </div>
-                      )}
+                if (section.type === 'image') {
+                  return section.image ? (
+                    <div key={sIdx} className="my-8 tablet:my-12 w-full aspect-[792/528] relative rounded-2xl overflow-hidden">
+                      <Image
+                        src={section.image}
+                        alt=""
+                        fill
+                        className="object-cover"
+                        sizes="(min-width: 992px) 792px, 100vw"
+                      />
                     </div>
-                  );
+                  ) : null;
                 }
 
                 if (section.type === 'photos') {
