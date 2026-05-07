@@ -116,15 +116,15 @@ export default async function ForOwnerPage() {
         }}
       />
 
-      {/* ヒーロー (Round 24 と同じパターン: SP は title 2 行 wrap + 縦長 image) */}
-      <section className="page-container pb-12 tablet:pb-24 pt-8 tablet:pt-0">
-        <div className="flex flex-col tablet:flex-row items-stretch tablet:items-center gap-8 tablet:gap-0">
+      {/* ヒーロー (Figma 4211:11456) — Round 28 /for-customer と同じパターン (75px 外余白 + 645/645) */}
+      <section className="px-4 tablet:px-[75px] pb-12 tablet:pb-24 pt-8 tablet:pt-0 max-w-[1440px] mx-auto">
+        <div className="flex flex-col tablet:flex-row items-stretch tablet:items-center gap-8 tablet:gap-[30px]">
           <div className="flex-1 flex items-start tablet:items-center">
-            <h1 className="font-mincho text-[40px] tablet:text-[48px] leading-[1.5] tracking-[1.6px] tablet:tracking-[1.92px] text-dark-green tablet:whitespace-nowrap" style={{ fontFeatureSettings: "'palt' 1" }}>
+            <h1 className="font-mincho text-[40px] tablet:text-[48px] leading-[1.5] tracking-[1.6px] tablet:tracking-[1.92px] text-dark-green text-left" style={{ fontFeatureSettings: "'palt' 1" }}>
               不動産を<br className="tablet:hidden" />お持ちの方へ
             </h1>
           </div>
-          <div className="w-full tablet:w-[675px] shrink-0 tablet:pl-[30px]">
+          <div className="w-full tablet:w-[645px] shrink-0">
             <div className="relative aspect-[358/443] tablet:aspect-auto tablet:h-[640px] rounded-3xl overflow-hidden">
               <Image
                 src="/images/for-owner/hero.jpg"
@@ -132,7 +132,7 @@ export default async function ForOwnerPage() {
                 fill
                 className="object-cover"
                 priority
-                sizes="(max-width: 992px) 100vw, 675px"
+                sizes="(max-width: 992px) 100vw, 645px"
               />
             </div>
           </div>

@@ -3,8 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Property } from '@/types/microcms';
 import PropertyCard from '@/components/property/PropertyCard';
-import SeeAllLink from '@/components/ui/SeeAllLink';
-import SeeAllButtonSP from '@/components/ui/SeeAllButtonSP';
+import SlideshowNav from '@/components/ui/SlideshowNav';
 
 interface Props {
   properties: Property[];
@@ -76,94 +75,17 @@ export default function MoreProperties({ properties, href = '/properties' }: Pro
         </div>
       </div>
 
-      {/* PC ナビ: dots + 矢印（左） + すべて見る（右） */}
-      <div className="hidden tablet:flex items-center justify-between mt-16">
-        {totalPagesPc > 1 ? (
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => scrollToCardIdx(Math.max(0, (activePagePc - 1) * PAGE_SIZE_PC))}
-              disabled={activePagePc === 0}
-              aria-label="前へ"
-              className="size-6 inline-flex items-center justify-center text-dark-green hover:opacity-70 transition-opacity disabled:opacity-20 disabled:cursor-not-allowed"
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
-            <div className="flex items-center gap-2">
-              {Array.from({ length: totalPagesPc }).map((_, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  aria-label={`ページ${i + 1}`}
-                  onClick={() => scrollToCardIdx(i * PAGE_SIZE_PC)}
-                  className={`size-2 rounded-full transition-colors ${i === activePagePc ? 'bg-dark-green' : 'bg-dark-green/30'}`}
-                />
-              ))}
-            </div>
-            <button
-              type="button"
-              onClick={() => scrollToCardIdx(Math.min(totalPagesPc - 1, activePagePc + 1) * PAGE_SIZE_PC)}
-              disabled={activePagePc >= totalPagesPc - 1}
-              aria-label="次へ"
-              className="size-6 inline-flex items-center justify-center text-dark-green hover:opacity-70 transition-opacity disabled:opacity-20 disabled:cursor-not-allowed"
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
-          </div>
-        ) : (
-          <div />
-        )}
-        <SeeAllLink href={href} />
-      </div>
-
-      {/* SP ナビ: 中央ドット + 全幅すべて見る */}
-      <div className="tablet:hidden mt-8 px-4">
-        {totalPagesSp > 1 && (
-          <div className="flex items-center justify-center gap-[58px] pb-4">
-            <div className="flex items-center gap-3">
-              <button
-                type="button"
-                onClick={() => scrollToCardIdx(Math.max(0, activePageSp - 1))}
-                disabled={activePageSp === 0}
-                aria-label="前へ"
-                className="size-6 inline-flex items-center justify-center text-dark-green disabled:opacity-50"
-              >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-              <div className="flex items-center gap-2">
-                {Array.from({ length: totalPagesSp }).map((_, i) => (
-                  <button
-                    key={i}
-                    type="button"
-                    aria-label={`スライド${i + 1}`}
-                    onClick={() => scrollToCardIdx(i)}
-                    className={`size-1 rounded-full transition-colors ${i === activePageSp ? 'bg-dark-green' : 'bg-dark-green/30'}`}
-                  />
-                ))}
-              </div>
-              <button
-                type="button"
-                onClick={() => scrollToCardIdx(Math.min(totalPagesSp - 1, activePageSp + 1))}
-                disabled={activePageSp >= totalPagesSp - 1}
-                aria-label="次へ"
-                className="size-6 inline-flex items-center justify-center text-dark-green disabled:opacity-50"
-              >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-            </div>
-          </div>
-        )}
-        <div className="mt-8">
-          <SeeAllButtonSP href={href} />
-        </div>
+      {/* Navigation-Slideshow (Figma 4211:11501 共通コンポーネント) */}
+      <div className="mt-8 tablet:mt-16">
+        <SlideshowNav
+          activePage={activePagePc}
+          totalPages={totalPagesPc}
+          onPageChange={(p) => scrollToCardIdx(p * PAGE_SIZE_PC)}
+          spActivePage={activePageSp}
+          spTotalPages={totalPagesSp}
+          onSpPageChange={(p) => scrollToCardIdx(p)}
+          href={href}
+        />
       </div>
     </div>
   );
