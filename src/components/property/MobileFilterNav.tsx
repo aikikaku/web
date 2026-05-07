@@ -193,13 +193,46 @@ export default function MobileFilterNav() {
                       openSection === 'types' ? 'bg-light-green' : 'bg-cream'
                     }`}
                   >
-                    <span className={`flex-1 text-left font-gothic font-medium text-[16px] leading-[2] truncate ${
-                      localTypes.length === 0 ? 'text-dark-green/40' : 'text-dark-green'
-                    }`}>
-                      {localTypes.length === 0
-                        ? '物件'
-                        : localTypes.map((v) => propertyTypes.find((p) => p.value === v)?.label).filter(Boolean).join('・')}
-                    </span>
+                    {/* selected: dark-green pill + × + 「+N」 (Figma 4211:26286) */}
+                    {localTypes.length === 0 ? (
+                      <span className="flex-1 text-left font-gothic font-medium text-[16px] leading-[2] text-dark-green/40">
+                        物件
+                      </span>
+                    ) : (
+                      <span className="flex-1 min-w-0 flex items-center gap-1 overflow-hidden">
+                        <span className="inline-flex items-center gap-1 bg-dark-green text-white rounded-full pl-3 pr-2 py-1 text-[14px] leading-none shrink-0 max-w-[140px]">
+                          <span className="truncate">
+                            {propertyTypes.find((p) => p.value === localTypes[0])?.label}
+                          </span>
+                          <span
+                            role="button"
+                            tabIndex={0}
+                            aria-label="削除"
+                            className="size-4 inline-flex items-center justify-center shrink-0 hover:opacity-70"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleType(localTypes[0]);
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                toggleType(localTypes[0]);
+                              }
+                            }}
+                          >
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                              <path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                            </svg>
+                          </span>
+                        </span>
+                        {localTypes.length > 1 && (
+                          <span className="inline-flex items-center bg-dark-green text-white rounded-full px-3 py-1.5 text-[12px] leading-[1.8] shrink-0">
+                            +{localTypes.length - 1}
+                          </span>
+                        )}
+                      </span>
+                    )}
                     <svg
                       width="21" height="21" viewBox="0 0 21 21" fill="none"
                       className={`shrink-0 transition-transform ${openSection === 'types' ? 'rotate-180' : ''}`}
@@ -248,11 +281,43 @@ export default function MobileFilterNav() {
                       openSection === 'regions' ? 'bg-light-green' : 'bg-cream'
                     }`}
                   >
-                    <span className={`flex-1 text-left font-gothic font-medium text-[16px] leading-[2] truncate ${
-                      localRegions.length === 0 ? 'text-dark-green/40' : 'text-dark-green'
-                    }`}>
-                      {localRegions.length === 0 ? '地域' : localRegions.join('・')}
-                    </span>
+                    {localRegions.length === 0 ? (
+                      <span className="flex-1 text-left font-gothic font-medium text-[16px] leading-[2] text-dark-green/40">
+                        地域
+                      </span>
+                    ) : (
+                      <span className="flex-1 min-w-0 flex items-center gap-1 overflow-hidden">
+                        <span className="inline-flex items-center gap-1 bg-dark-green text-white rounded-full pl-3 pr-2 py-1 text-[14px] leading-none shrink-0 max-w-[140px]">
+                          <span className="truncate">{localRegions[0]}</span>
+                          <span
+                            role="button"
+                            tabIndex={0}
+                            aria-label="削除"
+                            className="size-4 inline-flex items-center justify-center shrink-0 hover:opacity-70"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleRegion(localRegions[0]);
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                toggleRegion(localRegions[0]);
+                              }
+                            }}
+                          >
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                              <path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                            </svg>
+                          </span>
+                        </span>
+                        {localRegions.length > 1 && (
+                          <span className="inline-flex items-center bg-dark-green text-white rounded-full px-3 py-1.5 text-[12px] leading-[1.8] shrink-0">
+                            +{localRegions.length - 1}
+                          </span>
+                        )}
+                      </span>
+                    )}
                     <svg
                       width="21" height="21" viewBox="0 0 21 21" fill="none"
                       className={`shrink-0 transition-transform ${openSection === 'regions' ? 'rotate-180' : ''}`}

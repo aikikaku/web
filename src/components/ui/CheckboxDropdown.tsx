@@ -46,7 +46,7 @@ export default function CheckboxDropdown({
     : null;
 
   return (
-    <div className="relative w-full tablet:w-[280px]" ref={ref}>
+    <div className="relative w-full tablet:w-[360px]" ref={ref}>
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}

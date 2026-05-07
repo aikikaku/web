@@ -74,7 +74,7 @@ export default function HeroSlideshowSP() {
           type="button"
           onClick={goNext}
           aria-label="次のスライド"
-          className="absolute right-0 bottom-3 size-6 inline-flex items-center justify-center active:scale-95 transition-transform"
+          className="absolute -right-4 bottom-3 size-6 inline-flex items-center justify-center active:scale-95 transition-transform"
           style={{ filter: 'drop-shadow(0 0 8px rgba(0,0,0,0.16))' }}
         >
           <svg viewBox="0 0 24 24" fill="none" className="size-full">
