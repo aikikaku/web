@@ -158,8 +158,10 @@ export default function VoiceContent({ voices }: { voices: CustomerVoice[] }) {
         </div>
       </aside>
 
-      {/* ボイスリスト (カテゴリ別 section) */}
-      <div className="w-full tablet:flex-1 tablet:max-w-[704px]">
+      {/* ボイスリスト (カテゴリ別 section).
+          data-voice-filter-start: SP floating 絞り込みバーをここから表示開始
+          data-voice-filter-end: ここで非表示に戻る */}
+      <div className="w-full tablet:flex-1 tablet:max-w-[704px]" data-voice-filter-start>
         {/* 最上部 anchor (= 「すべて」). このスクロール領域に入っている間 = active="all" */}
         <div id="voice-cat-all" />
 
@@ -184,6 +186,8 @@ export default function VoiceContent({ voices }: { voices: CustomerVoice[] }) {
             まだお客様の声はありません
           </p>
         )}
+        {/* SP 絞り込みバーをここで非表示に戻す sentinel */}
+        <div data-voice-filter-end />
       </div>
     </div>
   );
@@ -205,7 +209,35 @@ function MobileVoiceFilter({
   onSelect: (key: CategoryKey) => void;
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [showBar, setShowBar] = useState(false);
   const [draftKey, setDraftKey] = useState<CategoryKey>(activeKey);
+
+  // /properties や /staff-interview と同じパターン:
+  // [data-voice-filter-start] が viewport に入ってから [data-voice-filter-end] を抜けるまでの間だけ floating bar を表示
+  useEffect(() => {
+    const start = document.querySelector('[data-voice-filter-start]');
+    const end = document.querySelector('[data-voice-filter-end]');
+    if (!start) return;
+
+    const checkVisibility = () => {
+      const startRect = start.getBoundingClientRect();
+      const isPastStart = startRect.top < window.innerHeight * 0.8;
+      let isBeforeEnd = true;
+      if (end) {
+        const endRect = end.getBoundingClientRect();
+        isBeforeEnd = endRect.top > window.innerHeight * 0.5;
+      }
+      setShowBar(isPastStart && isBeforeEnd);
+    };
+
+    checkVisibility();
+    window.addEventListener('scroll', checkVisibility, { passive: true });
+    window.addEventListener('resize', checkVisibility, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', checkVisibility);
+      window.removeEventListener('resize', checkVisibility);
+    };
+  }, []);
 
   const open = () => {
     setDraftKey(activeKey);
@@ -223,11 +255,11 @@ function MobileVoiceFilter({
 
   return (
     <div className="tablet:hidden">
-      {/* Closed: 中央寄せピル (Figma 4211:12143 358×56) */}
+      {/* Closed: 中央寄せピル (Figma 4211:12143 358×56) — voice list 範囲内のみ表示 */}
       <button
         type="button"
         onClick={open}
-        className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 inline-flex items-center bg-cream border border-dark-green/20 rounded-full pl-10 pr-5 py-2 shadow-[0_-1px_4px_rgba(0,0,0,0.1)] w-[342px] h-14"
+        className={`fixed bottom-4 left-1/2 -translate-x-1/2 z-40 inline-flex items-center bg-cream border border-dark-green/20 rounded-full pl-10 pr-5 py-2 shadow-[0_-1px_4px_rgba(0,0,0,0.1)] w-[342px] h-14 transition-opacity duration-300 ${showBar ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
         aria-label="カテゴリを絞り込む"
       >
         <span className="flex-1 text-center font-gothic font-medium text-[14px] leading-[1.8] text-dark-green">
