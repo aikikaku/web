@@ -165,16 +165,16 @@ export default function MessagePage() {
         />
       </section>
 
-      {/* リッチテキストセクション */}
+      {/* リッチテキストセクション (Figma SP 4211:11606 = 左寄せ・mincho 22px 見出し / 14px 本文 / 画像 358×268) */}
       {sections.map((section, index) => (
         <section
           key={index}
-          className={`bg-cream ${index === sections.length - 1 ? 'pt-24 pb-36' : index === 0 ? '' : 'pt-24'}`}
+          className={`bg-cream ${index === sections.length - 1 ? 'pt-12 pb-16 tablet:pt-24 tablet:pb-36' : index === 0 ? '' : 'pt-12 tablet:pt-24'}`}
         >
           <div className="max-w-[720px] mx-auto px-4 tablet:px-2">
-            {/* 見出し */}
-            <div className="pt-6 pb-12">
-              <h3 className="font-mincho text-[24px] tablet:text-[32px] leading-[1.6] tablet:leading-[1.5] tracking-[0.04em] text-center text-dark-green">
+            {/* 見出し: SP は左寄せ / PC は中央寄せ (Figma 4211:11606 SP は left-aligned) */}
+            <div className="pt-2 pb-6 tablet:pt-6 tablet:pb-12">
+              <h3 className="font-mincho text-[22px] tablet:text-[32px] leading-[1.5] tracking-[0.04em] text-left tablet:text-center text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
                 {Array.isArray(section.heading)
                   ? section.heading.map((line, i) => (
                       <span key={i}>
@@ -186,9 +186,9 @@ export default function MessagePage() {
               </h3>
             </div>
 
-            {/* 本文 */}
-            <div className="pb-12">
-              <div className="font-gothic font-medium text-[16px] leading-[2] tablet:text-[18px] tablet:leading-[1.8] text-black">
+            {/* 本文: SP は 14px / leading 1.8、PC は 18px / leading 1.8 */}
+            <div className="pb-6 tablet:pb-12">
+              <div className="font-gothic font-medium text-[14px] leading-[1.8] tablet:text-[18px] tablet:leading-[1.8] text-black">
                 {section.paragraphs.map((p, i) =>
                   p === '' ? (
                     <br key={i} />
@@ -201,7 +201,7 @@ export default function MessagePage() {
               </div>
             </div>
 
-            {/* 画像 */}
+            {/* 画像: SP 358×268 / PC 704×469 (aspect 一致なので aspect-[704/469] で OK) */}
             <div className="rounded-2xl overflow-hidden">
               <div className="aspect-[704/469] relative">
                 <Image
@@ -209,6 +209,7 @@ export default function MessagePage() {
                   alt={section.imageAlt}
                   fill
                   className="object-cover"
+                  sizes="(max-width: 992px) 100vw, 720px"
                 />
               </div>
             </div>
