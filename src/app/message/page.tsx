@@ -1,6 +1,7 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import type { Metadata } from 'next';
+import HeroCardStory from '@/components/ui/HeroCardStory';
+import ServiceCTA from '@/components/ui/ServiceCTA';
 
 export const metadata: Metadata = {
   title: 'ご挨拶',
@@ -140,70 +141,28 @@ export default function MessagePage() {
           }),
         }}
       />
-      {/* ヒーローセクション */}
-      <section className="relative bg-cream overflow-hidden pt-[100px] pb-24">
-        {/* モバイル: シンプルな縦並び */}
-        <div className="tablet:hidden">
-          <div className="page-container">
-            <h1 className="font-mincho text-[40px] leading-[1.5] tracking-[0.04em] text-dark-green mb-12">
-              ご挨拶
-            </h1>
-          </div>
-          <div className="relative h-[500px]">
-            <div className="absolute left-1/2 -translate-x-1/2 top-0 w-full max-w-[704px] px-4 rounded-2xl overflow-hidden">
-              <div className="aspect-[704/469] relative rounded-2xl overflow-hidden">
-                <Image
-                  src="/images/message/hero-center.jpg"
-                  alt="ご挨拶"
-                  fill
-                  className="object-cover"
-                  priority
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* タブレット以上: Figmaに準拠した3枚レイアウト */}
-        <div className="hidden tablet:block relative h-[838px] max-w-[1440px] mx-auto">
-          {/* タイトル（左上） */}
-          <h1 className="absolute left-[75px] top-[96px] w-[528px] font-mincho text-[48px] leading-[1.5] tracking-[0.04em] text-dark-green">
+      {/* ヒーローセクション (Figma PC 4211:10119 / SP 4211:11591) */}
+      <section className="relative bg-cream overflow-hidden pt-12 tablet:pt-[100px] pb-12 tablet:pb-24">
+        {/* SP: 見出し → card-story 3 枚レイアウト */}
+        <div className="tablet:hidden px-4 mb-8">
+          <h1 className="font-mincho text-[32px] leading-[1.5] tracking-[1.28px] text-dark-green pl-2" style={{ fontFeatureSettings: "'palt' 1" }}>
             ご挨拶
           </h1>
-
-          {/* 左の縦長写真（下部） */}
-          <div className="absolute left-0 top-[470px] w-[280px] h-[368px] rounded-2xl overflow-hidden">
-            <Image
-              src="/images/message/hero-left.jpg"
-              alt=""
-              fill
-              className="object-cover"
-            />
-          </div>
-
-          {/* 中央のメイン写真 */}
-          <div className="absolute left-1/2 -translate-x-1/2 top-[259px] w-[704px] rounded-2xl overflow-hidden">
-            <div className="aspect-[704/469] relative">
-              <Image
-                src="/images/message/hero-center.jpg"
-                alt="ご挨拶"
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
-          </div>
-
-          {/* 右の縦長写真（上部） */}
-          <div className="absolute right-0 top-[96px] w-[280px] h-[374px] rounded-2xl overflow-hidden">
-            <Image
-              src="/images/message/hero-right.jpg"
-              alt=""
-              fill
-              className="object-cover"
-            />
-          </div>
         </div>
+        {/* PC: タイトル左上 (絶対位置) */}
+        <div className="hidden tablet:block relative max-w-[1440px] mx-auto">
+          <h1 className="absolute left-[75px] top-[96px] w-[528px] font-mincho text-[48px] leading-[1.5] tracking-[1.92px] text-dark-green z-10" style={{ fontFeatureSettings: "'palt' 1" }}>
+            ご挨拶
+          </h1>
+        </div>
+        {/* card-story (PC 3 枚 / SP 3 枚 + パララックス) */}
+        <HeroCardStory
+          mainImage="/images/message/hero-center.jpg"
+          leftImage="/images/message/hero-left.jpg"
+          rightImage="/images/message/hero-right.jpg"
+          mainAlt="ご挨拶"
+          priority
+        />
       </section>
 
       {/* リッチテキストセクション */}
@@ -257,90 +216,8 @@ export default function MessagePage() {
         </section>
       ))}
 
-      {/* サービスリンクセクション */}
-      <section className="relative py-24 px-[45px] overflow-hidden">
-        <div className="absolute inset-0">
-          <Image
-            src="/images/about/service-bg.png"
-            alt=""
-            fill
-            className="object-cover"
-          />
-        </div>
-        <div className="relative z-10 max-w-[1350px] mx-auto flex flex-col tablet:flex-row gap-8 items-center justify-between">
-          <Link
-            href="/for-customer"
-            className="bg-cream rounded-3xl p-[30px] w-full max-w-[646px] flex gap-[30px] items-start group overflow-hidden"
-          >
-            <div className="flex-1 flex flex-col h-[220px]">
-              <div className="flex-1 pt-2 px-3">
-                <p className="font-mincho text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green mb-0">
-                  不動産を
-                </p>
-                <p className="font-mincho text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green">
-                  お探しの方へ
-                </p>
-                <p className="font-gothic font-medium text-[18px] leading-[1.8] text-dark-green">
-                  買いたい・借りたい
-                </p>
-              </div>
-              <div className="px-3">
-                <span className="bg-accent-blue w-12 h-12 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
-                </span>
-              </div>
-            </div>
-            <div className="w-[294px] h-[220px] rounded-xl overflow-hidden shrink-0 hidden tablet:block">
-              <div className="relative w-full h-full">
-                <Image
-                  src="/images/about/service-customer.jpg"
-                  alt=""
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            </div>
-          </Link>
-
-          <Link
-            href="/for-owner"
-            className="bg-cream rounded-3xl p-[30px] w-full max-w-[646px] flex gap-[30px] items-start group overflow-hidden"
-          >
-            <div className="flex-1 flex flex-col h-[220px]">
-              <div className="flex-1 pt-2 px-3">
-                <p className="font-mincho text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green mb-0">
-                  不動産を
-                </p>
-                <p className="font-mincho text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green">
-                  お持ちの方へ
-                </p>
-                <p className="font-gothic font-medium text-[18px] leading-[1.8] text-dark-green">
-                  売りたい・貸したい
-                </p>
-              </div>
-              <div className="px-3">
-                <span className="bg-accent-blue w-12 h-12 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
-                </span>
-              </div>
-            </div>
-            <div className="w-[294px] h-[220px] rounded-xl overflow-hidden shrink-0 hidden tablet:block">
-              <div className="relative w-full h-full">
-                <Image
-                  src="/images/about/service-owner.jpg"
-                  alt=""
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            </div>
-          </Link>
-        </div>
-      </section>
+      {/* サービス CTA (共通コンポーネント Figma 4211:10153) */}
+      <ServiceCTA />
     </div>
   );
 }
