@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import CheckboxDropdown from '@/components/ui/CheckboxDropdown';
 
 const propertyTypes = [
@@ -25,7 +25,6 @@ const regions = [
 export default function PropertyFilter() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [, startTransition] = useTransition();
 
   const currentStatus = searchParams.get('status') || 'all';
   const urlTypes = useMemo(
@@ -60,52 +59,33 @@ export default function PropertyFilter() {
     });
   }, [optimisticStatus]);
 
-  const buildUrl = useCallback(
-    (overrides: Record<string, string | undefined>) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.delete('page');
-      for (const [key, value] of Object.entries(overrides)) {
-        if (value) {
-          params.set(key, value);
-        } else {
-          params.delete(key);
-        }
-      }
-      const qs = params.toString();
-      return qs ? `/properties?${qs}` : '/properties';
-    },
-    [searchParams]
-  );
-
+  // dropdown チェックは local state のみ更新。実際のフィルタ反映は「絞り込み」ボタンで applyFilters() 経由
   const toggleType = useCallback(
     (value: string) => {
-      const next = optimisticTypes.includes(value)
-        ? optimisticTypes.filter((t) => t !== value)
-        : [...optimisticTypes, value];
-      setOptimisticTypes(next); // 即時反映（API 待たずチェックマーク表示）
-      startTransition(() => {
-        router.push(buildUrl({ types: next.length > 0 ? next.join(',') : undefined }), { scroll: false });
-      });
+      setOptimisticTypes((prev) =>
+        prev.includes(value) ? prev.filter((t) => t !== value) : [...prev, value],
+      );
     },
-    [optimisticTypes, router, buildUrl],
+    [],
   );
 
   const toggleRegion = useCallback(
     (value: string) => {
-      const next = optimisticRegions.includes(value)
-        ? optimisticRegions.filter((r) => r !== value)
-        : [...optimisticRegions, value];
-      setOptimisticRegions(next); // 即時反映
-      startTransition(() => {
-        router.push(buildUrl({ regions: next.length > 0 ? next.join(',') : undefined }), { scroll: false });
-      });
+      setOptimisticRegions((prev) =>
+        prev.includes(value) ? prev.filter((r) => r !== value) : [...prev, value],
+      );
     },
-    [optimisticRegions, router, buildUrl],
+    [],
   );
 
   const applyFilters = useCallback(() => {
-    router.push(buildUrl({}), { scroll: false });
-  }, [router, buildUrl]);
+    const params = new URLSearchParams();
+    if (optimisticStatus !== 'all') params.set('status', optimisticStatus);
+    if (optimisticTypes.length > 0) params.set('types', optimisticTypes.join(','));
+    if (optimisticRegions.length > 0) params.set('regions', optimisticRegions.join(','));
+    const qs = params.toString();
+    router.push(qs ? `/properties?${qs}` : '/properties', { scroll: false });
+  }, [router, optimisticStatus, optimisticTypes, optimisticRegions]);
 
   const clearFilters = () => {
     setOptimisticStatus('all');
@@ -142,13 +122,8 @@ export default function PropertyFilter() {
             key={option.value}
             ref={option.ref}
             onClick={() => {
+              // 即時反映はせず、絞り込みボタンクリックで applyFilters() 経由で URL 更新
               setOptimisticStatus(option.value);
-              startTransition(() => {
-                router.push(
-                  buildUrl({ status: option.value === 'all' ? undefined : option.value }),
-                  { scroll: false }
-                );
-              });
             }}
             className={`relative z-10 h-[52px] px-6 font-gothic font-medium text-[16px] leading-none transition-colors duration-300 rounded-[50px] ${
               optimisticStatus === option.value ? 'text-white' : 'text-dark-green'
