@@ -102,10 +102,10 @@ export default function AboutPage() {
             もっと知る
           </Link>
         </div>
-        {/* PC: 既存 2 カラム維持 */}
-        <div className="hidden tablet:flex flex-row items-center">
-          <div className="w-1/2 pl-12">
-            <div className="max-w-[616px] ml-auto">
+        {/* PC: 両端揃えレイアウト (Figma 4211:10024 = pl-45/pr-75, text 616 + image 557×742, gap auto) */}
+        <div className="hidden tablet:block max-w-[1440px] mx-auto pl-[45px] pr-[75px]">
+          <div className="flex items-center justify-between gap-[60px]">
+            <div className="flex-1 max-w-[616px]">
               <div className="mb-16">
                 <p className="font-gothic font-medium text-[18px] leading-[1.8] text-dark-green mb-2">ご挨拶</p>
                 <h2 className="font-mincho text-[48px] leading-[1.5] tracking-[1.92px] text-dark-green mb-16" style={{ fontFeatureSettings: "'palt' 1" }}>
@@ -127,9 +127,7 @@ export default function AboutPage() {
                 </Link>
               </div>
             </div>
-          </div>
-          <div className="w-1/2 pr-20">
-            <div className="aspect-[557/742] relative rounded-2xl overflow-hidden">
+            <div className="w-[557px] h-[742px] shrink-0 rounded-2xl overflow-hidden relative">
               <Image
                 src="/images/about/greeting.jpg"
                 alt="三島の街並み"
@@ -179,10 +177,10 @@ export default function AboutPage() {
             もっと知る
           </Link>
         </div>
-        {/* PC: 既存 2 カラム (画像左 / テキスト右) */}
-        <div className="hidden tablet:flex flex-row items-center">
-          <div className="w-1/2 pl-12">
-            <div className="aspect-[557/742] relative rounded-2xl overflow-hidden">
+        {/* PC: 両端揃え (image 左 / text 右, Figma 4211:10036 mirror of greeting) */}
+        <div className="hidden tablet:block max-w-[1440px] mx-auto pl-[45px] pr-[75px]">
+          <div className="flex items-center justify-between gap-[60px]">
+            <div className="w-[557px] h-[742px] shrink-0 rounded-2xl overflow-hidden relative">
               <Image
                 src="/images/about/staff-interview.jpg"
                 alt="スタッフインタビュー"
@@ -191,9 +189,7 @@ export default function AboutPage() {
                 sizes="(min-width: 992px) 557px, 0px"
               />
             </div>
-          </div>
-          <div className="w-1/2 pr-20">
-            <div className="max-w-[616px]">
+            <div className="flex-1 max-w-[616px]">
               <div className="mb-16">
                 <p className="font-gothic font-medium text-[18px] leading-[1.8] text-cream mb-2">スタッフインタビュー</p>
                 <h2 className="font-mincho text-[48px] leading-[1.5] tracking-[1.92px] text-cream mb-16" style={{ fontFeatureSettings: "'palt' 1" }}>
@@ -284,29 +280,29 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 会社概要セクション (Figma PC 4211:10099 / SP) */}
+      {/* 会社概要セクション (Figma PC 4211:10099 = pl-75/pr-75 + 410 heading + 616 table 両端揃え / SP 4211:11149 = dd 右寄せ) */}
       <section className="bg-cream py-[60px] pb-[80px] tablet:py-24 tablet:pb-36">
         <div className="px-4 tablet:px-[75px] max-w-[1440px] mx-auto">
-          <div className="flex flex-col tablet:flex-row gap-8 tablet:gap-16">
+          <div className="flex flex-col tablet:flex-row tablet:items-start tablet:justify-between gap-8 tablet:gap-[60px]">
             {/* 見出し */}
             <div className="tablet:w-[410px] shrink-0 px-2 tablet:px-0">
               <h3 className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green">
                 会社概要
               </h3>
             </div>
-            {/* テーブル */}
-            <div className="flex-1 max-w-[616px]">
+            {/* テーブル: SP は dd 右寄せ / PC は w-616 固定 */}
+            <div className="w-full tablet:w-[616px] shrink-0">
               <dl className="divide-y divide-dark-green/20 border-b border-dark-green/20">
-                <div className="flex gap-4 tablet:gap-8 py-5 tablet:py-6">
-                  <dt className="w-[100px] tablet:w-[147px] shrink-0 font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green">商号</dt>
-                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black">有限会社アイ企画</dd>
+                <div className="flex items-center justify-between gap-4 py-5 tablet:py-6">
+                  <dt className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green shrink-0">商号</dt>
+                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black text-right tablet:text-left tablet:flex-1 tablet:pl-10">有限会社アイ企画</dd>
                 </div>
-                <div className="flex gap-4 tablet:gap-8 py-5 tablet:py-6">
-                  <dt className="w-[100px] tablet:w-[147px] shrink-0 font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green">設立</dt>
-                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black">昭和61年12月</dd>
+                <div className="flex items-center justify-between gap-4 py-5 tablet:py-6">
+                  <dt className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green shrink-0">設立</dt>
+                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black text-right tablet:text-left tablet:flex-1 tablet:pl-10">昭和61年12月</dd>
                 </div>
                 <div className="flex flex-col gap-4 py-5 tablet:py-6">
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between gap-4">
                     <dt className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green shrink-0">所在地</dt>
                     <dd className="flex items-center gap-3">
                       <span className="font-gothic font-medium text-[14px] tablet:text-[16px] leading-[1.8] text-dark-green text-right">静岡県三島市加茂18番地の7</span>
@@ -330,15 +326,15 @@ export default function AboutPage() {
                     />
                   </div>
                 </div>
-                <div className="flex gap-4 tablet:gap-8 py-5 tablet:py-6">
-                  <dt className="w-[100px] tablet:w-[147px] shrink-0 font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green">電話</dt>
-                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black">055-976-5300</dd>
+                <div className="flex items-center justify-between gap-4 py-5 tablet:py-6">
+                  <dt className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green shrink-0">電話</dt>
+                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black text-right tablet:text-left tablet:flex-1 tablet:pl-10">055-976-5300</dd>
                 </div>
-                <div className="flex gap-4 tablet:gap-8 py-5 tablet:py-6">
-                  <dt className="w-[100px] tablet:w-[147px] shrink-0 font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green">FAX</dt>
-                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black">055-976-5301</dd>
+                <div className="flex items-center justify-between gap-4 py-5 tablet:py-6">
+                  <dt className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green shrink-0">FAX</dt>
+                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black text-right tablet:text-left tablet:flex-1 tablet:pl-10">055-976-5301</dd>
                 </div>
-                <div className="flex items-start justify-between py-5 tablet:py-6 gap-4">
+                <div className="flex items-start justify-between gap-4 py-5 tablet:py-6">
                   <dt className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green shrink-0">営業時間</dt>
                   <dd className="flex flex-col gap-1 items-end text-right">
                     <div className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green">
@@ -348,33 +344,33 @@ export default function AboutPage() {
                     <p className="font-gothic font-medium text-[12px] tablet:text-[14px] leading-[1.8] text-dark-green/50">※ご予約により営業時間外の対応も可能</p>
                   </dd>
                 </div>
-                <div className="flex gap-4 tablet:gap-8 py-5 tablet:py-6">
-                  <dt className="w-[100px] tablet:w-[147px] shrink-0 font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green">休業日</dt>
-                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black">日曜日・祝日</dd>
+                <div className="flex items-center justify-between gap-4 py-5 tablet:py-6">
+                  <dt className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green shrink-0">休業日</dt>
+                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black text-right tablet:text-left tablet:flex-1 tablet:pl-10">日曜日・祝日</dd>
                 </div>
-                <div className="flex gap-4 tablet:gap-8 py-5 tablet:py-6">
-                  <dt className="w-[100px] tablet:w-[147px] shrink-0 font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green">事業案内</dt>
-                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black">土地・中古住宅・店舗の売買媒介及び賃貸物件の管理・媒介</dd>
+                <div className="flex items-start justify-between gap-4 py-5 tablet:py-6">
+                  <dt className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green shrink-0">事業案内</dt>
+                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black text-right tablet:text-left tablet:flex-1 tablet:pl-10 max-w-[60%] tablet:max-w-none">土地・中古住宅・店舗の売買媒介及び賃貸物件の管理・媒介</dd>
                 </div>
-                <div className="flex gap-4 tablet:gap-8 py-5 tablet:py-6">
-                  <dt className="w-[100px] tablet:w-[147px] shrink-0 font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green">代表者</dt>
-                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black">代表取締役　髙野大地</dd>
+                <div className="flex items-center justify-between gap-4 py-5 tablet:py-6">
+                  <dt className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green shrink-0">代表者</dt>
+                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black text-right tablet:text-left tablet:flex-1 tablet:pl-10">代表取締役　髙野大地</dd>
                 </div>
-                <div className="flex gap-4 tablet:gap-8 py-5 tablet:py-6">
-                  <dt className="w-[100px] tablet:w-[147px] shrink-0 font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green">免許</dt>
-                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black">宅地建物取引業免許　静岡県知事（10）第6124号</dd>
+                <div className="flex items-start justify-between gap-4 py-5 tablet:py-6">
+                  <dt className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green shrink-0">免許</dt>
+                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black text-right tablet:text-left tablet:flex-1 tablet:pl-10 max-w-[60%] tablet:max-w-none">宅地建物取引業免許　静岡県知事（10）第6124号</dd>
                 </div>
-                <div className="flex gap-4 tablet:gap-8 py-5 tablet:py-6">
-                  <dt className="w-[100px] tablet:w-[147px] shrink-0 font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green">加盟団体</dt>
-                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black">
+                <div className="flex items-start justify-between gap-4 py-5 tablet:py-6">
+                  <dt className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green shrink-0">加盟団体</dt>
+                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black text-right tablet:text-left tablet:flex-1 tablet:pl-10">
                     公益社団法人　全国宅地建物取引業保証協会<br />
                     公益社団法人　静岡県宅地建物取引業協会<br />
                     公益社団法人　東海不動産公正取引協議会
                   </dd>
                 </div>
-                <div className="flex gap-4 tablet:gap-8 py-5 tablet:py-6">
-                  <dt className="w-[100px] tablet:w-[147px] shrink-0 font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green">資本金</dt>
-                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black">500万円</dd>
+                <div className="flex items-center justify-between gap-4 py-5 tablet:py-6">
+                  <dt className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green shrink-0">資本金</dt>
+                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black text-right tablet:text-left tablet:flex-1 tablet:pl-10">500万円</dd>
                 </div>
               </dl>
             </div>
