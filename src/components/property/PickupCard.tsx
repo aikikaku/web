@@ -81,10 +81,10 @@ export default function PickupCard({ property }: Props) {
             )}
           </div>
 
-          {/* SP: thumbs（画像の下） */}
+          {/* SP: thumbs（画像の下）。flex-1 + aspect-square + max-w-[52px] で親要素 (Link px-4 内側 326px) に収まるよう均等配分。 */}
           {allImages.length > 1 && (
-            <div className="tablet:hidden flex items-center gap-2 pt-4 pb-6">
-              {allImages.map((img, i) => (
+            <div className="tablet:hidden flex items-center gap-2 pt-4 pb-6 w-full">
+              {allImages.slice(0, 6).map((img, i) => (
                 <button
                   key={i}
                   type="button"
@@ -93,7 +93,7 @@ export default function PickupCard({ property }: Props) {
                     e.preventDefault();
                     setActiveIndex(i);
                   }}
-                  className={`relative shrink-0 w-[52px] h-[52px] rounded-lg overflow-hidden transition-opacity duration-200 ${i === activeIndex ? 'opacity-100' : 'opacity-15 hover:opacity-50'}`}
+                  className={`relative flex-1 min-w-0 max-w-[52px] aspect-square rounded-lg overflow-hidden transition-opacity duration-200 ${i === activeIndex ? 'opacity-100' : 'opacity-15 hover:opacity-50'}`}
                 >
                   <Image
                     src={getImageUrl(img, { width: 120, height: 120, format: 'webp' })}
