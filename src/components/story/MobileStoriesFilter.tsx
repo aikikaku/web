@@ -254,8 +254,8 @@ export default function MobileStoriesFilter() {
                 </div>
               </div>
 
-              {/* action: 絞り込み + × clear */}
-              <div className="flex gap-2 h-10">
+              {/* action: 絞り込み + × clear (shrink-0 で dropdown 開時に潰れない) */}
+              <div className="flex gap-2 h-10 shrink-0">
                 <button
                   onClick={applyFilters}
                   className="flex-1 h-full bg-dark-green text-white rounded-lg font-gothic font-medium text-[14px] leading-none"

@@ -74,7 +74,10 @@ export default function HeroSlideshowSP() {
           type="button"
           onClick={goNext}
           aria-label="次のスライド"
-          className="absolute -right-4 bottom-3 size-6 inline-flex items-center justify-center active:scale-95 transition-transform"
+          // Figma 4211:10610 メタデータ: icon は component frame (358×354) の右端 0px / bottom 12px に配置。
+          // .relative 親 = track (w=358) と同寸なので right-0 (0px from .relative right) で Figma と一致。
+          // 画像は -mr-4 で 16px はみ出るが、Figma 上のアイコンも component 右端 = 画像 right-16 内側なので右下コーナーへ視覚的に収まる。
+          className="absolute right-3 bottom-3 size-6 inline-flex items-center justify-center active:scale-95 transition-transform"
           style={{ filter: 'drop-shadow(0 0 8px rgba(0,0,0,0.16))' }}
         >
           <svg viewBox="0 0 24 24" fill="none" className="size-full">
