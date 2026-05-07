@@ -1,9 +1,7 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import TocNav from '@/components/ui/TocNav';
-import StoryCard from '@/components/story/StoryCard';
-import SeeAllLink from '@/components/ui/SeeAllLink';
-import { getStories } from '@/lib/microcms/queries';
+import HeroCardStory from '@/components/ui/HeroCardStory';
+import ServiceCTA from '@/components/ui/ServiceCTA';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -163,11 +161,13 @@ const interviewSections: InterviewSection[] = [
   },
 ];
 
+// Figma 4211:11373: スタッフの紹介 / 会社の理念 / スタッフの専門性 / お客様との関係 / 地域貢献活動
 const tocItems = [
   'スタッフの紹介',
   '会社の理念',
   'スタッフの専門性',
-  '地域との関わり',
+  'お客様との関係',
+  '地域貢献活動',
 ];
 
 const staffProfiles = [
@@ -201,39 +201,51 @@ function ModeratorIcon() {
 function InterviewItemComponent({ item }: { item: InterviewItem }) {
   const info = speakerInfo[item.speaker];
   return (
-    <div className="flex gap-6 tablet:gap-[51px] items-start">
-      <div className="flex flex-col items-center shrink-0">
-        {info.avatar ? (
-          <div className="w-[50px] h-[50px] rounded-full overflow-hidden relative shrink-0">
-            <Image
-              src={info.avatar}
-              alt={info.name}
-              fill
-              className="object-cover"
-              sizes="50px"
-            />
-          </div>
-        ) : (
-          <ModeratorIcon />
-        )}
-        <p className="text-caption text-dark-green text-center whitespace-nowrap mt-1">
-          {info.name}
-        </p>
+    <>
+      {/* SP: avatar + name の横並び (上) → text (下) */}
+      <div className="tablet:hidden mb-8">
+        <div className="flex items-center gap-3 mb-3">
+          {info.avatar ? (
+            <div className="w-9 h-9 rounded-full overflow-hidden relative shrink-0">
+              <Image src={info.avatar} alt={info.name} fill className="object-cover" sizes="36px" />
+            </div>
+          ) : (
+            <div className="w-9 h-9 rounded-full bg-light-green flex items-center justify-center shrink-0">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                  fill="#2a363b"
+                />
+              </svg>
+            </div>
+          )}
+          <p className="font-gothic font-medium text-[14px] leading-none text-dark-green">{info.name}</p>
+        </div>
+        <p className="font-gothic font-medium text-[14px] leading-[1.8] text-black">{item.text}</p>
       </div>
-      <div className="flex-1 pb-12 pt-2">
-        <p className="text-body-l text-black leading-[1.8]">{item.text}</p>
+      {/* PC: avatar 左 / text 右 */}
+      <div className="hidden tablet:flex gap-[51px] items-start">
+        <div className="flex flex-col items-center shrink-0">
+          {info.avatar ? (
+            <div className="w-[50px] h-[50px] rounded-full overflow-hidden relative shrink-0">
+              <Image src={info.avatar} alt={info.name} fill className="object-cover" sizes="50px" />
+            </div>
+          ) : (
+            <ModeratorIcon />
+          )}
+          <p className="text-caption text-dark-green text-center whitespace-nowrap mt-1">{info.name}</p>
+        </div>
+        <div className="flex-1 pb-12 pt-2">
+          <p className="text-body-l text-black leading-[1.8]">{item.text}</p>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp';
 
-export default async function StaffInterviewPage() {
-  const latestStories = await getStories({
-    limit: 3,
-    orders: '-publishedAt',
-  }).catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: 3 }));
+export default function StaffInterviewPage() {
   return (
     <div className="bg-cream">
       <script
@@ -249,56 +261,34 @@ export default async function StaffInterviewPage() {
           }),
         }}
       />
-      {/* ヒーローセクション（3枚の写真レイアウト） */}
-      <section className="relative overflow-visible">
-        <div className="relative h-[700px] tablet:h-[938px]">
-          {/* タイトル */}
-          <div className="absolute left-[20px] tablet:left-[75px] top-[100px] tablet:top-[196px] z-10">
-            <h1 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[0.04em] text-dark-green">
-              スタッフインタビュー
-            </h1>
-          </div>
-
-          {/* 左の縦長写真（下部） */}
-          <div className="hidden tablet:block absolute left-0 top-[570px] w-[280px] h-[368px] rounded-[16px] overflow-hidden">
-            <Image
-              src="/images/staff-interview/photo-interview-1.jpg"
-              alt=""
-              fill
-              className="object-cover"
-            />
-          </div>
-
-          {/* 中央のメイン写真 */}
-          <div className="absolute left-1/2 -translate-x-1/2 top-[259px] tablet:top-[359px] w-full max-w-[704px] rounded-[16px] overflow-hidden">
-            <div className="aspect-[704/469] relative">
-              <Image
-                src="/images/staff-interview/hero.jpg"
-                alt="髙野大地と髙野恒成のインタビュー風景"
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
-          </div>
-
-          {/* 右の縦長写真（上部） */}
-          <div className="hidden tablet:block absolute right-0 top-[196px] w-[280px] h-[374px] rounded-[24px] overflow-hidden">
-            <Image
-              src="/images/staff-interview/photo-caption.jpg"
-              alt=""
-              fill
-              className="object-cover"
-            />
-          </div>
+      {/* ヒーローセクション (Figma PC 4211:11332 / SP 4211:11614) */}
+      <section className="relative bg-cream overflow-hidden pt-12 tablet:pt-[100px] pb-12 tablet:pb-24">
+        {/* SP: 見出し → card-story */}
+        <div className="tablet:hidden px-4 mb-8">
+          <h1 className="font-mincho text-[28px] leading-[1.5] tracking-[1.12px] text-dark-green pl-2" style={{ fontFeatureSettings: "'palt' 1" }}>
+            スタッフインタビュー
+          </h1>
         </div>
+        {/* PC: タイトル左上 (絶対位置) */}
+        <div className="hidden tablet:block relative max-w-[1440px] mx-auto">
+          <h1 className="absolute left-[75px] top-[96px] w-[528px] font-mincho text-[48px] leading-[1.5] tracking-[1.92px] text-dark-green z-10" style={{ fontFeatureSettings: "'palt' 1" }}>
+            スタッフインタビュー
+          </h1>
+        </div>
+        <HeroCardStory
+          mainImage="/images/staff-interview/hero.jpg"
+          leftImage="/images/staff-interview/photo-interview-1.jpg"
+          rightImage="/images/staff-interview/photo-caption.jpg"
+          mainAlt="髙野大地と髙野恒成のインタビュー風景"
+          priority
+        />
       </section>
 
-      {/* インタビューセクション（サイドバー付き） */}
-      <section className="pt-16 tablet:pt-24 pb-24 px-4 tablet:pl-[45px] tablet:pr-[75px] max-w-[1440px] mx-auto">
+      {/* インタビューセクション（PC: サイドバー付き / SP: TOC 非表示, 縦積み） */}
+      <section className="pt-12 tablet:pt-24 pb-12 tablet:pb-24 px-4 tablet:pl-[45px] tablet:pr-[75px] max-w-[1440px] mx-auto">
         <div className="flex max-tablet:flex-col items-start tablet:justify-between">
-          {/* 左: TOCサイドバー（スクロール追従） */}
-          <div className="tablet:w-[323px] shrink-0 tablet:sticky tablet:top-24 max-tablet:mb-8 max-tablet:w-full">
+          {/* PC: TOC サイドバー（スクロール追従）。SP は Figma 4211:11614 に TOC が無いため非表示 */}
+          <div className="hidden tablet:block tablet:w-[323px] shrink-0 tablet:sticky tablet:top-24">
             <div className="bg-light-green rounded-[32px] px-[30px] py-[45px]">
               <TocNav items={tocItems} />
             </div>
@@ -427,94 +417,11 @@ export default async function StaffInterviewPage() {
         </div>
       </section>
 
-      {/* 暮らしを知る（Stories） */}
-      {latestStories.contents.length > 0 && (
-        <section className="bg-dark-green py-[96px] px-[75px]">
-          <div className="max-w-[1440px] mx-auto">
-          <h2 className="font-mincho text-[32px] leading-[1.5] tracking-[0.04em] text-cream mb-12">
-            暮らしを知る
-          </h2>
-          <div className="grid grid-cols-1 tablet:grid-cols-3 gap-8">
-            {latestStories.contents.map((story) => (
-              <StoryCard key={story.id} story={story} variant="dark" />
-            ))}
-          </div>
-          <div className="flex justify-end mt-12">
-            <SeeAllLink href="/stories" label="すべて見る" className="text-cream" />
-          </div>
-          </div>
-        </section>
-      )}
-
-      {/* 下部CTA */}
-      <section className="relative py-24">
-        <div className="absolute inset-0 overflow-hidden">
-          <Image
-            src="/images/staff-interview/bg-section.png"
-            alt=""
-            fill
-            className="object-cover"
-          />
-        </div>
-        <div className="relative z-10 page-container">
-          <div className="grid grid-cols-1 tablet:grid-cols-2 gap-8">
-            <Link href="/for-customer" className="group block bg-cream rounded-3xl p-8 overflow-hidden">
-              <div className="flex gap-8 items-start">
-                <div className="flex-1">
-                  <div className="mb-auto">
-                    <h3 className="font-mincho text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green mb-2">
-                      不動産を<br />お探しの方へ
-                    </h3>
-                    <p className="text-body-l text-dark-green">買いたい・借りたい</p>
-                  </div>
-                  <div className="mt-8">
-                    <span className="bg-accent-blue w-12 h-12 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                        <path d="M5 12h14M12 5l7 7-7 7" />
-                      </svg>
-                    </span>
-                  </div>
-                </div>
-                <div className="w-[294px] h-[220px] relative rounded-xl overflow-hidden shrink-0 hidden tablet:block">
-                  <Image
-                    src="/images/staff-interview/cta-customer.jpg"
-                    alt=""
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              </div>
-            </Link>
-            <Link href="/for-owner" className="group block bg-cream rounded-3xl p-8 overflow-hidden">
-              <div className="flex gap-8 items-start">
-                <div className="flex-1">
-                  <div className="mb-auto">
-                    <h3 className="font-mincho text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green mb-2">
-                      不動産を<br />お持ちの方へ
-                    </h3>
-                    <p className="text-body-l text-dark-green">売りたい・貸したい</p>
-                  </div>
-                  <div className="mt-8">
-                    <span className="bg-accent-blue w-12 h-12 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                        <path d="M5 12h14M12 5l7 7-7 7" />
-                      </svg>
-                    </span>
-                  </div>
-                </div>
-                <div className="w-[294px] h-[220px] relative rounded-xl overflow-hidden shrink-0 hidden tablet:block">
-                  <Image
-                    src="/images/staff-interview/cta-owner.jpg"
-                    alt=""
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              </div>
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* サービス CTA (共通コンポーネント Figma 4211:11395) */}
+      <ServiceCTA
+        customerImage="/images/staff-interview/cta-customer.jpg"
+        ownerImage="/images/staff-interview/cta-owner.jpg"
+      />
     </div>
   );
 }
