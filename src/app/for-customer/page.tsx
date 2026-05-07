@@ -1,5 +1,7 @@
 import { getProperties, getCustomerVoices, getStories } from '@/lib/microcms/queries';
 import PropertyCard from '@/components/property/PropertyCard';
+import PropertyCarousel from '@/components/home/PropertyCarousel';
+import VoiceCarousel from '@/components/home/VoiceCarousel';
 import StoryCard from '@/components/story/StoryCard';
 import SeeAllLink from '@/components/ui/SeeAllLink';
 import FaqAccordion from '@/components/ui/FaqAccordion';
@@ -80,8 +82,8 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp';
 
 export default async function ForCustomerPage() {
   const [properties, voices, stories] = await Promise.all([
-    getProperties({ limit: 3, filters: 'status[contains]available', orders: '-publishedAt' })
-      .catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: 3 })),
+    getProperties({ limit: 6, filters: 'status[contains]available', orders: '-publishedAt' })
+      .catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: 6 })),
     getCustomerVoices()
       .catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: 50 })),
     getStories({ limit: 3 })
@@ -104,20 +106,23 @@ export default async function ForCustomerPage() {
         }}
       />
 
-      {/* ヒーロー */}
-      <section className="page-container pb-24">
-        <div className="flex flex-col tablet:flex-row items-center gap-8 tablet:gap-0">
-          <div className="flex-1 flex items-center">
-            <h1 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.92px] text-dark-green tablet:whitespace-nowrap" style={{ fontFeatureSettings: "'palt' 1" }}>不動産をお探しの方へ</h1>
+      {/* ヒーロー (Figma SP 4211:11782 - title 2 行 + image 縦長 / PC 4211:11401-11404) */}
+      <section className="page-container pb-12 tablet:pb-24 pt-8 tablet:pt-0">
+        <div className="flex flex-col tablet:flex-row items-stretch tablet:items-center gap-8 tablet:gap-0">
+          <div className="flex-1 flex items-start tablet:items-center">
+            <h1 className="font-mincho text-[40px] tablet:text-[48px] leading-[1.5] tracking-[1.6px] tablet:tracking-[1.92px] text-dark-green tablet:whitespace-nowrap" style={{ fontFeatureSettings: "'palt' 1" }}>
+              不動産を<br className="tablet:hidden" />お探しの方へ
+            </h1>
           </div>
           <div className="w-full tablet:w-[675px] shrink-0 tablet:pl-[30px]">
-            <div className="relative h-[400px] tablet:h-[640px] rounded-3xl overflow-hidden">
+            <div className="relative aspect-[358/443] tablet:aspect-auto tablet:h-[640px] rounded-3xl overflow-hidden">
               <Image
                 src="/images/for-customer/hero.jpg"
                 alt="不動産をお探しの方へ"
                 fill
                 className="object-cover"
                 priority
+                sizes="(max-width: 992px) 100vw, 675px"
               />
             </div>
           </div>
@@ -140,15 +145,17 @@ export default async function ForCustomerPage() {
             }}
           />
         </div>
-        <div className="relative page-container py-24">
-          <div className="flex flex-col gap-8">
+        <div className="relative page-container py-[60px] tablet:py-24">
+          <div className="flex flex-col gap-6 tablet:gap-8">
             <div className="flex flex-col gap-2 text-cream">
-              <p className="text-body-m font-gothic font-medium">
+              <p className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8]">
                 不動産をお探しですか？
               </p>
-              <h2 className="text-cream">まずはご相談ください。</h2>
+              <h2 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.28px] tablet:tracking-[1.92px] text-cream" style={{ fontFeatureSettings: "'palt' 1" }}>
+                まずはご相談ください。
+              </h2>
             </div>
-            <div className="text-body-l text-cream leading-[1.8]">
+            <div className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-cream">
               <p>あなたの想いを聞かせてください。どんな暮らしをしたいか、どんなお店をしたいか。</p>
               <p>私たちは、その想いを共有し、正しい情報をお伝えしながら、</p>
               <p>セカンドオピニオン的な立ち位置でお客様に最適なご提案をさせて頂きます。</p>
@@ -161,14 +168,16 @@ export default async function ForCustomerPage() {
         </div>
       </section>
 
-      {/* ご入居までの流れ */}
-      <section className="bg-cream py-24">
+      {/* ご入居までの流れ (Figma SP 4211:11793 - 左寄せ) */}
+      <section className="bg-cream py-[60px] tablet:py-24">
         <div className="page-container">
-          <div className="flex flex-col gap-2 items-center text-center mb-12">
-            <p className="text-body-m font-gothic font-medium text-dark-green">
+          <div className="flex flex-col gap-2 items-start tablet:items-center tablet:text-center mb-8 tablet:mb-12">
+            <p className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green">
               物件サポート
             </p>
-            <h2>ご入居までの流れ</h2>
+            <h2 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.28px] tablet:tracking-[1.92px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+              ご入居までの流れ
+            </h2>
           </div>
           <div className="max-w-[792px] mx-auto flex flex-col gap-4 items-center">
             {steps.map((step, i) => (
@@ -196,21 +205,23 @@ export default async function ForCustomerPage() {
         </div>
       </section>
 
-      {/* アイ企画での物件探しの特徴 */}
-      <section className="bg-light-green py-24">
+      {/* アイ企画での物件探しの特徴 (Figma SP 4211:11803 - 左寄せ・余白調整) */}
+      <section className="bg-light-green py-[60px] tablet:py-24">
         <div className="page-container">
           {/* Section heading */}
-          <div className="flex flex-col gap-2 mb-8">
-            <p className="text-body-m font-gothic font-medium text-dark-green">
+          <div className="flex flex-col gap-2 mb-6 tablet:mb-8">
+            <p className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green">
               アイ企画の強み
             </p>
-            <h2>アイ企画での物件探しの特徴</h2>
+            <h2 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.28px] tablet:tracking-[1.92px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+              アイ企画での物件探しの特徴
+            </h2>
           </div>
-          <div className="mb-8">
-            <p className="text-body-m text-dark-green">
+          <div className="mb-10 tablet:mb-8">
+            <p className="font-gothic font-medium text-[14px] tablet:text-[16px] leading-[1.8] text-dark-green">
               私たちのプロセスは、お客様のニーズに合わせたサポートを提供します。
             </p>
-            <p className="text-body-m text-dark-green">
+            <p className="font-gothic font-medium text-[14px] tablet:text-[16px] leading-[1.8] text-dark-green">
               安心して新生活をスタートできるよう、全力でお手伝いします。
             </p>
           </div>
@@ -283,15 +294,29 @@ export default async function ForCustomerPage() {
         </div>
       </section>
 
-      {/* 物件情報 */}
+      {/* 物件情報 (Figma 4211:11427 — home の PropertyCarousel を転用) */}
       {properties.contents.length > 0 && (
-        <section className="py-24">
-          <div className="page-container">
-            <h2 className="font-mincho text-[32px] tracking-wider mb-16">物件情報</h2>
-            <div className="grid grid-cols-1 tablet:grid-cols-3 gap-8 mb-16">
-              {properties.contents.map((property) => (
+        <section className="bg-cream pt-[60px] pb-[60px] tablet:pt-24 tablet:pb-0">
+          <div className="px-4 tablet:px-[75px] max-w-[1440px] mx-auto">
+            <div className="flex flex-col gap-2 mb-8 tablet:mb-[96px]">
+              <p className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green">
+                物件情報
+              </p>
+              <h2 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.28px] tablet:tracking-[1.92px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+                おすすめの物件
+              </h2>
+            </div>
+          </div>
+          {/* SP: スライドショー / PC: 3 列グリッド */}
+          <PropertyCarousel properties={properties.contents.slice(0, 6)} />
+          <div className="hidden tablet:block max-w-[1440px] mx-auto px-[75px]">
+            <div className="grid grid-cols-3 gap-x-[30px] gap-y-[96px]">
+              {properties.contents.slice(0, 6).map((property) => (
                 <PropertyCard key={property.id} property={property} />
               ))}
+            </div>
+            <div className="flex items-center justify-end mt-[96px]">
+              <SeeAllLink href="/properties" />
             </div>
           </div>
         </section>
@@ -390,51 +415,20 @@ export default async function ForCustomerPage() {
         </section>
       )}
 
-      {/* お客様の声 */}
+      {/* お客様の声 (Figma 4211:11447 — home の VoiceCarousel を転用) */}
       {voices.contents.length > 0 && (
-        <section className="bg-light-green pt-24 pb-16">
-          <div className="page-container">
-            <h2 className="font-mincho text-[32px] tracking-wider mb-16">お客様の声</h2>
-            <div className="overflow-x-auto pb-4 -mx-5 tablet:-mx-[64px] px-5 tablet:px-[64px]">
-              <div className="flex gap-3 min-w-max">
-                {voices.contents.map((voice) => (
-                  <div key={voice.id} className="w-[600px] tablet:w-[644px] shrink-0">
-                    <div className="bg-cream rounded-3xl px-8 tablet:px-[58px] pt-12 pb-14 h-full">
-                      {/* Quote mark */}
-                      <div className="font-mincho text-[32px] leading-none text-gray-300 mb-4">
-                        &ldquo;
-                      </div>
-
-                      {/* Title (customerName as heading) */}
-                      <h3 className="font-mincho text-[32px] leading-[1.5] tracking-wider mb-4 line-clamp-2">
-                        {voice.customerName}
-                      </h3>
-
-                      {/* Content excerpt */}
-                      <div
-                        className="text-body-m font-gothic font-medium text-black line-clamp-3 mb-12"
-                        dangerouslySetInnerHTML={{ __html: voice.content }}
-                      />
-
-                      {/* Meta */}
-                      <div className="flex items-center gap-3 text-body-m font-gothic font-medium text-dark-green">
-                        <div className="flex items-center opacity-60">
-                          {voice.location && <span>{voice.location}</span>}
-                          {voice.location && voice.propertyType && (
-                            <span className="mx-1 leading-[1.4]">｜</span>
-                          )}
-                          {voice.propertyType && <span>{voice.propertyType}</span>}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="flex items-center justify-end mt-8">
-              <SeeAllLink href="/voice" />
+        <section className="bg-light-green pt-[60px] pb-[60px] tablet:pt-24 tablet:pb-24">
+          <div className="px-4 tablet:px-[75px] max-w-[1440px] mx-auto mb-8 tablet:mb-[60px]">
+            <div className="flex flex-col gap-2">
+              <p className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green">
+                お客様の声
+              </p>
+              <h2 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.28px] tablet:tracking-[1.92px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+                ご利用いただいた皆様の声
+              </h2>
             </div>
           </div>
+          <VoiceCarousel voices={voices.contents} />
         </section>
       )}
 
