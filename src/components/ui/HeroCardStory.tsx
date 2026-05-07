@@ -37,23 +37,38 @@ export default function HeroCardStory({
 
     const mql = window.matchMedia('(max-width: 992px)');
     let raf = 0;
+    let baseScrollY: number | null = null;
 
     const update = () => {
       raf = 0;
       if (!mql.matches) {
-        // PC ではパララックスを掛けない
+        // PC ではパララックスを掛けない (Figma の位置に固定)
         left.style.transform = '';
         right.style.transform = '';
         return;
       }
       const rect = container.getBoundingClientRect();
       const vh = window.innerHeight || 1;
-      // container が画面に入ってから抜けるまでの進行率 0〜1
-      const progress = Math.max(0, Math.min(1, 1 - (rect.bottom / (vh + rect.height))));
-      // 進行率に応じて -60px まで上方向にスライド
-      const offset = -progress * 60;
+
+      // 基準スクロール位置 = container が viewport 下端から半分入る瞬間。
+      // それより上に来たら (= 既に画面下半分に入っている) パララックス開始。
+      // それまでは offset = 0 で Figma 通りの位置に固定。
+      const containerCenter = rect.top + rect.height / 2;
+      if (containerCenter >= vh) {
+        // container 中心がまだ viewport 下端より下 → まだスクロールが届いていない
+        left.style.transform = 'translateY(0px)';
+        right.style.transform = 'translateY(0px)';
+        baseScrollY = null;
+        return;
+      }
+      if (baseScrollY === null) {
+        baseScrollY = window.scrollY;
+      }
+      // baseScrollY を超えてスクロールした分だけ上方向にスライド (cap -80px)
+      const delta = Math.max(0, window.scrollY - baseScrollY);
+      const offset = -Math.min(delta * 0.3, 80);
       left.style.transform = `translateY(${offset}px)`;
-      right.style.transform = `translateY(${offset * 1.2}px)`;
+      right.style.transform = `translateY(${offset * 1.3}px)`;
     };
 
     const onScroll = () => {
