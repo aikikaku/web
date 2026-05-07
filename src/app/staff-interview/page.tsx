@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import TocNav from '@/components/ui/TocNav';
+import MobileTocNav from '@/components/ui/MobileTocNav';
 import HeroCardStory from '@/components/ui/HeroCardStory';
 import ServiceCTA from '@/components/ui/ServiceCTA';
 import type { Metadata } from 'next';
@@ -200,45 +201,30 @@ function ModeratorIcon() {
 function InterviewItemComponent({ item }: { item: InterviewItem }) {
   const info = speakerInfo[item.speaker];
   return (
-    <>
-      {/* SP: avatar + name の横並び (上) → text (下) */}
-      <div className="tablet:hidden mb-8">
-        <div className="flex items-center gap-3 mb-3">
-          {info.avatar ? (
-            <div className="w-9 h-9 rounded-full overflow-hidden relative shrink-0">
-              <Image src={info.avatar} alt={info.name} fill className="object-cover" sizes="36px" />
-            </div>
-          ) : (
-            <div className="w-9 h-9 rounded-full bg-light-green flex items-center justify-center shrink-0">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
-                  fill="#2a363b"
-                />
-              </svg>
-            </div>
-          )}
-          <p className="font-gothic font-medium text-[14px] leading-none text-dark-green">{info.name}</p>
-        </div>
-        <p className="font-gothic font-medium text-[14px] leading-[1.8] text-black">{item.text}</p>
+    <div className="flex gap-4 tablet:gap-[51px] items-start">
+      <div className="flex flex-col items-center shrink-0 w-[40px] tablet:w-auto">
+        {info.avatar ? (
+          <div className="w-10 h-10 tablet:w-[50px] tablet:h-[50px] rounded-full overflow-hidden relative shrink-0">
+            <Image src={info.avatar} alt={info.name} fill className="object-cover" sizes="50px" />
+          </div>
+        ) : (
+          <div className="w-10 h-10 tablet:w-[50px] tablet:h-[50px] rounded-full bg-light-green flex items-center justify-center shrink-0">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="tablet:w-6 tablet:h-6">
+              <path
+                d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                fill="#2a363b"
+              />
+            </svg>
+          </div>
+        )}
+        <p className="font-gothic font-medium text-[10px] tablet:text-[12px] leading-none text-dark-green text-center whitespace-nowrap mt-1">
+          {info.name}
+        </p>
       </div>
-      {/* PC: avatar 左 / text 右 */}
-      <div className="hidden tablet:flex gap-[51px] items-start">
-        <div className="flex flex-col items-center shrink-0">
-          {info.avatar ? (
-            <div className="w-[50px] h-[50px] rounded-full overflow-hidden relative shrink-0">
-              <Image src={info.avatar} alt={info.name} fill className="object-cover" sizes="50px" />
-            </div>
-          ) : (
-            <ModeratorIcon />
-          )}
-          <p className="text-caption text-dark-green text-center whitespace-nowrap mt-1">{info.name}</p>
-        </div>
-        <div className="flex-1 pb-12 pt-2">
-          <p className="text-body-l text-black leading-[1.8]">{item.text}</p>
-        </div>
+      <div className="flex-1 min-w-0 pb-8 tablet:pb-12 tablet:pt-2">
+        <p className="font-gothic font-medium text-[14px] leading-[1.8] tablet:text-[18px] tablet:leading-[1.8] text-black">{item.text}</p>
       </div>
-    </>
+    </div>
   );
 }
 
@@ -283,10 +269,13 @@ export default function StaffInterviewPage() {
         />
       </section>
 
-      {/* インタビューセクション（PC: サイドバー付き / SP: TOC 非表示, 縦積み） */}
+      {/* SP: フローティング TOC ボタン (Figma 4211:11761 closed / 4211:11779 open) */}
+      <MobileTocNav items={tocItems} />
+
+      {/* インタビューセクション（PC: サイドバー付き / SP: フローティング TOC） */}
       <section className="pt-12 tablet:pt-24 pb-12 tablet:pb-24 px-4 tablet:pl-[45px] tablet:pr-[75px] max-w-[1440px] mx-auto">
         <div className="flex max-tablet:flex-col items-start tablet:justify-between">
-          {/* PC: TOC サイドバー（スクロール追従）。SP は Figma 4211:11614 に TOC が無いため非表示 */}
+          {/* PC: TOC サイドバー（スクロール追従）。SP は MobileTocNav で代替 */}
           <div className="hidden tablet:block tablet:w-[323px] shrink-0 tablet:sticky tablet:top-24">
             <div className="bg-light-green rounded-[32px] px-[30px] py-[45px]">
               <TocNav items={tocItems} />
@@ -294,7 +283,7 @@ export default function StaffInterviewPage() {
           </div>
 
           {/* 右コンテンツ */}
-          <div className="w-full tablet:w-[792px]">
+          <div className="w-full tablet:w-[792px]" data-mobile-toc-start>
             {/* セクション見出し */}
             <div className="mb-16" id="toc-0">
               <p className="text-body-m font-gothic font-medium text-dark-green mb-4">インタビュー</p>
@@ -386,8 +375,8 @@ export default function StaffInterviewPage() {
               })()}
             </div>
 
-            {/* スタッフプロフィール */}
-            <div className="bg-light-green rounded-2xl p-12 mt-16">
+            {/* スタッフプロフィール (data-mobile-toc-end: ここまで TOC ボタン表示) */}
+            <div className="bg-light-green rounded-2xl p-12 mt-16" data-mobile-toc-end>
               <div className="grid grid-cols-1 tablet:grid-cols-2 gap-12">
                 {staffProfiles.map((staff) => (
                   <div key={staff.name}>

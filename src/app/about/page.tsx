@@ -295,11 +295,11 @@ export default function AboutPage() {
               <dl className="divide-y divide-dark-green/20 border-b border-dark-green/20">
                 <div className="flex items-center justify-between gap-4 py-5 tablet:py-6">
                   <dt className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green shrink-0">商号</dt>
-                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black text-right tablet:text-left tablet:flex-1 tablet:pl-10">有限会社アイ企画</dd>
+                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black text-right">有限会社アイ企画</dd>
                 </div>
                 <div className="flex items-center justify-between gap-4 py-5 tablet:py-6">
                   <dt className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green shrink-0">設立</dt>
-                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black text-right tablet:text-left tablet:flex-1 tablet:pl-10">昭和61年12月</dd>
+                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black text-right">昭和61年12月</dd>
                 </div>
                 <div className="flex flex-col gap-4 py-5 tablet:py-6">
                   <div className="flex items-center justify-between gap-4">
@@ -328,11 +328,11 @@ export default function AboutPage() {
                 </div>
                 <div className="flex items-center justify-between gap-4 py-5 tablet:py-6">
                   <dt className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green shrink-0">電話</dt>
-                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black text-right tablet:text-left tablet:flex-1 tablet:pl-10">055-976-5300</dd>
+                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black text-right">055-976-5300</dd>
                 </div>
                 <div className="flex items-center justify-between gap-4 py-5 tablet:py-6">
                   <dt className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green shrink-0">FAX</dt>
-                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black text-right tablet:text-left tablet:flex-1 tablet:pl-10">055-976-5301</dd>
+                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black text-right">055-976-5301</dd>
                 </div>
                 <div className="flex items-start justify-between gap-4 py-5 tablet:py-6">
                   <dt className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green shrink-0">営業時間</dt>
@@ -346,23 +346,23 @@ export default function AboutPage() {
                 </div>
                 <div className="flex items-center justify-between gap-4 py-5 tablet:py-6">
                   <dt className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green shrink-0">休業日</dt>
-                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black text-right tablet:text-left tablet:flex-1 tablet:pl-10">日曜日・祝日</dd>
+                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black text-right">日曜日・祝日</dd>
                 </div>
                 <div className="flex items-start justify-between gap-4 py-5 tablet:py-6">
                   <dt className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green shrink-0">事業案内</dt>
-                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black text-right tablet:text-left tablet:flex-1 tablet:pl-10 max-w-[60%] tablet:max-w-none">土地・中古住宅・店舗の売買媒介及び賃貸物件の管理・媒介</dd>
+                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black text-right max-w-[60%] tablet:max-w-[440px]">土地・中古住宅・店舗の売買媒介及び賃貸物件の管理・媒介</dd>
                 </div>
                 <div className="flex items-center justify-between gap-4 py-5 tablet:py-6">
                   <dt className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green shrink-0">代表者</dt>
-                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black text-right tablet:text-left tablet:flex-1 tablet:pl-10">代表取締役　髙野大地</dd>
+                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black text-right">代表取締役　髙野大地</dd>
                 </div>
                 <div className="flex items-start justify-between gap-4 py-5 tablet:py-6">
                   <dt className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green shrink-0">免許</dt>
-                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black text-right tablet:text-left tablet:flex-1 tablet:pl-10 max-w-[60%] tablet:max-w-none">宅地建物取引業免許　静岡県知事（10）第6124号</dd>
+                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black text-right max-w-[60%] tablet:max-w-[440px]">宅地建物取引業免許　静岡県知事（10）第6124号</dd>
                 </div>
                 <div className="flex items-start justify-between gap-4 py-5 tablet:py-6">
                   <dt className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green shrink-0">加盟団体</dt>
-                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black text-right tablet:text-left tablet:flex-1 tablet:pl-10">
+                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black text-right">
                     公益社団法人　全国宅地建物取引業保証協会<br />
                     公益社団法人　静岡県宅地建物取引業協会<br />
                     公益社団法人　東海不動産公正取引協議会
@@ -370,7 +370,7 @@ export default function AboutPage() {
                 </div>
                 <div className="flex items-center justify-between gap-4 py-5 tablet:py-6">
                   <dt className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green shrink-0">資本金</dt>
-                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black text-right tablet:text-left tablet:flex-1 tablet:pl-10">500万円</dd>
+                  <dd className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-black text-right">500万円</dd>
                 </div>
               </dl>
             </div>
