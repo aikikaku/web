@@ -104,8 +104,11 @@ export default function HeroCardStory({
         </div>
       </div>
 
-      {/* PC: 3 枚レイアウト (左 280×368 / 中央 704 / 右 280×374) */}
-      <div className="hidden tablet:block relative w-full max-w-[1440px] mx-auto h-[838px]">
+      {/* PC: 3 枚レイアウト (左 280×368 / 中央 704 / 右 280×374)
+          Figma 1440 フレームで left=0, center=368-1072 (= viewport center ± 352), right=1160-1440。
+          viewport > 1440 でも左右の写真は viewport edge に貼り付くべきなので max-w-1440 を使わず
+          viewport 直接アンカリング (left-0 / right-0) する。center は left-1/2 -translate-x-1/2。 */}
+      <div className="hidden tablet:block relative w-full h-[838px]">
         <div className="absolute left-0 top-[470px] w-[280px] h-[368px] rounded-2xl overflow-hidden">
           <Image
             src={leftImage}
