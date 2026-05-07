@@ -1,6 +1,5 @@
 import { getProperties, getCustomerVoices, getStories } from '@/lib/microcms/queries';
-import PropertyCard from '@/components/property/PropertyCard';
-import PropertyCarousel from '@/components/home/PropertyCarousel';
+import MoreProperties from '@/components/property/MoreProperties';
 import VoiceCarousel from '@/components/home/VoiceCarousel';
 import StoryCard from '@/components/story/StoryCard';
 import SeeAllLink from '@/components/ui/SeeAllLink';
@@ -106,15 +105,17 @@ export default async function ForCustomerPage() {
         }}
       />
 
-      {/* ヒーロー (Figma SP 4211:11782 - title 2 行 + image 縦長 / PC 4211:11401-11404) */}
-      <section className="page-container pb-12 tablet:pb-24 pt-8 tablet:pt-0">
-        <div className="flex flex-col tablet:flex-row items-stretch tablet:items-center gap-8 tablet:gap-0">
+      {/* ヒーロー (Figma 4211:11401-11404).
+          PC: 1440 frame で text frame at x=75 w=645 + image at x=720 w=645、左右 75px outer padding。
+              page-container だと max-1280 + 64 padding で text が 144px 内側にずれていたので、px-[75px] / max-w-[1440px] に変更 */}
+      <section className="px-4 tablet:px-[75px] pb-12 tablet:pb-24 pt-8 tablet:pt-0 max-w-[1440px] mx-auto">
+        <div className="flex flex-col tablet:flex-row items-stretch tablet:items-center gap-8 tablet:gap-[30px]">
           <div className="flex-1 flex items-start tablet:items-center">
-            <h1 className="font-mincho text-[40px] tablet:text-[48px] leading-[1.5] tracking-[1.6px] tablet:tracking-[1.92px] text-dark-green tablet:whitespace-nowrap" style={{ fontFeatureSettings: "'palt' 1" }}>
+            <h1 className="font-mincho text-[40px] tablet:text-[48px] leading-[1.5] tracking-[1.6px] tablet:tracking-[1.92px] text-dark-green text-left" style={{ fontFeatureSettings: "'palt' 1" }}>
               不動産を<br className="tablet:hidden" />お探しの方へ
             </h1>
           </div>
-          <div className="w-full tablet:w-[675px] shrink-0 tablet:pl-[30px]">
+          <div className="w-full tablet:w-[645px] shrink-0">
             <div className="relative aspect-[358/443] tablet:aspect-auto tablet:h-[640px] rounded-3xl overflow-hidden">
               <Image
                 src="/images/for-customer/hero.jpg"
@@ -122,7 +123,7 @@ export default async function ForCustomerPage() {
                 fill
                 className="object-cover"
                 priority
-                sizes="(max-width: 992px) 100vw, 675px"
+                sizes="(max-width: 992px) 100vw, 645px"
               />
             </div>
           </div>
@@ -294,30 +295,14 @@ export default async function ForCustomerPage() {
         </div>
       </section>
 
-      {/* 物件情報 (Figma 4211:11427 — home の PropertyCarousel を転用) */}
+      {/* 物件情報 (Figma 4211:11428): /properties/[id] の「もっと物件を見る」と同パターン → MoreProperties 転用 */}
       {properties.contents.length > 0 && (
-        <section className="bg-cream pt-[60px] pb-[60px] tablet:pt-24 tablet:pb-0">
+        <section className="bg-cream py-[60px] tablet:py-24">
           <div className="px-4 tablet:px-[75px] max-w-[1440px] mx-auto">
-            <div className="flex flex-col gap-2 mb-8 tablet:mb-[96px]">
-              <p className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green">
-                物件情報
-              </p>
-              <h2 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.28px] tablet:tracking-[1.92px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
-                おすすめの物件
-              </h2>
-            </div>
-          </div>
-          {/* SP: スライドショー / PC: 3 列グリッド */}
-          <PropertyCarousel properties={properties.contents.slice(0, 6)} />
-          <div className="hidden tablet:block max-w-[1440px] mx-auto px-[75px]">
-            <div className="grid grid-cols-3 gap-x-[30px] gap-y-[96px]">
-              {properties.contents.slice(0, 6).map((property) => (
-                <PropertyCard key={property.id} property={property} />
-              ))}
-            </div>
-            <div className="flex items-center justify-end mt-[96px]">
-              <SeeAllLink href="/properties" />
-            </div>
+            <h2 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.28px] tablet:tracking-[1.92px] text-dark-green mb-8 tablet:mb-12" style={{ fontFeatureSettings: "'palt' 1" }}>
+              物件情報
+            </h2>
+            <MoreProperties properties={properties.contents.slice(0, 6)} />
           </div>
         </section>
       )}
