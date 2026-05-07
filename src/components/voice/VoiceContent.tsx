@@ -123,55 +123,40 @@ export default function VoiceContent({ voices }: { voices: CustomerVoice[] }) {
 
   return (
     <div ref={containerRef} className="flex flex-col tablet:flex-row gap-8 tablet:justify-between">
-      {/* カテゴリナビ - PC: 左サイドバー (sticky), SP: 上部ピル */}
-      <div className="shrink-0">
-        {/* SP: ピルボタン (現状維持) */}
-        <div className="flex flex-wrap gap-2 tablet:hidden">
-          {categories.map((cat) => (
-            <button
-              key={cat.key}
-              onClick={() => handleClick(cat.key)}
-              className={`px-4 py-2 rounded-full font-gothic font-medium text-[14px] leading-none transition-colors ${
-                activeCategory === cat.key
-                  ? 'bg-dark-green text-white'
-                  : 'bg-light-green text-dark-green'
-              }`}
-            >
-              {cat.label}
-            </button>
-          ))}
-        </div>
+      {/* SP: floating 検索バー (Figma 4211:12143/12157) — 別コンポーネント MobileVoiceFilter で実装 */}
+      <MobileVoiceFilter activeKey={activeCategory} onSelect={handleClick} />
 
-        {/* PC: サイドバー (sticky, scroll 連動) */}
-        <div className="hidden tablet:block tablet:w-[323px]">
-          <div className="bg-light-green rounded-[32px] px-[30px] py-[45px] sticky top-24">
-            <nav className="flex flex-col gap-6">
-              {categories.map((cat) => {
-                const isActive = activeCategory === cat.key;
-                return (
-                  <button
-                    key={cat.key}
-                    type="button"
-                    onClick={() => handleClick(cat.key)}
-                    className={`flex items-center gap-3 text-left cursor-pointer transition-opacity duration-300 ${
-                      isActive ? 'opacity-100' : 'opacity-50'
+      {/* PC: 左サイドバー (sticky, scroll 連動).
+          sticky の containing block を「PC では tablet:w-[323px]」「flex row stretch で tall」にすると、
+          sticky 要素が containing block の height 内に room を持って top-24 で stick する */}
+      <aside className="hidden tablet:block tablet:w-[323px] shrink-0">
+        <div className="sticky top-24 bg-light-green rounded-[32px] px-[30px] py-[45px]">
+          <nav className="flex flex-col gap-6">
+            {categories.map((cat) => {
+              const isActive = activeCategory === cat.key;
+              return (
+                <button
+                  key={cat.key}
+                  type="button"
+                  onClick={() => handleClick(cat.key)}
+                  className={`flex items-center gap-3 text-left cursor-pointer transition-opacity duration-300 ${
+                    isActive ? 'opacity-100' : 'opacity-50'
+                  }`}
+                >
+                  <div
+                    className={`w-[10px] h-[10px] rounded-full shrink-0 transition-colors ${
+                      isActive ? 'bg-dark-green' : 'bg-dark-green/40'
                     }`}
-                  >
-                    <div
-                      className={`w-[10px] h-[10px] rounded-full shrink-0 transition-colors ${
-                        isActive ? 'bg-dark-green' : 'bg-dark-green/40'
-                      }`}
-                    />
-                    <span className="font-gothic font-medium text-[16px] leading-[1.5] text-dark-green">
-                      {cat.label}
-                    </span>
-                  </button>
-                );
-              })}
-            </nav>
-          </div>
+                  />
+                  <span className="font-gothic font-medium text-[16px] leading-[1.5] text-dark-green">
+                    {cat.label}
+                  </span>
+                </button>
+              );
+            })}
+          </nav>
         </div>
-      </div>
+      </aside>
 
       {/* ボイスリスト (カテゴリ別 section) */}
       <div className="w-full tablet:flex-1 tablet:max-w-[704px]">
@@ -200,6 +185,136 @@ export default function VoiceContent({ voices }: { voices: CustomerVoice[] }) {
           </p>
         )}
       </div>
+    </div>
+  );
+}
+
+/**
+ * SP 用の floating カテゴリ絞り込みボタン + モーダル。
+ * Figma 4211:12143 (closed) / 4211:12157 (open) 準拠。
+ *
+ * - bottom-4 中央に「絞り込む + filter icon」のピル
+ * - クリックで全画面モーダル表示 → カテゴリ radio リスト + 「絞り込み」ボタン + ×
+ * - 「絞り込み」 = 選択カテゴリへ smooth scroll、× = キャンセル
+ */
+function MobileVoiceFilter({
+  activeKey,
+  onSelect,
+}: {
+  activeKey: CategoryKey;
+  onSelect: (key: CategoryKey) => void;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [draftKey, setDraftKey] = useState<CategoryKey>(activeKey);
+
+  const open = () => {
+    setDraftKey(activeKey);
+    setIsOpen(true);
+    document.body.style.overflow = 'hidden';
+  };
+  const close = () => {
+    setIsOpen(false);
+    document.body.style.overflow = '';
+  };
+  const apply = () => {
+    onSelect(draftKey);
+    close();
+  };
+
+  return (
+    <div className="tablet:hidden">
+      {/* Closed: 中央寄せピル (Figma 4211:12143 358×56) */}
+      <button
+        type="button"
+        onClick={open}
+        className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 inline-flex items-center bg-cream border border-dark-green/20 rounded-full pl-10 pr-5 py-2 shadow-[0_-1px_4px_rgba(0,0,0,0.1)] w-[342px] h-14"
+        aria-label="カテゴリを絞り込む"
+      >
+        <span className="flex-1 text-center font-gothic font-medium text-[14px] leading-[1.8] text-dark-green">
+          絞り込む
+        </span>
+        <span className="size-5 inline-flex items-center justify-center shrink-0">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M3 5h14" stroke="#2a363b" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M3 10h14" stroke="#2a363b" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M3 15h14" stroke="#2a363b" strokeWidth="1.5" strokeLinecap="round" />
+            <circle cx="7" cy="5" r="1.5" fill="#fcfff7" stroke="#2a363b" strokeWidth="1.5" />
+            <circle cx="13" cy="10" r="1.5" fill="#fcfff7" stroke="#2a363b" strokeWidth="1.5" />
+            <circle cx="9" cy="15" r="1.5" fill="#fcfff7" stroke="#2a363b" strokeWidth="1.5" />
+          </svg>
+        </span>
+      </button>
+
+      {/* Open: 全画面モーダル (Figma 4211:12157) */}
+      {isOpen && (
+        <div className="fixed inset-0 z-50">
+          <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" onClick={close} />
+          <div className="absolute inset-0 flex items-center justify-center px-6 py-12">
+            <div className="flex flex-col items-end gap-2 w-full max-w-[342px]">
+              {/* close (×) right-top */}
+              <button
+                type="button"
+                onClick={close}
+                className="size-11 rounded-full bg-dark-green flex items-center justify-center shrink-0"
+                aria-label="閉じる"
+              >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M12 4L4 12M4 4l8 8" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+                </svg>
+              </button>
+
+              {/* main panel */}
+              <div className="bg-cream rounded-3xl shadow-[0_0_8px_rgba(0,0,0,0.16)] w-full px-6 py-8 flex flex-col gap-8">
+                {/* category radio list */}
+                <ul className="flex flex-col gap-1">
+                  {categories.map((cat) => {
+                    const isActive = draftKey === cat.key;
+                    return (
+                      <li key={cat.key}>
+                        <button
+                          type="button"
+                          onClick={() => setDraftKey(cat.key)}
+                          className="flex items-center gap-3 h-10 w-full text-left"
+                        >
+                          <span
+                            className={`size-[10px] rounded-full shrink-0 transition-colors ${
+                              isActive ? 'bg-dark-green' : 'bg-dark-green/40'
+                            }`}
+                          />
+                          <span className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green">
+                            {cat.label}
+                          </span>
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+
+                {/* action: 絞り込み + × clear */}
+                <div className="flex gap-2 h-10 shrink-0">
+                  <button
+                    type="button"
+                    onClick={apply}
+                    className="flex-1 h-full bg-dark-green text-white rounded-lg font-gothic font-medium text-[14px] leading-none"
+                  >
+                    絞り込み
+                  </button>
+                  <button
+                    type="button"
+                    onClick={close}
+                    className="w-[61px] h-full border border-dark-green rounded-lg flex items-center justify-center shrink-0"
+                    aria-label="キャンセル"
+                  >
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                      <path d="M13.5 4.5L4.5 13.5M4.5 4.5l9 9" stroke="#2a363b" strokeWidth="1.5" strokeLinecap="round" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
