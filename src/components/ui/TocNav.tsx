@@ -58,7 +58,7 @@ export default function TocNav({ items }: TocNavProps) {
             key={i}
             type="button"
             onClick={() => handleClick(i)}
-            className="flex items-center h-[40px] text-left cursor-pointer"
+            className="flex items-center h-[56px] text-left cursor-pointer"
           >
             {/* タイムラインドット + 線 */}
             <div className="w-[40px] flex flex-col items-center h-full shrink-0">
