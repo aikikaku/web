@@ -1,5 +1,6 @@
 import { getCustomerVoices, getStories } from '@/lib/microcms/queries';
 import VoiceCarousel from '@/components/home/VoiceCarousel';
+import StoryCarousel from '@/components/home/StoryCarousel';
 import SeeAllLink from '@/components/ui/SeeAllLink';
 import FaqAccordion from '@/components/ui/FaqAccordion';
 import StoryCard from '@/components/story/StoryCard';
@@ -246,7 +247,7 @@ export default async function ForOwnerPage() {
             {features.map((feature, i) => (
               <div
                 key={feature.title}
-                className={`flex flex-col tablet:flex-row gap-8 tablet:gap-[58px] items-start ${i < features.length - 1 ? 'border-b border-dark-green/20 pb-24' : ''}`}
+                className={`flex flex-col tablet:flex-row gap-8 tablet:gap-[58px] items-start ${i < features.length - 1 ? 'pb-12 tablet:pb-24' : ''}`}
               >
                 {/* Image */}
                 <div className="w-full tablet:w-[616px] shrink-0">
@@ -312,14 +313,19 @@ export default async function ForOwnerPage() {
         </div>
       </section>
 
-      {/* 物件のその後のはなし */}
+      {/* 物件のその後のはなし (Figma 4211:11931) — SP は StoryCarousel / PC は 3 列グリッド */}
       {stories.contents.length > 0 && (
-        <section className="bg-dark-green py-24 pb-16">
-          <div className="page-container">
-            <h2 className="font-mincho text-[32px] tracking-wider text-cream mb-16">
+        <section className="bg-dark-green py-[60px] tablet:py-24">
+          <div className="px-4 tablet:px-[75px] max-w-[1440px] mx-auto mb-8 tablet:mb-16">
+            <h2 className="font-mincho text-[28px] tablet:text-[48px] leading-[1.5] tracking-[1.12px] tablet:tracking-[1.92px] text-cream" style={{ fontFeatureSettings: "'palt' 1" }}>
               物件のその後のはなし
             </h2>
-            <div className="grid grid-cols-1 tablet:grid-cols-3 gap-8 mb-16">
+          </div>
+          {/* SP: スライドショー */}
+          <StoryCarousel stories={stories.contents} />
+          {/* PC: 3 列グリッド + すべて見る */}
+          <div className="hidden tablet:block px-[75px] max-w-[1440px] mx-auto">
+            <div className="grid grid-cols-3 gap-[30px] mb-16">
               {stories.contents.map((story) => (
                 <StoryCard key={story.id} story={story} variant="dark" />
               ))}
