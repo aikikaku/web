@@ -191,11 +191,11 @@ export default async function ForCustomerPage() {
                     </p>
                   </div>
                 </div>
-                {/* Figma 4211:11798 / 4211:9903: card と card の間に 24×24 frame の ▼ (gap 8px) */}
+                {/* Figma 4211:11798 / 4211:11801 (Polygon2 21×18 の正三角形). gap 8px */}
                 {i < steps.length - 1 && (
                   <span className="inline-flex items-center justify-center w-6 h-6 my-2">
-                    <svg width="22" height="13" viewBox="0 0 22 13" fill="none" className="text-dark-green">
-                      <path d="M11 13L0 0H22L11 13Z" fill="currentColor" />
+                    <svg width="21" height="18" viewBox="0 0 20.7846 18" fill="currentColor" className="text-dark-green">
+                      <path d="M10.3923 18L20.7846 0H0L10.3923 18Z" />
                     </svg>
                   </span>
                 )}
