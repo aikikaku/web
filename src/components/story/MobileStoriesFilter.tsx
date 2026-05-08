@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import MultiSelectDropdown from '@/components/ui/MultiSelectDropdown';
 
 const categories = [
   { value: '', label: 'すべて' },
@@ -99,7 +100,6 @@ export default function MobileStoriesFilter() {
   }, []);
 
   const categoryLabel = categories.find((c) => c.value === localCategory)?.label || 'カテゴリ';
-  const regionLabel = localRegions.length > 0 ? localRegions.join('・') : '地域';
 
   return (
     <div className="tablet:hidden">
@@ -202,56 +202,15 @@ export default function MobileStoriesFilter() {
                   )}
                 </div>
 
-                {/* region dropdown */}
-                <div className="flex flex-col gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setOpenSection(openSection === 'region' ? null : 'region')}
-                    className={`flex items-center gap-2 h-14 px-4 rounded-lg border border-dark-green w-full ${
-                      openSection === 'region' ? 'bg-light-green' : 'bg-cream'
-                    }`}
-                  >
-                    <span className={`flex-1 text-left font-gothic font-medium text-[16px] leading-[2] truncate ${localRegions.length > 0 ? 'text-dark-green' : 'text-dark-green/40'}`}>
-                      {regionLabel}
-                    </span>
-                    <svg
-                      width="21" height="21" viewBox="0 0 21 21" fill="none"
-                      className={`shrink-0 transition-transform ${openSection === 'region' ? 'rotate-180' : ''}`}
-                    >
-                      <path d="M5.5 8L10.5 13L15.5 8" stroke="#2a363b" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </button>
-                  {openSection === 'region' && (
-                    <div className="bg-cream rounded-lg shadow-[0_0_8px_rgba(0,0,0,0.16)] py-4 flex flex-col">
-                      {regions.map((region) => {
-                        const isChecked = localRegions.includes(region);
-                        return (
-                          <button
-                            key={region}
-                            type="button"
-                            onClick={() => toggleRegion(region)}
-                            className="flex items-center gap-2 h-8 pl-4 pr-2 hover:bg-light-green/50 text-left"
-                          >
-                            <span
-                              className={`size-[18px] inline-flex items-center justify-center rounded border shrink-0 ${
-                                isChecked ? 'bg-dark-green border-dark-green' : 'border-dark-green/40'
-                              }`}
-                            >
-                              {isChecked && (
-                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                                  <path d="M3 7l3 3 5-6" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                              )}
-                            </span>
-                            <span className="font-gothic font-medium text-[14px] leading-[1.8] text-black">
-                              {region}
-                            </span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
+                {/* region dropdown (Figma 4211:26323 共通 MultiSelectDropdown) */}
+                <MultiSelectDropdown
+                  isOpen={openSection === 'region'}
+                  onToggle={() => setOpenSection(openSection === 'region' ? null : 'region')}
+                  options={regions.map((r) => ({ value: r, label: r }))}
+                  selected={localRegions}
+                  onChange={toggleRegion}
+                  placeholder="地域"
+                />
               </div>
 
               {/* action: 絞り込み + × clear (shrink-0 で dropdown 開時に潰れない) */}
