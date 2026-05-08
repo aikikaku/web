@@ -105,16 +105,17 @@ export default async function ForCustomerPage() {
         }}
       />
 
-      {/* ヒーロー (Figma 4211:11400 PC: 1440×784 / 4211:11782 SP).
-          PC: top 48px + content 640px + bottom 96px. SP: top/bottom 60px. */}
-      <section className="px-4 tablet:px-[75px] pb-[60px] tablet:pb-24 pt-[60px] tablet:pt-12 max-w-[1440px] mx-auto">
+      {/* ヒーロー (Figma 4211:11400 PC = 1440×784, Figma 4211:11782 SP).
+          PC: outer margin なし。text frame at x=75, image at x=720-1395 (右 45px gap)
+          → 親 section に padding なし、text col に tablet:pl-[75px]、image col は flush right */}
+      <section className="pb-[60px] tablet:pb-24 pt-[60px] tablet:pt-12 max-w-[1440px] mx-auto">
         <div className="flex flex-col tablet:flex-row items-stretch tablet:items-center gap-6 tablet:gap-[30px]">
-          <div className="flex-1 flex items-start tablet:items-center">
+          <div className="flex-1 flex items-start tablet:items-center px-4 tablet:pl-[75px] tablet:pr-0">
             <h1 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.28px] tablet:tracking-[1.92px] text-dark-green text-left" style={{ fontFeatureSettings: "'palt' 1" }}>
               不動産を<br className="tablet:hidden" />お探しの方へ
             </h1>
           </div>
-          <div className="w-full tablet:w-[645px] shrink-0">
+          <div className="w-full px-4 tablet:px-0 tablet:w-[675px] tablet:mr-[45px] shrink-0">
             <div className="relative aspect-[358/443] tablet:aspect-auto tablet:h-[640px] rounded-3xl overflow-hidden">
               <Image
                 src="/images/for-customer/hero.jpg"
@@ -122,7 +123,7 @@ export default async function ForCustomerPage() {
                 fill
                 className="object-cover"
                 priority
-                sizes="(max-width: 992px) 100vw, 645px"
+                sizes="(max-width: 992px) 100vw, 675px"
               />
             </div>
           </div>

@@ -394,3 +394,84 @@ slideshow navigationの上下の余白が異なる
 ### 6-5. SPサイズ 「もっと物件をみる」コンポーネント上下余白
 もっと物件をみるコンポーネントの上下の余白が異なる(一つのコンポーネントのfigma指示を守っても前後のコンポーネントの余白調整を肉眼で見て調整する必要があります)
 - https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10794&m=dev
+
+### 6-6. PCサイズ pickup物件サムネイルクリック挙動【デグレ】
+pickup物件のコンポーネント内でサムネイルの写真をクリックしても何も起きなくなりました。サムネイルの写真をクリックしたらカード内のメインの表示写真が変わるようにしてほしいです
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10159&m=dev
+
+### 6-7. PCサイズ 「もっと物件をみる」横スクロール仕様【再指摘】
+もっと物件をみるコンポーネントは横スクロールでFigma上でデザインされています詳細で表示されているものと同じ物件種別の物件をランダムで最大6件表示します
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10268&m=dev
+
+### 6-8. SPサイズ pickupの編みかけスタイル/DOM位置
+ストーリー詳細のページでもそうですが、pickupの編みかけのスタイリングというか、domの位置というか、が違う気がします
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10798&m=dev
+
+### 6-9. SPサイズ 絞り込みnavの幅・高さ【再指摘】
+物件一覧の絞り込みnavでも指摘しましたがもう少し幅が広くて高さもある気がします
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10920&m=dev
+
+### 6-10. SPサイズ リッチテキストのスタイリング
+リッチテキストで書かれた内容について、正しくスタイリングできているか確認してほしい。特に余白について。なんか違う気がする。そしてそのロジックはストーリー詳細にも適用できるはず
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10799&m=dev
+
+### 6-11. SPサイズ 物件資料とお問い合わせの上の余白
+物件資料とお問い合わせの上の余白が多い気がする
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10799&m=dev
+
+### 6-12. SPサイズ 「もっと物件を見る」横スクロール
+もっと物件を見るコンポーネントについて、横スクロールです。
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10830&m=dev
+
+---
+
+## 7. `/about`
+
+### 7-1. PCサイズ 背景未反映【再指摘】
+またこの背景ができていない。`[Pasted text #6 +4 lines]` が効いていないのかもしれない。他の箇所を参考にしてください
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10023&m=dev
+
+### 7-2. PCサイズ 配置がおかしい(その1)
+この部分の配置がおかしい。実際にスクショで確認してみて
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10025&m=dev
+
+### 7-3. PCサイズ 配置がおかしい(その2)
+同じくこの部分の配置もおかしい。
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10036&m=dev
+
+### 7-4. PCサイズ レイアウトがFigma通りでない
+ここのレイアウトもfigma通りじゃない
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-10099&m=dev
+
+### 7-5. SPサイズ 写真の大きさ
+写真の大きさが違う
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-11109&m=dev
+
+### 7-6. SPサイズ 文字部分が違う
+文字部分もだいぶ違う
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-11107&m=dev
+
+### 7-7. SPサイズ Figmaとのずれ(背景スタイル未反映?)
+この部分も大きくfigmaとずれている。`[Pasted text #7 +4 lines]`が効いてないのかも
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-11110&m=dev
+
+### 7-8. SPサイズ Figmaと大きく違う(その1)
+この部分も大きく違う
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-11115&m=dev
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-11116&m=dev
+
+### 7-9. SPサイズ 画像がそもそもない
+画像がそもそもない
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-11118&m=dev
+
+### 7-10. SPサイズ 「もっと見る」コンポーネントの見た目
+もっと見るのコンポーネントはスマホサイズになったらこの見た目になるべきでは?
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-11119&m=dev
+
+### 7-11. SPサイズ Figmaと大きく違う(その2)
+上記同様、この部分も大きく違う。
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-11120&m=dev
+
+### 7-12. SPサイズ タイポグラフィと画像未反映
+上記同様、この部分もタイポグラフィも違うし、画像も入っていない
+- https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/%E3%82%A2%E3%82%A4%E4%BC%81%E7%94%BB--Dev-?node-id=4211-11127&m=dev
