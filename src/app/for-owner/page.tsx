@@ -2,7 +2,8 @@ import { getCustomerVoices, getStories } from '@/lib/microcms/queries';
 import VoiceCarousel from '@/components/home/VoiceCarousel';
 import StorySection from '@/components/story/StorySection';
 import SeeAllLink from '@/components/ui/SeeAllLink';
-import FaqAccordion from '@/components/ui/FaqAccordion';
+import FaqSection from '@/components/ui/FaqSection';
+import ContactCtaBanner from '@/components/ui/ContactCtaBanner';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
@@ -116,11 +117,11 @@ export default async function ForOwnerPage() {
         }}
       />
 
-      {/* ヒーロー (Figma 4211:11456) — Round 28 /for-customer と同じパターン (75px 外余白 + 645/645) */}
-      <section className="px-4 tablet:px-[75px] pb-12 tablet:pb-24 pt-8 tablet:pt-0 max-w-[1440px] mx-auto">
-        <div className="flex flex-col tablet:flex-row items-stretch tablet:items-center gap-8 tablet:gap-[30px]">
+      {/* ヒーロー (Figma PC 4211:11456 / SP 4211:11898) */}
+      <section className="px-4 tablet:px-[75px] pb-12 tablet:pb-24 pt-[60px] tablet:pt-0 max-w-[1440px] mx-auto">
+        <div className="flex flex-col tablet:flex-row items-stretch tablet:items-center gap-6 tablet:gap-[30px]">
           <div className="flex-1 flex items-start tablet:items-center">
-            <h1 className="font-mincho text-[40px] tablet:text-[48px] leading-[1.5] tracking-[1.6px] tablet:tracking-[1.92px] text-dark-green text-left" style={{ fontFeatureSettings: "'palt' 1" }}>
+            <h1 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.28px] tablet:tracking-[1.92px] text-dark-green text-left" style={{ fontFeatureSettings: "'palt' 1" }}>
               不動産を<br className="tablet:hidden" />お持ちの方へ
             </h1>
           </div>
@@ -385,84 +386,18 @@ export default async function ForOwnerPage() {
         </section>
       )}
 
-      {/* よくある質問 */}
-      <section className="bg-cream py-[60px] tablet:py-[96px]">
-        <div className="px-4 tablet:px-[75px] max-w-[1440px] mx-auto">
-          <div className="flex flex-col tablet:flex-row gap-8 tablet:gap-[88px]">
-            <div className="tablet:w-[410px] shrink-0">
-              <h2 className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.96px] tablet:tracking-[1.28px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
-                よくある質問
-              </h2>
-            </div>
-            <FaqAccordion
-              items={faqItems.map((item) => ({ question: item.q, answer: item.a }))}
-            />
-          </div>
-        </div>
-      </section>
+      {/* よくある質問 (Figma 4211:11894) - 共通 FaqSection */}
+      <FaqSection items={faqItems.map((item) => ({ question: item.q, answer: item.a }))} />
 
-      {/* CTA バナー */}
-      <section className="px-4 tablet:px-[45px] pb-24">
-        <div className="relative overflow-hidden rounded-3xl max-w-[1350px] mx-auto">
-          <div className="relative py-16 tablet:py-24">
-            <Image
-              src="/images/for-owner/banner-contact.jpg"
-              alt="お問い合わせ"
-              fill
-              className="object-cover"
-            />
-            <div
-              className="absolute inset-0"
-              style={{
-                backgroundImage:
-                  'linear-gradient(218deg, rgba(39, 51, 59, 0.1) 26.6%, rgba(39, 51, 59, 0.25) 72.5%)',
-              }}
-            />
-            <div className="relative z-10 flex flex-col tablet:flex-row items-start tablet:items-center justify-between px-6 tablet:px-[75px] gap-8">
-              <div className="text-white">
-                <p className="text-body-m font-gothic font-medium mb-2">お問い合わせ</p>
-                <h2
-                  className="text-white font-mincho text-[32px] leading-[1.5] tracking-[1.28px]"
-                  style={{ fontFeatureSettings: "'palt' 1" }}
-                >
-                  不動産に関すること、<br />
-                  ぜひご相談ください。
-                </h2>
-              </div>
-              <div className="flex gap-3">
-                <Link
-                  href="/contact"
-                  className="bg-cream/95 rounded-3xl px-[30px] pt-10 pb-[30px] text-center w-[264px] flex flex-col items-center gap-[30px] hover:opacity-70 transition-opacity"
-                >
-                  <span className="font-gothic font-medium text-[20px] leading-[1.6] text-dark-green text-center">
-                    不動産をお持ちの方
-                  </span>
-                  <span className="bg-accent-blue w-12 h-12 rounded-full flex items-center justify-center">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                      <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                      <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </span>
-                </Link>
-                <Link
-                  href="/contact"
-                  className="bg-cream/95 rounded-3xl px-[30px] pt-10 pb-[30px] text-center w-[264px] flex flex-col items-center gap-[30px] hover:opacity-70 transition-opacity"
-                >
-                  <span className="font-gothic font-medium text-[20px] leading-[1.6] text-dark-green text-center">
-                    その他のお問い合わせ
-                  </span>
-                  <span className="bg-accent-blue w-12 h-12 rounded-full flex items-center justify-center">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                      <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                      <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </span>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* CTA バナー (Figma 4211:11813/11873) - 共通 ContactCtaBanner */}
+      <ContactCtaBanner
+        bgImage="/images/for-owner/banner-contact.jpg"
+        heading={<>不動産に関すること、<br />ぜひご相談ください。</>}
+        ctas={[
+          { label: '不動産をお持ちの方', href: '/contact' },
+          { label: 'その他のお問い合わせ', href: '/contact' },
+        ]}
+      />
     </div>
   );
 }
