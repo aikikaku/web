@@ -119,14 +119,14 @@ export default async function ForOwnerPage() {
 
       {/* ヒーロー (Figma 4211:11400 PC: 1440×784 / 4211:11898 SP).
           PC: top 48px + content 640px + bottom 96px. SP: top/bottom 60px. */}
-      <section className="px-4 tablet:px-[75px] pb-[60px] tablet:pb-24 pt-[60px] tablet:pt-12 max-w-[1440px] mx-auto">
+      <section className="pb-[60px] tablet:pb-24 pt-[60px] tablet:pt-12 max-w-[1440px] mx-auto">
         <div className="flex flex-col tablet:flex-row items-stretch tablet:items-center gap-6 tablet:gap-[30px]">
-          <div className="flex-1 flex items-start tablet:items-center">
+          <div className="flex-1 flex items-start tablet:items-center px-4 tablet:pl-[75px] tablet:pr-0">
             <h1 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.28px] tablet:tracking-[1.92px] text-dark-green text-left" style={{ fontFeatureSettings: "'palt' 1" }}>
               不動産を<br className="tablet:hidden" />お持ちの方へ
             </h1>
           </div>
-          <div className="w-full tablet:w-[645px] shrink-0">
+          <div className="w-full px-4 tablet:px-0 tablet:w-[645px] tablet:mr-[75px] shrink-0">
             <div className="relative aspect-[358/443] tablet:aspect-auto tablet:h-[640px] rounded-3xl overflow-hidden">
               <Image
                 src="/images/for-owner/hero.jpg"
