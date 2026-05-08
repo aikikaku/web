@@ -186,7 +186,7 @@ const staffProfiles = [
 function InterviewItemComponent({ item }: { item: InterviewItem }) {
   const info = speakerInfo[item.speaker];
   return (
-    <div className="flex gap-4 tablet:gap-[51px] items-start min-h-[90px] tablet:min-h-0 py-3 tablet:py-0">
+    <div className="flex gap-4 tablet:gap-[51px] items-start min-h-[90px] tablet:min-h-0 pb-6 tablet:pb-0">
       <div className="flex flex-col items-center shrink-0 w-[40px] tablet:w-auto">
         {info.avatar ? (
           <div className="w-10 h-10 tablet:w-[50px] tablet:h-[50px] rounded-full overflow-hidden relative shrink-0">
@@ -257,8 +257,9 @@ export default function StaffInterviewPage() {
       {/* SP: フローティング TOC ボタン (Figma 4211:11761 closed / 4211:11779 open) */}
       <MobileTocNav items={tocItems} />
 
-      {/* インタビューセクション（PC: サイドバー付き / SP: フローティング TOC） */}
-      <section className="pt-12 tablet:pt-24 pb-12 tablet:pb-24 px-4 tablet:pl-[45px] tablet:pr-[75px] max-w-[1440px] mx-auto">
+      {/* インタビューセクション（PC: サイドバー付き / SP: フローティング TOC）
+          Figma SP 4211:11660: section pb-[120px]、各 item pb-[24px] */}
+      <section className="pt-12 tablet:pt-24 pb-[120px] tablet:pb-24 px-4 tablet:pl-[45px] tablet:pr-[75px] max-w-[1440px] mx-auto">
         <div className="flex max-tablet:flex-col items-start tablet:justify-between">
           {/* PC: TOC サイドバー（スクロール追従）。SP は MobileTocNav で代替 */}
           <div className="hidden tablet:block tablet:w-[323px] shrink-0 tablet:sticky tablet:top-24">
