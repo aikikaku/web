@@ -48,17 +48,17 @@ export default function ContactCtaBanner({ bgImage, heading, caption = 'お問�
                 {heading}
               </h2>
             </div>
-            <div className="flex flex-col tablet:flex-row gap-3">
+            <div className="flex flex-col tablet:flex-row gap-3 w-full tablet:w-auto">
               {ctas.map((cta, i) => (
                 <Link
                   key={i}
                   href={cta.href}
-                  className="bg-cream/[0.96] rounded-3xl px-[30px] py-6 tablet:pt-[40px] tablet:pb-[30px] flex flex-row tablet:flex-col items-center justify-between tablet:gap-[30px] w-full tablet:w-[264px] hover:opacity-70 transition-opacity"
+                  className="bg-cream/[0.96] rounded-2xl tablet:rounded-3xl h-12 tablet:h-auto px-6 tablet:px-[30px] tablet:pt-[40px] tablet:pb-[30px] flex tablet:flex-col items-center justify-center tablet:gap-[30px] w-full tablet:w-[264px] hover:opacity-70 transition-opacity"
                 >
-                  <span className="font-gothic font-medium text-[16px] tablet:text-[20px] leading-[1.6] text-dark-green text-left tablet:text-center">
+                  <span className="font-gothic font-medium text-[14px] tablet:text-[20px] leading-none tablet:leading-[1.6] text-dark-green text-center">
                     {cta.label}
                   </span>
-                  <span className="bg-accent-blue w-12 h-12 rounded-full flex items-center justify-center shrink-0">
+                  <span className="hidden tablet:inline-flex bg-accent-blue w-12 h-12 rounded-full items-center justify-center shrink-0">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                       <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
                       <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
