@@ -109,6 +109,12 @@
     @apply text-xs leading-[1.8] font-medium;
   }
 
+  /* ─── /voice アコーディオン rich text 内の画像（Figma 4211:11537） ─── */
+  .voice-rich img {
+    @apply block w-full rounded-2xl my-6;
+    object-fit: contain;
+  }
+
   /* ─── リッチテキスト（microCMS richEditorV2）Figma 4211:10802 (SP) 準拠 ─── */
   /* セクションごとに pb-32 を共通の block マージンで再現する。h5+h3 のみ詰めて表示。 */
   .rich-content h3 {

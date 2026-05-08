@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import { CustomerVoice } from '@/types/microcms';
 
 const categories = [
@@ -19,6 +20,12 @@ function getCategoryKey(voice: CustomerVoice): Exclude<CategoryKey, 'all'> {
   return 'other';
 }
 
+// 暫定: microCMS の image フィールドを設定するまでの間、デモ用に id 指定で写真付きを再現する。
+// 本番運用では voice.image (microCMS image field) が入った時点でこの map は削除する。
+const demoVoiceImages: Record<string, { url: string; width: number; height: number }> = {
+  'voice-2': { url: '/images/voice/letter-1.png', width: 1058, height: 1496 },
+};
+
 function VoiceItem({
   voice,
   defaultOpen = false,
@@ -27,19 +34,32 @@ function VoiceItem({
   defaultOpen?: boolean;
 }) {
   const [open, setOpen] = useState(defaultOpen);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [maxHeight, setMaxHeight] = useState(0);
+  const image = voice.image ?? demoVoiceImages[voice.id];
 
+  useEffect(() => {
+    if (!contentRef.current) return;
+    setMaxHeight(open ? contentRef.current.scrollHeight : 0);
+  }, [open, voice.content, image]);
+
+  // Figma 4211:11537: 質問アコーディオン (FaqAccordion) と同パターン
+  // border-b + py-6 + smooth max-h transition (duration-500 ease-in-out)
   return (
-    <div className="border-b border-dark-green/20">
+    <div className="border-b border-dark-green/20 py-6 flex flex-col gap-6">
       <button
+        type="button"
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between pr-2 py-6 text-left"
+        className="w-full flex items-start justify-between pr-2 text-left cursor-pointer hover:opacity-70 transition-opacity gap-3"
       >
         <div className="flex-1 min-w-0">
           <p className="font-gothic font-medium text-[16px] leading-[2] text-black">
-            {voice.customerName}　{voice.location} / {voice.propertyType}
+            {voice.title || voice.customerName}
           </p>
           <p className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green/60">
-            {new Date(voice.date).toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })}
+            {voice.customerName}
+            {voice.location && `　${voice.location}`}
+            {voice.propertyType && ` / ${voice.propertyType}`}
           </p>
         </div>
         <svg
@@ -47,23 +67,34 @@ function VoiceItem({
           height="24"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          className={`shrink-0 ml-4 text-dark-green transition-transform ${
-            open ? 'rotate-180' : ''
-          }`}
+          className={`shrink-0 mt-0.5 transition-transform duration-500 ease-in-out ${open ? 'rotate-180' : ''}`}
         >
-          <path d="M6 9l6 6 6-6" />
+          <path d="M6 9l6 6 6-6" stroke="#2a363b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </button>
-      {open && (
-        <div className="bg-light-green rounded-2xl px-[30px] py-8 mb-6">
+      <div
+        ref={contentRef}
+        className="overflow-hidden transition-[max-height] duration-500 ease-in-out"
+        style={{ maxHeight: `${maxHeight}px` }}
+      >
+        <div className="bg-light-green rounded-2xl px-5 py-8 tablet:px-[30px] tablet:py-8 flex flex-col gap-12">
           <div
-            className="font-gothic font-medium text-[16px] leading-[2] text-black whitespace-pre-line"
+            className="font-gothic font-medium text-[16px] leading-[2] text-black whitespace-pre-line voice-rich"
             dangerouslySetInnerHTML={{ __html: voice.content }}
           />
+          {image && (
+            <div className="relative w-full aspect-[260/368] overflow-hidden rounded-2xl">
+              <Image
+                src={image.url}
+                alt=""
+                fill
+                className="object-cover"
+                sizes="(min-width: 992px) 704px, 100vw"
+              />
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 }
