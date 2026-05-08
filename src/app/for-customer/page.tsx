@@ -1,9 +1,7 @@
 import { getProperties, getCustomerVoices, getStories } from '@/lib/microcms/queries';
 import MoreProperties from '@/components/property/MoreProperties';
 import VoiceCarousel from '@/components/home/VoiceCarousel';
-import StoryCarousel from '@/components/home/StoryCarousel';
-import StoryCard from '@/components/story/StoryCard';
-import SeeAllLink from '@/components/ui/SeeAllLink';
+import StorySection from '@/components/story/StorySection';
 import FaqAccordion from '@/components/ui/FaqAccordion';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -371,40 +369,8 @@ export default async function ForCustomerPage() {
         </div>
       </section>
 
-      {/* 暮らしを知る (Figma 4211:11931) — SP は StoryCarousel / PC は 3 列グリッド */}
-      {stories.contents.length > 0 && (
-        <section className="bg-dark-green py-[60px] tablet:py-24">
-          <div className="px-4 tablet:px-[75px] max-w-[1440px] mx-auto mb-8 tablet:mb-16">
-            <h2 className="font-mincho text-[28px] tablet:text-[48px] leading-[1.5] tracking-[1.12px] tablet:tracking-[1.92px] text-cream" style={{ fontFeatureSettings: "'palt' 1" }}>
-              暮らしを知る
-            </h2>
-          </div>
-          {/* SP: スライドショー */}
-          <StoryCarousel stories={stories.contents} />
-          {/* PC: 3 列グリッド + すべて見る */}
-          <div className="hidden tablet:block px-[75px] max-w-[1440px] mx-auto">
-            <div className="grid grid-cols-3 gap-[30px] mb-16">
-              {stories.contents.map((story) => (
-                <StoryCard key={story.id} story={story} variant="dark" />
-              ))}
-            </div>
-            <div className="flex items-center justify-end">
-              <Link
-                href="/stories"
-                className="inline-flex items-center gap-2 font-gothic font-medium text-[18px] text-cream hover:opacity-70 transition-opacity"
-              >
-                すべて見る
-                <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                    <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </span>
-              </Link>
-            </div>
-          </div>
-        </section>
-      )}
+      {/* 暮らしを知る (Figma 4211:11931) - 共通 StorySection */}
+      <StorySection stories={stories.contents} title="暮らしを知る" />
 
       {/* お客様の声 (Figma 4211:11447 — home の VoiceCarousel を転用) */}
       {voices.contents.length > 0 && (
