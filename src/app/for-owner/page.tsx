@@ -202,11 +202,11 @@ export default async function ForOwnerPage() {
                     </p>
                   </div>
                 </div>
-                {/* Figma 4211:11798: card と card の間に ▼ */}
+                {/* Figma 4211:11798 / 4211:9903: card と card の間に 24×24 frame の ▼ (gap 8px) */}
                 {i < steps.length - 1 && (
-                  <span className="inline-flex py-2 tablet:py-3">
-                    <svg width="14" height="8" viewBox="0 0 14 8" fill="none" className="text-dark-green/50">
-                      <path d="M7 8L0 0H14L7 8Z" fill="currentColor" />
+                  <span className="inline-flex items-center justify-center w-6 h-6 my-2">
+                    <svg width="22" height="13" viewBox="0 0 22 13" fill="none" className="text-dark-green">
+                      <path d="M11 13L0 0H22L11 13Z" fill="currentColor" />
                     </svg>
                   </span>
                 )}
