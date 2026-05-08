@@ -94,7 +94,7 @@ export default function ArticleCarousel({ articles, href = '/for-owner' }: Props
         </div>
       </div>
 
-      <div className="mt-8 tablet:mt-16">
+      <div className="mt-8 tablet:mt-16 px-4 tablet:px-0">
         <SlideshowNav
           activePage={activePagePc}
           totalPages={totalPagesPc}
