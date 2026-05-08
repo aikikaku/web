@@ -153,7 +153,7 @@ export default function VoiceContent({ voices }: { voices: CustomerVoice[] }) {
   };
 
   return (
-    <div ref={containerRef} className="flex flex-col tablet:flex-row gap-8 tablet:justify-between">
+    <div ref={containerRef} className="flex flex-col tablet:flex-row tablet:gap-8 tablet:justify-between">
       {/* SP: floating 検索バー (Figma 4211:12143/12157) — 別コンポーネント MobileVoiceFilter で実装 */}
       <MobileVoiceFilter activeKey={activeCategory} onSelect={handleClick} />
 
@@ -201,8 +201,9 @@ export default function VoiceContent({ voices }: { voices: CustomerVoice[] }) {
           const list = grouped[key];
           if (list.length === 0) return null;
           return (
-            <section key={key} id={`voice-cat-${key}`} className="pt-8 first:pt-0">
-              <h2 className="font-mincho text-[20px] tablet:text-[24px] leading-[1.5] tracking-[0.04em] text-dark-green mb-4 tablet:mb-6">
+            <section key={key} id={`voice-cat-${key}`} className="tablet:pt-8 tablet:first:pt-0">
+              {/* Figma SP 4211:11177 はカテゴリ見出し非表示。SP 用ナビは MobileVoiceFilter (絞り込みモーダル) で代替 */}
+              <h2 className="hidden tablet:block font-mincho text-[24px] leading-[1.5] tracking-[0.04em] text-dark-green mb-6">
                 {cat.label}
               </h2>
               {list.map((voice, index) => (
