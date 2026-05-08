@@ -54,15 +54,15 @@ export default function PickupCard({ property }: Props) {
               className="absolute inset-0 z-10 pointer-events-none rounded-2xl tablet:rounded-[24px]"
               style={{ backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0) 73.635%, rgba(0,0,0,0.2) 92.755%)' }}
             />
-            {/* SP: ラベルを画像内 top に overlay（中古住宅 + 地域 / 商談中 right）
-                Figma 4211:10798 通り 地域テキストは dark-green（軽量 gradient overlay 上で可読） */}
+            {/* SP: ラベルを画像内 top に overlay（Figma 4211:10721）
+                location は cream (白) text 16px leading-2、画像上端の暗グラデで可読化 */}
             <div className="tablet:hidden absolute inset-x-0 top-0 z-20 p-2.5 flex items-center justify-between gap-2">
               <div className="flex items-center gap-2 min-w-0">
                 <span className="tag-pill text-[14px] leading-none px-3 py-1.5 shrink-0">
                   {categoryLabel}
                 </span>
                 {locationText && (
-                  <span className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green truncate">
+                  <span className="font-gothic font-medium text-[16px] leading-[2] text-cream truncate px-1">
                     {locationText}
                   </span>
                 )}
