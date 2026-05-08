@@ -3,8 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { CustomerVoice } from '@/types/microcms';
-import SeeAllLink from '@/components/ui/SeeAllLink';
-import SeeAllButtonSP from '@/components/ui/SeeAllButtonSP';
+import SlideshowNav from '@/components/ui/SlideshowNav';
 
 interface Props {
   voices: CustomerVoice[];
@@ -53,9 +52,6 @@ export default function VoiceCarousel({ voices }: Props) {
     el.scrollTo({ left: el.scrollLeft + delta, behavior: 'smooth' });
   };
 
-  const handlePrev = () => goToPage(Math.max(0, activePage - 1));
-  const handleNext = () => goToPage(Math.min(totalPages - 1, activePage + 1));
-
   if (!voices.length) return null;
 
   return (
@@ -76,88 +72,12 @@ export default function VoiceCarousel({ voices }: Props) {
         </div>
       </div>
 
-      {/* PC ナビ: 矢印 + dots（左） + すべて見る（右） */}
-      <div className="hidden tablet:flex items-center justify-between mt-16 px-[75px]">
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={handlePrev}
-            disabled={activePage === 0}
-            aria-label="前へ"
-            className="size-6 inline-flex items-center justify-center text-dark-green hover:opacity-70 transition-opacity disabled:opacity-20 disabled:cursor-not-allowed"
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-          <div className="flex items-center gap-2">
-            {Array.from({ length: totalPages }).map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                aria-label={`ページ${i + 1}`}
-                onClick={() => goToPage(i)}
-                className={`size-2 rounded-full transition-colors ${i === activePage ? 'bg-dark-green' : 'bg-dark-green/30'}`}
-              />
-            ))}
-          </div>
-          <button
-            type="button"
-            onClick={handleNext}
-            disabled={activePage >= totalPages - 1}
-            aria-label="次へ"
-            className="size-6 inline-flex items-center justify-center text-dark-green hover:opacity-70 transition-opacity disabled:opacity-20 disabled:cursor-not-allowed"
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-        </div>
-        <SeeAllLink href="/voice" />
+      {/* Navigation-Slideshow (Figma 4211:11501 共通) */}
+      <div className="hidden tablet:block mt-16 px-[75px]">
+        <SlideshowNav activePage={activePage} totalPages={totalPages} onPageChange={goToPage} href="/voice" />
       </div>
-
-      {/* SP ナビ: 中央 dots(gap-58 内に矢印+dots) + 全幅すべて見る (Figma 4211:10704: section gap-32) */}
       <div className="tablet:hidden mt-8 px-4">
-        <div className="flex items-center justify-center gap-[58px] pb-4">
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={handlePrev}
-              disabled={activePage === 0}
-              aria-label="前へ"
-              className="size-6 inline-flex items-center justify-center text-dark-green disabled:opacity-50"
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
-            <div className="flex items-center gap-2">
-              {Array.from({ length: totalPages }).map((_, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  aria-label={`ページ${i + 1}`}
-                  onClick={() => goToPage(i)}
-                  className={`size-1 rounded-full transition-colors ${i === activePage ? 'bg-dark-green' : 'bg-dark-green/30'}`}
-                />
-              ))}
-            </div>
-            <button
-              type="button"
-              onClick={handleNext}
-              disabled={activePage >= totalPages - 1}
-              aria-label="次へ"
-              className="size-6 inline-flex items-center justify-center text-dark-green disabled:opacity-50"
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
-          </div>
-        </div>
-        <div className="mt-8">
-          <SeeAllButtonSP href="/voice" />
-        </div>
+        <SlideshowNav activePage={activePage} totalPages={totalPages} onPageChange={goToPage} href="/voice" />
       </div>
     </div>
   );

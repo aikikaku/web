@@ -3,7 +3,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { Story } from '@/types/microcms';
 import StoryCardOverlay from '@/components/story/StoryCardOverlay';
-import SeeAllButtonSP from '@/components/ui/SeeAllButtonSP';
+import SlideshowNav from '@/components/ui/SlideshowNav';
 
 interface Props {
   stories: Story[];
@@ -13,10 +13,6 @@ interface Props {
 }
 
 export default function StoryCarousel({ stories, href = '/stories', variant = 'light' }: Props) {
-  const isDark = variant === 'dark';
-  const arrowColor = isDark ? 'text-cream' : 'text-dark-green';
-  const dotActive = isDark ? 'bg-cream' : 'bg-dark-green';
-  const dotInactive = isDark ? 'bg-cream/30' : 'bg-dark-green/30';
   const trackRef = useRef<HTMLDivElement>(null);
   const flexRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -63,48 +59,15 @@ export default function StoryCarousel({ stories, href = '/stories', variant = 'l
         </div>
       </div>
 
-      {/* SP Navigation: Figma 4211:10695 (gap-58 内部 / pb-16 nav) + section gap-32 で button へ */}
+      {/* Navigation-Slideshow (Figma 4211:11501 共通) */}
       <div className="mt-8 px-4">
-        <div className="flex items-center justify-center gap-[58px] pb-4">
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => scrollTo(Math.max(0, activeIndex - 1))}
-              disabled={activeIndex === 0}
-              aria-label="前へ"
-              className={`size-6 inline-flex items-center justify-center ${arrowColor} hover:opacity-70 transition-opacity disabled:opacity-50`}
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
-            <div className="flex items-center gap-2">
-              {stories.map((_, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  aria-label={`スライド${i + 1}`}
-                  onClick={() => scrollTo(i)}
-                  className={`size-1 rounded-full transition-colors ${i === activeIndex ? dotActive : dotInactive}`}
-                />
-              ))}
-            </div>
-            <button
-              type="button"
-              onClick={() => scrollTo(Math.min(stories.length - 1, activeIndex + 1))}
-              disabled={activeIndex >= stories.length - 1}
-              aria-label="次へ"
-              className={`size-6 inline-flex items-center justify-center ${arrowColor} hover:opacity-70 transition-opacity disabled:opacity-50`}
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
-          </div>
-        </div>
-        <div className="mt-8">
-          <SeeAllButtonSP href={href} />
-        </div>
+        <SlideshowNav
+          activePage={activeIndex}
+          totalPages={stories.length}
+          onPageChange={scrollTo}
+          href={href}
+          variant={variant}
+        />
       </div>
     </div>
   );
