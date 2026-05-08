@@ -1,9 +1,9 @@
 import { getCustomerVoices, getStories } from '@/lib/microcms/queries';
 import VoiceCarousel from '@/components/home/VoiceCarousel';
 import StorySection from '@/components/story/StorySection';
-import SeeAllLink from '@/components/ui/SeeAllLink';
 import FaqSection from '@/components/ui/FaqSection';
 import ContactCtaBanner from '@/components/ui/ContactCtaBanner';
+import ArticleCarousel from '@/components/owner/ArticleCarousel';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
@@ -320,54 +320,21 @@ export default async function ForOwnerPage() {
 
       {/* 不動産活用に関する記事 */}
       <section className="py-[60px] tablet:py-[96px]">
-        <div className="px-4 tablet:px-[75px] max-w-[1440px] mx-auto">
-          <h2 className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[1.28px] text-dark-green mb-16" style={{ fontFeatureSettings: "'palt' 1" }}>
+        <div className="tablet:px-[75px] max-w-[1440px] mx-auto">
+          <h2 className="px-4 tablet:px-0 font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[1.28px] text-dark-green mb-8 tablet:mb-16" style={{ fontFeatureSettings: "'palt' 1" }}>
             不動産活用に関する記事
           </h2>
-          <div className="flex gap-[30px] overflow-x-auto pb-4">
-            {[
+          <ArticleCarousel
+            articles={[
               { tag: '不動産活用', title: '子どもに安心して引き継げる駐車場経営とは？ 今から始める管理の仕組み作り', date: '2025.09.18' },
               { tag: '不動産活用', title: '契約が早い＝空きが埋まる！ 三島市の月極駐車場に電子契約を導入すべき理由', date: '2025.09.18' },
               { tag: '不動産活用', title: '小さな駐車場でも"すぐに埋まる"借り手が見つかるGoogleマップ活用法', date: '2025.09.18' },
-            ].map((article, i) => (
-              <div key={i} className="w-[410px] shrink-0 flex flex-col">
-                <div className="relative h-[293px] rounded-lg overflow-hidden mb-0">
-                  <div className="absolute inset-0 bg-dark-green/10" />
-                  <span className="absolute top-4 left-4 tag-pill text-[14px] leading-none px-3 py-1.5">
-                    {article.tag}
-                  </span>
-                </div>
-                <div className="px-3">
-                  <div className="py-6">
-                    <h3
-                      className="font-mincho text-[24px] leading-[1.6] tracking-[0.96px] text-black"
-                      style={{ fontFeatureSettings: "'palt' 1" }}
-                    >
-                      {article.title}
-                    </h3>
-                  </div>
-                  <div className="flex items-center justify-between gap-2.5">
-                    <span className="font-gothic font-medium text-[16px] leading-[2] text-dark-green">
-                      {article.date}
-                    </span>
-                    <span className="inline-flex items-center justify-center min-w-[176px] h-11 px-6 border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green">
-                      記事を読む
-                    </span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="flex items-center justify-between mt-16">
-            <div className="flex items-center gap-2">
-              <span className="text-dark-green/40">&lt;</span>
-              {Array.from({ length: 6 }).map((_, i) => (
-                <span key={i} className={`w-2 h-2 rounded-full ${i === 0 ? 'bg-dark-green' : 'bg-dark-green/30'}`} />
-              ))}
-              <span className="text-dark-green">&gt;</span>
-            </div>
-            <SeeAllLink href="/for-owner" label="すべて見る" />
-          </div>
+              { tag: '不動産活用', title: '空き家を活かす：相続した実家を負動産にしないための3つの選択肢', date: '2025.09.04' },
+              { tag: '不動産活用', title: 'サブリースのメリット・デメリットを地元目線で整理する', date: '2025.08.21' },
+              { tag: '不動産活用', title: '三島市で進む再開発、所有不動産への影響と備え方', date: '2025.08.07' },
+            ]}
+            href="/for-owner"
+          />
         </div>
       </section>
 
