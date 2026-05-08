@@ -25,7 +25,7 @@ interface Props {
  */
 export default function ContactCtaBanner({ bgImage, heading, caption = 'お問い合わせ', ctas }: Props) {
   return (
-    <section className="px-4 tablet:px-[45px] py-[60px] tablet:py-0 tablet:pb-24">
+    <section className="px-4 tablet:px-[45px] pt-[60px] pb-[120px] tablet:pt-0 tablet:pb-[120px]">
       <div className="relative overflow-hidden rounded-3xl max-w-[1350px] mx-auto">
         <div className="relative px-6 tablet:px-[30px] py-12 tablet:py-[96px]">
           <Image src={bgImage} alt="" fill className="object-cover" />
