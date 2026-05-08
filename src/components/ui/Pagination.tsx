@@ -38,7 +38,7 @@ export default function Pagination({
 
   const handleNavigate = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>, page: number) => {
-      if (page === currentPage || page < 1 || page > totalPages) return;
+      if (page === currentPage || page < 1 || page > Math.max(1, totalPages)) return;
       e.preventDefault();
       router.push(buildHref(page), { scroll: false });
       // 一覧の先頭へ smooth scroll（Pagination がページ切替後に再描画されても同じ id 要素が残るのでズレない）
@@ -57,22 +57,23 @@ export default function Pagination({
     [router, buildHref, currentPage, totalPages, scrollTargetId],
   );
 
-  if (totalPages <= 1) return null;
+  // 1 件以下なら totalPages = 0 になりうるので、常に少なくとも 1 ページ分の nav を出す
+  const effectiveTotalPages = Math.max(1, totalPages);
 
   // Build page numbers with ellipsis
   const getPageNumbers = (): (number | '...')[] => {
-    if (totalPages <= 7) {
-      return Array.from({ length: totalPages }, (_, i) => i + 1);
+    if (effectiveTotalPages <= 7) {
+      return Array.from({ length: effectiveTotalPages }, (_, i) => i + 1);
     }
 
     const pages: (number | '...')[] = [];
     pages.push(1);
     if (currentPage > 3) pages.push('...');
     const start = Math.max(2, currentPage - 1);
-    const end = Math.min(totalPages - 1, currentPage + 1);
+    const end = Math.min(effectiveTotalPages - 1, currentPage + 1);
     for (let i = start; i <= end; i++) pages.push(i);
-    if (currentPage < totalPages - 2) pages.push('...');
-    if (totalPages > 1) pages.push(totalPages);
+    if (currentPage < effectiveTotalPages - 2) pages.push('...');
+    if (effectiveTotalPages > 1) pages.push(effectiveTotalPages);
     return pages;
   };
 
@@ -127,15 +128,15 @@ export default function Pagination({
       )}
 
       <Link
-        href={currentPage < totalPages ? buildHref(currentPage + 1) : '#'}
+        href={currentPage < effectiveTotalPages ? buildHref(currentPage + 1) : '#'}
         onClick={(e) => handleNavigate(e, currentPage + 1)}
         className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors ${
-          currentPage < totalPages
+          currentPage < effectiveTotalPages
             ? 'bg-dark-green text-white hover:opacity-90'
             : 'bg-dark-green/40 text-white pointer-events-none'
         }`}
         aria-label="次のページ"
-        aria-disabled={currentPage >= totalPages}
+        aria-disabled={currentPage >= effectiveTotalPages}
       >
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
           <path d="M4 2L8 6L4 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />

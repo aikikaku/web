@@ -138,11 +138,11 @@ export default async function PropertiesPage({
                 <PropertyCard key={property.id} property={property} />
               ))}
             </div>
-          ) : paginatedContents.length === 0 ? (
-            <p className="text-center text-gray-500 py-12">
+          ) : (
+            <p className="text-center font-gothic font-medium text-[16px] leading-[2] text-dark-green/60 py-12">
               条件に一致する物件が見つかりませんでした
             </p>
-          ) : null}
+          )}
 
           <div data-mobile-filter-end />
           <Pagination

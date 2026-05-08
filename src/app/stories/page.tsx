@@ -234,8 +234,8 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
               )}
             </>
           ) : (
-            <p className="text-center text-gray-500 py-12 font-gothic">
-              ストーリーがまだありません
+            <p className="text-center font-gothic font-medium text-[16px] leading-[2] text-dark-green/60 py-12">
+              条件に一致するストーリーが見つかりませんでした
             </p>
           )}
 
