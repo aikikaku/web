@@ -117,8 +117,9 @@ export default async function ForOwnerPage() {
         }}
       />
 
-      {/* ヒーロー (Figma PC 4211:11456 / SP 4211:11898) — 写真 bottom 余白 60px */}
-      <section className="px-4 tablet:px-[75px] pb-[60px] tablet:pb-24 pt-[60px] tablet:pt-0 max-w-[1440px] mx-auto">
+      {/* ヒーロー (Figma 4211:11400 PC: 1440×784 / 4211:11898 SP).
+          PC: top 48px + content 640px + bottom 96px. SP: top/bottom 60px. */}
+      <section className="px-4 tablet:px-[75px] pb-[60px] tablet:pb-24 pt-[60px] tablet:pt-12 max-w-[1440px] mx-auto">
         <div className="flex flex-col tablet:flex-row items-stretch tablet:items-center gap-6 tablet:gap-[30px]">
           <div className="flex-1 flex items-start tablet:items-center">
             <h1 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.28px] tablet:tracking-[1.92px] text-dark-green text-left" style={{ fontFeatureSettings: "'palt' 1" }}>
@@ -140,8 +141,8 @@ export default async function ForOwnerPage() {
         </div>
       </section>
 
-      {/* まずはご相談ください (Figma SP 4211:11902 = 余白を絞る) */}
-      <section className="relative overflow-hidden">
+      {/* まずはご相談 (Figma PC 4211:11405 = 1440×720 / SP 4211:11902 = compact) */}
+      <section className="relative overflow-hidden tablet:min-h-[720px] tablet:flex tablet:items-center">
         <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
           <Image
             src="/images/for-owner/section-bg.jpg"
@@ -156,7 +157,7 @@ export default async function ForOwnerPage() {
             }}
           />
         </div>
-        <div className="relative px-4 tablet:px-[75px] max-w-[1440px] mx-auto py-[60px] tablet:py-24">
+        <div className="relative px-4 tablet:px-[75px] max-w-[1440px] mx-auto py-[60px] tablet:py-24 w-full">
           <div className="flex flex-col gap-6 tablet:gap-8">
             <div className="flex flex-col gap-2 text-cream">
               <p className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8]">
@@ -248,7 +249,7 @@ export default async function ForOwnerPage() {
             {features.map((feature, i) => (
               <div
                 key={feature.title}
-                className={`flex flex-col tablet:flex-row gap-8 tablet:gap-[58px] items-start ${i < features.length - 1 ? 'pb-12 tablet:pb-24' : ''}`}
+                className={`flex flex-col tablet:flex-row gap-8 tablet:gap-[58px] items-start ${i < features.length - 1 ? 'pb-12 tablet:pb-24 tablet:border-b tablet:border-dark-green/20' : ''}`}
               >
                 {/* Image */}
                 <div className="w-full tablet:w-[616px] shrink-0">
