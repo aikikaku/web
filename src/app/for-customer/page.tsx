@@ -178,10 +178,10 @@ export default async function ForCustomerPage() {
               ご入居までの流れ
             </h2>
           </div>
-          <div className="max-w-[792px] mx-auto flex flex-col gap-2 tablet:gap-4 items-center">
+          <div className="max-w-[792px] mx-auto flex flex-col items-center">
             {steps.map((step, i) => (
               <div key={step.title} className="w-full flex flex-col items-center">
-                <div className="relative w-full bg-cream rounded-2xl tablet:rounded-3xl shadow-[0px_-1px_8px_0px_rgba(0,0,0,0.1)] p-5 tablet:pl-6 tablet:pr-8 tablet:py-8 pb-7 tablet:pb-8">
+                <div className="w-full bg-cream rounded-2xl tablet:rounded-3xl shadow-[0px_-1px_8px_0px_rgba(0,0,0,0.1)] p-5 tablet:pl-6 tablet:pr-8 tablet:py-8">
                   <div className="flex flex-col tablet:flex-row gap-2 tablet:gap-8 items-start tablet:items-center">
                     <p className="font-mincho text-[16px] tablet:text-2xl text-dark-green text-left tablet:text-center w-full tablet:w-[140px] shrink-0 leading-[1.6] tablet:leading-[1.4] tracking-wider">
                       {step.title}
@@ -190,15 +190,15 @@ export default async function ForCustomerPage() {
                       {step.desc}
                     </p>
                   </div>
-                  {/* Figma 4211:11798: card 内 bottom-center に細い ▼ */}
-                  {i < steps.length - 1 && (
-                    <span className="absolute left-1/2 -translate-x-1/2 bottom-1.5 inline-flex">
-                      <svg width="14" height="8" viewBox="0 0 14 8" fill="none" className="text-dark-green/50">
-                        <path d="M7 8L0 0H14L7 8Z" fill="currentColor" />
-                      </svg>
-                    </span>
-                  )}
                 </div>
+                {/* Figma 4211:11798: card と card の間に ▼ (card 外、上下 padding で gap を担う) */}
+                {i < steps.length - 1 && (
+                  <span className="inline-flex py-2 tablet:py-3">
+                    <svg width="14" height="8" viewBox="0 0 14 8" fill="none" className="text-dark-green/50">
+                      <path d="M7 8L0 0H14L7 8Z" fill="currentColor" />
+                    </svg>
+                  </span>
+                )}
               </div>
             ))}
           </div>
