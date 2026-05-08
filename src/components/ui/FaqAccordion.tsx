@@ -28,13 +28,13 @@ function FaqItemRow({ item, isOpen, onToggle }: FaqItemRowProps) {
   }, [isOpen, item.answer]);
 
   return (
-    <div className="border-b border-dark-green/20 py-6 flex flex-col gap-6">
+    <div className="border-b border-dark-green/20 py-4 tablet:py-6 flex flex-col gap-4 tablet:gap-6">
       <button
         type="button"
         onClick={onToggle}
-        className="flex items-center justify-between w-full pr-2 text-left cursor-pointer hover:opacity-70 transition-opacity"
+        className="flex items-start justify-between w-full pr-2 text-left cursor-pointer hover:opacity-70 transition-opacity gap-3"
       >
-        <p className="font-gothic font-medium text-[16px] leading-[2] text-black">
+        <p className="font-gothic font-medium text-[14px] tablet:text-[16px] leading-[1.8] tablet:leading-[2] text-black">
           {item.question}
         </p>
         <svg
@@ -42,7 +42,7 @@ function FaqItemRow({ item, isOpen, onToggle }: FaqItemRowProps) {
           height="24"
           viewBox="0 0 24 24"
           fill="none"
-          className={`shrink-0 ml-4 transition-transform duration-500 ease-in-out ${isOpen ? 'rotate-180' : ''}`}
+          className={`shrink-0 mt-0.5 transition-transform duration-500 ease-in-out ${isOpen ? 'rotate-180' : ''}`}
         >
           <path d="M6 9l6 6 6-6" stroke="#2a363b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
@@ -52,8 +52,8 @@ function FaqItemRow({ item, isOpen, onToggle }: FaqItemRowProps) {
         className="overflow-hidden transition-[max-height] duration-500 ease-in-out"
         style={{ maxHeight: `${maxHeight}px` }}
       >
-        <div className="bg-light-green rounded-2xl px-6 py-6 tablet:px-[30px] tablet:py-[32px]">
-          <p className="font-gothic font-medium text-[16px] leading-[2] text-black whitespace-pre-line">
+        <div className="bg-light-green rounded-2xl px-5 py-5 tablet:px-[30px] tablet:py-[32px]">
+          <p className="font-gothic font-medium text-[14px] tablet:text-[16px] leading-[1.8] tablet:leading-[2] text-black whitespace-pre-line">
             {item.answer}
           </p>
         </div>
@@ -78,7 +78,7 @@ export default function FaqAccordion({ items }: FaqAccordionProps) {
   };
 
   return (
-    <div className="flex-1 tablet:w-[792px]">
+    <div className="w-full tablet:w-[792px] tablet:flex-1">
       {items.map((item, i) => (
         <FaqItemRow
           key={i}

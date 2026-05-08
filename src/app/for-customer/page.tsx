@@ -2,7 +2,8 @@ import { getProperties, getCustomerVoices, getStories } from '@/lib/microcms/que
 import MoreProperties from '@/components/property/MoreProperties';
 import VoiceCarousel from '@/components/home/VoiceCarousel';
 import StorySection from '@/components/story/StorySection';
-import FaqAccordion from '@/components/ui/FaqAccordion';
+import FaqSection from '@/components/ui/FaqSection';
+import ContactCtaBanner from '@/components/ui/ContactCtaBanner';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
@@ -104,13 +105,11 @@ export default async function ForCustomerPage() {
         }}
       />
 
-      {/* ヒーロー (Figma 4211:11401-11404).
-          PC: 1440 frame で text frame at x=75 w=645 + image at x=720 w=645、左右 75px outer padding。
-              page-container だと max-1280 + 64 padding で text が 144px 内側にずれていたので、px-[75px] / max-w-[1440px] に変更 */}
-      <section className="px-4 tablet:px-[75px] pb-12 tablet:pb-24 pt-8 tablet:pt-0 max-w-[1440px] mx-auto">
-        <div className="flex flex-col tablet:flex-row items-stretch tablet:items-center gap-8 tablet:gap-[30px]">
+      {/* ヒーロー (Figma 4211:11401-11404 PC / 4211:11782 SP) */}
+      <section className="px-4 tablet:px-[75px] pb-12 tablet:pb-24 pt-[60px] tablet:pt-0 max-w-[1440px] mx-auto">
+        <div className="flex flex-col tablet:flex-row items-stretch tablet:items-center gap-6 tablet:gap-[30px]">
           <div className="flex-1 flex items-start tablet:items-center">
-            <h1 className="font-mincho text-[40px] tablet:text-[48px] leading-[1.5] tracking-[1.6px] tablet:tracking-[1.92px] text-dark-green text-left" style={{ fontFeatureSettings: "'palt' 1" }}>
+            <h1 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.28px] tablet:tracking-[1.92px] text-dark-green text-left" style={{ fontFeatureSettings: "'palt' 1" }}>
               不動産を<br className="tablet:hidden" />お探しの方へ
             </h1>
           </div>
@@ -306,68 +305,15 @@ export default async function ForCustomerPage() {
         </section>
       )}
 
-      {/* CTA バナー */}
-      <section className="px-4 tablet:px-[45px] pb-24">
-        <div className="relative overflow-hidden rounded-3xl max-w-[1350px] mx-auto">
-          <div className="relative px-6 tablet:px-[30px] py-16 tablet:py-[96px]">
-            <Image
-              src="/images/for-customer/cta-banner.jpg"
-              alt="お問い合わせ"
-              fill
-              className="object-cover"
-            />
-            <div
-              className="absolute inset-0"
-              style={{
-                backgroundImage:
-                  'linear-gradient(218deg, rgba(39, 51, 59, 0.1) 26.6%, rgba(39, 51, 59, 0.25) 72.5%)',
-              }}
-            />
-            <div className="relative z-10 flex flex-col tablet:flex-row items-start tablet:items-center justify-between gap-8 tablet:gap-[30px]">
-              <div className="text-white">
-                <p className="text-body-m font-gothic font-medium mb-2">お問い合わせ</p>
-                <h2
-                  className="text-white font-mincho text-[32px] leading-[1.5] tracking-[1.28px]"
-                  style={{ fontFeatureSettings: "'palt' 1" }}
-                >
-                  不動産に関すること、<br />
-                  ぜひご相談ください。
-                </h2>
-              </div>
-              <div className="flex gap-3">
-                <Link
-                  href="/contact"
-                  className="bg-cream/[0.96] rounded-3xl px-[30px] pt-[40px] pb-[30px] text-center w-[264px] flex flex-col items-center gap-[30px] hover:opacity-70 transition-opacity"
-                >
-                  <span className="font-gothic font-medium text-[20px] leading-[1.6] text-dark-green">
-                    不動産をお探しの方
-                  </span>
-                  <span className="bg-accent-blue w-12 h-12 rounded-full flex items-center justify-center">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                      <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                      <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </span>
-                </Link>
-                <Link
-                  href="/contact"
-                  className="bg-cream/[0.96] rounded-3xl px-[30px] pt-[40px] pb-[30px] text-center w-[264px] flex flex-col items-center gap-[30px] hover:opacity-70 transition-opacity"
-                >
-                  <span className="font-gothic font-medium text-[20px] leading-[1.6] text-dark-green">
-                    その他のお問い合わせ
-                  </span>
-                  <span className="bg-accent-blue w-12 h-12 rounded-full flex items-center justify-center">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                      <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                      <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </span>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* CTA バナー (Figma 4211:11813/11873) - 共通 ContactCtaBanner */}
+      <ContactCtaBanner
+        bgImage="/images/for-customer/cta-banner.jpg"
+        heading={<>不動産に関すること、<br />ぜひご相談ください。</>}
+        ctas={[
+          { label: '不動産をお探しの方', href: '/contact' },
+          { label: 'その他のお問い合わせ', href: '/contact' },
+        ]}
+      />
 
       {/* 暮らしを知る (Figma 4211:11931) - 共通 StorySection */}
       <StorySection stories={stories.contents} title="暮らしを知る" />
@@ -389,42 +335,31 @@ export default async function ForCustomerPage() {
         </section>
       )}
 
-      {/* よくある質問 */}
-      <section className="bg-cream pt-[60px] pb-[80px] tablet:pt-[96px] tablet:pb-[144px]">
-        <div className="px-4 tablet:px-[75px] max-w-[1440px] mx-auto">
-          <div className="flex flex-col tablet:flex-row tablet:justify-center gap-8 tablet:gap-[48px] items-start">
-            <div className="tablet:w-[410px] shrink-0">
-              <h2 className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.96px] tablet:tracking-[1.28px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
-                よくある質問
-              </h2>
-            </div>
-            <FaqAccordion
-              items={[
-                {
-                  question: '購入にかかる諸経費は？',
-                  answer: '売買代金の約8%前後が目安です。広告の金額は売主様へ支払う売買代金のみで、別途、仲介手数料（上限＝3%＋6万円＋税）、登記費用（登録免許税・司法書士報酬）、ローン関連手数料（事務手数料・保証料・印紙）などが発生します。',
-                },
-                {
-                  question: '住宅ローン（購入）や入居審査（賃貸）のポイントは？',
-                  answer: '購入をご検討の際は、まず事前審査で「借入可能額」と「金利タイプ（固定・変動など）」を確認します。\n賃貸の入居審査では、収入状況・勤務先、連帯保証人または保証会社の利用などが確認されます。必要書類（本人確認書類、収入証明など）を事前に整えることで、審査から契約までの手続きがスムーズに進みます。',
-                },
-                {
-                  question: '物件の災害リスクはどう確認すれば安心ですか？',
-                  answer: 'まずは各市・町が発行するハザードマップ（洪水・土砂災害・津波など）を確認します。ただし、地図で「指定外」でもリスクがゼロではありません。後から指定される可能性や、地盤の弱い地域もあります。物件ごとの状況（地形・標高・周辺の排水計画・過去の災害履歴など）を踏まえて個別にご説明しますので、お気軽にお尋ねください。',
-                },
-                {
-                  question: '契約後の流れは？',
-                  answer: '契約後は、物件の引き渡しが行われます。その後、必要な手続きを進め、住民票の移動などを行います。何か不明点があれば、いつでもご相談ください。',
-                },
-                {
-                  question: '物件の内見は？',
-                  answer: '物件の内見は事前に予約が必要です。実際に見てみることで、雰囲気や設備を確認できます。お気軽にお問い合わせください。',
-                },
-              ]}
-            />
-          </div>
-        </div>
-      </section>
+      {/* よくある質問 (Figma 4211:11894) - 共通 FaqSection */}
+      <FaqSection
+        items={[
+          {
+            question: '購入にかかる諸経費は？',
+            answer: '売買代金の約8%前後が目安です。広告の金額は売主様へ支払う売買代金のみで、別途、仲介手数料（上限＝3%＋6万円＋税）、登記費用（登録免許税・司法書士報酬）、ローン関連手数料（事務手数料・保証料・印紙）などが発生します。',
+          },
+          {
+            question: '住宅ローン（購入）や入居審査（賃貸）のポイントは？',
+            answer: '購入をご検討の際は、まず事前審査で「借入可能額」と「金利タイプ（固定・変動など）」を確認します。\n賃貸の入居審査では、収入状況・勤務先、連帯保証人または保証会社の利用などが確認されます。必要書類（本人確認書類、収入証明など）を事前に整えることで、審査から契約までの手続きがスムーズに進みます。',
+          },
+          {
+            question: '物件の災害リスクはどう確認すれば安心ですか？',
+            answer: 'まずは各市・町が発行するハザードマップ（洪水・土砂災害・津波など）を確認します。ただし、地図で「指定外」でもリスクがゼロではありません。後から指定される可能性や、地盤の弱い地域もあります。物件ごとの状況（地形・標高・周辺の排水計画・過去の災害履歴など）を踏まえて個別にご説明しますので、お気軽にお尋ねください。',
+          },
+          {
+            question: '契約後の流れは？',
+            answer: '契約後は、物件の引き渡しが行われます。その後、必要な手続きを進め、住民票の移動などを行います。何か不明点があれば、いつでもご相談ください。',
+          },
+          {
+            question: '物件の内見は？',
+            answer: '物件の内見は事前に予約が必要です。実際に見てみることで、雰囲気や設備を確認できます。お気軽にお問い合わせください。',
+          },
+        ]}
+      />
 
     </div>
   );
