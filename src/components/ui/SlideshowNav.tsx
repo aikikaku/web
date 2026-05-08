@@ -159,7 +159,7 @@ export default function SlideshowNav({
           </div>
         )}
         {href && (
-          <div className="mt-8 px-4">
+          <div className="mt-8">
             <SeeAllButtonSP href={href} label={label} />
           </div>
         )}
