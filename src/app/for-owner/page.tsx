@@ -117,8 +117,8 @@ export default async function ForOwnerPage() {
         }}
       />
 
-      {/* ヒーロー (Figma PC 4211:11456 / SP 4211:11898) */}
-      <section className="px-4 tablet:px-[75px] pb-12 tablet:pb-24 pt-[60px] tablet:pt-0 max-w-[1440px] mx-auto">
+      {/* ヒーロー (Figma PC 4211:11456 / SP 4211:11898) — 写真 bottom 余白 60px */}
+      <section className="px-4 tablet:px-[75px] pb-[60px] tablet:pb-24 pt-[60px] tablet:pt-0 max-w-[1440px] mx-auto">
         <div className="flex flex-col tablet:flex-row items-stretch tablet:items-center gap-6 tablet:gap-[30px]">
           <div className="flex-1 flex items-start tablet:items-center">
             <h1 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.28px] tablet:tracking-[1.92px] text-dark-green text-left" style={{ fontFeatureSettings: "'palt' 1" }}>
