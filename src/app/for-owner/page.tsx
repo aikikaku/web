@@ -202,10 +202,10 @@ export default async function ForOwnerPage() {
                     </p>
                   </div>
                 </div>
-                {/* Figma 4211:11798 / 4211:11801 (Polygon2 21×18 の正三角形). gap 8px */}
+                {/* Figma 4211:11798 / 4211:11801 (Polygon2 21×18 正三角形, 半透明 dark-green). gap 8px */}
                 {i < steps.length - 1 && (
                   <span className="inline-flex items-center justify-center w-6 h-6 my-2">
-                    <svg width="21" height="18" viewBox="0 0 20.7846 18" fill="currentColor" className="text-dark-green">
+                    <svg width="21" height="18" viewBox="0 0 20.7846 18" fill="currentColor" className="text-dark-green/25">
                       <path d="M10.3923 18L20.7846 0H0L10.3923 18Z" />
                     </svg>
                   </span>
@@ -244,7 +244,7 @@ export default async function ForOwnerPage() {
             </p>
           </div>
 
-          <div className="flex flex-col gap-24">
+          <div className="flex flex-col gap-[60px] tablet:gap-24">
             {features.map((feature, i) => (
               <div
                 key={feature.title}
