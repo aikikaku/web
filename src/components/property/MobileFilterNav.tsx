@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import MultiSelectDropdown from '@/components/ui/MultiSelectDropdown';
 
 const propertyTypes = [
   { value: 'sell_property', label: '売物件' },
@@ -182,180 +183,24 @@ export default function MobileFilterNav() {
                 })}
               </div>
 
-              {/* dropdowns inline expansion */}
+              {/* dropdowns inline expansion (Figma 4211:26286 / 4211:26323 共通 MultiSelectDropdown) */}
               <div className="flex flex-col gap-4">
-                {/* 物件種別 */}
-                <div className="flex flex-col gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setOpenSection(openSection === 'types' ? null : 'types')}
-                    className={`flex items-center gap-2 h-14 px-4 rounded-lg border border-dark-green w-full ${
-                      openSection === 'types' ? 'bg-light-green' : 'bg-cream'
-                    }`}
-                  >
-                    {/* selected: dark-green pill + × + 「+N」 (Figma 4211:26286) */}
-                    {localTypes.length === 0 ? (
-                      <span className="flex-1 text-left font-gothic font-medium text-[16px] leading-[2] text-dark-green/40">
-                        物件
-                      </span>
-                    ) : (
-                      <span className="flex-1 min-w-0 flex items-center gap-1 overflow-hidden">
-                        <span className="inline-flex items-center gap-1 bg-dark-green text-white rounded-full pl-3 pr-2 py-1 text-[14px] leading-none shrink-0 max-w-[140px]">
-                          <span className="truncate">
-                            {propertyTypes.find((p) => p.value === localTypes[0])?.label}
-                          </span>
-                          <span
-                            role="button"
-                            tabIndex={0}
-                            aria-label="削除"
-                            className="size-4 inline-flex items-center justify-center shrink-0 hover:opacity-70"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              toggleType(localTypes[0]);
-                            }}
-                            onKeyDown={(e) => {
-                              if (e.key === 'Enter' || e.key === ' ') {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                toggleType(localTypes[0]);
-                              }
-                            }}
-                          >
-                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                              <path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                            </svg>
-                          </span>
-                        </span>
-                        {localTypes.length > 1 && (
-                          <span className="inline-flex items-center bg-dark-green text-white rounded-full px-3 py-1.5 text-[12px] leading-[1.8] shrink-0">
-                            +{localTypes.length - 1}
-                          </span>
-                        )}
-                      </span>
-                    )}
-                    <svg
-                      width="21" height="21" viewBox="0 0 21 21" fill="none"
-                      className={`shrink-0 transition-transform ${openSection === 'types' ? 'rotate-180' : ''}`}
-                    >
-                      <path d="M5.5 8L10.5 13L15.5 8" stroke="#2a363b" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </button>
-                  {openSection === 'types' && (
-                    <div className="bg-cream rounded-lg shadow-[0_0_8px_rgba(0,0,0,0.16)] py-4 flex flex-col">
-                      {propertyTypes.map((t) => {
-                        const checked = localTypes.includes(t.value);
-                        return (
-                          <button
-                            key={t.value}
-                            type="button"
-                            onClick={() => toggleType(t.value)}
-                            className="flex items-center gap-2 h-8 pl-4 pr-2 hover:bg-light-green/50 text-left"
-                          >
-                            <span
-                              className={`size-[18px] inline-flex items-center justify-center rounded border shrink-0 ${
-                                checked ? 'bg-dark-green border-dark-green' : 'border-dark-green/40'
-                              }`}
-                            >
-                              {checked && (
-                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                                  <path d="M3 7l3 3 5-6" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                              )}
-                            </span>
-                            <span className="font-gothic font-medium text-[14px] leading-[1.8] text-black">
-                              {t.label}
-                            </span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-
-                {/* 地域 */}
-                <div className="flex flex-col gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setOpenSection(openSection === 'regions' ? null : 'regions')}
-                    className={`flex items-center gap-2 h-14 px-4 rounded-lg border border-dark-green w-full ${
-                      openSection === 'regions' ? 'bg-light-green' : 'bg-cream'
-                    }`}
-                  >
-                    {localRegions.length === 0 ? (
-                      <span className="flex-1 text-left font-gothic font-medium text-[16px] leading-[2] text-dark-green/40">
-                        地域
-                      </span>
-                    ) : (
-                      <span className="flex-1 min-w-0 flex items-center gap-1 overflow-hidden">
-                        <span className="inline-flex items-center gap-1 bg-dark-green text-white rounded-full pl-3 pr-2 py-1 text-[14px] leading-none shrink-0 max-w-[140px]">
-                          <span className="truncate">{localRegions[0]}</span>
-                          <span
-                            role="button"
-                            tabIndex={0}
-                            aria-label="削除"
-                            className="size-4 inline-flex items-center justify-center shrink-0 hover:opacity-70"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              toggleRegion(localRegions[0]);
-                            }}
-                            onKeyDown={(e) => {
-                              if (e.key === 'Enter' || e.key === ' ') {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                toggleRegion(localRegions[0]);
-                              }
-                            }}
-                          >
-                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                              <path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                            </svg>
-                          </span>
-                        </span>
-                        {localRegions.length > 1 && (
-                          <span className="inline-flex items-center bg-dark-green text-white rounded-full px-3 py-1.5 text-[12px] leading-[1.8] shrink-0">
-                            +{localRegions.length - 1}
-                          </span>
-                        )}
-                      </span>
-                    )}
-                    <svg
-                      width="21" height="21" viewBox="0 0 21 21" fill="none"
-                      className={`shrink-0 transition-transform ${openSection === 'regions' ? 'rotate-180' : ''}`}
-                    >
-                      <path d="M5.5 8L10.5 13L15.5 8" stroke="#2a363b" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </button>
-                  {openSection === 'regions' && (
-                    <div className="bg-cream rounded-lg shadow-[0_0_8px_rgba(0,0,0,0.16)] py-4 flex flex-col">
-                      {regions.map((r) => {
-                        const checked = localRegions.includes(r);
-                        return (
-                          <button
-                            key={r}
-                            type="button"
-                            onClick={() => toggleRegion(r)}
-                            className="flex items-center gap-2 h-8 pl-4 pr-2 hover:bg-light-green/50 text-left"
-                          >
-                            <span
-                              className={`size-[18px] inline-flex items-center justify-center rounded border shrink-0 ${
-                                checked ? 'bg-dark-green border-dark-green' : 'border-dark-green/40'
-                              }`}
-                            >
-                              {checked && (
-                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                                  <path d="M3 7l3 3 5-6" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                              )}
-                            </span>
-                            <span className="font-gothic font-medium text-[14px] leading-[1.8] text-black">
-                              {r}
-                            </span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
+                <MultiSelectDropdown
+                  isOpen={openSection === 'types'}
+                  onToggle={() => setOpenSection(openSection === 'types' ? null : 'types')}
+                  options={propertyTypes}
+                  selected={localTypes}
+                  onChange={toggleType}
+                  placeholder="物件"
+                />
+                <MultiSelectDropdown
+                  isOpen={openSection === 'regions'}
+                  onToggle={() => setOpenSection(openSection === 'regions' ? null : 'regions')}
+                  options={regions.map((r) => ({ value: r, label: r }))}
+                  selected={localRegions}
+                  onChange={toggleRegion}
+                  placeholder="地域"
+                />
               </div>
 
               {/* action: 絞り込み + × clear (shrink-0 で dropdown 開時に潰れない) */}
