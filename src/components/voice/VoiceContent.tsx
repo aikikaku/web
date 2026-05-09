@@ -20,12 +20,6 @@ function getCategoryKey(voice: CustomerVoice): Exclude<CategoryKey, 'all'> {
   return 'other';
 }
 
-// 暫定: microCMS の image フィールドを設定するまでの間、デモ用に id 指定で写真付きを再現する。
-// 本番運用では voice.image (microCMS image field) が入った時点でこの map は削除する。
-const demoVoiceImages: Record<string, { url: string; width: number; height: number }> = {
-  'voice-2': { url: '/images/voice/letter-1.png', width: 1058, height: 1496 },
-};
-
 function VoiceItem({
   voice,
   defaultOpen = false,
@@ -36,12 +30,11 @@ function VoiceItem({
   const [open, setOpen] = useState(defaultOpen);
   const contentRef = useRef<HTMLDivElement>(null);
   const [maxHeight, setMaxHeight] = useState(0);
-  const image = voice.image ?? demoVoiceImages[voice.id];
 
   useEffect(() => {
     if (!contentRef.current) return;
     setMaxHeight(open ? contentRef.current.scrollHeight : 0);
-  }, [open, voice.content, image]);
+  }, [open, voice.content, voice.image]);
 
   // Figma 4211:11537: 質問アコーディオン (FaqAccordion) と同パターン
   // border-b + py-6 + smooth max-h transition (duration-500 ease-in-out)
@@ -82,10 +75,10 @@ function VoiceItem({
             className="font-gothic font-medium text-[16px] leading-[2] text-black whitespace-pre-line voice-rich"
             dangerouslySetInnerHTML={{ __html: voice.content }}
           />
-          {image && (
+          {voice.image && (
             <div className="relative w-full aspect-[260/368] overflow-hidden rounded-2xl">
               <Image
-                src={image.url}
+                src={voice.image.url}
                 alt=""
                 fill
                 className="object-cover"
