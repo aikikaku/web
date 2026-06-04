@@ -1,3 +1,5 @@
+'use client';
+
 import Image, { type ImageProps } from 'next/image';
 import type { MicroCMSImage } from '@/types/microcms';
 import { PLACEHOLDER_IMAGE_URL } from '@/lib/microcms/image';
