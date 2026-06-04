@@ -394,20 +394,40 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
             {/* アクションカード */}
             {!isSold && (
               <div className="flex flex-col tablet:flex-row gap-3">
-                <Link
-                  href="/for-customer"
-                  className="flex-1 bg-dark-green rounded-2xl p-[30px] h-[108px] flex items-center justify-between hover:opacity-90 transition-opacity"
-                >
-                  <p className="font-gothic font-medium text-[20px] leading-[1.6] text-white px-3">
-                    物件資料
-                  </p>
-                  <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue shrink-0">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                      <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                      <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </span>
-                </Link>
+                {/* 物件資料: documentUrl があれば資料を別タブで開く。無ければ従来通りお問い合わせへ */}
+                {property.documentUrl ? (
+                  <a
+                    href={property.documentUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 bg-dark-green rounded-2xl p-[30px] h-[108px] flex items-center justify-between hover:opacity-90 transition-opacity"
+                  >
+                    <p className="font-gothic font-medium text-[20px] leading-[1.6] text-white px-3">
+                      物件資料
+                    </p>
+                    <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue shrink-0">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                        <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </span>
+                  </a>
+                ) : (
+                  <Link
+                    href="/for-customer"
+                    className="flex-1 bg-dark-green rounded-2xl p-[30px] h-[108px] flex items-center justify-between hover:opacity-90 transition-opacity"
+                  >
+                    <p className="font-gothic font-medium text-[20px] leading-[1.6] text-white px-3">
+                      物件資料
+                    </p>
+                    <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue shrink-0">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                        <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </span>
+                  </Link>
+                )}
                 <Link
                   href="/for-customer"
                   className="flex-1 bg-dark-green rounded-2xl p-[30px] h-[108px] flex items-center justify-between hover:opacity-90 transition-opacity"
