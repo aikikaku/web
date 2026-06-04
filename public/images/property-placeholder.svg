@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-label="画像準備中">
+  <rect width="800" height="600" fill="#eff6ec"/>
+  <g fill="none" stroke="#2a363b" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" opacity="0.55">
+    <path d="M300 250 L400 175 L500 250 L500 360 L300 360 Z"/>
+    <path d="M362 360 L362 305 L438 305 L438 360"/>
+  </g>
+  <text x="400" y="430" text-anchor="middle" font-family="'Zen Kaku Gothic New', sans-serif" font-size="34" fill="#2a363b" opacity="0.6">画像準備中</text>
+</svg>

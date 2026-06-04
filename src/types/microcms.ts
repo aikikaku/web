@@ -32,8 +32,9 @@ export interface Property extends MicroCMSListContent {
   label?: string;
   status: 'available' | 'sold';
   description?: string;
-  mainImage: MicroCMSImage;
+  mainImage?: MicroCMSImage;
   images?: MicroCMSImage[];
+  googleMapUrl?: string;
   location?: string;
   nearestStation?: string;
   landArea?: number;
