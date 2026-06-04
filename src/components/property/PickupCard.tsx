@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Property } from '@/types/microcms';
 import { getImageUrl } from '@/lib/microcms/image';
+import CmsImage from '@/components/ui/CmsImage';
 
 interface Props {
   property: Property;
@@ -38,9 +39,9 @@ export default function PickupCard({ property }: Props) {
         <div className="tablet:w-[646px] tablet:shrink-0">
           <div className="aspect-[294/220] tablet:aspect-[646/485] relative overflow-hidden rounded-2xl tablet:rounded-[24px]">
             {allImages.map((img, i) => (
-              <Image
+              <CmsImage
                 key={i}
-                src={getImageUrl(img, { width: 646, format: 'webp' })}
+                image={img}
                 alt={property.title}
                 fill
                 className={`object-cover transition-opacity duration-300 ease-out ${i === activeIndex ? 'opacity-100' : 'opacity-0'}`}

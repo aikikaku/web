@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useState, type ReactNode } from 'react';
 import { MicroCMSImage } from '@/types/microcms';
 import { getImageUrl } from '@/lib/microcms/image';
+import CmsImage from '@/components/ui/CmsImage';
 
 interface PropertyDetailClientProps {
   allImages: MicroCMSImage[];
@@ -37,8 +38,8 @@ export default function PropertyDetailClient({
       {/* 画像 + (SP のみ) サムネイル */}
       <div className="w-full tablet:w-[646px] tablet:shrink-0">
         <div className="relative aspect-[646/485] rounded-2xl tablet:rounded-3xl overflow-hidden">
-          <Image
-            src={getImageUrl(selectedImage, { width: 646, format: 'webp' })}
+          <CmsImage
+            image={selectedImage}
             alt={title}
             fill
             className="object-cover"

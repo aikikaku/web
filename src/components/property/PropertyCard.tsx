@@ -1,7 +1,6 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { Property } from '@/types/microcms';
-import { getImageUrl } from '@/lib/microcms/image';
+import CmsImage from '@/components/ui/CmsImage';
 
 interface PropertyCardProps {
   property: Property;
@@ -36,8 +35,8 @@ export default function PropertyCard({ property }: PropertyCardProps) {
       {/* Image - SP: rounded-[16px] aspect-[294/220] にラベル overlay
           Figma 4211:10721 / 10725 準拠: sold 時は重いザブトン overlay 不要、商談中ピルのみで状態表示 */}
       <div className="relative aspect-[294/220] tablet:aspect-auto tablet:h-[293px] w-full rounded-2xl tablet:rounded-lg overflow-hidden">
-        <Image
-          src={getImageUrl(property.mainImage, { width: 410, format: 'webp' })}
+        <CmsImage
+          image={property.mainImage}
           alt={property.title}
           fill
           className="object-cover"
