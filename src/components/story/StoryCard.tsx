@@ -1,7 +1,6 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { Story } from '@/types/microcms';
-import { getImageUrl } from '@/lib/microcms/image';
+import CmsImage from '@/components/ui/CmsImage';
 
 const categoryLabels: Record<string, string> = {
   daily: '日々のこと',
@@ -34,8 +33,8 @@ export default function StoryCard({ story, size = 'm', variant = 'light' }: Stor
     <Link href={`/stories/${story.id}`} className={`block group ${cfg.width}`}>
       {/* Image */}
       <div className={`${cfg.imageAspect} relative overflow-hidden ${cfg.imageR}`}>
-        <Image
-          src={getImageUrl(story.thumbnail, { width: 646, format: 'webp' })}
+        <CmsImage
+          image={story.thumbnail}
           alt={story.title}
           fill
           className="object-cover transition-transform group-hover:scale-105"

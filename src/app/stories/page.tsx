@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { getStories } from '@/lib/microcms/queries';
 import { Story } from '@/types/microcms';
-import { getImageUrl } from '@/lib/microcms/image';
+import CmsImage from '@/components/ui/CmsImage';
 import Pagination from '@/components/ui/Pagination';
 import StoriesFilter from '@/components/story/StoriesFilter';
 import MobileStoriesFilter from '@/components/story/MobileStoriesFilter';
@@ -51,8 +51,8 @@ function StoryCardLarge({ story }: { story: Story }) {
       {/* PC: 既存（画像の下にテキスト） */}
       <Link href={`/stories/${story.id}`} className="hidden tablet:flex group w-full flex-col items-start">
         <div className="relative aspect-[410/308] w-full overflow-hidden rounded-[24px]">
-          <Image
-            src={getImageUrl(story.thumbnail, { width: 410, format: 'webp' })}
+          <CmsImage
+            image={story.thumbnail}
             alt={story.title}
             fill
             className="object-cover transition-transform group-hover:scale-105"
@@ -99,8 +99,8 @@ function FeaturedStoryCard({ story }: { story: Story }) {
       <div className="flex flex-col tablet:flex-row gap-6 tablet:gap-[30px] items-stretch">
         {/* Image */}
         <div className="relative w-full tablet:w-[850px] shrink-0 aspect-[850/639] overflow-hidden rounded-[24px]">
-          <Image
-            src={getImageUrl(story.thumbnail, { width: 850, format: 'webp' })}
+          <CmsImage
+            image={story.thumbnail}
             alt={story.title}
             fill
             className="object-cover transition-transform group-hover:scale-105"

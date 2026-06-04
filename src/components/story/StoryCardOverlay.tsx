@@ -1,7 +1,6 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { Story } from '@/types/microcms';
-import { getImageUrl } from '@/lib/microcms/image';
+import CmsImage from '@/components/ui/CmsImage';
 
 interface Props {
   story: Story;
@@ -30,8 +29,8 @@ export default function StoryCardOverlay({ story, className }: Props) {
   return (
     <Link href={`/stories/${story.id}`} className={`block group ${className ?? ''}`}>
       <div className="relative aspect-[341/442] w-full overflow-hidden rounded-[24px]">
-        <Image
-          src={getImageUrl(story.thumbnail, { width: 410, format: 'webp' })}
+        <CmsImage
+          image={story.thumbnail}
           alt={story.title}
           fill
           className="object-cover transition-transform group-hover:scale-105"
