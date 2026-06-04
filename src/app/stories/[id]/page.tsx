@@ -1,6 +1,6 @@
 import { getStory, getStories } from '@/lib/microcms/queries';
 import StoryCard from '@/components/story/StoryCard';
-import Image from 'next/image';
+import CmsImage from '@/components/ui/CmsImage';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
@@ -106,11 +106,12 @@ export default async function StoryPage({ params }: StoryPageProps) {
         <div className="flex max-tablet:flex-col gap-0">
           {/* 左: 画像 */}
           <div className="tablet:w-[675px] shrink-0 h-[640px] max-tablet:h-auto max-tablet:aspect-square rounded-3xl overflow-hidden relative">
-            <Image
-              src={getImageUrl(story.thumbnail, { width: 1350, format: 'webp' })}
+            <CmsImage
+              image={story.thumbnail}
               alt={story.title}
               fill
               className="object-cover"
+              sizes="(max-width: 992px) 100vw, 675px"
               priority
             />
           </div>
