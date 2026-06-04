@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getImageUrl } from '@/lib/microcms/image';
+import type { MicroCMSImage } from '@/types/microcms';
 import PropertyDetailClient from '@/components/property/PropertyDetailClient';
 import RichText, { extractTocFromHtml } from '@/components/ui/RichText';
 import TocNav from '@/components/ui/TocNav';
@@ -96,7 +97,9 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
 
   const locationText = property.regions?.map((r) => r.name).join('・') || property.location || '';
 
-  const allImages = [property.mainImage, ...(property.images || [])];
+  const allImages = [property.mainImage, ...(property.images || [])].filter(
+    Boolean
+  ) as MicroCMSImage[];
 
   // 目次データ: descriptionのh5見出し + 「物件概要」を動的生成
   const tocFromContent = property.description
@@ -350,11 +353,21 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                         <p className="font-gothic font-medium text-[16px] tablet:text-[18px] leading-[1.8] text-black whitespace-pre-line">
                           {field.value}
                         </p>
-                        {field.hasTag && (
-                          <span className="tag-pill text-[14px] leading-none px-3 py-1.5 shrink-0">
-                            MAP
-                          </span>
-                        )}
+                        {field.hasTag &&
+                          (property.googleMapUrl ? (
+                            <a
+                              href={property.googleMapUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="tag-pill text-[14px] leading-none px-3 py-1.5 shrink-0 hover:opacity-70 transition-opacity"
+                            >
+                              MAP
+                            </a>
+                          ) : (
+                            <span className="tag-pill text-[14px] leading-none px-3 py-1.5 shrink-0">
+                              MAP
+                            </span>
+                          ))}
                       </div>
                     </div>
                   ) : null

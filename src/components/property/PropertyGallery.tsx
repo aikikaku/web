@@ -6,7 +6,7 @@ import { MicroCMSImage } from '@/types/microcms';
 import { getImageUrl } from '@/lib/microcms/image';
 
 interface PropertyGalleryProps {
-  mainImage: MicroCMSImage;
+  mainImage?: MicroCMSImage;
   images?: MicroCMSImage[];
 }
 
@@ -14,7 +14,7 @@ export default function PropertyGallery({
   mainImage,
   images,
 }: PropertyGalleryProps) {
-  const allImages = [mainImage, ...(images || [])];
+  const allImages = [mainImage, ...(images || [])].filter(Boolean) as MicroCMSImage[];
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
 
