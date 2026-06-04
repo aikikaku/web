@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { MicroCMSImage } from '@/types/microcms';
 import { getImageUrl } from '@/lib/microcms/image';
+import CmsImage from '@/components/ui/CmsImage';
 
 interface PropertyGalleryProps {
   mainImage?: MicroCMSImage;
@@ -28,8 +29,8 @@ export default function PropertyGallery({
           className="relative aspect-[4/3] overflow-hidden cursor-pointer"
           onClick={() => setLightboxOpen(true)}
         >
-          <Image
-            src={getImageUrl(selectedImage, { width: 800, format: 'webp' })}
+          <CmsImage
+            image={selectedImage}
             alt="物件画像"
             fill
             className="object-cover"
@@ -78,8 +79,8 @@ export default function PropertyGallery({
             &times;
           </button>
           <div className="relative max-w-4xl w-full aspect-[4/3]">
-            <Image
-              src={getImageUrl(selectedImage, { width: 1200, format: 'webp' })}
+            <CmsImage
+              image={selectedImage}
               alt="物件画像（拡大）"
               fill
               className="object-contain"

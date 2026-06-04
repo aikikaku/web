@@ -3,7 +3,7 @@ import { getProperty, getProperties } from '@/lib/microcms/queries';
 import Link from 'next/link';
 import MoreProperties from '@/components/property/MoreProperties';
 import MobileTocNav from '@/components/ui/MobileTocNav';
-import Image from 'next/image';
+import CmsImage from '@/components/ui/CmsImage';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getImageUrl } from '@/lib/microcms/image';
@@ -465,11 +465,12 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                   <div className="flex flex-col tablet:flex-row gap-6">
                     <div className="tablet:w-[320px] shrink-0 relative aspect-[4/3] rounded-2xl overflow-hidden">
                       {property.story.thumbnail && (
-                        <Image
-                          src={getImageUrl(property.story.thumbnail, { width: 640, format: 'webp' })}
+                        <CmsImage
+                          image={property.story.thumbnail}
                           alt={property.story.title}
                           fill
                           className="object-cover transition-transform group-hover:scale-105"
+                          sizes="(max-width: 992px) 100vw, 320px"
                         />
                       )}
                     </div>
