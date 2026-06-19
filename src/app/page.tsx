@@ -91,7 +91,7 @@ export default async function HomePage() {
       {/* アイ企画について */}
       <section>
         <div className="px-4 py-[60px] tablet:px-[45px] tablet:py-[96px] max-w-[1440px] mx-auto">
-          <div className="flex flex-col tablet:flex-row items-start tablet:items-center justify-between">
+          <div className="flex flex-col min-[1440px]:flex-row items-start min-[1440px]:items-center justify-between">
             {/* テキスト */}
             <div className="tablet:w-[616px]">
               <div className="flex flex-col gap-8 tablet:gap-16 tablet:pl-[30px]">
@@ -113,8 +113,8 @@ export default async function HomePage() {
                   </p>
                 </div>
 
-                {/* 画像 (SP: テキストの下に表示) */}
-                <div className="w-full tablet:hidden">
+                {/* 画像 (1440px 未満: テキストの下に表示) */}
+                <div className="w-full min-[1440px]:hidden">
                   <div className="relative h-[268px] rounded-2xl overflow-hidden">
                     <Image
                       src="/images/home/about.jpg"
@@ -149,8 +149,8 @@ export default async function HomePage() {
               </div>
             </div>
 
-            {/* 画像 (PC: 右カラムに表示) */}
-            <div className="hidden tablet:block w-[557px] shrink-0">
+            {/* 画像 (1440px 以上: 右カラムに表示) */}
+            <div className="hidden min-[1440px]:block w-[557px] shrink-0">
               <div className="relative h-[742px] rounded-2xl overflow-hidden">
                 <Image
                   src="/images/home/about.jpg"
@@ -383,8 +383,9 @@ export default async function HomePage() {
             <StoryCarousel stories={latestStories.contents} />
 
 
-            {/* PC: 左に大カード + 右に中カード2枚 */}
-            <div className="hidden tablet:block px-[75px]">
+            {/* PC: 左に大カード + 右に中カード2枚。固定幅(646+117+558)が約1471px必要なため
+                1440px 未満では下の SP カルーセルを使い、横溢れ(#2)を防ぐ */}
+            <div className="hidden min-[1440px]:block px-[75px]">
               <div className="flex gap-[117px]">
                 {/* 左: 大きなストーリーカード */}
                 {latestStories.contents[0] && (
