@@ -44,7 +44,7 @@ export default function StoryCarousel({ stories, href = '/stories', variant = 'l
   if (!stories.length) return null;
 
   return (
-    <div className="tablet:hidden">
+    <div className="min-[1440px]:hidden">
       <div
         ref={trackRef}
         className="overflow-x-auto pl-4 pb-4 snap-x snap-mandatory scroll-smooth scroll-pl-4"
