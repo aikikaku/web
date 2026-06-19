@@ -102,7 +102,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
                         ? property.rent.toLocaleString()
                         : '応談'}
                 </span>
-                <span className="font-gothic font-medium text-[14px] leading-[1.8] text-black pb-1 w-7">
+                <span className="font-gothic font-medium text-[14px] leading-[1.8] text-black pb-1 whitespace-nowrap">
                   {isSold ? '万円' : property.price ? '万円' : property.rent ? '円/月' : ''}
                 </span>
               </div>

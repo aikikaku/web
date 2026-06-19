@@ -194,7 +194,7 @@ export default function VoiceContent({ voices }: { voices: CustomerVoice[] }) {
           const list = grouped[key];
           if (list.length === 0) return null;
           return (
-            <section key={key} id={`voice-cat-${key}`} className="tablet:pt-8 tablet:first:pt-0">
+            <section key={key} id={`voice-cat-${key}`} className="tablet:pt-16 tablet:first:pt-0">
               {/* Figma SP 4211:11177 はカテゴリ見出し非表示。SP 用ナビは MobileVoiceFilter (絞り込みモーダル) で代替 */}
               <h2 className="hidden tablet:block font-mincho text-[24px] leading-[1.5] tracking-[0.04em] text-dark-green mb-6">
                 {cat.label}
