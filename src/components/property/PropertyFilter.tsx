@@ -151,7 +151,8 @@ export default function PropertyFilter() {
       <div className="flex gap-2 shrink-0">
         <button
           onClick={applyFilters}
-          className="h-[56px] px-10 bg-dark-green border border-dark-green rounded-lg font-gothic font-medium text-[16px] leading-none text-white transition-opacity hover:opacity-90 shrink-0"
+          disabled={!hasActiveFilters}
+          className="h-[56px] px-10 bg-dark-green border border-dark-green rounded-lg font-gothic font-medium text-[16px] leading-none text-white transition-opacity hover:opacity-90 shrink-0 disabled:opacity-30 disabled:cursor-not-allowed"
         >
           絞り込み
         </button>
