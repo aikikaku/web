@@ -124,6 +124,9 @@ export default async function PropertiesPage({
             </div>
           )}
 
+          {/* ページャー遷移時のスクロール着地点（絞り込みバーを含む位置）。#67 */}
+          <div id="properties-list-top" />
+
           {/* PC: 検索バー (フィルター) */}
           <div className="hidden tablet:block mb-[96px]">
             <Suspense fallback={<div className="h-14 bg-cream animate-pulse rounded-lg" />}>
@@ -150,7 +153,7 @@ export default async function PropertiesPage({
             perPage={PER_PAGE}
             currentPage={currentPage}
             basePath="/properties"
-            scrollTargetId="properties-grid"
+            scrollTargetId="properties-list-top"
             searchParams={
               Object.fromEntries(
                 Object.entries(searchParams).filter(
