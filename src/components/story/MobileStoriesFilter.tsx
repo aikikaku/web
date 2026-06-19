@@ -99,6 +99,8 @@ export default function MobileStoriesFilter() {
     setLocalRegions([]);
   }, []);
 
+  const hasActiveFilters = !!localCategory || localRegions.length > 0;
+
   const categoryLabel = categories.find((c) => c.value === localCategory)?.label || 'カテゴリ';
 
   return (
@@ -217,7 +219,8 @@ export default function MobileStoriesFilter() {
               <div className="flex gap-2 h-10 shrink-0">
                 <button
                   onClick={applyFilters}
-                  className="flex-1 h-full bg-dark-green text-white rounded-lg font-gothic font-medium text-[14px] leading-none"
+                  disabled={!hasActiveFilters}
+                  className="flex-1 h-full bg-dark-green text-white rounded-lg font-gothic font-medium text-[14px] leading-none transition-opacity disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   絞り込み
                 </button>

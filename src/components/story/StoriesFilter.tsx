@@ -110,7 +110,8 @@ export default function StoriesFilter({
       <div className="flex gap-2 shrink-0">
         <button
           onClick={applyFilter}
-          className="h-[56px] px-10 bg-dark-green text-white rounded-lg font-gothic font-medium text-[16px] leading-none transition-opacity hover:opacity-90 cursor-pointer"
+          disabled={!hasFilters}
+          className="h-[56px] px-10 bg-dark-green text-white rounded-lg font-gothic font-medium text-[16px] leading-none transition-opacity hover:opacity-90 cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
         >
           絞り込み
         </button>

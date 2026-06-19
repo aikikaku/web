@@ -118,6 +118,11 @@ export default function MobileFilterNav() {
     setLocalRegions([]);
   }, []);
 
+  const hasActiveFilters =
+    localTypes.length > 0 ||
+    localRegions.length > 0 ||
+    (!!localStatus && localStatus !== 'all');
+
   return (
     <div className="tablet:hidden">
       {/* floating button: Figma 4211:10780 (Column 342×56, pl-40 pr-20 py-8) */}
@@ -207,7 +212,8 @@ export default function MobileFilterNav() {
               <div className="flex gap-2 h-10 shrink-0">
                 <button
                   onClick={applyFilters}
-                  className="flex-1 h-full bg-dark-green text-white rounded-lg font-gothic font-medium text-[14px] leading-none"
+                  disabled={!hasActiveFilters}
+                  className="flex-1 h-full bg-dark-green text-white rounded-lg font-gothic font-medium text-[14px] leading-none transition-opacity disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   絞り込み
                 </button>
