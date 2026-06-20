@@ -175,8 +175,8 @@ export default async function StoryPage({ params }: StoryPageProps) {
                 </div>
               )}
 
-              {/* 物件リンクカード */}
-              {story.property && (
+              {/* 物件リンクカード: カテゴリ「物件のつづき」かつ物件指定時のみ表示 (#36) */}
+              {story.category === 'property' && story.property && (
                 <div className="pt-12">
                   <Link
                     href={`/properties/${story.property.id}`}

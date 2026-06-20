@@ -8,14 +8,16 @@ interface PropertyCardProps {
 
 export default function PropertyCard({ property }: PropertyCardProps) {
   const isSold = property.status === 'sold';
+  // ピルは CMS の label を優先。未設定なら category+type から算出 (#30)
   const categoryLabel =
-    property.category === 'property'
+    property.label ||
+    (property.category === 'property'
       ? property.type === 'sell'
         ? '中古住宅'
         : '賃貸物件'
       : property.type === 'sell'
         ? '売土地'
-        : '貸土地';
+        : '貸土地');
   const locationText = property.regions?.map((r) => r.name).join('・');
 
   return (
