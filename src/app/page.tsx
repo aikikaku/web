@@ -556,7 +556,7 @@ export default async function HomePage() {
             />
           </div>
           <div className="relative z-10 flex gap-[30px] items-start">
-            <div className="text-white shrink-0">
+            <div className="text-white shrink-0 pl-[60px]">
               <p className="text-body-m font-gothic font-medium leading-[2] mb-2">お問い合わせ</p>
               <p className="font-mincho text-[32px] leading-[1.5] tracking-[1.28px] whitespace-nowrap" style={{ fontFeatureSettings: "'palt' 1" }}>
                 不動産に関すること、<br />
