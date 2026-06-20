@@ -7,6 +7,8 @@ interface CheckboxDropdownProps {
   options: { value: string; label: string }[];
   selected: string[];
   onToggle: (value: string) => void;
+  /** 指定すると選択肢の先頭に「すべて」行を表示し、クリックで全解除する (#66) */
+  onClear?: () => void;
   variant?: 'default' | 'light-green';
 }
 
@@ -24,6 +26,7 @@ export default function CheckboxDropdown({
   options,
   selected,
   onToggle,
+  onClear,
 }: CheckboxDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -116,6 +119,39 @@ export default function CheckboxDropdown({
           role="listbox"
           className="absolute top-[64px] left-0 w-full bg-cream rounded-lg shadow-[0_0_8px_rgba(0,0,0,0.16)] z-20 px-6 py-4"
         >
+          {/* 「すべて」行: 選択ゼロ（＝絞り込みなし）の時にチェック表示。クリックで全解除 (#66) */}
+          {onClear && (
+            <button
+              type="button"
+              role="option"
+              aria-selected={selected.length === 0}
+              onClick={() => {
+                if (selected.length > 0) onClear();
+              }}
+              className="flex items-center gap-2 h-[40px] w-full text-left cursor-pointer"
+            >
+              <span
+                className={`size-[18px] shrink-0 inline-flex items-center justify-center rounded-[3px] border ${
+                  selected.length === 0 ? 'bg-dark-green border-dark-green' : 'bg-transparent border-dark-green/40'
+                }`}
+              >
+                {selected.length === 0 && (
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path
+                      d="M2.5 6L5 8.5L9.5 3.5"
+                      stroke="white"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                )}
+              </span>
+              <span className="font-gothic font-medium text-[16px] leading-[2] text-black">
+                すべて
+              </span>
+            </button>
+          )}
           {options.map((option) => {
             const checked = selected.includes(option.value);
             return (
