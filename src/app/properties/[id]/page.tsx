@@ -107,13 +107,15 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
     : [];
   const tocItems = [...tocFromContent, '物件概要'];
 
-  // 物件概要フィールド
+  const isSold = property.status === 'sold';
+
+  // 物件概要フィールド。成約時は所在地・土地面積・建物面積を非表示 (#31/#32)
   const detailFields: { label: string; value: string | undefined; hasTag?: boolean }[] = [
-    { label: '所在地', value: property.location, hasTag: true },
+    ...(!isSold ? [{ label: '所在地', value: property.location, hasTag: true }] : []),
     { label: '最寄駅', value: property.nearestStation },
     { label: '種別', value: categoryLabel },
-    ...(property.landArea ? [{ label: '土地面積', value: `${property.landArea}㎡` }] : []),
-    ...(property.buildingArea ? [{ label: '建物面積', value: `${property.buildingArea}㎡` }] : []),
+    ...(!isSold && property.landArea ? [{ label: '土地面積', value: `${property.landArea}㎡` }] : []),
+    ...(!isSold && property.buildingArea ? [{ label: '建物面積', value: `${property.buildingArea}㎡` }] : []),
     ...(property.layout ? [{ label: '間取り', value: property.layout }] : []),
     ...(property.constructionDate ? [{ label: '築年月', value: property.constructionDate }] : []),
     ...(property.schoolDistrict ? [{ label: '学区', value: property.schoolDistrict }] : []),
@@ -122,7 +124,6 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
   ];
 
   // 価格フィールド（特別扱い）
-  const isSold = property.status === 'sold';
   const priceValue = isSold
     ? '-'
     : property.price
@@ -372,8 +373,8 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                     </div>
                   ) : null
                 )}
-                {/* 価格行 */}
-                {priceValue && (
+                {/* 価格行（成約時は非表示 #31） */}
+                {!isSold && priceValue && (
                   <div className="flex gap-[30px] items-center py-6 border-t border-dark-green/20">
                     <p className="font-gothic font-medium text-[16px] tablet:text-[18px] leading-[1.8] text-dark-green w-[120px] tablet:w-[147px] shrink-0">
                       価格
