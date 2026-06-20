@@ -71,9 +71,9 @@ export default function PrivacyPolicyPage() {
               </div>
             ))}
 
-            {/* 日付 */}
+            {/* 制定日（公開日） */}
             <p className="text-body-l text-black">
-              2021.01　アイ企画
+              2026.8.1　アイ企画
             </p>
           </div>
         </div>

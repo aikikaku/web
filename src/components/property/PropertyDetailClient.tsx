@@ -46,16 +46,8 @@ export default function PropertyDetailClient({
             sizes="(max-width: 992px) 100vw, 646px"
             priority
           />
-          {isSold && (
-            <div
-              aria-hidden
-              className="absolute inset-0"
-              style={{
-                backgroundImage:
-                  'linear-gradient(to top, rgba(0,0,0,0) 73.635%, rgba(0,0,0,0.2) 92.755%)',
-              }}
-            />
-          )}
+          {/* 成約時は写真をブラックアウト (#33) */}
+          {isSold && <div aria-hidden className="absolute inset-0 bg-black/55" />}
           {spLabelsSlot && (
             <div className="tablet:hidden absolute inset-x-0 top-0 z-10 p-2.5">
               {spLabelsSlot}
