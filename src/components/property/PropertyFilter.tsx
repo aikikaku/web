@@ -67,34 +67,48 @@ export default function PropertyFilter() {
     });
   }, [optimisticStatus]);
 
-  // dropdown チェックは local state のみ更新。実際のフィルタ反映は「絞り込み」ボタンで applyFilters() 経由
+  // 指定の条件で URL を更新（フィルタ適用）
+  const applyWith = useCallback(
+    (status: string, types: string[], regions: string[]) => {
+      const params = new URLSearchParams();
+      // available はデフォルトなので param 不要。all のときだけ status=all を付与 (#65)
+      if (status === 'all') params.set('status', 'all');
+      if (types.length > 0) params.set('types', types.join(','));
+      if (regions.length > 0) params.set('regions', regions.join(','));
+      const qs = params.toString();
+      router.push(qs ? `/properties?${qs}` : '/properties', { scroll: false });
+    },
+    [router],
+  );
+
+  // dropdown チェック: 追加は「絞り込み」ボタン待ち。解除(deselect)は即時反映 (#69)
   const toggleType = useCallback(
     (value: string) => {
-      setOptimisticTypes((prev) =>
-        prev.includes(value) ? prev.filter((t) => t !== value) : [...prev, value],
-      );
+      const isRemoval = optimisticTypes.includes(value);
+      const next = isRemoval
+        ? optimisticTypes.filter((t) => t !== value)
+        : [...optimisticTypes, value];
+      setOptimisticTypes(next);
+      if (isRemoval) applyWith(optimisticStatus, next, optimisticRegions);
     },
-    [],
+    [applyWith, optimisticTypes, optimisticStatus, optimisticRegions],
   );
 
   const toggleRegion = useCallback(
     (value: string) => {
-      setOptimisticRegions((prev) =>
-        prev.includes(value) ? prev.filter((r) => r !== value) : [...prev, value],
-      );
+      const isRemoval = optimisticRegions.includes(value);
+      const next = isRemoval
+        ? optimisticRegions.filter((r) => r !== value)
+        : [...optimisticRegions, value];
+      setOptimisticRegions(next);
+      if (isRemoval) applyWith(optimisticStatus, optimisticTypes, next);
     },
-    [],
+    [applyWith, optimisticRegions, optimisticStatus, optimisticTypes],
   );
 
   const applyFilters = useCallback(() => {
-    const params = new URLSearchParams();
-    // available はデフォルトなので param 不要。all のときだけ status=all を付与 (#65)
-    if (optimisticStatus === 'all') params.set('status', 'all');
-    if (optimisticTypes.length > 0) params.set('types', optimisticTypes.join(','));
-    if (optimisticRegions.length > 0) params.set('regions', optimisticRegions.join(','));
-    const qs = params.toString();
-    router.push(qs ? `/properties?${qs}` : '/properties', { scroll: false });
-  }, [router, optimisticStatus, optimisticTypes, optimisticRegions]);
+    applyWith(optimisticStatus, optimisticTypes, optimisticRegions);
+  }, [applyWith, optimisticStatus, optimisticTypes, optimisticRegions]);
 
   const clearFilters = () => {
     setOptimisticStatus('available');
