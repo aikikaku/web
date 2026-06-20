@@ -52,6 +52,17 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
+  // ホバー開閉 (#17): トリガー↔パネル間のギャップでチラつかないよう閉じるのを少し遅延
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const openDropdown = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setDropdownOpen(true);
+  };
+  const scheduleCloseDropdown = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => setDropdownOpen(false), 120);
+  };
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -60,7 +71,10 @@ export default function Header() {
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      if (closeTimer.current) clearTimeout(closeTimer.current);
+    };
   }, []);
 
   return (
@@ -96,9 +110,12 @@ export default function Header() {
               </Link>
             ))}
 
-            {/* アイ企画を知る (ドロップダウントリガー) */}
+            {/* アイ企画を知る (ドロップダウントリガー)。ホバーで開く (#17)。クリックでも開閉可（タッチ/キーボード用） */}
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
+              onMouseEnter={openDropdown}
+              onMouseLeave={scheduleCloseDropdown}
+              aria-expanded={dropdownOpen}
               className="flex items-center gap-1 px-4 py-2.5 font-gothic font-medium text-base leading-none text-dark-green hover:opacity-70 transition-opacity"
             >
               アイ企画を知る
@@ -145,9 +162,13 @@ export default function Header() {
         </div>
       </nav>
 
-      {/* Desktop: フル幅ドロップダウンセクション */}
+      {/* Desktop: フル幅ドロップダウンセクション。パネル上もホバー維持 (#17) */}
       {dropdownOpen && (
-        <div className="hidden tablet:block bg-light-green">
+        <div
+          className="hidden tablet:block bg-light-green"
+          onMouseEnter={openDropdown}
+          onMouseLeave={scheduleCloseDropdown}
+        >
           <div className="flex items-start justify-between px-[75px] py-12 max-w-[1440px] mx-auto">
             {/* 左: サブページリンク */}
             <div className="flex flex-col gap-4 w-[558px] py-[30px]">
