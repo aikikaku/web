@@ -40,7 +40,8 @@ export default async function PropertiesPage({
   // フィルター条件構築
   const filters: string[] = [];
 
-  if (searchParams.status === 'available') {
+  // デフォルトは「ご案内中」のみ表示。status=all のときだけ成約済みも含める (#65)
+  if (searchParams.status !== 'all') {
     filters.push('status[contains]available');
   }
 

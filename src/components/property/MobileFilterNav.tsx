@@ -22,6 +22,13 @@ const regions = [
   'そのほかの地域',
 ];
 
+/** 2つの文字列配列が同じ要素集合かどうか（順序無視） */
+function sameSet(a: string[], b: string[]): boolean {
+  if (a.length !== b.length) return false;
+  const sb = new Set(b);
+  return a.every((x) => sb.has(x));
+}
+
 /**
  * /properties SP 用フィルター（Figma 4211:11098 floating button + 4211:11572 popup）
  * - floating: cream rounded-50 + drop-shadow + filter icon
@@ -59,7 +66,8 @@ export default function MobileFilterNav() {
     };
   }, []);
 
-  const currentStatus = searchParams.get('status') || 'all';
+  // デフォルトは「ご案内中」。status=all の時のみ全件 (#65)
+  const currentStatus = searchParams.get('status') || 'available';
   const currentTypesParam = searchParams.get('types') || '';
   const currentRegionsParam = searchParams.get('regions') || '';
   const currentTypes = useMemo(
@@ -104,7 +112,7 @@ export default function MobileFilterNav() {
 
   const applyFilters = useCallback(() => {
     const params = new URLSearchParams();
-    if (localStatus && localStatus !== 'all') params.set('status', localStatus);
+    if (localStatus === 'all') params.set('status', 'all');
     if (localTypes.length > 0) params.set('types', localTypes.join(','));
     if (localRegions.length > 0) params.set('regions', localRegions.join(','));
     const qs = params.toString();
@@ -113,15 +121,22 @@ export default function MobileFilterNav() {
   }, [router, localStatus, localTypes, localRegions, closeModal]);
 
   const clearFilters = useCallback(() => {
-    setLocalStatus('all');
+    setLocalStatus('available');
     setLocalTypes([]);
     setLocalRegions([]);
   }, []);
 
+  // 絞り込みボタン: URL に対し未適用の変更があるとき有効（戻し操作も適用できる）
+  const hasPendingChange =
+    localStatus !== currentStatus ||
+    !sameSet(localTypes, currentTypes) ||
+    !sameSet(localRegions, currentRegions);
+
+  // × クリアボタン: 既定（ご案内中・絞り込みなし）と異なるとき有効
   const hasActiveFilters =
+    localStatus !== 'available' ||
     localTypes.length > 0 ||
-    localRegions.length > 0 ||
-    (!!localStatus && localStatus !== 'all');
+    localRegions.length > 0;
 
   return (
     <div className="tablet:hidden">
@@ -212,14 +227,15 @@ export default function MobileFilterNav() {
               <div className="flex gap-2 h-10 shrink-0">
                 <button
                   onClick={applyFilters}
-                  disabled={!hasActiveFilters}
+                  disabled={!hasPendingChange}
                   className="flex-1 h-full bg-dark-green text-white rounded-lg font-gothic font-medium text-[14px] leading-none transition-opacity disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   絞り込み
                 </button>
                 <button
                   onClick={clearFilters}
-                  className="w-[61px] h-full border border-dark-green rounded-lg flex items-center justify-center shrink-0"
+                  disabled={!hasActiveFilters}
+                  className="w-[61px] h-full border border-dark-green rounded-lg flex items-center justify-center shrink-0 disabled:opacity-30 disabled:cursor-not-allowed"
                   aria-label="条件をクリア"
                 >
                   <svg width="18" height="18" viewBox="0 0 18 18" fill="none">

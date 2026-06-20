@@ -22,11 +22,19 @@ const regions = [
   'そのほかの地域',
 ];
 
+/** 2つの文字列配列が同じ要素集合かどうか（順序無視） */
+function sameSet(a: string[], b: string[]): boolean {
+  if (a.length !== b.length) return false;
+  const sb = new Set(b);
+  return a.every((x) => sb.has(x));
+}
+
 export default function PropertyFilter() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const currentStatus = searchParams.get('status') || 'all';
+  // デフォルトは「ご案内中」。status=all の時のみ全件 (#65)
+  const currentStatus = searchParams.get('status') || 'available';
   const urlTypes = useMemo(
     () => searchParams.get('types')?.split(',').filter(Boolean) || [],
     [searchParams],
@@ -80,7 +88,8 @@ export default function PropertyFilter() {
 
   const applyFilters = useCallback(() => {
     const params = new URLSearchParams();
-    if (optimisticStatus !== 'all') params.set('status', optimisticStatus);
+    // available はデフォルトなので param 不要。all のときだけ status=all を付与 (#65)
+    if (optimisticStatus === 'all') params.set('status', 'all');
     if (optimisticTypes.length > 0) params.set('types', optimisticTypes.join(','));
     if (optimisticRegions.length > 0) params.set('regions', optimisticRegions.join(','));
     const qs = params.toString();
@@ -88,16 +97,23 @@ export default function PropertyFilter() {
   }, [router, optimisticStatus, optimisticTypes, optimisticRegions]);
 
   const clearFilters = () => {
-    setOptimisticStatus('all');
+    setOptimisticStatus('available');
     setOptimisticTypes([]);
     setOptimisticRegions([]);
     router.push('/properties', { scroll: false });
   };
 
+  // 絞り込みボタン: URL に対し未適用の変更があるとき有効（戻し操作も適用できる）
+  const hasPendingChange =
+    optimisticStatus !== currentStatus ||
+    !sameSet(optimisticTypes, urlTypes) ||
+    !sameSet(optimisticRegions, urlRegions);
+
+  // × クリアボタン: 既定（ご案内中・絞り込みなし）と異なるとき有効
   const hasActiveFilters =
+    optimisticStatus !== 'available' ||
     optimisticTypes.length > 0 ||
-    optimisticRegions.length > 0 ||
-    optimisticStatus !== 'all';
+    optimisticRegions.length > 0;
 
   return (
     <div className="hidden tablet:flex items-center gap-2 justify-between">
@@ -151,7 +167,7 @@ export default function PropertyFilter() {
       <div className="flex gap-2 shrink-0">
         <button
           onClick={applyFilters}
-          disabled={!hasActiveFilters}
+          disabled={!hasPendingChange}
           className="h-[56px] px-10 bg-dark-green border border-dark-green rounded-lg font-gothic font-medium text-[16px] leading-none text-white transition-opacity hover:opacity-90 shrink-0 disabled:opacity-30 disabled:cursor-not-allowed"
         >
           絞り込み
