@@ -110,6 +110,17 @@ export default function PropertyFilter() {
     applyWith(optimisticStatus, optimisticTypes, optimisticRegions);
   }, [applyWith, optimisticStatus, optimisticTypes, optimisticRegions]);
 
+  // ドロップダウンの「すべて」: その項目だけ全解除して即反映（解除＝自動更新 #69 と整合）
+  const clearTypes = useCallback(() => {
+    setOptimisticTypes([]);
+    applyWith(optimisticStatus, [], optimisticRegions);
+  }, [applyWith, optimisticStatus, optimisticRegions]);
+
+  const clearRegions = useCallback(() => {
+    setOptimisticRegions([]);
+    applyWith(optimisticStatus, optimisticTypes, []);
+  }, [applyWith, optimisticStatus, optimisticTypes]);
+
   const clearFilters = () => {
     setOptimisticStatus('available');
     setOptimisticTypes([]);
@@ -169,12 +180,14 @@ export default function PropertyFilter() {
         options={propertyTypes}
         selected={optimisticTypes}
         onToggle={toggleType}
+        onClear={clearTypes}
       />
       <CheckboxDropdown
         label="地域"
         options={regions.map((r) => ({ value: r, label: r }))}
         selected={optimisticRegions}
         onToggle={toggleRegion}
+        onClear={clearRegions}
       />
       </div>
 
