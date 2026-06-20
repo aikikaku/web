@@ -384,8 +384,9 @@ export default async function HomePage() {
 
 
             {/* PC: 左に大カード + 右に中カード2枚。固定幅(646+117+558)が約1471px必要なため
-                1440px 未満では下の SP カルーセルを使い、横溢れ(#2)を防ぐ */}
-            <div className="hidden min-[1440px]:block px-[75px]">
+                1440px 未満では下の SP カルーセルを使い、横溢れ(#2)を防ぐ。
+                max-w-[1440px] mx-auto で見出しと中央位置を揃える(#76 左寄り解消) */}
+            <div className="hidden min-[1440px]:block px-[75px] max-w-[1440px] mx-auto">
               <div className="flex gap-[117px]">
                 {/* 左: 大きなストーリーカード */}
                 {latestStories.contents[0] && (
