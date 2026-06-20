@@ -128,8 +128,9 @@ export default async function PropertiesPage({
           {/* ページャー遷移時のスクロール着地点（絞り込みバーを含む位置）。#67 */}
           <div id="properties-list-top" />
 
-          {/* PC: 検索バー (フィルター) */}
-          <div className="hidden tablet:block mb-[96px]">
+          {/* PC: 検索バー (フィルター)。ヘッダー(高さ98px)直下に sticky 固定 (#68)。
+              スクロール時にカードが透けないよう bg-cream + 上下に余白 */}
+          <div className="hidden tablet:block sticky top-[98px] z-30 bg-cream pt-6 pb-8 mb-[72px]">
             <Suspense fallback={<div className="h-14 bg-cream animate-pulse rounded-lg" />}>
               <PropertyFilter />
             </Suspense>
