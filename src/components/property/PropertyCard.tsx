@@ -88,8 +88,8 @@ export default function PropertyCard({ property }: PropertyCardProps) {
         {/* Price / Layout — borders are full-width on SP。layout が無い場合は border-r を出さず単独セルに */}
         <div className="pb-3">
           <div className="flex border-t border-b border-dark-green/20">
-            <div className={`flex-1 ${property.layout ? 'border-r border-dark-green/20' : ''} pt-2 pb-4`}>
-              <div className="pl-2">
+            <div className={`flex-1 ${property.layout ? 'border-r border-dark-green/20' : ''} p-2`}>
+              <div>
                 <span className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green">
                   {property.type === 'rent' ? '賃料' : '価格'}
                 </span>
@@ -110,8 +110,8 @@ export default function PropertyCard({ property }: PropertyCardProps) {
               </div>
             </div>
             {property.layout && (
-              <div className="flex-1 pt-2 pb-4">
-                <div className="pl-2">
+              <div className="flex-1 p-2">
+                <div>
                   <span className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green">
                     間取り
                   </span>
