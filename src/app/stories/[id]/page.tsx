@@ -168,9 +168,9 @@ export default async function StoryPage({ params }: StoryPageProps) {
           {/* 右: リッチテキストコンテンツ */}
           <div className="w-full tablet:w-[734px]">
             <div>
-              {/* microCMS content フィールド（richEditorV2） */}
+              {/* microCMS content フィールド（richEditorV2）。主要ブロック間の余白を 48px に統一 (#19/#37) */}
               {story.content && (
-                <div className="pt-6">
+                <div className="pt-12">
                   <RichText content={story.content} />
                 </div>
               )}
