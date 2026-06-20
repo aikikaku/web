@@ -7,6 +7,7 @@ import CmsImage from '@/components/ui/CmsImage';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getImageUrl } from '@/lib/microcms/image';
+import { getTypeformContactUrl } from '@/lib/typeform';
 import type { MicroCMSImage } from '@/types/microcms';
 import PropertyDetailClient from '@/components/property/PropertyDetailClient';
 import RichText, { extractTocFromHtml } from '@/components/ui/RichText';
@@ -110,6 +111,12 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
   const tocItems = [...tocFromContent, '物件概要'];
 
   const isSold = property.status === 'sold';
+
+  // お問い合わせ: Typeform フォームが設定されていれば物件情報付きでそこへ、無ければ /for-customer (#63)
+  const typeformContactUrl = getTypeformContactUrl({
+    id: property.id,
+    title: property.title,
+  });
 
   // 物件概要フィールド。成約時は所在地・土地面積・建物面積を非表示 (#31/#32)
   const detailFields: { label: string; value: string | undefined; hasTag?: boolean }[] = [
@@ -431,20 +438,39 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                     </span>
                   </Link>
                 )}
-                <Link
-                  href="/for-customer"
-                  className="flex-1 bg-dark-green rounded-2xl p-[30px] h-[108px] flex items-center justify-between hover:opacity-90 transition-opacity"
-                >
-                  <p className="font-gothic font-medium text-[20px] leading-[1.6] text-white px-3">
-                    お問い合わせ
-                  </p>
-                  <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue shrink-0">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                      <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                      <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </span>
-                </Link>
+                {typeformContactUrl ? (
+                  <a
+                    href={typeformContactUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 bg-dark-green rounded-2xl p-[30px] h-[108px] flex items-center justify-between hover:opacity-90 transition-opacity"
+                  >
+                    <p className="font-gothic font-medium text-[20px] leading-[1.6] text-white px-3">
+                      お問い合わせ
+                    </p>
+                    <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue shrink-0">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                        <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </span>
+                  </a>
+                ) : (
+                  <Link
+                    href="/for-customer"
+                    className="flex-1 bg-dark-green rounded-2xl p-[30px] h-[108px] flex items-center justify-between hover:opacity-90 transition-opacity"
+                  >
+                    <p className="font-gothic font-medium text-[20px] leading-[1.6] text-white px-3">
+                      お問い合わせ
+                    </p>
+                    <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue shrink-0">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                        <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </span>
+                  </Link>
+                )}
               </div>
             )}
 
