@@ -37,7 +37,7 @@ export default function StoryCard({ story, size = 'm', variant = 'light' }: Stor
           image={story.thumbnail}
           alt={story.title}
           fill
-          className="object-cover transition-transform group-hover:scale-105"
+          className="object-cover transition-transform group-hover:scale-[1.02]"
           sizes="(max-width: 992px) 100vw, 646px"
         />
       </div>

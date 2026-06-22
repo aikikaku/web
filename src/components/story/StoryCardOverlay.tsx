@@ -33,7 +33,7 @@ export default function StoryCardOverlay({ story, className }: Props) {
           image={story.thumbnail}
           alt={story.title}
           fill
-          className="object-cover transition-transform group-hover:scale-105"
+          className="object-cover transition-transform group-hover:scale-[1.02]"
           sizes="(max-width: 992px) 332px, 410px"
         />
         <div

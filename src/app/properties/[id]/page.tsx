@@ -498,7 +498,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                           image={property.story.thumbnail}
                           alt={property.story.title}
                           fill
-                          className="object-cover transition-transform group-hover:scale-105"
+                          className="object-cover transition-transform group-hover:scale-[1.02]"
                           sizes="(max-width: 992px) 100vw, 320px"
                         />
                       )}
