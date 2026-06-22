@@ -316,7 +316,14 @@ export default function AboutPage() {
                       </a>
                     </dd>
                   </div>
-                  <div className="w-full aspect-[528/370] relative rounded-2xl overflow-hidden border border-dark-green/20">
+                  {/* 地図画像をクリックで Google マップへ (#59) */}
+                  <a
+                    href="https://maps.google.com/?q=静岡県三島市加茂18番地の7"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Google マップでアイ企画の所在地を開く"
+                    className="block w-full aspect-[528/370] relative rounded-2xl overflow-hidden border border-dark-green/20 hover:opacity-90 transition-opacity"
+                  >
                     <Image
                       src="/images/about/map.jpg"
                       alt="アイ企画の所在地マップ"
@@ -324,7 +331,7 @@ export default function AboutPage() {
                       className="object-cover"
                       sizes="(min-width: 992px) 528px, 100vw"
                     />
-                  </div>
+                  </a>
                 </div>
                 <div className="flex items-center justify-between gap-4 py-5 tablet:py-6">
                   <dt className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green shrink-0">電話</dt>
