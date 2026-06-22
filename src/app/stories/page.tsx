@@ -55,7 +55,7 @@ function StoryCardLarge({ story }: { story: Story }) {
             image={story.thumbnail}
             alt={story.title}
             fill
-            className="object-cover transition-transform group-hover:scale-105"
+            className="object-cover transition-transform group-hover:scale-[1.02]"
             sizes="410px"
           />
         </div>
@@ -103,7 +103,7 @@ function FeaturedStoryCard({ story }: { story: Story }) {
             image={story.thumbnail}
             alt={story.title}
             fill
-            className="object-cover transition-transform group-hover:scale-105"
+            className="object-cover transition-transform group-hover:scale-[1.02]"
             sizes="(max-width: 992px) 100vw, 850px"
             priority
           />

@@ -287,7 +287,7 @@ export default async function HomePage() {
                   src="/images/home/service-customer.jpg"
                   alt="不動産をお探しの方へ"
                   fill
-                  className="object-cover transition-transform group-hover:scale-105"
+                  className="object-cover transition-transform group-hover:scale-[1.02]"
                 />
               </div>
             </Link>
@@ -318,7 +318,7 @@ export default async function HomePage() {
                   src="/images/home/service-owner.jpg"
                   alt="不動産をお持ちの方へ"
                   fill
-                  className="object-cover transition-transform group-hover:scale-105"
+                  className="object-cover transition-transform group-hover:scale-[1.02]"
                 />
               </div>
             </Link>
@@ -397,7 +397,7 @@ export default async function HomePage() {
                           src={latestStories.contents[0].thumbnail?.url || '/images/home/hero-1.jpg'}
                           alt={latestStories.contents[0].title}
                           fill
-                          className="object-cover transition-transform group-hover:scale-105"
+                          className="object-cover transition-transform group-hover:scale-[1.02]"
                         />
                       </div>
                       <div className="pt-[30px] px-3">
@@ -433,7 +433,7 @@ export default async function HomePage() {
                           src={story.thumbnail?.url || '/images/home/hero-1.jpg'}
                           alt={story.title}
                           fill
-                          className="object-cover transition-transform group-hover:scale-105"
+                          className="object-cover transition-transform group-hover:scale-[1.02]"
                         />
                       </div>
                       <div className="flex flex-col flex-1">
