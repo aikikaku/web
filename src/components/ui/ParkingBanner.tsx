@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import ArrowButton from '@/components/ui/ArrowButton';
 
 /**
  * 駐車場バナー（PC・SP 兼用）。Figma 4211:10353 (PC) / 4211:10741 (SP) に準拠。
@@ -33,11 +34,7 @@ export default function ParkingBanner() {
                 三島市で駐車場をお探しの方へ
               </p>
             </div>
-            <span className="bg-accent-blue w-11 h-11 tablet:w-12 tablet:h-12 rounded-full inline-flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </span>
+            <ArrowButton sizeClassName="w-11 h-11 tablet:w-12 tablet:h-12" />
           </div>
         </Link>
       </div>

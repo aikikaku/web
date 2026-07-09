@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import ArrowButton from '@/components/ui/ArrowButton';
 import { useState, useEffect, useRef } from 'react';
 
 const navLinks = [
@@ -206,12 +207,7 @@ export default function Header() {
                         {card.sub}
                       </span>
                     </div>
-                    <span className="w-12 h-12 rounded-full bg-accent-blue flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                        <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
+                    <ArrowButton />
                   </div>
 
                   {/* 画像 */}
