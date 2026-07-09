@@ -3,6 +3,7 @@ import TocNav from '@/components/ui/TocNav';
 import MobileTocNav from '@/components/ui/MobileTocNav';
 import HeroCardStory from '@/components/ui/HeroCardStory';
 import ServiceCTA from '@/components/ui/ServiceCTA';
+import Reveal from '@/components/ui/Reveal';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -259,7 +260,7 @@ export default function StaffInterviewPage() {
 
       {/* インタビューセクション（PC: サイドバー付き / SP: フローティング TOC）
           Figma SP 4211:11660: section pb-[120px]、各 item pb-[24px] */}
-      <section className="pt-12 tablet:pt-24 pb-[120px] tablet:pb-24 px-4 tablet:pl-[45px] tablet:pr-[75px] max-w-[1440px] mx-auto">
+      <Reveal as="section" className="pt-12 tablet:pt-24 pb-[120px] tablet:pb-24 px-4 tablet:pl-[45px] tablet:pr-[75px] max-w-[1440px] mx-auto">
         <div className="flex max-tablet:flex-col items-start tablet:justify-between">
           {/* PC: TOC サイドバー（スクロール追従）。SP は MobileTocNav で代替 */}
           <div className="hidden tablet:block tablet:w-[323px] shrink-0 tablet:sticky tablet:top-24">
@@ -381,13 +382,15 @@ export default function StaffInterviewPage() {
             </div>
           </div>
         </div>
-      </section>
+      </Reveal>
 
       {/* サービス CTA (共通コンポーネント Figma 4211:11395) */}
-      <ServiceCTA
-        customerImage="/images/staff-interview/cta-customer.jpg"
-        ownerImage="/images/staff-interview/cta-owner.jpg"
-      />
+      <Reveal>
+        <ServiceCTA
+          customerImage="/images/staff-interview/cta-customer.jpg"
+          ownerImage="/images/staff-interview/cta-owner.jpg"
+        />
+      </Reveal>
     </div>
   );
 }

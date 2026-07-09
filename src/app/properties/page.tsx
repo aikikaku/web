@@ -8,6 +8,7 @@ import Pagination from '@/components/ui/Pagination';
 import MobileFilterNav from '@/components/property/MobileFilterNav';
 import ParkingBanner from '@/components/ui/ParkingBanner';
 import ContactBanner from '@/components/ui/ContactBanner';
+import Reveal from '@/components/ui/Reveal';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -169,10 +170,14 @@ export default async function PropertiesPage({
       </section>
 
       {/* 駐車場セクション */}
-      <ParkingBanner />
+      <Reveal>
+        <ParkingBanner />
+      </Reveal>
 
       {/* お問い合わせバナー */}
-      <ContactBanner />
+      <Reveal>
+        <ContactBanner />
+      </Reveal>
     </div>
   );
 }
