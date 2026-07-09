@@ -8,6 +8,9 @@ interface PropertyCardProps {
 
 export default function PropertyCard({ property }: PropertyCardProps) {
   const isSold = property.status === 'sold';
+  const isNegotiating = property.status === 'negotiating';
+  // 状態ラベル: 成約済み or 商談中（案内中は非表示）(#35)
+  const statusLabel = isSold ? '成約済み' : isNegotiating ? '商談中' : null;
   // ピルは CMS の label を優先。未設定なら category+type から算出 (#30)
   const categoryLabel =
     property.label ||
@@ -59,16 +62,16 @@ export default function PropertyCard({ property }: PropertyCardProps) {
               </span>
             )}
           </div>
-          {isSold && (
+          {statusLabel && (
             <span className="inline-flex items-center bg-dark-green text-white font-gothic font-medium text-[14px] leading-none rounded-full px-3 py-1.5 shrink-0">
-              商談中
+              {statusLabel}
             </span>
           )}
         </div>
-        {/* PC: 画像右上に商談中 */}
-        {isSold && (
+        {/* PC: 画像右上に状態ラベル */}
+        {statusLabel && (
           <span className="hidden tablet:inline-flex absolute top-3 right-3 items-center bg-dark-green text-white font-gothic font-medium text-[14px] leading-none rounded-full px-3 py-1.5">
-            商談中
+            {statusLabel}
           </span>
         )}
       </div>

@@ -112,6 +112,8 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
   const tocItems = [...tocFromContent, '物件概要'];
 
   const isSold = property.status === 'sold';
+  // 状態ラベル: 成約済み or 商談中（案内中は非表示）(#35)
+  const statusLabel = isSold ? '成約済み' : property.status === 'negotiating' ? '商談中' : null;
 
   // お問い合わせ: Typeform フォームが設定されていれば物件情報付きでそこへ、無ければ /for-customer (#63)
   const typeformContactUrl = getTypeformContactUrl({
@@ -232,9 +234,9 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                 {/* ラベル + 地域 (PC のみ。SP は spLabelsSlot で画像 overlay) */}
                 <div>
                   <div className="hidden tablet:flex gap-3 items-center">
-                    {property.status === 'sold' && (
+                    {statusLabel && (
                       <span className="tag-pill-dark text-[14px] leading-none px-3 py-1.5">
-                        成約済み
+                        {statusLabel}
                       </span>
                     )}
                     <span className="tag-pill text-[14px] leading-none px-3 py-1.5">

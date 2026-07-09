@@ -13,6 +13,7 @@ interface Props {
 
 export default function PickupCard({ property }: Props) {
   const isSold = property.status === 'sold';
+  const statusLabel = isSold ? '成約済み' : property.status === 'negotiating' ? '商談中' : null;
   const allImages = [property.mainImage, ...(property.images || [])].filter(Boolean);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -70,16 +71,16 @@ export default function PickupCard({ property }: Props) {
                   </span>
                 )}
               </div>
-              {isSold && (
+              {statusLabel && (
                 <span className="inline-flex items-center bg-dark-green text-white font-gothic font-medium text-[14px] leading-none rounded-full px-3 py-1.5 shrink-0">
-                  商談中
+                  {statusLabel}
                 </span>
               )}
             </div>
-            {/* PC: 商談中バッジは右上に単独 */}
-            {isSold && (
+            {/* PC: 状態バッジは右上に単独 */}
+            {statusLabel && (
               <span className="hidden tablet:inline-flex absolute top-4 right-4 z-20 items-center bg-dark-green text-white font-gothic font-medium text-[14px] leading-none rounded-full px-3 py-1.5">
-                商談中
+                {statusLabel}
               </span>
             )}
           </div>
@@ -116,9 +117,9 @@ export default function PickupCard({ property }: Props) {
           <div className="flex flex-col tablet:pt-3">
             {/* Tags + Location: PC のみ（SP はラベルを画像内 overlay に表示）*/}
             <div className="hidden tablet:flex flex-wrap items-center gap-2">
-              {isSold && (
+              {statusLabel && (
                 <span className="inline-flex items-center bg-dark-green text-white font-gothic font-medium text-[14px] leading-none rounded-full px-3 py-1.5">
-                  商談中
+                  {statusLabel}
                 </span>
               )}
               <span className="tag-pill text-[14px] leading-none px-3 py-1.5">
