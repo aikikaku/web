@@ -167,13 +167,13 @@ export default function PropertyCard({ property }: PropertyCardProps) {
         <div className="hidden tablet:flex items-center gap-2.5">
           <div className={`flex items-center w-full ${isSold && property.story ? 'justify-between' : 'gap-2.5'}`}>
             <div className={`h-[44px] ${isSold && property.story ? 'w-[187px]' : 'flex-1 min-w-[176px]'}`}>
-              <span className="flex items-center justify-center w-full h-full border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-opacity hover:opacity-70">
+              <span className="flex items-center justify-center w-full h-full border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-colors group-hover:bg-dark-green group-hover:text-white">
                 物件詳細
               </span>
             </div>
             {isSold && property.story && (
               <div className="h-[44px] w-[187px]">
-                <span className="flex items-center justify-center gap-1 w-full h-full border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-opacity hover:opacity-70">
+                <span className="flex items-center justify-center gap-1 w-full h-full border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-colors group-hover:bg-dark-green group-hover:text-white">
                   <svg
                     width="24"
                     height="24"
