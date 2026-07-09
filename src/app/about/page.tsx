@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import ServiceCTA from '@/components/ui/ServiceCTA';
+import ArrowButton from '@/components/ui/ArrowButton';
 
 export const metadata: Metadata = {
   title: 'アイ企画について',
@@ -119,11 +120,7 @@ export default function AboutPage() {
               <div className="flex justify-end">
                 <Link href="/message" className="inline-flex items-center gap-2 group">
                   <span className="font-gothic font-medium text-[18px] text-dark-green">もっと知る</span>
-                  <span className="bg-accent-blue w-12 h-12 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                      <path d="M5 12h14M12 5l7 7-7 7" />
-                    </svg>
-                  </span>
+                  <ArrowButton />
                 </Link>
               </div>
             </div>
@@ -202,11 +199,7 @@ export default function AboutPage() {
               <div className="flex justify-end">
                 <Link href="/staff-interview" className="inline-flex items-center gap-2 group">
                   <span className="font-gothic font-medium text-[18px] text-cream">もっと知る</span>
-                  <span className="bg-accent-blue w-12 h-12 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                      <path d="M5 12h14M12 5l7 7-7 7" />
-                    </svg>
-                  </span>
+                  <ArrowButton />
                 </Link>
               </div>
             </div>

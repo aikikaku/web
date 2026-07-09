@@ -1,6 +1,7 @@
 import { getStory, getStories } from '@/lib/microcms/queries';
 import StoryCard from '@/components/story/StoryCard';
 import CmsImage from '@/components/ui/CmsImage';
+import ArrowButton from '@/components/ui/ArrowButton';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
@@ -187,12 +188,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
                         この物件について
                       </p>
                     </div>
-                    <span className="w-12 h-12 rounded-full bg-accent-blue flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                        <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
+                    <ArrowButton />
                   </Link>
                 </div>
               )}
