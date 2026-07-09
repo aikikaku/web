@@ -1,3 +1,5 @@
+import SearchProgress from '@/components/ui/SearchProgress';
+
 export default function Loading() {
   return (
     <div className="bg-cream">
@@ -9,9 +11,7 @@ export default function Loading() {
           >
             暮らしを知る
           </h1>
-          <p className="font-gothic font-medium text-[16px] leading-[2] text-dark-green/60 py-12 text-center">
-            検索中...
-          </p>
+          <SearchProgress label="検索中..." />
         </div>
       </section>
     </div>

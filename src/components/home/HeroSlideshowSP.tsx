@@ -9,83 +9,85 @@ const slides = [
   '/images/home/hero-3.jpg',
 ];
 
+const DISPLAY_MS = 4500; // 各画像の表示時間
+const FADE_MS = 1000; // クロスフェード時間
+
+/**
+ * SP ヒーロースライドショー (デザインレビュー VEz1nsZDWbIP)。
+ * - 画像切り替えはスライドではなくクロスフェード（ふわっと）。
+ * - 自動再生。右下のボタンで停止/再生できる。
+ * - prefers-reduced-motion 時は自動再生せず、フェードも無効（即時切替）。
+ */
 export default function HeroSlideshowSP() {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const flexRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [playing, setPlaying] = useState(true);
+  const [reduced, setReduced] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    const el = trackRef.current;
-    const flex = flexRef.current;
-    if (!el || !flex) return;
-    const handleScroll = () => {
-      const slideWidth = (flex.children[0] as HTMLElement | undefined)?.getBoundingClientRect().width || 1;
-      const idx = Math.round(el.scrollLeft / slideWidth);
-      setActiveIndex(Math.min(idx, slides.length - 1));
-    };
-    el.addEventListener('scroll', handleScroll, { passive: true });
-    return () => el.removeEventListener('scroll', handleScroll);
+    setReduced(window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false);
   }, []);
 
-  const scrollToSlide = (index: number) => {
-    const el = trackRef.current;
-    const flex = flexRef.current;
-    if (!el || !flex) return;
-    const target = flex.children[index] as HTMLElement | undefined;
-    if (!target) return;
-    const delta = target.getBoundingClientRect().left - el.getBoundingClientRect().left;
-    el.scrollTo({ left: el.scrollLeft + delta, behavior: 'smooth' });
-  };
+  useEffect(() => {
+    if (!playing || reduced) return;
+    timerRef.current = setInterval(() => {
+      setActiveIndex((i) => (i + 1) % slides.length);
+    }, DISPLAY_MS);
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [playing, reduced]);
 
-  const goNext = () => scrollToSlide((activeIndex + 1) % slides.length);
-  const goTo = (index: number) => scrollToSlide(index);
+  const goTo = (index: number) => setActiveIndex(index);
 
   return (
     <div className="flex flex-col gap-[10px] tablet:hidden">
-      <div className="relative">
-        <div
-          ref={trackRef}
-          className="overflow-x-auto snap-x snap-mandatory scroll-smooth"
-          style={{ scrollbarWidth: 'none' }}
-        >
-          <div ref={flexRef} className="flex">
-            {slides.map((src, i) => (
-              <div
-                key={i}
-                className="relative h-[354px] w-full shrink-0 snap-start"
-              >
-                <div className="relative h-full w-full -mr-4 rounded-l-3xl overflow-hidden">
-                  <Image
-                    src={src}
-                    alt={`三島の風景 ${i + 1}`}
-                    fill
-                    className="object-cover"
-                    priority={i === 0}
-                    sizes="100vw"
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
+      <div className="relative h-[354px]">
+        {/* 画像は右へ 16px はみ出す rounded-l-3xl コンテナ内でクロスフェード */}
+        <div className="relative h-full w-full -mr-4 rounded-l-3xl overflow-hidden">
+          {slides.map((src, i) => (
+            <div
+              key={src}
+              className="absolute inset-0 transition-opacity ease-in-out"
+              style={{
+                opacity: i === activeIndex ? 1 : 0,
+                transitionDuration: reduced ? '0ms' : `${FADE_MS}ms`,
+              }}
+              aria-hidden={i === activeIndex ? undefined : true}
+            >
+              <Image
+                src={src}
+                alt={`三島の風景 ${i + 1}`}
+                fill
+                className="object-cover"
+                priority={i === 0}
+                sizes="100vw"
+              />
+            </div>
+          ))}
         </div>
-        {/* 次へアイコン: Figma 4211:10605 で Subtract path は (334, 318)/24x24 配置 = component frame (358×354) の右端ぴったり / bottom-12px。
-            ボタンの bounding box そのものを 24x24 にして absolute right-0 bottom-3 で Figma 通りに配置。shadow は CSS drop-shadow で表現（SVG filter の 56x56 padding が不要に）*/}
+
+        {/* 再生/停止ボタン: component frame 右端 0px / bottom 12px（Figma 4211:10610 のアイコン位置を踏襲） */}
         <button
           type="button"
-          onClick={goNext}
-          aria-label="次のスライド"
-          // Figma 4211:10610 メタデータ: icon は component frame (358×354) の右端 0px / bottom 12px に配置。
-          // .relative 親 = track (w=358) と同寸なので right-0 (0px from .relative right) で Figma と一致。
-          // 画像は -mr-4 で 16px はみ出るが、Figma 上のアイコンも component 右端 = 画像 right-16 内側なので右下コーナーへ視覚的に収まる。
+          onClick={() => setPlaying((p) => !p)}
+          aria-label={playing ? '自動再生を停止' : '自動再生を再生'}
+          aria-pressed={playing}
           className="absolute right-3 bottom-3 size-6 inline-flex items-center justify-center active:scale-95 transition-transform"
           style={{ filter: 'drop-shadow(0 0 8px rgba(0,0,0,0.16))' }}
         >
           <svg viewBox="0 0 24 24" fill="none" className="size-full">
-            <path
-              d="M12 0C18.6274 0 24 5.3726 24 12C24 18.6274 18.6274 24 12 24C5.3726 24 0 18.6274 0 12C0 5.3726 5.3726 0 12 0ZM10.0215 7.7109C9.6882 7.5185 9.2716 7.7587 9.2715 8.1436V15.8594C9.2716 16.2442 9.6882 16.4844 10.0215 16.292L16.7031 12.4346C17.0365 12.2421 17.0365 11.7608 16.7031 11.5684L10.0215 7.7109Z"
-              fill="#FCFFF7"
-              fillOpacity="0.5"
-            />
+            <circle cx="12" cy="12" r="12" fill="#FCFFF7" fillOpacity="0.5" />
+            {playing ? (
+              // 一時停止（2本線）
+              <g fill="#27333B">
+                <rect x="9" y="8" width="2" height="8" rx="1" />
+                <rect x="13" y="8" width="2" height="8" rx="1" />
+              </g>
+            ) : (
+              // 再生（三角）
+              <path d="M10 8.5v7l6-3.5-6-3.5Z" fill="#27333B" />
+            )}
           </svg>
         </button>
       </div>

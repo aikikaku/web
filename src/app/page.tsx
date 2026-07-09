@@ -8,6 +8,7 @@ import HeroSlideshowSP from '@/components/home/HeroSlideshowSP';
 import SeeAllLink from '@/components/ui/SeeAllLink';
 import ParkingBanner from '@/components/ui/ParkingBanner';
 import Reveal from '@/components/ui/Reveal';
+import ParallaxLayer from '@/components/ui/ParallaxLayer';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -170,28 +171,30 @@ export default async function HomePage() {
         {/* SP 背景: Figma 4211:10628 専用画像（空のみ）/ cover 中央。
             PC 用画像 service-bg.png は駅写真のためそのまま使うと地面しか見えなかった。
             Figma が SP では別アセット（空のみ）を使っていたため、別ファイルとして配置。 */}
-        <div
-          aria-hidden
-          className="tablet:hidden absolute inset-0 bg-[#d9d9d9] pointer-events-none select-none"
-          style={{
-            backgroundImage: "url('/images/home/service-bg-sp.png')",
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: '50% 50%',
-            backgroundSize: 'cover',
-          }}
-        />
-        {/* PC 背景: Figma 4211:9984 の `-263.466px -6.76px / 205.327% 353.941% no-repeat` を完全転記。
-            画像は駅写真だが、この拡大とオフセットで上部の空のみが可視範囲に入る。 */}
-        <div
-          aria-hidden
-          className="hidden tablet:block absolute inset-0 bg-[#d9d9d9] pointer-events-none select-none"
-          style={{
-            backgroundImage: "url('/images/home/service-bg.png')",
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: '-263.466px -6.76px',
-            backgroundSize: '205.327% 353.941%',
-          }}
-        />
+        <ParallaxLayer strength={0.08}>
+          <div
+            aria-hidden
+            className="tablet:hidden absolute inset-0 bg-[#d9d9d9] pointer-events-none select-none"
+            style={{
+              backgroundImage: "url('/images/home/service-bg-sp.png')",
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: '50% 50%',
+              backgroundSize: 'cover',
+            }}
+          />
+          {/* PC 背景: Figma 4211:9984 の `-263.466px -6.76px / 205.327% 353.941% no-repeat` を完全転記。
+              画像は駅写真だが、この拡大とオフセットで上部の空のみが可視範囲に入る。 */}
+          <div
+            aria-hidden
+            className="hidden tablet:block absolute inset-0 bg-[#d9d9d9] pointer-events-none select-none"
+            style={{
+              backgroundImage: "url('/images/home/service-bg.png')",
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: '-263.466px -6.76px',
+              backgroundSize: '205.327% 353.941%',
+            }}
+          />
+        </ParallaxLayer>
         <div className="relative px-4 tablet:px-[45px] max-w-[1440px] mx-auto">
           {/* SP: 背景画像cover + ダークオーバーレイ */}
           <div className="flex flex-col gap-6 tablet:hidden">
