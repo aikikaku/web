@@ -65,6 +65,16 @@
     transform: none;
   }
 
+  /* ─── トップ PC ヒーローのゆっくりズーム (#EjAsuZuByOas) ─── */
+  @keyframes hero-zoom {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1.06);
+    }
+  }
+
   /* ─── 検索ローディングのプログレスバー (#25) ─── */
   /* light-blue(#d9e9f4) → blue(#3cb1ff) のグラデーションが左右に流れる */
   .search-progress {
