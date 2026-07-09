@@ -4,6 +4,7 @@ import VoiceCarousel from '@/components/home/VoiceCarousel';
 import StorySection from '@/components/story/StorySection';
 import FaqSection from '@/components/ui/FaqSection';
 import ContactCtaBanner from '@/components/ui/ContactCtaBanner';
+import Reveal from '@/components/ui/Reveal';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
@@ -131,7 +132,7 @@ export default async function ForCustomerPage() {
       </section>
 
       {/* まずはご相談 (Figma PC 4211:11405 = 1440×720 / SP 4211:11902 = compact) */}
-      <section className="relative overflow-hidden tablet:min-h-[720px] tablet:flex tablet:items-center">
+      <Reveal as="section" className="relative overflow-hidden tablet:min-h-[720px] tablet:flex tablet:items-center">
         <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
           <Image
             src="/images/for-customer/section-bg.jpg"
@@ -167,10 +168,10 @@ export default async function ForCustomerPage() {
             </div>
           </div>
         </div>
-      </section>
+      </Reveal>
 
       {/* ご入居までの流れ (Figma SP 4211:11793 - 左寄せ) */}
-      <section className="bg-cream py-[60px] tablet:py-24">
+      <Reveal as="section" className="bg-cream py-[60px] tablet:py-24">
         <div className="page-container">
           <div className="flex flex-col gap-2 items-start tablet:items-center tablet:text-center mb-8 tablet:mb-12">
             <p className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green">
@@ -205,10 +206,10 @@ export default async function ForCustomerPage() {
             ))}
           </div>
         </div>
-      </section>
+      </Reveal>
 
       {/* アイ企画での物件探しの特徴 (Figma SP 4211:11803 - 左寄せ・余白調整) */}
-      <section className="bg-light-green py-[60px] tablet:py-24">
+      <Reveal as="section" className="bg-light-green py-[60px] tablet:py-24">
         <div className="page-container">
           {/* Section heading */}
           <div className="flex flex-col gap-2 mb-6 tablet:mb-8">
@@ -294,47 +295,52 @@ export default async function ForCustomerPage() {
             ))}
           </div>
         </div>
-      </section>
+      </Reveal>
 
       {/* 物件情報 (Figma 4211:11428): /properties/[id] の「もっと物件を見る」と同パターン → MoreProperties 転用 */}
       {properties.contents.length > 0 && (
-        <section className="bg-cream py-[60px] tablet:py-24">
+        <Reveal as="section" className="bg-cream py-[60px] tablet:py-24">
           <div className="px-4 tablet:px-[75px] max-w-[1440px] mx-auto">
             <h2 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.28px] tablet:tracking-[1.92px] text-dark-green mb-8 tablet:mb-12" style={{ fontFeatureSettings: "'palt' 1" }}>
               物件情報
             </h2>
             <MoreProperties properties={properties.contents.slice(0, 6)} />
           </div>
-        </section>
+        </Reveal>
       )}
 
       {/* CTA バナー (Figma 4211:11813/11873) - 共通 ContactCtaBanner */}
-      <ContactCtaBanner
+      <Reveal>
+        <ContactCtaBanner
         bgImage="/images/for-customer/cta-banner.jpg"
         heading={<>不動産に関すること、<br />ぜひご相談ください。</>}
         ctas={[
           { label: '不動産をお探しの方', href: '/contact' },
           { label: 'その他のお問い合わせ', href: '/contact' },
         ]}
-      />
+        />
+      </Reveal>
 
       {/* 暮らしを知る (Figma 4211:11931) - 共通 StorySection */}
-      <StorySection stories={stories.contents} title="暮らしを知る" />
+      <Reveal>
+        <StorySection stories={stories.contents} title="暮らしを知る" />
+      </Reveal>
 
       {/* お客様の声 (Figma 4211:11890 / 11447) */}
       {voices.contents.length > 0 && (
-        <section className="bg-light-green py-[60px] tablet:py-24">
+        <Reveal as="section" className="bg-light-green py-[60px] tablet:py-24">
           <div className="px-4 tablet:px-[75px] max-w-[1440px] mx-auto mb-8 tablet:mb-[60px]">
             <h2 className="font-mincho text-[28px] tablet:text-[48px] leading-[1.5] tracking-[1.12px] tablet:tracking-[1.92px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               お客様の声
             </h2>
           </div>
           <VoiceCarousel voices={voices.contents} />
-        </section>
+        </Reveal>
       )}
 
       {/* よくある質問 (Figma 4211:11894) - 共通 FaqSection */}
-      <FaqSection
+      <Reveal>
+        <FaqSection
         items={[
           {
             question: '購入にかかる諸経費は？',
@@ -357,7 +363,8 @@ export default async function ForCustomerPage() {
             answer: '物件の内見は事前に予約が必要です。実際に見てみることで、雰囲気や設備を確認できます。お気軽にお問い合わせください。',
           },
         ]}
-      />
+        />
+      </Reveal>
 
     </div>
   );

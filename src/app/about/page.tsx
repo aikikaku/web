@@ -3,6 +3,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import ServiceCTA from '@/components/ui/ServiceCTA';
 import ArrowButton from '@/components/ui/ArrowButton';
+import Reveal from '@/components/ui/Reveal';
 
 export const metadata: Metadata = {
   title: 'アイ企画について',
@@ -71,10 +72,12 @@ export default function AboutPage() {
       </section>
 
       {/* サービス CTA (共通コンポーネント Figma 4211:10023) */}
-      <ServiceCTA />
+      <Reveal>
+        <ServiceCTA />
+      </Reveal>
 
       {/* ご挨拶セクション (Figma PC 4211:10025 / SP 4211:11115-11119) */}
-      <section className="bg-cream py-[60px] tablet:py-24">
+      <Reveal as="section" className="bg-cream py-[60px] tablet:py-24">
         {/* SP: 縦積み (label → heading → body → image → button) */}
         <div className="tablet:hidden flex flex-col gap-8 px-4">
           <div className="flex flex-col gap-4 px-2">
@@ -135,7 +138,7 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
-      </section>
+      </Reveal>
 
       {/* スタッフインタビューセクション (Figma PC 4211:10036 dot pattern bg / SP 4211:11120) */}
       <section
@@ -148,7 +151,7 @@ export default function AboutPage() {
         }}
       >
         {/* SP: 縦積み (label → heading → body → image → button) */}
-        <div className="tablet:hidden flex flex-col gap-8 px-4">
+        <Reveal className="tablet:hidden flex flex-col gap-8 px-4">
           <div className="flex flex-col gap-4 px-2">
             <p className="font-gothic font-medium text-[14px] leading-[1.8] text-cream">スタッフインタビュー</p>
             <h2 className="font-mincho text-[28px] leading-[1.5] tracking-[1.12px] text-cream" style={{ fontFeatureSettings: "'palt' 1" }}>
@@ -173,9 +176,9 @@ export default function AboutPage() {
           >
             もっと知る
           </Link>
-        </div>
+        </Reveal>
         {/* PC: 両端揃え (image 左 / text 右, Figma 4211:10036 mirror of greeting) */}
-        <div className="hidden tablet:block max-w-[1440px] mx-auto pl-[45px] pr-[75px]">
+        <Reveal className="hidden tablet:block max-w-[1440px] mx-auto pl-[45px] pr-[75px]">
           <div className="flex items-center justify-between gap-[60px]">
             <div className="w-[557px] h-[742px] shrink-0 rounded-2xl overflow-hidden relative">
               <Image
@@ -204,11 +207,11 @@ export default function AboutPage() {
               </div>
             </div>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* コンポスト活動セクション (Figma SP 4211:11127 / PC 既存) */}
-      <section className="bg-light-green py-[60px] pb-[80px] tablet:py-24 tablet:pb-32">
+      <Reveal as="section" className="bg-light-green py-[60px] pb-[80px] tablet:py-24 tablet:pb-32">
         <div className="px-4 tablet:px-[75px] max-w-[1440px] mx-auto">
           {/* 見出し */}
           <div className="mb-12 tablet:mb-24 px-2 tablet:px-0">
@@ -271,10 +274,10 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
-      </section>
+      </Reveal>
 
       {/* 会社概要セクション (Figma PC 4211:10099 = pl-75/pr-75 + 410 heading + 616 table 両端揃え / SP 4211:11149 = dd 右寄せ) */}
-      <section className="bg-cream py-[60px] pb-[80px] tablet:py-24 tablet:pb-36">
+      <Reveal as="section" className="bg-cream py-[60px] pb-[80px] tablet:py-24 tablet:pb-36">
         <div className="px-4 tablet:px-[75px] max-w-[1440px] mx-auto">
           <div className="flex flex-col tablet:flex-row tablet:items-start tablet:justify-between gap-8 tablet:gap-[60px]">
             {/* 見出し */}
@@ -376,7 +379,7 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
-      </section>
+      </Reveal>
     </div>
   );
 }

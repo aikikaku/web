@@ -8,6 +8,7 @@ import Pagination from '@/components/ui/Pagination';
 import StoriesFilter from '@/components/story/StoriesFilter';
 import MobileStoriesFilter from '@/components/story/MobileStoriesFilter';
 import StoryCardOverlay from '@/components/story/StoryCardOverlay';
+import Reveal from '@/components/ui/Reveal';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -203,7 +204,7 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
       </Suspense>
 
       {/* フィルター + リスト */}
-      <section className="px-4 tablet:px-[45px] pb-[60px] tablet:pb-24 max-w-[1440px] mx-auto">
+      <Reveal as="section" className="px-4 tablet:px-[45px] pb-[60px] tablet:pb-24 max-w-[1440px] mx-auto">
         <div>
           {/* PC用フィルターバー（pickup の上に配置） */}
           <div className="hidden tablet:block mb-[96px]">
@@ -255,10 +256,10 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
             }
           />
         </div>
-      </section>
+      </Reveal>
 
       {/* 仲人バナー */}
-      <section className="px-4 tablet:px-[45px] pb-24 tablet:pb-36 max-w-[1440px] mx-auto flex justify-center">
+      <Reveal as="section" className="px-4 tablet:px-[45px] pb-24 tablet:pb-36 max-w-[1440px] mx-auto flex justify-center">
         <Link
           href="/about"
           className="block group bg-light-green rounded-[24px] p-[30px] w-full max-w-[646px] overflow-hidden"
@@ -295,7 +296,7 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
             </div>
           </div>
         </Link>
-      </section>
+      </Reveal>
     </div>
   );
 }

@@ -53,6 +53,11 @@ export default function RootLayout({
   return (
     <html lang="ja" className={`${shipporiMincho.variable} ${zenKaku.variable}`}>
       <body className="antialiased">
+        {/* JS 無効時はフェードイン (#74) を無効化して確実に表示する */}
+        <noscript>
+          {/* eslint-disable-next-line react/no-danger */}
+          <style dangerouslySetInnerHTML={{ __html: '.reveal{opacity:1!important;transform:none!important}' }} />
+        </noscript>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

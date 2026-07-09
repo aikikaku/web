@@ -7,6 +7,7 @@ import StoryCarousel from '@/components/home/StoryCarousel';
 import HeroSlideshowSP from '@/components/home/HeroSlideshowSP';
 import SeeAllLink from '@/components/ui/SeeAllLink';
 import ParkingBanner from '@/components/ui/ParkingBanner';
+import Reveal from '@/components/ui/Reveal';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -89,7 +90,7 @@ export default async function HomePage() {
       </section>
 
       {/* アイ企画について */}
-      <section>
+      <Reveal as="section">
         <div className="px-4 py-[60px] tablet:px-[45px] tablet:py-[96px] max-w-[1440px] mx-auto">
           <div className="flex flex-col min-[1440px]:flex-row items-start min-[1440px]:items-center justify-between">
             {/* テキスト */}
@@ -162,10 +163,10 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
-      </section>
+      </Reveal>
 
       {/* 不動産サービスリンク */}
-      <section className="relative py-[60px] tablet:py-[96px] overflow-hidden bg-[#d9d9d9]">
+      <Reveal as="section" className="relative py-[60px] tablet:py-[96px] overflow-hidden bg-[#d9d9d9]">
         {/* SP 背景: Figma 4211:10628 専用画像（空のみ）/ cover 中央。
             PC 用画像 service-bg.png は駅写真のためそのまま使うと地面しか見えなかった。
             Figma が SP では別アセット（空のみ）を使っていたため、別ファイルとして配置。 */}
@@ -324,19 +325,19 @@ export default async function HomePage() {
             </Link>
           </div>
         </div>
-      </section>
+      </Reveal>
 
       {/* 新着物件セクション */}
       <section className="bg-cream pt-[60px] pb-[60px] tablet:pt-[96px] tablet:pb-0">
         <div className="px-4 tablet:px-[75px] max-w-[1440px] mx-auto">
-          <div className="flex flex-col gap-2 mb-8 tablet:mb-[96px]">
+          <Reveal className="flex flex-col gap-2 mb-8 tablet:mb-[96px]">
             <p className="text-body-m font-gothic font-medium text-dark-green">
               新着物件
             </p>
             <h2 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.28px] tablet:tracking-[1.92px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               今日の出会いを、<br className="tablet:hidden" />さがしに
             </h2>
-          </div>
+          </Reveal>
         </div>
 
         {newProperties.contents.length > 0 && (
@@ -344,11 +345,13 @@ export default async function HomePage() {
             {/* SP: スライドショー（dots+arrows付き） */}
             <PropertyCarousel properties={newProperties.contents.slice(0, 6)} />
 
-            {/* PC: 3列グリッド */}
+            {/* PC: 3列グリッド (stagger フェードイン) */}
             <div className="hidden tablet:block max-w-[1440px] mx-auto px-[75px]">
               <div className="grid grid-cols-3 gap-x-[30px] gap-y-[96px]">
-                {newProperties.contents.slice(0, 6).map((property) => (
-                  <PropertyCard key={property.id} property={property} />
+                {newProperties.contents.slice(0, 6).map((property, i) => (
+                  <Reveal key={property.id} delayMs={(i % 3) * 120}>
+                    <PropertyCard property={property} />
+                  </Reveal>
                 ))}
               </div>
             </div>
@@ -362,19 +365,21 @@ export default async function HomePage() {
       </section>
 
       {/* 駐車場セクション */}
-      <ParkingBanner />
+      <Reveal>
+        <ParkingBanner />
+      </Reveal>
 
       {/* ストーリーセクション - 暮らしを知る */}
       <section className="bg-cream pt-0 pb-[60px] tablet:py-[96px]">
         <div className="px-4 tablet:px-[75px] max-w-[1440px] mx-auto">
-          <div className="flex flex-col gap-2 mb-8 tablet:mb-[96px]">
+          <Reveal className="flex flex-col gap-2 mb-8 tablet:mb-[96px]">
             <p className="text-category-2 font-gothic font-medium text-dark-green">
               暮らしを知る
             </p>
             <h2 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.28px] tablet:tracking-[1.92px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               三島の暮らしに、<br className="tablet:hidden" />ふれる・深まる。
             </h2>
-          </div>
+          </Reveal>
         </div>
 
         {latestStories.contents.length > 0 ? (
@@ -386,7 +391,7 @@ export default async function HomePage() {
             {/* PC: 左に大カード + 右に中カード2枚。固定幅(646+117+558)が約1471px必要なため
                 1440px 未満では下の SP カルーセルを使い、横溢れ(#2)を防ぐ。
                 max-w-[1440px] mx-auto で見出しと中央位置を揃える(#76 左寄り解消) */}
-            <div className="hidden min-[1440px]:block px-[75px] max-w-[1440px] mx-auto">
+            <Reveal className="hidden min-[1440px]:block px-[75px] max-w-[1440px] mx-auto">
               <div className="flex gap-[117px]">
                 {/* 左: 大きなストーリーカード */}
                 {latestStories.contents[0] && (
@@ -460,7 +465,7 @@ export default async function HomePage() {
                   ))}
                 </div>
               </div>
-            </div>
+            </Reveal>
           </>
         ) : (
           <p className="text-center text-gray-400 py-12">
@@ -476,7 +481,7 @@ export default async function HomePage() {
 
       {/* お客様の声セクション */}
       {voices.contents.length > 0 && (
-        <section className="bg-light-green py-[60px] tablet:pt-[96px] tablet:pb-16">
+        <Reveal as="section" className="bg-light-green py-[60px] tablet:pt-[96px] tablet:pb-16">
           <div className="px-4 tablet:px-[75px] max-w-[1440px] mx-auto">
             <div className="mb-8 tablet:mb-16">
               <h3 className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.96px] tablet:tracking-[1.28px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
@@ -485,11 +490,11 @@ export default async function HomePage() {
             </div>
           </div>
           <VoiceCarousel voices={voices.contents} />
-        </section>
+        </Reveal>
       )}
 
       {/* お知らせセクション */}
-      <section className="py-[60px] tablet:py-[96px]">
+      <Reveal as="section" className="py-[60px] tablet:py-[96px]">
         <div className="px-4 tablet:px-[75px] max-w-[1440px] mx-auto">
           <div className="flex flex-col tablet:flex-row gap-8 tablet:gap-[88px]">
             {/* 見出し */}
@@ -503,10 +508,10 @@ export default async function HomePage() {
             <NewsAccordion />
           </div>
         </div>
-      </section>
+      </Reveal>
 
       {/* CTAバナー */}
-      <section className="px-4 tablet:px-[45px] pb-[120px] tablet:pb-36 max-w-[1440px] mx-auto">
+      <Reveal as="section" className="px-4 tablet:px-[45px] pb-[120px] tablet:pb-36 max-w-[1440px] mx-auto">
         {/* SP版 */}
         <div className="tablet:hidden relative rounded-2xl overflow-hidden h-[425px] flex flex-col justify-between pt-8 pb-[60px] px-4">
           <div className="absolute inset-0">
@@ -582,7 +587,7 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
-      </section>
+      </Reveal>
     </div>
   );
 }

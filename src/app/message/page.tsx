@@ -2,6 +2,7 @@ import Image from 'next/image';
 import type { Metadata } from 'next';
 import HeroCardStory from '@/components/ui/HeroCardStory';
 import ServiceCTA from '@/components/ui/ServiceCTA';
+import Reveal from '@/components/ui/Reveal';
 
 export const metadata: Metadata = {
   title: 'ご挨拶',
@@ -167,7 +168,8 @@ export default function MessagePage() {
 
       {/* リッチテキストセクション (Figma SP 4211:11606 = 左寄せ・mincho 22px 見出し / 14px 本文 / 画像 358×268) */}
       {sections.map((section, index) => (
-        <section
+        <Reveal
+          as="section"
           key={index}
           className={`bg-cream ${index === sections.length - 1 ? 'pt-12 pb-16 tablet:pt-24 tablet:pb-36' : index === 0 ? '' : 'pt-12 tablet:pt-24'}`}
         >
@@ -214,11 +216,13 @@ export default function MessagePage() {
               </div>
             </div>
           </div>
-        </section>
+        </Reveal>
       ))}
 
       {/* サービス CTA (共通コンポーネント Figma 4211:10153) */}
-      <ServiceCTA />
+      <Reveal>
+        <ServiceCTA />
+      </Reveal>
     </div>
   );
 }

@@ -4,6 +4,7 @@ import StorySection from '@/components/story/StorySection';
 import FaqSection from '@/components/ui/FaqSection';
 import ContactCtaBanner from '@/components/ui/ContactCtaBanner';
 import ArticleCarousel from '@/components/owner/ArticleCarousel';
+import Reveal from '@/components/ui/Reveal';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
@@ -142,7 +143,7 @@ export default async function ForOwnerPage() {
       </section>
 
       {/* まずはご相談 (Figma PC 4211:11405 = 1440×720 / SP 4211:11902 = compact) */}
-      <section className="relative overflow-hidden tablet:min-h-[720px] tablet:flex tablet:items-center">
+      <Reveal as="section" className="relative overflow-hidden tablet:min-h-[720px] tablet:flex tablet:items-center">
         <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
           <Image
             src="/images/for-owner/section-bg.jpg"
@@ -177,10 +178,10 @@ export default async function ForOwnerPage() {
             </div>
           </div>
         </div>
-      </section>
+      </Reveal>
 
       {/* 売却までの流れ (SP 左寄せ) */}
-      <section className="bg-cream py-[60px] tablet:py-24">
+      <Reveal as="section" className="bg-cream py-[60px] tablet:py-24">
         <div className="page-container">
           <div className="flex flex-col gap-2 items-start tablet:items-center tablet:text-center mb-8 tablet:mb-12">
             <p className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green">
@@ -223,10 +224,10 @@ export default async function ForOwnerPage() {
             </p>
           </div>
         </div>
-      </section>
+      </Reveal>
 
       {/* アイ企画で物件を活用する (SP タイポ・余白を Round 24 と同パターンに) */}
-      <section className="bg-light-green py-[60px] tablet:py-24">
+      <Reveal as="section" className="bg-light-green py-[60px] tablet:py-24">
         <div className="page-container">
           <div className="flex flex-col gap-2 mb-6 tablet:mb-8">
             <p className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green">
@@ -313,13 +314,15 @@ export default async function ForOwnerPage() {
             ))}
           </div>
         </div>
-      </section>
+      </Reveal>
 
       {/* 物件のその後のはなし (Figma 4211:11931) - 共通 StorySection */}
-      <StorySection stories={stories.contents} title="物件のその後のはなし" />
+      <Reveal>
+        <StorySection stories={stories.contents} title="物件のその後のはなし" />
+      </Reveal>
 
       {/* 不動産活用に関する記事 */}
-      <section className="py-[60px] tablet:py-[96px]">
+      <Reveal as="section" className="py-[60px] tablet:py-[96px]">
         <div className="tablet:px-[75px] max-w-[1440px] mx-auto">
           <h2 className="px-4 tablet:px-0 font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[1.28px] text-dark-green mb-8 tablet:mb-16" style={{ fontFeatureSettings: "'palt' 1" }}>
             不動産活用に関する記事
@@ -336,32 +339,36 @@ export default async function ForOwnerPage() {
             href="/for-owner"
           />
         </div>
-      </section>
+      </Reveal>
 
       {/* お客様の声 (Figma 4211:11890 / 11447) */}
       {voices.contents.length > 0 && (
-        <section className="bg-light-green py-[60px] tablet:py-24">
+        <Reveal as="section" className="bg-light-green py-[60px] tablet:py-24">
           <div className="px-4 tablet:px-[75px] max-w-[1440px] mx-auto mb-8 tablet:mb-[60px]">
             <h2 className="font-mincho text-[28px] tablet:text-[48px] leading-[1.5] tracking-[1.12px] tablet:tracking-[1.92px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               お客様の声
             </h2>
           </div>
           <VoiceCarousel voices={voices.contents} />
-        </section>
+        </Reveal>
       )}
 
       {/* よくある質問 (Figma 4211:11894) - 共通 FaqSection */}
-      <FaqSection items={faqItems.map((item) => ({ question: item.q, answer: item.a }))} />
+      <Reveal>
+        <FaqSection items={faqItems.map((item) => ({ question: item.q, answer: item.a }))} />
+      </Reveal>
 
       {/* CTA バナー (Figma 4211:11813/11873) - 共通 ContactCtaBanner */}
-      <ContactCtaBanner
-        bgImage="/images/for-owner/banner-contact.jpg"
-        heading={<>不動産に関すること、<br />ぜひご相談ください。</>}
-        ctas={[
-          { label: '不動産をお持ちの方', href: '/contact' },
-          { label: 'その他のお問い合わせ', href: '/contact' },
-        ]}
-      />
+      <Reveal>
+        <ContactCtaBanner
+          bgImage="/images/for-owner/banner-contact.jpg"
+          heading={<>不動産に関すること、<br />ぜひご相談ください。</>}
+          ctas={[
+            { label: '不動産をお持ちの方', href: '/contact' },
+            { label: 'その他のお問い合わせ', href: '/contact' },
+          ]}
+        />
+      </Reveal>
     </div>
   );
 }
