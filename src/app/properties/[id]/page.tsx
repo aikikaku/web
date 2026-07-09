@@ -4,6 +4,7 @@ import Link from 'next/link';
 import MoreProperties from '@/components/property/MoreProperties';
 import MobileTocNav from '@/components/ui/MobileTocNav';
 import CmsImage from '@/components/ui/CmsImage';
+import StoryCardOverlay from '@/components/story/StoryCardOverlay';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getImageUrl } from '@/lib/microcms/image';
@@ -474,69 +475,83 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
               </div>
             )}
 
-            {/* 継承者のストーリー */}
-            {isSold && property.story && (
-              <div className="mt-24">
-                <div className="flex flex-col gap-4 mb-8">
-                  <p
-                    className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green"
-                    style={{ fontFeatureSettings: "'palt' 1" }}
-                  >
-                    この物件を選んだ人の、
-                    <br />
-                    その後を尋ねました
-                  </p>
-                </div>
-                <Link
-                  href={`/stories/${property.story.id}`}
-                  className="block group bg-light-green rounded-[32px] p-6 tablet:p-[30px]"
-                >
-                  <div className="flex flex-col tablet:flex-row gap-6">
-                    <div className="tablet:w-[320px] shrink-0 relative aspect-[4/3] rounded-2xl overflow-hidden">
-                      {property.story.thumbnail && (
-                        <CmsImage
-                          image={property.story.thumbnail}
-                          alt={property.story.title}
-                          fill
-                          className="object-cover transition-transform group-hover:scale-[1.02]"
-                          sizes="(max-width: 992px) 100vw, 320px"
-                        />
-                      )}
-                    </div>
-                    <div className="flex flex-col justify-center gap-3">
-                      <div className="flex gap-2 items-center">
-                        <span className="tag-pill text-[14px] leading-none px-3 py-1.5">
-                          物件のつづき
-                        </span>
-                        {property.story.regions && property.story.regions.length > 0 && (
-                          <span className="font-gothic font-medium text-[14px] leading-[1.4] text-dark-green">
-                            {property.story.regions.map((r) => r.name).join('・')}
-                          </span>
-                        )}
-                      </div>
-                      <p
-                        className="font-mincho text-[20px] tablet:text-[24px] leading-[1.6] tracking-[0.04em] text-dark-green"
-                        style={{ fontFeatureSettings: "'palt' 1" }}
-                      >
-                        {property.story.title}
-                      </p>
-                      <span className="inline-flex items-center gap-2 font-gothic font-medium text-[16px] text-dark-green mt-2">
-                        ストーリーを読む
-                        <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-accent-blue shrink-0 group-hover:scale-110 transition-transform">
-                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                            <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                            <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                          </svg>
-                        </span>
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              </div>
-            )}
           </div>
         </div>
       </section>
+
+      {/* 継承者のストーリー (#18/#34): カンプ準拠の全幅セクション。
+          <1440px はオーバーレイカード、>=1440px は 見出し | 画像 | テキスト の3カラム */}
+      {isSold && property.story && (
+        <section className="bg-light-green">
+          <div className="max-w-[1440px] mx-auto px-4 tablet:px-[45px] min-[1440px]:px-[75px] py-16 min-[1440px]:py-24 flex flex-col min-[1440px]:flex-row min-[1440px]:gap-[30px] min-[1440px]:items-start">
+            {/* 見出し */}
+            <div className="flex flex-col gap-2 mb-8 min-[1440px]:mb-0 min-[1440px]:w-[527px] min-[1440px]:shrink-0">
+              <p className="font-gothic font-medium text-[16px] leading-[2] text-dark-green">
+                継承者のストーリー
+              </p>
+              <p
+                className="font-mincho text-[24px] min-[1440px]:text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green"
+                style={{ fontFeatureSettings: "'palt' 1" }}
+              >
+                この物件を選んだ人の、
+                <br />
+                その後を尋ねました
+              </p>
+            </div>
+
+            {/* <1440px: オーバーレイカード（SPカンプ準拠）。物件の続きなので category は property 固定 */}
+            <div className="min-[1440px]:hidden">
+              <StoryCardOverlay story={{ ...property.story, category: 'property' }} />
+            </div>
+
+            {/* >=1440px: 画像 | テキスト の3カラム右側 */}
+            <Link
+              href={`/stories/${property.story.id}`}
+              className="hidden min-[1440px]:flex flex-1 gap-[60px] items-start group"
+            >
+              <div className="w-[352px] h-[470px] shrink-0 relative rounded-2xl overflow-hidden">
+                {property.story.thumbnail && (
+                  <CmsImage
+                    image={property.story.thumbnail}
+                    alt={property.story.title}
+                    fill
+                    className="object-cover transition-transform group-hover:scale-[1.02]"
+                    sizes="352px"
+                  />
+                )}
+              </div>
+              <div className="flex-1 flex flex-col gap-6">
+                <div className="flex flex-col gap-3">
+                  <div className="flex gap-2 items-center">
+                    <span className="tag-pill text-[14px] leading-none px-3 py-1.5">
+                      物件のつづき
+                    </span>
+                    {property.story.regions && property.story.regions.length > 0 && (
+                      <span className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green">
+                        {property.story.regions.map((r) => r.name).join('・')}
+                      </span>
+                    )}
+                  </div>
+                  <p
+                    className="font-mincho text-[24px] leading-[1.6] tracking-[0.04em] text-dark-green"
+                    style={{ fontFeatureSettings: "'palt' 1" }}
+                  >
+                    {property.story.title}
+                  </p>
+                </div>
+                {/* button-secondary: ストーリーを読む */}
+                <span className="inline-flex items-center gap-1 h-[44px] px-6 border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-colors group-hover:opacity-70 w-fit">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="shrink-0">
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
+                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
+                  </svg>
+                  ストーリーを読む
+                </span>
+              </div>
+            </Link>
+          </div>
+        </section>
+      )}
 
       <div data-mobile-toc-end />
       {/* もっと物件を見る */}
