@@ -1,10 +1,11 @@
-import { getProperties, getStories, getCustomerVoices } from '@/lib/microcms/queries';
+import { getProperties, getStories, getCustomerVoices, getHeroImages } from '@/lib/microcms/queries';
 import PropertyCard from '@/components/property/PropertyCard';
 import NewsAccordion from '@/components/home/NewsAccordion';
 import VoiceCarousel from '@/components/home/VoiceCarousel';
 import PropertyCarousel from '@/components/home/PropertyCarousel';
 import StoryCarousel from '@/components/home/StoryCarousel';
 import HeroSlideshowSP from '@/components/home/HeroSlideshowSP';
+import HeroFrame from '@/components/home/HeroFrame';
 import SeeAllLink from '@/components/ui/SeeAllLink';
 import ParkingBanner from '@/components/ui/ParkingBanner';
 import Reveal from '@/components/ui/Reveal';
@@ -29,6 +30,9 @@ export default async function HomePage() {
   const voices = await getCustomerVoices({ orders: '-publishedAt' })
     .catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: 50 }));
 
+  // トップ PC ヒーローのクロスフェード画像 (CMS 未登録時は静的画像にフォールバック)
+  const hero = await getHeroImages().catch(() => ({ main: [], topRight: [], bottomRight: [] }));
+
   return (
     <div>
       {/* ヒーローセクション */}
@@ -48,12 +52,13 @@ export default async function HomePage() {
         {/* PC: absolute配置レイアウト (1440フレーム中央寄せ + 右側画像は viewport右端アンカー) */}
         <div className="hidden tablet:block relative h-[896px] w-full max-w-[1440px] mx-auto">
           <div className="absolute left-[45px] top-[154px] w-[557px] h-[742px] rounded-2xl overflow-hidden">
-            <Image
-              src="/images/home/hero-1.jpg"
+            <HeroFrame
+              images={hero.main}
+              fallbackSrc="/images/home/hero-1.jpg"
               alt="三島の風景"
-              fill
-              className="object-cover"
+              delayMs={0}
               priority
+              sizes="557px"
             />
           </div>
           <div className="absolute left-[769px] top-[408px] w-[645px]">
@@ -66,11 +71,12 @@ export default async function HomePage() {
         </div>
         {/* 右上画像: viewport右端アンカー (Figma: 右端から28px はみ出る) */}
         <div className="hidden tablet:block absolute right-[-28px] top-[154px] w-[220px] h-[293px] rounded-2xl overflow-hidden">
-          <Image
-            src="/images/home/hero-2.jpg"
+          <HeroFrame
+            images={hero.topRight}
+            fallbackSrc="/images/home/hero-2.jpg"
             alt="三島の自然"
-            fill
-            className="object-cover"
+            delayMs={500}
+            sizes="220px"
           />
           <div
             className="absolute inset-0"
@@ -81,11 +87,12 @@ export default async function HomePage() {
         </div>
         {/* 右下画像: viewport右端から89px (Figma: 1145+206=1351, 1440-1351=89) */}
         <div className="hidden tablet:block absolute right-[89px] top-[742px] w-[206px] h-[154px] rounded-xl overflow-hidden">
-          <Image
-            src="/images/home/hero-3.jpg"
+          <HeroFrame
+            images={hero.bottomRight}
+            fallbackSrc="/images/home/hero-3.jpg"
             alt="三島の街並み"
-            fill
-            className="object-cover"
+            delayMs={1000}
+            sizes="206px"
           />
         </div>
       </section>
