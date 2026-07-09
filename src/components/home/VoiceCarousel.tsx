@@ -9,13 +9,15 @@ interface Props {
   voices: CustomerVoice[];
 }
 
-const PAGE_SIZE = 3;
+// #69/gkzW5eIRYKBs「カード1枚ずつ送る」: 1 ページ = カード 1 枚
+// (PropertyCarousel と同じ 1 枚送りモデル)。dot はカード枚数分。
+const PAGE_SIZE = 1;
 
 /**
  * お客様の声カルーセル。Figma 4211:10009 (PC) / 4211:9317 (SP) 準拠。
- * - 共通: pagination dot は Math.ceil(voices / 3) 個。新着順、初期 activePage=0。
- * - PC/SP どちらも全件レンダリング + 横スクロール peek (PC card w-644 h-350 / SP w-322)。
- * - dot/矢印クリックで voices[page*3] を track 左端に smooth scroll → ページ2 で 4 件目 〜 が表示される。
+ * - 1枚送り: dot/矢印クリックで voices[page] を track 左端に smooth scroll。
+ * - dot はカード枚数分。新着順、初期 activePage=0。
+ * - PC/SP どちらも全件レンダリング + 横スクロール peek (PC card w-644 / SP w-322)。
  */
 export default function VoiceCarousel({ voices }: Props) {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -95,12 +97,12 @@ function VoiceCard({ voice }: { voice: CustomerVoice }) {
           className="w-4 h-3 tablet:w-8 tablet:h-6"
         />
         <h3
-          className="font-mincho text-[18px] tablet:text-[32px] leading-[1.6] tablet:leading-[1.5] tracking-[0.72px] tablet:tracking-[1.28px] text-dark-green line-clamp-2"
+          className="font-mincho text-[18px] tablet:text-[32px] leading-[1.6] tablet:leading-[1.5] tracking-[0.72px] tablet:tracking-[1.28px] text-dark-green"
           style={{ fontFeatureSettings: "'palt' 1" }}
         >
           {voice.title || voice.customerName}
         </h3>
-        <p className="text-body-m font-gothic font-medium text-black line-clamp-3 tablet:line-clamp-3">
+        <p className="text-body-m font-gothic font-medium text-black">
           {voice.content.replace(/<[^>]*>/g, '')}
         </p>
       </div>

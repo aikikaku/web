@@ -5,6 +5,7 @@ import FaqSection from '@/components/ui/FaqSection';
 import ContactCtaBanner from '@/components/ui/ContactCtaBanner';
 import ArticleCarousel from '@/components/owner/ArticleCarousel';
 import Reveal from '@/components/ui/Reveal';
+import ParallaxLayer from '@/components/ui/ParallaxLayer';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
@@ -144,7 +145,7 @@ export default async function ForOwnerPage() {
 
       {/* まずはご相談 (Figma PC 4211:11405 = 1440×720 / SP 4211:11902 = compact) */}
       <Reveal as="section" className="relative overflow-hidden tablet:min-h-[720px] tablet:flex tablet:items-center">
-        <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
+        <ParallaxLayer>
           <Image
             src="/images/for-owner/section-bg.jpg"
             alt=""
@@ -157,7 +158,7 @@ export default async function ForOwnerPage() {
               backgroundImage: 'linear-gradient(243deg, rgba(39, 51, 59, 0.15) 21.5%, rgba(39, 51, 59, 0.4) 80.4%)',
             }}
           />
-        </div>
+        </ParallaxLayer>
         <div className="relative px-4 tablet:px-[75px] max-w-[1440px] mx-auto py-[60px] tablet:py-24 w-full">
           <div className="flex flex-col gap-6 tablet:gap-8">
             <div className="flex flex-col gap-2 text-cream">
