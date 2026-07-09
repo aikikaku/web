@@ -314,7 +314,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                   <div>
                     <a
                       href="#property-detail-body"
-                      className="inline-flex items-center justify-center h-[44px] px-6 border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green hover:opacity-70 transition-opacity"
+                      className="inline-flex items-center justify-center h-[44px] px-6 border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-colors hover:bg-dark-green hover:text-white"
                     >
                       物件詳細
                     </a>
@@ -540,7 +540,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                   </p>
                 </div>
                 {/* button-secondary: ストーリーを読む */}
-                <span className="inline-flex items-center gap-1 h-[44px] px-6 border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-colors group-hover:opacity-70 w-fit">
+                <span className="inline-flex items-center gap-1 h-[44px] px-6 border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-colors group-hover:bg-dark-green group-hover:text-white w-fit">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="shrink-0">
                     <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
                     <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
