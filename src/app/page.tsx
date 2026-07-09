@@ -1,4 +1,5 @@
-import { getProperties, getStories, getCustomerVoices, getHeroImages } from '@/lib/microcms/queries';
+import { getProperties, getStories, getCustomerVoices } from '@/lib/microcms/queries';
+import { HERO_IMAGES } from '@/lib/heroImages';
 import PropertyCard from '@/components/property/PropertyCard';
 import NewsAccordion from '@/components/home/NewsAccordion';
 import VoiceCarousel from '@/components/home/VoiceCarousel';
@@ -30,9 +31,6 @@ export default async function HomePage() {
   const voices = await getCustomerVoices({ orders: '-publishedAt' })
     .catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: 50 }));
 
-  // トップ PC ヒーローのクロスフェード画像 (CMS 未登録時は静的画像にフォールバック)
-  const hero = await getHeroImages().catch(() => ({ main: [], topRight: [], bottomRight: [] }));
-
   return (
     <div>
       {/* ヒーローセクション */}
@@ -53,8 +51,7 @@ export default async function HomePage() {
         <div className="hidden tablet:block relative h-[896px] w-full max-w-[1440px] mx-auto">
           <div className="absolute left-[45px] top-[154px] w-[557px] h-[742px] rounded-2xl overflow-hidden">
             <HeroFrame
-              images={hero.main}
-              fallbackSrc="/images/home/hero-1.jpg"
+              srcs={HERO_IMAGES.main}
               alt="三島の風景"
               delayMs={0}
               priority
@@ -72,8 +69,7 @@ export default async function HomePage() {
         {/* 右上画像: viewport右端アンカー (Figma: 右端から28px はみ出る) */}
         <div className="hidden tablet:block absolute right-[-28px] top-[154px] w-[220px] h-[293px] rounded-2xl overflow-hidden">
           <HeroFrame
-            images={hero.topRight}
-            fallbackSrc="/images/home/hero-2.jpg"
+            srcs={HERO_IMAGES.topRight}
             alt="三島の自然"
             delayMs={500}
             sizes="220px"
@@ -88,8 +84,7 @@ export default async function HomePage() {
         {/* 右下画像: viewport右端から89px (Figma: 1145+206=1351, 1440-1351=89) */}
         <div className="hidden tablet:block absolute right-[89px] top-[742px] w-[206px] h-[154px] rounded-xl overflow-hidden">
           <HeroFrame
-            images={hero.bottomRight}
-            fallbackSrc="/images/home/hero-3.jpg"
+            srcs={HERO_IMAGES.bottomRight}
             alt="三島の街並み"
             delayMs={1000}
             sizes="206px"

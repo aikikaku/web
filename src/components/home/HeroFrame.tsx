@@ -2,13 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { MicroCMSImage } from '@/types/microcms';
 
 interface Props {
-  /** CMS 由来の画像。空なら fallbackSrc の1枚のみ（静止）。 */
-  images: MicroCMSImage[];
-  /** CMS 未登録時に表示する静的画像 */
-  fallbackSrc: string;
+  /** public に置いた画像パス。2枚以上でクロスフェード、1枚なら静止。 */
+  srcs: string[];
   alt: string;
   /** 3枠の切り替えを 0.5s ずつずらすための遅延 */
   delayMs?: number;
@@ -20,13 +17,12 @@ const DISPLAY_MS = 4500; // 各画像の表示時間
 const FADE_MS = 1400; // クロスフェード時間
 
 /**
- * トップ PC ヒーローの1枠。CMS に複数画像があればクロスフェードで切り替え、
+ * トップ PC ヒーローの1枠。複数画像があればクロスフェードで切り替え、
  * 表示中はゆっくりズーム（景色が流れる印象 / #EjAsuZuByOas）。
- * 画像が1枚（= CMS 未登録の fallback）なら静止表示。
- * prefers-reduced-motion 時はアニメーションせず先頭画像を表示。
+ * 画像が1枚なら静止表示。prefers-reduced-motion 時はアニメーションせず先頭画像を表示。
  */
-export default function HeroFrame({ images, fallbackSrc, alt, delayMs = 0, priority, sizes }: Props) {
-  const urls = images.length > 0 ? images.map((img) => img.url) : [fallbackSrc];
+export default function HeroFrame({ srcs, alt, delayMs = 0, priority, sizes }: Props) {
+  const urls = srcs.length > 0 ? srcs : [];
   const [index, setIndex] = useState(0);
   const [reduced, setReduced] = useState(false);
 
