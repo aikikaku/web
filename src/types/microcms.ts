@@ -30,7 +30,7 @@ export interface Property extends MicroCMSListContent {
   type: 'sell' | 'rent';
   category: 'property' | 'land';
   label?: string;
-  status: 'available' | 'sold';
+  status: 'available' | 'negotiating' | 'sold';
   description?: string;
   mainImage?: MicroCMSImage;
   images?: MicroCMSImage[];

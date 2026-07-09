@@ -15,7 +15,7 @@ export const revalidate = 3600;
 export default async function HomePage() {
   const newProperties = await getProperties({
     limit: 6,
-    filters: 'status[contains]available',
+    filters: '(status[contains]available[or]status[contains]negotiating)',
     orders: '-publishedAt',
   }).catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: 6 }));
 

@@ -40,9 +40,10 @@ export default async function PropertiesPage({
   // フィルター条件構築
   const filters: string[] = [];
 
-  // デフォルトは「ご案内中」のみ表示。status=all のときだけ成約済みも含める (#65)
+  // デフォルトは「ご案内中」= 案内中(available) + 商談中(negotiating) を表示。
+  // status=all のときだけ成約済み(sold)も含める (#65/#35)
   if (searchParams.status !== 'all') {
-    filters.push('status[contains]available');
+    filters.push('(status[contains]available[or]status[contains]negotiating)');
   }
 
   if (searchParams.types) {
@@ -85,7 +86,7 @@ export default async function PropertiesPage({
   // pickup 物件はフィルタ非依存に固定（最新の available 物件 = 全物件中 publishedAt 降順の最初）
   const pickupData = await getProperties({
     limit: 1,
-    filters: 'status[contains]available',
+    filters: '(status[contains]available[or]status[contains]negotiating)',
     orders: '-publishedAt',
   }).catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: 1 }));
   const featuredProperty = pickupData.contents[0];
