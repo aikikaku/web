@@ -94,19 +94,5 @@ export interface Page extends MicroCMSListContent {
   content: string;
 }
 
-/** トップ PC ヒーローのクロスフェード画像 (list API `hero-images`)。 */
+/** トップ PC ヒーローの表示枠（public 画像を slot ごとに列挙） */
 export type HeroSlot = 'main' | 'topRight' | 'bottomRight';
-
-export interface HeroImage extends MicroCMSListContent {
-  image: MicroCMSImage;
-  /** microCMS の select は配列で返るため union に配列も含む */
-  slot: HeroSlot | HeroSlot[];
-  order?: number;
-}
-
-/** slot ごとにまとめたヒーロー画像 */
-export interface HeroImageGroups {
-  main: MicroCMSImage[];
-  topRight: MicroCMSImage[];
-  bottomRight: MicroCMSImage[];
-}

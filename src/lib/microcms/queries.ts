@@ -6,8 +6,6 @@ import {
   CustomerVoice,
   StaffInterview,
   Page,
-  HeroImage,
-  HeroImageGroups,
   MicroCMSListResponse,
 } from '@/types/microcms';
 import {
@@ -150,31 +148,4 @@ export async function getStaffInterviews() {
     endpoint: 'staff-interviews',
     queries: { limit: 20, orders: 'order' },
   });
-}
-
-/**
- * トップ PC ヒーローのクロスフェード画像を slot ごとにまとめて返す (#EjAsuZuByOas)。
- * `hero-images` API 未作成 / 未登録 / エラー時は空グループを返し、
- * 呼び出し側で静的画像 (hero-1/2/3.jpg) にフォールバックする。
- */
-export async function getHeroImages(): Promise<HeroImageGroups> {
-  const empty: HeroImageGroups = { main: [], topRight: [], bottomRight: [] };
-  if (isMockMode) return empty;
-
-  const data = await client
-    .getList<HeroImage>({
-      endpoint: 'hero-images',
-      queries: { limit: 100, orders: 'order' },
-    })
-    .catch(() => null);
-  if (!data) return empty;
-
-  const groups: HeroImageGroups = { main: [], topRight: [], bottomRight: [] };
-  for (const item of data.contents) {
-    const slot = normalizeSelect(item.slot);
-    if ((slot === 'main' || slot === 'topRight' || slot === 'bottomRight') && item.image) {
-      groups[slot].push(item.image);
-    }
-  }
-  return groups;
 }
