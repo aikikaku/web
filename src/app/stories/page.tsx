@@ -96,21 +96,22 @@ function FeaturedStoryCard({ story }: { story: Story }) {
 
   return (
     <Link href={`/stories/${story.id}`} className="block group w-full">
-      <div className="flex flex-col tablet:flex-row gap-6 tablet:gap-[30px] items-stretch">
+      {/* #22: 詳細ページのヒーローと同じレイアウト(1440px時)。画像 675×640 / テキスト左89・右60 */}
+      <div className="flex flex-col tablet:flex-row gap-6 tablet:gap-0 items-stretch">
         {/* Image */}
-        <div className="relative w-full tablet:w-[850px] shrink-0 aspect-[850/639] overflow-hidden rounded-[24px]">
+        <div className="relative w-full tablet:w-[675px] shrink-0 aspect-[850/639] tablet:aspect-auto tablet:h-[640px] overflow-hidden rounded-[24px]">
           <CmsImage
             image={story.thumbnail}
             alt={story.title}
             fill
             className="object-cover transition-transform group-hover:scale-[1.02]"
-            sizes="(max-width: 992px) 100vw, 850px"
+            sizes="(max-width: 992px) 100vw, 675px"
             priority
           />
         </div>
 
         {/* Info */}
-        <div className="flex flex-col gap-6 items-start justify-center pb-8 flex-1 min-w-0">
+        <div className="flex flex-col gap-6 tablet:gap-12 items-start justify-center flex-1 min-w-0 tablet:pl-[89px] tablet:pr-[60px]">
           <div className="flex flex-col gap-4 items-start w-full">
             <div className="flex gap-3 items-center">
               <span className="tag-pill text-[14px] leading-none px-3 py-1.5">
