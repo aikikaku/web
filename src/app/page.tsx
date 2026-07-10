@@ -7,6 +7,7 @@ import PropertyCarousel from '@/components/home/PropertyCarousel';
 import StoryCarousel from '@/components/home/StoryCarousel';
 import HeroSlideshowSP from '@/components/home/HeroSlideshowSP';
 import HeroFrame from '@/components/home/HeroFrame';
+import HeroVideo from '@/components/home/HeroVideo';
 import SeeAllLink from '@/components/ui/SeeAllLink';
 import ParkingBanner from '@/components/ui/ParkingBanner';
 import Reveal from '@/components/ui/Reveal';
@@ -50,12 +51,11 @@ export default async function HomePage() {
         {/* PC: absolute配置レイアウト (1440フレーム中央寄せ + 右側画像は viewport右端アンカー) */}
         <div className="hidden tablet:block relative h-[56rem] w-full max-w-[90rem] mx-auto">
           <div className="absolute left-[2.8125rem] top-[9.625rem] w-[34.8125rem] h-[46.375rem] rounded-2xl overflow-hidden">
-            <HeroFrame
-              srcs={HERO_IMAGES.main}
-              alt="三島の風景"
-              delayMs={0}
-              priority
-              sizes="557px"
+            {/* メイン枠は動画背景（Slack「Heroの演出」）。ロード前/reduced-motion は poster 静止画 */}
+            <HeroVideo
+              src="/videos/hero.mp4"
+              poster="/images/home/hero-video-poster.jpg"
+              className="absolute inset-0 h-full w-full object-cover"
             />
           </div>
           <div className="absolute left-[48.0625rem] top-[25.5rem] w-[40.3125rem]">
