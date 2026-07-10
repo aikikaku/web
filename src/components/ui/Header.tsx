@@ -84,7 +84,7 @@ export default function Header() {
       className="sticky top-0 z-50 bg-cream"
     >
       {/* ナビゲーションバー */}
-      <nav className="px-[4.6875rem] py-[1.875rem] max-w-[90rem] mx-auto max-tablet:px-5 max-tablet:py-4">
+      <nav className="px-[2.8125rem] py-[1.875rem] max-w-[90rem] mx-auto max-tablet:px-5 max-tablet:py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="block shrink-0">
