@@ -38,7 +38,7 @@ export default async function HomePage() {
         {/* SP: テキスト上 → スライドショー画像（next + dots） */}
         <div className="flex flex-col gap-8 pt-12 px-4 tablet:hidden">
           <div className="pl-4">
-            <h1 className="font-mincho text-[32px] leading-[1.5] tracking-[1.28px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+            <h1 className="font-mincho text-[2rem] leading-[1.5] tracking-[0.08rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               家と街と人が<br />
               つながる、<br />
               三島の暮らし
@@ -48,8 +48,8 @@ export default async function HomePage() {
         </div>
 
         {/* PC: absolute配置レイアウト (1440フレーム中央寄せ + 右側画像は viewport右端アンカー) */}
-        <div className="hidden tablet:block relative h-[896px] w-full max-w-[1440px] mx-auto">
-          <div className="absolute left-[45px] top-[154px] w-[557px] h-[742px] rounded-2xl overflow-hidden">
+        <div className="hidden tablet:block relative h-[56rem] w-full max-w-[90rem] mx-auto">
+          <div className="absolute left-[2.8125rem] top-[9.625rem] w-[34.8125rem] h-[46.375rem] rounded-2xl overflow-hidden">
             <HeroFrame
               srcs={HERO_IMAGES.main}
               alt="三島の風景"
@@ -58,8 +58,8 @@ export default async function HomePage() {
               sizes="557px"
             />
           </div>
-          <div className="absolute left-[769px] top-[408px] w-[645px]">
-            <h1 className="font-mincho text-[56px] leading-[1.5] tracking-[2.24px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+          <div className="absolute left-[48.0625rem] top-[25.5rem] w-[40.3125rem]">
+            <h1 className="font-mincho text-[3.5rem] leading-[1.5] tracking-[0.14rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               家と街と人が<br />
               つながる、<br />
               三島の暮らし
@@ -67,7 +67,7 @@ export default async function HomePage() {
           </div>
         </div>
         {/* 右上画像: viewport右端アンカー (Figma: 右端から28px はみ出る) */}
-        <div className="hidden tablet:block absolute right-[-28px] top-[154px] w-[220px] h-[293px] rounded-2xl overflow-hidden">
+        <div className="hidden tablet:block absolute right-[-1.75rem] top-[9.625rem] w-[13.75rem] h-[18.3125rem] rounded-2xl overflow-hidden">
           <HeroFrame
             srcs={HERO_IMAGES.topRight}
             alt="三島の自然"
@@ -82,7 +82,7 @@ export default async function HomePage() {
           />
         </div>
         {/* 右下画像: viewport右端から89px (Figma: 1145+206=1351, 1440-1351=89) */}
-        <div className="hidden tablet:block absolute right-[89px] top-[742px] w-[206px] h-[154px] rounded-xl overflow-hidden">
+        <div className="hidden tablet:block absolute right-[5.5625rem] top-[46.375rem] w-[12.875rem] h-[9.625rem] rounded-xl overflow-hidden">
           <HeroFrame
             srcs={HERO_IMAGES.bottomRight}
             alt="三島の街並み"
@@ -94,22 +94,22 @@ export default async function HomePage() {
 
       {/* アイ企画について */}
       <Reveal as="section">
-        <div className="px-4 py-[60px] tablet:px-[45px] tablet:py-[96px] max-w-[1440px] mx-auto">
+        <div className="px-4 py-[3.75rem] tablet:px-[2.8125rem] tablet:py-[6rem] max-w-[90rem] mx-auto">
           <div className="flex flex-col min-[1440px]:flex-row items-start min-[1440px]:items-center justify-between">
             {/* テキスト */}
-            <div className="tablet:w-[616px]">
-              <div className="flex flex-col gap-8 tablet:gap-16 tablet:pl-[30px]">
+            <div className="tablet:w-[38.5rem]">
+              <div className="flex flex-col gap-8 tablet:gap-16 tablet:pl-[1.875rem]">
                 <div className="flex flex-col gap-4 tablet:gap-12">
                   <div className="flex flex-col gap-2">
                     <p className="text-body-m font-gothic font-medium text-dark-green">
                       アイ企画について
                     </p>
-                    <h2 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.28px] tablet:tracking-[1.92px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+                    <h2 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.08rem] tablet:tracking-[0.12rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
                       私たちは、「つくる」<br />
                       不動産会社です。
                     </h2>
                   </div>
-                  <p className="text-body-m tablet:text-[18px] font-gothic font-medium text-dark-green leading-[2] tablet:leading-[1.8] tablet:w-[469px]">
+                  <p className="text-body-m tablet:text-[1.125rem] font-gothic font-medium text-dark-green leading-[2] tablet:leading-[1.8] tablet:w-[29.3125rem]">
                     昭和61年、三島市加茂の住宅街に、不動産屋の店舗兼住宅を構えました。
                     ここにいると、町の人の顔が見え、声が聞こえます。
                     地域と日々関わりながら、暮らしの視点で、このまちの魅力と住まいの価値をていねいに伝えていく。
@@ -119,7 +119,7 @@ export default async function HomePage() {
 
                 {/* 画像 (1440px 未満: テキストの下に表示) */}
                 <div className="w-full min-[1440px]:hidden">
-                  <div className="relative h-[268px] rounded-2xl overflow-hidden">
+                  <div className="relative h-[16.75rem] rounded-2xl overflow-hidden">
                     <Image
                       src="/images/home/about.jpg"
                       alt="アイ企画スタッフ"
@@ -139,7 +139,7 @@ export default async function HomePage() {
                 <div className="hidden tablet:flex tablet:justify-end">
                   <Link
                     href="/about"
-                    className="inline-flex items-center gap-2 font-gothic font-medium text-[18px] text-dark-green hover:opacity-70 transition-opacity"
+                    className="inline-flex items-center gap-2 font-gothic font-medium text-[1.125rem] text-dark-green hover:opacity-70 transition-opacity"
                   >
                     もっと知る
                     <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue">
@@ -154,8 +154,8 @@ export default async function HomePage() {
             </div>
 
             {/* 画像 (1440px 以上: 右カラムに表示) */}
-            <div className="hidden min-[1440px]:block w-[557px] shrink-0">
-              <div className="relative h-[742px] rounded-2xl overflow-hidden">
+            <div className="hidden min-[1440px]:block w-[34.8125rem] shrink-0">
+              <div className="relative h-[46.375rem] rounded-2xl overflow-hidden">
                 <Image
                   src="/images/home/about.jpg"
                   alt="アイ企画スタッフ"
@@ -169,7 +169,7 @@ export default async function HomePage() {
       </Reveal>
 
       {/* 不動産サービスリンク */}
-      <Reveal as="section" className="relative py-[60px] tablet:py-[96px] overflow-hidden bg-[#d9d9d9]">
+      <Reveal as="section" className="relative py-[3.75rem] tablet:py-[6rem] overflow-hidden bg-[#d9d9d9]">
         {/* SP 背景: Figma 4211:10628 専用画像（空のみ）/ cover 中央。
             PC 用画像 service-bg.png は駅写真のためそのまま使うと地面しか見えなかった。
             Figma が SP では別アセット（空のみ）を使っていたため、別ファイルとして配置。 */}
@@ -197,7 +197,7 @@ export default async function HomePage() {
             }}
           />
         </ParallaxLayer>
-        <div className="relative px-4 tablet:px-[45px] max-w-[1440px] mx-auto">
+        <div className="relative px-4 tablet:px-[2.8125rem] max-w-[90rem] mx-auto">
           {/* SP: 背景画像cover + ダークオーバーレイ */}
           <div className="flex flex-col gap-6 tablet:hidden">
             <Link
@@ -217,7 +217,7 @@ export default async function HomePage() {
                 />
               </div>
               <div className="relative z-10 flex-1 min-w-0 flex flex-col gap-2 text-white">
-                <h3 className="font-mincho text-[24px] leading-[1.6] tracking-[0.96px]" style={{ fontFeatureSettings: "'palt' 1" }}>
+                <h3 className="font-mincho text-[1.5rem] leading-[1.6] tracking-[0.06rem]" style={{ fontFeatureSettings: "'palt' 1" }}>
                   不動産を<br />お探しの方
                 </h3>
                 <p className="text-body-m font-gothic font-medium leading-[2]">
@@ -249,7 +249,7 @@ export default async function HomePage() {
                 />
               </div>
               <div className="relative z-10 flex-1 min-w-0 flex flex-col gap-2 text-white">
-                <h3 className="font-mincho text-[24px] leading-[1.6] tracking-[0.96px]" style={{ fontFeatureSettings: "'palt' 1" }}>
+                <h3 className="font-mincho text-[1.5rem] leading-[1.6] tracking-[0.06rem]" style={{ fontFeatureSettings: "'palt' 1" }}>
                   不動産を<br />お持ちの方へ
                 </h3>
                 <p className="text-body-m font-gothic font-medium leading-[2]">
@@ -270,14 +270,14 @@ export default async function HomePage() {
             {/* カード1: お探しの方 */}
             <Link
               href="/for-customer"
-              className="group bg-cream rounded-3xl p-[30px] flex flex-row gap-[30px] items-start w-[646px] hover:shadow-lg transition-shadow overflow-hidden"
+              className="group bg-cream rounded-3xl p-[1.875rem] flex flex-row gap-[1.875rem] items-start w-[40.375rem] hover:shadow-lg transition-shadow overflow-hidden"
             >
-              <div className="flex flex-col justify-between flex-1 min-w-0 h-[220px] pt-2 px-3">
+              <div className="flex flex-col justify-between flex-1 min-w-0 h-[13.75rem] pt-2 px-3">
                 <div className="flex flex-col gap-2">
-                  <h3 className="font-mincho text-[32px] leading-[1.5] tracking-[1.28px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+                  <h3 className="font-mincho text-[2rem] leading-[1.5] tracking-[0.08rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
                     不動産を<br />お探しの方へ
                   </h3>
-                  <p className="text-[18px] leading-[1.8] font-gothic font-medium text-dark-green">
+                  <p className="text-[1.125rem] leading-[1.8] font-gothic font-medium text-dark-green">
                     買いたい・借りたい
                   </p>
                 </div>
@@ -288,7 +288,7 @@ export default async function HomePage() {
                   </svg>
                 </span>
               </div>
-              <div className="w-[294px] h-[220px] relative rounded-xl overflow-hidden shrink-0">
+              <div className="w-[18.375rem] h-[13.75rem] relative rounded-xl overflow-hidden shrink-0">
                 <Image
                   src="/images/home/service-customer.jpg"
                   alt="不動産をお探しの方へ"
@@ -301,14 +301,14 @@ export default async function HomePage() {
             {/* カード2: お持ちの方 */}
             <Link
               href="/for-owner"
-              className="group bg-cream rounded-3xl p-[30px] flex flex-row gap-[30px] items-start w-[646px] hover:shadow-lg transition-shadow overflow-hidden"
+              className="group bg-cream rounded-3xl p-[1.875rem] flex flex-row gap-[1.875rem] items-start w-[40.375rem] hover:shadow-lg transition-shadow overflow-hidden"
             >
-              <div className="flex flex-col justify-between flex-1 min-w-0 h-[220px] pt-2 px-3">
+              <div className="flex flex-col justify-between flex-1 min-w-0 h-[13.75rem] pt-2 px-3">
                 <div className="flex flex-col gap-2">
-                  <h3 className="font-mincho text-[32px] leading-[1.5] tracking-[1.28px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+                  <h3 className="font-mincho text-[2rem] leading-[1.5] tracking-[0.08rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
                     不動産を<br />お持ちの方へ
                   </h3>
-                  <p className="text-[18px] leading-[1.8] font-gothic font-medium text-dark-green">
+                  <p className="text-[1.125rem] leading-[1.8] font-gothic font-medium text-dark-green">
                     売りたい・貸したい
                   </p>
                 </div>
@@ -319,7 +319,7 @@ export default async function HomePage() {
                   </svg>
                 </span>
               </div>
-              <div className="w-[294px] h-[220px] relative rounded-xl overflow-hidden shrink-0">
+              <div className="w-[18.375rem] h-[13.75rem] relative rounded-xl overflow-hidden shrink-0">
                 <Image
                   src="/images/home/service-owner.jpg"
                   alt="不動産をお持ちの方へ"
@@ -333,13 +333,13 @@ export default async function HomePage() {
       </Reveal>
 
       {/* 新着物件セクション */}
-      <section className="bg-cream pt-[60px] pb-[60px] tablet:pt-[96px] tablet:pb-0">
-        <div className="px-4 tablet:px-[75px] max-w-[1440px] mx-auto">
-          <Reveal className="flex flex-col gap-2 mb-8 tablet:mb-[96px]">
+      <section className="bg-cream pt-[3.75rem] pb-[3.75rem] tablet:pt-[6rem] tablet:pb-0">
+        <div className="px-4 tablet:px-[4.6875rem] max-w-[90rem] mx-auto">
+          <Reveal className="flex flex-col gap-2 mb-8 tablet:mb-[6rem]">
             <p className="text-body-m font-gothic font-medium text-dark-green">
               新着物件
             </p>
-            <h2 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.28px] tablet:tracking-[1.92px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+            <h2 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.08rem] tablet:tracking-[0.12rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               今日の出会いを、<br className="tablet:hidden" />さがしに
             </h2>
           </Reveal>
@@ -351,8 +351,8 @@ export default async function HomePage() {
             <PropertyCarousel properties={newProperties.contents.slice(0, 6)} />
 
             {/* PC: 3列グリッド (stagger フェードイン) */}
-            <div className="hidden tablet:block max-w-[1440px] mx-auto px-[75px]">
-              <div className="grid grid-cols-3 gap-x-[30px] gap-y-[96px]">
+            <div className="hidden tablet:block max-w-[90rem] mx-auto px-[4.6875rem]">
+              <div className="grid grid-cols-3 gap-x-[1.875rem] gap-y-[6rem]">
                 {newProperties.contents.slice(0, 6).map((property, i) => (
                   <Reveal key={property.id} delayMs={(i % 3) * 120}>
                     <PropertyCard property={property} />
@@ -364,7 +364,7 @@ export default async function HomePage() {
         )}
 
         {/* PC: すべて見る */}
-        <div className="hidden tablet:flex items-center justify-end mt-[96px] max-w-[1440px] mx-auto px-[75px]">
+        <div className="hidden tablet:flex items-center justify-end mt-[6rem] max-w-[90rem] mx-auto px-[4.6875rem]">
           <SeeAllLink href="/properties" />
         </div>
       </section>
@@ -375,13 +375,13 @@ export default async function HomePage() {
       </Reveal>
 
       {/* ストーリーセクション - 暮らしを知る */}
-      <section className="bg-cream pt-0 pb-[60px] tablet:py-[96px]">
-        <div className="px-4 tablet:px-[75px] max-w-[1440px] mx-auto">
-          <Reveal className="flex flex-col gap-2 mb-8 tablet:mb-[96px]">
+      <section className="bg-cream pt-0 pb-[3.75rem] tablet:py-[6rem]">
+        <div className="px-4 tablet:px-[4.6875rem] max-w-[90rem] mx-auto">
+          <Reveal className="flex flex-col gap-2 mb-8 tablet:mb-[6rem]">
             <p className="text-category-2 font-gothic font-medium text-dark-green">
               暮らしを知る
             </p>
-            <h2 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.28px] tablet:tracking-[1.92px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+            <h2 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.08rem] tablet:tracking-[0.12rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               三島の暮らしに、<br className="tablet:hidden" />ふれる・深まる。
             </h2>
           </Reveal>
@@ -395,14 +395,14 @@ export default async function HomePage() {
 
             {/* PC: 左に大カード + 右に中カード2枚。固定幅(646+117+558)が約1471px必要なため
                 1440px 未満では下の SP カルーセルを使い、横溢れ(#2)を防ぐ。
-                max-w-[1440px] mx-auto で見出しと中央位置を揃える(#76 左寄り解消) */}
-            <Reveal className="hidden min-[1440px]:block px-[75px] max-w-[1440px] mx-auto">
-              <div className="flex gap-[117px]">
+                max-w-[90rem] mx-auto で見出しと中央位置を揃える(#76 左寄り解消) */}
+            <Reveal className="hidden min-[1440px]:block px-[4.6875rem] max-w-[90rem] mx-auto">
+              <div className="flex gap-[7.3125rem]">
                 {/* 左: 大きなストーリーカード */}
                 {latestStories.contents[0] && (
-                  <div className="w-[646px] shrink-0">
+                  <div className="w-[40.375rem] shrink-0">
                     <Link href={`/stories/${latestStories.contents[0].id}`} className="block group">
-                      <div className="relative h-[485px] rounded-3xl overflow-hidden">
+                      <div className="relative h-[30.3125rem] rounded-3xl overflow-hidden">
                         <Image
                           src={latestStories.contents[0].thumbnail?.url || '/images/home/hero-1.jpg'}
                           alt={latestStories.contents[0].title}
@@ -410,16 +410,16 @@ export default async function HomePage() {
                           className="object-cover transition-transform group-hover:scale-[1.02]"
                         />
                       </div>
-                      <div className="pt-[30px] px-3">
+                      <div className="pt-[1.875rem] px-3">
                         <div className="flex gap-3 items-center mb-4">
-                          <span className="tag-pill text-[14px] leading-none px-3 py-1.5">
+                          <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5">
                             {latestStories.contents[0].category === 'property' ? '物件のつづき' : latestStories.contents[0].category === 'regional' ? '地域のこと' : latestStories.contents[0].category === 'daily' ? '日々のこと' : '物件のつづき'}
                           </span>
                           <span className="text-body-s font-gothic font-medium text-dark-green">
                             {latestStories.contents[0].regions?.[0]?.name || ''}
                           </span>
                         </div>
-                        <h3 className="font-mincho text-[32px] leading-[1.5] tracking-[1.28px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+                        <h3 className="font-mincho text-[2rem] leading-[1.5] tracking-[0.08rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
                           {latestStories.contents[0].title}
                         </h3>
                         <span className="inline-flex items-center gap-1 mt-6 h-11 px-6 border border-dark-green rounded-full font-gothic font-medium text-base leading-none text-dark-green transition-colors group-hover:bg-dark-green group-hover:text-white">
@@ -435,10 +435,10 @@ export default async function HomePage() {
                 )}
 
                 {/* 右: 中サイズカード2枚 */}
-                <div className="flex flex-col gap-[96px] w-[558px]">
+                <div className="flex flex-col gap-[6rem] w-[34.875rem]">
                   {latestStories.contents.slice(1, 3).map((story) => (
-                    <Link key={story.id} href={`/stories/${story.id}`} className="flex gap-[30px] h-[352px] group">
-                      <div className="relative w-[264px] h-[352px] rounded-2xl overflow-hidden shrink-0">
+                    <Link key={story.id} href={`/stories/${story.id}`} className="flex gap-[1.875rem] h-[22rem] group">
+                      <div className="relative w-[16.5rem] h-[22rem] rounded-2xl overflow-hidden shrink-0">
                         <Image
                           src={story.thumbnail?.url || '/images/home/hero-1.jpg'}
                           alt={story.title}
@@ -448,14 +448,14 @@ export default async function HomePage() {
                       </div>
                       <div className="flex flex-col flex-1">
                         <div className="flex gap-3 items-center mb-4">
-                          <span className="tag-pill text-[14px] leading-none px-3 py-1.5">
+                          <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5">
                             {story.category === 'property' ? '物件のつづき' : story.category === 'regional' ? '地域のこと' : story.category === 'daily' ? '日々のこと' : '地域のこと'}
                           </span>
                           <span className="text-body-s font-gothic font-medium text-dark-green">
                             {story.regions?.[0]?.name || ''}
                           </span>
                         </div>
-                        <h4 className="font-mincho text-[24px] leading-[1.6] tracking-[0.96px] text-dark-green w-[264px]" style={{ fontFeatureSettings: "'palt' 1" }}>
+                        <h4 className="font-mincho text-[1.5rem] leading-[1.6] tracking-[0.06rem] text-dark-green w-[16.5rem]" style={{ fontFeatureSettings: "'palt' 1" }}>
                           {story.title}
                         </h4>
                         <span className="inline-flex items-center gap-1 mt-6 h-11 px-6 border border-dark-green rounded-full font-gothic font-medium text-base leading-none text-dark-green transition-colors group-hover:bg-dark-green group-hover:text-white w-fit">
@@ -479,17 +479,17 @@ export default async function HomePage() {
         )}
 
         {/* PC: すべて見る */}
-        <div className="hidden tablet:flex items-center justify-end mt-[96px] max-w-[1440px] mx-auto px-[75px]">
+        <div className="hidden tablet:flex items-center justify-end mt-[6rem] max-w-[90rem] mx-auto px-[4.6875rem]">
           <SeeAllLink href="/stories" />
         </div>
       </section>
 
       {/* お客様の声セクション */}
       {voices.contents.length > 0 && (
-        <Reveal as="section" className="bg-light-green py-[60px] tablet:pt-[96px] tablet:pb-16">
-          <div className="px-4 tablet:px-[75px] max-w-[1440px] mx-auto">
+        <Reveal as="section" className="bg-light-green py-[3.75rem] tablet:pt-[6rem] tablet:pb-16">
+          <div className="px-4 tablet:px-[4.6875rem] max-w-[90rem] mx-auto">
             <div className="mb-8 tablet:mb-16">
-              <h3 className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.96px] tablet:tracking-[1.28px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+              <h3 className="font-mincho text-[1.5rem] tablet:text-[2rem] leading-[1.5] tracking-[0.06rem] tablet:tracking-[0.08rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
                 お客様の声
               </h3>
             </div>
@@ -499,12 +499,12 @@ export default async function HomePage() {
       )}
 
       {/* お知らせセクション */}
-      <Reveal as="section" className="py-[60px] tablet:py-[96px]">
-        <div className="px-4 tablet:px-[75px] max-w-[1440px] mx-auto">
-          <div className="flex flex-col tablet:flex-row gap-8 tablet:gap-[88px]">
+      <Reveal as="section" className="py-[3.75rem] tablet:py-[6rem]">
+        <div className="px-4 tablet:px-[4.6875rem] max-w-[90rem] mx-auto">
+          <div className="flex flex-col tablet:flex-row gap-8 tablet:gap-[5.5rem]">
             {/* 見出し */}
-            <div className="tablet:w-[410px] shrink-0">
-              <h2 className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.96px] tablet:tracking-[1.28px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+            <div className="tablet:w-[25.625rem] shrink-0">
+              <h2 className="font-mincho text-[1.5rem] tablet:text-[2rem] leading-[1.5] tracking-[0.06rem] tablet:tracking-[0.08rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
                 お知らせ
               </h2>
             </div>
@@ -516,9 +516,9 @@ export default async function HomePage() {
       </Reveal>
 
       {/* CTAバナー */}
-      <Reveal as="section" className="px-4 tablet:px-[45px] pb-[120px] tablet:pb-36 max-w-[1440px] mx-auto">
+      <Reveal as="section" className="px-4 tablet:px-[2.8125rem] pb-[7.5rem] tablet:pb-36 max-w-[90rem] mx-auto">
         {/* SP版 */}
-        <div className="tablet:hidden relative rounded-2xl overflow-hidden h-[425px] flex flex-col justify-between pt-8 pb-[60px] px-4">
+        <div className="tablet:hidden relative rounded-2xl overflow-hidden h-[26.5625rem] flex flex-col justify-between pt-8 pb-[3.75rem] px-4">
           <div className="absolute inset-0">
             <Image
               src="/images/home/cta-banner.jpg"
@@ -535,7 +535,7 @@ export default async function HomePage() {
           </div>
           <div className="relative z-10 text-white">
             <p className="text-body-s font-gothic font-medium leading-[1.8] mb-2">お問い合わせ</p>
-            <p className="font-mincho text-[24px] leading-[1.6] tracking-[0.96px]" style={{ fontFeatureSettings: "'palt' 1" }}>
+            <p className="font-mincho text-[1.5rem] leading-[1.6] tracking-[0.06rem]" style={{ fontFeatureSettings: "'palt' 1" }}>
               不動産に関すること、<br />
               ぜひご相談ください。
             </p>
@@ -551,7 +551,7 @@ export default async function HomePage() {
         </div>
 
         {/* PC版 */}
-        <div className="hidden tablet:block relative rounded-3xl overflow-hidden px-[30px] py-[96px]">
+        <div className="hidden tablet:block relative rounded-3xl overflow-hidden px-[1.875rem] py-[6rem]">
           <div className="absolute inset-0">
             <Image
               src="/images/home/cta-banner.jpg"
@@ -566,10 +566,10 @@ export default async function HomePage() {
               }}
             />
           </div>
-          <div className="relative z-10 flex gap-[30px] items-start">
-            <div className="text-white shrink-0 pl-[60px]">
+          <div className="relative z-10 flex gap-[1.875rem] items-start">
+            <div className="text-white shrink-0 pl-[3.75rem]">
               <p className="text-body-m font-gothic font-medium leading-[2] mb-2">お問い合わせ</p>
-              <p className="font-mincho text-[32px] leading-[1.5] tracking-[1.28px] whitespace-nowrap" style={{ fontFeatureSettings: "'palt' 1" }}>
+              <p className="font-mincho text-[2rem] leading-[1.5] tracking-[0.08rem] whitespace-nowrap" style={{ fontFeatureSettings: "'palt' 1" }}>
                 不動産に関すること、<br />
                 ぜひご相談ください。
               </p>
@@ -577,9 +577,9 @@ export default async function HomePage() {
             <div className="flex-1 flex gap-3 justify-end">
               <Link
                 href="/for-customer"
-                className="bg-cream/95 rounded-3xl px-[30px] pt-10 pb-[30px] text-center w-[264px] flex flex-col items-center gap-[30px] hover:opacity-70 transition-opacity"
+                className="bg-cream/95 rounded-3xl px-[1.875rem] pt-10 pb-[1.875rem] text-center w-[16.5rem] flex flex-col items-center gap-[1.875rem] hover:opacity-70 transition-opacity"
               >
-                <span className="font-gothic font-medium text-[20px] leading-[1.6] text-dark-green">
+                <span className="font-gothic font-medium text-[1.25rem] leading-[1.6] text-dark-green">
                   不動産に関する<br />ご相談はこちら
                 </span>
                 <span className="bg-accent-blue w-12 h-12 rounded-full flex items-center justify-center">

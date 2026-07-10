@@ -13,11 +13,11 @@ export default function ComponentsPreview() {
   return (
     <div className="bg-white min-h-screen">
       <div className="px-10 py-20">
-        <h1 className="font-mincho text-[48px] leading-[1.5] mb-4">Components</h1>
+        <h1 className="font-mincho text-[3rem] leading-[1.5] mb-4">Components</h1>
 
         {/* ===== Property Cards ===== */}
         <section className="mt-20">
-          <h2 className="font-gothic font-medium text-[24px] mb-8 border-b border-dark-green/20 pb-4">
+          <h2 className="font-gothic font-medium text-[1.5rem] mb-8 border-b border-dark-green/20 pb-4">
             card-property
           </h2>
           <div className="flex gap-10 flex-wrap">
@@ -36,7 +36,7 @@ export default function ComponentsPreview() {
 
         {/* ===== Story Cards ===== */}
         <section className="mt-20">
-          <h2 className="font-gothic font-medium text-[24px] mb-8 border-b border-dark-green/20 pb-4">
+          <h2 className="font-gothic font-medium text-[1.5rem] mb-8 border-b border-dark-green/20 pb-4">
             card-story
           </h2>
           <div className="flex gap-10 flex-wrap items-start">
@@ -60,7 +60,7 @@ export default function ComponentsPreview() {
 
         {/* ===== Voice Card ===== */}
         <section className="mt-20">
-          <h2 className="font-gothic font-medium text-[24px] mb-8 border-b border-dark-green/20 pb-4">
+          <h2 className="font-gothic font-medium text-[1.5rem] mb-8 border-b border-dark-green/20 pb-4">
             card-voice
           </h2>
           <div>

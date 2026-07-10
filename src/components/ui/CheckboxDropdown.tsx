@@ -49,20 +49,20 @@ export default function CheckboxDropdown({
     : null;
 
   return (
-    <div className="relative w-full tablet:w-[360px]" ref={ref}>
+    <div className="relative w-full tablet:w-[22.5rem]" ref={ref}>
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
         aria-haspopup="listbox"
-        className={`w-full h-[56px] px-4 border border-dark-green rounded-lg font-gothic font-medium text-[16px] flex items-center justify-between gap-2 cursor-pointer transition-colors ${triggerBg}`}
+        className={`w-full h-[3.5rem] px-4 border border-dark-green rounded-lg font-gothic font-medium text-[1rem] flex items-center justify-between gap-2 cursor-pointer transition-colors ${triggerBg}`}
       >
         {/* placeholder or selected chips */}
         {hasSelection ? (
           <div className="flex-1 min-w-0 flex items-center gap-1 overflow-hidden">
             {/* 1 番目の選択を chip 表示（dark-green pill + ✕） */}
             <span
-              className="inline-flex items-center gap-1 bg-dark-green text-white rounded-full pl-3 pr-2 py-1 text-[14px] leading-none shrink-0 max-w-[160px]"
+              className="inline-flex items-center gap-1 bg-dark-green text-white rounded-full pl-3 pr-2 py-1 text-[0.875rem] leading-none shrink-0 max-w-[10rem]"
             >
               <span className="truncate">{firstSelectedLabel}</span>
               <span
@@ -94,7 +94,7 @@ export default function CheckboxDropdown({
             </span>
             {/* 残り選択数 */}
             {selected.length > 1 && (
-              <span className="inline-flex items-center bg-dark-green text-white rounded-full px-3 py-1.5 text-[12px] leading-[1.8] shrink-0">
+              <span className="inline-flex items-center bg-dark-green text-white rounded-full px-3 py-1.5 text-[0.75rem] leading-[1.8] shrink-0">
                 +{selected.length - 1}
               </span>
             )}
@@ -117,7 +117,7 @@ export default function CheckboxDropdown({
       {isOpen && (
         <div
           role="listbox"
-          className="absolute top-[64px] left-0 w-full bg-cream rounded-lg shadow-[0_0_8px_rgba(0,0,0,0.16)] z-20 px-6 py-4"
+          className="absolute top-[4rem] left-0 w-full bg-cream rounded-lg shadow-[0_0_8px_rgba(0,0,0,0.16)] z-20 px-6 py-4"
         >
           {/* 「すべて」行: 選択ゼロ（＝絞り込みなし）の時にチェック表示。クリックで全解除 (#66) */}
           {onClear && (
@@ -128,10 +128,10 @@ export default function CheckboxDropdown({
               onClick={() => {
                 if (selected.length > 0) onClear();
               }}
-              className="flex items-center gap-2 h-[40px] w-full text-left cursor-pointer"
+              className="flex items-center gap-2 h-[2.5rem] w-full text-left cursor-pointer"
             >
               <span
-                className={`size-[18px] shrink-0 inline-flex items-center justify-center rounded-[3px] border ${
+                className={`size-[1.125rem] shrink-0 inline-flex items-center justify-center rounded-[0.1875rem] border ${
                   selected.length === 0 ? 'bg-dark-green border-dark-green' : 'bg-transparent border-dark-green/40'
                 }`}
               >
@@ -147,7 +147,7 @@ export default function CheckboxDropdown({
                   </svg>
                 )}
               </span>
-              <span className="font-gothic font-medium text-[16px] leading-[2] text-black">
+              <span className="font-gothic font-medium text-[1rem] leading-[2] text-black">
                 すべて
               </span>
             </button>
@@ -161,10 +161,10 @@ export default function CheckboxDropdown({
                 role="option"
                 aria-selected={checked}
                 onClick={() => onToggle(option.value)}
-                className="flex items-center gap-2 h-[40px] w-full text-left cursor-pointer"
+                className="flex items-center gap-2 h-[2.5rem] w-full text-left cursor-pointer"
               >
                 <span
-                  className={`size-[18px] shrink-0 inline-flex items-center justify-center rounded-[3px] border ${
+                  className={`size-[1.125rem] shrink-0 inline-flex items-center justify-center rounded-[0.1875rem] border ${
                     checked ? 'bg-dark-green border-dark-green' : 'bg-transparent border-dark-green/40'
                   }`}
                 >
@@ -180,7 +180,7 @@ export default function CheckboxDropdown({
                     </svg>
                   )}
                 </span>
-                <span className="font-gothic font-medium text-[16px] leading-[2] text-black">
+                <span className="font-gothic font-medium text-[1rem] leading-[2] text-black">
                   {option.label}
                 </span>
               </button>

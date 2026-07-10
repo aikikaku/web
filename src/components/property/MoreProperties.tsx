@@ -37,7 +37,7 @@ export default function MoreProperties({ properties, href = '/properties' }: Pro
       const card = flex.children[0] as HTMLElement | undefined;
       if (!card) return;
       const cardWidth = card.getBoundingClientRect().width;
-      const gap = 30; // PC gap-[30px], SP gap close enough
+      const gap = 30; // PC gap-[1.875rem], SP gap close enough
       const idx = Math.max(0, Math.round(el.scrollLeft / (cardWidth + gap)));
       setActivePagePc(Math.min(totalPagesPc - 1, Math.floor(idx / PAGE_SIZE_PC)));
       setActivePageSp(Math.min(totalPagesSp - 1, idx));
@@ -66,9 +66,9 @@ export default function MoreProperties({ properties, href = '/properties' }: Pro
         className="overflow-x-auto pl-4 tablet:pl-0 pb-4 scroll-smooth snap-x snap-mandatory scroll-pl-4 tablet:scroll-pl-0"
         style={{ scrollbarWidth: 'none' }}
       >
-        <div ref={flexRef} className="flex gap-5 tablet:gap-[30px] min-w-max pr-4 tablet:pr-0">
+        <div ref={flexRef} className="flex gap-5 tablet:gap-[1.875rem] min-w-max pr-4 tablet:pr-0">
           {properties.map((p) => (
-            <div key={p.id} className="w-[332px] tablet:w-[410px] shrink-0 snap-start">
+            <div key={p.id} className="w-[20.75rem] tablet:w-[25.625rem] shrink-0 snap-start">
               <PropertyCard property={p} />
             </div>
           ))}

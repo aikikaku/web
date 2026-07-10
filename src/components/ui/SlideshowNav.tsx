@@ -104,7 +104,7 @@ export default function SlideshowNav({
         {href && (
           <Link
             href={href}
-            className={`inline-flex items-center gap-2 font-gothic font-medium text-[18px] leading-none ${textColor} hover:opacity-70 transition-opacity`}
+            className={`inline-flex items-center gap-2 font-gothic font-medium text-[1.125rem] leading-none ${textColor} hover:opacity-70 transition-opacity`}
           >
             {label}
             <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue">

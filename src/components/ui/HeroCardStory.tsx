@@ -89,7 +89,7 @@ export default function HeroCardStory({
   return (
     <div ref={containerRef}>
       {/* SP: card-story (358 wide × 507 tall, 3 photos with overlap) */}
-      <div className="tablet:hidden relative w-full max-w-[358px] mx-auto h-[507px]">
+      <div className="tablet:hidden relative w-full max-w-[22.375rem] mx-auto h-[31.6875rem]">
         {/* メイン写真 (top, 358×268) */}
         <div className="absolute left-0 top-0 w-full aspect-[358/268] rounded-2xl overflow-hidden">
           <Image
@@ -123,8 +123,8 @@ export default function HeroCardStory({
           Figma 1440 フレームで left=0, center=368-1072 (= viewport center ± 352), right=1160-1440。
           viewport > 1440 でも左右の写真は viewport edge に貼り付くべきなので max-w-1440 を使わず
           viewport 直接アンカリング (left-0 / right-0) する。center は left-1/2 -translate-x-1/2。 */}
-      <div className="hidden tablet:block relative w-full h-[838px]">
-        <div className="absolute left-0 top-[470px] w-[280px] h-[368px] rounded-2xl overflow-hidden">
+      <div className="hidden tablet:block relative w-full h-[52.375rem]">
+        <div className="absolute left-0 top-[29.375rem] w-[17.5rem] h-[23rem] rounded-2xl overflow-hidden">
           <Image
             src={leftImage}
             alt=""
@@ -133,7 +133,7 @@ export default function HeroCardStory({
             sizes="(min-width: 992px) 280px, 0px"
           />
         </div>
-        <div className="absolute left-1/2 -translate-x-1/2 top-[259px] w-[704px] aspect-[704/469] rounded-2xl overflow-hidden">
+        <div className="absolute left-1/2 -translate-x-1/2 top-[16.1875rem] w-[44rem] aspect-[704/469] rounded-2xl overflow-hidden">
           <Image
             src={mainImage}
             alt={mainAlt}
@@ -143,7 +143,7 @@ export default function HeroCardStory({
             sizes="(min-width: 992px) 704px, 0px"
           />
         </div>
-        <div className="absolute right-0 top-[96px] w-[280px] h-[374px] rounded-2xl overflow-hidden">
+        <div className="absolute right-0 top-[6rem] w-[17.5rem] h-[23.375rem] rounded-2xl overflow-hidden">
           <Image
             src={rightImage}
             alt=""

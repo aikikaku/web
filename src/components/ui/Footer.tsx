@@ -44,8 +44,8 @@ export default function Footer() {
   return (
     <footer className="bg-dark-green text-white">
       {/* Mobile: single column, px-4, pt-16, pb-8 */}
-      {/* Desktop: two columns side-by-side, px-[75px], py-[96px] */}
-      <div className="px-4 pt-16 pb-8 tablet:px-[75px] tablet:py-[96px] max-w-[1440px] mx-auto">
+      {/* Desktop: two columns side-by-side, px-[4.6875rem], py-[6rem] */}
+      <div className="px-4 pt-16 pb-8 tablet:px-[4.6875rem] tablet:py-[6rem] max-w-[90rem] mx-auto">
 
         {/* === Mobile Layout === */}
         <div className="flex flex-col gap-12 tablet:hidden">
@@ -66,7 +66,7 @@ export default function Footer() {
                 <div key={item.label} className="flex flex-col gap-2">
                   <button
                     onClick={() => setIsAccordionOpen(!isAccordionOpen)}
-                    className="flex items-center gap-1 text-white text-lg font-gothic font-medium leading-none tracking-[0.018px] cursor-pointer"
+                    className="flex items-center gap-1 text-white text-lg font-gothic font-medium leading-none tracking-[0.00112rem] cursor-pointer"
                   >
                     <span>{item.label}</span>
                     <svg
@@ -106,7 +106,7 @@ export default function Footer() {
                   href={item.href!}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-white text-lg font-gothic font-medium leading-none tracking-[0.018px] hover:text-white/70 transition-colors"
+                  className="inline-flex items-center gap-2 text-white text-lg font-gothic font-medium leading-none tracking-[0.00112rem] hover:text-white/70 transition-colors"
                 >
                   {item.label}
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -119,7 +119,7 @@ export default function Footer() {
                 <Link
                   key={item.href}
                   href={item.href!}
-                  className="text-white text-lg font-gothic font-medium leading-none tracking-[0.018px] hover:text-white/70 transition-colors"
+                  className="text-white text-lg font-gothic font-medium leading-none tracking-[0.00112rem] hover:text-white/70 transition-colors"
                 >
                   {item.label}
                 </Link>
@@ -208,7 +208,7 @@ export default function Footer() {
           </div>
 
           {/* Right: Nav + Privacy + Social + Copyright */}
-          <div className="flex items-end justify-between w-[409px]">
+          <div className="flex items-end justify-between w-[25.5625rem]">
             <div className="flex flex-col gap-12">
               {/* Nav */}
               <nav className="flex flex-col gap-4">

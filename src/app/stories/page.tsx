@@ -51,7 +51,7 @@ function StoryCardLarge({ story }: { story: Story }) {
 
       {/* PC: 既存（画像の下にテキスト） */}
       <Link href={`/stories/${story.id}`} className="hidden tablet:flex group w-full flex-col items-start">
-        <div className="relative aspect-[410/308] w-full overflow-hidden rounded-[24px]">
+        <div className="relative aspect-[410/308] w-full overflow-hidden rounded-[1.5rem]">
           <CmsImage
             image={story.thumbnail}
             alt={story.title}
@@ -60,26 +60,26 @@ function StoryCardLarge({ story }: { story: Story }) {
             sizes="410px"
           />
         </div>
-        <div className="flex flex-col gap-6 items-start justify-center pt-[30px] px-3 w-full">
+        <div className="flex flex-col gap-6 items-start justify-center pt-[1.875rem] px-3 w-full">
           <div className="flex flex-col gap-4 items-start w-full">
             <div className="flex gap-3 items-center">
-              <span className="tag-pill text-[14px] leading-none px-3 py-1.5">
+              <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5">
                 {getCategoryLabel(story.category)}
               </span>
               {regionNames && (
-                <span className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green">
+                <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
                   {regionNames}
                 </span>
               )}
             </div>
             <h3
-              className="font-mincho text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green line-clamp-2"
+              className="font-mincho text-[2rem] leading-[1.5] tracking-[0.04em] text-dark-green line-clamp-2"
               style={{ fontFeatureSettings: "'palt' 1" }}
             >
               {story.title}
             </h3>
           </div>
-          <span className="inline-flex items-center gap-1 h-[44px] px-6 border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-colors group-hover:bg-dark-green group-hover:text-white">
+          <span className="inline-flex items-center gap-1 h-[2.75rem] px-6 border border-dark-green rounded-full font-gothic font-medium text-[1rem] leading-none text-dark-green transition-colors group-hover:bg-dark-green group-hover:text-white">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="shrink-0">
               <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
               <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
@@ -100,7 +100,7 @@ function FeaturedStoryCard({ story }: { story: Story }) {
       {/* #22: 詳細ページのヒーローと同じレイアウト(1440px時)。画像 675×640 / テキスト左89・右60 */}
       <div className="flex flex-col tablet:flex-row gap-6 tablet:gap-0 items-stretch">
         {/* Image */}
-        <div className="relative w-full tablet:w-[675px] shrink-0 aspect-[850/639] tablet:aspect-auto tablet:h-[640px] overflow-hidden rounded-[24px]">
+        <div className="relative w-full tablet:w-[42.1875rem] shrink-0 aspect-[850/639] tablet:aspect-auto tablet:h-[40rem] overflow-hidden rounded-[1.5rem]">
           <CmsImage
             image={story.thumbnail}
             alt={story.title}
@@ -112,28 +112,28 @@ function FeaturedStoryCard({ story }: { story: Story }) {
         </div>
 
         {/* Info */}
-        <div className="flex flex-col gap-6 tablet:gap-12 items-start justify-center flex-1 min-w-0 tablet:pl-[89px] tablet:pr-[60px]">
+        <div className="flex flex-col gap-6 tablet:gap-12 items-start justify-center flex-1 min-w-0 tablet:pl-[5.5625rem] tablet:pr-[3.75rem]">
           <div className="flex flex-col gap-4 items-start w-full">
             <div className="flex gap-3 items-center">
-              <span className="tag-pill text-[14px] leading-none px-3 py-1.5">
+              <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5">
                 {getCategoryLabel(story.category)}
               </span>
               {regionNames && (
-                <span className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green">
+                <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
                   {regionNames}
                 </span>
               )}
             </div>
 
             <h3
-              className="font-mincho text-[32px] leading-[1.4] text-dark-green"
+              className="font-mincho text-[2rem] leading-[1.4] text-dark-green"
               style={{ fontFeatureSettings: "'palt' 1" }}
             >
               {story.title}
             </h3>
           </div>
 
-          <span className="inline-flex items-center gap-2 h-[44px] px-4 border border-dark-green rounded-full font-gothic font-medium text-[14px] leading-[20px] tracking-[0.1px] text-dark-green transition-colors group-hover:bg-dark-green group-hover:text-white">
+          <span className="inline-flex items-center gap-2 h-[2.75rem] px-4 border border-dark-green rounded-full font-gothic font-medium text-[0.875rem] leading-[1.25rem] tracking-[0.00625rem] text-dark-green transition-colors group-hover:bg-dark-green group-hover:text-white">
             <svg width="20" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="shrink-0">
               <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
               <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
@@ -180,17 +180,17 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
   return (
     <div className="bg-cream">
       {/* ヘッダーセクション (Figma 4211:10961: SP pt-60 pb-32 px-16, gap-32) */}
-      <section className="px-4 tablet:px-[45px] pt-[60px] pb-8 tablet:py-24 max-w-[1440px] mx-auto">
+      <section className="px-4 tablet:px-[2.8125rem] pt-[3.75rem] pb-8 tablet:py-24 max-w-[90rem] mx-auto">
         <div className="flex flex-col gap-8 tablet:gap-12">
           <div className="flex flex-col gap-2">
             <h1
-              className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[0.04em] text-dark-green"
+              className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.04em] text-dark-green"
               style={{ fontFeatureSettings: "'palt' 1" }}
             >
               暮らしを知る
             </h1>
           </div>
-          <p className="font-gothic font-medium text-[16px] tablet:text-[18px] leading-[1.8] text-dark-green max-w-[768px]">
+          <p className="font-gothic font-medium text-[1rem] tablet:text-[1.125rem] leading-[1.8] text-dark-green max-w-[48rem]">
             物件だけじゃわからない、<br className="tablet:hidden" />三島での暮らしのこと。
             <br />
             ここで一緒に、のぞいてみませんか？
@@ -204,10 +204,10 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
       </Suspense>
 
       {/* フィルター + リスト */}
-      <Reveal as="section" className="px-4 tablet:px-[45px] pb-[60px] tablet:pb-24 max-w-[1440px] mx-auto">
+      <Reveal as="section" className="px-4 tablet:px-[2.8125rem] pb-[3.75rem] tablet:pb-24 max-w-[90rem] mx-auto">
         <div>
           {/* PC用フィルターバー（pickup の上に配置） */}
-          <div className="hidden tablet:block mb-[96px]">
+          <div className="hidden tablet:block mb-[6rem]">
             <Suspense fallback={<div className="h-14 bg-cream animate-pulse rounded-lg" />}>
               <StoriesFilter
                 categories={categoryLabels}
@@ -228,7 +228,7 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
 
               {/* グリッド: SP は overlay variant の縦並び gap-32、PC は 3 列 gap-y-48 */}
               {gridStories.length > 0 && (
-                <div data-stories-grid className="grid grid-cols-1 tablet:grid-cols-3 gap-y-8 tablet:gap-y-[48px] gap-x-0 tablet:gap-x-[30px]">
+                <div data-stories-grid className="grid grid-cols-1 tablet:grid-cols-3 gap-y-8 tablet:gap-y-[3rem] gap-x-0 tablet:gap-x-[1.875rem]">
                   {gridStories.map((story) => (
                     <StoryCardLarge key={story.id} story={story} />
                   ))}
@@ -236,7 +236,7 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
               )}
             </>
           ) : (
-            <p className="text-center font-gothic font-medium text-[16px] leading-[2] text-dark-green/60 py-12">
+            <p className="text-center font-gothic font-medium text-[1rem] leading-[2] text-dark-green/60 py-12">
               条件に一致するストーリーが見つかりませんでした
             </p>
           )}
@@ -259,15 +259,15 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
       </Reveal>
 
       {/* 仲人バナー */}
-      <Reveal as="section" className="px-4 tablet:px-[45px] pb-24 tablet:pb-36 max-w-[1440px] mx-auto flex justify-center">
+      <Reveal as="section" className="px-4 tablet:px-[2.8125rem] pb-24 tablet:pb-36 max-w-[90rem] mx-auto flex justify-center">
         <Link
           href="/about"
-          className="block group bg-light-green rounded-[24px] p-[30px] w-full max-w-[646px] overflow-hidden"
+          className="block group bg-light-green rounded-[1.5rem] p-[1.875rem] w-full max-w-[40.375rem] overflow-hidden"
         >
-          <div className="flex flex-col items-center text-center gap-[30px] tablet:flex-row tablet:items-end tablet:justify-between tablet:text-left">
+          <div className="flex flex-col items-center text-center gap-[1.875rem] tablet:flex-row tablet:items-end tablet:justify-between tablet:text-left">
             <div className="flex flex-col gap-4 items-center tablet:items-start justify-center p-3 tablet:flex-1">
               {/* 仲 + NAKA-BITO ロゴ */}
-              <div className="h-[56px] w-[260px] relative">
+              <div className="h-[3.5rem] w-[16.25rem] relative">
                 <Image
                   src="/images/nakabito-kanji.svg"
                   alt="仲"
@@ -280,10 +280,10 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
                   alt="NAKA-BITO"
                   width={143}
                   height={11}
-                  className="absolute left-[117px] top-[18px]"
+                  className="absolute left-[7.3125rem] top-[1.125rem]"
                 />
               </div>
-              <p className="font-gothic font-medium text-[16px] leading-[2] text-black">
+              <p className="font-gothic font-medium text-[1rem] leading-[2] text-black">
                 想いが、ひとをつないでいく。
               </p>
             </div>

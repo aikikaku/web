@@ -105,7 +105,7 @@ export default function Pagination({
         page === '...' ? (
           <span
             key={`ellipsis-${index}`}
-            className="w-8 h-8 flex items-center justify-center font-gothic font-medium text-[14px] text-dark-green"
+            className="w-8 h-8 flex items-center justify-center font-gothic font-medium text-[0.875rem] text-dark-green"
           >
             ...
           </span>
@@ -116,7 +116,7 @@ export default function Pagination({
             onClick={(e) => handleNavigate(e, page)}
             aria-current={page === currentPage ? 'page' : undefined}
             // Figma 4211:10338 / 4211:11254 準拠: 現在ページは太字、それ以外は半透明テキストのみ（塗り円は前/次矢印専用）
-            className={`w-8 h-8 inline-flex items-center justify-center text-[14px] rounded-[4px] transition-colors ${
+            className={`w-8 h-8 inline-flex items-center justify-center text-[0.875rem] rounded-[0.25rem] transition-colors ${
               page === currentPage
                 ? 'font-gothic font-bold text-dark-green pointer-events-none'
                 : 'font-gothic font-medium text-dark-green/40 hover:text-dark-green hover:bg-cream'

@@ -12,7 +12,7 @@ export default function ContactPage() {
     <div className="bg-cream">
 
       <section className="page-container py-16 tablet:py-24">
-        <div className="max-w-[792px] mx-auto">
+        <div className="max-w-[49.5rem] mx-auto">
           {/* Heading */}
           <div className="flex flex-col gap-4 mb-12">
             <h1 className="tracking-wider">お問い合わせ</h1>

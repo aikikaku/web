@@ -111,14 +111,14 @@ export default function StoriesFilter({
         <button
           onClick={applyFilter}
           disabled={!hasFilters}
-          className="h-[56px] px-10 bg-dark-green text-white rounded-lg font-gothic font-medium text-[16px] leading-none transition-opacity hover:opacity-90 cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+          className="h-[3.5rem] px-10 bg-dark-green text-white rounded-lg font-gothic font-medium text-[1rem] leading-none transition-opacity hover:opacity-90 cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
         >
           絞り込み
         </button>
         <button
           onClick={handleClear}
           disabled={!hasFilters}
-          className="h-[56px] w-[63px] border border-dark-green rounded-lg flex items-center justify-center transition-colors hover:bg-cream cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+          className="h-[3.5rem] w-[3.9375rem] border border-dark-green rounded-lg flex items-center justify-center transition-colors hover:bg-cream cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
           aria-label="フィルターをクリア"
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

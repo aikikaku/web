@@ -3,32 +3,32 @@ import ArrowButton from '@/components/ui/ArrowButton';
 
 /**
  * 駐車場バナー（PC・SP 兼用）。Figma 4211:10353 (PC) / 4211:10741 (SP) に準拠。
- * - PC: section py-[96px] px-[45px]、Card max-w-[646px] h-[180px] pt-24 pb-32 px-30、サブ→タイトル順
- * - SP: section pb-[60px] px-4、Card pt-36 pb-40 px-16、タイトル→サブ順
+ * - PC: section py-[6rem] px-[2.8125rem]、Card max-w-[40.375rem] h-[11.25rem] pt-24 pb-32 px-30、サブ→タイトル順
+ * - SP: section pb-[3.75rem] px-4、Card pt-36 pb-40 px-16、タイトル→サブ順
  */
 export default function ParkingBanner() {
   return (
-    <section className="pb-[60px] tablet:py-[96px]">
-      <div className="px-4 tablet:px-[45px] tablet:flex tablet:justify-center">
+    <section className="pb-[3.75rem] tablet:py-[6rem]">
+      <div className="px-4 tablet:px-[2.8125rem] tablet:flex tablet:justify-center">
         <Link
           href="/for-customer"
-          className="block bg-light-green rounded-2xl tablet:rounded-[24px] pt-9 pb-10 px-4 tablet:pt-6 tablet:pb-8 tablet:px-[30px] tablet:max-w-[646px] tablet:w-[646px] w-full group"
+          className="block bg-light-green rounded-2xl tablet:rounded-[1.5rem] pt-9 pb-10 px-4 tablet:pt-6 tablet:pb-8 tablet:px-[1.875rem] tablet:max-w-[40.375rem] tablet:w-[40.375rem] w-full group"
         >
           <div className="flex items-center justify-between gap-6 tablet:gap-4">
             <div className="flex flex-col gap-2 min-w-0">
               {/* SP: タイトル先 */}
               <p
-                className="tablet:hidden font-mincho text-[24px] leading-[1.6] tracking-[0.96px] text-dark-green"
+                className="tablet:hidden font-mincho text-[1.5rem] leading-[1.6] tracking-[0.06rem] text-dark-green"
                 style={{ fontFeatureSettings: "'palt' 1" }}
               >
                 三島市で駐車場を<br />お探しの方へ
               </p>
-              <p className="tablet:hidden font-gothic font-medium text-[16px] leading-[2] text-dark-green">駐車場を借りたい</p>
+              <p className="tablet:hidden font-gothic font-medium text-[1rem] leading-[2] text-dark-green">駐車場を借りたい</p>
 
               {/* PC: サブ先 */}
-              <p className="hidden tablet:block font-gothic font-medium text-[16px] leading-[2] text-dark-green">駐車場を借りたい</p>
+              <p className="hidden tablet:block font-gothic font-medium text-[1rem] leading-[2] text-dark-green">駐車場を借りたい</p>
               <p
-                className="hidden tablet:block font-mincho text-[32px] leading-[1.5] tracking-[1.28px] text-dark-green whitespace-nowrap"
+                className="hidden tablet:block font-mincho text-[2rem] leading-[1.5] tracking-[0.08rem] text-dark-green whitespace-nowrap"
                 style={{ fontFeatureSettings: "'palt' 1" }}
               >
                 三島市で駐車場をお探しの方へ

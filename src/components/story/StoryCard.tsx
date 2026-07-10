@@ -19,9 +19,9 @@ interface StoryCardProps {
 }
 
 const sizeConfig = {
-  l: { imageAspect: 'aspect-[410/308]', imageR: 'rounded-[24px]', titleSize: 'text-[32px]', titleLeading: 'leading-[1.5]', width: 'w-full' },
-  m: { imageAspect: 'aspect-[410/308]', imageR: 'rounded-[24px]', titleSize: 'text-[24px]', titleLeading: 'leading-[1.6]', width: 'w-full' },
-  s: { imageAspect: 'aspect-[4/3]', imageR: 'rounded-2xl', titleSize: 'text-[24px]', titleLeading: 'leading-[1.6]', width: 'w-full' },
+  l: { imageAspect: 'aspect-[410/308]', imageR: 'rounded-[1.5rem]', titleSize: 'text-[2rem]', titleLeading: 'leading-[1.5]', width: 'w-full' },
+  m: { imageAspect: 'aspect-[410/308]', imageR: 'rounded-[1.5rem]', titleSize: 'text-[1.5rem]', titleLeading: 'leading-[1.6]', width: 'w-full' },
+  s: { imageAspect: 'aspect-[4/3]', imageR: 'rounded-2xl', titleSize: 'text-[1.5rem]', titleLeading: 'leading-[1.6]', width: 'w-full' },
 };
 
 export default function StoryCard({ story, size = 'm', variant = 'light' }: StoryCardProps) {
@@ -43,14 +43,14 @@ export default function StoryCard({ story, size = 'm', variant = 'light' }: Stor
       </div>
 
       {/* Content below image */}
-      <div className="pt-[30px] px-3">
+      <div className="pt-[1.875rem] px-3">
         {/* Tags */}
         <div className="flex gap-3 items-center mb-4">
-          <span className="tag-pill text-[14px] leading-none px-3 py-1.5">
+          <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5">
             {getCategoryLabel(story.category)}
           </span>
           {regionNames && (
-            <span className={`font-gothic font-medium text-[14px] leading-[1.8] ${isDark ? 'text-white/80' : 'text-dark-green'}`}>
+            <span className={`font-gothic font-medium text-[0.875rem] leading-[1.8] ${isDark ? 'text-white/80' : 'text-dark-green'}`}>
               {regionNames}
             </span>
           )}
@@ -69,7 +69,7 @@ export default function StoryCard({ story, size = 'm', variant = 'light' }: Stor
         {/* Button */}
         <div className="mt-6">
           <span
-            className={`inline-flex items-center gap-1 h-[44px] px-6 border rounded-full font-gothic font-medium text-[16px] leading-none transition-colors ${
+            className={`inline-flex items-center gap-1 h-[2.75rem] px-6 border rounded-full font-gothic font-medium text-[1rem] leading-none transition-colors ${
               isDark
                 ? 'border-white text-white hover:opacity-70'
                 : 'border-dark-green text-dark-green hover:opacity-70'

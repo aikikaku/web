@@ -36,12 +36,12 @@ export default async function VoicePage() {
       />
 
       {/* Section heading + Voice list (Figma SP 4211:11177: pt-60 / gap-60 / pb-120) */}
-      <section className="px-4 tablet:px-[75px] pt-[60px] tablet:pt-24 pb-[120px] tablet:pb-36 max-w-[1440px] mx-auto flex flex-col gap-[60px] tablet:gap-24">
-        <div className="max-w-[1290px] flex flex-col gap-4 tablet:gap-8">
-          <h1 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[0.04em] text-dark-green text-left">
+      <section className="px-4 tablet:px-[4.6875rem] pt-[3.75rem] tablet:pt-24 pb-[7.5rem] tablet:pb-36 max-w-[90rem] mx-auto flex flex-col gap-[3.75rem] tablet:gap-24">
+        <div className="max-w-[80.625rem] flex flex-col gap-4 tablet:gap-8">
+          <h1 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.04em] text-dark-green text-left">
             お客様の声
           </h1>
-          <p className="font-gothic font-medium text-[16px] leading-[1.5] tablet:leading-[1.6] text-dark-green">
+          <p className="font-gothic font-medium text-[1rem] leading-[1.5] tablet:leading-[1.6] text-dark-green">
             アイ企画をご利用いただいた皆さまから、うれしいお言葉をいただいています。
           </p>
         </div>

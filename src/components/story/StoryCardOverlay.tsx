@@ -28,7 +28,7 @@ export default function StoryCardOverlay({ story, className }: Props) {
 
   return (
     <Link href={`/stories/${story.id}`} className={`block group ${className ?? ''}`}>
-      <div className="relative aspect-[341/442] w-full overflow-hidden rounded-[24px]">
+      <div className="relative aspect-[341/442] w-full overflow-hidden rounded-[1.5rem]">
         <CmsImage
           image={story.thumbnail}
           alt={story.title}
@@ -45,18 +45,18 @@ export default function StoryCardOverlay({ story, className }: Props) {
         />
         <div className="absolute inset-0 flex flex-col items-start justify-between pt-4 pb-6 px-4">
           <div className="flex items-center gap-3">
-            <span className="tag-pill text-[14px] leading-none px-3 py-1.5">
+            <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5">
               {getCategoryLabel(story.category)}
             </span>
             {regionNames && (
-              <span className="font-gothic font-medium text-[14px] leading-[1.8] text-white">
+              <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-white">
                 {regionNames}
               </span>
             )}
           </div>
           <div className="flex items-end gap-4 w-full">
             <p
-              className="flex-1 min-w-0 font-mincho text-[24px] leading-[1.6] tracking-[0.96px] text-white line-clamp-2"
+              className="flex-1 min-w-0 font-mincho text-[1.5rem] leading-[1.6] tracking-[0.06rem] text-white line-clamp-2"
               style={{ fontFeatureSettings: "'palt' 1" }}
             >
               {story.title}

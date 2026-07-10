@@ -34,7 +34,7 @@ function FaqItemRow({ item, isOpen, onToggle }: FaqItemRowProps) {
         onClick={onToggle}
         className="flex items-start justify-between w-full pr-2 text-left cursor-pointer hover:opacity-70 transition-opacity gap-3"
       >
-        <p className="font-gothic font-medium text-[14px] tablet:text-[16px] leading-[1.8] tablet:leading-[2] text-black">
+        <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1rem] leading-[1.8] tablet:leading-[2] text-black">
           {item.question}
         </p>
         <svg
@@ -52,8 +52,8 @@ function FaqItemRow({ item, isOpen, onToggle }: FaqItemRowProps) {
         className="overflow-hidden transition-[max-height] duration-500 ease-in-out"
         style={{ maxHeight: `${maxHeight}px` }}
       >
-        <div className="bg-light-green rounded-2xl px-5 py-5 tablet:px-[30px] tablet:py-[32px]">
-          <p className="font-gothic font-medium text-[14px] tablet:text-[16px] leading-[1.8] tablet:leading-[2] text-black whitespace-pre-line">
+        <div className="bg-light-green rounded-2xl px-5 py-5 tablet:px-[1.875rem] tablet:py-[2rem]">
+          <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1rem] leading-[1.8] tablet:leading-[2] text-black whitespace-pre-line">
             {item.answer}
           </p>
         </div>
@@ -78,7 +78,7 @@ export default function FaqAccordion({ items }: FaqAccordionProps) {
   };
 
   return (
-    <div className="w-full tablet:w-[792px] tablet:flex-1">
+    <div className="w-full tablet:w-[49.5rem] tablet:flex-1">
       {items.map((item, i) => (
         <FaqItemRow
           key={i}

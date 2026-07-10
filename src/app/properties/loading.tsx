@@ -3,10 +3,10 @@ import SearchProgress from '@/components/ui/SearchProgress';
 export default function Loading() {
   return (
     <div className="bg-cream">
-      <section className="pt-[60px] tablet:pt-24 pb-[120px] tablet:pb-0">
-        <div className="max-w-[1440px] mx-auto px-4 tablet:px-[45px]">
+      <section className="pt-[3.75rem] tablet:pt-24 pb-[7.5rem] tablet:pb-0">
+        <div className="max-w-[90rem] mx-auto px-4 tablet:px-[2.8125rem]">
           <h1
-            className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.92px] text-dark-green mb-8 tablet:mb-12"
+            className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.12rem] text-dark-green mb-8 tablet:mb-12"
             style={{ fontFeatureSettings: "'palt' 1" }}
           >
             物件を探す

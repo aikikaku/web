@@ -114,15 +114,15 @@ export default async function PropertiesPage({
       </Suspense>
 
       {/* PC: 下余白は ParkingBanner 側 (tablet:py-24) で確保。SP: Figma 4211:10722 通り pagination→駐車場の gap を 120px に。 */}
-      <section className="pt-[60px] tablet:pt-24 pb-[120px] tablet:pb-0">
-        <div className="max-w-[1440px] mx-auto px-4 tablet:px-[45px]">
+      <section className="pt-[3.75rem] tablet:pt-24 pb-[7.5rem] tablet:pb-0">
+        <div className="max-w-[90rem] mx-auto px-4 tablet:px-[2.8125rem]">
           {/* ページタイトル */}
-          <h1 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.92px] text-dark-green mb-8 tablet:mb-12" style={{ fontFeatureSettings: "'palt' 1" }}>物件を探す</h1>
+          <h1 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.12rem] text-dark-green mb-8 tablet:mb-12" style={{ fontFeatureSettings: "'palt' 1" }}>物件を探す</h1>
 
           {/* pickup 物件（サムネイル切替対応） */}
           {/* Figma 4211:10722 SP: pickup → grid 60px / PC: pickup → filter row 120px */}
           {featuredProperty && (
-            <div className="mb-[60px] tablet:mb-[120px]">
+            <div className="mb-[3.75rem] tablet:mb-[7.5rem]">
               <PickupCard property={featuredProperty} />
             </div>
           )}
@@ -132,7 +132,7 @@ export default async function PropertiesPage({
 
           {/* PC: 検索バー (フィルター)。ヘッダー(高さ98px)直下に sticky 固定 (#68)。
               スクロール時にカードが透けないよう bg-cream + 上下に余白 */}
-          <div className="hidden tablet:block sticky top-[98px] z-30 bg-cream pt-6 pb-8 mb-[72px]">
+          <div className="hidden tablet:block sticky top-[6.125rem] z-30 bg-cream pt-6 pb-8 mb-[4.5rem]">
             <Suspense fallback={<div className="h-14 bg-cream animate-pulse rounded-lg" />}>
               <PropertyFilter />
             </Suspense>
@@ -140,13 +140,13 @@ export default async function PropertiesPage({
 
           {/* 物件カードグリッド */}
           {gridProperties.length > 0 ? (
-            <div id="properties-grid" className="grid grid-cols-1 tablet:grid-cols-3 gap-y-[60px] tablet:gap-x-[30px] tablet:gap-y-24">
+            <div id="properties-grid" className="grid grid-cols-1 tablet:grid-cols-3 gap-y-[3.75rem] tablet:gap-x-[1.875rem] tablet:gap-y-24">
               {gridProperties.map((property) => (
                 <PropertyCard key={property.id} property={property} />
               ))}
             </div>
           ) : (
-            <p className="text-center font-gothic font-medium text-[16px] leading-[2] text-dark-green/60 py-12">
+            <p className="text-center font-gothic font-medium text-[1rem] leading-[2] text-dark-green/60 py-12">
               条件に一致する物件が見つかりませんでした
             </p>
           )}

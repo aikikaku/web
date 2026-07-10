@@ -51,11 +51,11 @@ export default function PrivacyPolicyPage() {
         }}
       />
 
-      <section className="pt-24 pb-36 px-5 tablet:px-[75px] max-w-[1440px] mx-auto">
-        <h1 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.92px] text-dark-green mb-24" style={{ fontFeatureSettings: "'palt' 1" }}>プライバシーポリシーについて</h1>
+      <section className="pt-24 pb-36 px-5 tablet:px-[4.6875rem] max-w-[90rem] mx-auto">
+        <h1 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.12rem] text-dark-green mb-24" style={{ fontFeatureSettings: "'palt' 1" }}>プライバシーポリシーについて</h1>
 
         <div className="flex justify-center">
-          <div className="w-full max-w-[704px] flex flex-col gap-16">
+          <div className="w-full max-w-[44rem] flex flex-col gap-16">
             {/* イントロ */}
             <p className="text-body-l text-black">
               アイ企画が運営する当サイト「 izuip.com 」における、個人情報に関する取扱いについて以下に記載致します。

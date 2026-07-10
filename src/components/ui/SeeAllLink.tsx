@@ -26,9 +26,9 @@ export default function SeeAllLink({
     return (
       <span
         aria-disabled="true"
-        className={`inline-flex items-center justify-between w-[186px] font-gothic font-medium text-[18px] leading-none tracking-[0.018px] text-dark-green cursor-not-allowed ${className ?? ''}`}
+        className={`inline-flex items-center justify-between w-[11.625rem] font-gothic font-medium text-[1.125rem] leading-none tracking-[0.00112rem] text-dark-green cursor-not-allowed ${className ?? ''}`}
       >
-        <span className="px-6 py-[13px] whitespace-nowrap opacity-40">{label}</span>
+        <span className="px-6 py-[0.8125rem] whitespace-nowrap opacity-40">{label}</span>
         <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-dark-green/20 shrink-0">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
             <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
@@ -42,9 +42,9 @@ export default function SeeAllLink({
   return (
     <Link
       href={href}
-      className={`group inline-flex items-center justify-between w-[186px] font-gothic font-medium text-[18px] leading-none tracking-[0.018px] text-dark-green active:scale-95 transition-transform ${className ?? ''}`}
+      className={`group inline-flex items-center justify-between w-[11.625rem] font-gothic font-medium text-[1.125rem] leading-none tracking-[0.00112rem] text-dark-green active:scale-95 transition-transform ${className ?? ''}`}
     >
-      <span className="px-6 py-[13px] whitespace-nowrap transition-opacity group-hover:opacity-60">
+      <span className="px-6 py-[0.8125rem] whitespace-nowrap transition-opacity group-hover:opacity-60">
         {label}
       </span>
       <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue group-hover:bg-light-blue shrink-0 transition-colors text-white group-hover:text-accent-blue">

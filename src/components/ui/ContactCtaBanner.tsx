@@ -25,9 +25,9 @@ interface Props {
  */
 export default function ContactCtaBanner({ bgImage, heading, caption = 'お問い合わせ', ctas }: Props) {
   return (
-    <section className="px-4 tablet:px-[45px] pt-[60px] pb-[120px] tablet:pt-0 tablet:pb-[120px]">
-      <div className="relative overflow-hidden rounded-3xl max-w-[1350px] mx-auto">
-        <div className="relative px-6 tablet:px-[30px] py-12 tablet:py-[96px]">
+    <section className="px-4 tablet:px-[2.8125rem] pt-[3.75rem] pb-[7.5rem] tablet:pt-0 tablet:pb-[7.5rem]">
+      <div className="relative overflow-hidden rounded-3xl max-w-[84.375rem] mx-auto">
+        <div className="relative px-6 tablet:px-[1.875rem] py-12 tablet:py-[6rem]">
           <Image src={bgImage} alt="" fill className="object-cover" />
           <div
             className="absolute inset-0"
@@ -36,13 +36,13 @@ export default function ContactCtaBanner({ bgImage, heading, caption = 'お問�
                 'linear-gradient(218deg, rgba(39, 51, 59, 0.1) 26.6%, rgba(39, 51, 59, 0.25) 72.5%)',
             }}
           />
-          <div className="relative z-10 flex flex-col tablet:flex-row items-stretch tablet:items-center justify-between gap-8 tablet:gap-[30px]">
+          <div className="relative z-10 flex flex-col tablet:flex-row items-stretch tablet:items-center justify-between gap-8 tablet:gap-[1.875rem]">
             <div className="text-white">
-              <p className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] mb-2">
+              <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1.125rem] leading-[1.8] mb-2">
                 {caption}
               </p>
               <h2
-                className="text-white font-mincho text-[28px] tablet:text-[32px] leading-[1.5] tracking-[1.12px] tablet:tracking-[1.28px]"
+                className="text-white font-mincho text-[1.75rem] tablet:text-[2rem] leading-[1.5] tracking-[0.07rem] tablet:tracking-[0.08rem]"
                 style={{ fontFeatureSettings: "'palt' 1" }}
               >
                 {heading}
@@ -53,9 +53,9 @@ export default function ContactCtaBanner({ bgImage, heading, caption = 'お問�
                 <Link
                   key={i}
                   href={cta.href}
-                  className="bg-cream/[0.96] rounded-2xl tablet:rounded-3xl h-12 tablet:h-auto px-6 tablet:px-[30px] tablet:pt-[40px] tablet:pb-[30px] flex tablet:flex-col items-center justify-center tablet:gap-[30px] w-full tablet:w-[264px] hover:opacity-70 transition-opacity"
+                  className="bg-cream/[0.96] rounded-2xl tablet:rounded-3xl h-12 tablet:h-auto px-6 tablet:px-[1.875rem] tablet:pt-[2.5rem] tablet:pb-[1.875rem] flex tablet:flex-col items-center justify-center tablet:gap-[1.875rem] w-full tablet:w-[16.5rem] hover:opacity-70 transition-opacity"
                 >
-                  <span className="font-gothic font-medium text-[14px] tablet:text-[20px] leading-none tablet:leading-[1.6] text-dark-green text-center">
+                  <span className="font-gothic font-medium text-[0.875rem] tablet:text-[1.25rem] leading-none tablet:leading-[1.6] text-dark-green text-center">
                     {cta.label}
                   </span>
                   <span className="hidden tablet:inline-flex bg-accent-blue w-12 h-12 rounded-full items-center justify-center shrink-0">

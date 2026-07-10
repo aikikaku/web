@@ -40,12 +40,12 @@ export default function MultiSelectDropdown({
         }`}
       >
         {selected.length === 0 ? (
-          <span className="flex-1 text-left font-gothic font-medium text-[16px] leading-[2] text-dark-green/40">
+          <span className="flex-1 text-left font-gothic font-medium text-[1rem] leading-[2] text-dark-green/40">
             {placeholder}
           </span>
         ) : (
           <span className="flex-1 min-w-0 flex items-center gap-1 overflow-hidden">
-            <span className="inline-flex items-center gap-1 bg-dark-green text-white rounded-full pl-3 pr-2 py-1 text-[14px] leading-none shrink-0 max-w-[140px]">
+            <span className="inline-flex items-center gap-1 bg-dark-green text-white rounded-full pl-3 pr-2 py-1 text-[0.875rem] leading-none shrink-0 max-w-[8.75rem]">
               <span className="truncate">{firstSelectedLabel}</span>
               <span
                 role="button"
@@ -70,7 +70,7 @@ export default function MultiSelectDropdown({
               </span>
             </span>
             {selected.length > 1 && (
-              <span className="inline-flex items-center bg-dark-green text-white rounded-full px-3 py-1.5 text-[12px] leading-[1.8] shrink-0">
+              <span className="inline-flex items-center bg-dark-green text-white rounded-full px-3 py-1.5 text-[0.75rem] leading-[1.8] shrink-0">
                 +{selected.length - 1}
               </span>
             )}
@@ -104,7 +104,7 @@ export default function MultiSelectDropdown({
                 className="flex items-center gap-2 h-8 pl-4 pr-2 hover:bg-light-green/50 text-left"
               >
                 <span
-                  className={`size-[18px] inline-flex items-center justify-center rounded border shrink-0 ${
+                  className={`size-[1.125rem] inline-flex items-center justify-center rounded border shrink-0 ${
                     checked ? 'bg-dark-green border-dark-green' : 'border-dark-green/40'
                   }`}
                 >
@@ -120,7 +120,7 @@ export default function MultiSelectDropdown({
                     </svg>
                   )}
                 </span>
-                <span className="font-gothic font-medium text-[14px] leading-[1.8] text-black">
+                <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-black">
                   {opt.label}
                 </span>
               </button>

@@ -50,7 +50,7 @@ export default function PropertyCarousel({ properties, href = '/properties' }: P
       >
         <div ref={flexRef} className="flex gap-5 min-w-max pr-4">
           {properties.map((property) => (
-            <div key={property.id} className="w-[332px] shrink-0 snap-start">
+            <div key={property.id} className="w-[20.75rem] shrink-0 snap-start">
               <PropertyCard property={property} />
             </div>
           ))}

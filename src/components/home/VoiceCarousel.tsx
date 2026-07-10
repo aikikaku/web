@@ -57,17 +57,17 @@ export default function VoiceCarousel({ voices }: Props) {
   if (!voices.length) return null;
 
   return (
-    <div className="max-w-[1440px] mx-auto">
+    <div className="max-w-[90rem] mx-auto">
       {/* PC/SP 共通: 全件レンダリング + 横スクロール peek。Figma 4211:10009 (PC w-644 h-350 peek 横並び) / 4211:10704 (SP w-322 peek)
           dot 切替で voices[page*3] を track 左端に smooth scroll → 「pagination で 4 件目から表示」が成立。 */}
       <div
         ref={trackRef}
-        className="overflow-x-auto pl-4 tablet:pl-[75px] pb-4 scroll-smooth snap-x snap-mandatory scroll-pl-4 tablet:scroll-pl-[75px]"
+        className="overflow-x-auto pl-4 tablet:pl-[4.6875rem] pb-4 scroll-smooth snap-x snap-mandatory scroll-pl-4 tablet:scroll-pl-[4.6875rem]"
         style={{ scrollbarWidth: 'none' }}
       >
-        <div ref={flexRef} className="flex gap-3 min-w-max pr-4 tablet:pr-[75px]">
+        <div ref={flexRef} className="flex gap-3 min-w-max pr-4 tablet:pr-[4.6875rem]">
           {voices.map((voice) => (
-            <div key={voice.id} className="w-[322px] tablet:w-[644px] shrink-0 snap-start">
+            <div key={voice.id} className="w-[20.125rem] tablet:w-[40.25rem] shrink-0 snap-start">
               <VoiceCard voice={voice} />
             </div>
           ))}
@@ -75,7 +75,7 @@ export default function VoiceCarousel({ voices }: Props) {
       </div>
 
       {/* Navigation-Slideshow (Figma 4211:11501 共通) */}
-      <div className="hidden tablet:block mt-16 px-[75px]">
+      <div className="hidden tablet:block mt-16 px-[4.6875rem]">
         <SlideshowNav activePage={activePage} totalPages={totalPages} onPageChange={goToPage} href="/voice" />
       </div>
       <div className="tablet:hidden mt-8 px-4">
@@ -87,7 +87,7 @@ export default function VoiceCarousel({ voices }: Props) {
 
 function VoiceCard({ voice }: { voice: CustomerVoice }) {
   return (
-    <div className="bg-cream rounded-xl tablet:rounded-3xl px-[29px] tablet:px-[58px] pt-[30px] tablet:pt-12 pb-12 tablet:pb-14 h-full">
+    <div className="bg-cream rounded-xl tablet:rounded-3xl px-[1.8125rem] tablet:px-[3.625rem] pt-[1.875rem] tablet:pt-12 pb-12 tablet:pb-14 h-full">
       <div className="flex flex-col gap-2 tablet:gap-4">
         <Image
           src="/images/mock/quote-mark-blue.svg"
@@ -97,7 +97,7 @@ function VoiceCard({ voice }: { voice: CustomerVoice }) {
           className="w-4 h-3 tablet:w-8 tablet:h-6"
         />
         <h3
-          className="font-mincho text-[18px] tablet:text-[32px] leading-[1.6] tablet:leading-[1.5] tracking-[0.72px] tablet:tracking-[1.28px] text-dark-green"
+          className="font-mincho text-[1.125rem] tablet:text-[2rem] leading-[1.6] tablet:leading-[1.5] tracking-[0.045rem] tablet:tracking-[0.08rem] text-dark-green"
           style={{ fontFeatureSettings: "'palt' 1" }}
         >
           {voice.title || voice.customerName}
@@ -106,7 +106,7 @@ function VoiceCard({ voice }: { voice: CustomerVoice }) {
           {voice.content.replace(/<[^>]*>/g, '')}
         </p>
       </div>
-      <div className="flex items-start gap-[6px] tablet:gap-3 mt-6 tablet:mt-12 text-body-s tablet:text-body-m font-gothic font-medium text-dark-green leading-[1.8] tablet:leading-[2] flex-wrap">
+      <div className="flex items-start gap-[0.375rem] tablet:gap-3 mt-6 tablet:mt-12 text-body-s tablet:text-body-m font-gothic font-medium text-dark-green leading-[1.8] tablet:leading-[2] flex-wrap">
         <div className="flex items-center">
           {voice.location && <span className="opacity-60">{voice.location}</span>}
           {voice.location && voice.propertyType && <span className="leading-[1.4]">｜</span>}
