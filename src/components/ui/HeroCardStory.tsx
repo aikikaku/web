@@ -91,7 +91,7 @@ export default function HeroCardStory({
       {/* SP: card-story (358 wide × 507 tall, 3 photos with overlap) */}
       <div className="tablet:hidden relative w-full max-w-[22.375rem] mx-auto h-[31.6875rem]">
         {/* メイン写真 (top, 358×268) */}
-        <div className="absolute left-0 top-0 w-full aspect-[358/268] rounded-2xl overflow-hidden">
+        <div className="hero-card-in absolute left-0 top-0 w-full aspect-[358/268] rounded-2xl overflow-hidden">
           <Image
             src={mainImage}
             alt={mainAlt}
@@ -101,19 +101,19 @@ export default function HeroCardStory({
             sizes="(max-width: 992px) 100vw, 0px"
           />
         </div>
-        {/* 左下の縦長写真 (32, 300, 119×159) */}
+        {/* 左下の縦長写真 (32, 300, 119×159)。パララックス付きのため登場は opacity のみ */}
         <div
           ref={leftRef}
-          className="absolute z-10 rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.08)] will-change-transform transition-none"
-          style={{ left: '32px', top: '300px', width: '119px', height: '159px' }}
+          className="hero-card-fade absolute z-10 rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.08)] will-change-transform transition-none"
+          style={{ left: '32px', top: '300px', width: '119px', height: '159px', animationDelay: '0.15s' }}
         >
           <Image src={leftImage} alt="" fill className="object-cover" sizes="119px" />
         </div>
         {/* 右下の縦長写真 (207, 348, 119×159) */}
         <div
           ref={rightRef}
-          className="absolute z-10 rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.08)] will-change-transform transition-none"
-          style={{ left: '207px', top: '348px', width: '119px', height: '159px' }}
+          className="hero-card-fade absolute z-10 rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.08)] will-change-transform transition-none"
+          style={{ left: '207px', top: '348px', width: '119px', height: '159px', animationDelay: '0.3s' }}
         >
           <Image src={rightImage} alt="" fill className="object-cover" sizes="119px" />
         </div>
@@ -124,7 +124,7 @@ export default function HeroCardStory({
           viewport > 1440 でも左右の写真は viewport edge に貼り付くべきなので max-w-1440 を使わず
           viewport 直接アンカリング (left-0 / right-0) する。center は left-1/2 -translate-x-1/2。 */}
       <div className="hidden tablet:block relative w-full h-[52.375rem]">
-        <div className="absolute left-0 top-[29.375rem] w-[17.5rem] h-[23rem] rounded-2xl overflow-hidden">
+        <div className="hero-card-in absolute left-0 top-[29.375rem] w-[17.5rem] h-[23rem] rounded-2xl overflow-hidden" style={{ animationDelay: '0.15s' }}>
           <Image
             src={leftImage}
             alt=""
@@ -133,17 +133,21 @@ export default function HeroCardStory({
             sizes="(min-width: 992px) 280px, 0px"
           />
         </div>
-        <div className="absolute left-1/2 -translate-x-1/2 top-[16.1875rem] w-[44rem] aspect-[704/469] rounded-2xl overflow-hidden">
-          <Image
-            src={mainImage}
-            alt={mainAlt}
-            fill
-            className="object-cover"
-            priority={priority}
-            sizes="(min-width: 992px) 704px, 0px"
-          />
+        {/* 中央メインは -translate-x-1/2 で中央寄せ。登場アニメの transform と競合するため
+            translate は外側ラッパー、アニメは内側に分離する。 */}
+        <div className="absolute left-1/2 -translate-x-1/2 top-[16.1875rem] w-[44rem]">
+          <div className="hero-card-in aspect-[704/469] rounded-2xl overflow-hidden">
+            <Image
+              src={mainImage}
+              alt={mainAlt}
+              fill
+              className="object-cover"
+              priority={priority}
+              sizes="(min-width: 992px) 704px, 0px"
+            />
+          </div>
         </div>
-        <div className="absolute right-0 top-[6rem] w-[17.5rem] h-[23.375rem] rounded-2xl overflow-hidden">
+        <div className="hero-card-in absolute right-0 top-[6rem] w-[17.5rem] h-[23.375rem] rounded-2xl overflow-hidden" style={{ animationDelay: '0.3s' }}>
           <Image
             src={rightImage}
             alt=""

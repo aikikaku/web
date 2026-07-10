@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import ArrowButton from '@/components/ui/ArrowButton';
+import { getContactUrl } from '@/lib/typeform';
 import { useState, useEffect, useRef } from 'react';
 
 const navLinks = [
@@ -31,9 +32,12 @@ const dropdownCards = [
   },
 ];
 
+const CONTACT_URL = getContactUrl();
+const CONTACT_EXTERNAL = CONTACT_URL.startsWith('http');
+
 const navLinksAfter = [
   { href: '/voice', label: 'お客様の声' },
-  { href: '/contact', label: 'お問い合わせ' },
+  { href: CONTACT_URL, label: 'お問い合わせ', external: CONTACT_EXTERNAL },
 ];
 
 // Mobile用: 全navItems
@@ -46,7 +50,7 @@ const allNavItems = [
     cards: dropdownCards,
   },
   { href: '/voice', label: 'お客様の声' },
-  { href: '/contact', label: 'お問い合わせ' },
+  { href: CONTACT_URL, label: 'お問い合わせ', external: CONTACT_EXTERNAL },
 ];
 
 export default function Header() {
@@ -137,6 +141,8 @@ export default function Header() {
               <Link
                 key={item.href}
                 href={item.href}
+                target={item.external ? '_blank' : undefined}
+                rel={item.external ? 'noopener noreferrer' : undefined}
                 className={`px-4 py-2.5 font-gothic font-medium text-base leading-none text-dark-green transition-colors ${
                   dropdownOpen ? 'opacity-40' : 'hover:text-accent-blue'
                 }`}
@@ -269,6 +275,8 @@ export default function Header() {
                 <li key={item.href}>
                   <Link
                     href={item.href!}
+                    target={'external' in item && item.external ? '_blank' : undefined}
+                    rel={'external' in item && item.external ? 'noopener noreferrer' : undefined}
                     className="block px-3 py-3 text-dark-green text-body-s hover:bg-cream transition-colors rounded-lg"
                     onClick={() => setMobileOpen(false)}
                   >
