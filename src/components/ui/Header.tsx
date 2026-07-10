@@ -56,22 +56,45 @@ const allNavItems = [
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  // クリックで固定表示（ピン留め）。true の間はホバーで離れても閉じない。
+  const [dropdownPinned, setDropdownPinned] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
-  // ホバー開閉 (#17): トリガー↔パネル間のギャップでチラつかないよう閉じるのを少し遅延
+  // ホバー開閉 (#17): 閉じるのは header 全体から離れたとき（トリガー↔パネル間の
+  // ギャップを跨いでも header 内なら閉じない）。少し遅延してチラつきも防ぐ。
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // setTimeout のクロージャから最新の pinned 値を参照するため ref に同期
+  const pinnedRef = useRef(false);
+  pinnedRef.current = dropdownPinned;
 
   const openDropdown = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
     setDropdownOpen(true);
   };
   const scheduleCloseDropdown = () => {
+    // ピン留め中はホバーで離れても閉じない（クリックで解除するまで維持）
+    if (pinnedRef.current) return;
     if (closeTimer.current) clearTimeout(closeTimer.current);
-    closeTimer.current = setTimeout(() => setDropdownOpen(false), 120);
+    closeTimer.current = setTimeout(() => setDropdownOpen(false), 200);
+  };
+  // 「アイ企画を知る」クリック: ピン留めのトグル。もう一度クリックで閉じる。
+  const toggleDropdownPinned = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setDropdownPinned((prev) => {
+      const next = !prev;
+      setDropdownOpen(next);
+      return next;
+    });
+  };
+  const closeDropdown = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setDropdownPinned(false);
+    setDropdownOpen(false);
   };
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (headerRef.current && !headerRef.current.contains(e.target as Node)) {
+        setDropdownPinned(false);
         setDropdownOpen(false);
       }
     }
@@ -86,6 +109,7 @@ export default function Header() {
     <header
       ref={headerRef}
       className="sticky top-0 z-50 bg-cream"
+      onMouseLeave={scheduleCloseDropdown}
     >
       {/* ナビゲーションバー */}
       <nav className="px-[2.8125rem] py-[1.875rem] max-w-[90rem] mx-auto max-tablet:px-5 max-tablet:py-4">
@@ -115,11 +139,11 @@ export default function Header() {
               </Link>
             ))}
 
-            {/* アイ企画を知る (ドロップダウントリガー)。ホバーで開く (#17)。クリックでも開閉可（タッチ/キーボード用） */}
+            {/* アイ企画を知る (ドロップダウントリガー)。ホバーで開き header から離れると閉じる (#17)。
+                クリックするとピン留めされ、再クリックするまでホバーで離れても閉じない。 */}
             <button
-              onClick={() => setDropdownOpen(!dropdownOpen)}
+              onClick={toggleDropdownPinned}
               onMouseEnter={openDropdown}
-              onMouseLeave={scheduleCloseDropdown}
               aria-expanded={dropdownOpen}
               className="flex items-center gap-1 px-4 py-2.5 font-gothic font-medium text-base leading-none text-dark-green hover:text-accent-blue transition-colors"
             >
@@ -169,12 +193,12 @@ export default function Header() {
         </div>
       </nav>
 
-      {/* Desktop: フル幅ドロップダウンセクション。パネル上もホバー維持 (#17) */}
+      {/* Desktop: フル幅ドロップダウンセクション。閉じる判定は header 全体の onMouseLeave に集約し、
+          トリガー↔パネル間のギャップで閉じないようにする (#17)。 */}
       {dropdownOpen && (
         <div
           className="hidden tablet:block bg-light-green"
           onMouseEnter={openDropdown}
-          onMouseLeave={scheduleCloseDropdown}
         >
           <div className="flex items-start justify-between px-[4.6875rem] py-12 max-w-[90rem] mx-auto">
             {/* 左: サブページリンク */}
@@ -184,7 +208,7 @@ export default function Header() {
                   key={link.href}
                   href={link.href}
                   className="font-gothic font-medium text-[1.125rem] leading-none tracking-[0.00112rem] text-dark-green hover:text-accent-blue transition-colors"
-                  onClick={() => setDropdownOpen(false)}
+                  onClick={closeDropdown}
                 >
                   {link.label}
                 </Link>
@@ -198,7 +222,7 @@ export default function Header() {
                   key={card.href}
                   href={card.href}
                   className="bg-cream rounded-3xl overflow-hidden p-6 flex flex-col gap-[1.875rem] group"
-                  onClick={() => setDropdownOpen(false)}
+                  onClick={closeDropdown}
                 >
                   {/* テキスト + 矢印 */}
                   <div className="flex items-end w-full">
