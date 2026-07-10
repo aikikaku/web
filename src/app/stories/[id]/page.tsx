@@ -10,6 +10,7 @@ import RichText, { extractTocFromHtml } from '@/components/ui/RichText';
 import TocNav from '@/components/ui/TocNav';
 import MobileTocNav from '@/components/ui/MobileTocNav';
 import SeeAllLink from '@/components/ui/SeeAllLink';
+import { getStoryCategoryLabel } from '@/lib/storyCategory';
 
 export const revalidate = 3600;
 
@@ -123,7 +124,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
               {/* タグ + 地域 */}
               <div className="flex gap-3 items-center">
                 <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5">
-                  物件のつづき
+                  {getStoryCategoryLabel(story.category)}
                 </span>
                 {regionNames && (
                   <span className="font-gothic font-medium text-[0.875rem] leading-[1.4] text-dark-green">

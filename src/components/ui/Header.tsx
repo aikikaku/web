@@ -13,7 +13,7 @@ const navLinks = [
 const dropdownLinks = [
   { href: '/about', label: 'アイ企画について' },
   { href: '/message', label: 'ご挨拶' },
-  { href: '/staff-interview', label: 'スタッフ紹介' },
+  { href: '/staff-interview', label: 'スタッフインタビュー' },
 ];
 
 const dropdownCards = [
