@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, type ReactNode } from 'react';
+import { useState, useEffect, useRef, type ReactNode } from 'react';
 import { MicroCMSImage } from '@/types/microcms';
 import { getImageUrl } from '@/lib/microcms/image';
 import CmsImage from '@/components/ui/CmsImage';
@@ -31,26 +31,57 @@ export default function PropertyDetailClient({
   spLabelsSlot,
 }: PropertyDetailClientProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const selectedImage = allImages[selectedIndex];
+  // メイン画像（先頭）のロード完了までサムネイルはクリック不可＋ローディング表示。
+  // これによりロード前クリックで切り替わらない問題を防ぐ。
+  const [ready, setReady] = useState(false);
+  const wrapRef = useRef<HTMLDivElement>(null);
+
+  // onLoad はキャッシュ済み画像では発火しないことがあるため保険を用意:
+  // (1) マウント時に既に complete なら即 ready、(2) 最大2sで必ず解除（スタック防止）
+  useEffect(() => {
+    const img = wrapRef.current?.querySelector('img');
+    if (img && img.complete) {
+      setReady(true);
+      return;
+    }
+    const t = setTimeout(() => setReady(true), 2000);
+    return () => clearTimeout(t);
+  }, []);
+
+  const thumbClass = (index: number) =>
+    `relative rounded-xl overflow-hidden transition-opacity ${
+      index === selectedIndex ? 'opacity-100' : 'opacity-[0.15] hover:opacity-50'
+    } ${!ready ? 'pointer-events-none opacity-40 cursor-wait' : ''}`;
 
   return (
     <div className="flex flex-col tablet:flex-row tablet:gap-[3.75rem] w-full">
       {/* 画像 + (SP のみ) サムネイル */}
       <div className="w-full tablet:w-[40.375rem] tablet:shrink-0">
-        <div className="relative aspect-[646/485] rounded-2xl tablet:rounded-3xl overflow-hidden">
-          <CmsImage
-            image={selectedImage}
-            alt={title}
-            fill
-            className="object-cover"
-            sizes="(max-width: 992px) 100vw, 646px"
-            priority
-          />
+        <div ref={wrapRef} className="relative aspect-[646/485] rounded-2xl tablet:rounded-3xl overflow-hidden bg-light-green">
+          {/* 全画像をスタックし opacity で切り替え → クリック時に即時切替（都度ロード待ちが無い） */}
+          {allImages.map((image, i) => (
+            <CmsImage
+              key={i}
+              image={image}
+              alt={i === selectedIndex ? title : ''}
+              fill
+              className={`object-cover transition-opacity duration-300 ease-out ${i === selectedIndex ? 'opacity-100' : 'opacity-0'}`}
+              sizes="(max-width: 992px) 100vw, 646px"
+              priority={i === 0}
+              onLoad={i === 0 ? () => setReady(true) : undefined}
+            />
+          ))}
           {/* 成約時は写真をブラックアウト (#33) */}
-          {isSold && <div aria-hidden className="absolute inset-0 bg-black/55" />}
+          {isSold && <div aria-hidden className="absolute inset-0 z-10 bg-black/55" />}
           {spLabelsSlot && (
-            <div className="tablet:hidden absolute inset-x-0 top-0 z-10 p-2.5">
+            <div className="tablet:hidden absolute inset-x-0 top-0 z-20 p-2.5">
               {spLabelsSlot}
+            </div>
+          )}
+          {/* メイン画像ロード中のローディング表示 */}
+          {!ready && (
+            <div aria-hidden className="absolute inset-0 z-30 grid place-items-center bg-light-green">
+              <span className="size-8 rounded-full border-2 border-dark-green/20 border-t-dark-green animate-spin" />
             </div>
           )}
         </div>
@@ -62,11 +93,10 @@ export default function PropertyDetailClient({
               <button
                 key={index}
                 type="button"
+                disabled={!ready}
                 onClick={() => setSelectedIndex(index)}
                 aria-label={`画像 ${index + 1} を表示`}
-                className={`relative w-[3.75rem] h-[3.75rem] rounded-xl overflow-hidden transition-opacity ${
-                  index === selectedIndex ? 'opacity-100' : 'opacity-[0.15] hover:opacity-50'
-                }`}
+                className={`${thumbClass(index)} w-[3.75rem] h-[3.75rem]`}
               >
                 <Image
                   src={getImageUrl(image, { width: 100, height: 100, format: 'webp' })}
@@ -92,11 +122,10 @@ export default function PropertyDetailClient({
                 <button
                   key={index}
                   type="button"
+                  disabled={!ready}
                   onClick={() => setSelectedIndex(index)}
                   aria-label={`画像 ${index + 1} を表示`}
-                  className={`relative flex-1 aspect-square rounded-xl overflow-hidden min-w-0 transition-opacity ${
-                    index === selectedIndex ? 'opacity-100' : 'opacity-[0.15] hover:opacity-50'
-                  }`}
+                  className={`${thumbClass(index)} flex-1 aspect-square min-w-0`}
                 >
                   <Image
                     src={getImageUrl(image, { width: 200, height: 200, format: 'webp' })}
