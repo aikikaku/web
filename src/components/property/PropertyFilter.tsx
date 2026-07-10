@@ -146,12 +146,12 @@ export default function PropertyFilter() {
       {/* ステータス切替トグル */}
       <div
         ref={toggleRef}
-        className="relative flex rounded-[50px] border border-dark-green shrink-0 mr-4 p-[2px] overflow-hidden"
+        className="relative flex rounded-[3.125rem] border border-dark-green shrink-0 mr-4 p-[0.125rem] overflow-hidden"
       >
         {indicator && (
           <span
             aria-hidden
-            className="absolute top-[2px] bottom-[2px] bg-dark-green rounded-[50px] transition-all duration-300 ease-out"
+            className="absolute top-[0.125rem] bottom-[0.125rem] bg-dark-green rounded-[3.125rem] transition-all duration-300 ease-out"
             style={{ left: indicator.left, width: indicator.width }}
           />
         )}
@@ -166,7 +166,7 @@ export default function PropertyFilter() {
               // 即時反映はせず、絞り込みボタンクリックで applyFilters() 経由で URL 更新
               setOptimisticStatus(option.value);
             }}
-            className={`relative z-10 h-[52px] px-6 font-gothic font-medium text-[16px] leading-none transition-colors duration-300 rounded-[50px] ${
+            className={`relative z-10 h-[3.25rem] px-6 font-gothic font-medium text-[1rem] leading-none transition-colors duration-300 rounded-[3.125rem] ${
               optimisticStatus === option.value ? 'text-white' : 'text-dark-green'
             }`}
           >
@@ -195,14 +195,14 @@ export default function PropertyFilter() {
         <button
           onClick={applyFilters}
           disabled={!hasPendingChange}
-          className="h-[56px] px-10 bg-dark-green border border-dark-green rounded-lg font-gothic font-medium text-[16px] leading-none text-white transition-opacity hover:opacity-90 shrink-0 disabled:opacity-30 disabled:cursor-not-allowed"
+          className="h-[3.5rem] px-10 bg-dark-green border border-dark-green rounded-lg font-gothic font-medium text-[1rem] leading-none text-white transition-opacity hover:opacity-90 shrink-0 disabled:opacity-30 disabled:cursor-not-allowed"
         >
           絞り込み
         </button>
         <button
           onClick={clearFilters}
           disabled={!hasActiveFilters}
-          className="w-[56px] h-[56px] border border-dark-green rounded-lg flex items-center justify-center hover:bg-cream transition-colors shrink-0 disabled:opacity-30 disabled:cursor-not-allowed"
+          className="w-[3.5rem] h-[3.5rem] border border-dark-green rounded-lg flex items-center justify-center hover:bg-cream transition-colors shrink-0 disabled:opacity-30 disabled:cursor-not-allowed"
           aria-label="フィルターをクリア"
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">

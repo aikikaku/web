@@ -36,10 +36,10 @@ export default function StorySection({
   const linkColor = isDark ? 'text-cream' : 'text-dark-green';
 
   return (
-    <section className={`${sectionBg} py-[60px] tablet:py-24`}>
-      <div className="px-4 tablet:px-[75px] max-w-[1440px] mx-auto mb-8 tablet:mb-16">
+    <section className={`${sectionBg} py-[3.75rem] tablet:py-24`}>
+      <div className="px-4 tablet:px-[4.6875rem] max-w-[90rem] mx-auto mb-8 tablet:mb-16">
         <h2
-          className={`font-mincho text-[28px] tablet:text-[48px] leading-[1.5] tracking-[1.12px] tablet:tracking-[1.92px] ${titleColor}`}
+          className={`font-mincho text-[1.75rem] tablet:text-[3rem] leading-[1.5] tracking-[0.07rem] tablet:tracking-[0.12rem] ${titleColor}`}
           style={{ fontFeatureSettings: "'palt' 1" }}
         >
           {title}
@@ -50,8 +50,8 @@ export default function StorySection({
       <StoryCarousel stories={stories} href={href} variant={variant} />
 
       {/* PC: 3 列グリッド + 右下「すべて見る」 */}
-      <div className="hidden tablet:block px-[75px] max-w-[1440px] mx-auto">
-        <div className="grid grid-cols-3 gap-[30px] mb-16">
+      <div className="hidden tablet:block px-[4.6875rem] max-w-[90rem] mx-auto">
+        <div className="grid grid-cols-3 gap-[1.875rem] mb-16">
           {stories.map((story) => (
             <StoryCard key={story.id} story={story} variant={variant} />
           ))}
@@ -59,7 +59,7 @@ export default function StorySection({
         <div className="flex items-center justify-end">
           <Link
             href={href}
-            className={`inline-flex items-center gap-2 font-gothic font-medium text-[18px] ${linkColor} hover:opacity-70 transition-opacity`}
+            className={`inline-flex items-center gap-2 font-gothic font-medium text-[1.125rem] ${linkColor} hover:opacity-70 transition-opacity`}
           >
             すべて見る
             <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue">

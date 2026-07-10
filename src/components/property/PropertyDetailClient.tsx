@@ -34,9 +34,9 @@ export default function PropertyDetailClient({
   const selectedImage = allImages[selectedIndex];
 
   return (
-    <div className="flex flex-col tablet:flex-row tablet:gap-[60px] w-full">
+    <div className="flex flex-col tablet:flex-row tablet:gap-[3.75rem] w-full">
       {/* 画像 + (SP のみ) サムネイル */}
-      <div className="w-full tablet:w-[646px] tablet:shrink-0">
+      <div className="w-full tablet:w-[40.375rem] tablet:shrink-0">
         <div className="relative aspect-[646/485] rounded-2xl tablet:rounded-3xl overflow-hidden">
           <CmsImage
             image={selectedImage}
@@ -64,7 +64,7 @@ export default function PropertyDetailClient({
                 type="button"
                 onClick={() => setSelectedIndex(index)}
                 aria-label={`画像 ${index + 1} を表示`}
-                className={`relative w-[60px] h-[60px] rounded-xl overflow-hidden transition-opacity ${
+                className={`relative w-[3.75rem] h-[3.75rem] rounded-xl overflow-hidden transition-opacity ${
                   index === selectedIndex ? 'opacity-100' : 'opacity-[0.15] hover:opacity-50'
                 }`}
               >

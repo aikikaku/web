@@ -108,10 +108,10 @@ export default function MobileStoriesFilter() {
       {/* floating button: Figma 4211:11098 / 4211:10780 (Column 342×56, pl-40 pr-20 py-8) */}
       <button
         onClick={openModal}
-        className={`fixed bottom-4 left-1/2 -translate-x-1/2 z-40 flex items-center justify-between gap-3 bg-[#f4faf0] border border-dark-green/20 rounded-full pl-10 pr-5 py-2 shadow-[0_-1px_4px_rgba(0,0,0,0.1)] w-[342px] h-14 transition-opacity duration-300 ${showBar ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        className={`fixed bottom-4 left-1/2 -translate-x-1/2 z-40 flex items-center justify-between gap-3 bg-[#f4faf0] border border-dark-green/20 rounded-full pl-10 pr-5 py-2 shadow-[0_-1px_4px_rgba(0,0,0,0.1)] w-[21.375rem] h-14 transition-opacity duration-300 ${showBar ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
         aria-label="記事を絞り込む"
       >
-        <span className="flex-1 text-center font-gothic font-medium text-[14px] leading-[1.8] text-dark-green">
+        <span className="flex-1 text-center font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
           記事を絞り込む
         </span>
         <span className="size-5 inline-flex items-center justify-center shrink-0">
@@ -135,7 +135,7 @@ export default function MobileStoriesFilter() {
           />
           {/* 上下中央配置のラッパ */}
           <div className="absolute inset-0 flex items-center justify-center px-6 py-12">
-            <div className="flex flex-col items-end gap-2 w-full max-w-[342px]">
+            <div className="flex flex-col items-end gap-2 w-full max-w-[21.375rem]">
               {/* close button (modal の外、上端右寄せ) */}
               <button
                 onClick={closeModal}
@@ -148,7 +148,7 @@ export default function MobileStoriesFilter() {
               </button>
 
               {/* modal box: height 固定、内部 overflow scroll */}
-              <div className="bg-cream rounded-3xl shadow-[0_0_8px_rgba(0,0,0,0.16)] w-full h-[480px] max-h-[calc(100vh-120px)] px-6 py-8 flex flex-col gap-8 overflow-y-auto">
+              <div className="bg-cream rounded-3xl shadow-[0_0_8px_rgba(0,0,0,0.16)] w-full h-[30rem] max-h-[calc(100vh-120px)] px-6 py-8 flex flex-col gap-8 overflow-y-auto">
               <div className="flex flex-col gap-4">
                 {/* category dropdown */}
                 <div className="flex flex-col gap-2">
@@ -159,7 +159,7 @@ export default function MobileStoriesFilter() {
                       openSection === 'category' ? 'bg-light-green' : 'bg-cream'
                     }`}
                   >
-                    <span className={`flex-1 text-left font-gothic font-medium text-[16px] leading-[2] ${localCategory ? 'text-dark-green' : 'text-dark-green/40'}`}>
+                    <span className={`flex-1 text-left font-gothic font-medium text-[1rem] leading-[2] ${localCategory ? 'text-dark-green' : 'text-dark-green/40'}`}>
                       {categoryLabel}
                     </span>
                     <svg
@@ -184,7 +184,7 @@ export default function MobileStoriesFilter() {
                             className="flex items-center gap-2 h-8 pl-4 pr-2 hover:bg-light-green/50 text-left"
                           >
                             <span
-                              className={`size-[18px] inline-flex items-center justify-center rounded border shrink-0 ${
+                              className={`size-[1.125rem] inline-flex items-center justify-center rounded border shrink-0 ${
                                 isChecked ? 'bg-dark-green border-dark-green' : 'border-dark-green/40'
                               }`}
                             >
@@ -194,7 +194,7 @@ export default function MobileStoriesFilter() {
                                 </svg>
                               )}
                             </span>
-                            <span className="font-gothic font-medium text-[14px] leading-[1.8] text-black">
+                            <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-black">
                               {cat.label}
                             </span>
                           </button>
@@ -220,13 +220,13 @@ export default function MobileStoriesFilter() {
                 <button
                   onClick={applyFilters}
                   disabled={!hasActiveFilters}
-                  className="flex-1 h-full bg-dark-green text-white rounded-lg font-gothic font-medium text-[14px] leading-none transition-opacity disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="flex-1 h-full bg-dark-green text-white rounded-lg font-gothic font-medium text-[0.875rem] leading-none transition-opacity disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   絞り込み
                 </button>
                 <button
                   onClick={clearFilters}
-                  className="w-[61px] h-full border border-dark-green rounded-lg flex items-center justify-center shrink-0"
+                  className="w-[3.8125rem] h-full border border-dark-green rounded-lg flex items-center justify-center shrink-0"
                   aria-label="条件をクリア"
                 >
                   <svg width="18" height="18" viewBox="0 0 18 18" fill="none">

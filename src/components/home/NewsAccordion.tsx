@@ -56,10 +56,10 @@ function AccordionItem({ item, isOpen, onToggle }: AccordionItemProps) {
         className="flex items-center justify-between w-full py-6 pr-2 text-left cursor-pointer hover:opacity-70 transition-opacity"
       >
         <div>
-          <p className="font-gothic font-medium text-[16px] leading-[2] text-black">
+          <p className="font-gothic font-medium text-[1rem] leading-[2] text-black">
             {item.title}
           </p>
-          <p className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green opacity-60">
+          <p className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green opacity-60">
             {item.date}
           </p>
         </div>
@@ -80,14 +80,14 @@ function AccordionItem({ item, isOpen, onToggle }: AccordionItemProps) {
       >
         {item.content && (
           <div className="pb-6">
-            <div className="bg-light-green rounded-2xl pt-[30px] pb-8 px-6 tablet:px-[30px]">
-              <p className="font-gothic font-medium text-[16px] leading-[2] text-black whitespace-pre-line">
+            <div className="bg-light-green rounded-2xl pt-[1.875rem] pb-8 px-6 tablet:px-[1.875rem]">
+              <p className="font-gothic font-medium text-[1rem] leading-[2] text-black whitespace-pre-line">
                 {item.content}
               </p>
               {item.link && (
                 <a
                   href={item.link.href}
-                  className="inline-flex items-center gap-1 font-gothic font-medium text-[14px] leading-none text-dark-green mt-12 hover:opacity-70 transition-opacity"
+                  className="inline-flex items-center gap-1 font-gothic font-medium text-[0.875rem] leading-none text-dark-green mt-12 hover:opacity-70 transition-opacity"
                 >
                   {item.link.label}
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -107,7 +107,7 @@ export default function NewsAccordion() {
   const [openIndex, setOpenIndex] = useState(0);
 
   return (
-    <div className="flex-1 tablet:w-[792px]">
+    <div className="flex-1 tablet:w-[49.5rem]">
       {mockNews.map((item, i) => (
         <AccordionItem
           key={i}

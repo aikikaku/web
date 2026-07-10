@@ -41,8 +41,8 @@ export default function HeroSlideshowSP() {
   const goTo = (index: number) => setActiveIndex(index);
 
   return (
-    <div className="flex flex-col gap-[10px] tablet:hidden">
-      <div className="relative h-[354px]">
+    <div className="flex flex-col gap-[0.625rem] tablet:hidden">
+      <div className="relative h-[22.125rem]">
         {/* 画像は右へ 16px はみ出す rounded-l-3xl コンテナ内でクロスフェード */}
         <div className="relative h-full w-full -mr-4 rounded-l-3xl overflow-hidden">
           {slides.map((src, i) => (

@@ -103,10 +103,10 @@ export default async function StoryPage({ params }: StoryPageProps) {
       />
 
       {/* ヒーローセクション */}
-      <section className="pt-12 pb-24 px-[45px] max-w-[1440px] mx-auto max-tablet:px-4 max-tablet:pb-12">
+      <section className="pt-12 pb-24 px-[2.8125rem] max-w-[90rem] mx-auto max-tablet:px-4 max-tablet:pb-12">
         <div className="flex max-tablet:flex-col gap-0">
           {/* 左: 画像 */}
-          <div className="tablet:w-[675px] shrink-0 h-[640px] max-tablet:h-auto max-tablet:aspect-square rounded-3xl overflow-hidden relative">
+          <div className="tablet:w-[42.1875rem] shrink-0 h-[40rem] max-tablet:h-auto max-tablet:aspect-square rounded-3xl overflow-hidden relative">
             <CmsImage
               image={story.thumbnail}
               alt={story.title}
@@ -118,15 +118,15 @@ export default async function StoryPage({ params }: StoryPageProps) {
           </div>
 
           {/* 右: テキスト */}
-          <div className="flex-1 flex flex-col gap-12 items-start justify-center tablet:pl-[89px] tablet:pr-[60px] max-tablet:pt-8">
+          <div className="flex-1 flex flex-col gap-12 items-start justify-center tablet:pl-[5.5625rem] tablet:pr-[3.75rem] max-tablet:pt-8">
             <div className="flex flex-col gap-8 items-center w-full">
               {/* タグ + 地域 */}
               <div className="flex gap-3 items-center">
-                <span className="tag-pill text-[14px] leading-none px-3 py-1.5">
+                <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5">
                   物件のつづき
                 </span>
                 {regionNames && (
-                  <span className="font-gothic font-medium text-[14px] leading-[1.4] text-dark-green">
+                  <span className="font-gothic font-medium text-[0.875rem] leading-[1.4] text-dark-green">
                     {regionNames}
                   </span>
                 )}
@@ -134,7 +134,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
 
               {/* タイトル */}
               <h2
-                className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[0.04em] text-dark-green text-center"
+                className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.04em] text-dark-green text-center"
                 style={{ fontFeatureSettings: "'palt' 1" }}
               >
                 {story.title}
@@ -155,19 +155,19 @@ export default async function StoryPage({ params }: StoryPageProps) {
       <MobileTocNav items={tocItems} />
 
       {/* メインコンテンツ: TOC + リッチテキスト */}
-      <section data-mobile-toc-start className="pb-24 px-[45px] tablet:pr-[75px] max-w-[1440px] mx-auto max-tablet:px-4">
+      <section data-mobile-toc-start className="pb-24 px-[2.8125rem] tablet:pr-[4.6875rem] max-w-[90rem] mx-auto max-tablet:px-4">
         <div className="flex max-tablet:flex-col items-start tablet:justify-between">
           {/* 左: 目次サイドバー（PC のみ） */}
           {tocItems.length > 0 && (
-            <div className="hidden tablet:block tablet:w-[323px] shrink-0 tablet:sticky tablet:top-24">
-              <div className="bg-light-green rounded-[32px] px-[30px] py-[45px]">
+            <div className="hidden tablet:block tablet:w-[20.1875rem] shrink-0 tablet:sticky tablet:top-24">
+              <div className="bg-light-green rounded-[2rem] px-[1.875rem] py-[2.8125rem]">
                 <TocNav items={tocItems} />
               </div>
             </div>
           )}
 
           {/* 右: リッチテキストコンテンツ */}
-          <div className="w-full tablet:w-[734px]">
+          <div className="w-full tablet:w-[45.875rem]">
             <div>
               {/* microCMS content フィールド（richEditorV2）。主要ブロック間の余白を 48px に統一 (#19/#37) */}
               {story.content && (
@@ -181,10 +181,10 @@ export default async function StoryPage({ params }: StoryPageProps) {
                 <div className="pt-12">
                   <Link
                     href={`/properties/${story.property.id}`}
-                    className="flex items-center justify-between bg-dark-green rounded-2xl p-[30px] group"
+                    className="flex items-center justify-between bg-dark-green rounded-2xl p-[1.875rem] group"
                   >
                     <div className="flex-1 px-3">
-                      <p className="font-gothic font-medium text-[20px] leading-[1.6] text-white">
+                      <p className="font-gothic font-medium text-[1.25rem] leading-[1.6] text-white">
                         この物件について
                       </p>
                     </div>
@@ -203,19 +203,19 @@ export default async function StoryPage({ params }: StoryPageProps) {
 
       {/* もっとストーリーを見る */}
       {relatedStories.contents.length > 0 && (
-        <section className="pt-24 pb-36 px-[75px] max-w-[1440px] mx-auto max-tablet:px-4 max-tablet:pt-12 max-tablet:pb-24 overflow-hidden">
+        <section className="pt-24 pb-36 px-[4.6875rem] max-w-[90rem] mx-auto max-tablet:px-4 max-tablet:pt-12 max-tablet:pb-24 overflow-hidden">
           <div className="flex flex-col gap-16">
             <h3
-              className="font-mincho text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green"
+              className="font-mincho text-[2rem] leading-[1.5] tracking-[0.04em] text-dark-green"
               style={{ fontFeatureSettings: "'palt' 1" }}
             >
               もっとストーリーを見る
             </h3>
 
             {/* カード3列 */}
-            <div className="grid grid-cols-1 tablet:grid-cols-3 gap-y-12 gap-x-[30px] max-tablet:flex max-tablet:overflow-x-auto max-tablet:pb-4 max-tablet:gap-x-4">
+            <div className="grid grid-cols-1 tablet:grid-cols-3 gap-y-12 gap-x-[1.875rem] max-tablet:flex max-tablet:overflow-x-auto max-tablet:pb-4 max-tablet:gap-x-4">
               {relatedStories.contents.map((s) => (
-                <div key={s.id} className="max-tablet:w-[300px] max-tablet:shrink-0">
+                <div key={s.id} className="max-tablet:w-[18.75rem] max-tablet:shrink-0">
                   <StoryCard story={s} />
                 </div>
               ))}

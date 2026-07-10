@@ -46,10 +46,10 @@ function VoiceItem({
         className="w-full flex items-start justify-between pr-2 text-left cursor-pointer hover:opacity-70 transition-opacity gap-3"
       >
         <div className="flex-1 min-w-0">
-          <p className="font-gothic font-medium text-[16px] leading-[2] text-black">
+          <p className="font-gothic font-medium text-[1rem] leading-[2] text-black">
             {voice.title || voice.customerName}
           </p>
-          <p className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green/60">
+          <p className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green/60">
             {voice.customerName}
             {voice.location && `　${voice.location}`}
             {voice.propertyType && ` / ${voice.propertyType}`}
@@ -70,9 +70,9 @@ function VoiceItem({
         className="overflow-hidden transition-[max-height] duration-500 ease-in-out"
         style={{ maxHeight: `${maxHeight}px` }}
       >
-        <div className="bg-light-green rounded-2xl px-5 py-8 tablet:px-[30px] tablet:py-8 flex flex-col gap-12">
+        <div className="bg-light-green rounded-2xl px-5 py-8 tablet:px-[1.875rem] tablet:py-8 flex flex-col gap-12">
           <div
-            className="font-gothic font-medium text-[16px] leading-[2] text-black whitespace-pre-line voice-rich"
+            className="font-gothic font-medium text-[1rem] leading-[2] text-black whitespace-pre-line voice-rich"
             dangerouslySetInnerHTML={{ __html: voice.content }}
           />
           {voice.image && (
@@ -151,10 +151,10 @@ export default function VoiceContent({ voices }: { voices: CustomerVoice[] }) {
       <MobileVoiceFilter activeKey={activeCategory} onSelect={handleClick} />
 
       {/* PC: 左サイドバー (sticky, scroll 連動).
-          sticky の containing block を「PC では tablet:w-[323px]」「flex row stretch で tall」にすると、
+          sticky の containing block を「PC では tablet:w-[20.1875rem]」「flex row stretch で tall」にすると、
           sticky 要素が containing block の height 内に room を持って top-24 で stick する */}
-      <aside className="hidden tablet:block tablet:w-[323px] shrink-0">
-        <div className="sticky top-24 bg-light-green rounded-[32px] px-[30px] py-[45px]">
+      <aside className="hidden tablet:block tablet:w-[20.1875rem] shrink-0">
+        <div className="sticky top-24 bg-light-green rounded-[2rem] px-[1.875rem] py-[2.8125rem]">
           <nav className="flex flex-col gap-6">
             {categories.map((cat) => {
               const isActive = activeCategory === cat.key;
@@ -168,11 +168,11 @@ export default function VoiceContent({ voices }: { voices: CustomerVoice[] }) {
                   }`}
                 >
                   <div
-                    className={`w-[10px] h-[10px] rounded-full shrink-0 transition-colors ${
+                    className={`w-[0.625rem] h-[0.625rem] rounded-full shrink-0 transition-colors ${
                       isActive ? 'bg-dark-green' : 'bg-dark-green/40'
                     }`}
                   />
-                  <span className="font-gothic font-medium text-[16px] leading-[1.5] text-dark-green">
+                  <span className="font-gothic font-medium text-[1rem] leading-[1.5] text-dark-green">
                     {cat.label}
                   </span>
                 </button>
@@ -185,7 +185,7 @@ export default function VoiceContent({ voices }: { voices: CustomerVoice[] }) {
       {/* ボイスリスト (カテゴリ別 section).
           data-voice-filter-start: SP floating 絞り込みバーをここから表示開始
           data-voice-filter-end: ここで非表示に戻る */}
-      <div className="w-full tablet:flex-1 tablet:max-w-[704px]" data-voice-filter-start>
+      <div className="w-full tablet:flex-1 tablet:max-w-[44rem]" data-voice-filter-start>
         {/* 最上部 anchor (= 「すべて」). このスクロール領域に入っている間 = active="all" */}
         <div id="voice-cat-all" />
 
@@ -196,7 +196,7 @@ export default function VoiceContent({ voices }: { voices: CustomerVoice[] }) {
           return (
             <section key={key} id={`voice-cat-${key}`} className="tablet:pt-16 tablet:first:pt-0">
               {/* Figma SP 4211:11177 はカテゴリ見出し非表示。SP 用ナビは MobileVoiceFilter (絞り込みモーダル) で代替 */}
-              <h2 className="hidden tablet:block font-mincho text-[24px] leading-[1.5] tracking-[0.04em] text-dark-green mb-6">
+              <h2 className="hidden tablet:block font-mincho text-[1.5rem] leading-[1.5] tracking-[0.04em] text-dark-green mb-6">
                 {cat.label}
               </h2>
               {list.map((voice, index) => (
@@ -207,7 +207,7 @@ export default function VoiceContent({ voices }: { voices: CustomerVoice[] }) {
         })}
 
         {voices.length === 0 && (
-          <p className="font-gothic text-[16px] text-dark-green/60 py-12">
+          <p className="font-gothic text-[1rem] text-dark-green/60 py-12">
             まだお客様の声はありません
           </p>
         )}
@@ -284,10 +284,10 @@ function MobileVoiceFilter({
       <button
         type="button"
         onClick={open}
-        className={`fixed bottom-4 left-1/2 -translate-x-1/2 z-40 inline-flex items-center bg-cream border border-dark-green/20 rounded-full pl-10 pr-5 py-2 shadow-[0_-1px_4px_rgba(0,0,0,0.1)] w-[342px] h-14 transition-opacity duration-300 ${showBar ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        className={`fixed bottom-4 left-1/2 -translate-x-1/2 z-40 inline-flex items-center bg-cream border border-dark-green/20 rounded-full pl-10 pr-5 py-2 shadow-[0_-1px_4px_rgba(0,0,0,0.1)] w-[21.375rem] h-14 transition-opacity duration-300 ${showBar ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
         aria-label="カテゴリを絞り込む"
       >
-        <span className="flex-1 text-center font-gothic font-medium text-[14px] leading-[1.8] text-dark-green">
+        <span className="flex-1 text-center font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
           絞り込む
         </span>
         <span className="size-5 inline-flex items-center justify-center shrink-0">
@@ -307,7 +307,7 @@ function MobileVoiceFilter({
         <div className="fixed inset-0 z-50">
           <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" onClick={close} />
           <div className="absolute inset-0 flex items-center justify-center px-6 py-12">
-            <div className="flex flex-col items-end gap-2 w-full max-w-[342px]">
+            <div className="flex flex-col items-end gap-2 w-full max-w-[21.375rem]">
               {/* close (×) right-top */}
               <button
                 type="button"
@@ -334,11 +334,11 @@ function MobileVoiceFilter({
                           className="flex items-center gap-3 h-10 w-full text-left"
                         >
                           <span
-                            className={`size-[10px] rounded-full shrink-0 transition-colors ${
+                            className={`size-[0.625rem] rounded-full shrink-0 transition-colors ${
                               isActive ? 'bg-dark-green' : 'bg-dark-green/40'
                             }`}
                           />
-                          <span className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green">
+                          <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
                             {cat.label}
                           </span>
                         </button>
@@ -352,14 +352,14 @@ function MobileVoiceFilter({
                   <button
                     type="button"
                     onClick={apply}
-                    className="flex-1 h-full bg-dark-green text-white rounded-lg font-gothic font-medium text-[14px] leading-none"
+                    className="flex-1 h-full bg-dark-green text-white rounded-lg font-gothic font-medium text-[0.875rem] leading-none"
                   >
                     絞り込み
                   </button>
                   <button
                     type="button"
                     onClick={close}
-                    className="w-[61px] h-full border border-dark-green rounded-lg flex items-center justify-center shrink-0"
+                    className="w-[3.8125rem] h-full border border-dark-green rounded-lg flex items-center justify-center shrink-0"
                     aria-label="キャンセル"
                   >
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none">

@@ -143,16 +143,16 @@ export default function MessagePage() {
         }}
       />
       {/* ヒーローセクション (Figma PC 4211:10119 / SP 4211:11591) */}
-      <section className="relative bg-cream overflow-hidden pt-12 tablet:pt-[100px] pb-12 tablet:pb-24">
+      <section className="relative bg-cream overflow-hidden pt-12 tablet:pt-[6.25rem] pb-12 tablet:pb-24">
         {/* SP: 見出し → card-story 3 枚レイアウト */}
         <div className="tablet:hidden px-4 mb-8">
-          <h1 className="font-mincho text-[32px] leading-[1.5] tracking-[1.28px] text-dark-green pl-2" style={{ fontFeatureSettings: "'palt' 1" }}>
+          <h1 className="font-mincho text-[2rem] leading-[1.5] tracking-[0.08rem] text-dark-green pl-2" style={{ fontFeatureSettings: "'palt' 1" }}>
             ご挨拶
           </h1>
         </div>
         {/* PC: タイトル左上 (絶対位置) */}
-        <div className="hidden tablet:block relative max-w-[1440px] mx-auto">
-          <h1 className="absolute left-[75px] top-[96px] w-[528px] font-mincho text-[48px] leading-[1.5] tracking-[1.92px] text-dark-green z-10" style={{ fontFeatureSettings: "'palt' 1" }}>
+        <div className="hidden tablet:block relative max-w-[90rem] mx-auto">
+          <h1 className="absolute left-[4.6875rem] top-[6rem] w-[33rem] font-mincho text-[3rem] leading-[1.5] tracking-[0.12rem] text-dark-green z-10" style={{ fontFeatureSettings: "'palt' 1" }}>
             ご挨拶
           </h1>
         </div>
@@ -173,10 +173,10 @@ export default function MessagePage() {
           key={index}
           className={`bg-cream ${index === sections.length - 1 ? 'pt-12 pb-16 tablet:pt-24 tablet:pb-36' : index === 0 ? '' : 'pt-12 tablet:pt-24'}`}
         >
-          <div className="max-w-[720px] mx-auto px-4 tablet:px-2">
+          <div className="max-w-[45rem] mx-auto px-4 tablet:px-2">
             {/* 見出し: SP は左寄せ / PC は中央寄せ (Figma 4211:11606 SP は left-aligned) */}
             <div className="pt-2 pb-6 tablet:pt-6 tablet:pb-12">
-              <h3 className="font-mincho text-[22px] tablet:text-[32px] leading-[1.5] tracking-[0.04em] text-left tablet:text-center text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+              <h3 className="font-mincho text-[1.375rem] tablet:text-[2rem] leading-[1.5] tracking-[0.04em] text-left tablet:text-center text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
                 {Array.isArray(section.heading)
                   ? section.heading.map((line, i) => (
                       <span key={i}>
@@ -190,7 +190,7 @@ export default function MessagePage() {
 
             {/* 本文: SP は 14px / leading 1.8、PC は 18px / leading 1.8 */}
             <div className="pb-6 tablet:pb-12">
-              <div className="font-gothic font-medium text-[14px] leading-[1.8] tablet:text-[18px] tablet:leading-[1.8] text-black">
+              <div className="font-gothic font-medium text-[0.875rem] leading-[1.8] tablet:text-[1.125rem] tablet:leading-[1.8] text-black">
                 {section.paragraphs.map((p, i) =>
                   p === '' ? (
                     <br key={i} />

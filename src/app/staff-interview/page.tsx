@@ -187,14 +187,14 @@ const staffProfiles = [
 function InterviewItemComponent({ item }: { item: InterviewItem }) {
   const info = speakerInfo[item.speaker];
   return (
-    <div className="flex gap-4 tablet:gap-[51px] items-start min-h-[90px] tablet:min-h-0 pb-6 tablet:pb-0">
-      <div className="flex flex-col items-center shrink-0 w-[40px] tablet:w-auto">
+    <div className="flex gap-4 tablet:gap-[3.1875rem] items-start min-h-[5.625rem] tablet:min-h-0 pb-6 tablet:pb-0">
+      <div className="flex flex-col items-center shrink-0 w-[2.5rem] tablet:w-auto">
         {info.avatar ? (
-          <div className="w-10 h-10 tablet:w-[50px] tablet:h-[50px] rounded-full overflow-hidden relative shrink-0">
+          <div className="w-10 h-10 tablet:w-[3.125rem] tablet:h-[3.125rem] rounded-full overflow-hidden relative shrink-0">
             <Image src={info.avatar} alt={info.name} fill className="object-cover" sizes="50px" />
           </div>
         ) : (
-          <div className="w-10 h-10 tablet:w-[50px] tablet:h-[50px] rounded-full bg-light-green flex items-center justify-center shrink-0">
+          <div className="w-10 h-10 tablet:w-[3.125rem] tablet:h-[3.125rem] rounded-full bg-light-green flex items-center justify-center shrink-0">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="tablet:w-6 tablet:h-6">
               <path
                 d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
@@ -203,12 +203,12 @@ function InterviewItemComponent({ item }: { item: InterviewItem }) {
             </svg>
           </div>
         )}
-        <p className="font-gothic font-medium text-[10px] tablet:text-[12px] leading-none text-dark-green text-center whitespace-nowrap mt-1">
+        <p className="font-gothic font-medium text-[0.625rem] tablet:text-[0.75rem] leading-none text-dark-green text-center whitespace-nowrap mt-1">
           {info.name}
         </p>
       </div>
       <div className="flex-1 min-w-0 tablet:pb-12 tablet:pt-2">
-        <p className="font-gothic font-medium text-[14px] leading-[1.8] tablet:text-[18px] tablet:leading-[1.8] text-black">{item.text}</p>
+        <p className="font-gothic font-medium text-[0.875rem] leading-[1.8] tablet:text-[1.125rem] tablet:leading-[1.8] text-black">{item.text}</p>
       </div>
     </div>
   );
@@ -233,16 +233,16 @@ export default function StaffInterviewPage() {
         }}
       />
       {/* ヒーローセクション (Figma PC 4211:11332 / SP 4211:11616) */}
-      <section className="relative bg-cream overflow-hidden pt-[60px] tablet:pt-[100px] pb-[60px] tablet:pb-24">
+      <section className="relative bg-cream overflow-hidden pt-[3.75rem] tablet:pt-[6.25rem] pb-[3.75rem] tablet:pb-24">
         {/* SP: 見出し → card-story (Figma 4211:11616: 60px section padding, title 358×48, 32px gap to card-story) */}
         <div className="tablet:hidden px-4 mb-8">
-          <h1 className="font-mincho text-[32px] leading-[1.5] tracking-[1.28px] text-dark-green pl-2" style={{ fontFeatureSettings: "'palt' 1" }}>
+          <h1 className="font-mincho text-[2rem] leading-[1.5] tracking-[0.08rem] text-dark-green pl-2" style={{ fontFeatureSettings: "'palt' 1" }}>
             スタッフインタビュー
           </h1>
         </div>
         {/* PC: タイトル左上 (絶対位置) */}
-        <div className="hidden tablet:block relative max-w-[1440px] mx-auto">
-          <h1 className="absolute left-[75px] top-[96px] w-[528px] font-mincho text-[48px] leading-[1.5] tracking-[1.92px] text-dark-green z-10" style={{ fontFeatureSettings: "'palt' 1" }}>
+        <div className="hidden tablet:block relative max-w-[90rem] mx-auto">
+          <h1 className="absolute left-[4.6875rem] top-[6rem] w-[33rem] font-mincho text-[3rem] leading-[1.5] tracking-[0.12rem] text-dark-green z-10" style={{ fontFeatureSettings: "'palt' 1" }}>
             スタッフインタビュー
           </h1>
         </div>
@@ -259,22 +259,22 @@ export default function StaffInterviewPage() {
       <MobileTocNav items={tocItems} />
 
       {/* インタビューセクション（PC: サイドバー付き / SP: フローティング TOC）
-          Figma SP 4211:11660: section pb-[120px]、各 item pb-[24px] */}
-      <Reveal as="section" className="pt-12 tablet:pt-24 pb-[120px] tablet:pb-24 px-4 tablet:pl-[45px] tablet:pr-[75px] max-w-[1440px] mx-auto">
+          Figma SP 4211:11660: section pb-[7.5rem]、各 item pb-[1.5rem] */}
+      <Reveal as="section" className="pt-12 tablet:pt-24 pb-[7.5rem] tablet:pb-24 px-4 tablet:pl-[2.8125rem] tablet:pr-[4.6875rem] max-w-[90rem] mx-auto">
         <div className="flex max-tablet:flex-col items-start tablet:justify-between">
           {/* PC: TOC サイドバー（スクロール追従）。SP は MobileTocNav で代替 */}
-          <div className="hidden tablet:block tablet:w-[323px] shrink-0 tablet:sticky tablet:top-24">
-            <div className="bg-light-green rounded-[32px] px-[30px] py-[45px]">
+          <div className="hidden tablet:block tablet:w-[20.1875rem] shrink-0 tablet:sticky tablet:top-24">
+            <div className="bg-light-green rounded-[2rem] px-[1.875rem] py-[2.8125rem]">
               <TocNav items={tocItems} />
             </div>
           </div>
 
           {/* 右コンテンツ */}
-          <div className="w-full tablet:w-[792px]" data-mobile-toc-start>
+          <div className="w-full tablet:w-[49.5rem]" data-mobile-toc-start>
             {/* セクション見出し */}
             <div className="mb-16" id="toc-0">
               <p className="text-body-m font-gothic font-medium text-dark-green mb-4">インタビュー</p>
-              <h2 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.92px] text-dark-green mb-4" style={{ fontFeatureSettings: "'palt' 1" }}>
+              <h2 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.12rem] text-dark-green mb-4" style={{ fontFeatureSettings: "'palt' 1" }}>
                 地域に開かれたサステナブルな不動産屋を目指して
               </h2>
               <p className="text-body-m text-dark-green">髙野大地 × 髙野恒成</p>
@@ -289,7 +289,7 @@ export default function StaffInterviewPage() {
                   const tocId = `toc-${headingIndex++}`;
                   return (
                     <div key={sIdx} className="py-12" id={tocId}>
-                      <h3 className="font-mincho text-2xl tablet:text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+                      <h3 className="font-mincho text-2xl tablet:text-[2rem] leading-[1.5] tracking-[0.04em] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
                         {section.heading}
                       </h3>
                     </div>
@@ -360,7 +360,7 @@ export default function StaffInterviewPage() {
                 {staffProfiles.map((staff) => (
                   <div key={staff.name}>
                     <div className="flex items-center gap-4 mb-2">
-                      <div className="w-[51px] h-[51px] rounded-full overflow-hidden relative shrink-0">
+                      <div className="w-[3.1875rem] h-[3.1875rem] rounded-full overflow-hidden relative shrink-0">
                         <Image
                           src={staff.avatar}
                           alt={staff.name}
@@ -369,7 +369,7 @@ export default function StaffInterviewPage() {
                           sizes="51px"
                         />
                       </div>
-                      <h4 className="font-mincho text-[18px] leading-[1.6] tracking-[0.04em] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+                      <h4 className="font-mincho text-[1.125rem] leading-[1.6] tracking-[0.04em] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
                         {staff.name}
                       </h4>
                     </div>

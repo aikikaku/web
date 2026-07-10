@@ -121,15 +121,15 @@ export default async function ForOwnerPage() {
 
       {/* ヒーロー (Figma 4211:11400 PC: 1440×784 / 4211:11898 SP).
           PC: top 48px + content 640px + bottom 96px. SP: top/bottom 60px. */}
-      <section className="pb-[60px] tablet:pb-24 pt-[60px] tablet:pt-12 max-w-[1440px] mx-auto">
-        <div className="flex flex-col tablet:flex-row items-stretch tablet:items-center gap-6 tablet:gap-[30px]">
-          <div className="flex-1 flex items-start tablet:items-center px-4 tablet:pl-[75px] tablet:pr-0">
-            <h1 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.28px] tablet:tracking-[1.92px] text-dark-green text-left" style={{ fontFeatureSettings: "'palt' 1" }}>
+      <section className="pb-[3.75rem] tablet:pb-24 pt-[3.75rem] tablet:pt-12 max-w-[90rem] mx-auto">
+        <div className="flex flex-col tablet:flex-row items-stretch tablet:items-center gap-6 tablet:gap-[1.875rem]">
+          <div className="flex-1 flex items-start tablet:items-center px-4 tablet:pl-[4.6875rem] tablet:pr-0">
+            <h1 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.08rem] tablet:tracking-[0.12rem] text-dark-green text-left" style={{ fontFeatureSettings: "'palt' 1" }}>
               不動産を<br className="tablet:hidden" />お持ちの方へ
             </h1>
           </div>
-          <div className="w-full px-4 tablet:px-0 tablet:w-[645px] tablet:mr-[75px] shrink-0">
-            <div className="relative aspect-[358/443] tablet:aspect-auto tablet:h-[640px] rounded-3xl overflow-hidden">
+          <div className="w-full px-4 tablet:px-0 tablet:w-[40.3125rem] tablet:mr-[4.6875rem] shrink-0">
+            <div className="relative aspect-[358/443] tablet:aspect-auto tablet:h-[40rem] rounded-3xl overflow-hidden">
               <Image
                 src="/images/for-owner/hero.jpg"
                 alt="不動産をお持ちの方へ"
@@ -144,7 +144,7 @@ export default async function ForOwnerPage() {
       </section>
 
       {/* まずはご相談 (Figma PC 4211:11405 = 1440×720 / SP 4211:11902 = compact) */}
-      <Reveal as="section" className="relative overflow-hidden tablet:min-h-[720px] tablet:flex tablet:items-center">
+      <Reveal as="section" className="relative overflow-hidden tablet:min-h-[45rem] tablet:flex tablet:items-center">
         <ParallaxLayer>
           <Image
             src="/images/for-owner/section-bg.jpg"
@@ -159,17 +159,17 @@ export default async function ForOwnerPage() {
             }}
           />
         </ParallaxLayer>
-        <div className="relative px-4 tablet:px-[75px] max-w-[1440px] mx-auto py-[60px] tablet:py-24 w-full">
+        <div className="relative px-4 tablet:px-[4.6875rem] max-w-[90rem] mx-auto py-[3.75rem] tablet:py-24 w-full">
           <div className="flex flex-col gap-6 tablet:gap-8">
             <div className="flex flex-col gap-2 text-cream">
-              <p className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8]">
+              <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1.125rem] leading-[1.8]">
                 不動産をお持ちですか？
               </p>
-              <h2 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.28px] tablet:tracking-[1.92px] text-cream" style={{ fontFeatureSettings: "'palt' 1" }}>
+              <h2 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.08rem] tablet:tracking-[0.12rem] text-cream" style={{ fontFeatureSettings: "'palt' 1" }}>
                 まずはご相談ください。
               </h2>
             </div>
-            <div className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-cream">
+            <div className="font-gothic font-medium text-[0.875rem] tablet:text-[1.125rem] leading-[1.8] text-cream">
               <p>本当は価値のある不動産、空き家や空き地などを眠らせていませんか？</p>
               <p>不動産は、ただ所有しているだけでは価値はどんどんと落ちてしまいます。</p>
               <p>それぞれ個性のある不動産だからこそ、小さな土地や古い建物にも、魅力があります。</p>
@@ -182,25 +182,25 @@ export default async function ForOwnerPage() {
       </Reveal>
 
       {/* 売却までの流れ (SP 左寄せ) */}
-      <Reveal as="section" className="bg-cream py-[60px] tablet:py-24">
+      <Reveal as="section" className="bg-cream py-[3.75rem] tablet:py-24">
         <div className="page-container">
           <div className="flex flex-col gap-2 items-start tablet:items-center tablet:text-center mb-8 tablet:mb-12">
-            <p className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green">
+            <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1.125rem] leading-[1.8] text-dark-green">
               物件サポート
             </p>
-            <h2 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.28px] tablet:tracking-[1.92px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+            <h2 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.08rem] tablet:tracking-[0.12rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               売却までの流れ
             </h2>
           </div>
-          <div className="max-w-[792px] mx-auto flex flex-col items-center">
+          <div className="max-w-[49.5rem] mx-auto flex flex-col items-center">
             {steps.map((step, i) => (
               <div key={step.title} className="w-full flex flex-col items-center">
                 <div className="w-full bg-cream rounded-2xl tablet:rounded-3xl shadow-[0px_-1px_8px_0px_rgba(0,0,0,0.1)] p-5 tablet:pl-6 tablet:pr-8 tablet:py-8">
                   <div className="flex flex-col tablet:flex-row gap-2 tablet:gap-8 items-start tablet:items-center">
-                    <p className="font-mincho text-[16px] tablet:text-2xl text-dark-green text-left tablet:text-center w-full tablet:w-[140px] shrink-0 whitespace-pre-line leading-[1.6] tablet:leading-[1.4] tracking-wider">
+                    <p className="font-mincho text-[1rem] tablet:text-2xl text-dark-green text-left tablet:text-center w-full tablet:w-[8.75rem] shrink-0 whitespace-pre-line leading-[1.6] tablet:leading-[1.4] tracking-wider">
                       {step.title}
                     </p>
-                    <p className="font-gothic font-medium text-[14px] tablet:text-[16px] leading-[1.8] tablet:leading-[2] text-black whitespace-pre-line flex-1">
+                    <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1rem] leading-[1.8] tablet:leading-[2] text-black whitespace-pre-line flex-1">
                       {step.desc}
                     </p>
                   </div>
@@ -216,7 +216,7 @@ export default async function ForOwnerPage() {
               </div>
             ))}
           </div>
-          <div className="max-w-[792px] mx-auto mt-8">
+          <div className="max-w-[49.5rem] mx-auto mt-8">
             <p className="text-sm text-dark-green/50 leading-[1.6]">
               ※査定・提案、媒介契約には費用は発生しません。
             </p>
@@ -228,33 +228,33 @@ export default async function ForOwnerPage() {
       </Reveal>
 
       {/* アイ企画で物件を活用する (SP タイポ・余白を Round 24 と同パターンに) */}
-      <Reveal as="section" className="bg-light-green py-[60px] tablet:py-24">
+      <Reveal as="section" className="bg-light-green py-[3.75rem] tablet:py-24">
         <div className="page-container">
           <div className="flex flex-col gap-2 mb-6 tablet:mb-8">
-            <p className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green">
+            <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1.125rem] leading-[1.8] text-dark-green">
               アイ企画の強み
             </p>
-            <h2 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.28px] tablet:tracking-[1.92px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+            <h2 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.08rem] tablet:tracking-[0.12rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               アイ企画で物件を活用する
             </h2>
           </div>
           <div className="mb-10 tablet:mb-24">
-            <p className="font-gothic font-medium text-[14px] tablet:text-[16px] leading-[1.8] text-dark-green">
+            <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1rem] leading-[1.8] text-dark-green">
               私たちのプロセスは、お客様のニーズに合わせたサポートを提供します。
             </p>
-            <p className="font-gothic font-medium text-[14px] tablet:text-[16px] leading-[1.8] text-dark-green">
+            <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1rem] leading-[1.8] text-dark-green">
               安心して次の一歩へ進めるよう、全力でお手伝いします。
             </p>
           </div>
 
-          <div className="flex flex-col gap-[60px] tablet:gap-24">
+          <div className="flex flex-col gap-[3.75rem] tablet:gap-24">
             {features.map((feature, i) => (
               <div
                 key={feature.title}
-                className={`flex flex-col tablet:flex-row gap-8 tablet:gap-[58px] items-start ${i < features.length - 1 ? 'pb-12 tablet:pb-24 tablet:border-b tablet:border-dark-green/20' : ''}`}
+                className={`flex flex-col tablet:flex-row gap-8 tablet:gap-[3.625rem] items-start ${i < features.length - 1 ? 'pb-12 tablet:pb-24 tablet:border-b tablet:border-dark-green/20' : ''}`}
               >
                 {/* Image */}
-                <div className="w-full tablet:w-[616px] shrink-0">
+                <div className="w-full tablet:w-[38.5rem] shrink-0">
                   <div className="relative aspect-[616/461] rounded-xl overflow-hidden">
                     <Image
                       src={feature.image}
@@ -285,7 +285,7 @@ export default async function ForOwnerPage() {
                           className="bg-cream rounded-2xl p-6 tablet:px-8 tablet:py-8"
                         >
                           <div className="flex flex-col gap-2">
-                            <p className="font-gothic font-medium text-base tablet:text-[20px] leading-[2] tablet:leading-[1.6] text-dark-green">
+                            <p className="font-gothic font-medium text-base tablet:text-[1.25rem] leading-[2] tablet:leading-[1.6] text-dark-green">
                               {activity.title}
                             </p>
                             <p className="font-gothic font-medium text-body-s tablet:text-body-m text-black leading-[1.8] tablet:leading-[2] whitespace-pre-line">
@@ -323,9 +323,9 @@ export default async function ForOwnerPage() {
       </Reveal>
 
       {/* 不動産活用に関する記事 */}
-      <Reveal as="section" className="py-[60px] tablet:py-[96px]">
-        <div className="tablet:px-[75px] max-w-[1440px] mx-auto">
-          <h2 className="px-4 tablet:px-0 font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[1.28px] text-dark-green mb-8 tablet:mb-16" style={{ fontFeatureSettings: "'palt' 1" }}>
+      <Reveal as="section" className="py-[3.75rem] tablet:py-[6rem]">
+        <div className="tablet:px-[4.6875rem] max-w-[90rem] mx-auto">
+          <h2 className="px-4 tablet:px-0 font-mincho text-[1.5rem] tablet:text-[2rem] leading-[1.5] tracking-[0.08rem] text-dark-green mb-8 tablet:mb-16" style={{ fontFeatureSettings: "'palt' 1" }}>
             不動産活用に関する記事
           </h2>
           <ArticleCarousel
@@ -344,9 +344,9 @@ export default async function ForOwnerPage() {
 
       {/* お客様の声 (Figma 4211:11890 / 11447) */}
       {voices.contents.length > 0 && (
-        <Reveal as="section" className="bg-light-green py-[60px] tablet:py-24">
-          <div className="px-4 tablet:px-[75px] max-w-[1440px] mx-auto mb-8 tablet:mb-[60px]">
-            <h2 className="font-mincho text-[28px] tablet:text-[48px] leading-[1.5] tracking-[1.12px] tablet:tracking-[1.92px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+        <Reveal as="section" className="bg-light-green py-[3.75rem] tablet:py-24">
+          <div className="px-4 tablet:px-[4.6875rem] max-w-[90rem] mx-auto mb-8 tablet:mb-[3.75rem]">
+            <h2 className="font-mincho text-[1.75rem] tablet:text-[3rem] leading-[1.5] tracking-[0.07rem] tablet:tracking-[0.12rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               お客様の声
             </h2>
           </div>

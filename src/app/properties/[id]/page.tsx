@@ -211,19 +211,19 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       {/* ヒーローセクション - カード型 */}
-      <section className="px-4 tablet:px-[45px] pt-12 max-w-[1440px] mx-auto">
-        <div className="bg-light-green rounded-[32px] p-4 tablet:p-[30px]">
+      <section className="px-4 tablet:px-[2.8125rem] pt-12 max-w-[90rem] mx-auto">
+        <div className="bg-light-green rounded-[2rem] p-4 tablet:p-[1.875rem]">
           <PropertyDetailClient
             allImages={allImages}
             title={property.title}
             isSold={isSold}
             spLabelsSlot={(
               <div className="flex items-center gap-2 min-w-0">
-                <span className="tag-pill text-[14px] leading-none px-3 py-1.5 shrink-0">
+                <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5 shrink-0">
                   {categoryLabel}
                 </span>
                 {locationText && (
-                  <span className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green truncate">
+                  <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green truncate">
                     {locationText}
                   </span>
                 )}
@@ -235,24 +235,24 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                 <div>
                   <div className="hidden tablet:flex gap-3 items-center">
                     {statusLabel && (
-                      <span className="tag-pill-dark text-[14px] leading-none px-3 py-1.5">
+                      <span className="tag-pill-dark text-[0.875rem] leading-none px-3 py-1.5">
                         {statusLabel}
                       </span>
                     )}
-                    <span className="tag-pill text-[14px] leading-none px-3 py-1.5">
+                    <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5">
                       {categoryLabel}
                     </span>
                     {locationText && (
-                      <span className="font-gothic font-medium text-[16px] leading-none text-dark-green">
+                      <span className="font-gothic font-medium text-[1rem] leading-none text-dark-green">
                         {locationText}
                       </span>
                     )}
                   </div>
 
                   {/* タイトル */}
-                  <div className="py-6 tablet:py-[30px]">
+                  <div className="py-6 tablet:py-[1.875rem]">
                     <h1
-                      className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.04em] text-black"
+                      className="font-mincho text-[1.5rem] tablet:text-[2rem] leading-[1.5] tracking-[0.04em] text-black"
                       style={{ fontFeatureSettings: "'palt' 1" }}
                     >
                       {property.title}
@@ -264,16 +264,16 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                     <div className="flex border-t border-b border-dark-green/20">
                       <div className="flex-1 border-r border-dark-green/20 pt-2 pb-4">
                         <div className="pl-2">
-                          <span className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green">
+                          <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
                             価格
                           </span>
                         </div>
                         <div className="flex items-end justify-center">
-                          <span className="font-gothic font-medium text-[24px] leading-[1.6] text-black px-1">
+                          <span className="font-gothic font-medium text-[1.5rem] leading-[1.6] text-black px-1">
                             {priceValue || '応談'}
                           </span>
                           {priceUnit && (
-                            <span className="font-gothic font-medium text-[14px] leading-[1.5] text-black pb-1">
+                            <span className="font-gothic font-medium text-[0.875rem] leading-[1.5] text-black pb-1">
                               {priceUnit}
                             </span>
                           )}
@@ -282,12 +282,12 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                       {property.layout && (
                         <div className="flex-1 pt-2 pb-4">
                           <div className="pl-2">
-                            <span className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green">
+                            <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
                               間取り
                             </span>
                           </div>
                           <div className="flex items-end justify-center">
-                            <span className="font-gothic font-medium text-[24px] leading-[1.6] text-black">
+                            <span className="font-gothic font-medium text-[1.5rem] leading-[1.6] text-black">
                               {property.layout}
                             </span>
                           </div>
@@ -299,12 +299,12 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                   {/* 最寄駅 / 築年月 */}
                   <div className="flex items-center flex-wrap">
                     {property.nearestStation && (
-                      <span className="font-gothic font-medium text-[16px] leading-[2] text-black px-2">
+                      <span className="font-gothic font-medium text-[1rem] leading-[2] text-black px-2">
                         {property.nearestStation}
                       </span>
                     )}
                     {property.constructionDate && (
-                      <span className="font-gothic font-medium text-[16px] leading-[2] text-black px-2">
+                      <span className="font-gothic font-medium text-[1rem] leading-[2] text-black px-2">
                         築{property.constructionDate}
                       </span>
                     )}
@@ -316,7 +316,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                   <div>
                     <a
                       href="#property-detail-body"
-                      className="inline-flex items-center justify-center h-[44px] px-6 border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-colors hover:bg-dark-green hover:text-white"
+                      className="inline-flex items-center justify-center h-[2.75rem] px-6 border border-dark-green rounded-full font-gothic font-medium text-[1rem] leading-none text-dark-green transition-colors hover:bg-dark-green hover:text-white"
                     >
                       物件詳細
                     </a>
@@ -332,20 +332,20 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
       <MobileTocNav items={tocItems} />
 
       {/* メインコンテンツ - 2カラムレイアウト。id は ヒーローカード「物件詳細」ボタンのアンカー先 */}
-      <section id="property-detail-body" data-mobile-toc-start className="px-4 tablet:pl-[45px] tablet:pr-[75px] py-16 tablet:py-24 max-w-[1440px] mx-auto scroll-mt-20">
+      <section id="property-detail-body" data-mobile-toc-start className="px-4 tablet:pl-[2.8125rem] tablet:pr-[4.6875rem] py-16 tablet:py-24 max-w-[90rem] mx-auto scroll-mt-20">
         <div className="flex flex-col tablet:flex-row gap-8 tablet:gap-0 tablet:justify-between">
           {/* 左サイドバー - 目次ナビ（PC のみ、SP では floating bar） */}
-          <aside className="hidden tablet:block w-[323px] shrink-0">
-            <div className="bg-light-green rounded-[32px] px-[30px] py-[45px] sticky top-[120px]">
+          <aside className="hidden tablet:block w-[20.1875rem] shrink-0">
+            <div className="bg-light-green rounded-[2rem] px-[1.875rem] py-[2.8125rem] sticky top-[7.5rem]">
               <TocNav items={tocItems} />
             </div>
           </aside>
 
           {/* 右メインコンテンツ */}
-          <div className="w-full tablet:w-[733px]">
+          <div className="w-full tablet:w-[45.8125rem]">
             {/* リッチテキスト（description） */}
             {property.description && (
-              <div className="max-w-[768px] pt-6">
+              <div className="max-w-[48rem] pt-6">
                 <RichText content={property.description} />
               </div>
             )}
@@ -357,13 +357,13 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                   field.value ? (
                     <div
                       key={field.label}
-                      className="flex gap-[30px] items-start py-6 border-t border-dark-green/20"
+                      className="flex gap-[1.875rem] items-start py-6 border-t border-dark-green/20"
                     >
-                      <p className="font-gothic font-medium text-[16px] tablet:text-[18px] leading-[1.8] text-dark-green w-[120px] tablet:w-[147px] shrink-0">
+                      <p className="font-gothic font-medium text-[1rem] tablet:text-[1.125rem] leading-[1.8] text-dark-green w-[7.5rem] tablet:w-[9.1875rem] shrink-0">
                         {field.label}
                       </p>
                       <div className="flex-1 flex items-center justify-between gap-3">
-                        <p className="font-gothic font-medium text-[16px] tablet:text-[18px] leading-[1.8] text-black whitespace-pre-line">
+                        <p className="font-gothic font-medium text-[1rem] tablet:text-[1.125rem] leading-[1.8] text-black whitespace-pre-line">
                           {field.value}
                         </p>
                         {field.hasTag &&
@@ -372,12 +372,12 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                               href={property.googleMapUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="tag-pill text-[14px] leading-none px-3 py-1.5 shrink-0 hover:opacity-70 transition-opacity"
+                              className="tag-pill text-[0.875rem] leading-none px-3 py-1.5 shrink-0 hover:opacity-70 transition-opacity"
                             >
                               MAP
                             </a>
                           ) : (
-                            <span className="tag-pill text-[14px] leading-none px-3 py-1.5 shrink-0">
+                            <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5 shrink-0">
                               MAP
                             </span>
                           ))}
@@ -387,15 +387,15 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                 )}
                 {/* 価格行（成約時は非表示 #31） */}
                 {!isSold && priceValue && (
-                  <div className="flex gap-[30px] items-center py-6 border-t border-dark-green/20">
-                    <p className="font-gothic font-medium text-[16px] tablet:text-[18px] leading-[1.8] text-dark-green w-[120px] tablet:w-[147px] shrink-0">
+                  <div className="flex gap-[1.875rem] items-center py-6 border-t border-dark-green/20">
+                    <p className="font-gothic font-medium text-[1rem] tablet:text-[1.125rem] leading-[1.8] text-dark-green w-[7.5rem] tablet:w-[9.1875rem] shrink-0">
                       価格
                     </p>
                     <div className="flex items-end gap-1">
-                      <span className="font-gothic font-medium text-[24px] leading-[1.6] text-black">
+                      <span className="font-gothic font-medium text-[1.5rem] leading-[1.6] text-black">
                         {priceValue}
                       </span>
-                      <span className="font-gothic font-medium text-[18px] leading-[1.8] text-black">
+                      <span className="font-gothic font-medium text-[1.125rem] leading-[1.8] text-black">
                         {priceUnit}
                       </span>
                     </div>
@@ -413,9 +413,9 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                     href={property.documentUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 bg-dark-green rounded-2xl p-[30px] h-[108px] flex items-center justify-between hover:opacity-90 transition-opacity"
+                    className="flex-1 bg-dark-green rounded-2xl p-[1.875rem] h-[6.75rem] flex items-center justify-between hover:opacity-90 transition-opacity"
                   >
-                    <p className="font-gothic font-medium text-[20px] leading-[1.6] text-white px-3">
+                    <p className="font-gothic font-medium text-[1.25rem] leading-[1.6] text-white px-3">
                       物件資料
                     </p>
                     <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue shrink-0">
@@ -428,9 +428,9 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                 ) : (
                   <Link
                     href="/for-customer"
-                    className="flex-1 bg-dark-green rounded-2xl p-[30px] h-[108px] flex items-center justify-between hover:opacity-90 transition-opacity"
+                    className="flex-1 bg-dark-green rounded-2xl p-[1.875rem] h-[6.75rem] flex items-center justify-between hover:opacity-90 transition-opacity"
                   >
-                    <p className="font-gothic font-medium text-[20px] leading-[1.6] text-white px-3">
+                    <p className="font-gothic font-medium text-[1.25rem] leading-[1.6] text-white px-3">
                       物件資料
                     </p>
                     <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue shrink-0">
@@ -446,9 +446,9 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                     href={typeformContactUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 bg-dark-green rounded-2xl p-[30px] h-[108px] flex items-center justify-between hover:opacity-90 transition-opacity"
+                    className="flex-1 bg-dark-green rounded-2xl p-[1.875rem] h-[6.75rem] flex items-center justify-between hover:opacity-90 transition-opacity"
                   >
-                    <p className="font-gothic font-medium text-[20px] leading-[1.6] text-white px-3">
+                    <p className="font-gothic font-medium text-[1.25rem] leading-[1.6] text-white px-3">
                       お問い合わせ
                     </p>
                     <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue shrink-0">
@@ -461,9 +461,9 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                 ) : (
                   <Link
                     href="/for-customer"
-                    className="flex-1 bg-dark-green rounded-2xl p-[30px] h-[108px] flex items-center justify-between hover:opacity-90 transition-opacity"
+                    className="flex-1 bg-dark-green rounded-2xl p-[1.875rem] h-[6.75rem] flex items-center justify-between hover:opacity-90 transition-opacity"
                   >
-                    <p className="font-gothic font-medium text-[20px] leading-[1.6] text-white px-3">
+                    <p className="font-gothic font-medium text-[1.25rem] leading-[1.6] text-white px-3">
                       お問い合わせ
                     </p>
                     <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue shrink-0">
@@ -485,14 +485,14 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
           <1440px はオーバーレイカード、>=1440px は 見出し | 画像 | テキスト の3カラム */}
       {isSold && property.story && (
         <section className="bg-light-green">
-          <div className="max-w-[1440px] mx-auto px-4 tablet:px-[45px] min-[1440px]:px-[75px] py-16 min-[1440px]:py-24 flex flex-col min-[1440px]:flex-row min-[1440px]:gap-[30px] min-[1440px]:items-start">
+          <div className="max-w-[90rem] mx-auto px-4 tablet:px-[2.8125rem] min-[1440px]:px-[4.6875rem] py-16 min-[1440px]:py-24 flex flex-col min-[1440px]:flex-row min-[1440px]:gap-[1.875rem] min-[1440px]:items-start">
             {/* 見出し */}
-            <div className="flex flex-col gap-2 mb-8 min-[1440px]:mb-0 min-[1440px]:w-[527px] min-[1440px]:shrink-0">
-              <p className="font-gothic font-medium text-[16px] leading-[2] text-dark-green">
+            <div className="flex flex-col gap-2 mb-8 min-[1440px]:mb-0 min-[1440px]:w-[32.9375rem] min-[1440px]:shrink-0">
+              <p className="font-gothic font-medium text-[1rem] leading-[2] text-dark-green">
                 継承者のストーリー
               </p>
               <p
-                className="font-mincho text-[24px] min-[1440px]:text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green"
+                className="font-mincho text-[1.5rem] min-[1440px]:text-[2rem] leading-[1.5] tracking-[0.04em] text-dark-green"
                 style={{ fontFeatureSettings: "'palt' 1" }}
               >
                 この物件を選んだ人の、
@@ -509,9 +509,9 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
             {/* >=1440px: 画像 | テキスト の3カラム右側 */}
             <Link
               href={`/stories/${property.story.id}`}
-              className="hidden min-[1440px]:flex flex-1 gap-[60px] items-start group"
+              className="hidden min-[1440px]:flex flex-1 gap-[3.75rem] items-start group"
             >
-              <div className="w-[352px] h-[470px] shrink-0 relative rounded-2xl overflow-hidden">
+              <div className="w-[22rem] h-[29.375rem] shrink-0 relative rounded-2xl overflow-hidden">
                 {property.story.thumbnail && (
                   <CmsImage
                     image={property.story.thumbnail}
@@ -525,24 +525,24 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
               <div className="flex-1 flex flex-col gap-6">
                 <div className="flex flex-col gap-3">
                   <div className="flex gap-2 items-center">
-                    <span className="tag-pill text-[14px] leading-none px-3 py-1.5">
+                    <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5">
                       物件のつづき
                     </span>
                     {property.story.regions && property.story.regions.length > 0 && (
-                      <span className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green">
+                      <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
                         {property.story.regions.map((r) => r.name).join('・')}
                       </span>
                     )}
                   </div>
                   <p
-                    className="font-mincho text-[24px] leading-[1.6] tracking-[0.04em] text-dark-green"
+                    className="font-mincho text-[1.5rem] leading-[1.6] tracking-[0.04em] text-dark-green"
                     style={{ fontFeatureSettings: "'palt' 1" }}
                   >
                     {property.story.title}
                   </p>
                 </div>
                 {/* button-secondary: ストーリーを読む */}
-                <span className="inline-flex items-center gap-1 h-[44px] px-6 border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-colors group-hover:bg-dark-green group-hover:text-white w-fit">
+                <span className="inline-flex items-center gap-1 h-[2.75rem] px-6 border border-dark-green rounded-full font-gothic font-medium text-[1rem] leading-none text-dark-green transition-colors group-hover:bg-dark-green group-hover:text-white w-fit">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="shrink-0">
                     <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
                     <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
@@ -558,10 +558,10 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
       <div data-mobile-toc-end />
       {/* もっと物件を見る */}
       {relatedProperties.contents.length > 0 && (
-        <section className="px-4 tablet:px-[75px] pt-[60px] pb-[60px] tablet:pt-24 tablet:pb-36 max-w-[1440px] mx-auto">
-          <div className="max-w-[1280px]">
+        <section className="px-4 tablet:px-[4.6875rem] pt-[3.75rem] pb-[3.75rem] tablet:pt-24 tablet:pb-36 max-w-[90rem] mx-auto">
+          <div className="max-w-[80rem]">
             <h2
-              className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.04em] text-dark-green mb-8 tablet:mb-16"
+              className="font-mincho text-[1.5rem] tablet:text-[2rem] leading-[1.5] tracking-[0.04em] text-dark-green mb-8 tablet:mb-16"
               style={{ fontFeatureSettings: "'palt' 1" }}
             >
               もっと物件を見る

@@ -84,7 +84,7 @@ export default function Header() {
       className="sticky top-0 z-50 bg-cream"
     >
       {/* ナビゲーションバー */}
-      <nav className="px-[75px] py-[30px] max-w-[1440px] mx-auto max-tablet:px-5 max-tablet:py-4">
+      <nav className="px-[4.6875rem] py-[1.875rem] max-w-[90rem] mx-auto max-tablet:px-5 max-tablet:py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="block shrink-0">
@@ -170,14 +170,14 @@ export default function Header() {
           onMouseEnter={openDropdown}
           onMouseLeave={scheduleCloseDropdown}
         >
-          <div className="flex items-start justify-between px-[75px] py-12 max-w-[1440px] mx-auto">
+          <div className="flex items-start justify-between px-[4.6875rem] py-12 max-w-[90rem] mx-auto">
             {/* 左: サブページリンク */}
-            <div className="flex flex-col gap-4 w-[558px] py-[30px]">
+            <div className="flex flex-col gap-4 w-[34.875rem] py-[1.875rem]">
               {dropdownLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="font-gothic font-medium text-[18px] leading-none tracking-[0.018px] text-dark-green hover:text-accent-blue transition-colors"
+                  className="font-gothic font-medium text-[1.125rem] leading-none tracking-[0.00112rem] text-dark-green hover:text-accent-blue transition-colors"
                   onClick={() => setDropdownOpen(false)}
                 >
                   {link.label}
@@ -191,14 +191,14 @@ export default function Header() {
                 <Link
                   key={card.href}
                   href={card.href}
-                  className="bg-cream rounded-3xl overflow-hidden p-6 flex flex-col gap-[30px] group"
+                  className="bg-cream rounded-3xl overflow-hidden p-6 flex flex-col gap-[1.875rem] group"
                   onClick={() => setDropdownOpen(false)}
                 >
                   {/* テキスト + 矢印 */}
                   <div className="flex items-end w-full">
                     <div className="flex-1 flex flex-col gap-1 px-3">
                       <span
-                        className="font-mincho text-[18px] leading-[1.6] tracking-[0.04em] text-dark-green"
+                        className="font-mincho text-[1.125rem] leading-[1.6] tracking-[0.04em] text-dark-green"
                         style={{ fontFeatureSettings: "'palt' 1" }}
                       >
                         {card.label}
@@ -211,7 +211,7 @@ export default function Header() {
                   </div>
 
                   {/* 画像 */}
-                  <div className="w-[294px] h-[220px] relative rounded-xl overflow-hidden">
+                  <div className="w-[18.375rem] h-[13.75rem] relative rounded-xl overflow-hidden">
                     <Image
                       src={card.image}
                       alt={card.label}

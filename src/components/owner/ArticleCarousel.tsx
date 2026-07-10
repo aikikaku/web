@@ -62,29 +62,29 @@ export default function ArticleCarousel({ articles, href = '/for-owner' }: Props
         className="overflow-x-auto pl-4 tablet:pl-0 pb-4 scroll-smooth snap-x snap-mandatory scroll-pl-4 tablet:scroll-pl-0"
         style={{ scrollbarWidth: 'none' }}
       >
-        <div ref={flexRef} className="flex gap-5 tablet:gap-[30px] min-w-max pr-4 tablet:pr-0">
+        <div ref={flexRef} className="flex gap-5 tablet:gap-[1.875rem] min-w-max pr-4 tablet:pr-0">
           {articles.map((article, i) => (
-            <div key={i} className="w-[332px] tablet:w-[410px] shrink-0 snap-start flex flex-col">
+            <div key={i} className="w-[20.75rem] tablet:w-[25.625rem] shrink-0 snap-start flex flex-col">
               <div className="relative aspect-[410/293] rounded-lg overflow-hidden mb-0">
                 <div className="absolute inset-0 bg-dark-green/10" />
-                <span className="absolute top-4 left-4 tag-pill text-[14px] leading-none px-3 py-1.5">
+                <span className="absolute top-4 left-4 tag-pill text-[0.875rem] leading-none px-3 py-1.5">
                   {article.tag}
                 </span>
               </div>
               <div className="px-3">
                 <div className="py-6">
                   <h3
-                    className="font-mincho text-[20px] tablet:text-[24px] leading-[1.6] tracking-[0.96px] text-black"
+                    className="font-mincho text-[1.25rem] tablet:text-[1.5rem] leading-[1.6] tracking-[0.06rem] text-black"
                     style={{ fontFeatureSettings: "'palt' 1" }}
                   >
                     {article.title}
                   </h3>
                 </div>
                 <div className="flex items-center justify-between gap-2.5">
-                  <span className="font-gothic font-medium text-[16px] leading-[2] text-dark-green">
+                  <span className="font-gothic font-medium text-[1rem] leading-[2] text-dark-green">
                     {article.date}
                   </span>
-                  <span className="inline-flex items-center justify-center min-w-[176px] h-11 px-6 border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green">
+                  <span className="inline-flex items-center justify-center min-w-[11rem] h-11 px-6 border border-dark-green rounded-full font-gothic font-medium text-[1rem] leading-none text-dark-green">
                     記事を読む
                   </span>
                 </div>

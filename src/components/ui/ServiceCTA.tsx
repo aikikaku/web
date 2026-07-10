@@ -19,7 +19,7 @@ export default function ServiceCTA({
   ownerImage?: string;
 }) {
   return (
-    <section className="relative py-[60px] tablet:py-[96px] overflow-hidden bg-[#d9d9d9]">
+    <section className="relative py-[3.75rem] tablet:py-[6rem] overflow-hidden bg-[#d9d9d9]">
       {/* SP 背景: 空のみが見える専用画像 / cover 中央 */}
       <div
         aria-hidden
@@ -42,7 +42,7 @@ export default function ServiceCTA({
           backgroundSize: '205.327% 353.941%',
         }}
       />
-      <div className="relative px-4 tablet:px-[45px] max-w-[1440px] mx-auto">
+      <div className="relative px-4 tablet:px-[2.8125rem] max-w-[90rem] mx-auto">
         {/* SP: 縦積みカード (背景画像 + ダーク gradient overlay) */}
         <div className="flex flex-col gap-6 tablet:hidden">
           <Link
@@ -63,7 +63,7 @@ export default function ServiceCTA({
               />
             </div>
             <div className="relative z-10 flex-1 min-w-0 flex flex-col gap-2 text-white">
-              <h3 className="font-mincho text-[24px] leading-[1.6] tracking-[0.96px]" style={{ fontFeatureSettings: "'palt' 1" }}>
+              <h3 className="font-mincho text-[1.5rem] leading-[1.6] tracking-[0.06rem]" style={{ fontFeatureSettings: "'palt' 1" }}>
                 不動産を<br />お探しの方
               </h3>
               <p className="text-body-m font-gothic font-medium leading-[2]">買いたい・借りたい</p>
@@ -94,7 +94,7 @@ export default function ServiceCTA({
               />
             </div>
             <div className="relative z-10 flex-1 min-w-0 flex flex-col gap-2 text-white">
-              <h3 className="font-mincho text-[24px] leading-[1.6] tracking-[0.96px]" style={{ fontFeatureSettings: "'palt' 1" }}>
+              <h3 className="font-mincho text-[1.5rem] leading-[1.6] tracking-[0.06rem]" style={{ fontFeatureSettings: "'palt' 1" }}>
                 不動産を<br />お持ちの方へ
               </h3>
               <p className="text-body-m font-gothic font-medium leading-[2]">売りたい・貸したい</p>
@@ -112,14 +112,14 @@ export default function ServiceCTA({
         <div className="hidden tablet:flex flex-row items-center justify-between gap-6">
           <Link
             href="/for-customer"
-            className="group bg-cream rounded-3xl p-[30px] flex flex-row gap-[30px] items-start w-[646px] hover:shadow-lg transition-shadow overflow-hidden"
+            className="group bg-cream rounded-3xl p-[1.875rem] flex flex-row gap-[1.875rem] items-start w-[40.375rem] hover:shadow-lg transition-shadow overflow-hidden"
           >
-            <div className="flex flex-col justify-between flex-1 min-w-0 h-[220px] pt-2 px-3">
+            <div className="flex flex-col justify-between flex-1 min-w-0 h-[13.75rem] pt-2 px-3">
               <div className="flex flex-col gap-2">
-                <h3 className="font-mincho text-[32px] leading-[1.5] tracking-[1.28px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+                <h3 className="font-mincho text-[2rem] leading-[1.5] tracking-[0.08rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
                   不動産を<br />お探しの方へ
                 </h3>
-                <p className="text-[18px] leading-[1.8] font-gothic font-medium text-dark-green">買いたい・借りたい</p>
+                <p className="text-[1.125rem] leading-[1.8] font-gothic font-medium text-dark-green">買いたい・借りたい</p>
               </div>
               <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -128,7 +128,7 @@ export default function ServiceCTA({
                 </svg>
               </span>
             </div>
-            <div className="w-[294px] h-[220px] relative rounded-xl overflow-hidden shrink-0">
+            <div className="w-[18.375rem] h-[13.75rem] relative rounded-xl overflow-hidden shrink-0">
               <Image
                 src={customerImage}
                 alt="不動産をお探しの方へ"
@@ -141,14 +141,14 @@ export default function ServiceCTA({
 
           <Link
             href="/for-owner"
-            className="group bg-cream rounded-3xl p-[30px] flex flex-row gap-[30px] items-start w-[646px] hover:shadow-lg transition-shadow overflow-hidden"
+            className="group bg-cream rounded-3xl p-[1.875rem] flex flex-row gap-[1.875rem] items-start w-[40.375rem] hover:shadow-lg transition-shadow overflow-hidden"
           >
-            <div className="flex flex-col justify-between flex-1 min-w-0 h-[220px] pt-2 px-3">
+            <div className="flex flex-col justify-between flex-1 min-w-0 h-[13.75rem] pt-2 px-3">
               <div className="flex flex-col gap-2">
-                <h3 className="font-mincho text-[32px] leading-[1.5] tracking-[1.28px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+                <h3 className="font-mincho text-[2rem] leading-[1.5] tracking-[0.08rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
                   不動産を<br />お持ちの方へ
                 </h3>
-                <p className="text-[18px] leading-[1.8] font-gothic font-medium text-dark-green">売りたい・貸したい</p>
+                <p className="text-[1.125rem] leading-[1.8] font-gothic font-medium text-dark-green">売りたい・貸したい</p>
               </div>
               <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -157,7 +157,7 @@ export default function ServiceCTA({
                 </svg>
               </span>
             </div>
-            <div className="w-[294px] h-[220px] relative rounded-xl overflow-hidden shrink-0">
+            <div className="w-[18.375rem] h-[13.75rem] relative rounded-xl overflow-hidden shrink-0">
               <Image
                 src={ownerImage}
                 alt="不動産をお持ちの方へ"

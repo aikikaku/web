@@ -109,16 +109,16 @@ export default async function ForCustomerPage() {
 
       {/* ヒーロー (Figma 4211:11400 PC = 1440×784, Figma 4211:11782 SP).
           PC: outer margin なし。text frame at x=75, image at x=720-1395 (右 45px gap)
-          → 親 section に padding なし、text col に tablet:pl-[75px]、image col は flush right */}
-      <section className="pb-[60px] tablet:pb-24 pt-[60px] tablet:pt-12 max-w-[1440px] mx-auto">
-        <div className="flex flex-col tablet:flex-row items-stretch tablet:items-center gap-6 tablet:gap-[30px]">
-          <div className="flex-1 flex items-start tablet:items-center px-4 tablet:pl-[75px] tablet:pr-0">
-            <h1 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.28px] tablet:tracking-[1.92px] text-dark-green text-left" style={{ fontFeatureSettings: "'palt' 1" }}>
+          → 親 section に padding なし、text col に tablet:pl-[4.6875rem]、image col は flush right */}
+      <section className="pb-[3.75rem] tablet:pb-24 pt-[3.75rem] tablet:pt-12 max-w-[90rem] mx-auto">
+        <div className="flex flex-col tablet:flex-row items-stretch tablet:items-center gap-6 tablet:gap-[1.875rem]">
+          <div className="flex-1 flex items-start tablet:items-center px-4 tablet:pl-[4.6875rem] tablet:pr-0">
+            <h1 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.08rem] tablet:tracking-[0.12rem] text-dark-green text-left" style={{ fontFeatureSettings: "'palt' 1" }}>
               不動産を<br className="tablet:hidden" />お探しの方へ
             </h1>
           </div>
-          <div className="w-full px-4 tablet:px-0 tablet:w-[675px] tablet:mr-[45px] shrink-0">
-            <div className="relative aspect-[358/443] tablet:aspect-auto tablet:h-[640px] rounded-3xl overflow-hidden">
+          <div className="w-full px-4 tablet:px-0 tablet:w-[42.1875rem] tablet:mr-[2.8125rem] shrink-0">
+            <div className="relative aspect-[358/443] tablet:aspect-auto tablet:h-[40rem] rounded-3xl overflow-hidden">
               <Image
                 src="/images/for-customer/hero.jpg"
                 alt="不動産をお探しの方へ"
@@ -133,7 +133,7 @@ export default async function ForCustomerPage() {
       </section>
 
       {/* まずはご相談 (Figma PC 4211:11405 = 1440×720 / SP 4211:11902 = compact) */}
-      <Reveal as="section" className="relative overflow-hidden tablet:min-h-[720px] tablet:flex tablet:items-center">
+      <Reveal as="section" className="relative overflow-hidden tablet:min-h-[45rem] tablet:flex tablet:items-center">
         <ParallaxLayer>
           <Image
             src="/images/for-customer/section-bg.jpg"
@@ -148,17 +148,17 @@ export default async function ForCustomerPage() {
             }}
           />
         </ParallaxLayer>
-        <div className="relative px-4 tablet:px-[75px] max-w-[1440px] mx-auto py-[60px] tablet:py-24 w-full">
+        <div className="relative px-4 tablet:px-[4.6875rem] max-w-[90rem] mx-auto py-[3.75rem] tablet:py-24 w-full">
           <div className="flex flex-col gap-6 tablet:gap-8">
             <div className="flex flex-col gap-2 text-cream">
-              <p className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8]">
+              <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1.125rem] leading-[1.8]">
                 不動産をお探しですか？
               </p>
-              <h2 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.28px] tablet:tracking-[1.92px] text-cream" style={{ fontFeatureSettings: "'palt' 1" }}>
+              <h2 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.08rem] tablet:tracking-[0.12rem] text-cream" style={{ fontFeatureSettings: "'palt' 1" }}>
                 まずはご相談ください。
               </h2>
             </div>
-            <div className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-cream">
+            <div className="font-gothic font-medium text-[0.875rem] tablet:text-[1.125rem] leading-[1.8] text-cream">
               <p>あなたの想いを聞かせてください。どんな暮らしをしたいか、どんなお店をしたいか。</p>
               <p>私たちは、その想いを共有し、正しい情報をお伝えしながら、</p>
               <p>セカンドオピニオン的な立ち位置でお客様に最適なご提案をさせて頂きます。</p>
@@ -172,25 +172,25 @@ export default async function ForCustomerPage() {
       </Reveal>
 
       {/* ご入居までの流れ (Figma SP 4211:11793 - 左寄せ) */}
-      <Reveal as="section" className="bg-cream py-[60px] tablet:py-24">
+      <Reveal as="section" className="bg-cream py-[3.75rem] tablet:py-24">
         <div className="page-container">
           <div className="flex flex-col gap-2 items-start tablet:items-center tablet:text-center mb-8 tablet:mb-12">
-            <p className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green">
+            <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1.125rem] leading-[1.8] text-dark-green">
               物件サポート
             </p>
-            <h2 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.28px] tablet:tracking-[1.92px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+            <h2 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.08rem] tablet:tracking-[0.12rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               ご入居までの流れ
             </h2>
           </div>
-          <div className="max-w-[792px] mx-auto flex flex-col items-center">
+          <div className="max-w-[49.5rem] mx-auto flex flex-col items-center">
             {steps.map((step, i) => (
               <div key={step.title} className="w-full flex flex-col items-center">
                 <div className="w-full bg-cream rounded-2xl tablet:rounded-3xl shadow-[0px_-1px_8px_0px_rgba(0,0,0,0.1)] p-5 tablet:pl-6 tablet:pr-8 tablet:py-8">
                   <div className="flex flex-col tablet:flex-row gap-2 tablet:gap-8 items-start tablet:items-center">
-                    <p className="font-mincho text-[16px] tablet:text-2xl text-dark-green text-left tablet:text-center w-full tablet:w-[140px] shrink-0 leading-[1.6] tablet:leading-[1.4] tracking-wider">
+                    <p className="font-mincho text-[1rem] tablet:text-2xl text-dark-green text-left tablet:text-center w-full tablet:w-[8.75rem] shrink-0 leading-[1.6] tablet:leading-[1.4] tracking-wider">
                       {step.title}
                     </p>
-                    <p className="font-gothic font-medium text-[14px] tablet:text-[16px] leading-[1.8] tablet:leading-[2] text-black whitespace-pre-line flex-1">
+                    <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1rem] leading-[1.8] tablet:leading-[2] text-black whitespace-pre-line flex-1">
                       {step.desc}
                     </p>
                   </div>
@@ -210,31 +210,31 @@ export default async function ForCustomerPage() {
       </Reveal>
 
       {/* アイ企画での物件探しの特徴 (Figma SP 4211:11803 - 左寄せ・余白調整) */}
-      <Reveal as="section" className="bg-light-green py-[60px] tablet:py-24">
+      <Reveal as="section" className="bg-light-green py-[3.75rem] tablet:py-24">
         <div className="page-container">
           {/* Section heading */}
           <div className="flex flex-col gap-2 mb-6 tablet:mb-8">
-            <p className="font-gothic font-medium text-[14px] tablet:text-[18px] leading-[1.8] text-dark-green">
+            <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1.125rem] leading-[1.8] text-dark-green">
               アイ企画の強み
             </p>
-            <h2 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.28px] tablet:tracking-[1.92px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+            <h2 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.08rem] tablet:tracking-[0.12rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               アイ企画での物件探しの特徴
             </h2>
           </div>
           <div className="mb-10 tablet:mb-8">
-            <p className="font-gothic font-medium text-[14px] tablet:text-[16px] leading-[1.8] text-dark-green">
+            <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1rem] leading-[1.8] text-dark-green">
               私たちのプロセスは、お客様のニーズに合わせたサポートを提供します。
             </p>
-            <p className="font-gothic font-medium text-[14px] tablet:text-[16px] leading-[1.8] text-dark-green">
+            <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1rem] leading-[1.8] text-dark-green">
               安心して新生活をスタートできるよう、全力でお手伝いします。
             </p>
           </div>
 
-          <div className="flex flex-col gap-[60px] tablet:gap-24">
+          <div className="flex flex-col gap-[3.75rem] tablet:gap-24">
             {features.map((feature, i) => (
               <div
                 key={feature.title}
-                className={`flex flex-col tablet:flex-row gap-8 tablet:gap-[58px] items-start ${i < features.length - 1 ? 'pb-12 tablet:pb-24 tablet:border-b tablet:border-dark-green/20' : ''}`}
+                className={`flex flex-col tablet:flex-row gap-8 tablet:gap-[3.625rem] items-start ${i < features.length - 1 ? 'pb-12 tablet:pb-24 tablet:border-b tablet:border-dark-green/20' : ''}`}
               >
                 {/* Image (PC: テキストと 50:50) */}
                 <div className="w-full tablet:flex-1 tablet:min-w-0">
@@ -265,10 +265,10 @@ export default async function ForCustomerPage() {
                       {feature.activities.map((activity) => (
                         <div
                           key={activity.title}
-                          className="bg-cream rounded-2xl p-6 tablet:px-[30px] tablet:pt-[30px] tablet:pb-[32px] flex flex-col gap-4"
+                          className="bg-cream rounded-2xl p-6 tablet:px-[1.875rem] tablet:pt-[1.875rem] tablet:pb-[2rem] flex flex-col gap-4"
                         >
                           <div className="flex flex-col gap-2">
-                            <p className="font-gothic font-medium text-base tablet:text-[20px] leading-[2] tablet:leading-[1.6] text-dark-green">
+                            <p className="font-gothic font-medium text-base tablet:text-[1.25rem] leading-[2] tablet:leading-[1.6] text-dark-green">
                               {activity.title}
                             </p>
                             <p className="font-gothic font-medium text-body-s tablet:text-body-m text-black leading-[1.8] tablet:leading-[2]">
@@ -278,7 +278,7 @@ export default async function ForCustomerPage() {
                           {activity.link && (
                             <Link
                               href={activity.link.href}
-                              className="inline-flex items-center gap-1 self-start text-[14px] leading-none font-gothic font-medium text-dark-green hover:opacity-70 transition-opacity"
+                              className="inline-flex items-center gap-1 self-start text-[0.875rem] leading-none font-gothic font-medium text-dark-green hover:opacity-70 transition-opacity"
                               {...(activity.link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                             >
                               {activity.link.label}
@@ -300,9 +300,9 @@ export default async function ForCustomerPage() {
 
       {/* 物件情報 (Figma 4211:11428): /properties/[id] の「もっと物件を見る」と同パターン → MoreProperties 転用 */}
       {properties.contents.length > 0 && (
-        <Reveal as="section" className="bg-cream py-[60px] tablet:py-24">
-          <div className="px-4 tablet:px-[75px] max-w-[1440px] mx-auto">
-            <h2 className="font-mincho text-[32px] tablet:text-[48px] leading-[1.5] tracking-[1.28px] tablet:tracking-[1.92px] text-dark-green mb-8 tablet:mb-12" style={{ fontFeatureSettings: "'palt' 1" }}>
+        <Reveal as="section" className="bg-cream py-[3.75rem] tablet:py-24">
+          <div className="px-4 tablet:px-[4.6875rem] max-w-[90rem] mx-auto">
+            <h2 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.08rem] tablet:tracking-[0.12rem] text-dark-green mb-8 tablet:mb-12" style={{ fontFeatureSettings: "'palt' 1" }}>
               物件情報
             </h2>
             <MoreProperties properties={properties.contents.slice(0, 6)} />
@@ -329,9 +329,9 @@ export default async function ForCustomerPage() {
 
       {/* お客様の声 (Figma 4211:11890 / 11447) */}
       {voices.contents.length > 0 && (
-        <Reveal as="section" className="bg-light-green py-[60px] tablet:py-24">
-          <div className="px-4 tablet:px-[75px] max-w-[1440px] mx-auto mb-8 tablet:mb-[60px]">
-            <h2 className="font-mincho text-[28px] tablet:text-[48px] leading-[1.5] tracking-[1.12px] tablet:tracking-[1.92px] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+        <Reveal as="section" className="bg-light-green py-[3.75rem] tablet:py-24">
+          <div className="px-4 tablet:px-[4.6875rem] max-w-[90rem] mx-auto mb-8 tablet:mb-[3.75rem]">
+            <h2 className="font-mincho text-[1.75rem] tablet:text-[3rem] leading-[1.5] tracking-[0.07rem] tablet:tracking-[0.12rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               お客様の声
             </h2>
           </div>

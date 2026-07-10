@@ -58,20 +58,20 @@ export default function TocNav({ items }: TocNavProps) {
             key={i}
             type="button"
             onClick={() => handleClick(i)}
-            className="flex items-center h-[56px] text-left cursor-pointer"
+            className="flex items-center h-[3.5rem] text-left cursor-pointer"
           >
             {/* タイムラインドット + 線 */}
-            <div className="w-[40px] flex flex-col items-center h-full shrink-0">
+            <div className="w-[2.5rem] flex flex-col items-center h-full shrink-0">
               {/* 上の線 */}
               {i > 0 && (
-                <div className={`w-[1.5px] flex-1 ${
+                <div className={`w-[0.09375rem] flex-1 ${
                   i <= activeIndex ? 'bg-dark-green' : 'bg-dark-green/30'
                 } transition-colors duration-300`} />
               )}
               {i === 0 && <div className="flex-1" />}
 
               {/* ドット */}
-              <div className={`w-[10px] h-[10px] rounded-full shrink-0 transition-colors duration-300 ${
+              <div className={`w-[0.625rem] h-[0.625rem] rounded-full shrink-0 transition-colors duration-300 ${
                 isActive
                   ? 'bg-dark-green'
                   : i < activeIndex
@@ -81,7 +81,7 @@ export default function TocNav({ items }: TocNavProps) {
 
               {/* 下の線 */}
               {i < arr.length - 1 && (
-                <div className={`w-[1.5px] flex-1 ${
+                <div className={`w-[0.09375rem] flex-1 ${
                   i < activeIndex ? 'bg-dark-green' : 'bg-dark-green/30'
                 } transition-colors duration-300`} />
               )}
@@ -89,7 +89,7 @@ export default function TocNav({ items }: TocNavProps) {
             </div>
 
             {/* テキスト */}
-            <span className={`font-gothic font-medium text-[16px] leading-[1.5] text-dark-green transition-opacity duration-300 ${
+            <span className={`font-gothic font-medium text-[1rem] leading-[1.5] text-dark-green transition-opacity duration-300 ${
               isActive ? 'opacity-100' : 'opacity-50'
             }`}>
               {item}

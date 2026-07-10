@@ -34,13 +34,13 @@ export default function PickupCard({ property }: Props) {
       data-mobile-filter-start
       href={`/properties/${property.id}`}
       // Figma 4211:10721: section bg-light-green px-16 py-32 を Link 単体で再現
-      className="block bg-light-green rounded-2xl tablet:rounded-[32px] py-8 px-4 tablet:p-[30px] group"
+      className="block bg-light-green rounded-2xl tablet:rounded-[2rem] py-8 px-4 tablet:p-[1.875rem] group"
     >
       {/* SP: 縦積み image → thumbs → details / PC: 横並び image | details(thumbs下) */}
-      <div className="flex flex-col tablet:flex-row tablet:gap-[60px] tablet:items-stretch">
+      <div className="flex flex-col tablet:flex-row tablet:gap-[3.75rem] tablet:items-stretch">
         {/* メイン画像 */}
-        <div className="tablet:w-[646px] tablet:shrink-0">
-          <div className="aspect-[294/220] tablet:aspect-[646/485] relative overflow-hidden rounded-2xl tablet:rounded-[24px]">
+        <div className="tablet:w-[40.375rem] tablet:shrink-0">
+          <div className="aspect-[294/220] tablet:aspect-[646/485] relative overflow-hidden rounded-2xl tablet:rounded-[1.5rem]">
             {allImages.map((img, i) => (
               <CmsImage
                 key={i}
@@ -55,37 +55,37 @@ export default function PickupCard({ property }: Props) {
             {/* Figma 4211:10721: 画像上端の暗グラデ（ラベル可読性のため）。to top: 73.6% transparent → 92.7% rgba(0,0,0,0.2) */}
             <div
               aria-hidden
-              className="absolute inset-0 z-10 pointer-events-none rounded-2xl tablet:rounded-[24px]"
+              className="absolute inset-0 z-10 pointer-events-none rounded-2xl tablet:rounded-[1.5rem]"
               style={{ backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0) 73.635%, rgba(0,0,0,0.2) 92.755%)' }}
             />
             {/* SP: ラベルを画像内 top に overlay（Figma 4211:10721）
                 location は cream (白) text 16px leading-2、画像上端の暗グラデで可読化 */}
             <div className="tablet:hidden absolute inset-x-0 top-0 z-20 p-2.5 flex items-center justify-between gap-2">
               <div className="flex items-center gap-2 min-w-0">
-                <span className="tag-pill text-[14px] leading-none px-3 py-1.5 shrink-0">
+                <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5 shrink-0">
                   {categoryLabel}
                 </span>
                 {locationText && (
-                  <span className="font-gothic font-medium text-[16px] leading-[2] text-cream truncate px-1">
+                  <span className="font-gothic font-medium text-[1rem] leading-[2] text-cream truncate px-1">
                     {locationText}
                   </span>
                 )}
               </div>
               {statusLabel && (
-                <span className="inline-flex items-center bg-dark-green text-white font-gothic font-medium text-[14px] leading-none rounded-full px-3 py-1.5 shrink-0">
+                <span className="inline-flex items-center bg-dark-green text-white font-gothic font-medium text-[0.875rem] leading-none rounded-full px-3 py-1.5 shrink-0">
                   {statusLabel}
                 </span>
               )}
             </div>
             {/* PC: 状態バッジは右上に単独 */}
             {statusLabel && (
-              <span className="hidden tablet:inline-flex absolute top-4 right-4 z-20 items-center bg-dark-green text-white font-gothic font-medium text-[14px] leading-none rounded-full px-3 py-1.5">
+              <span className="hidden tablet:inline-flex absolute top-4 right-4 z-20 items-center bg-dark-green text-white font-gothic font-medium text-[0.875rem] leading-none rounded-full px-3 py-1.5">
                 {statusLabel}
               </span>
             )}
           </div>
 
-          {/* SP: thumbs（画像の下）。flex-1 + aspect-square + max-w-[52px] で親要素 (Link px-4 内側 326px) に収まるよう均等配分。 */}
+          {/* SP: thumbs（画像の下）。flex-1 + aspect-square + max-w-[3.25rem] で親要素 (Link px-4 内側 326px) に収まるよう均等配分。 */}
           {allImages.length > 1 && (
             <div className="tablet:hidden flex items-center gap-2 pt-4 pb-6 w-full">
               {allImages.slice(0, 6).map((img, i) => (
@@ -97,7 +97,7 @@ export default function PickupCard({ property }: Props) {
                     e.preventDefault();
                     setActiveIndex(i);
                   }}
-                  className={`relative flex-1 min-w-0 max-w-[52px] aspect-square rounded-lg overflow-hidden transition-opacity duration-200 ${i === activeIndex ? 'opacity-100' : 'opacity-15 hover:opacity-50'}`}
+                  className={`relative flex-1 min-w-0 max-w-[3.25rem] aspect-square rounded-lg overflow-hidden transition-opacity duration-200 ${i === activeIndex ? 'opacity-100' : 'opacity-15 hover:opacity-50'}`}
                 >
                   <Image
                     src={getImageUrl(img, { width: 120, height: 120, format: 'webp' })}
@@ -118,24 +118,24 @@ export default function PickupCard({ property }: Props) {
             {/* Tags + Location: PC のみ（SP はラベルを画像内 overlay に表示）*/}
             <div className="hidden tablet:flex flex-wrap items-center gap-2">
               {statusLabel && (
-                <span className="inline-flex items-center bg-dark-green text-white font-gothic font-medium text-[14px] leading-none rounded-full px-3 py-1.5">
+                <span className="inline-flex items-center bg-dark-green text-white font-gothic font-medium text-[0.875rem] leading-none rounded-full px-3 py-1.5">
                   {statusLabel}
                 </span>
               )}
-              <span className="tag-pill text-[14px] leading-none px-3 py-1.5">
+              <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5">
                 {categoryLabel}
               </span>
               {locationText && (
-                <span className="font-gothic font-medium text-[16px] leading-none text-dark-green">
+                <span className="font-gothic font-medium text-[1rem] leading-none text-dark-green">
                   {locationText}
                 </span>
               )}
             </div>
 
             {/* タイトル */}
-            <div className="py-[24px] tablet:py-[30px] px-2 tablet:px-0">
+            <div className="py-[1.5rem] tablet:py-[1.875rem] px-2 tablet:px-0">
               <h3
-                className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tablet:leading-[1.5] tracking-[0.04em] text-black"
+                className="font-mincho text-[1.5rem] tablet:text-[2rem] leading-[1.5] tablet:leading-[1.5] tracking-[0.04em] text-black"
                 style={{ fontFeatureSettings: "'palt' 1" }}
               >
                 {property.title}
@@ -147,12 +147,12 @@ export default function PickupCard({ property }: Props) {
               <div className="flex border-t border-b border-dark-green/20">
                 <div className={`flex-1 ${property.layout ? 'border-r border-dark-green/20' : ''} pt-2 pb-4`}>
                   <div className="pl-2">
-                    <span className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green">
+                    <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
                       {property.type === 'rent' ? '賃料' : '価格'}
                     </span>
                   </div>
                   <div className="flex items-end justify-center">
-                    <span className="font-gothic font-medium text-[20px] tablet:text-[24px] leading-[1.6] text-black px-1">
+                    <span className="font-gothic font-medium text-[1.25rem] tablet:text-[1.5rem] leading-[1.6] text-black px-1">
                       {isSold
                         ? '-'
                         : property.price
@@ -161,7 +161,7 @@ export default function PickupCard({ property }: Props) {
                             ? property.rent.toLocaleString()
                             : '応談'}
                     </span>
-                    <span className="font-gothic font-medium text-[14px] leading-[1.5] text-black pb-1 w-7">
+                    <span className="font-gothic font-medium text-[0.875rem] leading-[1.5] text-black pb-1 w-7">
                       {isSold ? '万円' : property.price ? '万円' : property.rent ? '円/月' : ''}
                     </span>
                   </div>
@@ -169,12 +169,12 @@ export default function PickupCard({ property }: Props) {
                 {property.layout && (
                   <div className="flex-1 pt-2 pb-4">
                     <div className="pl-2">
-                      <span className="font-gothic font-medium text-[14px] leading-[1.8] text-dark-green">
+                      <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
                         間取り
                       </span>
                     </div>
                     <div className="flex items-end justify-center">
-                      <span className="font-gothic font-medium text-[20px] tablet:text-[24px] leading-[1.6] text-black">
+                      <span className="font-gothic font-medium text-[1.25rem] tablet:text-[1.5rem] leading-[1.6] text-black">
                         {property.layout}
                       </span>
                     </div>
@@ -186,7 +186,7 @@ export default function PickupCard({ property }: Props) {
             {/* SP: 物件詳細ボタン（station の前） */}
             {!isSold && (
               <div className="tablet:hidden pb-6">
-                <span className="inline-flex items-center justify-center h-[44px] px-6 border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-colors group-hover:bg-dark-green group-hover:text-white">
+                <span className="inline-flex items-center justify-center h-[2.75rem] px-6 border border-dark-green rounded-full font-gothic font-medium text-[1rem] leading-none text-dark-green transition-colors group-hover:bg-dark-green group-hover:text-white">
                   物件詳細
                 </span>
               </div>
@@ -195,12 +195,12 @@ export default function PickupCard({ property }: Props) {
             {/* Station / Construction */}
             <div className="flex items-center flex-wrap">
               {property.nearestStation && (
-                <span className="font-gothic font-medium text-[16px] leading-[2] text-black px-2">
+                <span className="font-gothic font-medium text-[1rem] leading-[2] text-black px-2">
                   {property.nearestStation}
                 </span>
               )}
               {property.constructionDate && (
-                <span className="font-gothic font-medium text-[16px] leading-[2] text-black px-2">
+                <span className="font-gothic font-medium text-[1rem] leading-[2] text-black px-2">
                   築{property.constructionDate}
                 </span>
               )}
@@ -209,7 +209,7 @@ export default function PickupCard({ property }: Props) {
             {/* PC: 物件詳細ボタン */}
             {!isSold && (
               <div className="hidden tablet:block mt-10">
-                <span className="inline-flex items-center justify-center h-[44px] px-6 border border-dark-green rounded-full font-gothic font-medium text-[16px] leading-none text-dark-green transition-colors group-hover:bg-dark-green group-hover:text-white">
+                <span className="inline-flex items-center justify-center h-[2.75rem] px-6 border border-dark-green rounded-full font-gothic font-medium text-[1rem] leading-none text-dark-green transition-colors group-hover:bg-dark-green group-hover:text-white">
                   物件詳細
                 </span>
               </div>

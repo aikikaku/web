@@ -3,13 +3,18 @@
 @tailwind utilities;
 
 @layer base {
+  /* レスポンシブ (#Pd9lJMyO318a): 1440px 基準の比例拡大。
+     ルート font-size を 1440→1920 で 16px→21.33px に可変させ、
+     全 rem 値（レイアウト/文字）を比例拡大。<1440 は等倍（ユーザー既定を尊重）、
+     >1920 は停止。1.1111vw = 16/1440*100。 */
   html {
     scroll-behavior: smooth;
+    font-size: clamp(1rem, 1.1111vw, 1.3333rem);
   }
 
   body {
     @apply text-dark-green bg-cream font-gothic;
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 2;
     letter-spacing: 0;
   }
@@ -21,27 +26,27 @@
   }
 
   h1 {
-    @apply text-4xl tablet:text-[56px] leading-[1.5];
+    @apply text-4xl tablet:text-[3.5rem] leading-[1.5];
   }
 
   h2 {
-    @apply text-3xl tablet:text-[48px] leading-[1.5];
+    @apply text-3xl tablet:text-[3rem] leading-[1.5];
   }
 
   h3 {
-    @apply text-2xl tablet:text-[32px] leading-[1.5];
+    @apply text-2xl tablet:text-[2rem] leading-[1.5];
   }
 
   h4 {
-    @apply text-xl tablet:text-[24px] leading-[1.6];
+    @apply text-xl tablet:text-[1.5rem] leading-[1.6];
   }
 
   h5 {
-    @apply text-lg tablet:text-[18px] leading-[1.6];
+    @apply text-lg tablet:text-[1.125rem] leading-[1.6];
   }
 
   h6 {
-    @apply text-base tablet:text-[16px] leading-[1.6];
+    @apply text-base tablet:text-[1rem] leading-[1.6];
   }
 }
 
@@ -54,7 +59,7 @@
      staff-interview の追従 TOC 等を壊すため (is-visible 後も残る)。 */
   .reveal {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(1.5rem);
     transition:
       opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
       transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
@@ -128,7 +133,7 @@
 
   /* Button M: 13px, lineHeight 1.4 */
   .btn-secondary-m {
-    @apply inline-flex items-center justify-center px-6 py-2.5 bg-white text-dark-green border border-dark-green font-gothic font-medium text-[13px] leading-[1.4] tracking-normal rounded-full transition-colors hover:bg-gray-50;
+    @apply inline-flex items-center justify-center px-6 py-2.5 bg-white text-dark-green border border-dark-green font-gothic font-medium text-[0.8125rem] leading-[1.4] tracking-normal rounded-full transition-colors hover:bg-gray-50;
   }
 
   /* Button S: 14px, lineHeight 1 */
@@ -185,19 +190,19 @@
   /* ─── リッチテキスト（microCMS richEditorV2）Figma 4211:10802 (SP) 準拠 ─── */
   /* セクションごとに pb-32 を共通の block マージンで再現する。h5+h3 のみ詰めて表示。 */
   .rich-content h3 {
-    @apply font-mincho text-[24px] tablet:text-[32px] leading-[1.6] text-black;
+    @apply font-mincho text-[1.5rem] tablet:text-[2rem] leading-[1.6] text-black;
     font-feature-settings: 'palt' 1;
     letter-spacing: 0.04em;
     margin-top: 0;
-    margin-bottom: 32px;
+    margin-bottom: 2rem;
   }
 
   .rich-content h5 {
     font-family: var(--font-zen-kaku), sans-serif;
-    @apply font-medium text-[14px] tablet:text-[16px] leading-[1.8] text-dark-green tracking-normal;
+    @apply font-medium text-[0.875rem] tablet:text-[1rem] leading-[1.8] text-dark-green tracking-normal;
     font-feature-settings: normal;
     letter-spacing: 0;
-    margin-bottom: 8px;
+    margin-bottom: 0.5rem;
     margin-top: 0;
   }
 
@@ -207,23 +212,23 @@
   }
 
   .rich-content p {
-    @apply font-gothic font-medium text-[16px] tablet:text-[18px] leading-[2] text-black;
-    margin-bottom: 32px;
+    @apply font-gothic font-medium text-[1rem] tablet:text-[1.125rem] leading-[2] text-black;
+    margin-bottom: 2rem;
   }
 
   .rich-content img {
     @apply w-full rounded-2xl;
     aspect-ratio: 763 / 509;
     object-fit: cover;
-    margin-bottom: 4px;
+    margin-bottom: 0.25rem;
   }
 
   /* 画像キャプション: img の直後の em を含む p (Figma SP: pl-8, pb-8, text-12 dark-green regular) */
   .rich-content p:has(> em:only-child) {
-    @apply font-gothic font-normal text-[12px] tablet:text-[14px] leading-[1.8] text-dark-green;
-    padding-left: 8px;
-    padding-bottom: 8px;
-    margin-bottom: 32px;
+    @apply font-gothic font-normal text-[0.75rem] tablet:text-[0.875rem] leading-[1.8] text-dark-green;
+    padding-left: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 2rem;
     font-style: normal;
   }
 
@@ -234,10 +239,10 @@
   /* コメント吹き出し（アバター付き） Figma SP: gap-16, pl-8, avatar 44, bubble p-24 light-green text-14 black */
   .rich-content .rich-comment {
     display: flex;
-    gap: 16px;
+    gap: 1rem;
     align-items: flex-start;
-    padding-left: 8px;
-    margin-bottom: 32px;
+    padding-left: 0.5rem;
+    margin-bottom: 2rem;
   }
 
   .rich-content .rich-comment-avatar {
@@ -245,12 +250,12 @@
     flex-direction: column;
     align-items: center;
     flex-shrink: 0;
-    gap: 2px;
+    gap: 0.125rem;
   }
 
   .rich-content .rich-comment-avatar-circle {
-    width: 44px;
-    height: 44px;
+    width: 2.75rem;
+    height: 2.75rem;
     border-radius: 50%;
     @apply bg-dark-green/10;
     background-image: url('/images/home/about.jpg');
@@ -259,13 +264,13 @@
   }
 
   .rich-content .rich-comment-avatar-name {
-    @apply font-gothic font-normal text-[12px] leading-[1.8] text-dark-green;
+    @apply font-gothic font-normal text-[0.75rem] leading-[1.8] text-dark-green;
   }
 
   .rich-content .rich-comment-bubble {
     flex: 1;
-    @apply bg-light-green rounded-2xl font-gothic font-medium text-[14px] tablet:text-[16px] leading-[1.8] tablet:leading-[2] text-black;
-    padding: 24px;
+    @apply bg-light-green rounded-2xl font-gothic font-medium text-[0.875rem] tablet:text-[1rem] leading-[1.8] tablet:leading-[2] text-black;
+    padding: 1.5rem;
     display: flex;
     align-items: center;
   }

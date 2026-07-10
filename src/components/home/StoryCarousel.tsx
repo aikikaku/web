@@ -52,7 +52,7 @@ export default function StoryCarousel({ stories, href = '/stories', variant = 'l
       >
         <div ref={flexRef} className="flex gap-5 min-w-max pr-4">
           {stories.map((story) => (
-            <div key={story.id} className="w-[332px] shrink-0 snap-start">
+            <div key={story.id} className="w-[20.75rem] shrink-0 snap-start">
               <StoryCardOverlay story={story} />
             </div>
           ))}

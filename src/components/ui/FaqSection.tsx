@@ -20,12 +20,12 @@ interface Props {
  */
 export default function FaqSection({ items, title = 'よくある質問' }: Props) {
   return (
-    <section className="bg-cream py-[60px] tablet:py-[96px]">
-      <div className="px-4 tablet:px-[75px] max-w-[1440px] mx-auto">
-        <div className="flex flex-col tablet:flex-row tablet:justify-between gap-8 tablet:gap-[60px] items-start">
-          <div className="tablet:w-[410px] shrink-0">
+    <section className="bg-cream py-[3.75rem] tablet:py-[6rem]">
+      <div className="px-4 tablet:px-[4.6875rem] max-w-[90rem] mx-auto">
+        <div className="flex flex-col tablet:flex-row tablet:justify-between gap-8 tablet:gap-[3.75rem] items-start">
+          <div className="tablet:w-[25.625rem] shrink-0">
             <h2
-              className="font-mincho text-[24px] tablet:text-[32px] leading-[1.5] tracking-[0.96px] tablet:tracking-[1.28px] text-dark-green"
+              className="font-mincho text-[1.5rem] tablet:text-[2rem] leading-[1.5] tracking-[0.06rem] tablet:tracking-[0.08rem] text-dark-green"
               style={{ fontFeatureSettings: "'palt' 1" }}
             >
               {title}

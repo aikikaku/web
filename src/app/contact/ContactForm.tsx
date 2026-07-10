@@ -128,7 +128,7 @@ export default function ContactForm() {
               <path d="M20 6L9 17l-5-5" />
             </svg>
           </div>
-          <h2 className="font-mincho text-2xl tablet:text-[32px] tracking-wider text-dark-green">
+          <h2 className="font-mincho text-2xl tablet:text-[2rem] tracking-wider text-dark-green">
             お問い合わせありがとうございます
           </h2>
           <p className="text-body-m font-gothic font-medium text-dark-green/70 leading-[2]">
@@ -299,7 +299,7 @@ export default function ContactForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="btn-primary min-w-[200px] disabled:opacity-50 disabled:cursor-not-allowed"
+          className="btn-primary min-w-[12.5rem] disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSubmitting ? '送信中...' : '送信する'}
         </button>
