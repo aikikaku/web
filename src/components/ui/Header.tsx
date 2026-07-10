@@ -103,8 +103,8 @@ export default function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`px-4 py-2.5 font-gothic font-medium text-base leading-none text-dark-green transition-opacity ${
-                  dropdownOpen ? 'opacity-40' : 'hover:opacity-70'
+                className={`px-4 py-2.5 font-gothic font-medium text-base leading-none text-dark-green transition-colors ${
+                  dropdownOpen ? 'opacity-40' : 'hover:text-accent-blue'
                 }`}
               >
                 {item.label}
@@ -117,7 +117,7 @@ export default function Header() {
               onMouseEnter={openDropdown}
               onMouseLeave={scheduleCloseDropdown}
               aria-expanded={dropdownOpen}
-              className="flex items-center gap-1 px-4 py-2.5 font-gothic font-medium text-base leading-none text-dark-green hover:opacity-70 transition-opacity"
+              className="flex items-center gap-1 px-4 py-2.5 font-gothic font-medium text-base leading-none text-dark-green hover:text-accent-blue transition-colors"
             >
               アイ企画を知る
               <svg
@@ -137,8 +137,8 @@ export default function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`px-4 py-2.5 font-gothic font-medium text-base leading-none text-dark-green transition-opacity ${
-                  dropdownOpen ? 'opacity-40' : 'hover:opacity-70'
+                className={`px-4 py-2.5 font-gothic font-medium text-base leading-none text-dark-green transition-colors ${
+                  dropdownOpen ? 'opacity-40' : 'hover:text-accent-blue'
                 }`}
               >
                 {item.label}
@@ -177,7 +177,7 @@ export default function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="font-gothic font-medium text-[18px] leading-none tracking-[0.018px] text-dark-green hover:opacity-70 transition-opacity"
+                  className="font-gothic font-medium text-[18px] leading-none tracking-[0.018px] text-dark-green hover:text-accent-blue transition-colors"
                   onClick={() => setDropdownOpen(false)}
                 >
                   {link.label}
