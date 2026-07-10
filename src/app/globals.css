@@ -70,6 +70,40 @@
     transform: none;
   }
 
+  /* ─── ヒーロー(画像3枚)の登場アニメーション (#lB0tVZMFjn0S / #eS_5ZxrNoxye) ─── */
+  /* opacity 0→1・translateY 20px→0・scale 0.96→1 / 0.9s ease-out / 0.15s stagger */
+  @keyframes hero-card-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  /* パララックス付きカード用（transform を使わず opacity のみ） */
+  @keyframes hero-card-fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  .hero-card-in {
+    animation: hero-card-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .hero-card-fade {
+    animation: hero-card-fade 0.9s ease-out both;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-card-in,
+    .hero-card-fade {
+      animation: none !important;
+    }
+  }
+
   /* ─── トップ PC ヒーローのゆっくりズーム (#EjAsuZuByOas) ─── */
   @keyframes hero-zoom {
     0% {

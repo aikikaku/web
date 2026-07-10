@@ -9,6 +9,18 @@
  * ※ Typeform フォーム側に `property_id` / `property_url` / `property_title` の
  *    Hidden Field を事前登録しておく必要がある（未登録キーは無視される）。
  */
+/**
+ * 汎用お問い合わせ導線の URL（物件情報なし）。
+ * `NEXT_PUBLIC_TYPEFORM_FORM_ID` が設定されていれば外部フォーム URL を、
+ * 未設定なら内部の /contact ページを返す（フォールバック）。
+ * (デザインレビュー #XL17LU1-pxjw: お問い合わせを外部フォームへ)
+ */
+export function getContactUrl(): string {
+  const form = process.env.NEXT_PUBLIC_TYPEFORM_FORM_ID;
+  if (!form) return '/contact';
+  return form.startsWith('http') ? form : `https://form.typeform.com/to/${form}`;
+}
+
 export function getTypeformContactUrl(property: {
   id: string;
   title: string;
