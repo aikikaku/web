@@ -50,8 +50,8 @@ export default async function HomePage() {
         </div>
 
         {/* PC: absolute配置レイアウト (1440フレーム中央寄せ + 右側画像は viewport右端アンカー) */}
-        <div className="hidden tablet:block relative h-[56rem] w-full max-w-[90rem] mx-auto">
-          <div className="absolute left-[2.8125rem] top-[9.625rem] w-[34.8125rem] h-[46.375rem] rounded-2xl overflow-hidden">
+        <div className="hidden tablet:block relative h-[49.875rem] w-full max-w-[90rem] mx-auto">
+          <div className="absolute left-[2.8125rem] top-[3.5rem] w-[34.8125rem] h-[46.375rem] rounded-2xl overflow-hidden">
             {/* メイン枠は動画背景（Slack「Heroの演出」）。ロード前/reduced-motion は poster 静止画 */}
             <HeroVideo
               src="/videos/hero.mp4"
@@ -59,7 +59,7 @@ export default async function HomePage() {
               className="absolute inset-0 h-full w-full object-cover"
             />
           </div>
-          <div className="absolute left-[48.0625rem] top-[25.5rem] w-[40.3125rem]">
+          <div className="absolute left-[48.0625rem] top-[19.375rem] w-[40.3125rem]">
             <h1 className="font-mincho text-[3.5rem] leading-[1.5] tracking-[0.14rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               家と街と人が<br />
               つながる、<br />
@@ -68,7 +68,7 @@ export default async function HomePage() {
           </div>
         </div>
         {/* 右上画像: viewport右端アンカー (Figma: 右端から28px はみ出る) */}
-        <div className="hidden tablet:block absolute right-[-1.75rem] top-[9.625rem] w-[13.75rem] h-[18.3125rem] rounded-2xl overflow-hidden">
+        <div className="hidden tablet:block absolute right-[-1.75rem] top-[3.5rem] w-[13.75rem] h-[18.3125rem] rounded-2xl overflow-hidden">
           <HeroFrame
             srcs={HERO_IMAGES.topRight}
             alt="三島の自然"
@@ -77,7 +77,7 @@ export default async function HomePage() {
           />
         </div>
         {/* 右下画像: viewport右端から89px (Figma: 1145+206=1351, 1440-1351=89) */}
-        <div className="hidden tablet:block absolute right-[5.5625rem] top-[46.375rem] w-[12.875rem] h-[9.625rem] rounded-xl overflow-hidden">
+        <div className="hidden tablet:block absolute right-[5.5625rem] top-[40.25rem] w-[12.875rem] h-[9.625rem] rounded-xl overflow-hidden">
           <HeroFrame
             srcs={HERO_IMAGES.bottomRight}
             alt="三島の街並み"
