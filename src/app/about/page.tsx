@@ -46,6 +46,7 @@ export default function AboutPage() {
               fill
               className="object-cover"
               priority
+              quality={90}
               sizes="(max-width: 992px) 100vw, 0px"
             />
           </div>
@@ -65,6 +66,7 @@ export default function AboutPage() {
               fill
               className="object-cover"
               priority
+              quality={90}
               sizes="(min-width: 992px) 1350px, 0px"
             />
           </div>
@@ -210,9 +212,10 @@ export default function AboutPage() {
         </Reveal>
       </section>
 
-      {/* コンポスト活動セクション (Figma SP 4211:11127 / PC 既存) */}
+      {/* コンポスト活動セクション (Figma SP 4211:11127 / PC 既存)。
+          左テキストを上部「スタッフインタビュー」section と同じ左45px(pl-[2.8125rem])に揃える (#23) */}
       <Reveal as="section" className="bg-light-green py-[3.75rem] pb-[5rem] tablet:py-24 tablet:pb-32">
-        <div className="px-4 tablet:px-[4.6875rem] max-w-[90rem] mx-auto">
+        <div className="px-4 tablet:pl-[2.8125rem] tablet:pr-[4.6875rem] max-w-[90rem] mx-auto">
           {/* 見出し */}
           <div className="mb-12 tablet:mb-24 px-2 tablet:px-0">
             <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1.125rem] leading-[1.8] text-dark-green mb-2">コンポスト活動</p>
