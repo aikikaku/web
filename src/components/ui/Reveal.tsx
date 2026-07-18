@@ -40,6 +40,15 @@ export default function Reveal({ as: Tag = 'div', className = '', delayMs, child
       return;
     }
 
+    // 初期表示でビューポート内に(一部でも)入っている要素は即フェードイン (#6)。
+    // threshold 0.15 だと画面下端付近の大きめ要素が発火せず隠れたままになるため、
+    // マウント時に可視な above-the-fold 要素はその場で表示する。
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      el.classList.add('is-visible');
+      return;
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
