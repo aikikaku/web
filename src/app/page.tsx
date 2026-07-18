@@ -75,12 +75,6 @@ export default async function HomePage() {
             delayMs={500}
             sizes="220px"
           />
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage: 'linear-gradient(209deg, #fcfff7 6.2%, rgba(252,255,247,0) 84.4%)',
-            }}
-          />
         </div>
         {/* 右下画像: viewport右端から89px (Figma: 1145+206=1351, 1440-1351=89) */}
         <div className="hidden tablet:block absolute right-[5.5625rem] top-[46.375rem] w-[12.875rem] h-[9.625rem] rounded-xl overflow-hidden">
