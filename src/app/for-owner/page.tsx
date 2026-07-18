@@ -253,8 +253,8 @@ export default async function ForOwnerPage() {
                 key={feature.title}
                 className={`flex flex-col tablet:flex-row gap-8 tablet:gap-[3.625rem] items-start ${i < features.length - 1 ? 'pb-12 tablet:pb-24 tablet:border-b tablet:border-dark-green/20' : ''}`}
               >
-                {/* Image */}
-                <div className="w-full tablet:w-[38.5rem] shrink-0">
+                {/* Image (PC: テキストと 50:50) #9 */}
+                <div className="w-full tablet:flex-1 tablet:min-w-0">
                   <div className="relative aspect-[616/461] rounded-xl overflow-hidden">
                     <Image
                       src={feature.image}

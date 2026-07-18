@@ -191,8 +191,11 @@
     @apply py-section;
   }
 
+  /* 1440px で 中央寄せ余白80px + padding64px の二重余白になっていた (#20/#21)。
+     max-w を 90rem(1440) に広げ、desktop padding を他セクション(px-[4.6875rem])と統一して
+     左右余白を一本化。1440px 時は左右 75px の一段のみになる */
   .page-container {
-    @apply max-w-container mx-auto px-5 tablet:px-page;
+    @apply max-w-[90rem] mx-auto px-5 tablet:px-[4.6875rem];
   }
 
   /* Body L: Zen Kaku Gothic New, Medium, 18px, lineHeight 1.8 */
