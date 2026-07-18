@@ -248,25 +248,38 @@
     margin-top: 0;
   }
 
+  /* コンテンツ(テキスト/画像)ごとの下方向間隔を 48px に (#25) */
   .rich-content p {
     @apply font-gothic font-medium text-[1rem] tablet:text-[1.125rem] leading-[2] text-black;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
   }
 
+  /* 画像は下 48px（連続写真の間隔 #3）。直後にキャプションが来る場合はキャプション側の
+     負マージンで密着させる（下記 p:has(em) の margin-top）。 */
   .rich-content img {
     @apply w-full rounded-2xl;
     aspect-ratio: 763 / 509;
     object-fit: cover;
-    margin-bottom: 0.25rem;
+    margin-bottom: 3rem;
   }
 
-  /* 画像キャプション: img の直後の em を含む p (Figma SP: pl-8, pb-8, text-12 dark-green regular) */
+  /* 画像キャプション: img の直後の em を含む p (Figma SP: pl-8, pb-8, text-12 dark-green regular)。
+     直前の画像に密着させるため margin-top を詰める */
   .rich-content p:has(> em:only-child) {
     @apply font-gothic font-normal text-[0.75rem] tablet:text-[0.875rem] leading-[1.8] text-dark-green;
     padding-left: 0.5rem;
     padding-bottom: 0.5rem;
-    margin-bottom: 2rem;
+    margin-top: -2.5rem;
+    margin-bottom: 3rem;
     font-style: normal;
+  }
+
+  /* CMS で空行(空段落)を入れたら余白として反映されるようにする (#1/#2)。
+     空 <p> や <br> のみの段落に高さを持たせ、行間ぶんの余白を作る */
+  .rich-content p:empty,
+  .rich-content p:has(> br:only-child) {
+    min-height: 1.5rem;
+    margin-bottom: 3rem;
   }
 
   .rich-content p > em:only-child {
@@ -279,7 +292,7 @@
     gap: 1rem;
     align-items: flex-start;
     padding-left: 0.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
   }
 
   .rich-content .rich-comment-avatar {
