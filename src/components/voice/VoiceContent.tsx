@@ -22,12 +22,14 @@ function getCategoryKey(voice: CustomerVoice): Exclude<CategoryKey, 'all'> {
 
 function VoiceItem({
   voice,
-  defaultOpen = false,
+  isOpen,
+  onToggle,
 }: {
   voice: CustomerVoice;
-  defaultOpen?: boolean;
+  isOpen: boolean;
+  onToggle: () => void;
 }) {
-  const [open, setOpen] = useState(defaultOpen);
+  const open = isOpen;
   const contentRef = useRef<HTMLDivElement>(null);
   const [maxHeight, setMaxHeight] = useState(0);
 
@@ -42,7 +44,7 @@ function VoiceItem({
     <div className="border-b border-dark-green/20 py-6 flex flex-col gap-6">
       <button
         type="button"
-        onClick={() => setOpen(!open)}
+        onClick={onToggle}
         className="w-full flex items-start justify-between pr-2 text-left cursor-pointer hover:opacity-70 transition-opacity gap-3"
       >
         <div className="flex-1 min-w-0">
@@ -114,6 +116,9 @@ export default function VoiceContent({ voices }: { voices: CustomerVoice[] }) {
   for (const v of voices) {
     grouped[getCategoryKey(v)].push(v);
   }
+
+  // アコーディオンは常に 1 つだけ開く（別の項目を開くと他は閉じる）。初期は先頭を開く
+  const [openId, setOpenId] = useState<string | null>(grouped.inherited[0]?.id ?? null);
 
   // スクロール位置から active カテゴリを更新
   useEffect(() => {
@@ -199,8 +204,13 @@ export default function VoiceContent({ voices }: { voices: CustomerVoice[] }) {
               <h2 className="hidden tablet:block font-mincho text-[1.5rem] leading-[1.5] tracking-[0.04em] text-dark-green mb-6">
                 {cat.label}
               </h2>
-              {list.map((voice, index) => (
-                <VoiceItem key={voice.id} voice={voice} defaultOpen={index === 0 && key === 'inherited'} />
+              {list.map((voice) => (
+                <VoiceItem
+                  key={voice.id}
+                  voice={voice}
+                  isOpen={openId === voice.id}
+                  onToggle={() => setOpenId((prev) => (prev === voice.id ? null : voice.id))}
+                />
               ))}
             </section>
           );

@@ -72,7 +72,7 @@ export default function StoryCard({ story, size = 'm', variant = 'light' }: Stor
             className={`inline-flex items-center gap-1 h-[2.75rem] px-6 border rounded-full font-gothic font-medium text-[1rem] leading-none transition-colors ${
               isDark
                 ? 'border-white text-white hover:opacity-70'
-                : 'border-dark-green text-dark-green hover:opacity-70'
+                : 'border-dark-green text-dark-green group-hover:bg-dark-green group-hover:text-white'
             }`}
           >
             <svg

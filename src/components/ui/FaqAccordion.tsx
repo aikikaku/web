@@ -63,18 +63,11 @@ function FaqItemRow({ item, isOpen, onToggle }: FaqItemRowProps) {
 }
 
 export default function FaqAccordion({ items }: FaqAccordionProps) {
-  const [openIndices, setOpenIndices] = useState<Set<number>>(new Set([0]));
+  // 常に 1 つだけ開く（別の項目を開くと他は閉じる）。初期は先頭を開く
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const toggle = (index: number) => {
-    setOpenIndices((prev) => {
-      const next = new Set(prev);
-      if (next.has(index)) {
-        next.delete(index);
-      } else {
-        next.add(index);
-      }
-      return next;
-    });
+    setOpenIndex((prev) => (prev === index ? null : index));
   };
 
   return (
@@ -83,7 +76,7 @@ export default function FaqAccordion({ items }: FaqAccordionProps) {
         <FaqItemRow
           key={i}
           item={item}
-          isOpen={openIndices.has(i)}
+          isOpen={openIndex === i}
           onToggle={() => toggle(i)}
         />
       ))}
