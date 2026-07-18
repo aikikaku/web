@@ -142,9 +142,9 @@ export default async function StoryPage({ params }: StoryPageProps) {
               </h2>
             </div>
 
-            {/* 説明テキスト */}
+            {/* 名前・肩書き（例: 「二瓶 浩一さん │ 移住者」）は中央揃え (#24) */}
             {story.subtitle && (
-              <p className="text-body-l font-gothic font-medium text-dark-green text-left leading-[1.8]">
+              <p className="w-full text-body-l font-gothic font-medium text-dark-green text-center leading-[1.8]">
                 {story.subtitle}
               </p>
             )}
