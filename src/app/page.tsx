@@ -539,7 +539,8 @@ export default async function HomePage() {
             />
           </div>
           <div className="relative z-10 flex gap-[1.875rem] items-start">
-            <div className="text-white shrink-0 pl-[3.75rem]">
+            {/* 左余白: カード padding 30px + この pl で合計60pxにする（旧 pl-[3.75rem] は合計90pxだった）(#30) */}
+            <div className="text-white shrink-0 pl-[1.875rem]">
               <p className="text-body-m font-gothic font-medium leading-[2] mb-2">お問い合わせ</p>
               <p className="font-mincho text-[2rem] leading-[1.5] tracking-[0.08rem] whitespace-nowrap" style={{ fontFeatureSettings: "'palt' 1" }}>
                 不動産に関すること、<br />
