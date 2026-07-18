@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Story } from '@/types/microcms';
 import StoryCarousel from '@/components/home/StoryCarousel';
 import StoryCard from '@/components/story/StoryCard';
+import ArrowButton from '@/components/ui/ArrowButton';
 
 interface Props {
   /** 表示するストーリー一覧 */
@@ -59,15 +60,10 @@ export default function StorySection({
         <div className="flex items-center justify-end">
           <Link
             href={href}
-            className={`inline-flex items-center gap-2 font-gothic font-medium text-[1.125rem] ${linkColor} hover:opacity-70 transition-opacity`}
+            className={`group inline-flex items-center gap-2 font-gothic font-medium text-[1.125rem] ${linkColor}`}
           >
             すべて見る
-            <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </span>
+            <ArrowButton />
           </Link>
         </div>
       </div>

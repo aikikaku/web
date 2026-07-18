@@ -9,6 +9,7 @@ import StoriesFilter from '@/components/story/StoriesFilter';
 import MobileStoriesFilter from '@/components/story/MobileStoriesFilter';
 import StoryCardOverlay from '@/components/story/StoryCardOverlay';
 import Reveal from '@/components/ui/Reveal';
+import ArrowButton from '@/components/ui/ArrowButton';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -289,11 +290,7 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
             </div>
 
             {/* 矢印リンク */}
-            <div className="w-11 h-11 rounded-full bg-accent-blue flex items-center justify-center shrink-0 transition-transform group-hover:translate-x-1">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </div>
+            <ArrowButton size="sm" />
           </div>
         </Link>
       </Reveal>

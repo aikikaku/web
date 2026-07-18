@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import SeeAllButtonSP from '@/components/ui/SeeAllButtonSP';
+import ArrowButton from '@/components/ui/ArrowButton';
 
 interface Props {
   /** PC active ページ (0-indexed) */
@@ -69,7 +70,7 @@ export default function SlideshowNav({
               onClick={handlePrev}
               disabled={activePage === 0}
               aria-label="前へ"
-              className={`size-6 inline-flex items-center justify-center ${arrowColor} hover:opacity-70 transition-opacity disabled:opacity-20 disabled:cursor-not-allowed`}
+              className={`size-6 inline-flex items-center justify-center ${arrowColor} transition-colors hover:text-accent-blue disabled:opacity-20 disabled:cursor-not-allowed`}
             >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -91,7 +92,7 @@ export default function SlideshowNav({
               onClick={handleNext}
               disabled={activePage >= totalPages - 1}
               aria-label="次へ"
-              className={`size-6 inline-flex items-center justify-center ${arrowColor} hover:opacity-70 transition-opacity disabled:opacity-20 disabled:cursor-not-allowed`}
+              className={`size-6 inline-flex items-center justify-center ${arrowColor} transition-colors hover:text-accent-blue disabled:opacity-20 disabled:cursor-not-allowed`}
             >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -104,15 +105,10 @@ export default function SlideshowNav({
         {href && (
           <Link
             href={href}
-            className={`inline-flex items-center gap-2 font-gothic font-medium text-[1.125rem] leading-none ${textColor} hover:opacity-70 transition-opacity`}
+            className={`group inline-flex items-center gap-2 font-gothic font-medium text-[1.125rem] leading-none ${textColor}`}
           >
             {label}
-            <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </span>
+            <ArrowButton />
           </Link>
         )}
       </div>

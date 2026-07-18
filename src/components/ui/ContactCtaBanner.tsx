@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import ArrowButton from '@/components/ui/ArrowButton';
 
 interface CtaItem {
   label: string;
@@ -53,16 +54,13 @@ export default function ContactCtaBanner({ bgImage, heading, caption = 'お問�
                 <Link
                   key={i}
                   href={cta.href}
-                  className="bg-cream/[0.96] rounded-2xl tablet:rounded-3xl h-12 tablet:h-auto px-6 tablet:px-[1.875rem] tablet:pt-[2.5rem] tablet:pb-[1.875rem] flex tablet:flex-col items-center justify-center tablet:gap-[1.875rem] w-full tablet:w-[16.5rem] hover:opacity-70 transition-opacity"
+                  className="group bg-cream/[0.96] rounded-2xl tablet:rounded-3xl h-12 tablet:h-auto px-6 tablet:px-[1.875rem] tablet:pt-[2.5rem] tablet:pb-[1.875rem] flex tablet:flex-col items-center justify-center tablet:gap-[1.875rem] w-full tablet:w-[16.5rem]"
                 >
                   <span className="font-gothic font-medium text-[0.875rem] tablet:text-[1.25rem] leading-none tablet:leading-[1.6] text-dark-green text-center">
                     {cta.label}
                   </span>
-                  <span className="hidden tablet:inline-flex bg-accent-blue w-12 h-12 rounded-full items-center justify-center shrink-0">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                      <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                      <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+                  <span className="hidden tablet:block shrink-0">
+                    <ArrowButton />
                   </span>
                 </Link>
               ))}

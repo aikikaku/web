@@ -9,6 +9,7 @@ import HeroSlideshowSP from '@/components/home/HeroSlideshowSP';
 import HeroFrame from '@/components/home/HeroFrame';
 import HeroVideo from '@/components/home/HeroVideo';
 import SeeAllLink from '@/components/ui/SeeAllLink';
+import ArrowButton from '@/components/ui/ArrowButton';
 import ParkingBanner from '@/components/ui/ParkingBanner';
 import Reveal from '@/components/ui/Reveal';
 import ParallaxLayer from '@/components/ui/ParallaxLayer';
@@ -139,15 +140,10 @@ export default async function HomePage() {
                 <div className="hidden tablet:flex tablet:justify-end">
                   <Link
                     href="/about"
-                    className="inline-flex items-center gap-2 font-gothic font-medium text-[1.125rem] text-dark-green hover:opacity-70 transition-opacity"
+                    className="group inline-flex items-center gap-2 font-gothic font-medium text-[1.125rem] text-dark-green"
                   >
                     もっと知る
-                    <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                        <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
+                    <ArrowButton />
                   </Link>
                 </div>
               </div>
@@ -224,12 +220,7 @@ export default async function HomePage() {
                   買いたい・借りたい
                 </p>
               </div>
-              <span className="relative z-10 inline-flex items-center justify-center size-11 rounded-full bg-accent-blue shrink-0">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                  <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </span>
+              <ArrowButton size="sm" className="relative z-10" />
             </Link>
 
             <Link
@@ -256,12 +247,7 @@ export default async function HomePage() {
                   売りたい・貸したい
                 </p>
               </div>
-              <span className="relative z-10 inline-flex items-center justify-center size-11 rounded-full bg-accent-blue shrink-0">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                  <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </span>
+              <ArrowButton size="sm" className="relative z-10" />
             </Link>
           </div>
 
@@ -281,12 +267,7 @@ export default async function HomePage() {
                     買いたい・借りたい
                   </p>
                 </div>
-                <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                    <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                    <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </span>
+                <ArrowButton />
               </div>
               <div className="w-[18.375rem] h-[13.75rem] relative rounded-xl overflow-hidden shrink-0">
                 <Image
@@ -312,12 +293,7 @@ export default async function HomePage() {
                     売りたい・貸したい
                   </p>
                 </div>
-                <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                    <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                    <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </span>
+                <ArrowButton />
               </div>
               <div className="w-[18.375rem] h-[13.75rem] relative rounded-xl overflow-hidden shrink-0">
                 <Image
@@ -577,17 +553,12 @@ export default async function HomePage() {
             <div className="flex-1 flex gap-3 justify-end">
               <Link
                 href="/for-customer"
-                className="bg-cream/95 rounded-3xl px-[1.875rem] pt-10 pb-[1.875rem] text-center w-[16.5rem] flex flex-col items-center gap-[1.875rem] hover:opacity-70 transition-opacity"
+                className="group bg-cream/95 rounded-3xl px-[1.875rem] pt-10 pb-[1.875rem] text-center w-[16.5rem] flex flex-col items-center gap-[1.875rem]"
               >
                 <span className="font-gothic font-medium text-[1.25rem] leading-[1.6] text-dark-green">
                   不動産に関する<br />ご相談はこちら
                 </span>
-                <span className="bg-accent-blue w-12 h-12 rounded-full flex items-center justify-center">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                    <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </span>
+                <ArrowButton />
               </Link>
             </div>
           </div>
