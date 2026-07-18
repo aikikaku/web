@@ -247,13 +247,13 @@ export default function Header() {
                     <ArrowButton />
                   </div>
 
-                  {/* 画像 */}
+                  {/* 画像（hover で拡大、他カードと統一 #43） */}
                   <div className="w-[18.375rem] h-[13.75rem] relative rounded-xl overflow-hidden">
                     <Image
                       src={card.image}
                       alt={card.label}
                       fill
-                      className="object-cover"
+                      className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
                     />
                   </div>
                 </Link>
