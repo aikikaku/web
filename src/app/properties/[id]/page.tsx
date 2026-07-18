@@ -419,7 +419,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                     <p className="font-gothic font-medium text-[1.25rem] leading-[1.6] text-white px-3">
                       物件資料
                     </p>
-                    <ArrowButton />
+                    <ArrowButton variant="cream" />
                   </a>
                 ) : (
                   <Link
@@ -429,7 +429,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                     <p className="font-gothic font-medium text-[1.25rem] leading-[1.6] text-white px-3">
                       物件資料
                     </p>
-                    <ArrowButton />
+                    <ArrowButton variant="cream" />
                   </Link>
                 )}
                 {typeformContactUrl ? (
@@ -442,7 +442,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                     <p className="font-gothic font-medium text-[1.25rem] leading-[1.6] text-white px-3">
                       お問い合わせ
                     </p>
-                    <ArrowButton />
+                    <ArrowButton variant="cream" />
                   </a>
                 ) : (
                   <Link
@@ -452,7 +452,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                     <p className="font-gothic font-medium text-[1.25rem] leading-[1.6] text-white px-3">
                       お問い合わせ
                     </p>
-                    <ArrowButton />
+                    <ArrowButton variant="cream" />
                   </Link>
                 )}
               </div>

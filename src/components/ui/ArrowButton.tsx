@@ -4,7 +4,8 @@ interface ArrowButtonProps {
   /**
    * 配色 variant。
    * - `default`: 背景 accent-blue / 矢印 白（hover で 背景 light-blue / 矢印 accent-blue）
-   * - `cream`:   背景 cream / 矢印 accent-blue（hover で 背景 light-blue / 矢印 accent-blue）
+   * - `cream`:   暗背景（dark-green カード等）用。背景 accent-blue / 矢印 白
+   *              → hover で 背景 cream (#fcfff7) / 矢印 accent-blue（暗背景でのコントラスト確保, #28）
    * - `disabled`: 背景 dark-green/20 / 矢印 白（hover なし）
    */
   variant?: 'default' | 'cream' | 'disabled';
@@ -44,7 +45,7 @@ export default function ArrowButton({
     variant === 'disabled'
       ? 'bg-dark-green/20 text-white'
       : variant === 'cream'
-        ? 'bg-cream text-accent-blue transition-colors group-hover:bg-light-blue group-hover:text-accent-blue'
+        ? 'bg-accent-blue text-white transition-colors group-hover:bg-cream group-hover:text-accent-blue'
         : 'bg-accent-blue text-white transition-colors group-hover:bg-light-blue group-hover:text-accent-blue';
 
   return (

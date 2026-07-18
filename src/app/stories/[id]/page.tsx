@@ -189,7 +189,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
                         この物件について
                       </p>
                     </div>
-                    <ArrowButton />
+                    <ArrowButton variant="cream" />
                   </Link>
                 </div>
               )}
