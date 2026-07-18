@@ -37,10 +37,11 @@ export default async function HomePage() {
     <div>
       {/* ヒーローセクション */}
       <section className="bg-cream overflow-hidden relative">
-        {/* SP: テキスト上 → スライドショー画像（next + dots） */}
-        <div className="flex flex-col gap-8 pt-12 px-4 tablet:hidden">
-          <div className="pl-4">
-            <h1 className="font-mincho text-[2rem] leading-[1.5] tracking-[0.08rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+        {/* SP〜ラップトップ(〜1439px): テキスト上 → スライドショー画像（縦積みで重なり無し #40）。
+            1440px 以上でのみ下の absolute 配置レイアウトを使う */}
+        <div className="flex flex-col gap-8 pt-12 tablet:pt-14 px-4 tablet:px-[4.6875rem] max-w-[90rem] mx-auto min-[1440px]:hidden">
+          <div className="pl-4 tablet:pl-0">
+            <h1 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.08rem] tablet:tracking-[0.14rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               家と街と人が<br />
               つながる、<br />
               三島の暮らし
@@ -49,8 +50,9 @@ export default async function HomePage() {
           <HeroSlideshowSP />
         </div>
 
-        {/* PC: absolute配置レイアウト (1440フレーム中央寄せ + 右側画像は viewport右端アンカー) */}
-        <div className="hidden tablet:block relative h-[49.875rem] w-full max-w-[90rem] mx-auto">
+        {/* PC(1440px以上): absolute配置レイアウト (1440フレーム中央寄せ + 右側画像は viewport右端アンカー)。
+            1440px 未満は上の縦積みレイアウトを使うため min-[1440px] で限定 (#40) */}
+        <div className="hidden min-[1440px]:block relative h-[49.875rem] w-full max-w-[90rem] mx-auto">
           <div className="absolute left-[2.8125rem] top-[3.5rem] w-[34.8125rem] h-[46.375rem] rounded-2xl overflow-hidden">
             {/* メイン枠は動画背景（Slack「Heroの演出」）。ロード前/reduced-motion は poster 静止画 */}
             <HeroVideo
@@ -68,7 +70,7 @@ export default async function HomePage() {
           </div>
         </div>
         {/* 右上画像: viewport右端アンカー (Figma: 右端から28px はみ出る) */}
-        <div className="hidden tablet:block absolute right-[-1.75rem] top-[3.5rem] w-[13.75rem] h-[18.3125rem] rounded-2xl overflow-hidden">
+        <div className="hidden min-[1440px]:block absolute right-[-1.75rem] top-[3.5rem] w-[13.75rem] h-[18.3125rem] rounded-2xl overflow-hidden">
           <HeroFrame
             srcs={HERO_IMAGES.topRight}
             alt="三島の自然"
@@ -77,7 +79,7 @@ export default async function HomePage() {
           />
         </div>
         {/* 右下画像: viewport右端から89px (Figma: 1145+206=1351, 1440-1351=89) */}
-        <div className="hidden tablet:block absolute right-[5.5625rem] top-[40.25rem] w-[12.875rem] h-[9.625rem] rounded-xl overflow-hidden">
+        <div className="hidden min-[1440px]:block absolute right-[5.5625rem] top-[40.25rem] w-[12.875rem] h-[9.625rem] rounded-xl overflow-hidden">
           <HeroFrame
             srcs={HERO_IMAGES.bottomRight}
             alt="三島の街並み"
