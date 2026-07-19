@@ -182,7 +182,7 @@
      枠線+ダークグリーン文字 → hover(親の group) で塗り+白文字に切り替わる。
      サイズ(高さ/padding/文字サイズ/gap)は呼び出し側で個別指定するため、ここでは含めない。 */
   .btn-outline-fill {
-    @apply border border-dark-green rounded-full font-gothic font-medium text-dark-green transition-colors group-hover:bg-dark-green group-hover:text-white;
+    @apply border border-dark-green rounded-full font-gothic font-medium text-dark-green transition-colors group-hover:bg-dark-green group-hover:border-[rgba(252,255,247,0.3)] group-hover:text-white;
   }
 
   /* Button S: 14px, lineHeight 1 */
