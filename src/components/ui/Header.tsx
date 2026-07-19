@@ -264,60 +264,41 @@ export default function Header() {
         </div>
       )}
 
-      {/* Mobile menu */}
+      {/* Mobile menu (Figma 4211:25413 SP_nav_open 準拠: bg-light-green, px-56/py-80, gap-32) */}
       {mobileOpen && (
-        <div className="tablet:hidden px-5 pb-6 border-t border-gray-100 pt-6">
-          <ul className="space-y-1">
-            {allNavItems.map((item) =>
-              'children' in item && item.children ? (
-                <li key={item.label}>
-                  <span className="block px-3 py-2 text-caption text-gray-500 uppercase tracking-widest">
-                    {item.label}
-                  </span>
-                  <ul className="pl-4">
-                    {item.children.map((child) => (
-                      <li key={child.href}>
-                        <Link
-                          href={child.href}
-                          className="block px-3 py-3 text-dark-green text-body-s hover:bg-cream transition-colors rounded-lg"
-                          onClick={() => setMobileOpen(false)}
-                        >
-                          {child.label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                  {'cards' in item && item.cards && (
-                    <ul className="pl-4 mt-1">
-                      {item.cards.map((card) => (
-                        <li key={card.href}>
-                          <Link
-                            href={card.href}
-                            className="block px-3 py-3 text-dark-green text-body-s hover:bg-cream transition-colors rounded-lg"
-                            onClick={() => setMobileOpen(false)}
-                          >
-                            {card.label}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
-              ) : (
-                <li key={item.href}>
-                  <Link
-                    href={item.href!}
-                    target={'external' in item && item.external ? '_blank' : undefined}
-                    rel={'external' in item && item.external ? 'noopener noreferrer' : undefined}
-                    className="block px-3 py-3 text-dark-green text-body-s hover:bg-cream transition-colors rounded-lg"
-                    onClick={() => setMobileOpen(false)}
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              )
-            )}
-          </ul>
+        <div className="tablet:hidden bg-light-green px-[3.5rem] py-[5rem] flex flex-col gap-8">
+          {allNavItems.map((item) =>
+            'children' in item && item.children ? (
+              <div key={item.label} className="flex flex-col gap-4">
+                <p className="font-gothic font-medium text-[1.25rem] leading-none text-dark-green">
+                  {item.label}
+                </p>
+                <div className="flex flex-col gap-4 pl-4 pt-2">
+                  {[...item.children, ...(('cards' in item && item.cards) || [])].map((child) => (
+                    <Link
+                      key={child.href}
+                      href={child.href}
+                      className="block font-gothic font-medium text-[1rem] leading-none text-dark-green hover:opacity-60 transition-opacity"
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      {child.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <Link
+                key={item.href}
+                href={item.href!}
+                target={'external' in item && item.external ? '_blank' : undefined}
+                rel={'external' in item && item.external ? 'noopener noreferrer' : undefined}
+                className="block font-gothic font-medium text-[1.25rem] leading-none text-dark-green hover:opacity-60 transition-opacity"
+                onClick={() => setMobileOpen(false)}
+              >
+                {item.label}
+              </Link>
+            )
+          )}
         </div>
       )}
     </header>
