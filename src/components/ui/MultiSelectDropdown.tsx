@@ -85,7 +85,7 @@ export default function MultiSelectDropdown({
         >
           <path
             d="M5.5 8L10.5 13L15.5 8"
-            stroke="#2a363b"
+            className="stroke-dark-green"
             strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"

@@ -115,13 +115,14 @@
   }
 
   /* ─── 検索ローディングのプログレスバー (#25) ─── */
-  /* light-blue(#d9e9f4) → blue(#3cb1ff) のグラデーションが左右に流れる */
+  /* light-blue → blue のグラデーションが左右に流れる。色は tailwind.config の
+     light-blue/accent-blue トークンを theme() で参照（値の二重管理を避ける） */
   .search-progress {
     background-image: linear-gradient(
       90deg,
-      #d9e9f4 0%,
-      #3cb1ff 50%,
-      #d9e9f4 100%
+      theme('colors.light-blue') 0%,
+      theme('colors.accent-blue') 50%,
+      theme('colors.light-blue') 100%
     );
     background-size: 200% 100%;
     animation: search-progress-slide 1.4s ease-in-out infinite;

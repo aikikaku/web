@@ -466,14 +466,14 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
           <1440px はオーバーレイカード、>=1440px は 見出し | 画像 | テキスト の3カラム */}
       {isSold && property.story && (
         <section className="bg-light-green">
-          <div className="max-w-[90rem] mx-auto px-4 tablet:px-[2.8125rem] min-[1440px]:px-[4.6875rem] py-16 min-[1440px]:py-24 flex flex-col min-[1440px]:flex-row min-[1440px]:gap-[1.875rem] min-[1440px]:items-start">
+          <div className="max-w-[90rem] mx-auto px-4 tablet:px-[2.8125rem] desktop:px-[4.6875rem] py-16 desktop:py-24 flex flex-col desktop:flex-row desktop:gap-[1.875rem] desktop:items-start">
             {/* 見出し */}
-            <div className="flex flex-col gap-2 mb-8 min-[1440px]:mb-0 min-[1440px]:w-[32.9375rem] min-[1440px]:shrink-0">
+            <div className="flex flex-col gap-2 mb-8 desktop:mb-0 desktop:w-[32.9375rem] desktop:shrink-0">
               <p className="font-gothic font-medium text-[1rem] leading-[2] text-dark-green">
                 継承者のストーリー
               </p>
               <p
-                className="font-mincho text-[1.5rem] min-[1440px]:text-[2rem] leading-[1.5] tracking-[0.04em] text-dark-green"
+                className="font-mincho text-[1.5rem] desktop:text-[2rem] leading-[1.5] tracking-[0.04em] text-dark-green"
                 style={{ fontFeatureSettings: "'palt' 1" }}
               >
                 この物件を選んだ人の、
@@ -483,14 +483,14 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
             </div>
 
             {/* <1440px: オーバーレイカード（SPカンプ準拠）。物件の続きなので category は property 固定 */}
-            <div className="min-[1440px]:hidden">
+            <div className="desktop:hidden">
               <StoryCardOverlay story={{ ...property.story, category: 'property' }} />
             </div>
 
             {/* >=1440px: 画像 | テキスト の3カラム右側 */}
             <Link
               href={`/stories/${property.story.id}`}
-              className="hidden min-[1440px]:flex flex-1 gap-[3.75rem] items-start group"
+              className="hidden desktop:flex flex-1 gap-[3.75rem] items-start group"
             >
               <div className="w-[22rem] h-[29.375rem] shrink-0 relative rounded-2xl overflow-hidden">
                 {property.story.thumbnail && (

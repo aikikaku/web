@@ -154,9 +154,9 @@ export default function MobileFilterNav() {
             <path d="M3 5h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
             <path d="M3 10h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
             <path d="M3 15h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-            <circle cx="7" cy="5" r="1.5" fill="#fcfff7" stroke="currentColor" strokeWidth="1.5" />
-            <circle cx="13" cy="10" r="1.5" fill="#fcfff7" stroke="currentColor" strokeWidth="1.5" />
-            <circle cx="9" cy="15" r="1.5" fill="#fcfff7" stroke="currentColor" strokeWidth="1.5" />
+            <circle cx="7" cy="5" r="1.5" className="fill-cream" stroke="currentColor" strokeWidth="1.5" />
+            <circle cx="13" cy="10" r="1.5" className="fill-cream" stroke="currentColor" strokeWidth="1.5" />
+            <circle cx="9" cy="15" r="1.5" className="fill-cream" stroke="currentColor" strokeWidth="1.5" />
           </svg>
         </span>
       </button>
@@ -239,7 +239,7 @@ export default function MobileFilterNav() {
                   aria-label="条件をクリア"
                 >
                   <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                    <path d="M13.5 4.5L4.5 13.5M4.5 4.5l9 9" stroke="#2a363b" strokeWidth="1.5" strokeLinecap="round" />
+                    <path d="M13.5 4.5L4.5 13.5M4.5 4.5l9 9" className="stroke-dark-green" strokeWidth="1.5" strokeLinecap="round" />
                   </svg>
                 </button>
               </div>

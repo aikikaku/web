@@ -110,7 +110,7 @@ export default function CheckboxDropdown({
           fill="none"
           className={`shrink-0 transition-transform ${isOpen ? 'rotate-180' : ''}`}
         >
-          <path d="M3 5l5 6 5-6" fill="#2a363b" />
+          <path d="M3 5l5 6 5-6" className="fill-dark-green" />
         </svg>
       </button>
 

@@ -44,7 +44,7 @@ function FaqItemRow({ item, isOpen, onToggle }: FaqItemRowProps) {
           fill="none"
           className={`shrink-0 mt-0.5 transition-transform duration-500 ease-in-out ${isOpen ? 'rotate-180' : ''}`}
         >
-          <path d="M6 9l6 6 6-6" stroke="#2a363b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M6 9l6 6 6-6" className="stroke-dark-green" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </button>
       <div

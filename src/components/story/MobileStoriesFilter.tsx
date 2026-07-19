@@ -116,12 +116,12 @@ export default function MobileStoriesFilter() {
         </span>
         <span className="size-5 inline-flex items-center justify-center shrink-0">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M3 5h14" stroke="#2a363b" strokeWidth="1.5" strokeLinecap="round" />
-            <path d="M3 10h14" stroke="#2a363b" strokeWidth="1.5" strokeLinecap="round" />
-            <path d="M3 15h14" stroke="#2a363b" strokeWidth="1.5" strokeLinecap="round" />
-            <circle cx="7" cy="5" r="1.5" fill="#fcfff7" stroke="#2a363b" strokeWidth="1.5" />
-            <circle cx="13" cy="10" r="1.5" fill="#fcfff7" stroke="#2a363b" strokeWidth="1.5" />
-            <circle cx="9" cy="15" r="1.5" fill="#fcfff7" stroke="#2a363b" strokeWidth="1.5" />
+            <path d="M3 5h14" className="stroke-dark-green" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M3 10h14" className="stroke-dark-green" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M3 15h14" className="stroke-dark-green" strokeWidth="1.5" strokeLinecap="round" />
+            <circle cx="7" cy="5" r="1.5" className="fill-cream stroke-dark-green" strokeWidth="1.5" />
+            <circle cx="13" cy="10" r="1.5" className="fill-cream stroke-dark-green" strokeWidth="1.5" />
+            <circle cx="9" cy="15" r="1.5" className="fill-cream stroke-dark-green" strokeWidth="1.5" />
           </svg>
         </span>
       </button>
@@ -166,7 +166,7 @@ export default function MobileStoriesFilter() {
                       width="21" height="21" viewBox="0 0 21 21" fill="none"
                       className={`shrink-0 transition-transform ${openSection === 'category' ? 'rotate-180' : ''}`}
                     >
-                      <path d="M5.5 8L10.5 13L15.5 8" stroke="#2a363b" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M5.5 8L10.5 13L15.5 8" className="stroke-dark-green" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </button>
                   {openSection === 'category' && (
@@ -230,7 +230,7 @@ export default function MobileStoriesFilter() {
                   aria-label="条件をクリア"
                 >
                   <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                    <path d="M13.5 4.5L4.5 13.5M4.5 4.5l9 9" stroke="#2a363b" strokeWidth="1.5" strokeLinecap="round" />
+                    <path d="M13.5 4.5L4.5 13.5M4.5 4.5l9 9" className="stroke-dark-green" strokeWidth="1.5" strokeLinecap="round" />
                   </svg>
                 </button>
               </div>

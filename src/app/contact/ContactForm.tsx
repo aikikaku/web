@@ -120,7 +120,7 @@ export default function ContactForm() {
               height="32"
               viewBox="0 0 24 24"
               fill="none"
-              stroke="#3cb1ff"
+              className="stroke-accent-blue"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
