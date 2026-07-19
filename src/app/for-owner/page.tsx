@@ -124,7 +124,7 @@ export default async function ForOwnerPage() {
       <section className="pb-[3.75rem] tablet:pb-24 pt-[3.75rem] tablet:pt-12 max-w-[90rem] mx-auto">
         <div className="flex flex-col tablet:flex-row items-stretch tablet:items-center gap-6 tablet:gap-[1.875rem]">
           <div className="flex-1 flex items-start tablet:items-center px-4 tablet:pl-[4.6875rem] tablet:pr-0">
-            <h1 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.08rem] tablet:tracking-[0.12rem] text-dark-green text-left" style={{ fontFeatureSettings: "'palt' 1" }}>
+            <h1 className="font-mincho text-heading-32 tablet:text-heading-48 text-dark-green text-left" style={{ fontFeatureSettings: "'palt' 1" }}>
               不動産を<br className="tablet:hidden" />お持ちの方へ
             </h1>
           </div>
@@ -165,7 +165,7 @@ export default async function ForOwnerPage() {
               <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1.125rem] leading-[1.8]">
                 不動産をお持ちですか？
               </p>
-              <h2 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.08rem] tablet:tracking-[0.12rem] text-cream" style={{ fontFeatureSettings: "'palt' 1" }}>
+              <h2 className="font-mincho text-heading-32 tablet:text-heading-48 text-cream" style={{ fontFeatureSettings: "'palt' 1" }}>
                 まずはご相談ください。
               </h2>
             </div>
@@ -188,7 +188,7 @@ export default async function ForOwnerPage() {
             <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1.125rem] leading-[1.8] text-dark-green">
               物件サポート
             </p>
-            <h2 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.08rem] tablet:tracking-[0.12rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+            <h2 className="font-mincho text-heading-32 tablet:text-heading-48 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               売却までの流れ
             </h2>
           </div>
@@ -234,7 +234,7 @@ export default async function ForOwnerPage() {
             <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1.125rem] leading-[1.8] text-dark-green">
               アイ企画の強み
             </p>
-            <h2 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.08rem] tablet:tracking-[0.12rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+            <h2 className="font-mincho text-heading-32 tablet:text-heading-48 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               アイ企画で物件を活用する
             </h2>
           </div>

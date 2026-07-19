@@ -101,7 +101,7 @@ export default async function HomePage() {
                     <p className="text-body-m font-gothic font-medium text-dark-green">
                       アイ企画について
                     </p>
-                    <h2 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.08rem] tablet:tracking-[0.12rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+                    <h2 className="font-mincho text-heading-32 tablet:text-heading-48 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
                       私たちは、「つくる」<br />
                       不動産会社です。
                     </h2>
@@ -311,7 +311,7 @@ export default async function HomePage() {
             <p className="text-body-m font-gothic font-medium text-dark-green">
               新着物件
             </p>
-            <h2 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.08rem] tablet:tracking-[0.12rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+            <h2 className="font-mincho text-heading-32 tablet:text-heading-48 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               今日の出会いを、<br className="tablet:hidden" />さがしに
             </h2>
           </Reveal>
@@ -353,7 +353,7 @@ export default async function HomePage() {
             <p className="text-category-2 font-gothic font-medium text-dark-green">
               暮らしを知る
             </p>
-            <h2 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.08rem] tablet:tracking-[0.12rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+            <h2 className="font-mincho text-heading-32 tablet:text-heading-48 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               三島の暮らしに、<br className="tablet:hidden" />ふれる・深まる。
             </h2>
           </Reveal>
