@@ -394,7 +394,7 @@ export default async function HomePage() {
                         <h3 className="font-mincho text-[2rem] leading-[1.5] tracking-[0.08rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
                           {latestStories.contents[0].title}
                         </h3>
-                        <span className="inline-flex items-center gap-1 mt-6 h-11 px-6 btn-outline-fill text-base leading-none ">
+                        <span className="inline-flex items-center gap-1 mt-6 h-11 px-6 btn-outline-fill text-base leading-none">
                           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                             <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
                             <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
@@ -430,7 +430,7 @@ export default async function HomePage() {
                         <h4 className="font-mincho text-[1.5rem] leading-[1.6] tracking-[0.06rem] text-dark-green w-[16.5rem]" style={{ fontFeatureSettings: "'palt' 1" }}>
                           {story.title}
                         </h4>
-                        <span className="inline-flex items-center gap-1 mt-6 h-11 px-6 btn-outline-fill text-base leading-none  w-fit">
+                        <span className="inline-flex items-center gap-1 mt-6 h-11 px-6 btn-outline-fill text-base leading-none w-fit">
                           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                             <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
                             <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
