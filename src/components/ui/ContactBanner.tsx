@@ -37,6 +37,12 @@ export default function ContactBanner() {
             不動産をお探しの方
           </Link>
           <Link
+            href="/for-owner"
+            className="flex items-center justify-center w-full max-w-[20.375rem] h-12 rounded-full bg-cream/95 border border-cream shadow-[0_0_16px_rgba(0,0,0,0.16)] font-gothic font-medium text-[1rem] leading-none text-dark-green hover:opacity-70 transition-opacity"
+          >
+            不動産をお持ちの方
+          </Link>
+          <Link
             href="/contact"
             className="flex items-center justify-center w-full max-w-[20.375rem] h-12 rounded-full bg-cream/95 border border-cream shadow-[0_0_16px_rgba(0,0,0,0.16)] font-gothic font-medium text-[1rem] leading-none text-dark-green hover:opacity-70 transition-opacity"
           >
@@ -72,6 +78,15 @@ export default function ContactBanner() {
             >
               <span className="font-gothic font-medium text-category-2 text-dark-green">
                 不動産をお探しの方
+              </span>
+              <ArrowButton />
+            </Link>
+            <Link
+              href="/for-owner"
+              className="hidden desktop:flex group bg-cream/95 rounded-3xl px-[1.875rem] pt-10 pb-[1.875rem] text-center w-[16.5rem] flex-col items-center gap-[1.875rem]"
+            >
+              <span className="font-gothic font-medium text-category-2 text-dark-green">
+                不動産をお持ちの方
               </span>
               <ArrowButton />
             </Link>
