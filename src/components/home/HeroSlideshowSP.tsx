@@ -77,7 +77,7 @@ export default function HeroSlideshowSP() {
           style={{ filter: 'drop-shadow(0 0 8px rgba(0,0,0,0.16))' }}
         >
           <svg viewBox="0 0 24 24" fill="none" className="size-full">
-            <circle cx="12" cy="12" r="12" fill="#FCFFF7" fillOpacity="0.5" />
+            <circle cx="12" cy="12" r="12" className="fill-cream" fillOpacity="0.5" />
             {playing ? (
               // 一時停止（2本線）
               <g fill="#27333B">

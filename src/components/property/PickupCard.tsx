@@ -62,7 +62,7 @@ export default function PickupCard({ property }: Props) {
                 location は cream (白) text 16px leading-2、画像上端の暗グラデで可読化 */}
             <div className="tablet:hidden absolute inset-x-0 top-0 z-20 p-2.5 flex items-center justify-between gap-2">
               <div className="flex items-center gap-2 min-w-0">
-                <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5 shrink-0">
+                <span className="tag-pill shrink-0">
                   {categoryLabel}
                 </span>
                 {locationText && (
@@ -122,7 +122,7 @@ export default function PickupCard({ property }: Props) {
                   {statusLabel}
                 </span>
               )}
-              <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5">
+              <span className="tag-pill">
                 {categoryLabel}
               </span>
               {locationText && (

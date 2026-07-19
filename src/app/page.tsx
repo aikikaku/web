@@ -384,7 +384,7 @@ export default async function HomePage() {
                       </div>
                       <div className="pt-[1.875rem] px-3">
                         <div className="flex gap-3 items-center mb-4">
-                          <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5">
+                          <span className="tag-pill">
                             {latestStories.contents[0].category === 'property' ? '物件のつづき' : latestStories.contents[0].category === 'regional' ? '地域のこと' : latestStories.contents[0].category === 'daily' ? '日々のこと' : '物件のつづき'}
                           </span>
                           <span className="text-body-s font-gothic font-medium text-dark-green">
@@ -420,7 +420,7 @@ export default async function HomePage() {
                       </div>
                       <div className="flex flex-col flex-1">
                         <div className="flex gap-3 items-center mb-4">
-                          <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5">
+                          <span className="tag-pill">
                             {story.category === 'property' ? '物件のつづき' : story.category === 'regional' ? '地域のこと' : story.category === 'daily' ? '日々のこと' : '地域のこと'}
                           </span>
                           <span className="text-body-s font-gothic font-medium text-dark-green">

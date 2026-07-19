@@ -220,7 +220,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
             isSold={isSold}
             spLabelsSlot={(
               <div className="flex items-center gap-2 min-w-0">
-                <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5 shrink-0">
+                <span className="tag-pill shrink-0">
                   {categoryLabel}
                 </span>
                 {locationText && (
@@ -236,11 +236,11 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                 <div>
                   <div className="hidden tablet:flex gap-3 items-center">
                     {statusLabel && (
-                      <span className="tag-pill-dark text-[0.875rem] leading-none px-3 py-1.5">
+                      <span className="tag-pill-dark">
                         {statusLabel}
                       </span>
                     )}
-                    <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5">
+                    <span className="tag-pill">
                       {categoryLabel}
                     </span>
                     {locationText && (
@@ -360,11 +360,11 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                       key={field.label}
                       className="flex gap-[1.875rem] items-start py-6 border-t border-dark-green/20"
                     >
-                      <p className="font-gothic font-medium text-[1rem] tablet:text-[1.125rem] leading-[1.8] text-dark-green w-[7.5rem] tablet:w-[9.1875rem] shrink-0">
+                      <p className="font-gothic font-medium text-[1rem] leading-[1.8] tablet:text-body-l text-dark-green w-[7.5rem] tablet:w-[9.1875rem] shrink-0">
                         {field.label}
                       </p>
                       <div className="flex-1 flex items-center justify-between gap-3">
-                        <p className="font-gothic font-medium text-[1rem] tablet:text-[1.125rem] leading-[1.8] text-black whitespace-pre-line">
+                        <p className="font-gothic font-medium text-[1rem] leading-[1.8] tablet:text-body-l text-black whitespace-pre-line">
                           {field.value}
                         </p>
                         {field.hasTag &&
@@ -373,12 +373,12 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                               href={property.googleMapUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="tag-pill text-[0.875rem] leading-none px-3 py-1.5 shrink-0 hover:opacity-70 transition-opacity"
+                              className="tag-pill shrink-0 hover:opacity-70 transition-opacity"
                             >
                               MAP
                             </a>
                           ) : (
-                            <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5 shrink-0">
+                            <span className="tag-pill shrink-0">
                               MAP
                             </span>
                           ))}
@@ -389,7 +389,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                 {/* 価格行（成約時は非表示 #31） */}
                 {!isSold && priceValue && (
                   <div className="flex gap-[1.875rem] items-center py-6 border-t border-dark-green/20">
-                    <p className="font-gothic font-medium text-[1rem] tablet:text-[1.125rem] leading-[1.8] text-dark-green w-[7.5rem] tablet:w-[9.1875rem] shrink-0">
+                    <p className="font-gothic font-medium text-[1rem] leading-[1.8] tablet:text-body-l text-dark-green w-[7.5rem] tablet:w-[9.1875rem] shrink-0">
                       価格
                     </p>
                     <div className="flex items-end gap-1">
@@ -506,7 +506,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
               <div className="flex-1 flex flex-col gap-6">
                 <div className="flex flex-col gap-3">
                   <div className="flex gap-2 items-center">
-                    <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5">
+                    <span className="tag-pill">
                       物件のつづき
                     </span>
                     {property.story.regions && property.story.regions.length > 0 && (

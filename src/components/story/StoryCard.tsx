@@ -46,7 +46,7 @@ export default function StoryCard({ story, size = 'm', variant = 'light' }: Stor
       <div className="pt-[1.875rem] px-3">
         {/* Tags */}
         <div className="flex gap-3 items-center mb-4">
-          <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5">
+          <span className="tag-pill">
             {getCategoryLabel(story.category)}
           </span>
           {regionNames && (

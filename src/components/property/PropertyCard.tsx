@@ -27,7 +27,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
     <Link href={`/properties/${property.id}`} className="block group w-full hover:opacity-70 transition-opacity">
       {/* Tags above image — PC のみ。SP では画像内オーバーレイ */}
       <div className="hidden tablet:flex gap-3 items-center pb-3">
-        <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5">
+        <span className="tag-pill">
           {categoryLabel}
         </span>
         {locationText && (
@@ -55,7 +55,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
         />
         <div className="tablet:hidden absolute inset-x-0 top-0 p-2.5 flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 min-w-0">
-            <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5 shrink-0">{categoryLabel}</span>
+            <span className="tag-pill shrink-0">{categoryLabel}</span>
             {locationText && (
               <span className="font-gothic font-medium text-body-m text-cream truncate">
                 {locationText}

@@ -45,7 +45,7 @@ export default function StoryCardOverlay({ story, className }: Props) {
         />
         <div className="absolute inset-0 flex flex-col items-start justify-between pt-4 pb-6 px-4">
           <div className="flex items-center gap-3">
-            <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5">
+            <span className="tag-pill">
               {getCategoryLabel(story.category)}
             </span>
             {regionNames && (

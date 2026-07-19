@@ -123,7 +123,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
             <div className="flex flex-col gap-8 items-center w-full">
               {/* タグ + 地域 */}
               <div className="flex gap-3 items-center">
-                <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5">
+                <span className="tag-pill">
                   {getStoryCategoryLabel(story.category)}
                 </span>
                 {regionNames && (

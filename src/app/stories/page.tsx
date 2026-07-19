@@ -64,7 +64,7 @@ function StoryCardLarge({ story }: { story: Story }) {
         <div className="flex flex-col gap-6 items-start justify-center pt-[1.875rem] px-3 w-full">
           <div className="flex flex-col gap-4 items-start w-full">
             <div className="flex gap-3 items-center">
-              <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5">
+              <span className="tag-pill">
                 {getCategoryLabel(story.category)}
               </span>
               {regionNames && (
@@ -116,7 +116,7 @@ function FeaturedStoryCard({ story }: { story: Story }) {
         <div className="flex flex-col gap-6 tablet:gap-12 items-start justify-center flex-1 min-w-0 tablet:pl-[5.5625rem] tablet:pr-[3.75rem]">
           <div className="flex flex-col gap-4 items-start w-full">
             <div className="flex gap-3 items-center">
-              <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5">
+              <span className="tag-pill">
                 {getCategoryLabel(story.category)}
               </span>
               {regionNames && (
@@ -191,7 +191,7 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
               暮らしを知る
             </h1>
           </div>
-          <p className="font-gothic font-medium text-[1rem] tablet:text-[1.125rem] leading-[1.8] text-dark-green max-w-[48rem]">
+          <p className="font-gothic font-medium text-[1rem] leading-[1.8] tablet:text-body-l text-dark-green max-w-[48rem]">
             物件だけじゃわからない、<br className="tablet:hidden" />三島での暮らしのこと。
             <br />
             ここで一緒に、のぞいてみませんか？
