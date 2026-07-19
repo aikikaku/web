@@ -34,7 +34,7 @@ export default function AboutPage() {
         {/* SP: タイトル → 写真の縦積み */}
         <div className="tablet:hidden flex flex-col gap-8 px-4">
           <div className="pl-2">
-            <p className="font-gothic font-medium text-body-s text-dark-green mb-2">アイ企画について</p>
+            <p className="font-gothic font-medium text-body-m text-dark-green mb-2">アイ企画について</p>
             <h1 className="font-mincho text-heading-32 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               私たちは、「つくる」<br />不動産会社です。
             </h1>
@@ -54,7 +54,7 @@ export default function AboutPage() {
         {/* PC: 中央寄せタイトル + 横長画像 */}
         <div className="hidden tablet:block max-w-[90rem] mx-auto px-[2.8125rem]">
           <div className="text-center mb-12">
-            <p className="font-gothic font-medium text-body-l text-dark-green mb-2">アイ企画について</p>
+            <p className="font-gothic font-medium text-body-m text-dark-green mb-2">アイ企画について</p>
             <h1 className="font-mincho text-heading-56 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               私たちは、「つくる」不動産会社です。
             </h1>
@@ -83,7 +83,7 @@ export default function AboutPage() {
         {/* SP: 縦積み (label → heading → body → image → button) */}
         <div className="tablet:hidden flex flex-col gap-8 px-4">
           <div className="flex flex-col gap-4 px-2">
-            <p className="font-gothic font-medium text-body-s text-dark-green">ご挨拶</p>
+            <p className="font-gothic font-medium text-body-m text-dark-green">ご挨拶</p>
             <h2 className="font-mincho text-[1.75rem] leading-[1.5] tracking-[0.07rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               この街をよく知る、<br />住まいのプロとして
             </h2>
@@ -113,7 +113,7 @@ export default function AboutPage() {
           <div className="flex items-center justify-between gap-[3.75rem]">
             <div className="flex-1 max-w-[38.5rem]">
               <div className="mb-16">
-                <p className="font-gothic font-medium text-body-l text-dark-green mb-2">ご挨拶</p>
+                <p className="font-gothic font-medium text-body-m text-dark-green mb-2">ご挨拶</p>
                 <h2 className="font-mincho text-heading-48 text-dark-green mb-16" style={{ fontFeatureSettings: "'palt' 1" }}>
                   この街をよく知る、<br />住まいのプロとして
                 </h2>
@@ -155,7 +155,7 @@ export default function AboutPage() {
         {/* SP: 縦積み (label → heading → body → image → button) */}
         <Reveal className="tablet:hidden flex flex-col gap-8 px-4">
           <div className="flex flex-col gap-4 px-2">
-            <p className="font-gothic font-medium text-body-s text-cream">スタッフインタビュー</p>
+            <p className="font-gothic font-medium text-body-m text-cream">スタッフインタビュー</p>
             <h2 className="font-mincho text-[1.75rem] leading-[1.5] tracking-[0.07rem] text-cream" style={{ fontFeatureSettings: "'palt' 1" }}>
               この街で、不動産と<br />向き合うということ
             </h2>
@@ -193,7 +193,7 @@ export default function AboutPage() {
             </div>
             <div className="flex-1 max-w-[38.5rem]">
               <div className="mb-16">
-                <p className="font-gothic font-medium text-body-l text-cream mb-2">スタッフインタビュー</p>
+                <p className="font-gothic font-medium text-body-m text-cream mb-2">スタッフインタビュー</p>
                 <h2 className="font-mincho text-heading-48 text-cream mb-16" style={{ fontFeatureSettings: "'palt' 1" }}>
                   この街で、不動産と<br />向き合うということ
                 </h2>
@@ -218,7 +218,7 @@ export default function AboutPage() {
         <div className="px-4 tablet:pl-[2.8125rem] tablet:pr-[4.6875rem] max-w-[90rem] mx-auto">
           {/* 見出し */}
           <div className="mb-12 tablet:mb-24 px-2 tablet:px-0">
-            <p className="font-gothic font-medium text-body-s tablet:text-body-l text-dark-green mb-2">コンポスト活動</p>
+            <p className="font-gothic font-medium text-body-m text-dark-green mb-2">コンポスト活動</p>
             <h2 className="font-mincho text-[1.75rem] tablet:text-[3rem] leading-[1.5] tracking-[0.07rem] tablet:tracking-[0.12rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               地域との繋がりで<br />
               サステナブルな環境を<br />
