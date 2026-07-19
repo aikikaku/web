@@ -37,12 +37,10 @@ export default function MultiSelectDropdown({
       <button
         type="button"
         onClick={onToggle}
-        className={`flex items-center gap-2 h-14 px-4 rounded-lg border border-dark-green w-full ${
-          isOpen ? 'bg-light-green' : 'bg-cream'
-        }`}
+        className="flex items-center gap-2 h-14 px-4 rounded-lg border border-dark-green w-full bg-light-green"
       >
         {selected.length === 0 ? (
-          <span className="flex-1 text-left font-gothic font-medium text-body-m text-dark-green/40">
+          <span className="flex-1 text-left font-gothic font-medium text-body-m text-black opacity-20">
             {placeholder}
           </span>
         ) : (

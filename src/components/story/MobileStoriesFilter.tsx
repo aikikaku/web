@@ -155,11 +155,9 @@ export default function MobileStoriesFilter() {
                   <button
                     type="button"
                     onClick={() => setOpenSection(openSection === 'category' ? null : 'category')}
-                    className={`flex items-center gap-2 h-14 px-4 rounded-lg border border-dark-green w-full ${
-                      openSection === 'category' ? 'bg-light-green' : 'bg-cream'
-                    }`}
+                    className="flex items-center gap-2 h-14 px-4 rounded-lg border border-dark-green w-full bg-light-green"
                   >
-                    <span className={`flex-1 text-left font-gothic font-medium text-body-m ${localCategory ? 'text-dark-green' : 'text-dark-green/40'}`}>
+                    <span className={`flex-1 text-left font-gothic font-medium text-body-m ${localCategory ? 'text-dark-green' : 'text-black opacity-20'}`}>
                       {categoryLabel}
                     </span>
                     <svg
