@@ -66,14 +66,14 @@ export default function PropertyCard({ property }: PropertyCardProps) {
             )}
           </div>
           {statusLabel && (
-            <span className="inline-flex items-center bg-dark-green text-white font-gothic font-medium text-[0.875rem] leading-none rounded-full px-3 py-1.5 shrink-0">
+            <span className="tag-pill-dark shrink-0">
               {statusLabel}
             </span>
           )}
         </div>
         {/* PC: 画像右上に状態ラベル */}
         {statusLabel && (
-          <span className="hidden tablet:inline-flex absolute top-3 right-3 items-center bg-dark-green text-white font-gothic font-medium text-[0.875rem] leading-none rounded-full px-3 py-1.5">
+          <span className="tag-pill-dark hidden tablet:inline-flex absolute top-3 right-3">
             {statusLabel}
           </span>
         )}

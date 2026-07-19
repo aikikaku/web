@@ -83,14 +83,14 @@ export default function PickupCard({ property }: Props) {
                 )}
               </div>
               {statusLabel && (
-                <span className="inline-flex items-center bg-dark-green text-white font-gothic font-medium text-[0.875rem] leading-none rounded-full px-3 py-1.5 shrink-0">
+                <span className="tag-pill-dark shrink-0">
                   {statusLabel}
                 </span>
               )}
             </div>
             {/* PC: 状態バッジは右上に単独 */}
             {statusLabel && (
-              <span className="hidden tablet:inline-flex absolute top-4 right-4 z-20 items-center bg-dark-green text-white font-gothic font-medium text-[0.875rem] leading-none rounded-full px-3 py-1.5">
+              <span className="tag-pill-dark hidden tablet:inline-flex absolute top-4 right-4 z-20">
                 {statusLabel}
               </span>
             )}
@@ -129,7 +129,7 @@ export default function PickupCard({ property }: Props) {
             {/* Tags + Location: PC のみ（SP はラベルを画像内 overlay に表示）*/}
             <div className="hidden tablet:flex flex-wrap items-center gap-2">
               {statusLabel && (
-                <span className="inline-flex items-center bg-dark-green text-white font-gothic font-medium text-[0.875rem] leading-none rounded-full px-3 py-1.5">
+                <span className="tag-pill-dark">
                   {statusLabel}
                 </span>
               )}
