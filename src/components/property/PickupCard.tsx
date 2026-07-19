@@ -191,6 +191,29 @@ export default function PickupCard({ property }: Props) {
                 </span>
               </div>
             )}
+            {/* SP: 成約済み+ストーリーありの場合は物件詳細+ストーリーを読むの2ボタン（PropertyCard.tsxと同じパターン） */}
+            {isSold && property.story && (
+              <div className="tablet:hidden pb-6 flex items-center gap-2.5">
+                <span className="flex-1 inline-flex items-center justify-center h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none">
+                  物件詳細
+                </span>
+                <span className="flex-1 inline-flex items-center justify-center gap-1 h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    className="shrink-0"
+                  >
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
+                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
+                  </svg>
+                  ストーリーを読む
+                </span>
+              </div>
+            )}
 
             {/* Station / Construction */}
             <div className="flex items-center flex-wrap">
@@ -211,6 +234,29 @@ export default function PickupCard({ property }: Props) {
               <div className="hidden tablet:block mt-10">
                 <span className="inline-flex items-center justify-center h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none">
                   物件詳細
+                </span>
+              </div>
+            )}
+            {/* PC: 成約済み+ストーリーありの場合は物件詳細+ストーリーを読むの2ボタン */}
+            {isSold && property.story && (
+              <div className="hidden tablet:flex items-center gap-2.5 mt-10">
+                <span className="inline-flex items-center justify-center h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none">
+                  物件詳細
+                </span>
+                <span className="inline-flex items-center justify-center gap-1 h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    className="shrink-0"
+                  >
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
+                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
+                  </svg>
+                  ストーリーを読む
                 </span>
               </div>
             )}
