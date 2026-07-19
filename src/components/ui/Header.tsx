@@ -51,6 +51,7 @@ const allNavItems = [
   },
   { href: '/voice', label: 'お客様の声' },
   { href: CONTACT_URL, label: 'お問い合わせ', external: CONTACT_EXTERNAL },
+  { href: 'https://nakabito.jp', label: '仲人', external: true, showExternalIcon: true },
 ];
 
 export default function Header() {
@@ -292,10 +293,15 @@ export default function Header() {
                 href={item.href!}
                 target={'external' in item && item.external ? '_blank' : undefined}
                 rel={'external' in item && item.external ? 'noopener noreferrer' : undefined}
-                className="block font-gothic font-medium text-[1.25rem] leading-none text-dark-green hover:opacity-60 transition-opacity"
+                className="inline-flex items-end gap-2 font-gothic font-medium text-[1.25rem] leading-none text-dark-green hover:opacity-60 transition-opacity"
                 onClick={() => setMobileOpen(false)}
               >
                 {item.label}
+                {'showExternalIcon' in item && item.showExternalIcon && (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="shrink-0 mb-0.5">
+                    <path d="M7 17L17 7M17 7H8M17 7v9" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                )}
               </Link>
             )
           )}
