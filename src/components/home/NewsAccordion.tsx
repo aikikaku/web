@@ -49,7 +49,7 @@ function AccordionItem({ item, isOpen, onToggle }: AccordionItemProps) {
   }, [isOpen, item.content]);
 
   return (
-    <div className="border-b border-dark-green/20">
+    <div className="border-b border-dark-green/10">
       <button
         type="button"
         onClick={onToggle}

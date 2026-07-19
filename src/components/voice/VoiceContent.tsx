@@ -41,7 +41,7 @@ function VoiceItem({
   // Figma 4211:11537: 質問アコーディオン (FaqAccordion) と同パターン
   // border-b + py-6 + smooth max-h transition (duration-500 ease-in-out)
   return (
-    <div className="border-b border-dark-green/20 py-6 flex flex-col gap-6">
+    <div className="border-b border-dark-green/10 py-6 flex flex-col gap-6">
       <button
         type="button"
         onClick={onToggle}
@@ -294,7 +294,7 @@ function MobileVoiceFilter({
       <button
         type="button"
         onClick={open}
-        className={`fixed bottom-4 left-1/2 -translate-x-1/2 z-40 inline-flex items-center bg-cream border border-dark-green/20 rounded-full pl-10 pr-5 py-2 shadow-[0_-1px_4px_rgba(0,0,0,0.1)] w-[21.375rem] h-14 transition-opacity duration-300 ${showBar ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        className={`fixed bottom-4 left-1/2 -translate-x-1/2 z-40 inline-flex items-center bg-cream border border-dark-green/10 rounded-full pl-10 pr-5 py-2 shadow-[0_-1px_4px_rgba(0,0,0,0.1)] w-[21.375rem] h-14 transition-opacity duration-300 ${showBar ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
         aria-label="カテゴリを絞り込む"
       >
         <span className="flex-1 text-center font-gothic font-medium text-body-s text-dark-green">

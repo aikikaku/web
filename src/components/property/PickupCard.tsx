@@ -58,6 +58,17 @@ export default function PickupCard({ property }: Props) {
               className="absolute inset-0 z-10 pointer-events-none rounded-2xl tablet:rounded-[1.5rem]"
               style={{ backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0) 73.635%, rgba(0,0,0,0.2) 92.755%)' }}
             />
+            {/* Figma 4211:12000: sold 時は斜めグラデーションの暗転オーバーレイを追加 */}
+            {isSold && (
+              <div
+                aria-hidden
+                className="absolute inset-0 z-10 pointer-events-none rounded-2xl tablet:rounded-[1.5rem]"
+                style={{
+                  backgroundImage:
+                    'linear-gradient(194.36deg, rgba(39,51,59,0.5) 4%, rgba(39,51,59,0.25) 51.9%, rgba(39,51,59,0.5) 103.7%)',
+                }}
+              />
+            )}
             {/* SP: ラベルを画像内 top に overlay（Figma 4211:10721）
                 location は cream (白) text 16px leading-2、画像上端の暗グラデで可読化 */}
             <div className="tablet:hidden absolute inset-x-0 top-0 z-20 p-2.5 flex items-center justify-between gap-2">
@@ -144,8 +155,8 @@ export default function PickupCard({ property }: Props) {
 
             {/* Price / Layout split — 余白なし、border full-width */}
             <div className="pb-4">
-              <div className="flex border-t border-b border-dark-green/20">
-                <div className={`flex-1 ${property.layout ? 'border-r border-dark-green/20' : ''} pt-2 pb-4`}>
+              <div className="flex border-t border-b border-dark-green/10">
+                <div className={`flex-1 ${property.layout ? 'border-r border-dark-green/10' : ''} pt-2 pb-4`}>
                   <div className="pl-2">
                     <span className="font-gothic font-medium text-body-s text-dark-green">
                       {property.type === 'rent' ? '賃料' : '価格'}

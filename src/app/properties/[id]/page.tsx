@@ -262,8 +262,8 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
 
                   {/* 価格 / 間取り */}
                   <div className="pb-4">
-                    <div className="flex border-t border-b border-dark-green/20">
-                      <div className="flex-1 border-r border-dark-green/20 pt-2 pb-4">
+                    <div className="flex border-t border-b border-dark-green/10">
+                      <div className="flex-1 border-r border-dark-green/10 pt-2 pb-4">
                         <div className="pl-2">
                           <span className="font-gothic font-medium text-body-s text-dark-green">
                             価格
@@ -353,12 +353,12 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
 
             {/* 物件概要テーブル (SP は下余白を縮めて action card との間 32px に) */}
             <div className="pt-12 pb-8 tablet:py-24">
-              <div className="border-b border-dark-green/20">
+              <div className="border-b border-dark-green/10">
                 {detailFields.map((field) =>
                   field.value ? (
                     <div
                       key={field.label}
-                      className="flex gap-[1.875rem] items-start py-6 border-t border-dark-green/20"
+                      className="flex gap-[1.875rem] items-start py-6 border-t border-dark-green/10"
                     >
                       <p className="font-gothic font-medium text-[1rem] leading-[1.8] tablet:text-body-l text-dark-green w-[7.5rem] tablet:w-[9.1875rem] shrink-0">
                         {field.label}
@@ -388,7 +388,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                 )}
                 {/* 価格行（成約時は非表示 #31） */}
                 {!isSold && priceValue && (
-                  <div className="flex gap-[1.875rem] items-center py-6 border-t border-dark-green/20">
+                  <div className="flex gap-[1.875rem] items-center py-6 border-t border-dark-green/10">
                     <p className="font-gothic font-medium text-[1rem] leading-[1.8] tablet:text-body-l text-dark-green w-[7.5rem] tablet:w-[9.1875rem] shrink-0">
                       価格
                     </p>

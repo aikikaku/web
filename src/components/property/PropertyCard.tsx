@@ -38,7 +38,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
       </div>
 
       {/* Image - SP: rounded-[1rem] aspect-[294/220] にラベル overlay
-          Figma 4211:10721 / 10725 準拠: sold 時は重いザブトン overlay 不要、商談中ピルのみで状態表示 */}
+          Figma 4211:11989 準拠: sold 時は画像全体に dark-green 50% の暗転オーバーレイ */}
       <div className="relative aspect-[294/220] tablet:aspect-auto tablet:h-[18.3125rem] w-full rounded-2xl tablet:rounded-lg overflow-hidden">
         <CmsImage
           image={property.mainImage}
@@ -47,6 +47,9 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           className="object-cover"
           sizes="(max-width: 992px) 100vw, 410px"
         />
+        {isSold && (
+          <div className="absolute inset-0 bg-dark-green/50 pointer-events-none" aria-hidden="true" />
+        )}
         {/* SP: 画像内に上下グラデ + ラベル */}
         <div
           className="tablet:hidden absolute inset-0 pointer-events-none"
@@ -90,8 +93,8 @@ export default function PropertyCard({ property }: PropertyCardProps) {
 
         {/* Price / Layout — borders are full-width on SP。layout が無い場合は border-r を出さず単独セルに */}
         <div className="pb-3">
-          <div className="flex border-t border-b border-dark-green/20">
-            <div className={`flex-1 ${property.layout ? 'border-r border-dark-green/20' : ''} p-2`}>
+          <div className="flex border-t border-b border-dark-green/10">
+            <div className={`flex-1 ${property.layout ? 'border-r border-dark-green/10' : ''} p-2`}>
               <div>
                 <span className="font-gothic font-medium text-body-s text-dark-green">
                   {property.type === 'rent' ? '賃料' : '価格'}

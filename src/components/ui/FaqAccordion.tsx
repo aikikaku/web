@@ -28,7 +28,7 @@ function FaqItemRow({ item, isOpen, onToggle }: FaqItemRowProps) {
   }, [isOpen, item.answer]);
 
   return (
-    <div className="border-b border-dark-green/20 py-4 tablet:py-6 flex flex-col gap-4 tablet:gap-6">
+    <div className="border-b border-dark-green/10 py-4 tablet:py-6 flex flex-col gap-4 tablet:gap-6">
       <button
         type="button"
         onClick={onToggle}

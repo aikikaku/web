@@ -291,7 +291,7 @@ export default function AboutPage() {
             </div>
             {/* テーブル: SP は dd 右寄せ / PC は w-616 固定 */}
             <div className="w-full tablet:w-[38.5rem] shrink-0">
-              <dl className="divide-y divide-dark-green/20 border-b border-dark-green/20">
+              <dl className="divide-y divide-dark-green/10 border-b border-dark-green/10">
                 <div className="flex items-center justify-between gap-4 py-5 tablet:py-6">
                   <dt className="font-gothic font-medium text-body-s tablet:text-body-l text-dark-green shrink-0">商号</dt>
                   <dd className="font-gothic font-medium text-body-s tablet:text-body-l text-black text-right">有限会社アイ企画</dd>

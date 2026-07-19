@@ -234,7 +234,7 @@ export default async function ForCustomerPage() {
             {features.map((feature, i) => (
               <div
                 key={feature.title}
-                className={`flex flex-col tablet:flex-row gap-8 tablet:gap-[3.625rem] items-start ${i < features.length - 1 ? 'pb-12 tablet:pb-24 tablet:border-b tablet:border-dark-green/20' : ''}`}
+                className={`flex flex-col tablet:flex-row gap-8 tablet:gap-[3.625rem] items-start ${i < features.length - 1 ? 'pb-12 tablet:pb-24 tablet:border-b tablet:border-dark-green/10' : ''}`}
               >
                 {/* Image (PC: テキストと 50:50) */}
                 <div className="w-full tablet:flex-1 tablet:min-w-0">
