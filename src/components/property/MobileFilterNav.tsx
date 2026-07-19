@@ -211,6 +211,7 @@ export default function MobileFilterNav() {
                   options={propertyTypes}
                   selected={localTypes}
                   onChange={toggleType}
+                  onClear={() => setLocalTypes([])}
                   placeholder="物件"
                 />
                 <MultiSelectDropdown
@@ -219,6 +220,7 @@ export default function MobileFilterNav() {
                   options={regions.map((r) => ({ value: r, label: r }))}
                   selected={localRegions}
                   onChange={toggleRegion}
+                  onClear={() => setLocalRegions([])}
                   placeholder="地域"
                 />
               </div>

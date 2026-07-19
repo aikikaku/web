@@ -150,6 +150,27 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           </span>
         </div>
 
+        {/* SP: ストーリーを読む — PC の第2ボタンと同じ内容をフル幅で表示（PC では非表示のため欠落していた） */}
+        {isSold && property.story && (
+          <div className="tablet:hidden pb-2">
+            <span className="flex items-center justify-center gap-1 w-full h-[2.75rem] btn-outline-fill text-[1rem] leading-none">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                className="shrink-0"
+              >
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
+              </svg>
+              ストーリーを読む
+            </span>
+          </div>
+        )}
+
         {/* PC: Station/Construction */}
         <div className="hidden tablet:flex items-center pb-6">
           <div className="flex flex-row items-center">

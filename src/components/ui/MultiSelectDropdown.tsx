@@ -11,6 +11,7 @@ interface Props {
   options: Option[];
   selected: string[];
   onChange: (value: string) => void;
+  onClear: () => void;
   placeholder: string;
 }
 
@@ -26,6 +27,7 @@ export default function MultiSelectDropdown({
   options,
   selected,
   onChange,
+  onClear,
   placeholder,
 }: Props) {
   const firstSelectedLabel = options.find((o) => o.value === selected[0])?.label ?? selected[0];
@@ -94,6 +96,30 @@ export default function MultiSelectDropdown({
       </button>
       {isOpen && (
         <div className="bg-cream rounded-lg shadow-[0_0_8px_rgba(0,0,0,0.16)] py-4 flex flex-col">
+          <button
+            type="button"
+            onClick={onClear}
+            className="flex items-center gap-2 h-8 pl-4 pr-2 hover:bg-light-green/50 text-left"
+          >
+            <span
+              className={`size-[1.125rem] inline-flex items-center justify-center rounded border shrink-0 ${
+                selected.length === 0 ? 'bg-dark-green border-dark-green' : 'border-dark-green/40'
+              }`}
+            >
+              {selected.length === 0 && (
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path
+                    d="M3 7l3 3 5-6"
+                    stroke="white"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              )}
+            </span>
+            <span className="font-gothic font-medium text-body-s text-black">すべて</span>
+          </button>
           {options.map((opt) => {
             const checked = selected.includes(opt.value);
             return (

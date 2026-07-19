@@ -211,6 +211,7 @@ export default function MobileStoriesFilter() {
                   options={regions.map((r) => ({ value: r, label: r }))}
                   selected={localRegions}
                   onChange={toggleRegion}
+                  onClear={() => setLocalRegions([])}
                   placeholder="地域"
                 />
               </div>
@@ -226,7 +227,8 @@ export default function MobileStoriesFilter() {
                 </button>
                 <button
                   onClick={clearFilters}
-                  className="w-[3.8125rem] h-full border border-dark-green rounded-lg flex items-center justify-center shrink-0"
+                  disabled={!hasActiveFilters}
+                  className="w-[3.8125rem] h-full border border-dark-green rounded-lg flex items-center justify-center shrink-0 disabled:opacity-30 disabled:cursor-not-allowed"
                   aria-label="条件をクリア"
                 >
                   <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
