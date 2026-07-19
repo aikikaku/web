@@ -195,12 +195,12 @@ export default async function ForOwnerPage() {
           <div className="max-w-[49.5rem] mx-auto flex flex-col items-center">
             {steps.map((step, i) => (
               <div key={step.title} className="w-full flex flex-col items-center">
-                <div className="w-full bg-cream rounded-2xl tablet:rounded-3xl shadow-[0px_-1px_8px_0px_rgba(0,0,0,0.1)] p-5 tablet:pl-6 tablet:pr-8 tablet:py-8">
+                <div className="w-full bg-cream rounded-3xl shadow-[0px_-1px_8px_0px_rgba(0,0,0,0.1)] p-6 tablet:pl-6 tablet:pr-8 tablet:py-8">
                   <div className="flex flex-col tablet:flex-row gap-2 tablet:gap-8 items-start tablet:items-center">
-                    <p className="font-mincho text-[1rem] tablet:text-2xl text-dark-green text-left tablet:text-center w-full tablet:w-[8.75rem] shrink-0 whitespace-pre-line leading-[1.6] tablet:leading-[1.4] tracking-wider">
+                    <p className="font-mincho text-lg tablet:text-2xl text-dark-green text-left tablet:text-center w-full tablet:w-[8.75rem] shrink-0 whitespace-pre-line leading-[1.6] tablet:leading-[1.4] tracking-wider">
                       {step.title}
                     </p>
-                    <p className="font-gothic font-medium text-body-s tablet:text-body-m text-black whitespace-pre-line flex-1">
+                    <p className="font-gothic font-medium text-body-m text-dark-green whitespace-pre-line flex-1">
                       {step.desc}
                     </p>
                   </div>
@@ -269,7 +269,7 @@ export default async function ForOwnerPage() {
                 <div className="flex-1 pt-0 tablet:pt-4">
                   <div className="flex flex-col gap-12">
                     <div className="flex flex-col gap-4">
-                      <h3 className="font-mincho text-lg tablet:text-2xl tracking-[0.04em] !leading-[1.6]">
+                      <h3 className="font-mincho text-lg tablet:text-2xl tracking-[0.04em] !leading-[1.6] text-dark-green">
                         {feature.title}
                       </h3>
                       <p className="text-body-m tablet:text-body-l font-gothic font-medium text-black whitespace-pre-line">
@@ -278,7 +278,7 @@ export default async function ForOwnerPage() {
                     </div>
 
                     {/* Activity cards */}
-                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-2">
                       {feature.activities.map((activity) => (
                         <div
                           key={activity.title}
@@ -296,7 +296,7 @@ export default async function ForOwnerPage() {
                             <div className="mt-4">
                               <Link
                                 href={activity.link.href}
-                                className="inline-flex items-center gap-1 text-body-s font-gothic font-medium text-dark-green hover:opacity-70 transition-opacity"
+                                className="inline-flex items-center gap-1 text-[0.75rem] leading-none font-gothic font-medium text-dark-green hover:opacity-70 transition-opacity"
                                 {...(activity.link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                               >
                                 {activity.link.label}
