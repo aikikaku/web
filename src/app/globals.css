@@ -244,11 +244,11 @@
   /* ─── リッチテキスト（microCMS richEditorV2）Figma 4211:10802 (SP) 準拠 ─── */
   /* セクションごとに pb-32 を共通の block マージンで再現する。h5+h3 のみ詰めて表示。 */
   .rich-content h3 {
-    @apply font-mincho text-[1.5rem] tablet:text-[2rem] leading-[1.6] text-black;
+    @apply font-mincho text-[1.5rem] tablet:text-[2rem] leading-[1.5] text-black tablet:text-dark-green tablet:text-center;
     font-feature-settings: 'palt' 1;
     letter-spacing: 0.04em;
     margin-top: 0;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
   }
 
   .rich-content h5 {
@@ -274,18 +274,16 @@
   /* 画像は下 48px（連続写真の間隔 #3）。直後にキャプションが来る場合はキャプション側の
      負マージンで密着させる（下記 p:has(em) の margin-top）。 */
   .rich-content img {
-    @apply w-full rounded-2xl;
+    @apply w-full rounded-2xl tablet:rounded-3xl;
     aspect-ratio: 763 / 509;
     object-fit: cover;
     margin-bottom: 3rem;
   }
 
-  /* 画像キャプション: img の直後の em を含む p (Figma SP: pl-8, pb-8, text-12 dark-green regular)。
-     直前の画像に密着させるため margin-top を詰める */
+  /* 画像キャプション: img の直後の em を含む p (Figma SP: pl-8, pb-8, text-12 dark-green regular /
+     Figma PC: pl-30, text-14 dark-green medium)。直前の画像に密着させるため margin-top を詰める */
   .rich-content p:has(> em:only-child) {
-    @apply font-gothic font-normal text-[0.75rem] tablet:text-[0.875rem] leading-[1.8] text-dark-green;
-    padding-left: 0.5rem;
-    padding-bottom: 0.5rem;
+    @apply font-gothic font-normal tablet:font-medium text-[0.75rem] tablet:text-[0.875rem] leading-[1.8] text-dark-green pl-2 tablet:pl-[1.875rem] pb-2;
     margin-top: -2.5rem;
     margin-bottom: 3rem;
     font-style: normal;
@@ -303,12 +301,10 @@
     font-style: normal;
   }
 
-  /* コメント吹き出し（アバター付き） Figma SP: gap-16, pl-8, avatar 44, bubble p-24 light-green text-14 black */
+  /* コメント吹き出し（アバター付き） Figma SP: gap-16, pl-8, avatar 44, bubble px-24/py-12 light-green text-14 black /
+     Figma PC: gap-24, pl-0, avatar 50, bubble pt-30/pb-32/px-30, name text-14 medium */
   .rich-content .rich-comment {
-    display: flex;
-    gap: 1rem;
-    align-items: flex-start;
-    padding-left: 0.5rem;
+    @apply flex items-start gap-4 tablet:gap-6 pl-2 tablet:pl-0;
     margin-bottom: 3rem;
   }
 
@@ -321,23 +317,19 @@
   }
 
   .rich-content .rich-comment-avatar-circle {
-    width: 2.75rem;
-    height: 2.75rem;
-    border-radius: 50%;
-    @apply bg-dark-green/10;
+    @apply w-11 h-11 tablet:w-[3.125rem] tablet:h-[3.125rem] rounded-full bg-dark-green/10;
     background-image: url('/images/home/about.jpg');
     background-size: cover;
     background-position: center;
   }
 
   .rich-content .rich-comment-avatar-name {
-    @apply font-gothic font-normal text-[0.75rem] leading-[1.8] text-dark-green;
+    @apply font-gothic font-normal tablet:font-medium text-[0.75rem] tablet:text-[0.875rem] leading-[1.8] text-dark-green;
   }
 
   .rich-content .rich-comment-bubble {
     flex: 1;
-    @apply bg-light-green rounded-2xl font-gothic font-medium text-body-s tablet:text-body-m text-black;
-    padding: 1.5rem;
+    @apply bg-light-green rounded-2xl tablet:rounded-3xl font-gothic font-medium text-body-s tablet:text-body-m text-dark-green px-6 py-3 tablet:pt-[1.875rem] tablet:pb-8 tablet:px-[1.875rem];
     display: flex;
     align-items: center;
   }

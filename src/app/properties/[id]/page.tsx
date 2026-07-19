@@ -396,7 +396,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                       <span className="font-gothic font-medium text-category-1 text-black">
                         {priceValue}
                       </span>
-                      <span className="font-gothic font-medium text-body-l text-black">
+                      <span className="font-gothic font-medium text-body-s text-black">
                         {priceUnit}
                       </span>
                     </div>
