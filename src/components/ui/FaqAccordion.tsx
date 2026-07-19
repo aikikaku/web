@@ -34,7 +34,7 @@ function FaqItemRow({ item, isOpen, onToggle }: FaqItemRowProps) {
         onClick={onToggle}
         className="flex items-start justify-between w-full pr-2 text-left cursor-pointer hover:opacity-70 transition-opacity gap-3"
       >
-        <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1rem] leading-[1.8] tablet:leading-[2] text-black">
+        <p className="font-gothic font-medium text-body-s tablet:text-body-m text-black">
           {item.question}
         </p>
         <svg
@@ -53,7 +53,7 @@ function FaqItemRow({ item, isOpen, onToggle }: FaqItemRowProps) {
         style={{ maxHeight: `${maxHeight}px` }}
       >
         <div className="bg-light-green rounded-2xl px-5 py-5 tablet:px-[1.875rem] tablet:py-[2rem]">
-          <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1rem] leading-[1.8] tablet:leading-[2] text-black whitespace-pre-line">
+          <p className="font-gothic font-medium text-body-s tablet:text-body-m text-black whitespace-pre-line">
             {item.answer}
           </p>
         </div>

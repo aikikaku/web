@@ -81,7 +81,7 @@ export default function ArticleCarousel({ articles, href = '/for-owner' }: Props
                   </h3>
                 </div>
                 <div className="flex items-center justify-between gap-2.5">
-                  <span className="font-gothic font-medium text-[1rem] leading-[2] text-dark-green">
+                  <span className="font-gothic font-medium text-body-m text-dark-green">
                     {article.date}
                   </span>
                   <span className="inline-flex items-center justify-center min-w-[11rem] h-11 px-6 border border-dark-green rounded-full font-gothic font-medium text-[1rem] leading-none text-dark-green">

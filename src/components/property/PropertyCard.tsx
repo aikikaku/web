@@ -57,7 +57,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           <div className="flex items-center gap-2 min-w-0">
             <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5 shrink-0">{categoryLabel}</span>
             {locationText && (
-              <span className="font-gothic font-medium text-[1rem] leading-[2] text-cream truncate">
+              <span className="font-gothic font-medium text-body-m text-cream truncate">
                 {locationText}
               </span>
             )}
@@ -81,7 +81,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
         {/* Title — SP: px-2 py-6 / PC: py-6 */}
         <div className="px-2 py-6 tablet:px-0">
           <h3
-            className="font-mincho text-[1.125rem] tablet:text-[1.5rem] leading-[1.6] tracking-[0.04em] text-black"
+            className="font-mincho text-heading-18 tablet:text-heading-24 text-black"
             style={{ fontFeatureSettings: "'palt' 1" }}
           >
             {property.title}
@@ -93,12 +93,12 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           <div className="flex border-t border-b border-dark-green/20">
             <div className={`flex-1 ${property.layout ? 'border-r border-dark-green/20' : ''} p-2`}>
               <div>
-                <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
+                <span className="font-gothic font-medium text-body-s text-dark-green">
                   {property.type === 'rent' ? '賃料' : '価格'}
                 </span>
               </div>
               <div className="flex items-end justify-center h-[2.375rem]">
-                <span className="font-gothic font-medium text-[1.25rem] tablet:text-[1.5rem] leading-[1.6] text-black px-2">
+                <span className="font-gothic font-medium text-category-2 tablet:text-category-1 text-black px-2">
                   {isSold
                     ? '-'
                     : property.price
@@ -107,7 +107,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
                         ? property.rent.toLocaleString()
                         : '応談'}
                 </span>
-                <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-black pb-1 whitespace-nowrap">
+                <span className="font-gothic font-medium text-body-s text-black pb-1 whitespace-nowrap">
                   {isSold ? '万円' : property.price ? '万円' : property.rent ? '円/月' : ''}
                 </span>
               </div>
@@ -115,12 +115,12 @@ export default function PropertyCard({ property }: PropertyCardProps) {
             {property.layout && (
               <div className="flex-1 p-2">
                 <div>
-                  <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
+                  <span className="font-gothic font-medium text-body-s text-dark-green">
                     間取り
                   </span>
                 </div>
                 <div className="flex items-end justify-center">
-                  <span className="font-gothic font-medium text-[1.25rem] tablet:text-[1.5rem] leading-[1.6] text-black">
+                  <span className="font-gothic font-medium text-category-2 tablet:text-category-1 text-black">
                     {property.layout}
                   </span>
                 </div>
@@ -133,12 +133,12 @@ export default function PropertyCard({ property }: PropertyCardProps) {
         <div className="tablet:hidden flex items-center justify-between pb-2 pt-2">
           <div className="flex flex-col flex-1 min-w-0 pr-2">
             {property.nearestStation && (
-              <span className="font-gothic font-medium text-[1rem] leading-[2] text-black truncate">
+              <span className="font-gothic font-medium text-body-m text-black truncate">
                 {property.nearestStation}
               </span>
             )}
             {property.constructionDate && (
-              <span className="font-gothic font-medium text-[1rem] leading-[2] text-black truncate">
+              <span className="font-gothic font-medium text-body-m text-black truncate">
                 築{property.constructionDate}
               </span>
             )}
@@ -154,12 +154,12 @@ export default function PropertyCard({ property }: PropertyCardProps) {
         <div className="hidden tablet:flex items-center pb-6">
           <div className="flex flex-row items-center">
             {property.nearestStation && (
-              <span className="font-gothic font-medium text-[1rem] leading-[2] text-black px-2">
+              <span className="font-gothic font-medium text-body-m text-black px-2">
                 {property.nearestStation}
               </span>
             )}
             {property.constructionDate && (
-              <span className="font-gothic font-medium text-[1rem] leading-[2] text-black px-2">
+              <span className="font-gothic font-medium text-body-m text-black px-2">
                 築{property.constructionDate}
               </span>
             )}

@@ -208,7 +208,7 @@ function InterviewItemComponent({ item }: { item: InterviewItem }) {
         </p>
       </div>
       <div className="flex-1 min-w-0 tablet:pb-12 tablet:pt-2">
-        <p className="font-gothic font-medium text-[0.875rem] leading-[1.8] tablet:text-[1.125rem] tablet:leading-[1.8] text-black">{item.text}</p>
+        <p className="font-gothic font-medium text-body-s tablet:text-body-l text-black">{item.text}</p>
       </div>
     </div>
   );
@@ -236,13 +236,13 @@ export default function StaffInterviewPage() {
       <section className="relative bg-cream overflow-hidden pt-[3.75rem] tablet:pt-[6.25rem] pb-[3.75rem] tablet:pb-24">
         {/* SP: 見出し → card-story (Figma 4211:11616: 60px section padding, title 358×48, 32px gap to card-story) */}
         <div className="tablet:hidden px-4 mb-8">
-          <h1 className="font-mincho text-[2rem] leading-[1.5] tracking-[0.08rem] text-dark-green pl-2" style={{ fontFeatureSettings: "'palt' 1" }}>
+          <h1 className="font-mincho text-heading-32 text-dark-green pl-2" style={{ fontFeatureSettings: "'palt' 1" }}>
             スタッフインタビュー
           </h1>
         </div>
         {/* PC: タイトル左上 (絶対位置) */}
         <div className="hidden tablet:block relative max-w-[90rem] mx-auto">
-          <h1 className="absolute left-[4.6875rem] top-[6rem] w-[33rem] font-mincho text-[3rem] leading-[1.5] tracking-[0.12rem] text-dark-green z-10" style={{ fontFeatureSettings: "'palt' 1" }}>
+          <h1 className="absolute left-[4.6875rem] top-[6rem] w-[33rem] font-mincho text-heading-48 text-dark-green z-10" style={{ fontFeatureSettings: "'palt' 1" }}>
             スタッフインタビュー
           </h1>
         </div>
@@ -369,11 +369,11 @@ export default function StaffInterviewPage() {
                           sizes="51px"
                         />
                       </div>
-                      <h4 className="font-mincho text-[1.125rem] leading-[1.6] tracking-[0.04em] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+                      <h4 className="font-mincho text-heading-18 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
                         {staff.name}
                       </h4>
                     </div>
-                    <p className="text-body-s text-dark-green leading-[1.8]">
+                    <p className="text-body-s text-dark-green">
                       {staff.description}
                     </p>
                   </div>

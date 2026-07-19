@@ -135,7 +135,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
 
               {/* タイトル */}
               <h2
-                className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.04em] text-dark-green text-center"
+                className="font-mincho text-heading-32 tablet:text-heading-48 text-dark-green text-center"
                 style={{ fontFeatureSettings: "'palt' 1" }}
               >
                 {story.title}
@@ -144,7 +144,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
 
             {/* 名前・肩書き（例: 「二瓶 浩一さん │ 移住者」）は中央揃え (#24) */}
             {story.subtitle && (
-              <p className="w-full text-body-l font-gothic font-medium text-dark-green text-center leading-[1.8]">
+              <p className="w-full text-body-l font-gothic font-medium text-dark-green text-center">
                 {story.subtitle}
               </p>
             )}
@@ -185,7 +185,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
                     className="flex items-center justify-between bg-dark-green rounded-2xl p-[1.875rem] group"
                   >
                     <div className="flex-1 px-3">
-                      <p className="font-gothic font-medium text-[1.25rem] leading-[1.6] text-white">
+                      <p className="font-gothic font-medium text-category-2 text-white">
                         この物件について
                       </p>
                     </div>
@@ -207,7 +207,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
         <section className="pt-24 pb-36 px-[4.6875rem] max-w-[90rem] mx-auto max-tablet:px-4 max-tablet:pt-12 max-tablet:pb-24 overflow-hidden">
           <div className="flex flex-col gap-16">
             <h3
-              className="font-mincho text-[2rem] leading-[1.5] tracking-[0.04em] text-dark-green"
+              className="font-mincho text-heading-32 text-dark-green"
               style={{ fontFeatureSettings: "'palt' 1" }}
             >
               もっとストーリーを見る

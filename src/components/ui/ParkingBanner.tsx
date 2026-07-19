@@ -18,17 +18,17 @@ export default function ParkingBanner() {
             <div className="flex flex-col gap-2 min-w-0">
               {/* SP: タイトル先 */}
               <p
-                className="tablet:hidden font-mincho text-[1.5rem] leading-[1.6] tracking-[0.06rem] text-dark-green"
+                className="tablet:hidden font-mincho text-heading-24 text-dark-green"
                 style={{ fontFeatureSettings: "'palt' 1" }}
               >
                 三島市で駐車場を<br />お探しの方へ
               </p>
-              <p className="tablet:hidden font-gothic font-medium text-[1rem] leading-[2] text-dark-green">駐車場を借りたい</p>
+              <p className="tablet:hidden font-gothic font-medium text-body-m text-dark-green">駐車場を借りたい</p>
 
               {/* PC: サブ先 */}
-              <p className="hidden tablet:block font-gothic font-medium text-[1rem] leading-[2] text-dark-green">駐車場を借りたい</p>
+              <p className="hidden tablet:block font-gothic font-medium text-body-m text-dark-green">駐車場を借りたい</p>
               <p
-                className="hidden tablet:block font-mincho text-[2rem] leading-[1.5] tracking-[0.08rem] text-dark-green whitespace-nowrap"
+                className="hidden tablet:block font-mincho text-heading-32 text-dark-green whitespace-nowrap"
                 style={{ fontFeatureSettings: "'palt' 1" }}
               >
                 三島市で駐車場をお探しの方へ

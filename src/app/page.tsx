@@ -62,7 +62,7 @@ export default async function HomePage() {
             />
           </div>
           <div className="absolute left-[48.0625rem] top-[19.375rem] w-[40.3125rem]">
-            <h1 className="font-mincho text-[3.5rem] leading-[1.5] tracking-[0.14rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+            <h1 className="font-mincho text-heading-56 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               家と街と人が<br />
               つながる、<br />
               三島の暮らし
@@ -209,10 +209,10 @@ export default async function HomePage() {
                 />
               </div>
               <div className="relative z-10 flex-1 min-w-0 flex flex-col gap-2 text-white">
-                <h3 className="font-mincho text-[1.5rem] leading-[1.6] tracking-[0.06rem]" style={{ fontFeatureSettings: "'palt' 1" }}>
+                <h3 className="font-mincho text-heading-24" style={{ fontFeatureSettings: "'palt' 1" }}>
                   不動産を<br />お探しの方
                 </h3>
-                <p className="text-body-m font-gothic font-medium leading-[2]">
+                <p className="text-body-m font-gothic font-medium">
                   買いたい・借りたい
                 </p>
               </div>
@@ -236,10 +236,10 @@ export default async function HomePage() {
                 />
               </div>
               <div className="relative z-10 flex-1 min-w-0 flex flex-col gap-2 text-white">
-                <h3 className="font-mincho text-[1.5rem] leading-[1.6] tracking-[0.06rem]" style={{ fontFeatureSettings: "'palt' 1" }}>
+                <h3 className="font-mincho text-heading-24" style={{ fontFeatureSettings: "'palt' 1" }}>
                   不動産を<br />お持ちの方へ
                 </h3>
-                <p className="text-body-m font-gothic font-medium leading-[2]">
+                <p className="text-body-m font-gothic font-medium">
                   売りたい・貸したい
                 </p>
               </div>
@@ -256,10 +256,10 @@ export default async function HomePage() {
             >
               <div className="flex flex-col justify-between flex-1 min-w-0 h-[13.75rem] pt-2 px-3">
                 <div className="flex flex-col gap-2">
-                  <h3 className="font-mincho text-[2rem] leading-[1.5] tracking-[0.08rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+                  <h3 className="font-mincho text-heading-32 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
                     不動産を<br />お探しの方へ
                   </h3>
-                  <p className="text-[1.125rem] leading-[1.8] font-gothic font-medium text-dark-green">
+                  <p className="text-body-l font-gothic font-medium text-dark-green">
                     買いたい・借りたい
                   </p>
                 </div>
@@ -282,10 +282,10 @@ export default async function HomePage() {
             >
               <div className="flex flex-col justify-between flex-1 min-w-0 h-[13.75rem] pt-2 px-3">
                 <div className="flex flex-col gap-2">
-                  <h3 className="font-mincho text-[2rem] leading-[1.5] tracking-[0.08rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+                  <h3 className="font-mincho text-heading-32 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
                     不動産を<br />お持ちの方へ
                   </h3>
-                  <p className="text-[1.125rem] leading-[1.8] font-gothic font-medium text-dark-green">
+                  <p className="text-body-l font-gothic font-medium text-dark-green">
                     売りたい・貸したい
                   </p>
                 </div>
@@ -391,7 +391,7 @@ export default async function HomePage() {
                             {latestStories.contents[0].regions?.[0]?.name || ''}
                           </span>
                         </div>
-                        <h3 className="font-mincho text-[2rem] leading-[1.5] tracking-[0.08rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+                        <h3 className="font-mincho text-heading-32 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
                           {latestStories.contents[0].title}
                         </h3>
                         <span className="inline-flex items-center gap-1 mt-6 h-11 px-6 btn-outline-fill text-base leading-none">
@@ -427,7 +427,7 @@ export default async function HomePage() {
                             {story.regions?.[0]?.name || ''}
                           </span>
                         </div>
-                        <h4 className="font-mincho text-[1.5rem] leading-[1.6] tracking-[0.06rem] text-dark-green w-[16.5rem]" style={{ fontFeatureSettings: "'palt' 1" }}>
+                        <h4 className="font-mincho text-heading-24 text-dark-green w-[16.5rem]" style={{ fontFeatureSettings: "'palt' 1" }}>
                           {story.title}
                         </h4>
                         <span className="inline-flex items-center gap-1 mt-6 h-11 px-6 btn-outline-fill text-base leading-none w-fit">
@@ -506,8 +506,8 @@ export default async function HomePage() {
             />
           </div>
           <div className="relative z-10 text-white">
-            <p className="text-body-s font-gothic font-medium leading-[1.8] mb-2">お問い合わせ</p>
-            <p className="font-mincho text-[1.5rem] leading-[1.6] tracking-[0.06rem]" style={{ fontFeatureSettings: "'palt' 1" }}>
+            <p className="text-body-s font-gothic font-medium mb-2">お問い合わせ</p>
+            <p className="font-mincho text-heading-24" style={{ fontFeatureSettings: "'palt' 1" }}>
               不動産に関すること、<br />
               ぜひご相談ください。
             </p>
@@ -541,8 +541,8 @@ export default async function HomePage() {
           <div className="relative z-10 flex gap-[1.875rem] items-start">
             {/* 左余白: カード padding 30px + この pl で合計60pxにする（旧 pl-[3.75rem] は合計90pxだった）(#30) */}
             <div className="text-white shrink-0 pl-[1.875rem]">
-              <p className="text-body-m font-gothic font-medium leading-[2] mb-2">お問い合わせ</p>
-              <p className="font-mincho text-[2rem] leading-[1.5] tracking-[0.08rem] whitespace-nowrap" style={{ fontFeatureSettings: "'palt' 1" }}>
+              <p className="text-body-m font-gothic font-medium mb-2">お問い合わせ</p>
+              <p className="font-mincho text-heading-32 whitespace-nowrap" style={{ fontFeatureSettings: "'palt' 1" }}>
                 不動産に関すること、<br />
                 ぜひご相談ください。
               </p>
@@ -552,7 +552,7 @@ export default async function HomePage() {
                 href="/for-customer"
                 className="group bg-cream/95 rounded-3xl px-[1.875rem] pt-10 pb-[1.875rem] text-center w-[16.5rem] flex flex-col items-center gap-[1.875rem]"
               >
-                <span className="font-gothic font-medium text-[1.25rem] leading-[1.6] text-dark-green">
+                <span className="font-gothic font-medium text-category-2 text-dark-green">
                   不動産に関する<br />ご相談はこちら
                 </span>
                 <ArrowButton />

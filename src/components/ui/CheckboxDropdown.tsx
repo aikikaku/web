@@ -147,7 +147,7 @@ export default function CheckboxDropdown({
                   </svg>
                 )}
               </span>
-              <span className="font-gothic font-medium text-[1rem] leading-[2] text-black">
+              <span className="font-gothic font-medium text-body-m text-black">
                 すべて
               </span>
             </button>
@@ -180,7 +180,7 @@ export default function CheckboxDropdown({
                     </svg>
                   )}
                 </span>
-                <span className="font-gothic font-medium text-[1rem] leading-[2] text-black">
+                <span className="font-gothic font-medium text-body-m text-black">
                   {option.label}
                 </span>
               </button>

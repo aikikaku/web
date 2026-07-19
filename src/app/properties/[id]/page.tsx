@@ -224,7 +224,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                   {categoryLabel}
                 </span>
                 {locationText && (
-                  <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green truncate">
+                  <span className="font-gothic font-medium text-body-s text-dark-green truncate">
                     {locationText}
                   </span>
                 )}
@@ -265,12 +265,12 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                     <div className="flex border-t border-b border-dark-green/20">
                       <div className="flex-1 border-r border-dark-green/20 pt-2 pb-4">
                         <div className="pl-2">
-                          <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
+                          <span className="font-gothic font-medium text-body-s text-dark-green">
                             価格
                           </span>
                         </div>
                         <div className="flex items-end justify-center">
-                          <span className="font-gothic font-medium text-[1.5rem] leading-[1.6] text-black px-1">
+                          <span className="font-gothic font-medium text-category-1 text-black px-1">
                             {priceValue || '応談'}
                           </span>
                           {priceUnit && (
@@ -283,12 +283,12 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                       {property.layout && (
                         <div className="flex-1 pt-2 pb-4">
                           <div className="pl-2">
-                            <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
+                            <span className="font-gothic font-medium text-body-s text-dark-green">
                               間取り
                             </span>
                           </div>
                           <div className="flex items-end justify-center">
-                            <span className="font-gothic font-medium text-[1.5rem] leading-[1.6] text-black">
+                            <span className="font-gothic font-medium text-category-1 text-black">
                               {property.layout}
                             </span>
                           </div>
@@ -300,12 +300,12 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                   {/* 最寄駅 / 築年月 */}
                   <div className="flex items-center flex-wrap">
                     {property.nearestStation && (
-                      <span className="font-gothic font-medium text-[1rem] leading-[2] text-black px-2">
+                      <span className="font-gothic font-medium text-body-m text-black px-2">
                         {property.nearestStation}
                       </span>
                     )}
                     {property.constructionDate && (
-                      <span className="font-gothic font-medium text-[1rem] leading-[2] text-black px-2">
+                      <span className="font-gothic font-medium text-body-m text-black px-2">
                         築{property.constructionDate}
                       </span>
                     )}
@@ -393,10 +393,10 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                       価格
                     </p>
                     <div className="flex items-end gap-1">
-                      <span className="font-gothic font-medium text-[1.5rem] leading-[1.6] text-black">
+                      <span className="font-gothic font-medium text-category-1 text-black">
                         {priceValue}
                       </span>
-                      <span className="font-gothic font-medium text-[1.125rem] leading-[1.8] text-black">
+                      <span className="font-gothic font-medium text-body-l text-black">
                         {priceUnit}
                       </span>
                     </div>
@@ -416,7 +416,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                     rel="noopener noreferrer"
                     className="group flex-1 bg-dark-green rounded-2xl p-[1.875rem] h-[6.75rem] flex items-center justify-between"
                   >
-                    <p className="font-gothic font-medium text-[1.25rem] leading-[1.6] text-white px-3">
+                    <p className="font-gothic font-medium text-category-2 text-white px-3">
                       物件資料
                     </p>
                     <ArrowButton variant="cream" />
@@ -426,7 +426,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                     href="/for-customer"
                     className="group flex-1 bg-dark-green rounded-2xl p-[1.875rem] h-[6.75rem] flex items-center justify-between"
                   >
-                    <p className="font-gothic font-medium text-[1.25rem] leading-[1.6] text-white px-3">
+                    <p className="font-gothic font-medium text-category-2 text-white px-3">
                       物件資料
                     </p>
                     <ArrowButton variant="cream" />
@@ -439,7 +439,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                     rel="noopener noreferrer"
                     className="group flex-1 bg-dark-green rounded-2xl p-[1.875rem] h-[6.75rem] flex items-center justify-between"
                   >
-                    <p className="font-gothic font-medium text-[1.25rem] leading-[1.6] text-white px-3">
+                    <p className="font-gothic font-medium text-category-2 text-white px-3">
                       お問い合わせ
                     </p>
                     <ArrowButton variant="cream" />
@@ -449,7 +449,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                     href="/for-customer"
                     className="group flex-1 bg-dark-green rounded-2xl p-[1.875rem] h-[6.75rem] flex items-center justify-between"
                   >
-                    <p className="font-gothic font-medium text-[1.25rem] leading-[1.6] text-white px-3">
+                    <p className="font-gothic font-medium text-category-2 text-white px-3">
                       お問い合わせ
                     </p>
                     <ArrowButton variant="cream" />
@@ -469,7 +469,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
           <div className="max-w-[90rem] mx-auto px-4 tablet:px-[2.8125rem] desktop:px-[4.6875rem] py-16 desktop:py-24 flex flex-col desktop:flex-row desktop:gap-[1.875rem] desktop:items-start">
             {/* 見出し */}
             <div className="flex flex-col gap-2 mb-8 desktop:mb-0 desktop:w-[32.9375rem] desktop:shrink-0">
-              <p className="font-gothic font-medium text-[1rem] leading-[2] text-dark-green">
+              <p className="font-gothic font-medium text-body-m text-dark-green">
                 継承者のストーリー
               </p>
               <p
@@ -510,13 +510,13 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                       物件のつづき
                     </span>
                     {property.story.regions && property.story.regions.length > 0 && (
-                      <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
+                      <span className="font-gothic font-medium text-body-s text-dark-green">
                         {property.story.regions.map((r) => r.name).join('・')}
                       </span>
                     )}
                   </div>
                   <p
-                    className="font-mincho text-[1.5rem] leading-[1.6] tracking-[0.04em] text-dark-green"
+                    className="font-mincho text-heading-24 text-dark-green"
                     style={{ fontFeatureSettings: "'palt' 1" }}
                   >
                     {property.story.title}

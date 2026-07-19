@@ -12,7 +12,7 @@ interface Props {
 export default function SearchProgress({ label = 'ページを読み込み中...' }: Props) {
   return (
     <div className="flex flex-col items-center py-12">
-      <p className="font-gothic font-medium text-[1rem] leading-[2] text-dark-green/60">
+      <p className="font-gothic font-medium text-body-m text-dark-green/60">
         {label}
       </p>
       <div

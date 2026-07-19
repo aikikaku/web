@@ -20,14 +20,14 @@ export default function VoiceCard({ voice }: VoiceCardProps) {
 
       {/* Title */}
       <h3
-        className="font-mincho text-[2rem] leading-[1.5] tracking-[0.04em] text-dark-green mb-4"
+        className="font-mincho text-heading-32 text-dark-green mb-4"
         style={{ fontFeatureSettings: "'palt' 1" }}
       >
         {voice.customerName}　{voice.location} / {voice.propertyType}
       </h3>
 
       {/* Content excerpt */}
-      <p className="font-gothic font-medium text-[1rem] leading-[2] text-black line-clamp-3 mb-0">
+      <p className="font-gothic font-medium text-body-m text-black line-clamp-3 mb-0">
         {voice.content.replace(/<[^>]*>/g, '')}
       </p>
 

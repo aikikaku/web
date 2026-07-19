@@ -151,14 +151,14 @@ export default async function ForCustomerPage() {
         <div className="relative px-4 tablet:px-[4.6875rem] max-w-[90rem] mx-auto py-[3.75rem] tablet:py-24 w-full">
           <div className="flex flex-col gap-6 tablet:gap-8">
             <div className="flex flex-col gap-2 text-cream">
-              <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1.125rem] leading-[1.8]">
+              <p className="font-gothic font-medium text-body-s tablet:text-body-l">
                 不動産をお探しですか？
               </p>
               <h2 className="font-mincho text-heading-32 tablet:text-heading-48 text-cream" style={{ fontFeatureSettings: "'palt' 1" }}>
                 まずはご相談ください。
               </h2>
             </div>
-            <div className="font-gothic font-medium text-[0.875rem] tablet:text-[1.125rem] leading-[1.8] text-cream">
+            <div className="font-gothic font-medium text-body-s tablet:text-body-l text-cream">
               <p>あなたの想いを聞かせてください。どんな暮らしをしたいか、どんなお店をしたいか。</p>
               <p>私たちは、その想いを共有し、正しい情報をお伝えしながら、</p>
               <p>セカンドオピニオン的な立ち位置でお客様に最適なご提案をさせて頂きます。</p>
@@ -175,7 +175,7 @@ export default async function ForCustomerPage() {
       <Reveal as="section" className="bg-cream py-[3.75rem] tablet:py-24">
         <div className="page-container">
           <div className="flex flex-col gap-2 items-start tablet:items-center tablet:text-center mb-8 tablet:mb-12">
-            <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1.125rem] leading-[1.8] text-dark-green">
+            <p className="font-gothic font-medium text-body-s tablet:text-body-l text-dark-green">
               物件サポート
             </p>
             <h2 className="font-mincho text-heading-32 tablet:text-heading-48 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
@@ -190,7 +190,7 @@ export default async function ForCustomerPage() {
                     <p className="font-mincho text-[1rem] tablet:text-2xl text-dark-green text-left tablet:text-center w-full tablet:w-[8.75rem] shrink-0 leading-[1.6] tablet:leading-[1.4] tracking-wider">
                       {step.title}
                     </p>
-                    <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1rem] leading-[1.8] tablet:leading-[2] text-black whitespace-pre-line flex-1">
+                    <p className="font-gothic font-medium text-body-s tablet:text-body-m text-black whitespace-pre-line flex-1">
                       {step.desc}
                     </p>
                   </div>
@@ -214,7 +214,7 @@ export default async function ForCustomerPage() {
         <div className="page-container">
           {/* Section heading */}
           <div className="flex flex-col gap-2 mb-6 tablet:mb-8">
-            <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1.125rem] leading-[1.8] text-dark-green">
+            <p className="font-gothic font-medium text-body-s tablet:text-body-l text-dark-green">
               アイ企画の強み
             </p>
             <h2 className="font-mincho text-heading-32 tablet:text-heading-48 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
@@ -255,7 +255,7 @@ export default async function ForCustomerPage() {
                       <h3 className="font-mincho text-lg tablet:text-2xl tracking-wider !leading-[1.6]">
                         {feature.title}
                       </h3>
-                      <p className="text-body-m tablet:text-body-l font-gothic font-medium text-black whitespace-pre-line leading-[2] tablet:leading-[1.8]">
+                      <p className="text-body-m tablet:text-body-l font-gothic font-medium text-black whitespace-pre-line">
                         {feature.body}
                       </p>
                     </div>
@@ -268,10 +268,10 @@ export default async function ForCustomerPage() {
                           className="bg-cream rounded-2xl p-6 tablet:px-[1.875rem] tablet:pt-[1.875rem] tablet:pb-[2rem] flex flex-col gap-4"
                         >
                           <div className="flex flex-col gap-2">
-                            <p className="font-gothic font-medium text-base tablet:text-[1.25rem] leading-[2] tablet:leading-[1.6] text-dark-green">
+                            <p className="font-gothic font-medium text-body-m tablet:text-category-2 text-dark-green">
                               {activity.title}
                             </p>
-                            <p className="font-gothic font-medium text-body-s tablet:text-body-m text-black leading-[1.8] tablet:leading-[2]">
+                            <p className="font-gothic font-medium text-body-s tablet:text-body-m text-black">
                               {activity.desc}
                             </p>
                           </div>

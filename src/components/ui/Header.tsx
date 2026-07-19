@@ -235,12 +235,12 @@ export default function Header() {
                   <div className="flex items-end w-full">
                     <div className="flex-1 flex flex-col gap-1 px-3">
                       <span
-                        className="font-mincho text-[1.125rem] leading-[1.6] tracking-[0.04em] text-dark-green"
+                        className="font-mincho text-heading-18 text-dark-green"
                         style={{ fontFeatureSettings: "'palt' 1" }}
                       >
                         {card.label}
                       </span>
-                      <span className="font-gothic font-medium text-base leading-[2] text-dark-green">
+                      <span className="font-gothic font-medium text-body-m text-dark-green">
                         {card.sub}
                       </span>
                     </div>

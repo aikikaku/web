@@ -87,7 +87,7 @@ export default function MobileTocNav({ items }: Props) {
         <span className="size-8 inline-flex items-center justify-center shrink-0">
           <span className="size-2 rounded-full bg-dark-green" />
         </span>
-        <span className="flex-1 font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green text-left truncate">
+        <span className="flex-1 font-gothic font-medium text-body-s text-dark-green text-left truncate">
           {items[activeIndex] || '目次'}
         </span>
       </button>
@@ -134,7 +134,7 @@ export default function MobileTocNav({ items }: Props) {
                           <div className="flex-1" />
                         )}
                       </div>
-                      <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
+                      <span className="font-gothic font-medium text-body-s text-dark-green">
                         {item}
                       </span>
                     </button>

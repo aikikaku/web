@@ -48,10 +48,10 @@ function VoiceItem({
         className="w-full flex items-start justify-between pr-2 text-left cursor-pointer hover:opacity-70 transition-opacity gap-3"
       >
         <div className="flex-1 min-w-0">
-          <p className="font-gothic font-medium text-[1rem] leading-[2] text-black">
+          <p className="font-gothic font-medium text-body-m text-black">
             {voice.title || voice.customerName}
           </p>
-          <p className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green/60">
+          <p className="font-gothic font-medium text-body-s text-dark-green/60">
             {voice.customerName}
             {voice.location && `　${voice.location}`}
             {voice.propertyType && ` / ${voice.propertyType}`}
@@ -74,7 +74,7 @@ function VoiceItem({
       >
         <div className="bg-light-green rounded-2xl px-5 py-8 tablet:px-[1.875rem] tablet:py-8 flex flex-col gap-12">
           <div
-            className="font-gothic font-medium text-[1rem] leading-[2] text-black whitespace-pre-line voice-rich"
+            className="font-gothic font-medium text-body-m text-black whitespace-pre-line voice-rich"
             dangerouslySetInnerHTML={{ __html: voice.content }}
           />
           {voice.image && (
@@ -297,7 +297,7 @@ function MobileVoiceFilter({
         className={`fixed bottom-4 left-1/2 -translate-x-1/2 z-40 inline-flex items-center bg-cream border border-dark-green/20 rounded-full pl-10 pr-5 py-2 shadow-[0_-1px_4px_rgba(0,0,0,0.1)] w-[21.375rem] h-14 transition-opacity duration-300 ${showBar ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
         aria-label="カテゴリを絞り込む"
       >
-        <span className="flex-1 text-center font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
+        <span className="flex-1 text-center font-gothic font-medium text-body-s text-dark-green">
           絞り込む
         </span>
         <span className="size-5 inline-flex items-center justify-center shrink-0">
@@ -348,7 +348,7 @@ function MobileVoiceFilter({
                               isActive ? 'bg-dark-green' : 'bg-dark-green/40'
                             }`}
                           />
-                          <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
+                          <span className="font-gothic font-medium text-body-s text-dark-green">
                             {cat.label}
                           </span>
                         </button>

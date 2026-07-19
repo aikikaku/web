@@ -131,7 +131,7 @@ export default function ContactForm() {
           <h2 className="font-mincho text-2xl tablet:text-[2rem] tracking-wider text-dark-green">
             お問い合わせありがとうございます
           </h2>
-          <p className="text-body-m font-gothic font-medium text-dark-green/70 leading-[2]">
+          <p className="text-body-m font-gothic font-medium text-dark-green/70">
             内容を確認次第、担当者よりご連絡いたします。
             <br />
             しばらくお待ちくださいませ。

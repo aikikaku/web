@@ -40,7 +40,7 @@ export default function MultiSelectDropdown({
         }`}
       >
         {selected.length === 0 ? (
-          <span className="flex-1 text-left font-gothic font-medium text-[1rem] leading-[2] text-dark-green/40">
+          <span className="flex-1 text-left font-gothic font-medium text-body-m text-dark-green/40">
             {placeholder}
           </span>
         ) : (
@@ -120,7 +120,7 @@ export default function MultiSelectDropdown({
                     </svg>
                   )}
                 </span>
-                <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-black">
+                <span className="font-gothic font-medium text-body-s text-black">
                   {opt.label}
                 </span>
               </button>

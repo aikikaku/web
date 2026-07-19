@@ -16,7 +16,7 @@ export default function ContactPage() {
           {/* Heading */}
           <div className="flex flex-col gap-4 mb-12">
             <h1 className="tracking-wider">お問い合わせ</h1>
-            <p className="text-body-m font-gothic font-medium text-dark-green/70 leading-[2]">
+            <p className="text-body-m font-gothic font-medium text-dark-green/70">
               不動産に関するご相談やお問い合わせは、下記フォームよりお気軽にご連絡ください。
               <br />
               内容を確認次第、担当者よりご連絡いたします。

@@ -66,7 +66,7 @@ export default function PickupCard({ property }: Props) {
                   {categoryLabel}
                 </span>
                 {locationText && (
-                  <span className="font-gothic font-medium text-[1rem] leading-[2] text-cream truncate px-1">
+                  <span className="font-gothic font-medium text-body-m text-cream truncate px-1">
                     {locationText}
                   </span>
                 )}
@@ -147,12 +147,12 @@ export default function PickupCard({ property }: Props) {
               <div className="flex border-t border-b border-dark-green/20">
                 <div className={`flex-1 ${property.layout ? 'border-r border-dark-green/20' : ''} pt-2 pb-4`}>
                   <div className="pl-2">
-                    <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
+                    <span className="font-gothic font-medium text-body-s text-dark-green">
                       {property.type === 'rent' ? '賃料' : '価格'}
                     </span>
                   </div>
                   <div className="flex items-end justify-center">
-                    <span className="font-gothic font-medium text-[1.25rem] tablet:text-[1.5rem] leading-[1.6] text-black px-1">
+                    <span className="font-gothic font-medium text-category-2 tablet:text-category-1 text-black px-1">
                       {isSold
                         ? '-'
                         : property.price
@@ -169,12 +169,12 @@ export default function PickupCard({ property }: Props) {
                 {property.layout && (
                   <div className="flex-1 pt-2 pb-4">
                     <div className="pl-2">
-                      <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
+                      <span className="font-gothic font-medium text-body-s text-dark-green">
                         間取り
                       </span>
                     </div>
                     <div className="flex items-end justify-center">
-                      <span className="font-gothic font-medium text-[1.25rem] tablet:text-[1.5rem] leading-[1.6] text-black">
+                      <span className="font-gothic font-medium text-category-2 tablet:text-category-1 text-black">
                         {property.layout}
                       </span>
                     </div>
@@ -195,12 +195,12 @@ export default function PickupCard({ property }: Props) {
             {/* Station / Construction */}
             <div className="flex items-center flex-wrap">
               {property.nearestStation && (
-                <span className="font-gothic font-medium text-[1rem] leading-[2] text-black px-2">
+                <span className="font-gothic font-medium text-body-m text-black px-2">
                   {property.nearestStation}
                 </span>
               )}
               {property.constructionDate && (
-                <span className="font-gothic font-medium text-[1rem] leading-[2] text-black px-2">
+                <span className="font-gothic font-medium text-body-m text-black px-2">
                   築{property.constructionDate}
                 </span>
               )}

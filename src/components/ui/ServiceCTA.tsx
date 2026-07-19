@@ -64,10 +64,10 @@ export default function ServiceCTA({
               />
             </div>
             <div className="relative z-10 flex-1 min-w-0 flex flex-col gap-2 text-white">
-              <h3 className="font-mincho text-[1.5rem] leading-[1.6] tracking-[0.06rem]" style={{ fontFeatureSettings: "'palt' 1" }}>
+              <h3 className="font-mincho text-heading-24" style={{ fontFeatureSettings: "'palt' 1" }}>
                 不動産を<br />お探しの方
               </h3>
-              <p className="text-body-m font-gothic font-medium leading-[2]">買いたい・借りたい</p>
+              <p className="text-body-m font-gothic font-medium">買いたい・借りたい</p>
             </div>
             <ArrowButton size="sm" className="relative z-10" />
           </Link>
@@ -90,10 +90,10 @@ export default function ServiceCTA({
               />
             </div>
             <div className="relative z-10 flex-1 min-w-0 flex flex-col gap-2 text-white">
-              <h3 className="font-mincho text-[1.5rem] leading-[1.6] tracking-[0.06rem]" style={{ fontFeatureSettings: "'palt' 1" }}>
+              <h3 className="font-mincho text-heading-24" style={{ fontFeatureSettings: "'palt' 1" }}>
                 不動産を<br />お持ちの方へ
               </h3>
-              <p className="text-body-m font-gothic font-medium leading-[2]">売りたい・貸したい</p>
+              <p className="text-body-m font-gothic font-medium">売りたい・貸したい</p>
             </div>
             <ArrowButton size="sm" className="relative z-10" />
           </Link>
@@ -107,10 +107,10 @@ export default function ServiceCTA({
           >
             <div className="flex flex-col justify-between flex-1 min-w-0 h-[13.75rem] pt-2 px-3">
               <div className="flex flex-col gap-2">
-                <h3 className="font-mincho text-[2rem] leading-[1.5] tracking-[0.08rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+                <h3 className="font-mincho text-heading-32 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
                   不動産を<br />お探しの方へ
                 </h3>
-                <p className="text-[1.125rem] leading-[1.8] font-gothic font-medium text-dark-green">買いたい・借りたい</p>
+                <p className="text-body-l font-gothic font-medium text-dark-green">買いたい・借りたい</p>
               </div>
               <ArrowButton />
             </div>
@@ -131,10 +131,10 @@ export default function ServiceCTA({
           >
             <div className="flex flex-col justify-between flex-1 min-w-0 h-[13.75rem] pt-2 px-3">
               <div className="flex flex-col gap-2">
-                <h3 className="font-mincho text-[2rem] leading-[1.5] tracking-[0.08rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+                <h3 className="font-mincho text-heading-32 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
                   不動産を<br />お持ちの方へ
                 </h3>
-                <p className="text-[1.125rem] leading-[1.8] font-gothic font-medium text-dark-green">売りたい・貸したい</p>
+                <p className="text-body-l font-gothic font-medium text-dark-green">売りたい・貸したい</p>
               </div>
               <ArrowButton />
             </div>

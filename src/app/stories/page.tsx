@@ -68,13 +68,13 @@ function StoryCardLarge({ story }: { story: Story }) {
                 {getCategoryLabel(story.category)}
               </span>
               {regionNames && (
-                <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
+                <span className="font-gothic font-medium text-body-s text-dark-green">
                   {regionNames}
                 </span>
               )}
             </div>
             <h3
-              className="font-mincho text-[2rem] leading-[1.5] tracking-[0.04em] text-dark-green line-clamp-2"
+              className="font-mincho text-heading-32 text-dark-green line-clamp-2"
               style={{ fontFeatureSettings: "'palt' 1" }}
             >
               {story.title}
@@ -120,7 +120,7 @@ function FeaturedStoryCard({ story }: { story: Story }) {
                 {getCategoryLabel(story.category)}
               </span>
               {regionNames && (
-                <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
+                <span className="font-gothic font-medium text-body-s text-dark-green">
                   {regionNames}
                 </span>
               )}
@@ -185,7 +185,7 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
         <div className="flex flex-col gap-8 tablet:gap-12">
           <div className="flex flex-col gap-2">
             <h1
-              className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.04em] text-dark-green"
+              className="font-mincho text-heading-32 tablet:text-heading-48 text-dark-green"
               style={{ fontFeatureSettings: "'palt' 1" }}
             >
               暮らしを知る
@@ -237,7 +237,7 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
               )}
             </>
           ) : (
-            <p className="text-center font-gothic font-medium text-[1rem] leading-[2] text-dark-green/60 py-12">
+            <p className="text-center font-gothic font-medium text-body-m text-dark-green/60 py-12">
               条件に一致するストーリーが見つかりませんでした
             </p>
           )}
@@ -284,7 +284,7 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
                   className="absolute left-[7.3125rem] top-[1.125rem]"
                 />
               </div>
-              <p className="font-gothic font-medium text-[1rem] leading-[2] text-black">
+              <p className="font-gothic font-medium text-body-m text-black">
                 想いが、ひとをつないでいく。
               </p>
             </div>
