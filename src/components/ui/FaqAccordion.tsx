@@ -52,7 +52,7 @@ function FaqItemRow({ item, isOpen, onToggle }: FaqItemRowProps) {
         className="overflow-hidden transition-[max-height] duration-500 ease-in-out"
         style={{ maxHeight: `${maxHeight}px` }}
       >
-        <div className="bg-light-green rounded-2xl px-5 py-5 tablet:px-[1.875rem] tablet:py-[2rem]">
+        <div className="bg-[rgba(225,237,225,0.5)] rounded-2xl px-5 py-5 tablet:px-[1.875rem] tablet:py-[2rem]">
           <p className="font-gothic font-medium text-body-s tablet:text-body-m text-black whitespace-pre-line">
             {item.answer}
           </p>

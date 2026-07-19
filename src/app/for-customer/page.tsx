@@ -252,7 +252,7 @@ export default async function ForCustomerPage() {
                 <div className="flex-1 pt-0 tablet:pt-4">
                   <div className="flex flex-col gap-12">
                     <div className="flex flex-col gap-4">
-                      <h3 className="font-mincho text-lg tablet:text-2xl tracking-wider !leading-[1.6]">
+                      <h3 className="font-mincho text-lg tablet:text-2xl tracking-[0.04em] !leading-[1.6]">
                         {feature.title}
                       </h3>
                       <p className="text-body-m tablet:text-body-l font-gothic font-medium text-black whitespace-pre-line">
