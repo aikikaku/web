@@ -60,7 +60,7 @@ export default function ServiceCTA({
               />
               <div
                 className="absolute inset-0"
-                style={{ backgroundImage: 'linear-gradient(-28deg, rgba(39,51,59,0.2) 1.5%, rgba(39,51,59,0.5) 39.7%)' }}
+                style={{ backgroundImage: 'linear-gradient(-28deg, rgb(var(--overlay-dark) / 0.2) 1.5%, rgb(var(--overlay-dark) / 0.5) 39.7%)' }}
               />
             </div>
             <div className="relative z-10 flex-1 min-w-0 flex flex-col gap-2 text-white">

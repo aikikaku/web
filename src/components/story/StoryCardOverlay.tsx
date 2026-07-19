@@ -40,7 +40,7 @@ export default function StoryCardOverlay({ story, className }: Props) {
           className="absolute inset-0 pointer-events-none"
           style={{
             backgroundImage:
-              'linear-gradient(204deg, rgba(39,51,59,0.5) 4%, rgba(39,51,59,0.25) 52%, rgba(39,51,59,0.5) 104%)',
+              'linear-gradient(204deg, rgb(var(--overlay-dark) / 0.5) 4%, rgb(var(--overlay-dark) / 0.25) 52%, rgb(var(--overlay-dark) / 0.5) 104%)',
           }}
         />
         <div className="absolute inset-0 flex flex-col items-start justify-between pt-4 pb-6 px-4">

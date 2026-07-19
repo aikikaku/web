@@ -34,7 +34,7 @@ export default function ContactCtaBanner({ bgImage, heading, caption = 'お問�
             className="absolute inset-0"
             style={{
               backgroundImage:
-                'linear-gradient(218deg, rgba(39, 51, 59, 0.1) 26.6%, rgba(39, 51, 59, 0.25) 72.5%)',
+                'linear-gradient(218deg, rgb(var(--overlay-dark) / 0.1) 26.6%, rgb(var(--overlay-dark) / 0.25) 72.5%)',
             }}
           />
           <div className="relative z-10 flex flex-col tablet:flex-row items-stretch tablet:items-center justify-between gap-8 tablet:gap-[1.875rem]">

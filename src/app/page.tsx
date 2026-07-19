@@ -205,7 +205,7 @@ export default async function HomePage() {
                 />
                 <div
                   className="absolute inset-0"
-                  style={{ backgroundImage: 'linear-gradient(-28deg, rgba(39,51,59,0.2) 1.5%, rgba(39,51,59,0.5) 39.7%)' }}
+                  style={{ backgroundImage: 'linear-gradient(-28deg, rgb(var(--overlay-dark) / 0.2) 1.5%, rgb(var(--overlay-dark) / 0.5) 39.7%)' }}
                 />
               </div>
               <div className="relative z-10 flex-1 min-w-0 flex flex-col gap-2 text-white">
@@ -394,7 +394,7 @@ export default async function HomePage() {
                         <h3 className="font-mincho text-[2rem] leading-[1.5] tracking-[0.08rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
                           {latestStories.contents[0].title}
                         </h3>
-                        <span className="inline-flex items-center gap-1 mt-6 h-11 px-6 border border-dark-green rounded-full font-gothic font-medium text-base leading-none text-dark-green transition-colors group-hover:bg-dark-green group-hover:text-white">
+                        <span className="inline-flex items-center gap-1 mt-6 h-11 px-6 btn-outline-fill text-base leading-none ">
                           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                             <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
                             <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
@@ -430,7 +430,7 @@ export default async function HomePage() {
                         <h4 className="font-mincho text-[1.5rem] leading-[1.6] tracking-[0.06rem] text-dark-green w-[16.5rem]" style={{ fontFeatureSettings: "'palt' 1" }}>
                           {story.title}
                         </h4>
-                        <span className="inline-flex items-center gap-1 mt-6 h-11 px-6 border border-dark-green rounded-full font-gothic font-medium text-base leading-none text-dark-green transition-colors group-hover:bg-dark-green group-hover:text-white w-fit">
+                        <span className="inline-flex items-center gap-1 mt-6 h-11 px-6 btn-outline-fill text-base leading-none  w-fit">
                           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                             <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
                             <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
@@ -501,7 +501,7 @@ export default async function HomePage() {
             <div
               className="absolute inset-0"
               style={{
-                backgroundImage: 'linear-gradient(-46deg, rgba(39, 51, 59, 0.1) 0%, rgba(39, 51, 59, 0.25) 87%)',
+                backgroundImage: 'linear-gradient(-46deg, rgb(var(--overlay-dark) / 0.1) 0%, rgb(var(--overlay-dark) / 0.25) 87%)',
               }}
             />
           </div>
@@ -534,7 +534,7 @@ export default async function HomePage() {
             <div
               className="absolute inset-0"
               style={{
-                backgroundImage: 'linear-gradient(218deg, rgba(39, 51, 59, 0.1) 26.6%, rgba(39, 51, 59, 0.25) 72.5%)',
+                backgroundImage: 'linear-gradient(218deg, rgb(var(--overlay-dark) / 0.1) 26.6%, rgb(var(--overlay-dark) / 0.25) 72.5%)',
               }}
             />
           </div>

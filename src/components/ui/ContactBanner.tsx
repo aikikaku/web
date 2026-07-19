@@ -16,7 +16,7 @@ export default function ContactBanner() {
           <Image src="/images/home/cta-banner.jpg" alt="" fill className="object-cover" />
           <div
             className="absolute inset-0"
-            style={{ backgroundImage: 'linear-gradient(-46deg, rgba(39,51,59,0.1) 0%, rgba(39,51,59,0.25) 87%)' }}
+            style={{ backgroundImage: 'linear-gradient(-46deg, rgb(var(--overlay-dark) / 0.1) 0%, rgb(var(--overlay-dark) / 0.25) 87%)' }}
           />
         </div>
         <div className="relative z-10 flex flex-col gap-2 text-white">
@@ -51,7 +51,7 @@ export default function ContactBanner() {
           <Image src="/images/home/cta-banner.jpg" alt="" fill className="object-cover" />
           <div
             className="absolute inset-0"
-            style={{ backgroundImage: 'linear-gradient(218deg, rgba(39,51,59,0.1) 26.6%, rgba(39,51,59,0.25) 72.5%)' }}
+            style={{ backgroundImage: 'linear-gradient(218deg, rgb(var(--overlay-dark) / 0.1) 26.6%, rgb(var(--overlay-dark) / 0.25) 72.5%)' }}
           />
         </div>
         <div className="relative z-10 flex gap-[1.875rem] items-start">

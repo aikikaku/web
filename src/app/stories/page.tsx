@@ -80,7 +80,7 @@ function StoryCardLarge({ story }: { story: Story }) {
               {story.title}
             </h3>
           </div>
-          <span className="inline-flex items-center gap-1 h-[2.75rem] px-6 border border-dark-green rounded-full font-gothic font-medium text-[1rem] leading-none text-dark-green transition-colors group-hover:bg-dark-green group-hover:text-white">
+          <span className="inline-flex items-center gap-1 h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none ">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="shrink-0">
               <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
               <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
@@ -134,7 +134,7 @@ function FeaturedStoryCard({ story }: { story: Story }) {
             </h3>
           </div>
 
-          <span className="inline-flex items-center gap-2 h-[2.75rem] px-4 border border-dark-green rounded-full font-gothic font-medium text-[0.875rem] leading-[1.25rem] tracking-[0.00625rem] text-dark-green transition-colors group-hover:bg-dark-green group-hover:text-white">
+          <span className="inline-flex items-center gap-2 h-[2.75rem] px-4 btn-outline-fill text-[0.875rem] leading-[1.25rem] tracking-[0.00625rem] ">
             <svg width="20" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="shrink-0">
               <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
               <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />

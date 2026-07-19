@@ -144,7 +144,7 @@ export default async function ForCustomerPage() {
           <div
             className="absolute inset-0"
             style={{
-              backgroundImage: 'linear-gradient(243deg, rgba(39, 51, 59, 0.15) 21.5%, rgba(39, 51, 59, 0.4) 80.4%)',
+              backgroundImage: 'linear-gradient(243deg, rgb(var(--overlay-dark) / 0.15) 21.5%, rgb(var(--overlay-dark) / 0.4) 80.4%)',
             }}
           />
         </ParallaxLayer>

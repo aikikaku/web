@@ -186,7 +186,7 @@ export default function PickupCard({ property }: Props) {
             {/* SP: 物件詳細ボタン（station の前） */}
             {!isSold && (
               <div className="tablet:hidden pb-6">
-                <span className="inline-flex items-center justify-center h-[2.75rem] px-6 border border-dark-green rounded-full font-gothic font-medium text-[1rem] leading-none text-dark-green transition-colors group-hover:bg-dark-green group-hover:text-white">
+                <span className="inline-flex items-center justify-center h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none ">
                   物件詳細
                 </span>
               </div>
@@ -209,7 +209,7 @@ export default function PickupCard({ property }: Props) {
             {/* PC: 物件詳細ボタン */}
             {!isSold && (
               <div className="hidden tablet:block mt-10">
-                <span className="inline-flex items-center justify-center h-[2.75rem] px-6 border border-dark-green rounded-full font-gothic font-medium text-[1rem] leading-none text-dark-green transition-colors group-hover:bg-dark-green group-hover:text-white">
+                <span className="inline-flex items-center justify-center h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none ">
                   物件詳細
                 </span>
               </div>
