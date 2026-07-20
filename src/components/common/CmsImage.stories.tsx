@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import CmsImage from './CmsImage';
 
 const meta: Meta<typeof CmsImage> = {
-  title: 'ui/misc/CmsImage',
+  title: 'common/CmsImage',
   component: CmsImage,
   parameters: { layout: 'padded' },
 };

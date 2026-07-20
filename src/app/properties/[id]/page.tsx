@@ -3,7 +3,7 @@ import { getProperty, getProperties } from '@/lib/microcms/queries';
 import Link from 'next/link';
 import MoreProperties from '@/components/property/MoreProperties';
 import PageNavSp from '@/components/ui/navigation/PageNavSp';
-import CmsImage from '@/components/ui/misc/CmsImage';
+import CmsImage from '@/components/common/CmsImage';
 import CardLink from '@/components/ui/card/CardLink';
 import { BookIcon } from '@/components/ui/icons/icons';
 import CardStorySp from '@/components/ui/card/CardStorySp';

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import SearchProgress from './SearchProgress';
 
 const meta: Meta<typeof SearchProgress> = {
-  title: 'ui/misc/SearchProgress',
+  title: 'common/SearchProgress',
   component: SearchProgress,
   parameters: { layout: 'padded' },
 };

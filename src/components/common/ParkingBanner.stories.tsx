@@ -3,7 +3,7 @@ import ParkingBanner from './ParkingBanner';
 
 // ParkingBanner は props を取らない（内容・リンク先とも固定）
 const meta: Meta<typeof ParkingBanner> = {
-  title: 'ui/misc/ParkingBanner',
+  title: 'common/ParkingBanner',
   component: ParkingBanner,
   parameters: { layout: 'padded' },
 };

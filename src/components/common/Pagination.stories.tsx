@@ -3,7 +3,7 @@ import Pagination from './Pagination';
 
 // 実際の呼び出し例 (src/app/properties/page.tsx) に準拠した props 形状
 const meta: Meta<typeof Pagination> = {
-  title: 'ui/misc/Pagination',
+  title: 'common/Pagination',
   component: Pagination,
   parameters: { layout: 'padded' },
 };

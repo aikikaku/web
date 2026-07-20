@@ -2,7 +2,7 @@ import Image from 'next/image';
 import type { Metadata } from 'next';
 import ServiceCTA from '@/components/ui/card/ServiceCTA';
 import MoreLinkButton from '@/components/ui/interactive/MoreLinkButton';
-import Reveal from '@/components/ui/misc/Reveal';
+import Reveal from '@/components/common/Reveal';
 
 export const metadata: Metadata = {
   title: 'アイ企画について',

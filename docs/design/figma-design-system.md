@@ -10,7 +10,9 @@ Figma fileKey: `rAdZUPq1BgzHVRP7QOhXC8`
 詳細な評価根拠・重複/デッドコードの一覧は [design-system-catalog-audit.md](./design-system-catalog-audit.md) を参照。
 この行以降の「→」注記はコード側のリネーム・重複解消(2026-07-20実施)後の状態を指す。
 
-**ディレクトリ構成(2026-07-20 追加実施)**: `src/components/ui/` 直下(旧・約33ファイルの平置き)を、本ドキュメントのカテゴリに対応させて以下のサブフォルダへ再編した。`home/property/story/voice/owner` 等の機能別ドメインフォルダは維持し(こちらは Figma カテゴリではなくページ機能で凝集させる方針は変更しない)、あくまで下層の `ui/` のみを本ドキュメントの見出しに合わせている。
+**ディレクトリ構成(2026-07-20 追加実施、同日中に方針転換)**: `src/components/ui/` 直下(旧・約33ファイルの平置き)を、本ドキュメントのカテゴリに対応させて以下のサブフォルダへ再編した。`home/property/story/voice/owner` 等の機能別ドメインフォルダは維持し(こちらは Figma カテゴリではなくページ機能で凝集させる方針は変更しない)、あくまで下層の `ui/` のみを本ドキュメントの見出しに合わせている。
+
+**`ui/` の役割の明確化(2026-07-20)**: `ui/` はこのドキュメントに載っている Figma カタログ項目とのみ対応させる、というのが一貫した要求。当初 `ui/misc/` としてカタログ対象外のユーティリティを`ui/`配下に「可視化のため」受け皿として置いていたが、これは`ui/`＝デザインシステム対応、という原則に反するため撤回。`CmsImage`/`ParallaxLayer`/`Reveal`/`ParkingBanner`/`HeroCardStory`/`SearchProgress`/`Pagination`の7点は`ui/`の外の`src/components/common/`(ドメイン横断の技術ユーティリティ置き場、Figma カタログとは無関係)へ移動した。
 
 | `ui/` サブフォルダ | 対応する本ドキュメントの見出し |
 | --- | --- |
@@ -22,7 +24,8 @@ Figma fileKey: `rAdZUPq1BgzHVRP7QOhXC8`
 | `post/` | Post |
 | `icons/` | Iconography |
 | `footer/` | Footer |
-| `misc/` | 本ドキュメントに掲載の無いユーティリティ/ページ固有コンポーネント(`CmsImage`/`ParallaxLayer`/`Reveal`/`ParkingBanner`/`HeroCardStory`/`SearchProgress`/`Pagination`)。カタログ対象外であることを可視化するための意図的な受け皿 |
+
+`src/components/common/` は本ドキュメントのカテゴリに対応しない(Figma カタログ対象外)。`ui/` には置かない。
 
 Typography/Color/Assets/Breakpoints は `tailwind.config.ts` / `globals.css` 側のトークンであり、対応するコンポーネントフォルダは存在しない(全項目の対応表は上記各節を参照)。
 

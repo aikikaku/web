@@ -5,7 +5,7 @@ import Reveal from './Reveal';
 // マウント時にビューポート内 (above-the-fold) にある要素は即 `is-visible` になる
 // 実装のため、Storybook 上では通常フェードイン済みの状態で表示される。
 const meta: Meta<typeof Reveal> = {
-  title: 'ui/misc/Reveal',
+  title: 'common/Reveal',
   component: Reveal,
   parameters: { layout: 'padded' },
 };

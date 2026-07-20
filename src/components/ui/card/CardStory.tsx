@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Story } from '@/types/microcms';
-import CmsImage from '@/components/ui/misc/CmsImage';
+import CmsImage from '@/components/common/CmsImage';
 import { BookIcon } from '@/components/ui/icons/icons';
 
 const categoryLabels: Record<string, string> = {

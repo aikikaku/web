@@ -5,7 +5,7 @@ import ParallaxLayer from './ParallaxLayer';
 // (コンポーネントの doc comment 参照)。Storybook 上はスクロールトリガーは効かないため
 // 静的な背景表示のみを確認する。
 const meta: Meta<typeof ParallaxLayer> = {
-  title: 'ui/misc/ParallaxLayer',
+  title: 'common/ParallaxLayer',
   component: ParallaxLayer,
   parameters: { layout: 'padded' },
 };

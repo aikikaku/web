@@ -4,11 +4,11 @@ import { getProperties } from '@/lib/microcms/queries';
 import CardProperty from '@/components/ui/card/CardProperty';
 import PickupCard from '@/components/property/PickupCard';
 import PropertyFilter from '@/components/property/PropertyFilter';
-import Pagination from '@/components/ui/misc/Pagination';
+import Pagination from '@/components/common/Pagination';
 import MobileFilterNav from '@/components/property/MobileFilterNav';
-import ParkingBanner from '@/components/ui/misc/ParkingBanner';
+import ParkingBanner from '@/components/common/ParkingBanner';
 import BannerContact from '@/components/ui/card/BannerContact';
-import Reveal from '@/components/ui/misc/Reveal';
+import Reveal from '@/components/common/Reveal';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {

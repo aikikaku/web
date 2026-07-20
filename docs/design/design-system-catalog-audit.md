@@ -42,10 +42,10 @@ Figma fileKey: `rAdZUPq1BgzHVRP7QOhXC8`
 
 ユーザーから「`src/components` の構成を `figma-design-system.md` の構造に対応させたい、そうすればディレクトリを見るだけでデザインシステムの導入状況を管理できる SSoT になる」との要望があり、`src/components/ui/` 直下(平置き約33ファイル)を本ドキュメントの見出しに沿ったサブフォルダへ再編した。
 
-- 対象は `ui/` のみ。`home/property/story/voice/owner` はページ機能で凝集させる既存方針を維持し、Figma カテゴリでの再編対象から明示的に除外した(理由: Card 系コンポーネントがドメイン横断で `property/story/voice` に分散しているため、これらを `ui/card/` 等へ統合すると機能的凝集が失われ、85ファイル規模の大規模移動になりリスクに見合わない)。
+- 対象は `ui/` のみ。`home/property/story/voice/owner` はページ機能で凝集させる既存方針を維持し、Figma カテゴリでの再編対象から明示的に除外した。**訂正(2026-07-20)**: 当初 Card Story/Voice/Property 本体は「リスクに見合わない」として `property/story/voice` に残す判断をしたが、ユーザーから「Figma カタログにある以上、使用状況に関わらず `ui/` にあるべき」と明確な指摘を受け撤回。Navigation/Heading と同様に `ui/card/` へ昇格・改称済み(詳細は `figma-design-system.md` の Card 節参照)。ドメインフォルダに残すのは、Figma 上に対応する独立ノードを持たないページ固有バリアント(`PickupCard.tsx` 等)のみ。
 - Typography/Color/Assets/Breakpoints の4見出しはトークンであり `tailwind.config.ts`/`globals.css` に対応するため、コンポーネントフォルダへの写像対象外とした。
 - 「Other」「Pattern」は Figma 側の雑多カテゴリ名であり、そのままフォルダ名に採用すると可読性が下がるため、実体(アコーディオン/カルーセル系→`content/`、SP絞り込みモーダル殻→`popup/`)に即した名前を付けた。「Filter」はドキュメントの独立見出し(`PropertyFilter.tsx`/`StoriesFilter.tsx`)のために予約し、当初`ui/filter/`としていたSPモーダル殻は`ui/popup/`に訂正(2026-07-20)。マッピングの詳細と対応表は `figma-design-system.md` の「ディレクトリ構成」節を参照。
-- 本ドキュメントに掲載の無いユーティリティ/ページ固有コンポーネント(`CmsImage`/`ParallaxLayer`/`Reveal`/`ParkingBanner`/`HeroCardStory`/`SearchProgress`/`Pagination`)は `ui/misc/` に集約し、「カタログ対象外である」ことを隠さず可視化した。
+- 本ドキュメントに掲載の無いユーティリティ/ページ固有コンポーネント(`CmsImage`/`ParallaxLayer`/`Reveal`/`ParkingBanner`/`HeroCardStory`/`SearchProgress`/`Pagination`)は、当初 `ui/misc/` に集約していたが、「`ui/` は Figma カタログ対応物のみ」という原則に反するため撤回(2026-07-20)。`ui/` の外の `src/components/common/` へ移動した。
 - 全 import パス・Storybook `title` を新パスに追従させ、`tsc --noEmit` / `next lint` / `next build`(28/28ページ生成) / Playwright(TOP・properties・stories・for-owner・staff-interview、コンソールエラー0件)で回帰なしを確認済み。
 
 **保留(意図的に対応しなかった項目とその理由)**

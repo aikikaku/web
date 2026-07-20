@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import Arrow from '@/components/ui/interactive/Arrow';
-import ParallaxLayer from '@/components/ui/misc/ParallaxLayer';
+import ParallaxLayer from '@/components/common/ParallaxLayer';
 
 /**
  * 「不動産をお探しの方へ / お持ちの方へ」CTA セクション。

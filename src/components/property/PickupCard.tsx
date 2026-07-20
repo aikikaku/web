@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Property } from '@/types/microcms';
 import { getImageUrl } from '@/lib/microcms/image';
-import CmsImage from '@/components/ui/misc/CmsImage';
+import CmsImage from '@/components/common/CmsImage';
 import { BookIcon } from '@/components/ui/icons/icons';
 import { getPropertyStatus, getPropertyCategoryLabel, formatPropertyPrice } from '@/lib/propertyDisplay';
 

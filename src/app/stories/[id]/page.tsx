@@ -1,6 +1,6 @@
 import { getStory, getStories } from '@/lib/microcms/queries';
 import RelatedStoriesGrid from '@/components/story/RelatedStoriesGrid';
-import CmsImage from '@/components/ui/misc/CmsImage';
+import CmsImage from '@/components/common/CmsImage';
 import Arrow from '@/components/ui/interactive/Arrow';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';

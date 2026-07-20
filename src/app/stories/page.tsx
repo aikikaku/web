@@ -3,13 +3,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { getStories } from '@/lib/microcms/queries';
 import { Story } from '@/types/microcms';
-import CmsImage from '@/components/ui/misc/CmsImage';
-import Pagination from '@/components/ui/misc/Pagination';
+import CmsImage from '@/components/common/CmsImage';
+import Pagination from '@/components/common/Pagination';
 import StoriesFilter from '@/components/story/StoriesFilter';
 import MobileStoriesFilter from '@/components/story/MobileStoriesFilter';
 import CardStorySp from '@/components/ui/card/CardStorySp';
 import { BookIcon } from '@/components/ui/icons/icons';
-import Reveal from '@/components/ui/misc/Reveal';
+import Reveal from '@/components/common/Reveal';
 import Arrow from '@/components/ui/interactive/Arrow';
 import type { Metadata } from 'next';
 

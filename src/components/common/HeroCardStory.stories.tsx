@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import HeroCardStory from './HeroCardStory';
 
 const meta: Meta<typeof HeroCardStory> = {
-  title: 'ui/misc/HeroCardStory',
+  title: 'common/HeroCardStory',
   component: HeroCardStory,
   parameters: { layout: 'padded' },
 };

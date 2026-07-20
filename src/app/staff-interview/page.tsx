@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import TocNav from '@/components/ui/navigation/TocNav';
 import PageNavSp from '@/components/ui/navigation/PageNavSp';
-import HeroCardStory from '@/components/ui/misc/HeroCardStory';
+import HeroCardStory from '@/components/common/HeroCardStory';
 import ServiceCTA from '@/components/ui/card/ServiceCTA';
-import Reveal from '@/components/ui/misc/Reveal';
+import Reveal from '@/components/common/Reveal';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
