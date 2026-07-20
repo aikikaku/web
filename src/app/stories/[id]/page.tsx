@@ -217,7 +217,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
             <div className="grid grid-cols-1 tablet:grid-cols-3 gap-y-12 gap-x-[1.875rem] max-tablet:flex max-tablet:overflow-x-auto max-tablet:pb-4 max-tablet:gap-x-4">
               {relatedStories.contents.map((s) => (
                 <div key={s.id} className="max-tablet:w-[18.75rem] max-tablet:shrink-0">
-                  <StoryCard story={s} />
+                  <StoryCard story={s} size="l" />
                 </div>
               ))}
             </div>
