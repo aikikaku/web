@@ -3,6 +3,7 @@ import { Shippori_Mincho, Zen_Kaku_Gothic_New } from 'next/font/google';
 import './globals.css';
 import Navigation from '@/components/ui/navigation/Navigation';
 import Footer from '@/components/ui/footer/Footer';
+import { Analytics } from '@vercel/analytics/next';
 
 const shipporiMincho = Shippori_Mincho({
   subsets: ['latin'],
@@ -89,6 +90,7 @@ export default function RootLayout({
         <Navigation />
         <main className="min-h-screen">{children}</main>
         <Footer />
+        <Analytics />
       </body>
     </html>
   );

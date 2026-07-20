@@ -170,6 +170,8 @@ Typography/Color/Assets/Breakpoints は `tailwind.config.ts` / `globals.css` 側
 
 ### Heading
 
+親フレーム: [node-id=4211-24913](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24913&m=dev)(Heading カテゴリのコンテナ。単体コンポーネントではなく下記4種を内包)
+
 1. page-heading: [node-id=4211-24917](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24917&m=dev) → `src/components/ui/heading/PageHeading.tsx`(2026-07-20新設、H1相当)
 2. section-heading: [node-id=4211-24920](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24920&m=dev) → `src/components/ui/heading/SectionHeading.tsx`(2026-07-20新設、H2相当)
 3. sub-heading-1: [node-id=4211-24923](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24923&m=dev) → `src/components/ui/heading/SubHeading1.tsx`(2026-07-20新設、H3相当)
