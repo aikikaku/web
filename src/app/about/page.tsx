@@ -1,8 +1,7 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import type { Metadata } from 'next';
 import ServiceCTA from '@/components/ui/ServiceCTA';
-import ArrowButton from '@/components/ui/ArrowButton';
+import MoreLinkButton from '@/components/ui/MoreLinkButton';
 import Reveal from '@/components/ui/Reveal';
 
 export const metadata: Metadata = {
@@ -101,16 +100,7 @@ export default function AboutPage() {
               sizes="(max-width: 992px) 100vw, 0px"
             />
           </div>
-          <Link
-            href="/message"
-            className="self-start inline-flex items-center justify-center gap-2 px-6 py-3 bg-accent-blue rounded-full font-gothic font-medium text-[1rem] leading-none text-white active:opacity-60 transition-opacity"
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="shrink-0">
-              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
-              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
-            </svg>
-            もっと知る
-          </Link>
+          <MoreLinkButton href="/message" mode="sp" />
         </div>
         {/* PC: 両端揃えレイアウト (Figma 4211:10024 = pl-45/pr-75, text 616 + image 557×742, gap auto) */}
         <div className="hidden tablet:block max-w-[90rem] mx-auto pl-[2.8125rem] pr-[4.6875rem]">
@@ -127,10 +117,7 @@ export default function AboutPage() {
                 </p>
               </div>
               <div className="flex justify-end">
-                <Link href="/message" className="inline-flex items-center gap-2 group">
-                  <span className="font-gothic font-medium text-[1.125rem] text-dark-green">もっと知る</span>
-                  <ArrowButton />
-                </Link>
+                <MoreLinkButton href="/message" mode="pc" pcColor="dark-green" />
               </div>
             </div>
             <div className="w-[34.8125rem] h-[46.375rem] shrink-0 rounded-2xl overflow-hidden relative">
@@ -176,16 +163,7 @@ export default function AboutPage() {
               sizes="(max-width: 992px) 100vw, 0px"
             />
           </div>
-          <Link
-            href="/staff-interview"
-            className="self-start inline-flex items-center justify-center gap-2 px-6 py-3 bg-accent-blue rounded-full font-gothic font-medium text-[1rem] leading-none text-white active:opacity-60 transition-opacity"
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="shrink-0">
-              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
-              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
-            </svg>
-            もっと知る
-          </Link>
+          <MoreLinkButton href="/staff-interview" mode="sp" />
         </Reveal>
         {/* PC: 両端揃え (image 左 / text 右, Figma 4211:10036 mirror of greeting) */}
         <Reveal className="hidden tablet:block max-w-[90rem] mx-auto pl-[2.8125rem] pr-[4.6875rem]">
@@ -210,10 +188,7 @@ export default function AboutPage() {
                 </p>
               </div>
               <div className="flex justify-end">
-                <Link href="/staff-interview" className="inline-flex items-center gap-2 group">
-                  <span className="font-gothic font-medium text-[1.125rem] text-cream">もっと知る</span>
-                  <ArrowButton />
-                </Link>
+                <MoreLinkButton href="/staff-interview" mode="pc" pcColor="cream" />
               </div>
             </div>
           </div>

@@ -11,6 +11,7 @@ import HeroFrame from '@/components/home/HeroFrame';
 import HeroVideo from '@/components/home/HeroVideo';
 import SeeAllLink from '@/components/ui/SeeAllLink';
 import ArrowButton from '@/components/ui/ArrowButton';
+import MoreLinkButton from '@/components/ui/MoreLinkButton';
 import ParkingBanner from '@/components/ui/ParkingBanner';
 import Reveal from '@/components/ui/Reveal';
 import ParallaxLayer from '@/components/ui/ParallaxLayer';
@@ -128,24 +129,11 @@ export default async function HomePage() {
                 </div>
 
                 {/* SP: フル幅青ボタン / PC: テキスト+矢印（右寄せ） */}
-                <Link
-                  href="/about"
-                  className="tablet:hidden self-start inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-accent-blue font-gothic font-medium text-base text-white active:opacity-60 transition-opacity"
-                >
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="shrink-0">
-                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
-                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
-                  </svg>
-                  もっと知る
-                </Link>
+                <div className="tablet:hidden">
+                  <MoreLinkButton href="/about" mode="sp" />
+                </div>
                 <div className="hidden tablet:flex tablet:justify-end">
-                  <Link
-                    href="/about"
-                    className="group inline-flex items-center gap-2 font-gothic font-medium text-[1.125rem] text-dark-green"
-                  >
-                    もっと知る
-                    <ArrowButton />
-                  </Link>
+                  <MoreLinkButton href="/about" mode="pc" pcColor="dark-green" />
                 </div>
               </div>
             </div>
