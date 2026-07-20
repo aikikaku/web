@@ -167,7 +167,12 @@ Typography/Color/Assets/Breakpoints は `tailwind.config.ts` / `globals.css` 側
 
 ### Heading
 
-1. [node-id=4211-24913](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24913&m=dev) → 対応する共通コンポーネント無し。h1〜h6 + アドホックなサイズ上書きが26箇所以上に分散(継続課題)
+1. page-heading: [node-id=4211-24917](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24917&m=dev) → `src/components/ui/heading/PageHeading.tsx`(2026-07-20新設、H1相当)
+2. section-heading: [node-id=4211-24920](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24920&m=dev) → `src/components/ui/heading/SectionHeading.tsx`(2026-07-20新設、H2相当)
+3. sub-heading-1: [node-id=4211-24923](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24923&m=dev) → `src/components/ui/heading/SubHeading1.tsx`(2026-07-20新設、H3相当)
+4. sub-heading-2: [node-id=4211-24926](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24926&m=dev) → `src/components/ui/heading/SubHeading2.tsx`(2026-07-20新設、H4相当)
+
+**注記**: 上記4コンポーネントは新設のみで、既存の26箇所以上のアドホックなh1〜h6見出し実装をこれらへ移行する作業は別スコープ(未着手・継続課題)。
 
 ### Card
 
