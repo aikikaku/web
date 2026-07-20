@@ -5,6 +5,7 @@ import NewsAccordion from '@/components/home/NewsAccordion';
 import VoiceCarousel from '@/components/home/VoiceCarousel';
 import PropertyCarousel from '@/components/home/PropertyCarousel';
 import StoryCarousel from '@/components/home/StoryCarousel';
+import StoryCard from '@/components/story/StoryCard';
 import HeroSlideshowSP from '@/components/home/HeroSlideshowSP';
 import HeroFrame from '@/components/home/HeroFrame';
 import HeroVideo from '@/components/home/HeroVideo';
@@ -377,72 +378,14 @@ export default async function HomePage() {
                 {/* 左: 大きなストーリーカード */}
                 {latestStories.contents[0] && (
                   <div className="w-[40.375rem] shrink-0">
-                    <Link href={`/stories/${latestStories.contents[0].id}`} className="block group">
-                      <div className="relative h-[30.3125rem] rounded-3xl overflow-hidden">
-                        <Image
-                          src={latestStories.contents[0].thumbnail?.url || '/images/home/hero-1.jpg'}
-                          alt={latestStories.contents[0].title}
-                          fill
-                          className="object-cover transition-transform group-hover:scale-[1.02]"
-                        />
-                      </div>
-                      <div className="pt-[1.875rem] px-3">
-                        <div className="flex gap-3 items-center mb-4">
-                          <span className="tag-pill">
-                            {latestStories.contents[0].category === 'property' ? '物件のつづき' : latestStories.contents[0].category === 'regional' ? '地域のこと' : latestStories.contents[0].category === 'daily' ? '日々のこと' : '物件のつづき'}
-                          </span>
-                          <span className="text-body-s font-gothic font-medium text-dark-green">
-                            {latestStories.contents[0].regions?.[0]?.name || ''}
-                          </span>
-                        </div>
-                        <h3 className="font-mincho text-heading-32 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
-                          {latestStories.contents[0].title}
-                        </h3>
-                        <span className="inline-flex items-center gap-1 mt-6 h-11 px-6 btn-outline-fill text-base leading-none">
-                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
-                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
-                          </svg>
-                          ストーリーを読む
-                        </span>
-                      </div>
-                    </Link>
+                    <StoryCard story={latestStories.contents[0]} size="l" />
                   </div>
                 )}
 
                 {/* 右: 中サイズカード2枚 */}
                 <div className="flex flex-col gap-[6rem] w-[34.875rem]">
                   {latestStories.contents.slice(1, 3).map((story) => (
-                    <Link key={story.id} href={`/stories/${story.id}`} className="flex gap-[1.875rem] h-[22rem] group">
-                      <div className="relative w-[16.5rem] h-[22rem] rounded-2xl overflow-hidden shrink-0">
-                        <Image
-                          src={story.thumbnail?.url || '/images/home/hero-1.jpg'}
-                          alt={story.title}
-                          fill
-                          className="object-cover transition-transform group-hover:scale-[1.02]"
-                        />
-                      </div>
-                      <div className="flex flex-col flex-1">
-                        <div className="flex gap-3 items-center mb-4">
-                          <span className="tag-pill">
-                            {story.category === 'property' ? '物件のつづき' : story.category === 'regional' ? '地域のこと' : story.category === 'daily' ? '日々のこと' : '地域のこと'}
-                          </span>
-                          <span className="text-body-s font-gothic font-medium text-dark-green">
-                            {story.regions?.[0]?.name || ''}
-                          </span>
-                        </div>
-                        <h4 className="font-mincho text-heading-24 text-dark-green w-[16.5rem]" style={{ fontFeatureSettings: "'palt' 1" }}>
-                          {story.title}
-                        </h4>
-                        <span className="inline-flex items-center gap-1 mt-6 h-11 px-6 btn-outline-fill text-base leading-none w-fit">
-                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
-                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
-                          </svg>
-                          ストーリーを読む
-                        </span>
-                      </div>
-                    </Link>
+                    <StoryCard key={story.id} story={story} size="m" />
                   ))}
                 </div>
               </div>

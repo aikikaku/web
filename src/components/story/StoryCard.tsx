@@ -20,14 +20,77 @@ interface StoryCardProps {
 
 const sizeConfig = {
   l: { imageAspect: 'aspect-[410/308]', imageR: 'rounded-[1.5rem]', titleSize: 'text-heading-32', width: 'w-full' },
-  m: { imageAspect: 'aspect-[410/308]', imageR: 'rounded-[1.5rem]', titleSize: 'text-heading-24', width: 'w-full' },
   s: { imageAspect: 'aspect-[4/3]', imageR: 'rounded-2xl', titleSize: 'text-heading-24', width: 'w-full' },
 };
 
-export default function StoryCard({ story, size = 'm', variant = 'light' }: StoryCardProps) {
+function ReadStoryButton({ isDark }: { isDark: boolean }) {
+  return (
+    <span
+      className={`inline-flex items-center gap-1 h-[2.75rem] px-4 border rounded-full font-gothic font-medium text-[1rem] leading-none transition-colors ${
+        isDark
+          ? 'border-white text-white hover:opacity-70'
+          : 'border-dark-green text-dark-green group-hover:bg-dark-green group-hover:border-[rgba(252,255,247,0.3)] group-hover:text-white'
+      }`}
+    >
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        className="shrink-0"
+      >
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
+        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
+      </svg>
+      ストーリーを読む
+    </span>
+  );
+}
+
+export default function StoryCard({ story, size = 's', variant = 'light' }: StoryCardProps) {
   const isDark = variant === 'dark';
-  const cfg = sizeConfig[size];
   const regionNames = story.regions?.map((r) => r.name).join('・');
+
+  // card-story-m (Figma 4211:24944): 画像左(264×352)+テキスト右の横並びレイアウト。
+  // l/sの縦積みレイアウトとは構造自体が異なるため別分岐にしている。
+  if (size === 'm') {
+    return (
+      <Link href={`/stories/${story.id}`} className="flex gap-[1.875rem] group">
+        <div className="relative w-[16.5rem] h-[22rem] shrink-0 overflow-hidden rounded-2xl">
+          <CmsImage
+            image={story.thumbnail}
+            alt={story.title}
+            fill
+            className="object-cover transition-transform group-hover:scale-[1.02]"
+            sizes="264px"
+          />
+        </div>
+        <div className="flex flex-col gap-6 flex-1 min-w-0">
+          <div className="flex flex-col gap-4">
+            <div className="flex gap-3 items-center">
+              <span className="tag-pill">{getCategoryLabel(story.category)}</span>
+              {regionNames && (
+                <span className={`font-gothic font-medium text-body-s ${isDark ? 'text-white/80' : 'text-dark-green'}`}>
+                  {regionNames}
+                </span>
+              )}
+            </div>
+            <h4
+              className={`font-mincho text-heading-24 line-clamp-2 ${isDark ? 'text-white' : 'text-black'}`}
+              style={{ fontFeatureSettings: "'palt' 1" }}
+            >
+              {story.title}
+            </h4>
+          </div>
+          <ReadStoryButton isDark={isDark} />
+        </div>
+      </Link>
+    );
+  }
+
+  const cfg = sizeConfig[size];
 
   return (
     <Link href={`/stories/${story.id}`} className={`block group ${cfg.width}`}>
@@ -68,27 +131,7 @@ export default function StoryCard({ story, size = 'm', variant = 'light' }: Stor
 
         {/* Button */}
         <div className="mt-6">
-          <span
-            className={`inline-flex items-center gap-1 h-[2.75rem] px-4 border rounded-full font-gothic font-medium text-[1rem] leading-none transition-colors ${
-              isDark
-                ? 'border-white text-white hover:opacity-70'
-                : 'border-dark-green text-dark-green group-hover:bg-dark-green group-hover:border-[rgba(252,255,247,0.3)] group-hover:text-white'
-            }`}
-          >
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              className="shrink-0"
-            >
-              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
-              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
-            </svg>
-            ストーリーを読む
-          </span>
+          <ReadStoryButton isDark={isDark} />
         </div>
       </div>
     </Link>
