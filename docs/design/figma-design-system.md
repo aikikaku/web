@@ -211,8 +211,8 @@ Typography/Color/Assets/Breakpoints は `tailwind.config.ts` / `globals.css` 側
 ## Post
 
 1. PC
-   1. Image + Caption: [node-id=4211-25213](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25213&m=dev) → `globals.css` `.rich-content img` / `p:has(> em:only-child)`(`src/components/ui/post/RichText.tsx`経由)
-   2. Comment: [node-id=4211-25218](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25218&m=dev) → `globals.css` `.rich-content .rich-comment`
+   1. Image + Caption: [node-id=4211-25213](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25213&m=dev) → `globals.css` `.rich-content img` / `p:has(> em:only-child)`(`src/components/ui/post/RichText.tsx`経由)。**判断(2026-07-21)**: この要素はmicroCMSのリッチテキストエディタが出力するHTML(`<img>`+`<em>`キャプション)を`.rich-content`でスタイリングするもので、Reactコンポーネントとして差し込む対象ではない(CMS本文内に生成される)。よってReactコンポーネント化はせずCSSで対応が正。RichText.tsx がその適用エントリ
+   2. Comment: [node-id=4211-25218](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25218&m=dev) → `globals.css` `.rich-content .rich-comment`(同上。CMS本文のコメント/引用ブロックのスタイル。Reactコンポーネント化せずCSSで対応が正)
    3. Interview Item PC: [node-id=4211-25225](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25225&m=dev) → `staff-interview/page.tsx`の`InterviewItemComponent`(単一使用のためページローカル)
    4. Rich Text PC: [node-id=4211-25237](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25237&m=dev) → `src/components/ui/post/RichText.tsx`(`VoiceContent.tsx`は`.voice-rich`で別ルート描画、一部不整合)
 2. SP
@@ -224,15 +224,15 @@ Typography/Color/Assets/Breakpoints は `tailwind.config.ts` / `globals.css` 側
 1. PC
    1. List Item Deco(実レイヤー名`List Item-deco`): [node-id=4211-25250](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25250&m=dev) → `src/components/ui/content/ListItemDeco.tsx`(2026-07-21新設。ラベル固定幅+値+MAPタグ。`properties/[id]/page.tsx`の物件概要テーブル所在地行で使用)
    2. List Item Def(実レイヤー名`List Item-def`): [node-id=4211-25259](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25259&m=dev) → `src/components/ui/content/ListItemDef.tsx`(2026-07-21新設。ラベル固定幅+値。`properties/[id]/page.tsx`の物件概要テーブル各行で使用)
-      **未解決(要確認)**: `about/page.tsx`の会社概要`<dl>`も同種のラベル+値リストだが、`justify-between`で値を**右寄せ**にする別レイアウト(かつ所在地行にiframe地図・営業時間の複数行+注記など特殊行を含む)であり、上記コンポーネント(Figma仕様=ラベル固定幅・値左寄せ)とは視覚デザインが異なる。about側をこのコンポーネントに移行すると見た目が変わるため一旦据え置き。about会社概要が意図的に右寄せデザインなのか、Figma List Item仕様に合わせるべきなのかを要確認。
-   3. Side Bar Dots: [node-id=4211-25262](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25262&m=dev) → `src/components/ui/content/SlideshowNav.tsx`
-   4. Navigation Slide Show: [node-id=4211-25269](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25269&m=dev) → `content/SlideshowNav.tsx`(同上。6箇所で共通利用)
-   5. Question List: [node-id=4211-25275](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25275&m=dev) → `src/lib/useAccordionHeight.ts` + `src/components/ui/content/AccordionChevron.tsx`
-   6. Question: [node-id=4211-25281](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25281&m=dev) → 同上(`FaqAccordion.tsx`/`NewsAccordion.tsx`/`VoiceContent.tsx`で共通利用、PR #132で統合)
-   7. Card Arrow: [node-id=4211-25302](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25302&m=dev) → `src/components/ui/content/CardArrowFlow.tsx`(PR #132で統合)
+      **決定(2026-07-21)**: `about/page.tsx`の会社概要`<dl>`は`justify-between`で値を**右寄せ**にする別レイアウト(所在地行にiframe地図・営業時間の複数行+注記など特殊行を含む)。ユーザー確認の結果、about会社概要は**意図的に右寄せデザイン**であり、`ListItemDeco`/`ListItemDef`(Figma List Item仕様=ラベル固定幅・値左寄せ)とは別物として据え置くと確定。about側は移行しない。
+   3. Side Bar Dots(実レイヤー名`Slider Dots`): [node-id=4211-25262](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25262&m=dev) → `src/components/ui/content/SliderDots.tsx`(2026-07-21新設。ドット単独のページャー。`NavigationSlideshow`内部・`HeroSlideshowSP`で共通利用。従来は3箇所にインライン重複していたのを抽出)
+   4. Navigation Slide Show(実レイヤー名`Navigation-Slideshow`): [node-id=4211-25269](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25269&m=dev) → `src/components/ui/content/NavigationSlideshow.tsx`(2026-07-21、旧`SlideshowNav.tsx`から実レイヤー名に合わせ改称。矢印+`SliderDots`+「すべて見る」。6箇所で共通利用)
+   5. Question List(実レイヤー名`Question-list`): [node-id=4211-25275](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25275&m=dev) → アコーディオンのリスト。`FaqAccordion.tsx`(ui/content)/`NewsAccordion.tsx`(home)/`VoiceContent.tsx`(voice)が各文脈の Question-list に相当。開閉ロジックは`src/lib/useAccordionHeight.ts`、シェブロンは`ui/content/AccordionChevron.tsx`で共通化済み
+   6. Question(実レイヤー名`Question`、Property 1=Default/Opened のバリアント): [node-id=4211-25281](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25281&m=dev) → 上記アコーディオンの1項目。**判断(2026-07-21)**: 開閉の仕組み(`useAccordionHeight`+`AccordionChevron`)は共通化済みだが、項目の中身がFAQ(緑の回答ボックス)/Voice(画像あり)/News と文脈ごとに実質的に異なるため、単一の`Question.tsx`へ無理に統合せず、各アコーディオン側が中身を持つ構成を維持する
+   7. Card Arrow(実レイヤー名`Card_arrow`): [node-id=4211-25302](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25302&m=dev) → `src/components/ui/content/CardArrowFlow.tsx`(Card_arrow=1ステップのカード+矢印。`CardArrowFlow`はそれを縦に連ねたフロー全体で、for-customer/for-ownerで共通利用。「Flow」は意味を持つため名称維持)
    8. Paragraph: [node-id=4211-25308](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25308&m=dev) → `globals.css` `.rich-content p`
 2. SP
-   1. Side Bar Dots SP: [node-id=4211-25722](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25722&m=dev) → `content/SlideshowNav.tsx`(共通)
+   1. Side Bar Dots SP: [node-id=4211-25722](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25722&m=dev) → `content/SliderDots.tsx`(size="sm"、共通)
    2. List Item Deco SP: [node-id=4211-25729](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25729&m=dev) → 共通(`ListItemDeco.tsx`がレスポンシブ対応、SP 16px→PC 18px)
    3. List Item Def SP: [node-id=4211-25738](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25738&m=dev) → 共通(`ListItemDef.tsx`、同上)
    4. Question List SP: [node-id=4211-25741](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25741&m=dev) → 共通(PC参照)
@@ -255,8 +255,8 @@ Typography/Color/Assets/Breakpoints は `tailwind.config.ts` / `globals.css` 側
 ## Filter
 
 1. PC
-   1. Radio Button Sort: [node-id=4211-25351](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25351&m=dev) → `src/components/property/PropertyFilter.tsx`(下層の`DropdownPC`/`SortApplyButton`/`SortClearButton`は共通、外殻に一部重複あり)
-   2. Story Category: [node-id=4211-25354](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25354&m=dev) → `src/components/story/StoriesFilter.tsx`(同上)
+   1. Radio Button Sort(実レイヤー名`radio-button sort`): [node-id=4211-25351](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25351&m=dev) → チェックボックス+ラベル1行。**判断(2026-07-21)**: これは`ui/interactive/Dropdown.tsx`のオプション行(options.map内のチェックボックス行)そのもの。Dropdown内部の構成要素であり他に重複が無いため、単独コンポーネント化はせずDropdownの一部として維持。上層の`PropertyFilter.tsx`/`StoriesFilter.tsx`が`Dropdown`+`Sort`+`SortClear`を組み合わせて使う
+   2. Story Category(実レイヤー名`Story category`): [node-id=4211-25354](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25354&m=dev) → `src/components/story/StoriesFilter.tsx`のカテゴリ`Dropdown`。ストーリー機能固有のフィルターのためドメインフォルダ`story/`に維持(「Filter」名の予約に準拠)
 
 ## Local Nav
 
@@ -272,8 +272,10 @@ Typography/Color/Assets/Breakpoints は `tailwind.config.ts` / `globals.css` 側
 
 ## Card（状態分け）
 
+**判断(2026-07-21)**: 「Card状態分け」は`card-property`(実レイヤー名)の状態バリアント(掲載中/売却中/商談中/成約済み)であり、Figma上も独立コンポーネントではなく`card-property`のインスタンス(node 4211:11990は`card-property`のinstance)。よって新規コンポーネントは不要で、`ui/card/CardProperty.tsx`(表示)+`src/lib/propertyDisplay.ts`(状態判定ロジック)の組み合わせで対応済み。
+
 1. 掲載中/売却中/商談中
-   1. カード: [node-id=4211-11990](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-11990&m=dev) → `src/lib/propertyDisplay.ts`(2026-07-20新設、`CardProperty.tsx`/`PickupCard.tsx`で共通利用。ロジックのみでビジュアルコンポーネントではないため独立ファイル化はせず維持)
+   1. カード: [node-id=4211-11990](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-11990&m=dev) → `src/components/ui/card/CardProperty.tsx`(表示) + `src/lib/propertyDisplay.ts`(状態判定ロジック、2026-07-20共通化)。`PickupCard.tsx`も同ロジックを利用
    2. ピックアップ: [node-id=4211-11998](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-11998&m=dev) → 同上(`PickupCard.tsx`)
 2. 成約済み
    1. カード: [node-id=4211-11989](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-11989&m=dev) → 同上

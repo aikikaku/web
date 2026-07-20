@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { useState } from 'react';
-import SlideshowNav from './SlideshowNav';
+import NavigationSlideshow from './NavigationSlideshow';
 
 // 実際の呼び出し例 (PropertyCarousel / VoiceCarousel / ArticleCarousel) に準拠。
 // onPageChange 等は useState でラップしてクリックで実際にドットが動くようにしている。
-const meta: Meta<typeof SlideshowNav> = {
-  title: 'ui/content/SlideshowNav',
-  component: SlideshowNav,
+const meta: Meta<typeof NavigationSlideshow> = {
+  title: 'ui/content/NavigationSlideshow',
+  component: NavigationSlideshow,
   parameters: { layout: 'padded' },
   argTypes: {
     variant: { control: 'radio', options: ['light', 'dark'] },
@@ -14,7 +14,7 @@ const meta: Meta<typeof SlideshowNav> = {
 };
 export default meta;
 
-type Story = StoryObj<typeof SlideshowNav>;
+type Story = StoryObj<typeof NavigationSlideshow>;
 
 function Wrapper(props: {
   totalPages: number;
@@ -26,7 +26,7 @@ function Wrapper(props: {
   const [spActivePage, setSpActivePage] = useState(0);
   return (
     <div className={props.variant === 'dark' ? 'bg-dark-green p-8' : ''}>
-      <SlideshowNav
+      <NavigationSlideshow
         activePage={activePage}
         totalPages={props.totalPages}
         onPageChange={setActivePage}

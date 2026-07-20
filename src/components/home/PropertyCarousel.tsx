@@ -3,7 +3,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { Property } from '@/types/microcms';
 import CardProperty from '@/components/ui/card/CardProperty';
-import SlideshowNav from '@/components/ui/content/SlideshowNav';
+import NavigationSlideshow from '@/components/ui/content/NavigationSlideshow';
 
 interface Props {
   properties: Property[];
@@ -59,7 +59,7 @@ export default function PropertyCarousel({ properties, href = '/properties' }: P
 
       {/* Navigation-Slideshow (Figma 4211:11501 共通) */}
       <div className="mt-8 px-4">
-        <SlideshowNav
+        <NavigationSlideshow
           activePage={activeIndex}
           totalPages={properties.length}
           onPageChange={scrollTo}

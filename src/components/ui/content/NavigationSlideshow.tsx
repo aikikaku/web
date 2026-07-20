@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import ButtonPrimarySp from '@/components/ui/interactive/ButtonPrimarySp';
 import Arrow from '@/components/ui/interactive/Arrow';
+import SliderDots from '@/components/ui/content/SliderDots';
 
 interface Props {
   /** PC active ページ (0-indexed) */
@@ -26,14 +27,15 @@ interface Props {
 }
 
 /**
- * Figma 4211:11501 「Navigation-Slideshow」コンポーネント。
+ * Figma「Navigation-Slideshow」4211:25269 コンポーネント。
  *
  * - PC: 左に「< • • • • >」(矢印 + dots + 矢印)、右に「すべて見る → (青い円)」を justify-between
  * - SP: 中央に「< • • • • >」のみ、その下に全幅「すべて見るボタン」
  *
+ * ドット部分は [[SliderDots]](Figma「Slider Dots」)を内部利用。
  * MoreProperties / VoiceCarousel / PropertyCarousel など複数の carousel から再利用する想定。
  */
-export default function SlideshowNav({
+export default function NavigationSlideshow({
   activePage,
   totalPages,
   onPageChange,
@@ -45,8 +47,6 @@ export default function SlideshowNav({
   variant = 'light',
 }: Props) {
   const textColor = variant === 'dark' ? 'text-cream' : 'text-dark-green';
-  const dotColor = variant === 'dark' ? 'bg-cream' : 'bg-dark-green';
-  const dotInactive = variant === 'dark' ? 'bg-cream/30' : 'bg-dark-green/30';
   const arrowColor = variant === 'dark' ? 'text-cream' : 'text-dark-green';
 
   // SP は専用 props があればそれを使い、なければ PC と同じ
@@ -76,17 +76,14 @@ export default function SlideshowNav({
                 <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
-            <div className="flex items-center gap-2">
-              {Array.from({ length: totalPages }).map((_, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  aria-label={`ページ${i + 1}`}
-                  onClick={() => onPageChange(i)}
-                  className={`size-2 rounded-full transition-colors ${i === activePage ? dotColor : dotInactive}`}
-                />
-              ))}
-            </div>
+            <SliderDots
+              count={totalPages}
+              activeIndex={activePage}
+              onDotClick={onPageChange}
+              size="md"
+              variant={variant}
+              labelPrefix="ページ"
+            />
             <button
               type="button"
               onClick={handleNext}
@@ -129,17 +126,13 @@ export default function SlideshowNav({
                   <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </button>
-              <div className="flex items-center gap-2">
-                {Array.from({ length: spTotal }).map((_, i) => (
-                  <button
-                    key={i}
-                    type="button"
-                    aria-label={`スライド${i + 1}`}
-                    onClick={() => spChange(i)}
-                    className={`size-1 rounded-full transition-colors ${i === spActive ? dotColor : dotInactive}`}
-                  />
-                ))}
-              </div>
+              <SliderDots
+                count={spTotal}
+                activeIndex={spActive}
+                onDotClick={spChange}
+                size="sm"
+                variant={variant}
+              />
               <button
                 type="button"
                 onClick={handleSpNext}

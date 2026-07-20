@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import SlideshowNav from '@/components/ui/content/SlideshowNav';
+import NavigationSlideshow from '@/components/ui/content/NavigationSlideshow';
 
 export interface ArticleItem {
   tag: string;
@@ -95,7 +95,7 @@ export default function ArticleCarousel({ articles, href = '/for-owner' }: Props
       </div>
 
       <div className="mt-8 tablet:mt-16 px-4 tablet:px-0">
-        <SlideshowNav
+        <NavigationSlideshow
           activePage={activePagePc}
           totalPages={totalPagesPc}
           onPageChange={(p) => scrollToCardIdx(p * PAGE_SIZE_PC)}

@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Story } from '@/types/microcms';
 import CardStory from '@/components/ui/card/CardStory';
-import SlideshowNav from '@/components/ui/content/SlideshowNav';
+import NavigationSlideshow from '@/components/ui/content/NavigationSlideshow';
 
 interface Props {
   stories: Story[];
@@ -54,7 +54,7 @@ export default function RelatedStoriesGrid({ stories }: Props) {
         ))}
       </div>
       <div className="tablet:hidden mt-8">
-        <SlideshowNav activePage={activeIndex} totalPages={stories.length} onPageChange={scrollTo} />
+        <NavigationSlideshow activePage={activeIndex} totalPages={stories.length} onPageChange={scrollTo} />
       </div>
     </>
   );

@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Property } from '@/types/microcms';
 import CardProperty from '@/components/ui/card/CardProperty';
-import SlideshowNav from '@/components/ui/content/SlideshowNav';
+import NavigationSlideshow from '@/components/ui/content/NavigationSlideshow';
 
 interface Props {
   properties: Property[];
@@ -77,7 +77,7 @@ export default function MoreProperties({ properties, href = '/properties' }: Pro
 
       {/* Navigation-Slideshow (Figma 4211:11501 共通コンポーネント) */}
       <div className="mt-8 tablet:mt-16">
-        <SlideshowNav
+        <NavigationSlideshow
           activePage={activePagePc}
           totalPages={totalPagesPc}
           onPageChange={(p) => scrollToCardIdx(p * PAGE_SIZE_PC)}
