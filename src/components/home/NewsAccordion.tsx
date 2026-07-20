@@ -1,6 +1,8 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
+import { useAccordionHeight } from '@/lib/useAccordionHeight';
+import AccordionChevron from '@/components/ui/AccordionChevron';
 
 const mockNews = [
   {
@@ -39,14 +41,7 @@ interface AccordionItemProps {
 }
 
 function AccordionItem({ item, isOpen, onToggle }: AccordionItemProps) {
-  const contentRef = useRef<HTMLDivElement>(null);
-  const [maxHeight, setMaxHeight] = useState(0);
-
-  useEffect(() => {
-    if (contentRef.current) {
-      setMaxHeight(isOpen ? contentRef.current.scrollHeight : 0);
-    }
-  }, [isOpen, item.content]);
+  const { contentRef, maxHeight } = useAccordionHeight(isOpen, [item.content]);
 
   return (
     <div className="border-b border-dark-green/10">
@@ -63,15 +58,7 @@ function AccordionItem({ item, isOpen, onToggle }: AccordionItemProps) {
             {item.date}
           </p>
         </div>
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          className={`shrink-0 transition-transform duration-500 ease-in-out ${isOpen ? 'rotate-180' : ''}`}
-        >
-          <path d="M6 9l6 6 6-6" className="stroke-dark-green" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
+        <AccordionChevron isOpen={isOpen} />
       </button>
       <div
         ref={contentRef}
@@ -80,7 +67,7 @@ function AccordionItem({ item, isOpen, onToggle }: AccordionItemProps) {
       >
         {item.content && (
           <div className="pb-6">
-            <div className="bg-light-green rounded-2xl pt-[1.875rem] pb-8 px-6 tablet:px-[1.875rem]">
+            <div className="bg-[rgba(225,237,225,0.5)] rounded-2xl pt-[1.875rem] pb-8 px-6 tablet:px-[1.875rem]">
               <p className="font-gothic font-medium text-body-m text-black whitespace-pre-line">
                 {item.content}
               </p>

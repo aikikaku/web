@@ -1,6 +1,8 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
+import { useAccordionHeight } from '@/lib/useAccordionHeight';
+import AccordionChevron from './AccordionChevron';
 
 interface FaqItem {
   question: string;
@@ -18,14 +20,7 @@ interface FaqItemRowProps {
 }
 
 function FaqItemRow({ item, isOpen, onToggle }: FaqItemRowProps) {
-  const contentRef = useRef<HTMLDivElement>(null);
-  const [maxHeight, setMaxHeight] = useState(0);
-
-  useEffect(() => {
-    if (contentRef.current) {
-      setMaxHeight(isOpen ? contentRef.current.scrollHeight : 0);
-    }
-  }, [isOpen, item.answer]);
+  const { contentRef, maxHeight } = useAccordionHeight(isOpen, [item.answer]);
 
   return (
     <div className="border-b border-dark-green/10 py-4 tablet:py-6 flex flex-col gap-4 tablet:gap-6">
@@ -37,15 +32,7 @@ function FaqItemRow({ item, isOpen, onToggle }: FaqItemRowProps) {
         <p className="font-gothic font-medium text-body-s tablet:text-body-m text-black">
           {item.question}
         </p>
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          className={`shrink-0 mt-0.5 transition-transform duration-500 ease-in-out ${isOpen ? 'rotate-180' : ''}`}
-        >
-          <path d="M6 9l6 6 6-6" className="stroke-dark-green" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
+        <AccordionChevron isOpen={isOpen} className="mt-0.5" />
       </button>
       <div
         ref={contentRef}
