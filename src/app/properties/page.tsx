@@ -1,13 +1,13 @@
 import { Suspense } from 'react';
 import { unstable_noStore as noStore } from 'next/cache';
 import { getProperties } from '@/lib/microcms/queries';
-import PropertyCard from '@/components/property/PropertyCard';
+import CardProperty from '@/components/ui/card/CardProperty';
 import PickupCard from '@/components/property/PickupCard';
 import PropertyFilter from '@/components/property/PropertyFilter';
 import Pagination from '@/components/ui/misc/Pagination';
 import MobileFilterNav from '@/components/property/MobileFilterNav';
 import ParkingBanner from '@/components/ui/misc/ParkingBanner';
-import ContactBanner from '@/components/ui/card/ContactBanner';
+import BannerContact from '@/components/ui/card/BannerContact';
 import Reveal from '@/components/ui/misc/Reveal';
 import type { Metadata } from 'next';
 
@@ -142,7 +142,7 @@ export default async function PropertiesPage({
           {gridProperties.length > 0 ? (
             <div id="properties-grid" className="grid grid-cols-1 tablet:grid-cols-3 gap-y-[3.75rem] tablet:gap-x-[1.875rem] tablet:gap-y-24">
               {gridProperties.map((property) => (
-                <PropertyCard key={property.id} property={property} />
+                <CardProperty key={property.id} property={property} />
               ))}
             </div>
           ) : (
@@ -176,7 +176,7 @@ export default async function PropertiesPage({
 
       {/* お問い合わせバナー */}
       <Reveal>
-        <ContactBanner />
+        <BannerContact />
       </Reveal>
     </div>
   );

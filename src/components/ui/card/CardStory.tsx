@@ -13,7 +13,7 @@ function getCategoryLabel(category?: string): string {
   return (category && categoryLabels[category]) || '日々のこと';
 }
 
-interface StoryCardProps {
+interface CardStoryProps {
   story: Story;
   size?: 'l' | 'm' | 's';
   variant?: 'light' | 'dark';
@@ -39,7 +39,7 @@ function ReadStoryButton({ isDark }: { isDark: boolean }) {
   );
 }
 
-export default function StoryCard({ story, size = 's', variant = 'light' }: StoryCardProps) {
+export default function CardStory({ story, size = 's', variant = 'light' }: CardStoryProps) {
   const isDark = variant === 'dark';
   const regionNames = story.regions?.map((r) => r.name).join('・');
 

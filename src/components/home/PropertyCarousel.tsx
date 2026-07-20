@@ -2,7 +2,7 @@
 
 import { useRef, useState, useEffect } from 'react';
 import { Property } from '@/types/microcms';
-import PropertyCard from '@/components/property/PropertyCard';
+import CardProperty from '@/components/ui/card/CardProperty';
 import SlideshowNav from '@/components/ui/content/SlideshowNav';
 
 interface Props {
@@ -51,7 +51,7 @@ export default function PropertyCarousel({ properties, href = '/properties' }: P
         <div ref={flexRef} className="flex gap-5 min-w-max pr-4">
           {properties.map((property) => (
             <div key={property.id} className="w-[20.75rem] shrink-0 snap-start">
-              <PropertyCard property={property} />
+              <CardProperty property={property} />
             </div>
           ))}
         </div>

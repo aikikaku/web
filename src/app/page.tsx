@@ -1,11 +1,11 @@
 import { getProperties, getStories, getCustomerVoices } from '@/lib/microcms/queries';
 import { HERO_IMAGES } from '@/lib/heroImages';
-import PropertyCard from '@/components/property/PropertyCard';
+import CardProperty from '@/components/ui/card/CardProperty';
 import NewsAccordion from '@/components/home/NewsAccordion';
 import VoiceCarousel from '@/components/home/VoiceCarousel';
 import PropertyCarousel from '@/components/home/PropertyCarousel';
 import StoryCarousel from '@/components/home/StoryCarousel';
-import StoryCard from '@/components/story/StoryCard';
+import CardStory from '@/components/ui/card/CardStory';
 import HeroSlideshowSP from '@/components/home/HeroSlideshowSP';
 import HeroFrame from '@/components/home/HeroFrame';
 import HeroVideo from '@/components/home/HeroVideo';
@@ -185,7 +185,7 @@ export default async function HomePage() {
               <div className="grid grid-cols-3 gap-x-[1.875rem] gap-y-[6rem]">
                 {newProperties.contents.slice(0, 6).map((property, i) => (
                   <Reveal key={property.id} delayMs={(i % 3) * 120}>
-                    <PropertyCard property={property} />
+                    <CardProperty property={property} />
                   </Reveal>
                 ))}
               </div>
@@ -231,14 +231,14 @@ export default async function HomePage() {
                 {/* 左: 大きなストーリーカード */}
                 {latestStories.contents[0] && (
                   <div className="w-[40.375rem] shrink-0">
-                    <StoryCard story={latestStories.contents[0]} size="l" />
+                    <CardStory story={latestStories.contents[0]} size="l" />
                   </div>
                 )}
 
                 {/* 右: 中サイズカード2枚 */}
                 <div className="flex flex-col gap-[6rem] w-[34.875rem]">
                   {latestStories.contents.slice(1, 3).map((story) => (
-                    <StoryCard key={story.id} story={story} size="m" />
+                    <CardStory key={story.id} story={story} size="m" />
                   ))}
                 </div>
               </div>

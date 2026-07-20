@@ -189,7 +189,7 @@ export default function PickupCard({ property }: Props) {
                 </span>
               </div>
             )}
-            {/* SP: 成約済み+ストーリーありの場合は物件詳細+ストーリーを読むの2ボタン（PropertyCard.tsxと同じパターン） */}
+            {/* SP: 成約済み+ストーリーありの場合は物件詳細+ストーリーを読むの2ボタン（CardProperty.tsxと同じパターン） */}
             {isSold && property.story && (
               <div className="tablet:hidden pb-6 flex items-center gap-2.5">
                 <span className="flex-1 inline-flex items-center justify-center h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none">

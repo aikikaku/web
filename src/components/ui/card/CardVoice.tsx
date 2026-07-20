@@ -1,11 +1,11 @@
 import Image from 'next/image';
 import { CustomerVoice } from '@/types/microcms';
 
-interface VoiceCardProps {
+interface CardVoiceProps {
   voice: CustomerVoice;
 }
 
-export default function VoiceCard({ voice }: VoiceCardProps) {
+export default function CardVoice({ voice }: CardVoiceProps) {
   return (
     <div className="bg-cream rounded-3xl pt-12 pb-14 px-[3.625rem] w-[40.25rem] overflow-hidden">
       {/* Quote mark */}

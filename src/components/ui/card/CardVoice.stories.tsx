@@ -1,17 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import VoiceCard from './VoiceCard';
+import CardVoice from './CardVoice';
 import { mockCustomerVoices } from '@/lib/mock/data';
 
 /** components-preview page でも同じ mockCustomerVoices[0] を使用 */
-const meta: Meta<typeof VoiceCard> = {
-  title: 'voice/VoiceCard',
-  component: VoiceCard,
+const meta: Meta<typeof CardVoice> = {
+  title: 'ui/card/CardVoice',
+  component: CardVoice,
   parameters: { layout: 'padded' },
   args: { voice: mockCustomerVoices[0] },
 };
 export default meta;
 
-type Story = StoryObj<typeof VoiceCard>;
+type Story = StoryObj<typeof CardVoice>;
 
 export const Default: Story = {};
 

@@ -155,15 +155,18 @@ Toggle抽出時に**実バグも1件発見・修正**: スライドインジケ�
 
 | Figma項目 | コード対応 | 評価 |
 |---|---|---|
-| Card Story L/M/S | `src/components/story/StoryCard.tsx`（`size: 'l'\|'m'\|'s'` prop） | **SSOT**（本ブランチでPR #132によりTOPページ重複解消済み。main未反映） |
-| Card Story XL | **対応共通コンポーネント無し**。`FeaturedStoryCard`（`stories/page.tsx:96-145`）と `stories/[id]/page.tsx:110` のヒーローブロックが別々に手書き | **重複（2箇所、非効果的）** |
-| （派生） `StoryCardLarge` | `stories/page.tsx:44-93` が `StoryCard size="l"` と同一classをページローカルに再実装 | **重複**。`StoryCard` を直接importすべきところを再実装 |
-| Card Story SP | `StoryCardOverlay.tsx` | **SSOT**。stories一覧/物件詳細/StoryCarouselの全箇所がこれ経由 |
-| Card Voice（PC/SP） | `src/components/voice/VoiceCard.tsx` | **SSOT** |
-| Card Contact / Banner Contact | `ContactBanner.tsx`（3CTA固定ピル）/ `ContactCtaBanner.tsx`（2CTAパラメトリック） | **問題なし**。別Figmaノードに対応する意図的な別実装で、各々単独ファイルとして一貫 |
-| Card Property / ピックアップ | `PropertyCard.tsx` / `PickupCard.tsx` | **同一ロジックの重複3件**: ①`isSold`/`isNegotiating`/`statusLabel`導出（成約済み/商談中判定）②categoryLabel導出③価格/賃料フォーマットの三項演算子、いずれも一字一句コピペ |
-| Card Article（PC） | `src/components/owner/ArticleCarousel.tsx` | **SSOT**（`SlideshowNav`を再利用、単独使用） |
-| Card Link | **対応コード無し（確認済み: 全文grepでヒット0）** | **カバレッジ無し** |
+**2026-07-20 追記**: Card Story/Card Voice/Card Property本体は`ui/card/`へ昇格・改称済み(`CardStory.tsx`/`CardStorySp.tsx`/`CardVoice.tsx`/`CardProperty.tsx`/`BannerContact.tsx`)。下表のファイル名は移行前の旧称のまま残しているものがあるため注意。また下記2件は本追記で「SSOT」評価を撤回し要再検証とした。
+
+| Figma項目 | コード対応 | 評価 |
+|---|---|---|
+| Card Story L/M/S | `src/components/ui/card/CardStory.tsx`（`size: 'l'\|'m'\|'s'` prop） | **要再検証**: `stories/page.tsx`の`StoryCardLarge`(44-93行)のPC分岐が`CardStory size="l"`とほぼ同一マークアップをページローカルに再実装しているのを2026-07-20に発見。ただし「ストーリーを読む」ボタンのクラスが`ReadStoryButton`(pill)と`btn-outline-fill`(outline)で異なり、意図的差異か単なる重複か要確認 |
+| Card Story XL | **対応共通コンポーネント無し**。`FeaturedStoryCard`（`stories/page.tsx:96-145`）と `stories/[id]/page.tsx:110` のヒーローブロックが別々に手書き | **重複（2箇所、非効果的）**。SP版(node 4211:25584、実レイヤー名`card-story-xl-sp`)も同様に対応コード無し |
+| Card Story SP | `src/components/ui/card/CardStorySp.tsx`（旧`StoryCardOverlay.tsx`） | **SSOT**。stories一覧/物件詳細/StoryCarouselの全箇所がこれ経由 |
+| Card Voice（PC/SP） | `src/components/ui/card/CardVoice.tsx`（旧`VoiceCard.tsx`） | **要再検証**: 実ページでの使用箇所が`components-preview`のみ。TOPページの`VoiceCarousel.tsx`はカルーセル内にローカルな別実装`VoiceCard`関数(レスポンシブ対応・水色引用符)を持ち、こちらが実際に表示されている。2026-07-20判明、統合要否を要相談 |
+| Card Contact / Banner Contact | `BannerContact.tsx`（3CTA固定ピル、旧`ContactBanner.tsx`）/ `ContactCtaBanner.tsx`（2CTAパラメトリック） | **問題なし**。別Figmaノードに対応する意図的な別実装で、各々単独ファイルとして一貫 |
+| Card Property / ピックアップ | `src/components/ui/card/CardProperty.tsx`（旧`PropertyCard.tsx`） / `src/components/property/PickupCard.tsx` | ステータス/カテゴリ/価格ロジックは`src/lib/propertyDisplay.ts`へ共通化済み(2026-07-20)。`PickupCard.tsx`はFigma上に対応する独立ノードが無いページ固有バリアントのためドメインフォルダに維持 |
+| Card Article（PC） | `src/components/owner/ArticleCarousel.tsx` | **要相談**: カード自体はcarousel内にinline実装。`ui/card/CardArticle.tsx`として抽出すべきか未定 |
+| Card Link | `src/components/ui/card/CardLink.tsx` | **解消済み**(2026-07-20)。当初「対応コード無し」と誤評価していたが、`properties/[id]/page.tsx`の4箇所重複と判明し共通化 |
 | Section / Card / Banner等の残り小項目 | 個別ページ内に散在、共通抽出なし（重大な重複は上記に集約） | 軽微 |
 
 ## Post（PC計4項目・SP計2項目）

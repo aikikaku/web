@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import StoryCard from './StoryCard';
+import CardStory from './CardStory';
 import { mockStories } from '@/lib/mock/data';
 
 const story = mockStories[0];
@@ -9,9 +9,9 @@ const storyNoRegion = { ...mockStories[1], regions: undefined };
  * size: 'l' | 's' は画像上+テキスト下の縦積みレイアウト。
  * size: 'm' は画像左(264×352)+テキスト右の横並びレイアウト(Figma 4211:24944)。
  */
-const meta: Meta<typeof StoryCard> = {
-  title: 'story/StoryCard',
-  component: StoryCard,
+const meta: Meta<typeof CardStory> = {
+  title: 'ui/card/CardStory',
+  component: CardStory,
   parameters: { layout: 'padded' },
   argTypes: {
     size: { control: 'radio', options: ['l', 'm', 's'] },
@@ -21,7 +21,7 @@ const meta: Meta<typeof StoryCard> = {
 };
 export default meta;
 
-type Story = StoryObj<typeof StoryCard>;
+type Story = StoryObj<typeof CardStory>;
 
 export const Large: Story = {
   args: { size: 'l', variant: 'light' },

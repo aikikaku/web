@@ -4,11 +4,11 @@ import CmsImage from '@/components/ui/misc/CmsImage';
 import { BookIcon } from '@/components/ui/icons/icons';
 import { getPropertyStatus, getPropertyCategoryLabel, formatPropertyPrice } from '@/lib/propertyDisplay';
 
-interface PropertyCardProps {
+interface CardPropertyProps {
   property: Property;
 }
 
-export default function PropertyCard({ property }: PropertyCardProps) {
+export default function CardProperty({ property }: CardPropertyProps) {
   const { isSold, label: statusLabel } = getPropertyStatus(property);
   const categoryLabel = getPropertyCategoryLabel(property);
   const locationText = property.regions?.map((r) => r.name).join('・');

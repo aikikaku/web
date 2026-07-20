@@ -16,7 +16,7 @@ Figma fileKey: `rAdZUPq1BgzHVRP7QOhXC8`
 | --- | --- |
 | `navigation/` | Components > Navigation, Local Nav(PC 版 `TocNav` も同居) |
 | `interactive/` | Interactive > Buttons(PC/SP), DropDown |
-| `card/` | Components > Card(Card Contact / Banner Contact 系) |
+| `card/` | Components > Card 全体(Card Story / Card Voice / Card Property / Card Contact / Banner Contact / Card Link / Service CTA)。2026-07-20、Card Story/Voice/Propertyをドメインフォルダから昇格し集約 |
 | `content/` | Other(Question/Question List, Card Arrow, Side Bar Dots 等) |
 | `popup/` | Other > Popup Filter Drop Down SP / List SP(SP 絞り込みモーダル殻。「Filter」はPropertyFilter/StoriesFilterのため予約し`filter`という名前は使わない) |
 | `post/` | Post |
@@ -176,31 +176,33 @@ Typography/Color/Assets/Breakpoints は `tailwind.config.ts` / `globals.css` 側
 
 ### Card
 
+**2026-07-20 追記**: Card Story/Card Voice/Card Property(実体としてのカード本体)は、Navigation/Headingと同様に本節の見出しに直接対応させるため、`story/`/`voice`/`property`ドメインフォルダから`src/components/ui/card/`へ昇格した(`git mv`、履歴保持)。ドメインフォルダには引き続きフィルター/カルーセル等のページ機能コンポーネントのみを残す。`ContactBanner.tsx`もFigmaの実レイヤー名`banner-contact`に合わせ`BannerContact.tsx`へ改称。
+
 1. PC
-   1. Card Story L: [node-id=4211-24933](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24933&m=dev) → `src/components/story/StoryCard.tsx`(`size="l"`)
-   2. Card Story M: [node-id=4211-24944](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24944&m=dev) → `StoryCard.tsx`(`size="m"`)
-   3. Card Story S: [node-id=4211-24955](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24955&m=dev) → `StoryCard.tsx`(`size="s"`)
-   4. Card Voice: [node-id=4211-24966](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24966&m=dev) → `src/components/voice/VoiceCard.tsx`
+   1. Card Story L: [node-id=4211-24933](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24933&m=dev)(実レイヤー名`card-story-l`) → `src/components/ui/card/CardStory.tsx`(`size="l"`)
+   2. Card Story M: [node-id=4211-24944](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24944&m=dev) → `CardStory.tsx`(`size="m"`)
+   3. Card Story S: [node-id=4211-24955](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24955&m=dev) → `CardStory.tsx`(`size="s"`)
+   4. Card Voice: [node-id=4211-24966](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24966&m=dev)(実レイヤー名`card-voice`) → `src/components/ui/card/CardVoice.tsx`(**未解決**: 実ページ`/voice`は`VoiceContent.tsx`のアコーディオン形式を使い、TOPページの`VoiceCarousel.tsx`は同カルーセル内にローカルな別実装`VoiceCard`関数を持つ。`CardVoice.tsx`自体は`components-preview`ページでのみ使用されており、実ページでの採用状況を要相談)
    5. Section: [node-id=4211-24978](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24978&m=dev) → レイアウト用ラッパー(「お客様の声」カルーセルの外殻)。単体コンポーネント不要(2026-07-20確認)
    6. Card: [node-id=4211-24985](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24985&m=dev) → `src/components/ui/card/ServiceCTA.tsx`(「不動産をお探しの方へ/お持ちの方へ」CTA。2026-07-20判明。TOPページ(`src/app/page.tsx`)のみこれを使わず同一マークアップを独自に持っていたため、`ServiceCTA`に`parallax`オプションを追加し統合)
    7. Section: [node-id=4211-24994](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24994&m=dev) → レイアウト用ラッパー(上記Cardを2枚並べたSection)。単体コンポーネント不要(2026-07-20確認)
-   8. Card Contact: [node-id=4211-24998](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24998&m=dev) → `src/components/ui/card/CardContact.tsx`(2026-07-20新設。`src/components/ui/card/ContactBanner.tsx`内の3箇所重複を解消)
-   9. Banner Contact: [node-id=4211-25002](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25002&m=dev) → `src/components/ui/card/ContactBanner.tsx`
+   8. Card Contact: [node-id=4211-24998](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24998&m=dev)(実レイヤー名`card-contact`) → `src/components/ui/card/CardContact.tsx`(2026-07-20新設。`BannerContact.tsx`内の3箇所重複を解消)
+   9. Banner Contact: [node-id=4211-25002](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25002&m=dev)(実レイヤー名`banner-contact`) → `src/components/ui/card/BannerContact.tsx`(2026-07-20、`ContactBanner.tsx`から改称)
    10. Card Link: [node-id=4211-25008](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25008&m=dev) → `src/components/ui/card/CardLink.tsx`(2026-07-20新設。当初「対応コード無し」と誤評価していたが、`properties/[id]/page.tsx`の「物件資料」「お問い合わせ」カードに4箇所重複していた同一マークアップと判明し共通化)
-   11. Card Property: [node-id=4211-25013](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25013&m=dev) → `src/components/property/PropertyCard.tsx`(ステータス/カテゴリ/価格ロジックは`src/lib/propertyDisplay.ts`に共通化、2026-07-20)
-   12. Card Article: [node-id=4211-25105](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25105&m=dev) → `src/components/owner/ArticleCarousel.tsx`(カード自体はcarousel内にinline実装)
+   11. Card Property: [node-id=4211-25013](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25013&m=dev)(実レイヤー名`card-property`) → `src/components/ui/card/CardProperty.tsx`(ステータス/カテゴリ/価格ロジックは`src/lib/propertyDisplay.ts`に共通化、2026-07-20)
+   12. Card Article: [node-id=4211-25105](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25105&m=dev)(実レイヤー名`card-article`) → `src/components/owner/ArticleCarousel.tsx`(カード自体はcarousel内にinline実装。**未解決**: `ui/card/CardArticle.tsx`として抽出すべきか要相談)
    13. Card Story XL: [node-id=4211-25116](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25116&m=dev) → 対応共通コンポーネント無し(`stories/page.tsx`の`FeaturedStoryCard`と`stories/[id]/page.tsx`のヒーローが別実装、重複あり・継続課題)
 2. SP
    1. Card Section SP: [node-id=4211-25438](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25438&m=dev)
-   2. Card Story SP: [node-id=4211-25447](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25447&m=dev) → `src/components/story/StoryCardOverlay.tsx`
-   3. Card Voice SP: [node-id=4211-25457](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25457&m=dev) → `VoiceCard.tsx`(共通)
+   2. Card Story SP: [node-id=4211-25447](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25447&m=dev)(実レイヤー名`card-story-sp`) → `src/components/ui/card/CardStorySp.tsx`(2026-07-20改称、旧`StoryCardOverlay.tsx`)
+   3. Card Voice SP: [node-id=4211-25457](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25457&m=dev) → `CardVoice.tsx`(共通。上記4と同じ未解決事項)
    4. Section: [node-id=4211-25469](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25469&m=dev)
-   5. Card SP: [node-id=4211-25484](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25484&m=dev)
+   5. Card SP: [node-id=4211-25484](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25484&m=dev) → `ServiceCTA.tsx`(SP部、共通)
    6. Section: [node-id=4211-25489](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25489&m=dev)
-   7. Banner Contact SP: [node-id=4211-25492](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25492&m=dev) → `src/components/ui/card/ContactBanner.tsx`(SP部)
+   7. Banner Contact SP: [node-id=4211-25492](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25492&m=dev) → `src/components/ui/card/BannerContact.tsx`(SP部)
    8. Card Link SP: [node-id=4211-25498](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25498&m=dev) → 同上(`src/components/ui/card/CardLink.tsx`)
-   9. Card Property SP: [node-id=4211-25503](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25503&m=dev) → `PropertyCard.tsx`(SP部) / `src/components/property/PickupCard.tsx`
-   10. Card Story SP: [node-id=4211-25584](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25584&m=dev) → `StoryCard.tsx`(SP部)
+   9. Card Property SP: [node-id=4211-25503](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25503&m=dev)(実レイヤー名`card-propaty-sp`、Figma側タイポ) → `CardProperty.tsx`(SP部) / `src/components/property/PickupCard.tsx`(Figma上に対応する独立ノード無し。TOPページの「ピックアップ物件」向け表示バリアントとしてドメインフォルダに維持)
+   10. Card Story SP: [node-id=4211-25584](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25584&m=dev) → **訂正(2026-07-20)**: 実レイヤー名は`card-story-xl-sp`であり「Card Story SP」ではない。`CardStory.tsx`に対応するものではなく、13番Card Story XLのSP版(同じく`stories/page.tsx`の`FeaturedStoryCard`と`stories/[id]/page.tsx`のヒーローの重複・継続課題に含まれる)
    11. Card Article SP: [node-id=4211-25690](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25690&m=dev) → `ArticleCarousel.tsx`(SP部)
 
 ## Post
@@ -267,7 +269,7 @@ Typography/Color/Assets/Breakpoints は `tailwind.config.ts` / `globals.css` 側
 ## Card（状態分け）
 
 1. 掲載中/売却中/商談中
-   1. カード: [node-id=4211-11990](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-11990&m=dev) → `src/lib/propertyDisplay.ts`(2026-07-20新設、`PropertyCard.tsx`/`PickupCard.tsx`で共通利用)
+   1. カード: [node-id=4211-11990](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-11990&m=dev) → `src/lib/propertyDisplay.ts`(2026-07-20新設、`CardProperty.tsx`/`PickupCard.tsx`で共通利用。ロジックのみでビジュアルコンポーネントではないため独立ファイル化はせず維持)
    2. ピックアップ: [node-id=4211-11998](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-11998&m=dev) → 同上(`PickupCard.tsx`)
 2. 成約済み
    1. カード: [node-id=4211-11989](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-11989&m=dev) → 同上

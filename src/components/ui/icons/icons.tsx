@@ -5,8 +5,8 @@ interface BookIconProps {
 }
 
 /**
- * 「ストーリーを読む」の本アイコン。ButtonPrimarySp/MoreLinkButton/PropertyCard/PickupCard/
- * StoryCard/StoryCardOverlay で共通利用。
+ * 「ストーリーを読む」の本アイコン。ButtonPrimarySp/MoreLinkButton/CardProperty/PickupCard/
+ * CardStory/CardStorySp で共通利用。
  */
 export function BookIcon({ size = 24, stroke = 'currentColor', className = 'shrink-0' }: BookIconProps) {
   return (

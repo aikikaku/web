@@ -7,7 +7,7 @@ import CardContact from '@/components/ui/card/CardContact';
  * SP: pt-[2rem] pb-[3.75rem] px-[1rem] rounded-[1rem]、テキスト + 縦積みピル ボタン2つ。
  * PC: 既存の横並びレイアウト維持。
  */
-export default function ContactBanner() {
+export default function BannerContact() {
   return (
     <section className="px-4 tablet:px-12 pb-[3.75rem] tablet:pb-24">
       {/* SP */}

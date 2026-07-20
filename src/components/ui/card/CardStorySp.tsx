@@ -24,7 +24,7 @@ function getCategoryLabel(category?: string): string {
  * - 上: tag + region（白文字）
  * - 下: タイトル（白文字 mincho 24px） + arrow（青円 size-44）
  */
-export default function StoryCardOverlay({ story, className }: Props) {
+export default function CardStorySp({ story, className }: Props) {
   const regionNames = story.regions?.map((r) => r.name).join('・');
 
   return (

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Story } from '@/types/microcms';
 import StoryCarousel from '@/components/home/StoryCarousel';
-import StoryCard from '@/components/story/StoryCard';
+import CardStory from '@/components/ui/card/CardStory';
 import Arrow from '@/components/ui/interactive/Arrow';
 
 interface Props {
@@ -54,7 +54,7 @@ export default function StorySection({
       <div className="hidden tablet:block px-[4.6875rem] max-w-[90rem] mx-auto">
         <div className="grid grid-cols-3 gap-[1.875rem] mb-16">
           {stories.map((story) => (
-            <StoryCard key={story.id} story={story} size="s" variant={variant} />
+            <CardStory key={story.id} story={story} size="s" variant={variant} />
           ))}
         </div>
         <div className="flex items-center justify-end">

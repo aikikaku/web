@@ -7,7 +7,7 @@ import CmsImage from '@/components/ui/misc/CmsImage';
 import Pagination from '@/components/ui/misc/Pagination';
 import StoriesFilter from '@/components/story/StoriesFilter';
 import MobileStoriesFilter from '@/components/story/MobileStoriesFilter';
-import StoryCardOverlay from '@/components/story/StoryCardOverlay';
+import CardStorySp from '@/components/ui/card/CardStorySp';
 import { BookIcon } from '@/components/ui/icons/icons';
 import Reveal from '@/components/ui/misc/Reveal';
 import Arrow from '@/components/ui/interactive/Arrow';
@@ -48,7 +48,7 @@ function StoryCardLarge({ story }: { story: Story }) {
     <>
       {/* SP: 共通 overlay variant */}
       <div className="tablet:hidden">
-        <StoryCardOverlay story={story} />
+        <CardStorySp story={story} />
       </div>
 
       {/* PC: 既存（画像の下にテキスト） */}

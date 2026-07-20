@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import PropertyCard from './PropertyCard';
+import CardProperty from './CardProperty';
 import { mockProperties } from '@/lib/mock/data';
 
-const meta: Meta<typeof PropertyCard> = {
-  title: 'property/PropertyCard',
-  component: PropertyCard,
+const meta: Meta<typeof CardProperty> = {
+  title: 'ui/card/CardProperty',
+  component: CardProperty,
   parameters: { layout: 'padded' },
 };
 export default meta;
 
-type Story = StoryObj<typeof PropertyCard>;
+type Story = StoryObj<typeof CardProperty>;
 
 // Default: 案内中の物件 (prop-1)
 export const Default: Story = {

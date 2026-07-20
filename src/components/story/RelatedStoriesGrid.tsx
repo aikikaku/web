@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Story } from '@/types/microcms';
-import StoryCard from '@/components/story/StoryCard';
+import CardStory from '@/components/ui/card/CardStory';
 import SlideshowNav from '@/components/ui/content/SlideshowNav';
 
 interface Props {
@@ -49,7 +49,7 @@ export default function RelatedStoriesGrid({ stories }: Props) {
       >
         {stories.map((s) => (
           <div key={s.id} className="max-tablet:w-[18.75rem] max-tablet:shrink-0">
-            <StoryCard story={s} size="l" />
+            <CardStory story={s} size="l" />
           </div>
         ))}
       </div>

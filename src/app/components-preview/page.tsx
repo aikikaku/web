@@ -1,6 +1,6 @@
-import PropertyCard from '@/components/property/PropertyCard';
-import StoryCard from '@/components/story/StoryCard';
-import VoiceCard from '@/components/voice/VoiceCard';
+import CardProperty from '@/components/ui/card/CardProperty';
+import CardStory from '@/components/ui/card/CardStory';
+import CardVoice from '@/components/ui/card/CardVoice';
 import { mockProperties, mockStories, mockCustomerVoices } from '@/lib/mock/data';
 
 export default function ComponentsPreview() {
@@ -24,12 +24,12 @@ export default function ComponentsPreview() {
             {/* Default */}
             <div>
               <p className="text-sm text-gray-400 mb-4">Property 1=Default</p>
-              <PropertyCard property={defaultProp} />
+              <CardProperty property={defaultProp} />
             </div>
             {/* Signed */}
             <div>
               <p className="text-sm text-gray-400 mb-4">Property 1=Signed</p>
-              <PropertyCard property={soldProp} />
+              <CardProperty property={soldProp} />
             </div>
           </div>
         </section>
@@ -43,17 +43,17 @@ export default function ComponentsPreview() {
             {/* Large */}
             <div>
               <p className="text-sm text-gray-400 mb-4">card-story-l</p>
-              <StoryCard story={story} size="l" />
+              <CardStory story={story} size="l" />
             </div>
             {/* Medium */}
             <div>
               <p className="text-sm text-gray-400 mb-4">card-story-m</p>
-              <StoryCard story={story} size="m" />
+              <CardStory story={story} size="m" />
             </div>
             {/* Small */}
             <div>
               <p className="text-sm text-gray-400 mb-4">card-story-s</p>
-              <StoryCard story={story} size="s" />
+              <CardStory story={story} size="s" />
             </div>
           </div>
         </section>
@@ -65,7 +65,7 @@ export default function ComponentsPreview() {
           </h2>
           <div>
             <p className="text-sm text-gray-400 mb-4">card-voice</p>
-            <VoiceCard voice={voice} />
+            <CardVoice voice={voice} />
           </div>
         </section>
       </div>

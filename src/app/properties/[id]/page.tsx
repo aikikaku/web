@@ -6,7 +6,7 @@ import PageNavSp from '@/components/ui/navigation/PageNavSp';
 import CmsImage from '@/components/ui/misc/CmsImage';
 import CardLink from '@/components/ui/card/CardLink';
 import { BookIcon } from '@/components/ui/icons/icons';
-import StoryCardOverlay from '@/components/story/StoryCardOverlay';
+import CardStorySp from '@/components/ui/card/CardStorySp';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getImageUrl } from '@/lib/microcms/image';
@@ -449,7 +449,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
 
             {/* <1440px: オーバーレイカード（SPカンプ準拠）。物件の続きなので category は property 固定 */}
             <div className="desktop:hidden">
-              <StoryCardOverlay story={{ ...property.story, category: 'property' }} />
+              <CardStorySp story={{ ...property.story, category: 'property' }} />
             </div>
 
             {/* >=1440px: 画像 | テキスト の3カラム右側 */}

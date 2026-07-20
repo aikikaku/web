@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Property } from '@/types/microcms';
-import PropertyCard from '@/components/property/PropertyCard';
+import CardProperty from '@/components/ui/card/CardProperty';
 import SlideshowNav from '@/components/ui/content/SlideshowNav';
 
 interface Props {
@@ -69,7 +69,7 @@ export default function MoreProperties({ properties, href = '/properties' }: Pro
         <div ref={flexRef} className="flex gap-5 tablet:gap-[1.875rem] min-w-max pr-4 tablet:pr-0">
           {properties.map((p) => (
             <div key={p.id} className="w-[20.75rem] tablet:w-[25.625rem] shrink-0 snap-start">
-              <PropertyCard property={p} />
+              <CardProperty property={p} />
             </div>
           ))}
         </div>

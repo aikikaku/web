@@ -2,7 +2,7 @@
 
 import { useRef, useState, useEffect } from 'react';
 import { Story } from '@/types/microcms';
-import StoryCardOverlay from '@/components/story/StoryCardOverlay';
+import CardStorySp from '@/components/ui/card/CardStorySp';
 import SlideshowNav from '@/components/ui/content/SlideshowNav';
 
 interface Props {
@@ -53,7 +53,7 @@ export default function StoryCarousel({ stories, href = '/stories', variant = 'l
         <div ref={flexRef} className="flex gap-5 min-w-max pr-4">
           {stories.map((story) => (
             <div key={story.id} className="w-[20.75rem] shrink-0 snap-start">
-              <StoryCardOverlay story={story} />
+              <CardStorySp story={story} />
             </div>
           ))}
         </div>
