@@ -21,7 +21,7 @@ interface Props {
  * - 1 件以上選択: 先頭を pill (dark-green + × クローズ)、残りは「+N」バッジ
  * - 開時: 下に check 一覧を expand
  */
-export default function DropdownSP({
+export default function DropdownSp({
   isOpen,
   onToggle,
   options,

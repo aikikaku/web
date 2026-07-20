@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import DropdownPC from './DropdownPC';
+import Dropdown from './Dropdown';
 
-const meta: Meta<typeof DropdownPC> = {
-  title: 'ui/interactive/DropdownPC',
-  component: DropdownPC,
+const meta: Meta<typeof Dropdown> = {
+  title: 'ui/interactive/Dropdown',
+  component: Dropdown,
   parameters: { layout: 'padded' },
 };
 export default meta;
 
-type Story = StoryObj<typeof DropdownPC>;
+type Story = StoryObj<typeof Dropdown>;
 
 // 実際の呼び出し例 (PropertyFilter.tsx): 物件種別のドロップダウン
 const propertyTypes = [
@@ -27,10 +27,10 @@ const categoryOptions = [
   { value: 'daily', label: '暮らしのこと' },
 ];
 
-function Interactive(props: React.ComponentProps<typeof DropdownPC>) {
+function Interactive(props: React.ComponentProps<typeof Dropdown>) {
   const [selected, setSelected] = useState(props.selected);
   return (
-    <DropdownPC
+    <Dropdown
       {...props}
       selected={selected}
       onToggle={(value) =>

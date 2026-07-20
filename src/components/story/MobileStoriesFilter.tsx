@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import DropdownSP from '@/components/ui/interactive/DropdownSP';
+import DropdownSp from '@/components/ui/interactive/DropdownSp';
 import SortSp from '@/components/ui/interactive/SortSp';
 import SortClearSp from '@/components/ui/interactive/SortClearSp';
 import SpFloatingTrigger from '@/components/ui/filter/SpFloatingTrigger';
@@ -174,8 +174,8 @@ export default function MobileStoriesFilter() {
                   )}
                 </div>
 
-                {/* region dropdown (Figma 4211:26323 共通 DropdownSP) */}
-                <DropdownSP
+                {/* region dropdown (Figma 4211:26323 共通 DropdownSp) */}
+                <DropdownSp
                   isOpen={openSection === 'region'}
                   onToggle={() => setOpenSection(openSection === 'region' ? null : 'region')}
                   options={regions.map((r) => ({ value: r, label: r }))}

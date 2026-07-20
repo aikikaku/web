@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useState } from 'react';
-import DropdownPC from '@/components/ui/interactive/DropdownPC';
+import Dropdown from '@/components/ui/interactive/Dropdown';
 import Sort from '@/components/ui/interactive/Sort';
 import SortClear from '@/components/ui/interactive/SortClear';
 
@@ -93,14 +93,14 @@ export default function StoriesFilter({
   return (
     <div className="flex flex-col tablet:flex-row gap-4 items-stretch tablet:items-start tablet:justify-between">
       <div className="flex flex-col tablet:flex-row gap-4">
-        <DropdownPC
+        <Dropdown
           label="カテゴリ"
           options={categories}
           selected={selectedCategories}
           onToggle={toggleCategory}
           variant="light-green"
         />
-        <DropdownPC
+        <Dropdown
           label="地域"
           options={regionOptions}
           selected={selectedRegions}

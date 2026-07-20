@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 
-interface DropdownPCProps {
+interface DropdownProps {
   label: string;
   options: { value: string; label: string }[];
   selected: string[];
@@ -21,13 +21,13 @@ interface DropdownPCProps {
  * - Pressed: bg light-green + 下にオプションパネル展開
  * - Selected: bg light-green、選択肢を chip 化（先頭は dark-green pill + ✕、残りは「+N」バッジ）
  */
-export default function DropdownPC({
+export default function Dropdown({
   label,
   options,
   selected,
   onToggle,
   onClear,
-}: DropdownPCProps) {
+}: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 

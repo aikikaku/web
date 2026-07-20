@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import DropdownPC from '@/components/ui/interactive/DropdownPC';
+import Dropdown from '@/components/ui/interactive/Dropdown';
 import Sort from '@/components/ui/interactive/Sort';
 import SortClear from '@/components/ui/interactive/SortClear';
 import Toggle from '@/components/ui/interactive/Toggle';
@@ -149,14 +149,14 @@ export default function PropertyFilter() {
         className="shrink-0 mr-4"
       />
 
-      <DropdownPC
+      <Dropdown
         label="物件"
         options={propertyTypes}
         selected={optimisticTypes}
         onToggle={toggleType}
         onClear={clearTypes}
       />
-      <DropdownPC
+      <Dropdown
         label="地域"
         options={regions.map((r) => ({ value: r, label: r }))}
         selected={optimisticRegions}

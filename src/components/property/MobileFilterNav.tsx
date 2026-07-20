@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import DropdownSP from '@/components/ui/interactive/DropdownSP';
+import DropdownSp from '@/components/ui/interactive/DropdownSp';
 import Toggle from '@/components/ui/interactive/Toggle';
 import SortSp from '@/components/ui/interactive/SortSp';
 import SortClearSp from '@/components/ui/interactive/SortClearSp';
@@ -171,9 +171,9 @@ export default function MobileFilterNav() {
                   buttonClassName="flex-1 h-full text-[0.875rem]"
                 />
 
-              {/* dropdowns inline expansion (Figma 4211:26286 / 4211:26323 共通 DropdownSP) */}
+              {/* dropdowns inline expansion (Figma 4211:26286 / 4211:26323 共通 DropdownSp) */}
               <div className="flex flex-col gap-4">
-                <DropdownSP
+                <DropdownSp
                   isOpen={openSection === 'types'}
                   onToggle={() => setOpenSection(openSection === 'types' ? null : 'types')}
                   options={propertyTypes}
@@ -182,7 +182,7 @@ export default function MobileFilterNav() {
                   onClear={() => setLocalTypes([])}
                   placeholder="物件"
                 />
-                <DropdownSP
+                <DropdownSp
                   isOpen={openSection === 'regions'}
                   onToggle={() => setOpenSection(openSection === 'regions' ? null : 'regions')}
                   options={regions.map((r) => ({ value: r, label: r }))}
