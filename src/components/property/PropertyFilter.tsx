@@ -1,10 +1,16 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import DropdownPC from '@/components/ui/interactive/DropdownPC';
 import SortApplyButton from '@/components/ui/interactive/SortApplyButton';
 import SortClearButton from '@/components/ui/interactive/SortClearButton';
+import Toggle from '@/components/ui/interactive/Toggle';
+
+const statusOptions = [
+  { value: 'all', label: 'すべて' },
+  { value: 'available', label: 'ご案内中の物件' },
+];
 
 const propertyTypes = [
   { value: 'sell_property', label: '売物件' },
@@ -53,21 +59,6 @@ export default function PropertyFilter() {
   useEffect(() => { setOptimisticStatus(currentStatus); }, [currentStatus]);
   useEffect(() => { setOptimisticTypes(urlTypes); }, [urlTypes]);
   useEffect(() => { setOptimisticRegions(urlRegions); }, [urlRegions]);
-
-  const toggleRef = useRef<HTMLDivElement>(null);
-  const allBtnRef = useRef<HTMLButtonElement>(null);
-  const availableBtnRef = useRef<HTMLButtonElement>(null);
-  const [indicator, setIndicator] = useState<{ left: number; width: number } | null>(null);
-
-  useEffect(() => {
-    const el = optimisticStatus === 'available' ? availableBtnRef.current : allBtnRef.current;
-    const container = toggleRef.current;
-    if (!el || !container) return;
-    setIndicator({
-      left: el.offsetLeft,
-      width: el.offsetWidth,
-    });
-  }, [optimisticStatus]);
 
   // 指定の条件で URL を更新（フィルタ適用）
   const applyWith = useCallback(
@@ -146,38 +137,17 @@ export default function PropertyFilter() {
     <div className="hidden tablet:flex items-center gap-2 justify-between">
       <div className="flex items-center gap-2 min-w-0">
       {/* ステータス切替トグル */}
-      <div
-        ref={toggleRef}
-        className="relative flex rounded-[3.125rem] border border-dark-green shrink-0 mr-4 p-[0.125rem] overflow-hidden"
-      >
-        {indicator && (
-          <span
-            aria-hidden
-            className="absolute top-[0.125rem] bottom-[0.125rem] bg-dark-green rounded-[3.125rem] transition-all duration-300 ease-out"
-            style={{ left: indicator.left, width: indicator.width }}
-          />
-        )}
-        {[
-          { value: 'all', label: 'すべて', ref: allBtnRef },
-          { value: 'available', label: 'ご案内中の物件', ref: availableBtnRef },
-        ].map((option) => (
-          <button
-            key={option.value}
-            ref={option.ref}
-            onClick={() => {
-              // ステータス切替は即時反映（解除=自動更新 #69 と整合）。
-              // これにより pending 状態にならず「絞り込み」ボタンが無用に点灯しない (#29)
-              setOptimisticStatus(option.value);
-              applyWith(option.value, optimisticTypes, optimisticRegions);
-            }}
-            className={`relative z-10 h-[3.25rem] px-6 font-gothic font-medium text-[1rem] leading-none transition-colors duration-300 rounded-[3.125rem] ${
-              optimisticStatus === option.value ? 'text-white' : 'text-dark-green'
-            }`}
-          >
-            {option.label}
-          </button>
-        ))}
-      </div>
+      <Toggle
+        options={statusOptions}
+        value={optimisticStatus}
+        onChange={(next) => {
+          // ステータス切替は即時反映（解除=自動更新 #69 と整合）。
+          // これにより pending 状態にならず「絞り込み」ボタンが無用に点灯しない (#29)
+          setOptimisticStatus(next);
+          applyWith(next, optimisticTypes, optimisticRegions);
+        }}
+        className="shrink-0 mr-4"
+      />
 
       <DropdownPC
         label="物件"

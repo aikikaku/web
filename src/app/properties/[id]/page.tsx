@@ -4,7 +4,7 @@ import Link from 'next/link';
 import MoreProperties from '@/components/property/MoreProperties';
 import PageNavSP from '@/components/ui/navigation/PageNavSP';
 import CmsImage from '@/components/ui/misc/CmsImage';
-import ArrowButton from '@/components/ui/interactive/ArrowButton';
+import CardLink from '@/components/ui/card/CardLink';
 import { BookIcon } from '@/components/ui/icons/icons';
 import StoryCardOverlay from '@/components/story/StoryCardOverlay';
 import { notFound } from 'next/navigation';
@@ -411,50 +411,14 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
               <div className="flex flex-col tablet:flex-row gap-3">
                 {/* 物件資料: documentUrl があれば資料を別タブで開く。無ければ従来通りお問い合わせへ */}
                 {property.documentUrl ? (
-                  <a
-                    href={property.documentUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex-1 bg-dark-green rounded-2xl p-[1.875rem] h-[6.75rem] flex items-center justify-between"
-                  >
-                    <p className="font-gothic font-medium text-category-2 text-white px-3">
-                      物件資料
-                    </p>
-                    <ArrowButton variant="cream" />
-                  </a>
+                  <CardLink href={property.documentUrl} label="物件資料" external />
                 ) : (
-                  <Link
-                    href="/for-customer"
-                    className="group flex-1 bg-dark-green rounded-2xl p-[1.875rem] h-[6.75rem] flex items-center justify-between"
-                  >
-                    <p className="font-gothic font-medium text-category-2 text-white px-3">
-                      物件資料
-                    </p>
-                    <ArrowButton variant="cream" />
-                  </Link>
+                  <CardLink href="/for-customer" label="物件資料" />
                 )}
                 {typeformContactUrl ? (
-                  <a
-                    href={typeformContactUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex-1 bg-dark-green rounded-2xl p-[1.875rem] h-[6.75rem] flex items-center justify-between"
-                  >
-                    <p className="font-gothic font-medium text-category-2 text-white px-3">
-                      お問い合わせ
-                    </p>
-                    <ArrowButton variant="cream" />
-                  </a>
+                  <CardLink href={typeformContactUrl} label="お問い合わせ" external />
                 ) : (
-                  <Link
-                    href="/for-customer"
-                    className="group flex-1 bg-dark-green rounded-2xl p-[1.875rem] h-[6.75rem] flex items-center justify-between"
-                  >
-                    <p className="font-gothic font-medium text-category-2 text-white px-3">
-                      お問い合わせ
-                    </p>
-                    <ArrowButton variant="cream" />
-                  </Link>
+                  <CardLink href="/for-customer" label="お問い合わせ" />
                 )}
               </div>
             )}

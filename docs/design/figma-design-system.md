@@ -142,8 +142,8 @@ Typography/Color/Assets/Breakpoints は `tailwind.config.ts` / `globals.css` 側
 
 ### Toggle
 
-1. Toggle PC: [node-id=4211-26225](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-26225&m=dev) → 対応コード無し
-2. Toggle SP: [node-id=4211-26238](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-26238&m=dev) → 対応コード無し
+1. Toggle PC: [node-id=4211-26225](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-26225&m=dev) → `src/components/ui/interactive/Toggle.tsx`(2026-07-20新設。当初「対応コード無し」と誤評価していたが、`PropertyFilter.tsx`のステータス切替に個別実装が存在すると判明し共通化)
+2. Toggle SP: [node-id=4211-26238](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-26238&m=dev) → 同上(`MobileFilterNav.tsx`)
 
 ### DropDown
 
@@ -181,7 +181,7 @@ Typography/Color/Assets/Breakpoints は `tailwind.config.ts` / `globals.css` 側
    7. Section: [node-id=4211-24994](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24994&m=dev)
    8. Card Contact: [node-id=4211-24998](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24998&m=dev) → `src/components/ui/card/CardContact.tsx`(2026-07-20新設。`src/components/ui/card/ContactBanner.tsx`内の3箇所重複を解消)
    9. Banner Contact: [node-id=4211-25002](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25002&m=dev) → `src/components/ui/card/ContactBanner.tsx`
-   10. Card Link: [node-id=4211-25008](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25008&m=dev) → 対応コード無し
+   10. Card Link: [node-id=4211-25008](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25008&m=dev) → `src/components/ui/card/CardLink.tsx`(2026-07-20新設。当初「対応コード無し」と誤評価していたが、`properties/[id]/page.tsx`の「物件資料」「お問い合わせ」カードに4箇所重複していた同一マークアップと判明し共通化)
    11. Card Property: [node-id=4211-25013](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25013&m=dev) → `src/components/property/PropertyCard.tsx`(ステータス/カテゴリ/価格ロジックは`src/lib/propertyDisplay.ts`に共通化、2026-07-20)
    12. Card Article: [node-id=4211-25105](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25105&m=dev) → `src/components/owner/ArticleCarousel.tsx`(カード自体はcarousel内にinline実装)
    13. Card Story XL: [node-id=4211-25116](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25116&m=dev) → 対応共通コンポーネント無し(`stories/page.tsx`の`FeaturedStoryCard`と`stories/[id]/page.tsx`のヒーローが別実装、重複あり・継続課題)
@@ -193,7 +193,7 @@ Typography/Color/Assets/Breakpoints は `tailwind.config.ts` / `globals.css` 側
    5. Card SP: [node-id=4211-25484](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25484&m=dev)
    6. Section: [node-id=4211-25489](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25489&m=dev)
    7. Banner Contact SP: [node-id=4211-25492](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25492&m=dev) → `src/components/ui/card/ContactBanner.tsx`(SP部)
-   8. Card Link SP: [node-id=4211-25498](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25498&m=dev) → 対応コード無し
+   8. Card Link SP: [node-id=4211-25498](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25498&m=dev) → 同上(`src/components/ui/card/CardLink.tsx`)
    9. Card Property SP: [node-id=4211-25503](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25503&m=dev) → `PropertyCard.tsx`(SP部) / `src/components/property/PickupCard.tsx`
    10. Card Story SP: [node-id=4211-25584](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25584&m=dev) → `StoryCard.tsx`(SP部)
    11. Card Article SP: [node-id=4211-25690](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25690&m=dev) → `ArticleCarousel.tsx`(SP部)
@@ -212,8 +212,8 @@ Typography/Color/Assets/Breakpoints は `tailwind.config.ts` / `globals.css` 側
 ## Other
 
 1. PC
-   1. List Item Deco: [node-id=4211-25250](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25250&m=dev) → 対応コード無し
-   2. List Item Def: [node-id=4211-25259](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25259&m=dev) → 対応コード無し
+   1. List Item Deco: [node-id=4211-25250](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25250&m=dev) → `src/app/about/page.tsx`の会社概要`<dl>`内、所在地行(ラベル+値+MAPバッジ)が該当(2026-07-20判明。当初「対応コード無し」と誤評価。単一箇所のため共通コンポーネント化はせず、対応先の記録のみ)
+   2. List Item Def: [node-id=4211-25259](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25259&m=dev) → `src/app/about/page.tsx`の会社概要`<dl>`(商号/設立等のラベル+値行)が該当(2026-07-20判明。同上の理由で共通化はせず)
    3. Side Bar Dots: [node-id=4211-25262](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25262&m=dev) → `src/components/ui/content/SlideshowNav.tsx`
    4. Navigation Slide Show: [node-id=4211-25269](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25269&m=dev) → `content/SlideshowNav.tsx`(同上。6箇所で共通利用)
    5. Question List: [node-id=4211-25275](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25275&m=dev) → `src/lib/useAccordionHeight.ts` + `src/components/ui/content/AccordionChevron.tsx`
@@ -222,8 +222,8 @@ Typography/Color/Assets/Breakpoints は `tailwind.config.ts` / `globals.css` 側
    8. Paragraph: [node-id=4211-25308](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25308&m=dev) → `globals.css` `.rich-content p`
 2. SP
    1. Side Bar Dots SP: [node-id=4211-25722](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25722&m=dev) → `content/SlideshowNav.tsx`(共通)
-   2. List Item Deco SP: [node-id=4211-25729](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25729&m=dev) → 対応コード無し
-   3. List Item Def SP: [node-id=4211-25738](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25738&m=dev) → 対応コード無し
+   2. List Item Deco SP: [node-id=4211-25729](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25729&m=dev) → 共通(PC参照、`about/page.tsx`の`<dl>`はレスポンシブ対応でSPも同一マークアップ)
+   3. List Item Def SP: [node-id=4211-25738](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25738&m=dev) → 共通(PC参照)
    4. Question List SP: [node-id=4211-25741](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25741&m=dev) → 共通(PC参照)
    5. Question SP: [node-id=4211-25747](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25747&m=dev) → 共通(PC参照)
    6. Popup Filter Drop Down SP: [node-id=4211-25768](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25768&m=dev) → `MobileFilterNav.tsx` / `MobileStoriesFilter.tsx`(共通`src/components/ui/filter/{SpFloatingTrigger,SpModalBackdrop,SpModalCloseButton}.tsx`経由、2026-07-20共通化)

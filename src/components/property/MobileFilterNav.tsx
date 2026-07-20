@@ -3,10 +3,16 @@
 import { useState, useCallback, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import DropdownSP from '@/components/ui/interactive/DropdownSP';
+import Toggle from '@/components/ui/interactive/Toggle';
 import SpFloatingTrigger from '@/components/ui/filter/SpFloatingTrigger';
 import SpModalBackdrop from '@/components/ui/filter/SpModalBackdrop';
 import SpModalCloseButton from '@/components/ui/filter/SpModalCloseButton';
 import { useScrollVisibility } from '@/lib/useScrollVisibility';
+
+const statusOptions = [
+  { value: 'all', label: 'すべて' },
+  { value: 'available', label: 'ご案内中の物件' },
+];
 
 const propertyTypes = [
   { value: 'sell_property', label: '売物件' },
@@ -155,26 +161,13 @@ export default function MobileFilterNav() {
               {/* modal box: height 固定、内部 overflow scroll で dropdown 開閉によって他要素が圧縮されない */}
               <div className="bg-cream rounded-3xl shadow-[0_0_8px_rgba(0,0,0,0.16)] w-full h-[35rem] max-h-[calc(100vh-120px)] px-6 py-8 flex flex-col gap-8 overflow-y-auto">
                 {/* status toggle: dropdown と同じ h-14 で揃える */}
-                <div className="border border-dark-green rounded-full h-14 w-full flex items-stretch overflow-hidden p-[0.125rem] shrink-0">
-                {[
-                  { value: 'all', label: 'すべて' },
-                  { value: 'available', label: 'ご案内中の物件' },
-                ].map((option) => {
-                  const active = localStatus === option.value;
-                  return (
-                    <button
-                      key={option.value}
-                      type="button"
-                      onClick={() => setLocalStatus(option.value)}
-                      className={`flex-1 h-full font-gothic font-medium text-[0.875rem] leading-none rounded-full transition-colors ${
-                        active ? 'bg-dark-green text-white' : 'bg-cream text-dark-green'
-                      }`}
-                    >
-                      {option.label}
-                    </button>
-                  );
-                })}
-              </div>
+                <Toggle
+                  options={statusOptions}
+                  value={localStatus}
+                  onChange={setLocalStatus}
+                  className="h-14 w-full shrink-0 rounded-full"
+                  buttonClassName="flex-1 h-full text-[0.875rem]"
+                />
 
               {/* dropdowns inline expansion (Figma 4211:26286 / 4211:26323 共通 DropdownSP) */}
               <div className="flex flex-col gap-4">

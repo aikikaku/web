@@ -49,9 +49,21 @@ Figma fileKey: `rAdZUPq1BgzHVRP7QOhXC8`
 - 全 import パス・Storybook `title` を新パスに追従させ、`tsc --noEmit` / `next lint` / `next build`(28/28ページ生成) / Playwright(TOP・properties・stories・for-owner・staff-interview、コンソールエラー0件)で回帰なしを確認済み。
 
 **保留(意図的に対応しなかった項目とその理由)**
-- Heading・Toggle・Card Link・List Item Deco/Def・Pattern>Paper: コード対応が元々存在しないため、新規UI構築はスコープ外として見送り(要ユーザー判断)
+- Heading・Pattern>Paper: コード対応が元々存在しない(実ページ確認済み)ため、新規UI構築はスコープ外として見送り(要ユーザー判断)
 - `accent-blue` → `blue` へのリネーム: Tailwindデフォルトカラースケール名と衝突するリスクがあるためユーザー確認の上、現状維持と決定
 - `ContactCtaBanner.tsx`: PC/SP一体の responsive マークアップのため `CardContact.tsx` への統合は構造変更のリスクが大きく見送り
+
+**訂正(2026-07-20、ユーザー指摘により判明した監査ミス)**
+
+上記「カバレッジ無し」の一覧のうち、Toggle・Card Link・List Item Deco/Defの3件は**当初「コード対応が元々存在しない」と誤って評価していた**。ユーザーから「コードを足す前に実ページで使われているか確認すべき」との指摘を受け、Figma該当ノードのスクリーンショットと実装をあらためて照合したところ、いずれも**未共通化の重複実装として実在**することが判明した。
+
+- **Toggle**: `PropertyFilter.tsx`(PC、スライドインジケーター式)と`MobileFilterNav.tsx`(SP、単純active切替)に別々に実装済みだった → `src/components/ui/interactive/Toggle.tsx` に共通化(2026-07-20)。抽出時、SP側は元々ボタン等分割だったのに対しFigmaはコンテンツ幅比例のため、共通化と同時にFigma準拠の見た目に修正された(副次効果)
+- **Card Link**: `properties/[id]/page.tsx`の「物件資料」「お問い合わせ」カードがdocumentUrl/typeformContactUrlの有無で4箇所ほぼ同一マークアップだった → `src/components/ui/card/CardLink.tsx` に共通化(2026-07-20)
+- **List Item Def/Deco**: `about/page.tsx`の会社概要`<dl>`(商号/設立/所在地+MAPバッジ)が該当実装だった。ただし単一箇所のみで重複が無いため、共通コンポーネント化はせず`figma-design-system.md`への対応先記録のみ実施
+
+このミスの原因は「コード内にFigmaコンポーネント名と同名の実装が無い」ことを「対応コード無し」と直結させ、**実ページの見た目・実装が実質的に同じパターンかどうかを確認していなかった**こと。「カバレッジ無し」と結論づける前に、該当Figmaノードのスクリーンショットと実ページ実装を照合する手順を今後も徹底する。
+
+Toggle抽出時に**実バグも1件発見・修正**: スライドインジケーターの位置測定を`useEffect`で1回だけ行っていたため、初回マウント時にボタン幅が0で測定されるケースがあり、インジケーターが幅0で表示される不具合があった(`useLayoutEffect`+幅0の間は`requestAnimationFrame`で再測定するよう修正)。
 - Card Story XL(`FeaturedStoryCard`/`stories/[id]`ヒーロー重複)・`StoryCardLarge`再実装: 今回は対象外、継続課題として残す
 - **新規発見(未対応)**: `src/app/page.tsx`(TOPページ)が`ContactBanner.tsx`を使わず、ほぼ同型の「背景画像+見出し+CTAカード」パターンを独自にインライン実装している(1CTA版、`ContactBanner.tsx`は3CTA版で`/properties`のみで使用)。Banner Contactパターンの3つ目の重複実装。今回は検証中に発見しただけで未対応、継続課題
 
@@ -211,12 +223,11 @@ Figma fileKey: `rAdZUPq1BgzHVRP7QOhXC8`
 
 ## 総括: 重複・カバレッジ欠如の一覧（優先度の参考、対応要否は要相談）
 
-### カバレッジ無し（コード対応が存在しない）
+### カバレッジ無し（コード対応が存在しない、実ページ確認済み）
 1. Heading（section-heading/sub-heading-1）— 26箇所以上で個別実装
-2. Toggle（PC/SP）
-3. Card Link
-4. List Item Deco / List Item Def
-5. Pattern > Paper
+2. Pattern > Paper — 背景色そのもの(bg-cream等)であり独立コンポーネント化の対象ではない
+
+※ Toggle・Card Link・List Item Deco/Defは当初ここに記載していたが、2026-07-20の再検証で実装が存在すると判明したため「重複」節へ移動・対応済み(詳細は上記「訂正」節参照)
 
 ### デッドコード（globals.cssに定義されているが使用箇所0件）
 6. `.btn-secondary` / `.btn-secondary-m` / `.btn-secondary-s` / `.btn-ghost` / `.btn-primary-dark`
