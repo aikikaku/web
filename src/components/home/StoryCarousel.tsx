@@ -3,7 +3,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { Story } from '@/types/microcms';
 import StoryCardOverlay from '@/components/story/StoryCardOverlay';
-import SlideshowNav from '@/components/ui/SlideshowNav';
+import SlideshowNav from '@/components/ui/content/SlideshowNav';
 
 interface Props {
   stories: Story[];

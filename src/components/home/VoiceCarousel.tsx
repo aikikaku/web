@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { CustomerVoice } from '@/types/microcms';
-import SlideshowNav from '@/components/ui/SlideshowNav';
+import SlideshowNav from '@/components/ui/content/SlideshowNav';
 
 interface Props {
   voices: CustomerVoice[];

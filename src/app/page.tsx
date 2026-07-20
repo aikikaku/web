@@ -9,12 +9,12 @@ import StoryCard from '@/components/story/StoryCard';
 import HeroSlideshowSP from '@/components/home/HeroSlideshowSP';
 import HeroFrame from '@/components/home/HeroFrame';
 import HeroVideo from '@/components/home/HeroVideo';
-import SeeAllLink from '@/components/ui/SeeAllLink';
-import ArrowButton from '@/components/ui/ArrowButton';
-import MoreLinkButton from '@/components/ui/MoreLinkButton';
-import ParkingBanner from '@/components/ui/ParkingBanner';
-import Reveal from '@/components/ui/Reveal';
-import ParallaxLayer from '@/components/ui/ParallaxLayer';
+import SeeAllLink from '@/components/ui/interactive/SeeAllLink';
+import ArrowButton from '@/components/ui/interactive/ArrowButton';
+import MoreLinkButton from '@/components/ui/interactive/MoreLinkButton';
+import ParkingBanner from '@/components/ui/misc/ParkingBanner';
+import Reveal from '@/components/ui/misc/Reveal';
+import ParallaxLayer from '@/components/ui/misc/ParallaxLayer';
 import Link from 'next/link';
 import Image from 'next/image';
 

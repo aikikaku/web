@@ -1,4 +1,4 @@
-import SearchProgress from '@/components/ui/SearchProgress';
+import SearchProgress from '@/components/ui/misc/SearchProgress';
 
 export default function Loading() {
   return (

@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Property } from '@/types/microcms';
 import PropertyCard from '@/components/property/PropertyCard';
-import SlideshowNav from '@/components/ui/SlideshowNav';
+import SlideshowNav from '@/components/ui/content/SlideshowNav';
 
 interface Props {
   properties: Property[];

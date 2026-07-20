@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { Shippori_Mincho, Zen_Kaku_Gothic_New } from 'next/font/google';
 import './globals.css';
-import Navigation from '@/components/ui/Navigation';
-import Footer from '@/components/ui/Footer';
+import Navigation from '@/components/ui/navigation/Navigation';
+import Footer from '@/components/ui/footer/Footer';
 
 const shipporiMincho = Shippori_Mincho({
   subsets: ['latin'],

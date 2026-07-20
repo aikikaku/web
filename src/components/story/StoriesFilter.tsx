@@ -2,9 +2,9 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useState } from 'react';
-import DropdownPC from '@/components/ui/DropdownPC';
-import SortApplyButton from '@/components/ui/SortApplyButton';
-import SortClearButton from '@/components/ui/SortClearButton';
+import DropdownPC from '@/components/ui/interactive/DropdownPC';
+import SortApplyButton from '@/components/ui/interactive/SortApplyButton';
+import SortClearButton from '@/components/ui/interactive/SortClearButton';
 
 const regionOptions = [
   { value: 'すべて', label: 'すべて' },

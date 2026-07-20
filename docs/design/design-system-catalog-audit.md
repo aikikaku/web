@@ -38,6 +38,16 @@ Figma fileKey: `rAdZUPq1BgzHVRP7QOhXC8`
 - book アイコンSVG(6ファイル)・Footer内Instagram/YouTubeアイコン(2箇所) → `src/components/ui/icons.tsx` に共通化
 - ContactBanner.tsx 内の3枚のCard Contact重複 → `src/components/ui/CardContact.tsx` に抽出
 
+**ディレクトリ再編(2026-07-20、上記のリネーム/重複解消をコミット後に追加実施)**
+
+ユーザーから「`src/components` の構成を `figma-design-system.md` の構造に対応させたい、そうすればディレクトリを見るだけでデザインシステムの導入状況を管理できる SSoT になる」との要望があり、`src/components/ui/` 直下(平置き約33ファイル)を本ドキュメントの見出しに沿ったサブフォルダへ再編した。
+
+- 対象は `ui/` のみ。`home/property/story/voice/owner` はページ機能で凝集させる既存方針を維持し、Figma カテゴリでの再編対象から明示的に除外した(理由: Card 系コンポーネントがドメイン横断で `property/story/voice` に分散しているため、これらを `ui/card/` 等へ統合すると機能的凝集が失われ、85ファイル規模の大規模移動になりリスクに見合わない)。
+- Typography/Color/Assets/Breakpoints の4見出しはトークンであり `tailwind.config.ts`/`globals.css` に対応するため、コンポーネントフォルダへの写像対象外とした。
+- 「Other」「Pattern」は Figma 側の雑多カテゴリ名であり、そのままフォルダ名に採用すると可読性が下がるため、実体(アコーディオン/カルーセル系→`content/`、SP絞り込みモーダル殻→`filter/`)に即した名前を付けた。マッピングの詳細と対応表は `figma-design-system.md` の「ディレクトリ構成」節を参照。
+- 本ドキュメントに掲載の無いユーティリティ/ページ固有コンポーネント(`CmsImage`/`ParallaxLayer`/`Reveal`/`ParkingBanner`/`HeroCardStory`/`SearchProgress`/`Pagination`)は `ui/misc/` に集約し、「カタログ対象外である」ことを隠さず可視化した。
+- 全 import パス・Storybook `title` を新パスに追従させ、`tsc --noEmit` / `next lint` / `next build`(28/28ページ生成) / Playwright(TOP・properties・stories・for-owner・staff-interview、コンソールエラー0件)で回帰なしを確認済み。
+
 **保留(意図的に対応しなかった項目とその理由)**
 - Heading・Toggle・Card Link・List Item Deco/Def・Pattern>Paper: コード対応が元々存在しないため、新規UI構築はスコープ外として見送り(要ユーザー判断)
 - `accent-blue` → `blue` へのリネーム: Tailwindデフォルトカラースケール名と衝突するリスクがあるためユーザー確認の上、現状維持と決定

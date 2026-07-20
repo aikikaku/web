@@ -1,15 +1,15 @@
 import { getStory, getStories } from '@/lib/microcms/queries';
 import RelatedStoriesGrid from '@/components/story/RelatedStoriesGrid';
-import CmsImage from '@/components/ui/CmsImage';
-import ArrowButton from '@/components/ui/ArrowButton';
+import CmsImage from '@/components/ui/misc/CmsImage';
+import ArrowButton from '@/components/ui/interactive/ArrowButton';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getImageUrl } from '@/lib/microcms/image';
-import RichText, { extractTocFromHtml } from '@/components/ui/RichText';
-import TocNav from '@/components/ui/TocNav';
-import PageNavSP from '@/components/ui/PageNavSP';
-import SeeAllLink from '@/components/ui/SeeAllLink';
+import RichText, { extractTocFromHtml } from '@/components/ui/post/RichText';
+import TocNav from '@/components/ui/navigation/TocNav';
+import PageNavSP from '@/components/ui/navigation/PageNavSP';
+import SeeAllLink from '@/components/ui/interactive/SeeAllLink';
 import { getStoryCategoryLabel } from '@/lib/storyCategory';
 
 export const revalidate = 3600;

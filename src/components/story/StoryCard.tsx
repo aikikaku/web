@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Story } from '@/types/microcms';
-import CmsImage from '@/components/ui/CmsImage';
-import { BookIcon } from '@/components/ui/icons';
+import CmsImage from '@/components/ui/misc/CmsImage';
+import { BookIcon } from '@/components/ui/icons/icons';
 
 const categoryLabels: Record<string, string> = {
   daily: '日々のこと',

@@ -1,12 +1,12 @@
 import { getCustomerVoices, getStories } from '@/lib/microcms/queries';
 import VoiceCarousel from '@/components/home/VoiceCarousel';
 import StorySection from '@/components/story/StorySection';
-import FaqSection from '@/components/ui/FaqSection';
-import ContactCtaBanner from '@/components/ui/ContactCtaBanner';
+import FaqSection from '@/components/ui/content/FaqSection';
+import ContactCtaBanner from '@/components/ui/card/ContactCtaBanner';
 import ArticleCarousel from '@/components/owner/ArticleCarousel';
-import Reveal from '@/components/ui/Reveal';
-import ParallaxLayer from '@/components/ui/ParallaxLayer';
-import CardArrowFlow from '@/components/ui/CardArrowFlow';
+import Reveal from '@/components/ui/misc/Reveal';
+import ParallaxLayer from '@/components/ui/misc/ParallaxLayer';
+import CardArrowFlow from '@/components/ui/content/CardArrowFlow';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';

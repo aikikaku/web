@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useAccordionHeight } from '@/lib/useAccordionHeight';
-import AccordionChevron from '@/components/ui/AccordionChevron';
+import AccordionChevron from '@/components/ui/content/AccordionChevron';
 
 const mockNews = [
   {

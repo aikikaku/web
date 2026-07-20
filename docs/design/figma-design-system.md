@@ -10,6 +10,22 @@ Figma fileKey: `rAdZUPq1BgzHVRP7QOhXC8`
 詳細な評価根拠・重複/デッドコードの一覧は [design-system-catalog-audit.md](./design-system-catalog-audit.md) を参照。
 この行以降の「→」注記はコード側のリネーム・重複解消(2026-07-20実施)後の状態を指す。
 
+**ディレクトリ構成(2026-07-20 追加実施)**: `src/components/ui/` 直下(旧・約33ファイルの平置き)を、本ドキュメントのカテゴリに対応させて以下のサブフォルダへ再編した。`home/property/story/voice/owner` 等の機能別ドメインフォルダは維持し(こちらは Figma カテゴリではなくページ機能で凝集させる方針は変更しない)、あくまで下層の `ui/` のみを本ドキュメントの見出しに合わせている。
+
+| `ui/` サブフォルダ | 対応する本ドキュメントの見出し |
+| --- | --- |
+| `navigation/` | Components > Navigation, Local Nav(PC 版 `TocNav` も同居) |
+| `interactive/` | Interactive > Buttons(PC/SP), DropDown |
+| `card/` | Components > Card(Card Contact / Banner Contact 系) |
+| `content/` | Other(Question/Question List, Card Arrow, Side Bar Dots 等) |
+| `filter/` | Other > Popup Filter Drop Down SP / List SP(SP 絞り込みモーダル殻) |
+| `post/` | Post |
+| `icons/` | Iconography |
+| `footer/` | Footer |
+| `misc/` | 本ドキュメントに掲載の無いユーティリティ/ページ固有コンポーネント(`CmsImage`/`ParallaxLayer`/`Reveal`/`ParkingBanner`/`HeroCardStory`/`SearchProgress`/`Pagination`)。カタログ対象外であることを可視化するための意図的な受け皿 |
+
+Typography/Color/Assets/Breakpoints は `tailwind.config.ts` / `globals.css` 側のトークンであり、対応するコンポーネントフォルダは存在しない(全項目の対応表は上記各節を参照)。
+
 ## Typography
 
 1. 列名: [node-id=4211-26399](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-26399&m=dev)
@@ -92,29 +108,29 @@ Figma fileKey: `rAdZUPq1BgzHVRP7QOhXC8`
 
 ### System 24px
 
-1. [node-id=4211-26337](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-26337&m=dev) → 対応コード無し(共通Iconコンポーネント無し、各ファイルにインラインSVG。共通アイコンは`src/components/ui/icons.tsx`に一部集約済み)
+1. [node-id=4211-26337](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-26337&m=dev) → 対応コード無し(共通Iconコンポーネント無し、各ファイルにインラインSVG。共通アイコンは`src/components/ui/icons/icons.tsx`に一部集約済み)
 
 ### Social Media 24px
 
-1. [node-id=4211-26335](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-26335&m=dev) → `src/components/ui/icons.tsx`(`InstagramIcon`/`YoutubeIcon`、`Footer.tsx`で共通利用)
+1. [node-id=4211-26335](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-26335&m=dev) → `src/components/ui/icons/icons.tsx`(`InstagramIcon`/`YoutubeIcon`、`footer/Footer.tsx`で共通利用)
 
 ## Interactive
 
 ### Buttons（PC アイコンは非表示利用可能）
 
 1. 列名: [node-id=4211-26015](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-26015&m=dev)
-2. Arrow: [node-id=4211-26020](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-26020&m=dev) → `src/components/ui/ArrowButton.tsx`(単一のSSOTとしてコード内で明示)
+2. Arrow: [node-id=4211-26020](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-26020&m=dev) → `src/components/ui/interactive/ArrowButton.tsx`(単一のSSOTとしてコード内で明示)
 3. Button Primary: [node-id=4211-26033](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-26033&m=dev) → `.btn-primary`(使用1箇所のみ)
 4. Button Secondary: [node-id=4211-26046](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-26046&m=dev) → 対応コード無し(旧`.btn-secondary`は使用0件のため2026-07-20削除。実質`.btn-outline-fill`/`SeeAllLink.tsx`が代替)
-5. Sort: [node-id=4211-26067](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-26067&m=dev) → `src/components/ui/SortApplyButton.tsx`(2026-07-20新設、PropertyFilter.tsx/StoriesFilter.tsxで共通利用)
-6. Sort Clear: [node-id=4211-26076](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-26076&m=dev) → `src/components/ui/SortClearButton.tsx`(2026-07-20新設、同上)
+5. Sort: [node-id=4211-26067](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-26067&m=dev) → `src/components/ui/interactive/SortApplyButton.tsx`(2026-07-20新設、PropertyFilter.tsx/StoriesFilter.tsxで共通利用)
+6. Sort Clear: [node-id=4211-26076](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-26076&m=dev) → `src/components/ui/interactive/SortClearButton.tsx`(2026-07-20新設、同上)
 7. Textlink: [node-id=4211-26089](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-26089&m=dev) → 対応コード無し(旧`.btn-ghost`は使用0件のため2026-07-20削除。実質`SeeAllLink.tsx`が代替)
 
 ### Buttons（SP アイコンは非表示利用可能）
 
 1. 列名: [node-id=4211-26113](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-26113&m=dev)
-2. Button Primary Sp: [node-id=4211-26127](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-26127&m=dev) → `src/components/ui/SeeAllButtonSP.tsx`
-3. Button Primary Small Sp: [node-id=4211-26143](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-26143&m=dev) → `src/components/ui/MoreLinkButton.tsx`(`mode="sp"`)
+2. Button Primary Sp: [node-id=4211-26127](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-26127&m=dev) → `src/components/ui/interactive/SeeAllButtonSP.tsx`
+3. Button Primary Small Sp: [node-id=4211-26143](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-26143&m=dev) → `src/components/ui/interactive/MoreLinkButton.tsx`(`mode="sp"`)
 4. Button Secondary Small Sp: [node-id=4211-26159](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-26159&m=dev) → 対応コード無し
 5. Sort Sp: [node-id=4211-26175](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-26175&m=dev) → `MobileFilterNav.tsx` / `MobileStoriesFilter.tsx`内(共通`DropdownSP`経由)
 6. Sort Clear Sp: [node-id=4211-26185](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-26185&m=dev) → 同上
@@ -133,20 +149,20 @@ Figma fileKey: `rAdZUPq1BgzHVRP7QOhXC8`
 
 1. PC
    1. 列名: [node-id=4211-26253](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-26253&m=dev)
-   2. 内容: [node-id=4211-26258](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-26258&m=dev) → `src/components/ui/DropdownPC.tsx`(2026-07-20に`CheckboxDropdown.tsx`からリネーム)
+   2. 内容: [node-id=4211-26258](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-26258&m=dev) → `src/components/ui/interactive/DropdownPC.tsx`(2026-07-20に`CheckboxDropdown.tsx`からリネーム)
 2. SP
    1. 列名: [node-id=4211-26295](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-26295&m=dev)
-   2. 内容: [node-id=4211-26299](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-26299&m=dev) → `src/components/ui/DropdownSP.tsx`(2026-07-20に`MultiSelectDropdown.tsx`からリネーム)
+   2. 内容: [node-id=4211-26299](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-26299&m=dev) → `src/components/ui/interactive/DropdownSP.tsx`(2026-07-20に`MultiSelectDropdown.tsx`からリネーム)
 
 ## Components
 
 ### Navigation
 
 1. PC
-   1. Type = Default: [node-id=4211-24847](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24847&m=dev) → `src/components/ui/Navigation.tsx`(`dropdownOpen`、2026-07-20に`Header.tsx`からリネーム)
+   1. Type = Default: [node-id=4211-24847](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24847&m=dev) → `src/components/ui/navigation/Navigation.tsx`(`dropdownOpen`、2026-07-20に`Header.tsx`からリネーム)
    2. Type = Opened: [node-id=4211-24867](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24867&m=dev) → 同上
 2. SP
-   1. Type = Default: [node-id=4211-25409](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25409&m=dev) → `Navigation.tsx`(`mobileOpen`)
+   1. Type = Default: [node-id=4211-25409](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25409&m=dev) → `navigation/Navigation.tsx`(`mobileOpen`)
    2. Type = Opened: [node-id=4211-25413](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25413&m=dev) → 同上
 
 ### Heading
@@ -163,8 +179,8 @@ Figma fileKey: `rAdZUPq1BgzHVRP7QOhXC8`
    5. Section: [node-id=4211-24978](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24978&m=dev)
    6. Card: [node-id=4211-24985](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24985&m=dev)
    7. Section: [node-id=4211-24994](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24994&m=dev)
-   8. Card Contact: [node-id=4211-24998](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24998&m=dev) → `src/components/ui/CardContact.tsx`(2026-07-20新設。`ContactBanner.tsx`内の3箇所重複を解消)
-   9. Banner Contact: [node-id=4211-25002](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25002&m=dev) → `src/components/ui/ContactBanner.tsx`
+   8. Card Contact: [node-id=4211-24998](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24998&m=dev) → `src/components/ui/card/CardContact.tsx`(2026-07-20新設。`src/components/ui/card/ContactBanner.tsx`内の3箇所重複を解消)
+   9. Banner Contact: [node-id=4211-25002](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25002&m=dev) → `src/components/ui/card/ContactBanner.tsx`
    10. Card Link: [node-id=4211-25008](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25008&m=dev) → 対応コード無し
    11. Card Property: [node-id=4211-25013](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25013&m=dev) → `src/components/property/PropertyCard.tsx`(ステータス/カテゴリ/価格ロジックは`src/lib/propertyDisplay.ts`に共通化、2026-07-20)
    12. Card Article: [node-id=4211-25105](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25105&m=dev) → `src/components/owner/ArticleCarousel.tsx`(カード自体はcarousel内にinline実装)
@@ -176,7 +192,7 @@ Figma fileKey: `rAdZUPq1BgzHVRP7QOhXC8`
    4. Section: [node-id=4211-25469](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25469&m=dev)
    5. Card SP: [node-id=4211-25484](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25484&m=dev)
    6. Section: [node-id=4211-25489](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25489&m=dev)
-   7. Banner Contact SP: [node-id=4211-25492](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25492&m=dev) → `ContactBanner.tsx`(SP部)
+   7. Banner Contact SP: [node-id=4211-25492](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25492&m=dev) → `src/components/ui/card/ContactBanner.tsx`(SP部)
    8. Card Link SP: [node-id=4211-25498](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25498&m=dev) → 対応コード無し
    9. Card Property SP: [node-id=4211-25503](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25503&m=dev) → `PropertyCard.tsx`(SP部) / `src/components/property/PickupCard.tsx`
    10. Card Story SP: [node-id=4211-25584](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25584&m=dev) → `StoryCard.tsx`(SP部)
@@ -185,10 +201,10 @@ Figma fileKey: `rAdZUPq1BgzHVRP7QOhXC8`
 ## Post
 
 1. PC
-   1. Image + Caption: [node-id=4211-25213](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25213&m=dev) → `globals.css` `.rich-content img` / `p:has(> em:only-child)`(`RichText.tsx`経由)
+   1. Image + Caption: [node-id=4211-25213](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25213&m=dev) → `globals.css` `.rich-content img` / `p:has(> em:only-child)`(`src/components/ui/post/RichText.tsx`経由)
    2. Comment: [node-id=4211-25218](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25218&m=dev) → `globals.css` `.rich-content .rich-comment`
    3. Interview Item PC: [node-id=4211-25225](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25225&m=dev) → `staff-interview/page.tsx`の`InterviewItemComponent`(単一使用のためページローカル)
-   4. Rich Text PC: [node-id=4211-25237](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25237&m=dev) → `src/components/ui/RichText.tsx`(`VoiceContent.tsx`は`.voice-rich`で別ルート描画、一部不整合)
+   4. Rich Text PC: [node-id=4211-25237](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25237&m=dev) → `src/components/ui/post/RichText.tsx`(`VoiceContent.tsx`は`.voice-rich`で別ルート描画、一部不整合)
 2. SP
    1. Image + Caption SP: [node-id=4211-25706](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25706&m=dev) → 共通(PC参照)
    2. Comment SP: [node-id=4211-25711](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25711&m=dev) → 共通(PC参照)
@@ -198,19 +214,19 @@ Figma fileKey: `rAdZUPq1BgzHVRP7QOhXC8`
 1. PC
    1. List Item Deco: [node-id=4211-25250](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25250&m=dev) → 対応コード無し
    2. List Item Def: [node-id=4211-25259](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25259&m=dev) → 対応コード無し
-   3. Side Bar Dots: [node-id=4211-25262](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25262&m=dev) → `src/components/ui/SlideshowNav.tsx`
-   4. Navigation Slide Show: [node-id=4211-25269](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25269&m=dev) → `SlideshowNav.tsx`(同上。6箇所で共通利用)
-   5. Question List: [node-id=4211-25275](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25275&m=dev) → `src/lib/useAccordionHeight.ts` + `src/components/ui/AccordionChevron.tsx`
+   3. Side Bar Dots: [node-id=4211-25262](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25262&m=dev) → `src/components/ui/content/SlideshowNav.tsx`
+   4. Navigation Slide Show: [node-id=4211-25269](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25269&m=dev) → `content/SlideshowNav.tsx`(同上。6箇所で共通利用)
+   5. Question List: [node-id=4211-25275](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25275&m=dev) → `src/lib/useAccordionHeight.ts` + `src/components/ui/content/AccordionChevron.tsx`
    6. Question: [node-id=4211-25281](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25281&m=dev) → 同上(`FaqAccordion.tsx`/`NewsAccordion.tsx`/`VoiceContent.tsx`で共通利用、PR #132で統合)
-   7. Card Arrow: [node-id=4211-25302](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25302&m=dev) → `src/components/ui/CardArrowFlow.tsx`(PR #132で統合)
+   7. Card Arrow: [node-id=4211-25302](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25302&m=dev) → `src/components/ui/content/CardArrowFlow.tsx`(PR #132で統合)
    8. Paragraph: [node-id=4211-25308](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25308&m=dev) → `globals.css` `.rich-content p`
 2. SP
-   1. Side Bar Dots SP: [node-id=4211-25722](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25722&m=dev) → `SlideshowNav.tsx`(共通)
+   1. Side Bar Dots SP: [node-id=4211-25722](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25722&m=dev) → `content/SlideshowNav.tsx`(共通)
    2. List Item Deco SP: [node-id=4211-25729](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25729&m=dev) → 対応コード無し
    3. List Item Def SP: [node-id=4211-25738](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25738&m=dev) → 対応コード無し
    4. Question List SP: [node-id=4211-25741](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25741&m=dev) → 共通(PC参照)
    5. Question SP: [node-id=4211-25747](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25747&m=dev) → 共通(PC参照)
-   6. Popup Filter Drop Down SP: [node-id=4211-25768](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25768&m=dev) → `MobileFilterNav.tsx` / `MobileStoriesFilter.tsx`(共通`SpFloatingTrigger`/`SpModalBackdrop`/`SpModalCloseButton`経由、2026-07-20共通化)
+   6. Popup Filter Drop Down SP: [node-id=4211-25768](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25768&m=dev) → `MobileFilterNav.tsx` / `MobileStoriesFilter.tsx`(共通`src/components/ui/filter/{SpFloatingTrigger,SpModalBackdrop,SpModalCloseButton}.tsx`経由、2026-07-20共通化)
    7. Popup Filter List SP: [node-id=4211-25779](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25779&m=dev) → 同上
 
 ## Pattern
@@ -233,14 +249,14 @@ Figma fileKey: `rAdZUPq1BgzHVRP7QOhXC8`
 
 ## Local Nav
 
-1. Page Nav SP: [node-id=4211-25868](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25868&m=dev) → `src/components/ui/PageNavSP.tsx`(2026-07-20に`MobileTocNav.tsx`からリネーム)
+1. Page Nav SP: [node-id=4211-25868](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25868&m=dev) → `src/components/ui/navigation/PageNavSP.tsx`(2026-07-20に`MobileTocNav.tsx`からリネーム)
 2. Page Nav Open SP: [node-id=4211-25874](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25874&m=dev) → 同上
 
 ## Footer
 
-1. PC: [node-id=4211-25375](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25375&m=dev) → `src/components/ui/Footer.tsx`
+1. PC: [node-id=4211-25375](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25375&m=dev) → `src/components/ui/footer/Footer.tsx`
 2. SP
-   1. Default: [node-id=4211-25922](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25922&m=dev) → `Footer.tsx`(`isAccordionOpen`)
+   1. Default: [node-id=4211-25922](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25922&m=dev) → `footer/Footer.tsx`(`isAccordionOpen`)
    2. Opened: [node-id=4211-25962](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25962&m=dev) → 同上
 
 ## Card（状態分け）

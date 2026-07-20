@@ -2,10 +2,10 @@ import { unstable_noStore as noStore } from 'next/cache';
 import { getProperty, getProperties } from '@/lib/microcms/queries';
 import Link from 'next/link';
 import MoreProperties from '@/components/property/MoreProperties';
-import PageNavSP from '@/components/ui/PageNavSP';
-import CmsImage from '@/components/ui/CmsImage';
-import ArrowButton from '@/components/ui/ArrowButton';
-import { BookIcon } from '@/components/ui/icons';
+import PageNavSP from '@/components/ui/navigation/PageNavSP';
+import CmsImage from '@/components/ui/misc/CmsImage';
+import ArrowButton from '@/components/ui/interactive/ArrowButton';
+import { BookIcon } from '@/components/ui/icons/icons';
 import StoryCardOverlay from '@/components/story/StoryCardOverlay';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
@@ -13,8 +13,8 @@ import { getImageUrl } from '@/lib/microcms/image';
 import { getTypeformContactUrl } from '@/lib/typeform';
 import type { MicroCMSImage } from '@/types/microcms';
 import PropertyDetailClient from '@/components/property/PropertyDetailClient';
-import RichText, { extractTocFromHtml } from '@/components/ui/RichText';
-import TocNav from '@/components/ui/TocNav';
+import RichText, { extractTocFromHtml } from '@/components/ui/post/RichText';
+import TocNav from '@/components/ui/navigation/TocNav';
 
 export const revalidate = 3600;
 

@@ -2,10 +2,10 @@
 
 import { useState, useCallback, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import DropdownSP from '@/components/ui/DropdownSP';
-import SpFloatingTrigger from '@/components/ui/SpFloatingTrigger';
-import SpModalBackdrop from '@/components/ui/SpModalBackdrop';
-import SpModalCloseButton from '@/components/ui/SpModalCloseButton';
+import DropdownSP from '@/components/ui/interactive/DropdownSP';
+import SpFloatingTrigger from '@/components/ui/filter/SpFloatingTrigger';
+import SpModalBackdrop from '@/components/ui/filter/SpModalBackdrop';
+import SpModalCloseButton from '@/components/ui/filter/SpModalCloseButton';
 import { useScrollVisibility } from '@/lib/useScrollVisibility';
 
 const propertyTypes = [

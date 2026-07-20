@@ -2,11 +2,11 @@ import { getProperties, getCustomerVoices, getStories } from '@/lib/microcms/que
 import MoreProperties from '@/components/property/MoreProperties';
 import VoiceCarousel from '@/components/home/VoiceCarousel';
 import StorySection from '@/components/story/StorySection';
-import FaqSection from '@/components/ui/FaqSection';
-import ContactCtaBanner from '@/components/ui/ContactCtaBanner';
-import Reveal from '@/components/ui/Reveal';
-import ParallaxLayer from '@/components/ui/ParallaxLayer';
-import CardArrowFlow from '@/components/ui/CardArrowFlow';
+import FaqSection from '@/components/ui/content/FaqSection';
+import ContactCtaBanner from '@/components/ui/card/ContactCtaBanner';
+import Reveal from '@/components/ui/misc/Reveal';
+import ParallaxLayer from '@/components/ui/misc/ParallaxLayer';
+import CardArrowFlow from '@/components/ui/content/CardArrowFlow';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';

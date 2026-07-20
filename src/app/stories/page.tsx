@@ -3,14 +3,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { getStories } from '@/lib/microcms/queries';
 import { Story } from '@/types/microcms';
-import CmsImage from '@/components/ui/CmsImage';
-import Pagination from '@/components/ui/Pagination';
+import CmsImage from '@/components/ui/misc/CmsImage';
+import Pagination from '@/components/ui/misc/Pagination';
 import StoriesFilter from '@/components/story/StoriesFilter';
 import MobileStoriesFilter from '@/components/story/MobileStoriesFilter';
 import StoryCardOverlay from '@/components/story/StoryCardOverlay';
-import { BookIcon } from '@/components/ui/icons';
-import Reveal from '@/components/ui/Reveal';
-import ArrowButton from '@/components/ui/ArrowButton';
+import { BookIcon } from '@/components/ui/icons/icons';
+import Reveal from '@/components/ui/misc/Reveal';
+import ArrowButton from '@/components/ui/interactive/ArrowButton';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { CustomerVoice } from '@/types/microcms';
 import { useAccordionHeight } from '@/lib/useAccordionHeight';
-import AccordionChevron from '@/components/ui/AccordionChevron';
+import AccordionChevron from '@/components/ui/content/AccordionChevron';
 
 const categories = [
   { key: 'all', label: 'すべて' },

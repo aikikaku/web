@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import type { Metadata } from 'next';
-import HeroCardStory from '@/components/ui/HeroCardStory';
-import ServiceCTA from '@/components/ui/ServiceCTA';
-import Reveal from '@/components/ui/Reveal';
+import HeroCardStory from '@/components/ui/misc/HeroCardStory';
+import ServiceCTA from '@/components/ui/card/ServiceCTA';
+import Reveal from '@/components/ui/misc/Reveal';
 
 export const metadata: Metadata = {
   title: 'ご挨拶',

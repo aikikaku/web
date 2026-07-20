@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Story } from '@/types/microcms';
 import StoryCarousel from '@/components/home/StoryCarousel';
 import StoryCard from '@/components/story/StoryCard';
-import ArrowButton from '@/components/ui/ArrowButton';
+import ArrowButton from '@/components/ui/interactive/ArrowButton';
 
 interface Props {
   /** 表示するストーリー一覧 */

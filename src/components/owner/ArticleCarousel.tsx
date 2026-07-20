@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import SlideshowNav from '@/components/ui/SlideshowNav';
+import SlideshowNav from '@/components/ui/content/SlideshowNav';
 
 export interface ArticleItem {
   tag: string;

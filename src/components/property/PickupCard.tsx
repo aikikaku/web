@@ -5,8 +5,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Property } from '@/types/microcms';
 import { getImageUrl } from '@/lib/microcms/image';
-import CmsImage from '@/components/ui/CmsImage';
-import { BookIcon } from '@/components/ui/icons';
+import CmsImage from '@/components/ui/misc/CmsImage';
+import { BookIcon } from '@/components/ui/icons/icons';
 import { getPropertyStatus, getPropertyCategoryLabel, formatPropertyPrice } from '@/lib/propertyDisplay';
 
 interface Props {
