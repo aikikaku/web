@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { CustomerVoice } from '@/types/microcms';
-import SlideshowNav from '@/components/ui/SlideshowNav';
+import NavigationSlideshow from '@/components/ui/content/NavigationSlideshow';
 
 interface Props {
   voices: CustomerVoice[];
@@ -76,10 +76,10 @@ export default function VoiceCarousel({ voices }: Props) {
 
       {/* Navigation-Slideshow (Figma 4211:11501 共通) */}
       <div className="hidden tablet:block mt-16 px-[4.6875rem]">
-        <SlideshowNav activePage={activePage} totalPages={totalPages} onPageChange={goToPage} href="/voice" />
+        <NavigationSlideshow activePage={activePage} totalPages={totalPages} onPageChange={goToPage} href="/voice" />
       </div>
       <div className="tablet:hidden mt-8 px-4">
-        <SlideshowNav activePage={activePage} totalPages={totalPages} onPageChange={goToPage} href="/voice" />
+        <NavigationSlideshow activePage={activePage} totalPages={totalPages} onPageChange={goToPage} href="/voice" />
       </div>
     </div>
   );

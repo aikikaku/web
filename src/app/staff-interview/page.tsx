@@ -1,9 +1,9 @@
 import Image from 'next/image';
-import TocNav from '@/components/ui/TocNav';
-import MobileTocNav from '@/components/ui/MobileTocNav';
-import HeroCardStory from '@/components/ui/HeroCardStory';
-import ServiceCTA from '@/components/ui/ServiceCTA';
-import Reveal from '@/components/ui/Reveal';
+import TocNav from '@/components/ui/navigation/TocNav';
+import PageNavSp from '@/components/ui/navigation/PageNavSp';
+import HeroCardStory from '@/components/common/HeroCardStory';
+import ServiceCTA from '@/components/ui/card/ServiceCTA';
+import Reveal from '@/components/common/Reveal';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -258,13 +258,13 @@ export default function StaffInterviewPage() {
       </section>
 
       {/* SP: フローティング TOC ボタン (Figma 4211:11761 closed / 4211:11779 open) */}
-      <MobileTocNav items={tocItems} />
+      <PageNavSp items={tocItems} />
 
       {/* インタビューセクション（PC: サイドバー付き / SP: フローティング TOC）
           Figma SP 4211:11660: section pb-[7.5rem]、各 item pb-[1.5rem] */}
       <Reveal as="section" className="pt-12 tablet:pt-24 pb-[7.5rem] tablet:pb-24 px-4 tablet:pl-[2.8125rem] tablet:pr-[4.6875rem] max-w-[90rem] mx-auto">
         <div className="flex max-tablet:flex-col items-start tablet:justify-between">
-          {/* PC: TOC サイドバー（スクロール追従）。SP は MobileTocNav で代替 */}
+          {/* PC: TOC サイドバー（スクロール追従）。SP は PageNavSp で代替 */}
           <div className="hidden tablet:block tablet:w-[20.1875rem] shrink-0 tablet:sticky tablet:top-24">
             <div className="bg-light-green rounded-[2rem] px-[1.875rem] py-[2.8125rem]">
               <TocNav items={tocItems} />

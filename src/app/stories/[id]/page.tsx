@@ -1,15 +1,15 @@
 import { getStory, getStories } from '@/lib/microcms/queries';
-import StoryCard from '@/components/story/StoryCard';
-import CmsImage from '@/components/ui/CmsImage';
-import ArrowButton from '@/components/ui/ArrowButton';
+import RelatedStoriesGrid from '@/components/story/RelatedStoriesGrid';
+import CmsImage from '@/components/common/CmsImage';
+import Arrow from '@/components/ui/interactive/Arrow';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getImageUrl } from '@/lib/microcms/image';
-import RichText, { extractTocFromHtml } from '@/components/ui/RichText';
-import TocNav from '@/components/ui/TocNav';
-import MobileTocNav from '@/components/ui/MobileTocNav';
-import SeeAllLink from '@/components/ui/SeeAllLink';
+import RichText, { extractTocFromHtml } from '@/components/ui/post/RichText';
+import TocNav from '@/components/ui/navigation/TocNav';
+import PageNavSp from '@/components/ui/navigation/PageNavSp';
+import ButtonPrimary from '@/components/ui/interactive/ButtonPrimary';
 import { getStoryCategoryLabel } from '@/lib/storyCategory';
 
 export const revalidate = 3600;
@@ -123,7 +123,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
             <div className="flex flex-col gap-8 items-center w-full">
               {/* タグ + 地域 */}
               <div className="flex gap-3 items-center">
-                <span className="tag-pill">
+                <span className="tag">
                   {getStoryCategoryLabel(story.category)}
                 </span>
                 {regionNames && (
@@ -153,7 +153,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
       </section>
 
       {/* SP用 floating TOC bar */}
-      <MobileTocNav items={tocItems} />
+      <PageNavSp items={tocItems} />
 
       {/* メインコンテンツ: TOC + リッチテキスト */}
       <section data-mobile-toc-start className="pb-24 px-[2.8125rem] tablet:pr-[4.6875rem] max-w-[90rem] mx-auto max-tablet:px-4">
@@ -189,7 +189,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
                         この物件について
                       </p>
                     </div>
-                    <ArrowButton variant="cream" />
+                    <Arrow variant="cream" />
                   </Link>
                 </div>
               )}
@@ -213,18 +213,12 @@ export default async function StoryPage({ params }: StoryPageProps) {
               もっとストーリーを見る
             </h3>
 
-            {/* カード3列 */}
-            <div className="grid grid-cols-1 tablet:grid-cols-3 gap-y-12 gap-x-[1.875rem] max-tablet:flex max-tablet:overflow-x-auto max-tablet:pb-4 max-tablet:gap-x-4">
-              {relatedStories.contents.map((s) => (
-                <div key={s.id} className="max-tablet:w-[18.75rem] max-tablet:shrink-0">
-                  <StoryCard story={s} />
-                </div>
-              ))}
-            </div>
+            {/* カード3列(PC) / 横スクロール+ドットページャー(SP) */}
+            <RelatedStoriesGrid stories={relatedStories.contents} />
 
             {/* ナビゲーション: すべて見る */}
             <div className="flex items-center justify-end">
-              <SeeAllLink href="/stories" />
+              <ButtonPrimary href="/stories" />
             </div>
           </div>
         </section>

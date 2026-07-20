@@ -1,18 +1,20 @@
 import { getProperties, getStories, getCustomerVoices } from '@/lib/microcms/queries';
 import { HERO_IMAGES } from '@/lib/heroImages';
-import PropertyCard from '@/components/property/PropertyCard';
+import CardProperty from '@/components/ui/card/CardProperty';
 import NewsAccordion from '@/components/home/NewsAccordion';
 import VoiceCarousel from '@/components/home/VoiceCarousel';
 import PropertyCarousel from '@/components/home/PropertyCarousel';
 import StoryCarousel from '@/components/home/StoryCarousel';
+import CardStory from '@/components/ui/card/CardStory';
 import HeroSlideshowSP from '@/components/home/HeroSlideshowSP';
 import HeroFrame from '@/components/home/HeroFrame';
 import HeroVideo from '@/components/home/HeroVideo';
-import SeeAllLink from '@/components/ui/SeeAllLink';
-import ArrowButton from '@/components/ui/ArrowButton';
-import ParkingBanner from '@/components/ui/ParkingBanner';
-import Reveal from '@/components/ui/Reveal';
-import ParallaxLayer from '@/components/ui/ParallaxLayer';
+import ButtonPrimary from '@/components/ui/interactive/ButtonPrimary';
+import Arrow from '@/components/ui/interactive/Arrow';
+import MoreLinkButton from '@/components/ui/interactive/MoreLinkButton';
+import ParkingBanner from '@/components/common/ParkingBanner';
+import Reveal from '@/components/common/Reveal';
+import ServiceCTA from '@/components/ui/card/ServiceCTA';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -127,24 +129,11 @@ export default async function HomePage() {
                 </div>
 
                 {/* SP: フル幅青ボタン / PC: テキスト+矢印（右寄せ） */}
-                <Link
-                  href="/about"
-                  className="tablet:hidden self-start inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-accent-blue font-gothic font-medium text-base text-white active:opacity-60 transition-opacity"
-                >
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="shrink-0">
-                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
-                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
-                  </svg>
-                  もっと知る
-                </Link>
+                <div className="tablet:hidden">
+                  <MoreLinkButton href="/about" mode="sp" />
+                </div>
                 <div className="hidden tablet:flex tablet:justify-end">
-                  <Link
-                    href="/about"
-                    className="group inline-flex items-center gap-2 font-gothic font-medium text-[1.125rem] text-dark-green"
-                  >
-                    もっと知る
-                    <ArrowButton />
-                  </Link>
+                  <MoreLinkButton href="/about" mode="pc" pcColor="dark-green" />
                 </div>
               </div>
             </div>
@@ -165,147 +154,12 @@ export default async function HomePage() {
       </Reveal>
 
       {/* 不動産サービスリンク */}
-      <Reveal as="section" className="relative py-[3.75rem] tablet:py-[6rem] overflow-hidden bg-[#d9d9d9]">
-        {/* SP 背景: Figma 4211:10628 専用画像（空のみ）/ cover 中央。
-            PC 用画像 service-bg.png は駅写真のためそのまま使うと地面しか見えなかった。
-            Figma が SP では別アセット（空のみ）を使っていたため、別ファイルとして配置。 */}
-        <ParallaxLayer strength={0.08}>
-          <div
-            aria-hidden
-            className="tablet:hidden absolute inset-0 bg-[#d9d9d9] pointer-events-none select-none"
-            style={{
-              backgroundImage: "url('/images/home/service-bg-sp.png')",
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: '50% 50%',
-              backgroundSize: 'cover',
-            }}
-          />
-          {/* PC 背景: Figma 4211:9984 の `-263.466px -6.76px / 205.327% 353.941% no-repeat` を完全転記。
-              画像は駅写真だが、この拡大とオフセットで上部の空のみが可視範囲に入る。 */}
-          <div
-            aria-hidden
-            className="hidden tablet:block absolute inset-0 bg-[#d9d9d9] pointer-events-none select-none"
-            style={{
-              backgroundImage: "url('/images/home/service-bg.png')",
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: '-263.466px -6.76px',
-              backgroundSize: '205.327% 353.941%',
-            }}
-          />
-        </ParallaxLayer>
-        <div className="relative px-4 tablet:px-[2.8125rem] max-w-[90rem] mx-auto">
-          {/* SP: 背景画像cover + ダークオーバーレイ */}
-          <div className="flex flex-col gap-6 tablet:hidden">
-            <Link
-              href="/for-customer"
-              className="group relative flex items-center gap-6 rounded-2xl overflow-hidden px-4 pt-9 pb-10"
-            >
-              <div className="absolute inset-0 -z-0">
-                <Image
-                  src="/images/home/service-customer.jpg"
-                  alt=""
-                  fill
-                  className="object-cover"
-                />
-                <div
-                  className="absolute inset-0"
-                  style={{ backgroundImage: 'linear-gradient(-28deg, rgb(var(--overlay-dark) / 0.2) 1.5%, rgb(var(--overlay-dark) / 0.5) 39.7%)' }}
-                />
-              </div>
-              <div className="relative z-10 flex-1 min-w-0 flex flex-col gap-2 text-white">
-                <h3 className="font-mincho text-heading-24" style={{ fontFeatureSettings: "'palt' 1" }}>
-                  不動産を<br />お探しの方
-                </h3>
-                <p className="text-body-m font-gothic font-medium">
-                  買いたい・借りたい
-                </p>
-              </div>
-              <ArrowButton size="sm" className="relative z-10" />
-            </Link>
-
-            <Link
-              href="/for-owner"
-              className="group relative flex items-center gap-6 rounded-2xl overflow-hidden px-4 pt-9 pb-10"
-            >
-              <div className="absolute inset-0 -z-0">
-                <Image
-                  src="/images/home/service-owner.jpg"
-                  alt=""
-                  fill
-                  className="object-cover"
-                />
-                <div
-                  className="absolute inset-0"
-                  style={{ backgroundImage: 'linear-gradient(to left, rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 100%)' }}
-                />
-              </div>
-              <div className="relative z-10 flex-1 min-w-0 flex flex-col gap-2 text-white">
-                <h3 className="font-mincho text-heading-24" style={{ fontFeatureSettings: "'palt' 1" }}>
-                  不動産を<br />お持ちの方へ
-                </h3>
-                <p className="text-body-m font-gothic font-medium">
-                  売りたい・貸したい
-                </p>
-              </div>
-              <ArrowButton size="sm" className="relative z-10" />
-            </Link>
-          </div>
-
-          {/* PC: 既存レイアウト維持 */}
-          <div className="hidden tablet:flex flex-row items-center justify-between gap-6">
-            {/* カード1: お探しの方 */}
-            <Link
-              href="/for-customer"
-              className="group bg-cream rounded-3xl p-[1.875rem] flex flex-row gap-[1.875rem] items-start w-[40.375rem] hover:shadow-lg transition-shadow overflow-hidden"
-            >
-              <div className="flex flex-col justify-between flex-1 min-w-0 h-[13.75rem] pt-2 px-3">
-                <div className="flex flex-col gap-2">
-                  <h3 className="font-mincho text-heading-32 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
-                    不動産を<br />お探しの方へ
-                  </h3>
-                  <p className="text-body-l font-gothic font-medium text-dark-green">
-                    買いたい・借りたい
-                  </p>
-                </div>
-                <ArrowButton />
-              </div>
-              <div className="w-[18.375rem] h-[13.75rem] relative rounded-xl overflow-hidden shrink-0">
-                <Image
-                  src="/images/home/service-customer.jpg"
-                  alt="不動産をお探しの方へ"
-                  fill
-                  className="object-cover transition-transform group-hover:scale-[1.02]"
-                />
-              </div>
-            </Link>
-
-            {/* カード2: お持ちの方 */}
-            <Link
-              href="/for-owner"
-              className="group bg-cream rounded-3xl p-[1.875rem] flex flex-row gap-[1.875rem] items-start w-[40.375rem] hover:shadow-lg transition-shadow overflow-hidden"
-            >
-              <div className="flex flex-col justify-between flex-1 min-w-0 h-[13.75rem] pt-2 px-3">
-                <div className="flex flex-col gap-2">
-                  <h3 className="font-mincho text-heading-32 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
-                    不動産を<br />お持ちの方へ
-                  </h3>
-                  <p className="text-body-l font-gothic font-medium text-dark-green">
-                    売りたい・貸したい
-                  </p>
-                </div>
-                <ArrowButton />
-              </div>
-              <div className="w-[18.375rem] h-[13.75rem] relative rounded-xl overflow-hidden shrink-0">
-                <Image
-                  src="/images/home/service-owner.jpg"
-                  alt="不動産をお持ちの方へ"
-                  fill
-                  className="object-cover transition-transform group-hover:scale-[1.02]"
-                />
-              </div>
-            </Link>
-          </div>
-        </div>
+      <Reveal>
+        <ServiceCTA
+          customerImage="/images/home/service-customer.jpg"
+          ownerImage="/images/home/service-owner.jpg"
+          parallax
+        />
       </Reveal>
 
       {/* 新着物件セクション */}
@@ -331,7 +185,7 @@ export default async function HomePage() {
               <div className="grid grid-cols-3 gap-x-[1.875rem] gap-y-[6rem]">
                 {newProperties.contents.slice(0, 6).map((property, i) => (
                   <Reveal key={property.id} delayMs={(i % 3) * 120}>
-                    <PropertyCard property={property} />
+                    <CardProperty property={property} />
                   </Reveal>
                 ))}
               </div>
@@ -341,7 +195,7 @@ export default async function HomePage() {
 
         {/* PC: すべて見る */}
         <div className="hidden tablet:flex items-center justify-end mt-[6rem] max-w-[90rem] mx-auto px-[4.6875rem]">
-          <SeeAllLink href="/properties" />
+          <ButtonPrimary href="/properties" />
         </div>
       </section>
 
@@ -377,72 +231,14 @@ export default async function HomePage() {
                 {/* 左: 大きなストーリーカード */}
                 {latestStories.contents[0] && (
                   <div className="w-[40.375rem] shrink-0">
-                    <Link href={`/stories/${latestStories.contents[0].id}`} className="block group">
-                      <div className="relative h-[30.3125rem] rounded-3xl overflow-hidden">
-                        <Image
-                          src={latestStories.contents[0].thumbnail?.url || '/images/home/hero-1.jpg'}
-                          alt={latestStories.contents[0].title}
-                          fill
-                          className="object-cover transition-transform group-hover:scale-[1.02]"
-                        />
-                      </div>
-                      <div className="pt-[1.875rem] px-3">
-                        <div className="flex gap-3 items-center mb-4">
-                          <span className="tag-pill">
-                            {latestStories.contents[0].category === 'property' ? '物件のつづき' : latestStories.contents[0].category === 'regional' ? '地域のこと' : latestStories.contents[0].category === 'daily' ? '日々のこと' : '物件のつづき'}
-                          </span>
-                          <span className="text-body-s font-gothic font-medium text-dark-green">
-                            {latestStories.contents[0].regions?.[0]?.name || ''}
-                          </span>
-                        </div>
-                        <h3 className="font-mincho text-heading-32 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
-                          {latestStories.contents[0].title}
-                        </h3>
-                        <span className="inline-flex items-center gap-1 mt-6 h-11 px-6 btn-outline-fill text-base leading-none">
-                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
-                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
-                          </svg>
-                          ストーリーを読む
-                        </span>
-                      </div>
-                    </Link>
+                    <CardStory story={latestStories.contents[0]} size="l" />
                   </div>
                 )}
 
                 {/* 右: 中サイズカード2枚 */}
                 <div className="flex flex-col gap-[6rem] w-[34.875rem]">
                   {latestStories.contents.slice(1, 3).map((story) => (
-                    <Link key={story.id} href={`/stories/${story.id}`} className="flex gap-[1.875rem] h-[22rem] group">
-                      <div className="relative w-[16.5rem] h-[22rem] rounded-2xl overflow-hidden shrink-0">
-                        <Image
-                          src={story.thumbnail?.url || '/images/home/hero-1.jpg'}
-                          alt={story.title}
-                          fill
-                          className="object-cover transition-transform group-hover:scale-[1.02]"
-                        />
-                      </div>
-                      <div className="flex flex-col flex-1">
-                        <div className="flex gap-3 items-center mb-4">
-                          <span className="tag-pill">
-                            {story.category === 'property' ? '物件のつづき' : story.category === 'regional' ? '地域のこと' : story.category === 'daily' ? '日々のこと' : '地域のこと'}
-                          </span>
-                          <span className="text-body-s font-gothic font-medium text-dark-green">
-                            {story.regions?.[0]?.name || ''}
-                          </span>
-                        </div>
-                        <h4 className="font-mincho text-heading-24 text-dark-green w-[16.5rem]" style={{ fontFeatureSettings: "'palt' 1" }}>
-                          {story.title}
-                        </h4>
-                        <span className="inline-flex items-center gap-1 mt-6 h-11 px-6 btn-outline-fill text-base leading-none w-fit">
-                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
-                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
-                          </svg>
-                          ストーリーを読む
-                        </span>
-                      </div>
-                    </Link>
+                    <CardStory key={story.id} story={story} size="m" />
                   ))}
                 </div>
               </div>
@@ -456,7 +252,7 @@ export default async function HomePage() {
 
         {/* PC: すべて見る */}
         <div className="hidden tablet:flex items-center justify-end mt-[6rem] max-w-[90rem] mx-auto px-[4.6875rem]">
-          <SeeAllLink href="/stories" />
+          <ButtonPrimary href="/stories" />
         </div>
       </section>
 
@@ -559,7 +355,7 @@ export default async function HomePage() {
                 <span className="font-gothic font-medium text-category-2 text-dark-green">
                   不動産に関する<br />ご相談はこちら
                 </span>
-                <ArrowButton />
+                <Arrow />
               </Link>
             </div>
           </div>

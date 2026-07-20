@@ -5,29 +5,22 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Property } from '@/types/microcms';
 import { getImageUrl } from '@/lib/microcms/image';
-import CmsImage from '@/components/ui/CmsImage';
+import CmsImage from '@/components/common/CmsImage';
+import { BookIcon } from '@/components/ui/icons/icons';
+import { getPropertyStatus, getPropertyCategoryLabel, formatPropertyPrice } from '@/lib/propertyDisplay';
 
 interface Props {
   property: Property;
 }
 
 export default function PickupCard({ property }: Props) {
-  const isSold = property.status === 'sold';
-  const statusLabel = isSold ? '成約済み' : property.status === 'negotiating' ? '商談中' : null;
+  const { isSold, label: statusLabel } = getPropertyStatus(property);
   const allImages = [property.mainImage, ...(property.images || [])].filter(Boolean);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  // ピルは CMS の label を優先。未設定なら category+type から算出 (#30)
-  const categoryLabel =
-    property.label ||
-    (property.category === 'property'
-      ? property.type === 'sell'
-        ? '中古住宅'
-        : '賃貸物件'
-      : property.type === 'sell'
-        ? '売土地'
-        : '貸土地');
+  const categoryLabel = getPropertyCategoryLabel(property);
   const locationText = property.regions?.map((r) => r.name).join('・');
+  const { amount: priceAmount, unit: priceUnit } = formatPropertyPrice(property, isSold);
 
   return (
     <Link
@@ -73,7 +66,7 @@ export default function PickupCard({ property }: Props) {
                 location は cream (白) text 16px leading-2、画像上端の暗グラデで可読化 */}
             <div className="tablet:hidden absolute inset-x-0 top-0 z-20 p-2.5 flex items-center justify-between gap-2">
               <div className="flex items-center gap-2 min-w-0">
-                <span className="tag-pill shrink-0">
+                <span className="tag shrink-0">
                   {categoryLabel}
                 </span>
                 {locationText && (
@@ -83,14 +76,14 @@ export default function PickupCard({ property }: Props) {
                 )}
               </div>
               {statusLabel && (
-                <span className="tag-pill-dark shrink-0">
+                <span className="tag-dark shrink-0">
                   {statusLabel}
                 </span>
               )}
             </div>
             {/* PC: 状態バッジは右上に単独 */}
             {statusLabel && (
-              <span className="tag-pill-dark hidden tablet:inline-flex absolute top-4 right-4 z-20">
+              <span className="tag-dark hidden tablet:inline-flex absolute top-4 right-4 z-20">
                 {statusLabel}
               </span>
             )}
@@ -129,11 +122,11 @@ export default function PickupCard({ property }: Props) {
             {/* Tags + Location: PC のみ（SP はラベルを画像内 overlay に表示）*/}
             <div className="hidden tablet:flex flex-wrap items-center gap-2">
               {statusLabel && (
-                <span className="tag-pill-dark">
+                <span className="tag-dark">
                   {statusLabel}
                 </span>
               )}
-              <span className="tag-pill">
+              <span className="tag">
                 {categoryLabel}
               </span>
               {locationText && (
@@ -164,16 +157,10 @@ export default function PickupCard({ property }: Props) {
                   </div>
                   <div className="flex items-end justify-center">
                     <span className="font-gothic font-medium text-category-2 tablet:text-category-1 text-black px-1">
-                      {isSold
-                        ? '-'
-                        : property.price
-                          ? property.price.toLocaleString()
-                          : property.rent
-                            ? property.rent.toLocaleString()
-                            : '応談'}
+                      {priceAmount}
                     </span>
                     <span className="font-gothic font-medium text-[0.875rem] leading-[1.5] text-black pb-1 w-7">
-                      {isSold ? '万円' : property.price ? '万円' : property.rent ? '円/月' : ''}
+                      {priceUnit}
                     </span>
                   </div>
                 </div>
@@ -202,25 +189,14 @@ export default function PickupCard({ property }: Props) {
                 </span>
               </div>
             )}
-            {/* SP: 成約済み+ストーリーありの場合は物件詳細+ストーリーを読むの2ボタン（PropertyCard.tsxと同じパターン） */}
+            {/* SP: 成約済み+ストーリーありの場合は物件詳細+ストーリーを読むの2ボタン（CardProperty.tsxと同じパターン） */}
             {isSold && property.story && (
               <div className="tablet:hidden pb-6 flex items-center gap-2.5">
                 <span className="flex-1 inline-flex items-center justify-center h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none">
                   物件詳細
                 </span>
                 <span className="flex-1 inline-flex items-center justify-center gap-1 h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none">
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    className="shrink-0"
-                  >
-                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
-                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
-                  </svg>
+                  <BookIcon />
                   ストーリーを読む
                 </span>
               </div>
@@ -255,18 +231,7 @@ export default function PickupCard({ property }: Props) {
                   物件詳細
                 </span>
                 <span className="inline-flex items-center justify-center gap-1 h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none">
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    className="shrink-0"
-                  >
-                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
-                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
-                  </svg>
+                  <BookIcon />
                   ストーリーを読む
                 </span>
               </div>

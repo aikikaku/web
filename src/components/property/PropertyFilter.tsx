@@ -1,8 +1,16 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import CheckboxDropdown from '@/components/ui/CheckboxDropdown';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import Dropdown from '@/components/ui/interactive/Dropdown';
+import Sort from '@/components/ui/interactive/Sort';
+import SortClear from '@/components/ui/interactive/SortClear';
+import Toggle from '@/components/ui/interactive/Toggle';
+
+const statusOptions = [
+  { value: 'all', label: 'すべて' },
+  { value: 'available', label: 'ご案内中の物件' },
+];
 
 const propertyTypes = [
   { value: 'sell_property', label: '売物件' },
@@ -51,21 +59,6 @@ export default function PropertyFilter() {
   useEffect(() => { setOptimisticStatus(currentStatus); }, [currentStatus]);
   useEffect(() => { setOptimisticTypes(urlTypes); }, [urlTypes]);
   useEffect(() => { setOptimisticRegions(urlRegions); }, [urlRegions]);
-
-  const toggleRef = useRef<HTMLDivElement>(null);
-  const allBtnRef = useRef<HTMLButtonElement>(null);
-  const availableBtnRef = useRef<HTMLButtonElement>(null);
-  const [indicator, setIndicator] = useState<{ left: number; width: number } | null>(null);
-
-  useEffect(() => {
-    const el = optimisticStatus === 'available' ? availableBtnRef.current : allBtnRef.current;
-    const container = toggleRef.current;
-    if (!el || !container) return;
-    setIndicator({
-      left: el.offsetLeft,
-      width: el.offsetWidth,
-    });
-  }, [optimisticStatus]);
 
   // 指定の条件で URL を更新（フィルタ適用）
   const applyWith = useCallback(
@@ -144,47 +137,26 @@ export default function PropertyFilter() {
     <div className="hidden tablet:flex items-center gap-2 justify-between">
       <div className="flex items-center gap-2 min-w-0">
       {/* ステータス切替トグル */}
-      <div
-        ref={toggleRef}
-        className="relative flex rounded-[3.125rem] border border-dark-green shrink-0 mr-4 p-[0.125rem] overflow-hidden"
-      >
-        {indicator && (
-          <span
-            aria-hidden
-            className="absolute top-[0.125rem] bottom-[0.125rem] bg-dark-green rounded-[3.125rem] transition-all duration-300 ease-out"
-            style={{ left: indicator.left, width: indicator.width }}
-          />
-        )}
-        {[
-          { value: 'all', label: 'すべて', ref: allBtnRef },
-          { value: 'available', label: 'ご案内中の物件', ref: availableBtnRef },
-        ].map((option) => (
-          <button
-            key={option.value}
-            ref={option.ref}
-            onClick={() => {
-              // ステータス切替は即時反映（解除=自動更新 #69 と整合）。
-              // これにより pending 状態にならず「絞り込み」ボタンが無用に点灯しない (#29)
-              setOptimisticStatus(option.value);
-              applyWith(option.value, optimisticTypes, optimisticRegions);
-            }}
-            className={`relative z-10 h-[3.25rem] px-6 font-gothic font-medium text-[1rem] leading-none transition-colors duration-300 rounded-[3.125rem] ${
-              optimisticStatus === option.value ? 'text-white' : 'text-dark-green'
-            }`}
-          >
-            {option.label}
-          </button>
-        ))}
-      </div>
+      <Toggle
+        options={statusOptions}
+        value={optimisticStatus}
+        onChange={(next) => {
+          // ステータス切替は即時反映（解除=自動更新 #69 と整合）。
+          // これにより pending 状態にならず「絞り込み」ボタンが無用に点灯しない (#29)
+          setOptimisticStatus(next);
+          applyWith(next, optimisticTypes, optimisticRegions);
+        }}
+        className="shrink-0 mr-4"
+      />
 
-      <CheckboxDropdown
+      <Dropdown
         label="物件"
         options={propertyTypes}
         selected={optimisticTypes}
         onToggle={toggleType}
         onClear={clearTypes}
       />
-      <CheckboxDropdown
+      <Dropdown
         label="地域"
         options={regions.map((r) => ({ value: r, label: r }))}
         selected={optimisticRegions}
@@ -194,27 +166,8 @@ export default function PropertyFilter() {
       </div>
 
       <div className="flex gap-2 shrink-0">
-        <button
-          onClick={applyFilters}
-          disabled={!hasPendingChange}
-          className={`h-[3.5rem] px-10 bg-dark-green border border-dark-green rounded-lg font-gothic font-medium text-[1rem] leading-none text-white transition-opacity shrink-0 ${
-            hasPendingChange ? 'hover:opacity-60' : 'opacity-20 cursor-not-allowed'
-          }`}
-        >
-          絞り込み
-        </button>
-        <button
-          onClick={clearFilters}
-          disabled={!hasActiveFilters}
-          className={`w-[3.9375rem] h-[3.5rem] border border-dark-green text-dark-green rounded-lg flex items-center justify-center transition-colors shrink-0 ${
-            hasActiveFilters ? 'hover:bg-dark-green hover:border-[rgba(252,255,247,0.3)] hover:text-white' : 'opacity-40 cursor-not-allowed'
-          }`}
-          aria-label="フィルターをクリア"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <path d="M18 6L6 18M6 6l12 12" />
-          </svg>
-        </button>
+        <Sort onClick={applyFilters} disabled={!hasPendingChange} />
+        <SortClear onClick={clearFilters} disabled={!hasActiveFilters} />
       </div>
     </div>
   );

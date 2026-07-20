@@ -2,8 +2,8 @@
 
 import { useRef, useState, useEffect } from 'react';
 import { Story } from '@/types/microcms';
-import StoryCardOverlay from '@/components/story/StoryCardOverlay';
-import SlideshowNav from '@/components/ui/SlideshowNav';
+import CardStorySp from '@/components/ui/card/CardStorySp';
+import NavigationSlideshow from '@/components/ui/content/NavigationSlideshow';
 
 interface Props {
   stories: Story[];
@@ -53,7 +53,7 @@ export default function StoryCarousel({ stories, href = '/stories', variant = 'l
         <div ref={flexRef} className="flex gap-5 min-w-max pr-4">
           {stories.map((story) => (
             <div key={story.id} className="w-[20.75rem] shrink-0 snap-start">
-              <StoryCardOverlay story={story} />
+              <CardStorySp story={story} />
             </div>
           ))}
         </div>
@@ -61,7 +61,7 @@ export default function StoryCarousel({ stories, href = '/stories', variant = 'l
 
       {/* Navigation-Slideshow (Figma 4211:11501 共通) */}
       <div className="mt-8 px-4">
-        <SlideshowNav
+        <NavigationSlideshow
           activePage={activeIndex}
           totalPages={stories.length}
           onPageChange={scrollTo}

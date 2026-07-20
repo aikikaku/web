@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useState, useEffect, useRef, type ReactNode } from 'react';
 import { MicroCMSImage } from '@/types/microcms';
 import { getImageUrl } from '@/lib/microcms/image';
-import CmsImage from '@/components/ui/CmsImage';
+import CmsImage from '@/components/common/CmsImage';
 
 interface PropertyDetailClientProps {
   allImages: MicroCMSImage[];

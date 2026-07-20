@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Property } from '@/types/microcms';
-import PropertyCard from '@/components/property/PropertyCard';
-import SlideshowNav from '@/components/ui/SlideshowNav';
+import CardProperty from '@/components/ui/card/CardProperty';
+import NavigationSlideshow from '@/components/ui/content/NavigationSlideshow';
 
 interface Props {
   properties: Property[];
@@ -69,7 +69,7 @@ export default function MoreProperties({ properties, href = '/properties' }: Pro
         <div ref={flexRef} className="flex gap-5 tablet:gap-[1.875rem] min-w-max pr-4 tablet:pr-0">
           {properties.map((p) => (
             <div key={p.id} className="w-[20.75rem] tablet:w-[25.625rem] shrink-0 snap-start">
-              <PropertyCard property={p} />
+              <CardProperty property={p} />
             </div>
           ))}
         </div>
@@ -77,7 +77,7 @@ export default function MoreProperties({ properties, href = '/properties' }: Pro
 
       {/* Navigation-Slideshow (Figma 4211:11501 共通コンポーネント) */}
       <div className="mt-8 tablet:mt-16">
-        <SlideshowNav
+        <NavigationSlideshow
           activePage={activePagePc}
           totalPages={totalPagesPc}
           onPageChange={(p) => scrollToCardIdx(p * PAGE_SIZE_PC)}

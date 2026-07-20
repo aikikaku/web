@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { CustomerVoice } from '@/types/microcms';
+import { useAccordionHeight } from '@/lib/useAccordionHeight';
+import AccordionChevron from '@/components/ui/content/AccordionChevron';
 
 const categories = [
   { key: 'all', label: 'すべて' },
@@ -30,13 +32,7 @@ function VoiceItem({
   onToggle: () => void;
 }) {
   const open = isOpen;
-  const contentRef = useRef<HTMLDivElement>(null);
-  const [maxHeight, setMaxHeight] = useState(0);
-
-  useEffect(() => {
-    if (!contentRef.current) return;
-    setMaxHeight(open ? contentRef.current.scrollHeight : 0);
-  }, [open, voice.content, voice.image]);
+  const { contentRef, maxHeight } = useAccordionHeight(open, [voice.content, voice.image]);
 
   // Figma 4211:11537: 質問アコーディオン (FaqAccordion) と同パターン
   // border-b + py-6 + smooth max-h transition (duration-500 ease-in-out)
@@ -57,15 +53,7 @@ function VoiceItem({
             {voice.propertyType && ` / ${voice.propertyType}`}
           </p>
         </div>
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          className={`shrink-0 mt-0.5 transition-transform duration-500 ease-in-out ${open ? 'rotate-180' : ''}`}
-        >
-          <path d="M6 9l6 6 6-6" className="stroke-dark-green" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
+        <AccordionChevron isOpen={open} className="mt-0.5" />
       </button>
       <div
         ref={contentRef}

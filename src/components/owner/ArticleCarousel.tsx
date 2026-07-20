@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import SlideshowNav from '@/components/ui/SlideshowNav';
+import NavigationSlideshow from '@/components/ui/content/NavigationSlideshow';
 
 export interface ArticleItem {
   tag: string;
@@ -67,7 +67,7 @@ export default function ArticleCarousel({ articles, href = '/for-owner' }: Props
             <div key={i} className="w-[20.75rem] tablet:w-[25.625rem] shrink-0 snap-start flex flex-col">
               <div className="relative aspect-[410/293] rounded-lg overflow-hidden mb-0">
                 <div className="absolute inset-0 bg-dark-green/10" />
-                <span className="absolute top-4 left-4 tag-pill">
+                <span className="absolute top-4 left-4 tag">
                   {article.tag}
                 </span>
               </div>
@@ -95,7 +95,7 @@ export default function ArticleCarousel({ articles, href = '/for-owner' }: Props
       </div>
 
       <div className="mt-8 tablet:mt-16 px-4 tablet:px-0">
-        <SlideshowNav
+        <NavigationSlideshow
           activePage={activePagePc}
           totalPages={totalPagesPc}
           onPageChange={(p) => scrollToCardIdx(p * PAGE_SIZE_PC)}

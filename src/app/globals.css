@@ -165,19 +165,6 @@
     @apply inline-flex items-center justify-center px-8 py-3 bg-accent-blue text-white font-gothic font-medium text-lg leading-none tracking-normal rounded-full transition-opacity hover:opacity-80;
   }
 
-  .btn-primary-dark {
-    @apply inline-flex items-center justify-center px-8 py-3 bg-dark-green text-white font-gothic font-medium text-lg leading-none tracking-normal rounded-full transition-opacity hover:opacity-80;
-  }
-
-  .btn-secondary {
-    @apply inline-flex items-center justify-center px-8 py-3 bg-white text-dark-green border border-dark-green font-gothic font-medium text-lg leading-none tracking-normal rounded-full transition-colors hover:bg-gray-50;
-  }
-
-  /* Button M: 13px, lineHeight 1.4 */
-  .btn-secondary-m {
-    @apply inline-flex items-center justify-center px-6 py-2.5 bg-white text-dark-green border border-dark-green font-gothic font-medium text-[0.8125rem] leading-[1.4] tracking-normal rounded-full transition-colors hover:bg-gray-50;
-  }
-
   /* outline→fill セカンダリボタン: 「ストーリーを読む」等で使用（Figma Button Secondary 4211:26046）。
      枠線+ダークグリーン文字 → hover(親の group) で塗り+白文字に切り替わる。
      サイズ(高さ/padding/文字サイズ/gap)は呼び出し側で個別指定するため、ここでは含めない。 */
@@ -185,22 +172,13 @@
     @apply border border-dark-green rounded-full font-gothic font-medium text-dark-green transition-colors group-hover:bg-dark-green group-hover:border-[rgba(252,255,247,0.3)] group-hover:text-white;
   }
 
-  /* Button S: 14px, lineHeight 1 */
-  .btn-secondary-s {
-    @apply inline-flex items-center justify-center px-5 py-2 bg-white text-dark-green border border-dark-green font-gothic font-medium text-sm leading-none tracking-normal rounded-full transition-colors hover:bg-gray-50;
-  }
-
-  .btn-ghost {
-    @apply inline-flex items-center font-gothic font-medium text-dark-green underline underline-offset-4 transition-opacity hover:opacity-70;
-  }
-
   /* 全呼び出し箇所で text-[0.875rem] leading-none px-3 py-1.5 が例外なく上書きされていたため
      (18箇所で完全一致確認済み)、ベースクラスに統合。見た目の変化なし。 */
-  .tag-pill {
+  .tag {
     @apply inline-flex items-center px-3 py-1.5 bg-light-blue text-dark-green text-[0.875rem] leading-none rounded-full;
   }
 
-  .tag-pill-dark {
+  .tag-dark {
     @apply inline-flex items-center px-3 py-1.5 bg-dark-green text-white text-[0.875rem] leading-none rounded-full;
   }
 

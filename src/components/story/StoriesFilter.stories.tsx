@@ -8,7 +8,7 @@ const categoryLabels = [
 ];
 
 /**
- * /stories PC 用フィルターバー（CheckboxDropdown ×2 + 絞り込み/クリアボタン）。
+ * /stories PC 用フィルターバー（Dropdown ×2 + 絞り込み/クリアボタン）。
  * useRouter / useSearchParams は Storybook の Next.js フレームワーク側で自動モックされる。
  */
 const meta: Meta<typeof StoriesFilter> = {

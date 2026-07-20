@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import SliderDots from '@/components/ui/content/SliderDots';
 
 const slides = [
   '/images/home/hero-1.jpg',
@@ -93,16 +94,13 @@ export default function HeroSlideshowSP() {
       </div>
 
       {/* dots */}
-      <div className="flex items-center justify-center gap-2 pt-2">
-        {slides.map((_, i) => (
-          <button
-            key={i}
-            type="button"
-            aria-label={`スライド${i + 1}`}
-            onClick={() => goTo(i)}
-            className={`size-1 rounded-full transition-colors ${i === activeIndex ? 'bg-dark-green' : 'bg-dark-green/30'}`}
-          />
-        ))}
+      <div className="flex items-center justify-center pt-2">
+        <SliderDots
+          count={slides.length}
+          activeIndex={activeIndex}
+          onDotClick={goTo}
+          size="sm"
+        />
       </div>
     </div>
   );

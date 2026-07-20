@@ -2,18 +2,21 @@ import { unstable_noStore as noStore } from 'next/cache';
 import { getProperty, getProperties } from '@/lib/microcms/queries';
 import Link from 'next/link';
 import MoreProperties from '@/components/property/MoreProperties';
-import MobileTocNav from '@/components/ui/MobileTocNav';
-import CmsImage from '@/components/ui/CmsImage';
-import ArrowButton from '@/components/ui/ArrowButton';
-import StoryCardOverlay from '@/components/story/StoryCardOverlay';
+import PageNavSp from '@/components/ui/navigation/PageNavSp';
+import CmsImage from '@/components/common/CmsImage';
+import CardLink from '@/components/ui/card/CardLink';
+import { BookIcon } from '@/components/ui/icons/icons';
+import CardStorySp from '@/components/ui/card/CardStorySp';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getImageUrl } from '@/lib/microcms/image';
 import { getTypeformContactUrl } from '@/lib/typeform';
 import type { MicroCMSImage } from '@/types/microcms';
 import PropertyDetailClient from '@/components/property/PropertyDetailClient';
-import RichText, { extractTocFromHtml } from '@/components/ui/RichText';
-import TocNav from '@/components/ui/TocNav';
+import RichText, { extractTocFromHtml } from '@/components/ui/post/RichText';
+import TocNav from '@/components/ui/navigation/TocNav';
+import ListItemDeco from '@/components/ui/content/ListItemDeco';
+import ListItemDef from '@/components/ui/content/ListItemDef';
 
 export const revalidate = 3600;
 
@@ -220,7 +223,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
             isSold={isSold}
             spLabelsSlot={(
               <div className="flex items-center gap-2 min-w-0">
-                <span className="tag-pill shrink-0">
+                <span className="tag shrink-0">
                   {categoryLabel}
                 </span>
                 {locationText && (
@@ -236,11 +239,11 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                 <div>
                   <div className="hidden tablet:flex gap-3 items-center">
                     {statusLabel && (
-                      <span className="tag-pill-dark">
+                      <span className="tag-dark">
                         {statusLabel}
                       </span>
                     )}
-                    <span className="tag-pill">
+                    <span className="tag">
                       {categoryLabel}
                     </span>
                     {locationText && (
@@ -330,7 +333,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
       </section>
 
       {/* SP用 floating TOC bar */}
-      <MobileTocNav items={tocItems} />
+      <PageNavSp items={tocItems} />
 
       {/* メインコンテンツ - 2カラムレイアウト。id は ヒーローカード「物件詳細」ボタンのアンカー先 */}
       <section id="property-detail-body" data-mobile-toc-start className="px-4 tablet:pl-[2.8125rem] tablet:pr-[4.6875rem] py-16 tablet:py-24 max-w-[90rem] mx-auto scroll-mt-20">
@@ -356,34 +359,16 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
               <div className="border-b border-dark-green/10">
                 {detailFields.map((field) =>
                   field.value ? (
-                    <div
-                      key={field.label}
-                      className="flex gap-[1.875rem] items-start py-6 border-t border-dark-green/10"
-                    >
-                      <p className="font-gothic font-medium text-[1rem] leading-[1.8] tablet:text-body-l text-dark-green w-[7.5rem] tablet:w-[9.1875rem] shrink-0">
-                        {field.label}
-                      </p>
-                      <div className="flex-1 flex items-center justify-between gap-3">
-                        <p className="font-gothic font-medium text-[1rem] leading-[1.8] tablet:text-body-l text-black whitespace-pre-line">
-                          {field.value}
-                        </p>
-                        {field.hasTag &&
-                          (property.googleMapUrl ? (
-                            <a
-                              href={property.googleMapUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="tag-pill shrink-0 hover:opacity-70 transition-opacity"
-                            >
-                              MAP
-                            </a>
-                          ) : (
-                            <span className="tag-pill shrink-0">
-                              MAP
-                            </span>
-                          ))}
-                      </div>
-                    </div>
+                    field.hasTag ? (
+                      <ListItemDeco
+                        key={field.label}
+                        label={field.label}
+                        value={field.value}
+                        mapUrl={property.googleMapUrl || undefined}
+                      />
+                    ) : (
+                      <ListItemDef key={field.label} label={field.label} value={field.value} />
+                    )
                   ) : null
                 )}
                 {/* 価格行（成約時は非表示 #31） */}
@@ -410,50 +395,14 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
               <div className="flex flex-col tablet:flex-row gap-3">
                 {/* 物件資料: documentUrl があれば資料を別タブで開く。無ければ従来通りお問い合わせへ */}
                 {property.documentUrl ? (
-                  <a
-                    href={property.documentUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex-1 bg-dark-green rounded-2xl p-[1.875rem] h-[6.75rem] flex items-center justify-between"
-                  >
-                    <p className="font-gothic font-medium text-category-2 text-white px-3">
-                      物件資料
-                    </p>
-                    <ArrowButton variant="cream" />
-                  </a>
+                  <CardLink href={property.documentUrl} label="物件資料" external />
                 ) : (
-                  <Link
-                    href="/for-customer"
-                    className="group flex-1 bg-dark-green rounded-2xl p-[1.875rem] h-[6.75rem] flex items-center justify-between"
-                  >
-                    <p className="font-gothic font-medium text-category-2 text-white px-3">
-                      物件資料
-                    </p>
-                    <ArrowButton variant="cream" />
-                  </Link>
+                  <CardLink href="/for-customer" label="物件資料" />
                 )}
                 {typeformContactUrl ? (
-                  <a
-                    href={typeformContactUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex-1 bg-dark-green rounded-2xl p-[1.875rem] h-[6.75rem] flex items-center justify-between"
-                  >
-                    <p className="font-gothic font-medium text-category-2 text-white px-3">
-                      お問い合わせ
-                    </p>
-                    <ArrowButton variant="cream" />
-                  </a>
+                  <CardLink href={typeformContactUrl} label="お問い合わせ" external />
                 ) : (
-                  <Link
-                    href="/for-customer"
-                    className="group flex-1 bg-dark-green rounded-2xl p-[1.875rem] h-[6.75rem] flex items-center justify-between"
-                  >
-                    <p className="font-gothic font-medium text-category-2 text-white px-3">
-                      お問い合わせ
-                    </p>
-                    <ArrowButton variant="cream" />
-                  </Link>
+                  <CardLink href="/for-customer" label="お問い合わせ" />
                 )}
               </div>
             )}
@@ -484,7 +433,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
 
             {/* <1440px: オーバーレイカード（SPカンプ準拠）。物件の続きなので category は property 固定 */}
             <div className="desktop:hidden">
-              <StoryCardOverlay story={{ ...property.story, category: 'property' }} />
+              <CardStorySp story={{ ...property.story, category: 'property' }} />
             </div>
 
             {/* >=1440px: 画像 | テキスト の3カラム右側 */}
@@ -506,7 +455,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
               <div className="flex-1 flex flex-col gap-6">
                 <div className="flex flex-col gap-3">
                   <div className="flex gap-2 items-center">
-                    <span className="tag-pill">
+                    <span className="tag">
                       物件のつづき
                     </span>
                     {property.story.regions && property.story.regions.length > 0 && (
@@ -524,10 +473,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                 </div>
                 {/* button-secondary: ストーリーを読む */}
                 <span className="inline-flex items-center gap-1 h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none w-fit">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="shrink-0">
-                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
-                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
-                  </svg>
+                  <BookIcon />
                   ストーリーを読む
                 </span>
               </div>

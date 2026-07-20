@@ -1,8 +1,20 @@
 'use client';
 
-import { useState, useCallback, useEffect, useMemo } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import MultiSelectDropdown from '@/components/ui/MultiSelectDropdown';
+import DropdownSp from '@/components/ui/interactive/DropdownSp';
+import Toggle from '@/components/ui/interactive/Toggle';
+import SortSp from '@/components/ui/interactive/SortSp';
+import SortClearSp from '@/components/ui/interactive/SortClearSp';
+import SpFloatingTrigger from '@/components/ui/popup/SpFloatingTrigger';
+import SpModalBackdrop from '@/components/ui/popup/SpModalBackdrop';
+import SpModalCloseButton from '@/components/ui/popup/SpModalCloseButton';
+import { useScrollVisibility } from '@/lib/useScrollVisibility';
+
+const statusOptions = [
+  { value: 'all', label: 'すべて' },
+  { value: 'available', label: 'ご案内中の物件' },
+];
 
 const propertyTypes = [
   { value: 'sell_property', label: '売物件' },
@@ -36,35 +48,11 @@ function sameSet(a: string[], b: string[]): boolean {
  */
 export default function MobileFilterNav() {
   const [isOpen, setIsOpen] = useState(false);
-  const [showBar, setShowBar] = useState(false);
   const [openSection, setOpenSection] = useState<'types' | 'regions' | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  useEffect(() => {
-    const pickup = document.querySelector('[data-mobile-filter-start]');
-    const paginationEl = document.querySelector('[data-mobile-filter-end]');
-    if (!pickup) return;
-
-    const checkVisibility = () => {
-      const pickupRect = pickup.getBoundingClientRect();
-      const isPastStart = pickupRect.top < window.innerHeight * 0.8;
-      let isBeforeEnd = true;
-      if (paginationEl) {
-        const endRect = paginationEl.getBoundingClientRect();
-        isBeforeEnd = endRect.top > window.innerHeight * 0.5;
-      }
-      setShowBar(isPastStart && isBeforeEnd);
-    };
-
-    checkVisibility();
-    window.addEventListener('scroll', checkVisibility, { passive: true });
-    window.addEventListener('resize', checkVisibility, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', checkVisibility);
-      window.removeEventListener('resize', checkVisibility);
-    };
-  }, []);
+  const showBar = useScrollVisibility('[data-mobile-filter-start]', '[data-mobile-filter-end]');
 
   // デフォルトは「ご案内中」。status=all の時のみ全件 (#65)
   const currentStatus = searchParams.get('status') || 'available';
@@ -141,10 +129,11 @@ export default function MobileFilterNav() {
   return (
     <div className="tablet:hidden">
       {/* floating button: Figma 4211:10780 (Column 342×56, pl-40 pr-20 py-8) */}
-      <button
+      <SpFloatingTrigger
         onClick={openModal}
-        className={`fixed bottom-4 left-1/2 -translate-x-1/2 z-40 flex items-center justify-between gap-3 bg-[#f4faf0] border border-dark-green/10 rounded-full pl-10 pr-5 py-2 shadow-[0_-1px_4px_rgba(0,0,0,0.1)] w-[21.375rem] h-14 transition-opacity duration-300 ${showBar ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-        aria-label="物件を絞り込む"
+        visible={showBar}
+        ariaLabel="物件を絞り込む"
+        className="flex items-center justify-between gap-3 pl-10 pr-5 py-2 shadow-[0_-1px_4px_rgba(0,0,0,0.1)]"
       >
         <span className="flex-1 text-center font-gothic font-medium text-body-s text-dark-green">
           物件を絞り込む
@@ -159,53 +148,32 @@ export default function MobileFilterNav() {
             <circle cx="9" cy="15" r="1.5" className="fill-cream" stroke="currentColor" strokeWidth="1.5" />
           </svg>
         </span>
-      </button>
+      </SpFloatingTrigger>
 
       {/* modal: Figma 4211:11572 / 4211:10793 (height 固定・上下中央配置・内部スクロール) */}
       {isOpen && (
         <div className="fixed inset-0 z-50">
-          <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" onClick={closeModal} />
+          <SpModalBackdrop onClick={closeModal} />
           {/* 上下中央配置のラッパ */}
           <div className="absolute inset-0 flex items-center justify-center px-6 py-12">
             <div className="flex flex-col items-end gap-2 w-full max-w-[21.375rem]">
               {/* close button (modal の外、上端右寄せ) */}
-              <button
-                onClick={closeModal}
-                className="size-11 rounded-full bg-dark-green flex items-center justify-center shrink-0"
-                aria-label="閉じる"
-              >
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M12 4L4 12M4 4l8 8" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
-                </svg>
-              </button>
+              <SpModalCloseButton onClick={closeModal} />
 
               {/* modal box: height 固定、内部 overflow scroll で dropdown 開閉によって他要素が圧縮されない */}
               <div className="bg-cream rounded-3xl shadow-[0_0_8px_rgba(0,0,0,0.16)] w-full h-[35rem] max-h-[calc(100vh-120px)] px-6 py-8 flex flex-col gap-8 overflow-y-auto">
                 {/* status toggle: dropdown と同じ h-14 で揃える */}
-                <div className="border border-dark-green rounded-full h-14 w-full flex items-stretch overflow-hidden p-[0.125rem] shrink-0">
-                {[
-                  { value: 'all', label: 'すべて' },
-                  { value: 'available', label: 'ご案内中の物件' },
-                ].map((option) => {
-                  const active = localStatus === option.value;
-                  return (
-                    <button
-                      key={option.value}
-                      type="button"
-                      onClick={() => setLocalStatus(option.value)}
-                      className={`flex-1 h-full font-gothic font-medium text-[0.875rem] leading-none rounded-full transition-colors ${
-                        active ? 'bg-dark-green text-white' : 'bg-cream text-dark-green'
-                      }`}
-                    >
-                      {option.label}
-                    </button>
-                  );
-                })}
-              </div>
+                <Toggle
+                  options={statusOptions}
+                  value={localStatus}
+                  onChange={setLocalStatus}
+                  className="h-14 w-full shrink-0 rounded-full"
+                  buttonClassName="flex-1 h-full text-[0.875rem]"
+                />
 
-              {/* dropdowns inline expansion (Figma 4211:26286 / 4211:26323 共通 MultiSelectDropdown) */}
+              {/* dropdowns inline expansion (Figma 4211:26286 / 4211:26323 共通 DropdownSp) */}
               <div className="flex flex-col gap-4">
-                <MultiSelectDropdown
+                <DropdownSp
                   isOpen={openSection === 'types'}
                   onToggle={() => setOpenSection(openSection === 'types' ? null : 'types')}
                   options={propertyTypes}
@@ -214,7 +182,7 @@ export default function MobileFilterNav() {
                   onClear={() => setLocalTypes([])}
                   placeholder="物件"
                 />
-                <MultiSelectDropdown
+                <DropdownSp
                   isOpen={openSection === 'regions'}
                   onToggle={() => setOpenSection(openSection === 'regions' ? null : 'regions')}
                   options={regions.map((r) => ({ value: r, label: r }))}
@@ -227,23 +195,8 @@ export default function MobileFilterNav() {
 
               {/* action: 絞り込み + × clear (shrink-0 で dropdown 開時に潰れない) */}
               <div className="flex gap-2 h-10 shrink-0">
-                <button
-                  onClick={applyFilters}
-                  disabled={!hasPendingChange}
-                  className="flex-1 h-full bg-dark-green text-white rounded-lg font-gothic font-medium text-[0.875rem] leading-none transition-opacity disabled:opacity-20 disabled:cursor-not-allowed"
-                >
-                  絞り込み
-                </button>
-                <button
-                  onClick={clearFilters}
-                  disabled={!hasActiveFilters}
-                  className="w-[3.8125rem] h-full border border-dark-green rounded-lg flex items-center justify-center shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
-                  aria-label="条件をクリア"
-                >
-                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                    <path d="M13.5 4.5L4.5 13.5M4.5 4.5l9 9" className="stroke-dark-green" strokeWidth="1.5" strokeLinecap="round" />
-                  </svg>
-                </button>
+                <SortSp onClick={applyFilters} disabled={!hasPendingChange} />
+                <SortClearSp onClick={clearFilters} disabled={!hasActiveFilters} />
               </div>
               </div>
             </div>
