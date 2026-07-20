@@ -181,9 +181,9 @@ Typography/Color/Assets/Breakpoints は `tailwind.config.ts` / `globals.css` 側
    2. Card Story M: [node-id=4211-24944](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24944&m=dev) → `StoryCard.tsx`(`size="m"`)
    3. Card Story S: [node-id=4211-24955](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24955&m=dev) → `StoryCard.tsx`(`size="s"`)
    4. Card Voice: [node-id=4211-24966](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24966&m=dev) → `src/components/voice/VoiceCard.tsx`
-   5. Section: [node-id=4211-24978](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24978&m=dev)
-   6. Card: [node-id=4211-24985](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24985&m=dev)
-   7. Section: [node-id=4211-24994](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24994&m=dev)
+   5. Section: [node-id=4211-24978](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24978&m=dev) → レイアウト用ラッパー(「お客様の声」カルーセルの外殻)。単体コンポーネント不要(2026-07-20確認)
+   6. Card: [node-id=4211-24985](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24985&m=dev) → `src/components/ui/card/ServiceCTA.tsx`(「不動産をお探しの方へ/お持ちの方へ」CTA。2026-07-20判明。TOPページ(`src/app/page.tsx`)のみこれを使わず同一マークアップを独自に持っていたため、`ServiceCTA`に`parallax`オプションを追加し統合)
+   7. Section: [node-id=4211-24994](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24994&m=dev) → レイアウト用ラッパー(上記Cardを2枚並べたSection)。単体コンポーネント不要(2026-07-20確認)
    8. Card Contact: [node-id=4211-24998](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-24998&m=dev) → `src/components/ui/card/CardContact.tsx`(2026-07-20新設。`src/components/ui/card/ContactBanner.tsx`内の3箇所重複を解消)
    9. Banner Contact: [node-id=4211-25002](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25002&m=dev) → `src/components/ui/card/ContactBanner.tsx`
    10. Card Link: [node-id=4211-25008](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25008&m=dev) → `src/components/ui/card/CardLink.tsx`(2026-07-20新設。当初「対応コード無し」と誤評価していたが、`properties/[id]/page.tsx`の「物件資料」「お問い合わせ」カードに4箇所重複していた同一マークアップと判明し共通化)
