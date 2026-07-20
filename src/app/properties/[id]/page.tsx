@@ -2,7 +2,7 @@ import { unstable_noStore as noStore } from 'next/cache';
 import { getProperty, getProperties } from '@/lib/microcms/queries';
 import Link from 'next/link';
 import MoreProperties from '@/components/property/MoreProperties';
-import PageNavSP from '@/components/ui/navigation/PageNavSP';
+import PageNavSp from '@/components/ui/navigation/PageNavSp';
 import CmsImage from '@/components/ui/misc/CmsImage';
 import CardLink from '@/components/ui/card/CardLink';
 import { BookIcon } from '@/components/ui/icons/icons';
@@ -331,7 +331,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
       </section>
 
       {/* SP用 floating TOC bar */}
-      <PageNavSP items={tocItems} />
+      <PageNavSp items={tocItems} />
 
       {/* メインコンテンツ - 2カラムレイアウト。id は ヒーローカード「物件詳細」ボタンのアンカー先 */}
       <section id="property-detail-body" data-mobile-toc-start className="px-4 tablet:pl-[2.8125rem] tablet:pr-[4.6875rem] py-16 tablet:py-24 max-w-[90rem] mx-auto scroll-mt-20">

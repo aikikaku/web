@@ -9,7 +9,7 @@ interface Props {
 
 /**
  * SP用フローティングピルボタンの共通殻。Figma 4211:10780 (filter) / 4211:10920 (page nav) 準拠。
- * MobileFilterNav.tsx / MobileStoriesFilter.tsx / PageNavSP.tsx で共通利用。
+ * MobileFilterNav.tsx / MobileStoriesFilter.tsx / PageNavSp.tsx で共通利用。
  */
 export default function SpFloatingTrigger({ onClick, visible, ariaLabel, children, className = '' }: Props) {
   return (

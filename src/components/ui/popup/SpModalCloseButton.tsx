@@ -3,7 +3,7 @@ interface Props {
   className?: string;
 }
 
-/** SP全画面モーダルの閉じるボタン(円形×)。MobileFilterNav.tsx / MobileStoriesFilter.tsx / PageNavSP.tsx で共通利用。 */
+/** SP全画面モーダルの閉じるボタン(円形×)。MobileFilterNav.tsx / MobileStoriesFilter.tsx / PageNavSp.tsx で共通利用。 */
 export default function SpModalCloseButton({ onClick, className = '' }: Props) {
   return (
     <button

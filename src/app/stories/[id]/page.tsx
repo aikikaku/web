@@ -8,7 +8,7 @@ import type { Metadata } from 'next';
 import { getImageUrl } from '@/lib/microcms/image';
 import RichText, { extractTocFromHtml } from '@/components/ui/post/RichText';
 import TocNav from '@/components/ui/navigation/TocNav';
-import PageNavSP from '@/components/ui/navigation/PageNavSP';
+import PageNavSp from '@/components/ui/navigation/PageNavSp';
 import ButtonPrimary from '@/components/ui/interactive/ButtonPrimary';
 import { getStoryCategoryLabel } from '@/lib/storyCategory';
 
@@ -153,7 +153,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
       </section>
 
       {/* SP用 floating TOC bar */}
-      <PageNavSP items={tocItems} />
+      <PageNavSp items={tocItems} />
 
       {/* メインコンテンツ: TOC + リッチテキスト */}
       <section data-mobile-toc-start className="pb-24 px-[2.8125rem] tablet:pr-[4.6875rem] max-w-[90rem] mx-auto max-tablet:px-4">

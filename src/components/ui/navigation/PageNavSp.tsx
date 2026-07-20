@@ -14,7 +14,7 @@ interface Props {
  * - Closed: cream の角丸ピル、左にドット + 現在セクション名（14px）
  * - Open: 右下に dark-green 円の閉じるボタン + 上に縦リスト（タイムライン indicator）
  */
-export default function PageNavSP({ items }: Props) {
+export default function PageNavSp({ items }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [showBar, setShowBar] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);

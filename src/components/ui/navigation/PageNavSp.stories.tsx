@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { within, waitFor } from 'storybook/test';
-import PageNavSP from './PageNavSP';
+import PageNavSp from './PageNavSp';
 
 // 実データ: src/app/staff-interview/page.tsx の tocItems
 const items = [
@@ -10,16 +10,16 @@ const items = [
 ];
 
 /**
- * PageNavSP は表示可否をスクロール位置から DOM 越しに判定する
+ * PageNavSp は表示可否をスクロール位置から DOM 越しに判定する
  * (`[data-mobile-toc-start]` が画面下端の 60% より上に来たら表示、
  * `[data-mobile-toc-end]` が画面上端の 50% を越えたら非表示)。
  * Storybook canvas でも実際にスクロールして挙動を確認できるよう、
  * 十分な高さのダミーページ + 必要な data 属性 / id を持つセクションを
  * 用意するデコレーターを追加している。
  */
-const meta: Meta<typeof PageNavSP> = {
-  title: 'ui/navigation/PageNavSP',
-  component: PageNavSP,
+const meta: Meta<typeof PageNavSp> = {
+  title: 'ui/navigation/PageNavSp',
+  component: PageNavSp,
   parameters: { layout: 'fullscreen' },
   decorators: [
     (Story) => (
@@ -47,7 +47,7 @@ const meta: Meta<typeof PageNavSP> = {
 };
 export default meta;
 
-type Story = StoryObj<typeof PageNavSP>;
+type Story = StoryObj<typeof PageNavSp>;
 
 export const Default: Story = {
   args: { items },

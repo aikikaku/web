@@ -254,7 +254,7 @@ Typography/Color/Assets/Breakpoints は `tailwind.config.ts` / `globals.css` 側
 
 ## Local Nav
 
-1. Page Nav SP: [node-id=4211-25868](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25868&m=dev) → `src/components/ui/navigation/PageNavSP.tsx`(2026-07-20に`MobileTocNav.tsx`からリネーム)
+1. Page Nav SP: [node-id=4211-25868](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25868&m=dev) → `src/components/ui/navigation/PageNavSp.tsx`(2026-07-20に`MobileTocNav.tsx`からリネーム)
 2. Page Nav Open SP: [node-id=4211-25874](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25874&m=dev) → 同上
 
 ## Footer
