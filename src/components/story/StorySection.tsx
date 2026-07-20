@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Story } from '@/types/microcms';
 import StoryCarousel from '@/components/home/StoryCarousel';
 import StoryCard from '@/components/story/StoryCard';
-import ArrowButton from '@/components/ui/interactive/ArrowButton';
+import Arrow from '@/components/ui/interactive/Arrow';
 
 interface Props {
   /** 表示するストーリー一覧 */
@@ -63,7 +63,7 @@ export default function StorySection({
             className={`group inline-flex items-center gap-2 font-gothic font-medium text-[1.125rem] ${linkColor}`}
           >
             すべて見る
-            <ArrowButton />
+            <Arrow />
           </Link>
         </div>
       </div>

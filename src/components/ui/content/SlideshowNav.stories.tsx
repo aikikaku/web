@@ -61,6 +61,6 @@ export const SinglePage: Story = {
 };
 
 /** 「すべて見る」リンクなし（href 未指定） */
-export const WithoutSeeAllLink: Story = {
+export const WithoutButtonPrimary: Story = {
   render: () => <Wrapper totalPages={3} />,
 };

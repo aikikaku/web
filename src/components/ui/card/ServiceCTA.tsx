@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import ArrowButton from '@/components/ui/interactive/ArrowButton';
+import Arrow from '@/components/ui/interactive/Arrow';
 
 /**
  * 「不動産をお探しの方へ / お持ちの方へ」CTA セクション。
@@ -69,7 +69,7 @@ export default function ServiceCTA({
               </h3>
               <p className="text-body-m font-gothic font-medium">買いたい・借りたい</p>
             </div>
-            <ArrowButton size="sm" className="relative z-10" />
+            <Arrow size="sm" className="relative z-10" />
           </Link>
 
           <Link
@@ -95,7 +95,7 @@ export default function ServiceCTA({
               </h3>
               <p className="text-body-m font-gothic font-medium">売りたい・貸したい</p>
             </div>
-            <ArrowButton size="sm" className="relative z-10" />
+            <Arrow size="sm" className="relative z-10" />
           </Link>
         </div>
 
@@ -112,7 +112,7 @@ export default function ServiceCTA({
                 </h3>
                 <p className="text-body-l font-gothic font-medium text-dark-green">買いたい・借りたい</p>
               </div>
-              <ArrowButton />
+              <Arrow />
             </div>
             <div className="w-[18.375rem] h-[13.75rem] relative rounded-xl overflow-hidden shrink-0">
               <Image
@@ -136,7 +136,7 @@ export default function ServiceCTA({
                 </h3>
                 <p className="text-body-l font-gothic font-medium text-dark-green">売りたい・貸したい</p>
               </div>
-              <ArrowButton />
+              <Arrow />
             </div>
             <div className="w-[18.375rem] h-[13.75rem] relative rounded-xl overflow-hidden shrink-0">
               <Image

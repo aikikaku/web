@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import ArrowButton from '@/components/ui/interactive/ArrowButton';
+import Arrow from '@/components/ui/interactive/Arrow';
 import { getContactUrl } from '@/lib/typeform';
 import { useState, useEffect, useRef } from 'react';
 
@@ -246,7 +246,7 @@ export default function Navigation() {
                         {card.sub}
                       </span>
                     </div>
-                    <ArrowButton />
+                    <Arrow />
                   </div>
 
                   {/* 画像（hover で拡大、他カードと統一 #43） */}

@@ -1,4 +1,4 @@
-interface ArrowButtonProps {
+interface ArrowProps {
   /** サイズ。`md`=48px (w-12 h-12) / `sm`=44px (w-11 h-11)。省略時は md */
   size?: 'md' | 'sm';
   /**
@@ -32,12 +32,12 @@ interface ArrowButtonProps {
  *
  * 矢印は currentColor 描画なので text 色の切替でリカラーされる。
  */
-export default function ArrowButton({
+export default function Arrow({
   size = 'md',
   variant = 'default',
   sizeClassName,
   className = '',
-}: ArrowButtonProps) {
+}: ArrowProps) {
   const sizeClass = sizeClassName ?? (size === 'sm' ? 'w-11 h-11' : 'w-12 h-12');
   const iconSize = size === 'sm' ? 20 : 24;
 

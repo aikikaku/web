@@ -7,7 +7,7 @@ interface Props {
  * フィルターの「クリア」ボタン（PC）。Figma Sort Clear 4211:26076 準拠。
  * PropertyFilter.tsx / StoriesFilter.tsx で共通利用。
  */
-export default function SortClearButton({ onClick, disabled }: Props) {
+export default function SortClear({ onClick, disabled }: Props) {
   return (
     <button
       onClick={onClick}

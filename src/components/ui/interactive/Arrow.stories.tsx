@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import ArrowButton from './ArrowButton';
+import Arrow from './Arrow';
 
-const meta: Meta<typeof ArrowButton> = {
-  title: 'ui/interactive/ArrowButton',
-  component: ArrowButton,
+const meta: Meta<typeof Arrow> = {
+  title: 'ui/interactive/Arrow',
+  component: Arrow,
   parameters: { layout: 'centered' },
   argTypes: {
     size: { control: 'radio', options: ['md', 'sm'] },
@@ -12,7 +12,7 @@ const meta: Meta<typeof ArrowButton> = {
 };
 export default meta;
 
-type Story = StoryObj<typeof ArrowButton>;
+type Story = StoryObj<typeof Arrow>;
 
 export const Default: Story = {
   args: { size: 'md', variant: 'default' },

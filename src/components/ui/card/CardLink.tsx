@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import ArrowButton from '@/components/ui/interactive/ArrowButton';
+import Arrow from '@/components/ui/interactive/Arrow';
 
 interface Props {
   href: string;
@@ -19,7 +19,7 @@ export default function CardLink({ href, label, external = false }: Props) {
   const content = (
     <>
       <p className="font-gothic font-medium text-category-2 text-white px-3">{label}</p>
-      <ArrowButton variant="cream" />
+      <Arrow variant="cream" />
     </>
   );
 

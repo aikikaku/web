@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import SeeAllLink from './SeeAllLink';
+import ButtonPrimary from './ButtonPrimary';
 
-const meta: Meta<typeof SeeAllLink> = {
-  title: 'ui/interactive/SeeAllLink',
-  component: SeeAllLink,
+const meta: Meta<typeof ButtonPrimary> = {
+  title: 'ui/interactive/ButtonPrimary',
+  component: ButtonPrimary,
   parameters: { layout: 'centered' },
 };
 export default meta;
 
-type Story = StoryObj<typeof SeeAllLink>;
+type Story = StoryObj<typeof ButtonPrimary>;
 
 export const Default: Story = {
   args: {

@@ -9,8 +9,8 @@ import StoryCard from '@/components/story/StoryCard';
 import HeroSlideshowSP from '@/components/home/HeroSlideshowSP';
 import HeroFrame from '@/components/home/HeroFrame';
 import HeroVideo from '@/components/home/HeroVideo';
-import SeeAllLink from '@/components/ui/interactive/SeeAllLink';
-import ArrowButton from '@/components/ui/interactive/ArrowButton';
+import ButtonPrimary from '@/components/ui/interactive/ButtonPrimary';
+import Arrow from '@/components/ui/interactive/Arrow';
 import MoreLinkButton from '@/components/ui/interactive/MoreLinkButton';
 import ParkingBanner from '@/components/ui/misc/ParkingBanner';
 import Reveal from '@/components/ui/misc/Reveal';
@@ -209,7 +209,7 @@ export default async function HomePage() {
                   買いたい・借りたい
                 </p>
               </div>
-              <ArrowButton size="sm" className="relative z-10" />
+              <Arrow size="sm" className="relative z-10" />
             </Link>
 
             <Link
@@ -236,7 +236,7 @@ export default async function HomePage() {
                   売りたい・貸したい
                 </p>
               </div>
-              <ArrowButton size="sm" className="relative z-10" />
+              <Arrow size="sm" className="relative z-10" />
             </Link>
           </div>
 
@@ -256,7 +256,7 @@ export default async function HomePage() {
                     買いたい・借りたい
                   </p>
                 </div>
-                <ArrowButton />
+                <Arrow />
               </div>
               <div className="w-[18.375rem] h-[13.75rem] relative rounded-xl overflow-hidden shrink-0">
                 <Image
@@ -282,7 +282,7 @@ export default async function HomePage() {
                     売りたい・貸したい
                   </p>
                 </div>
-                <ArrowButton />
+                <Arrow />
               </div>
               <div className="w-[18.375rem] h-[13.75rem] relative rounded-xl overflow-hidden shrink-0">
                 <Image
@@ -330,7 +330,7 @@ export default async function HomePage() {
 
         {/* PC: すべて見る */}
         <div className="hidden tablet:flex items-center justify-end mt-[6rem] max-w-[90rem] mx-auto px-[4.6875rem]">
-          <SeeAllLink href="/properties" />
+          <ButtonPrimary href="/properties" />
         </div>
       </section>
 
@@ -387,7 +387,7 @@ export default async function HomePage() {
 
         {/* PC: すべて見る */}
         <div className="hidden tablet:flex items-center justify-end mt-[6rem] max-w-[90rem] mx-auto px-[4.6875rem]">
-          <SeeAllLink href="/stories" />
+          <ButtonPrimary href="/stories" />
         </div>
       </section>
 
@@ -490,7 +490,7 @@ export default async function HomePage() {
                 <span className="font-gothic font-medium text-category-2 text-dark-green">
                   不動産に関する<br />ご相談はこちら
                 </span>
-                <ArrowButton />
+                <Arrow />
               </Link>
             </div>
           </div>

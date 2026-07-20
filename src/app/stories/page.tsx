@@ -10,7 +10,7 @@ import MobileStoriesFilter from '@/components/story/MobileStoriesFilter';
 import StoryCardOverlay from '@/components/story/StoryCardOverlay';
 import { BookIcon } from '@/components/ui/icons/icons';
 import Reveal from '@/components/ui/misc/Reveal';
-import ArrowButton from '@/components/ui/interactive/ArrowButton';
+import Arrow from '@/components/ui/interactive/Arrow';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -285,7 +285,7 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
             </div>
 
             {/* 矢印リンク */}
-            <ArrowButton size="sm" />
+            <Arrow size="sm" />
           </div>
         </Link>
       </Reveal>

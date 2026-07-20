@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import SeeAllButtonSP from '@/components/ui/interactive/SeeAllButtonSP';
-import ArrowButton from '@/components/ui/interactive/ArrowButton';
+import ButtonPrimarySp from '@/components/ui/interactive/ButtonPrimarySp';
+import Arrow from '@/components/ui/interactive/Arrow';
 
 interface Props {
   /** PC active ページ (0-indexed) */
@@ -108,7 +108,7 @@ export default function SlideshowNav({
             className={`group inline-flex items-center gap-2 font-gothic font-medium text-[1.125rem] leading-none ${textColor}`}
           >
             {label}
-            <ArrowButton />
+            <Arrow />
           </Link>
         )}
       </div>
@@ -156,7 +156,7 @@ export default function SlideshowNav({
         )}
         {href && (
           <div className="mt-8">
-            <SeeAllButtonSP href={href} label={label} />
+            <ButtonPrimarySp href={href} label={label} />
           </div>
         )}
       </div>

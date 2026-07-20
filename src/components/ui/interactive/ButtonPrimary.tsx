@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import ArrowButton from '@/components/ui/interactive/ArrowButton';
+import Arrow from '@/components/ui/interactive/Arrow';
 
-interface SeeAllLinkProps {
+interface ButtonPrimaryProps {
   href: string;
   label?: string;
   disabled?: boolean;
@@ -9,7 +9,7 @@ interface SeeAllLinkProps {
 }
 
 /**
- * 「すべて見る」共通リンクコンポーネント（PC）。Figma 4211:26034 (default) /
+ * PC用プライマリボタン(ラベル+円矢印)。Figma Button Primary 4211:26034 (default) /
  * 26037 (hover) / 26040 (pressed) / 26043 (disabled) 準拠。
  *
  * - Default: text-dark-green、円 bg-blue
@@ -17,12 +17,12 @@ interface SeeAllLinkProps {
  * - Pressed (active): scale-95
  * - Disabled: content opacity-40、円 bg-dark-green opacity-20
  */
-export default function SeeAllLink({
+export default function ButtonPrimary({
   href,
   label = 'すべて見る',
   disabled = false,
   className,
-}: SeeAllLinkProps) {
+}: ButtonPrimaryProps) {
   if (disabled) {
     return (
       <span
@@ -30,7 +30,7 @@ export default function SeeAllLink({
         className={`inline-flex items-center justify-between w-[11.625rem] font-gothic font-medium text-[1.125rem] leading-none tracking-[0.00112rem] text-dark-green cursor-not-allowed ${className ?? ''}`}
       >
         <span className="px-6 py-[0.8125rem] whitespace-nowrap opacity-40">{label}</span>
-        <ArrowButton variant="disabled" />
+        <Arrow variant="disabled" />
       </span>
     );
   }
@@ -43,7 +43,7 @@ export default function SeeAllLink({
       <span className="px-6 py-[0.8125rem] whitespace-nowrap transition-opacity group-hover:opacity-60">
         {label}
       </span>
-      <ArrowButton />
+      <Arrow />
     </Link>
   );
 }

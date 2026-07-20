@@ -3,8 +3,8 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useState } from 'react';
 import DropdownPC from '@/components/ui/interactive/DropdownPC';
-import SortApplyButton from '@/components/ui/interactive/SortApplyButton';
-import SortClearButton from '@/components/ui/interactive/SortClearButton';
+import Sort from '@/components/ui/interactive/Sort';
+import SortClear from '@/components/ui/interactive/SortClear';
 
 const regionOptions = [
   { value: 'すべて', label: 'すべて' },
@@ -110,8 +110,8 @@ export default function StoriesFilter({
       </div>
 
       <div className="flex gap-2 shrink-0">
-        <SortApplyButton onClick={applyFilter} disabled={!hasFilters} />
-        <SortClearButton onClick={handleClear} disabled={!hasFilters} />
+        <Sort onClick={applyFilter} disabled={!hasFilters} />
+        <SortClear onClick={handleClear} disabled={!hasFilters} />
       </div>
     </div>
   );

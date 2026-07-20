@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import ArrowButton from '@/components/ui/interactive/ArrowButton';
+import Arrow from '@/components/ui/interactive/Arrow';
 
 interface CtaItem {
   label: string;
@@ -60,7 +60,7 @@ export default function ContactCtaBanner({ bgImage, heading, caption = 'お問�
                     {cta.label}
                   </span>
                   <span className="hidden tablet:block shrink-0">
-                    <ArrowButton />
+                    <Arrow />
                   </span>
                 </Link>
               ))}

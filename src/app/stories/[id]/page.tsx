@@ -1,7 +1,7 @@
 import { getStory, getStories } from '@/lib/microcms/queries';
 import RelatedStoriesGrid from '@/components/story/RelatedStoriesGrid';
 import CmsImage from '@/components/ui/misc/CmsImage';
-import ArrowButton from '@/components/ui/interactive/ArrowButton';
+import Arrow from '@/components/ui/interactive/Arrow';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
@@ -9,7 +9,7 @@ import { getImageUrl } from '@/lib/microcms/image';
 import RichText, { extractTocFromHtml } from '@/components/ui/post/RichText';
 import TocNav from '@/components/ui/navigation/TocNav';
 import PageNavSP from '@/components/ui/navigation/PageNavSP';
-import SeeAllLink from '@/components/ui/interactive/SeeAllLink';
+import ButtonPrimary from '@/components/ui/interactive/ButtonPrimary';
 import { getStoryCategoryLabel } from '@/lib/storyCategory';
 
 export const revalidate = 3600;
@@ -189,7 +189,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
                         この物件について
                       </p>
                     </div>
-                    <ArrowButton variant="cream" />
+                    <Arrow variant="cream" />
                   </Link>
                 </div>
               )}
@@ -218,7 +218,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
 
             {/* ナビゲーション: すべて見る */}
             <div className="flex items-center justify-end">
-              <SeeAllLink href="/stories" />
+              <ButtonPrimary href="/stories" />
             </div>
           </div>
         </section>

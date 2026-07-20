@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import SeeAllButtonSP from './SeeAllButtonSP';
+import ButtonPrimarySp from './ButtonPrimarySp';
 
-const meta: Meta<typeof SeeAllButtonSP> = {
-  title: 'ui/interactive/SeeAllButtonSP',
-  component: SeeAllButtonSP,
+const meta: Meta<typeof ButtonPrimarySp> = {
+  title: 'ui/interactive/ButtonPrimarySp',
+  component: ButtonPrimarySp,
   parameters: { layout: 'padded' },
 };
 export default meta;
 
-type Story = StoryObj<typeof SeeAllButtonSP>;
+type Story = StoryObj<typeof ButtonPrimarySp>;
 
 /** Default: bg-blue の全幅ボタン + book アイコン */
 export const Default: Story = {

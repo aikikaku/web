@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import ArrowButton from '@/components/ui/interactive/ArrowButton';
+import Arrow from '@/components/ui/interactive/Arrow';
 
 interface Props {
   href: string;
@@ -21,7 +21,7 @@ export default function CardContact({ href, label, display = 'flex' }: Props) {
       <span className="font-gothic font-medium text-category-2 text-dark-green">
         {label}
       </span>
-      <ArrowButton />
+      <Arrow />
     </Link>
   );
 }

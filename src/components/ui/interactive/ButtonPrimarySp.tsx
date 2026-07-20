@@ -18,7 +18,7 @@ interface Props {
  * - Pressed (active): opacity-60
  * - Disabled: bg-dark-green opacity-20
  */
-export default function SeeAllButtonSP({
+export default function ButtonPrimarySp({
   href,
   label = 'すべて見る',
   showBookIcon = true,

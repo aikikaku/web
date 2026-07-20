@@ -8,7 +8,7 @@ interface Props {
  * フィルターの「絞り込み」適用ボタン（PC）。Figma Sort 4211:26067 準拠。
  * PropertyFilter.tsx / StoriesFilter.tsx で共通利用。
  */
-export default function SortApplyButton({ onClick, disabled, label = '絞り込み' }: Props) {
+export default function Sort({ onClick, disabled, label = '絞り込み' }: Props) {
   return (
     <button
       onClick={onClick}
