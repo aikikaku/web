@@ -2,7 +2,9 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import CheckboxDropdown from '@/components/ui/CheckboxDropdown';
+import DropdownPC from '@/components/ui/DropdownPC';
+import SortApplyButton from '@/components/ui/SortApplyButton';
+import SortClearButton from '@/components/ui/SortClearButton';
 
 const propertyTypes = [
   { value: 'sell_property', label: '売物件' },
@@ -177,14 +179,14 @@ export default function PropertyFilter() {
         ))}
       </div>
 
-      <CheckboxDropdown
+      <DropdownPC
         label="物件"
         options={propertyTypes}
         selected={optimisticTypes}
         onToggle={toggleType}
         onClear={clearTypes}
       />
-      <CheckboxDropdown
+      <DropdownPC
         label="地域"
         options={regions.map((r) => ({ value: r, label: r }))}
         selected={optimisticRegions}
@@ -194,27 +196,8 @@ export default function PropertyFilter() {
       </div>
 
       <div className="flex gap-2 shrink-0">
-        <button
-          onClick={applyFilters}
-          disabled={!hasPendingChange}
-          className={`h-[3.5rem] px-10 bg-dark-green border border-dark-green rounded-lg font-gothic font-medium text-[1rem] leading-none text-white transition-opacity shrink-0 ${
-            hasPendingChange ? 'hover:opacity-60' : 'opacity-20 cursor-not-allowed'
-          }`}
-        >
-          絞り込み
-        </button>
-        <button
-          onClick={clearFilters}
-          disabled={!hasActiveFilters}
-          className={`w-[3.9375rem] h-[3.5rem] border border-dark-green text-dark-green rounded-lg flex items-center justify-center transition-colors shrink-0 ${
-            hasActiveFilters ? 'hover:bg-dark-green hover:border-[rgba(252,255,247,0.3)] hover:text-white' : 'opacity-40 cursor-not-allowed'
-          }`}
-          aria-label="フィルターをクリア"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <path d="M18 6L6 18M6 6l12 12" />
-          </svg>
-        </button>
+        <SortApplyButton onClick={applyFilters} disabled={!hasPendingChange} />
+        <SortClearButton onClick={clearFilters} disabled={!hasActiveFilters} />
       </div>
     </div>
   );

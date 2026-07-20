@@ -54,7 +54,7 @@ const allNavItems = [
   { href: 'https://nakabito.jp', label: '仲人', external: true, showExternalIcon: true },
 ];
 
-export default function Header() {
+export default function Navigation() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);

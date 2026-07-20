@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Story } from '@/types/microcms';
 import CmsImage from '@/components/ui/CmsImage';
+import { BookIcon } from '@/components/ui/icons';
 
 interface Props {
   story: Story;
@@ -45,7 +46,7 @@ export default function StoryCardOverlay({ story, className }: Props) {
         />
         <div className="absolute inset-0 flex flex-col items-start justify-between pt-4 pb-6 px-4">
           <div className="flex items-center gap-3">
-            <span className="tag-pill">
+            <span className="tag">
               {getCategoryLabel(story.category)}
             </span>
             {regionNames && (
@@ -62,10 +63,7 @@ export default function StoryCardOverlay({ story, className }: Props) {
               {story.title}
             </p>
             <span className="size-11 rounded-full bg-accent-blue inline-flex items-center justify-center shrink-0">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5">
-                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
-                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
-              </svg>
+              <BookIcon size={20} stroke="white" className="" />
             </span>
           </div>
         </div>

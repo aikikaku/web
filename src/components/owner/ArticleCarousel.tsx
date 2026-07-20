@@ -67,7 +67,7 @@ export default function ArticleCarousel({ articles, href = '/for-owner' }: Props
             <div key={i} className="w-[20.75rem] tablet:w-[25.625rem] shrink-0 snap-start flex flex-col">
               <div className="relative aspect-[410/293] rounded-lg overflow-hidden mb-0">
                 <div className="absolute inset-0 bg-dark-green/10" />
-                <span className="absolute top-4 left-4 tag-pill">
+                <span className="absolute top-4 left-4 tag">
                   {article.tag}
                 </span>
               </div>

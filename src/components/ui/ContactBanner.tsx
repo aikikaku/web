@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import ArrowButton from '@/components/ui/ArrowButton';
+import CardContact from '@/components/ui/CardContact';
 
 /**
  * お問い合わせバナー（PC・SP 兼用）。Figma 4211:10744 (SP) に準拠。
@@ -72,33 +72,9 @@ export default function ContactBanner() {
             </p>
           </div>
           <div className="flex-1 flex gap-3 justify-end">
-            <Link
-              href="/for-customer"
-              className="group bg-cream/95 rounded-3xl px-[1.875rem] pt-10 pb-[1.875rem] text-center w-[16.5rem] flex flex-col items-center gap-[1.875rem]"
-            >
-              <span className="font-gothic font-medium text-category-2 text-dark-green">
-                不動産をお探しの方
-              </span>
-              <ArrowButton />
-            </Link>
-            <Link
-              href="/for-owner"
-              className="hidden desktop:flex group bg-cream/95 rounded-3xl px-[1.875rem] pt-10 pb-[1.875rem] text-center w-[16.5rem] flex-col items-center gap-[1.875rem]"
-            >
-              <span className="font-gothic font-medium text-category-2 text-dark-green">
-                不動産をお持ちの方
-              </span>
-              <ArrowButton />
-            </Link>
-            <Link
-              href="/contact"
-              className="group bg-cream/95 rounded-3xl px-[1.875rem] pt-10 pb-[1.875rem] text-center w-[16.5rem] flex flex-col items-center gap-[1.875rem]"
-            >
-              <span className="font-gothic font-medium text-category-2 text-dark-green">
-                その他のお問い合わせ
-              </span>
-              <ArrowButton />
-            </Link>
+            <CardContact href="/for-customer" label="不動産をお探しの方" />
+            <CardContact href="/for-owner" label="不動産をお持ちの方" display="hidden desktop:flex" />
+            <CardContact href="/contact" label="その他のお問い合わせ" />
           </div>
         </div>
       </div>

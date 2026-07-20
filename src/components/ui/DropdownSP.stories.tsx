@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { useState } from 'react';
-import MultiSelectDropdown from './MultiSelectDropdown';
+import DropdownSP from './DropdownSP';
 
 // 実際の呼び出し例 (src/components/property/MobileFilterNav.tsx) に準拠したオプション
 const propertyTypes = [
@@ -10,14 +10,14 @@ const propertyTypes = [
   { value: 'rent_land', label: '貸土地' },
 ];
 
-const meta: Meta<typeof MultiSelectDropdown> = {
-  title: 'ui/MultiSelectDropdown',
-  component: MultiSelectDropdown,
+const meta: Meta<typeof DropdownSP> = {
+  title: 'ui/DropdownSP',
+  component: DropdownSP,
   parameters: { layout: 'padded' },
 };
 export default meta;
 
-type Story = StoryObj<typeof MultiSelectDropdown>;
+type Story = StoryObj<typeof DropdownSP>;
 
 /** 未選択・閉じた状態 */
 export const Closed: Story = {
@@ -78,7 +78,7 @@ export const Interactive: Story = {
       const [isOpen, setIsOpen] = useState(false);
       const [selected, setSelected] = useState<string[]>(['sell_property']);
       return (
-        <MultiSelectDropdown
+        <DropdownSP
           isOpen={isOpen}
           onToggle={() => setIsOpen((v) => !v)}
           options={propertyTypes}

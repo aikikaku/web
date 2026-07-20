@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Shippori_Mincho, Zen_Kaku_Gothic_New } from 'next/font/google';
 import './globals.css';
-import Header from '@/components/ui/Header';
+import Navigation from '@/components/ui/Navigation';
 import Footer from '@/components/ui/Footer';
 
 const shipporiMincho = Shippori_Mincho({
@@ -86,7 +86,7 @@ export default function RootLayout({
             }),
           }}
         />
-        <Header />
+        <Navigation />
         <main className="min-h-screen">{children}</main>
         <Footer />
       </body>

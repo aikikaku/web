@@ -2,7 +2,9 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useState } from 'react';
-import CheckboxDropdown from '@/components/ui/CheckboxDropdown';
+import DropdownPC from '@/components/ui/DropdownPC';
+import SortApplyButton from '@/components/ui/SortApplyButton';
+import SortClearButton from '@/components/ui/SortClearButton';
 
 const regionOptions = [
   { value: 'すべて', label: 'すべて' },
@@ -91,14 +93,14 @@ export default function StoriesFilter({
   return (
     <div className="flex flex-col tablet:flex-row gap-4 items-stretch tablet:items-start tablet:justify-between">
       <div className="flex flex-col tablet:flex-row gap-4">
-        <CheckboxDropdown
+        <DropdownPC
           label="カテゴリ"
           options={categories}
           selected={selectedCategories}
           onToggle={toggleCategory}
           variant="light-green"
         />
-        <CheckboxDropdown
+        <DropdownPC
           label="地域"
           options={regionOptions}
           selected={selectedRegions}
@@ -108,23 +110,8 @@ export default function StoriesFilter({
       </div>
 
       <div className="flex gap-2 shrink-0">
-        <button
-          onClick={applyFilter}
-          disabled={!hasFilters}
-          className="h-[3.5rem] px-10 bg-dark-green text-white rounded-lg font-gothic font-medium text-[1rem] leading-none transition-opacity hover:opacity-60 cursor-pointer disabled:opacity-20 disabled:cursor-not-allowed"
-        >
-          絞り込み
-        </button>
-        <button
-          onClick={handleClear}
-          disabled={!hasFilters}
-          className="h-[3.5rem] w-[3.9375rem] border border-dark-green text-dark-green rounded-lg flex items-center justify-center transition-colors hover:bg-dark-green hover:border-[rgba(252,255,247,0.3)] hover:text-white cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
-          aria-label="フィルターをクリア"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M18 6L6 18M6 6l12 12" />
-          </svg>
-        </button>
+        <SortApplyButton onClick={applyFilter} disabled={!hasFilters} />
+        <SortClearButton onClick={handleClear} disabled={!hasFilters} />
       </div>
     </div>
   );

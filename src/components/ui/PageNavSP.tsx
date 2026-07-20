@@ -1,6 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import SpFloatingTrigger from '@/components/ui/SpFloatingTrigger';
+import SpModalBackdrop from '@/components/ui/SpModalBackdrop';
+import SpModalCloseButton from '@/components/ui/SpModalCloseButton';
 
 interface Props {
   items: string[];
@@ -11,7 +14,7 @@ interface Props {
  * - Closed: cream の角丸ピル、左にドット + 現在セクション名（14px）
  * - Open: 右下に dark-green 円の閉じるボタン + 上に縦リスト（タイムライン indicator）
  */
-export default function MobileTocNav({ items }: Props) {
+export default function PageNavSP({ items }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [showBar, setShowBar] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -79,10 +82,11 @@ export default function MobileTocNav({ items }: Props) {
   return (
     <div className="tablet:hidden">
       {/* Closed: 中央寄せ floating ピル (Figma 4211:10920 Column 342×56) */}
-      <button
+      <SpFloatingTrigger
         onClick={open}
-        className={`fixed bottom-4 left-1/2 -translate-x-1/2 z-40 inline-flex items-center bg-[#f4faf0] border border-dark-green/10 rounded-full px-5 py-2 shadow-[0_-1px_8px_rgba(0,0,0,0.1)] w-[21.375rem] h-14 transition-opacity duration-300 ${showBar ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-        aria-label="目次を開く"
+        visible={showBar}
+        ariaLabel="目次を開く"
+        className="inline-flex items-center px-5 py-2 shadow-[0_-1px_8px_rgba(0,0,0,0.1)]"
       >
         <span className="size-8 inline-flex items-center justify-center shrink-0">
           <span className="size-2 rounded-full bg-dark-green" />
@@ -90,22 +94,14 @@ export default function MobileTocNav({ items }: Props) {
         <span className="flex-1 font-gothic font-medium text-body-s text-dark-green text-left truncate">
           {items[activeIndex] || '目次'}
         </span>
-      </button>
+      </SpFloatingTrigger>
 
       {/* Open: 右寄せ x ボタン + 縦リスト */}
       {isOpen && (
         <div className="fixed inset-0 z-50">
-          <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" onClick={close} />
+          <SpModalBackdrop onClick={close} />
           <div className="absolute bottom-6 right-4 left-4 flex flex-col items-end gap-2">
-            <button
-              onClick={close}
-              className="size-11 rounded-full bg-dark-green inline-flex items-center justify-center"
-              aria-label="閉じる"
-            >
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M12 4L4 12M4 4l8 8" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
-              </svg>
-            </button>
+            <SpModalCloseButton onClick={close} className="inline-flex" />
             <div className="bg-[#f4faf0] border border-dark-green/10 rounded-3xl px-5 py-6 w-full shadow-[0_0_16px_rgba(0,0,0,0.16)]">
               <nav className="flex flex-col">
                 {items.map((item, i, arr) => {

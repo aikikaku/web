@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 
-interface CheckboxDropdownProps {
+interface DropdownPCProps {
   label: string;
   options: { value: string; label: string }[];
   selected: string[];
@@ -21,13 +21,13 @@ interface CheckboxDropdownProps {
  * - Pressed: bg light-green + 下にオプションパネル展開
  * - Selected: bg light-green、選択肢を chip 化（先頭は dark-green pill + ✕、残りは「+N」バッジ）
  */
-export default function CheckboxDropdown({
+export default function DropdownPC({
   label,
   options,
   selected,
   onToggle,
   onClear,
-}: CheckboxDropdownProps) {
+}: DropdownPCProps) {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Story } from '@/types/microcms';
 import CmsImage from '@/components/ui/CmsImage';
+import { BookIcon } from '@/components/ui/icons';
 
 const categoryLabels: Record<string, string> = {
   daily: '日々のこと',
@@ -32,18 +33,7 @@ function ReadStoryButton({ isDark }: { isDark: boolean }) {
           : 'border-dark-green text-dark-green group-hover:bg-dark-green group-hover:border-[rgba(252,255,247,0.3)] group-hover:text-white'
       }`}
     >
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        className="shrink-0"
-      >
-        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
-        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
-      </svg>
+      <BookIcon />
       ストーリーを読む
     </span>
   );
@@ -70,7 +60,7 @@ export default function StoryCard({ story, size = 's', variant = 'light' }: Stor
         <div className="flex flex-col gap-6 flex-1 min-w-0">
           <div className="flex flex-col gap-4">
             <div className="flex gap-3 items-center">
-              <span className="tag-pill">{getCategoryLabel(story.category)}</span>
+              <span className="tag">{getCategoryLabel(story.category)}</span>
               {regionNames && (
                 <span className={`font-gothic font-medium text-body-s ${isDark ? 'text-white/80' : 'text-dark-green'}`}>
                   {regionNames}
@@ -109,7 +99,7 @@ export default function StoryCard({ story, size = 's', variant = 'light' }: Stor
       <div className="pt-[1.875rem] px-3">
         {/* Tags */}
         <div className="flex gap-3 items-center mb-4">
-          <span className="tag-pill">
+          <span className="tag">
             {getCategoryLabel(story.category)}
           </span>
           {regionNames && (

@@ -31,7 +31,7 @@ function buildSlots(property: Property) {
 
   const spLabelsSlot = (
     <div className="flex items-center gap-2 min-w-0">
-      <span className="tag-pill shrink-0">{categoryLabel}</span>
+      <span className="tag shrink-0">{categoryLabel}</span>
       {locationText && (
         <span className="font-gothic font-medium text-body-s text-dark-green truncate">
           {locationText}
@@ -44,8 +44,8 @@ function buildSlots(property: Property) {
     <div className="flex flex-col gap-6 tablet:gap-10 pt-4 tablet:pt-3 min-w-0">
       <div>
         <div className="hidden tablet:flex gap-3 items-center">
-          {statusLabel && <span className="tag-pill-dark">{statusLabel}</span>}
-          <span className="tag-pill">{categoryLabel}</span>
+          {statusLabel && <span className="tag-dark">{statusLabel}</span>}
+          <span className="tag">{categoryLabel}</span>
           {locationText && (
             <span className="font-gothic font-medium text-[1rem] leading-none text-dark-green">
               {locationText}

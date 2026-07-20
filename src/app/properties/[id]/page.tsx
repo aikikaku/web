@@ -2,9 +2,10 @@ import { unstable_noStore as noStore } from 'next/cache';
 import { getProperty, getProperties } from '@/lib/microcms/queries';
 import Link from 'next/link';
 import MoreProperties from '@/components/property/MoreProperties';
-import MobileTocNav from '@/components/ui/MobileTocNav';
+import PageNavSP from '@/components/ui/PageNavSP';
 import CmsImage from '@/components/ui/CmsImage';
 import ArrowButton from '@/components/ui/ArrowButton';
+import { BookIcon } from '@/components/ui/icons';
 import StoryCardOverlay from '@/components/story/StoryCardOverlay';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
@@ -220,7 +221,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
             isSold={isSold}
             spLabelsSlot={(
               <div className="flex items-center gap-2 min-w-0">
-                <span className="tag-pill shrink-0">
+                <span className="tag shrink-0">
                   {categoryLabel}
                 </span>
                 {locationText && (
@@ -236,11 +237,11 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                 <div>
                   <div className="hidden tablet:flex gap-3 items-center">
                     {statusLabel && (
-                      <span className="tag-pill-dark">
+                      <span className="tag-dark">
                         {statusLabel}
                       </span>
                     )}
-                    <span className="tag-pill">
+                    <span className="tag">
                       {categoryLabel}
                     </span>
                     {locationText && (
@@ -330,7 +331,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
       </section>
 
       {/* SP用 floating TOC bar */}
-      <MobileTocNav items={tocItems} />
+      <PageNavSP items={tocItems} />
 
       {/* メインコンテンツ - 2カラムレイアウト。id は ヒーローカード「物件詳細」ボタンのアンカー先 */}
       <section id="property-detail-body" data-mobile-toc-start className="px-4 tablet:pl-[2.8125rem] tablet:pr-[4.6875rem] py-16 tablet:py-24 max-w-[90rem] mx-auto scroll-mt-20">
@@ -373,12 +374,12 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                               href={property.googleMapUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="tag-pill shrink-0 hover:opacity-70 transition-opacity"
+                              className="tag shrink-0 hover:opacity-70 transition-opacity"
                             >
                               MAP
                             </a>
                           ) : (
-                            <span className="tag-pill shrink-0">
+                            <span className="tag shrink-0">
                               MAP
                             </span>
                           ))}
@@ -506,7 +507,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
               <div className="flex-1 flex flex-col gap-6">
                 <div className="flex flex-col gap-3">
                   <div className="flex gap-2 items-center">
-                    <span className="tag-pill">
+                    <span className="tag">
                       物件のつづき
                     </span>
                     {property.story.regions && property.story.regions.length > 0 && (
@@ -524,10 +525,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                 </div>
                 {/* button-secondary: ストーリーを読む */}
                 <span className="inline-flex items-center gap-1 h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none w-fit">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="shrink-0">
-                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
-                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
-                  </svg>
+                  <BookIcon />
                   ストーリーを読む
                 </span>
               </div>

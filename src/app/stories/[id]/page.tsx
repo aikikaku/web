@@ -8,7 +8,7 @@ import type { Metadata } from 'next';
 import { getImageUrl } from '@/lib/microcms/image';
 import RichText, { extractTocFromHtml } from '@/components/ui/RichText';
 import TocNav from '@/components/ui/TocNav';
-import MobileTocNav from '@/components/ui/MobileTocNav';
+import PageNavSP from '@/components/ui/PageNavSP';
 import SeeAllLink from '@/components/ui/SeeAllLink';
 import { getStoryCategoryLabel } from '@/lib/storyCategory';
 
@@ -123,7 +123,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
             <div className="flex flex-col gap-8 items-center w-full">
               {/* タグ + 地域 */}
               <div className="flex gap-3 items-center">
-                <span className="tag-pill">
+                <span className="tag">
                   {getStoryCategoryLabel(story.category)}
                 </span>
                 {regionNames && (
@@ -153,7 +153,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
       </section>
 
       {/* SP用 floating TOC bar */}
-      <MobileTocNav items={tocItems} />
+      <PageNavSP items={tocItems} />
 
       {/* メインコンテンツ: TOC + リッチテキスト */}
       <section data-mobile-toc-start className="pb-24 px-[2.8125rem] tablet:pr-[4.6875rem] max-w-[90rem] mx-auto max-tablet:px-4">

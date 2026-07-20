@@ -8,6 +8,7 @@ import Pagination from '@/components/ui/Pagination';
 import StoriesFilter from '@/components/story/StoriesFilter';
 import MobileStoriesFilter from '@/components/story/MobileStoriesFilter';
 import StoryCardOverlay from '@/components/story/StoryCardOverlay';
+import { BookIcon } from '@/components/ui/icons';
 import Reveal from '@/components/ui/Reveal';
 import ArrowButton from '@/components/ui/ArrowButton';
 import type { Metadata } from 'next';
@@ -64,7 +65,7 @@ function StoryCardLarge({ story }: { story: Story }) {
         <div className="flex flex-col gap-6 items-start justify-center pt-[1.875rem] px-3 w-full">
           <div className="flex flex-col gap-4 items-start w-full">
             <div className="flex gap-3 items-center">
-              <span className="tag-pill">
+              <span className="tag">
                 {getCategoryLabel(story.category)}
               </span>
               {regionNames && (
@@ -81,10 +82,7 @@ function StoryCardLarge({ story }: { story: Story }) {
             </h3>
           </div>
           <span className="inline-flex items-center gap-1 h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="shrink-0">
-              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
-              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
-            </svg>
+            <BookIcon />
             ストーリーを読む
           </span>
         </div>
@@ -116,7 +114,7 @@ function FeaturedStoryCard({ story }: { story: Story }) {
         <div className="flex flex-col gap-6 tablet:gap-12 items-start justify-center flex-1 min-w-0 tablet:pl-[5.5625rem] tablet:pr-[3.75rem]">
           <div className="flex flex-col gap-4 items-start w-full">
             <div className="flex gap-3 items-center">
-              <span className="tag-pill">
+              <span className="tag">
                 {getCategoryLabel(story.category)}
               </span>
               {regionNames && (
@@ -135,10 +133,7 @@ function FeaturedStoryCard({ story }: { story: Story }) {
           </div>
 
           <span className="inline-flex items-center gap-2 h-[2.75rem] px-4 btn-outline-fill text-[0.875rem] leading-[1.25rem] tracking-[0.00625rem]">
-            <svg width="20" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="shrink-0">
-              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
-              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
-            </svg>
+            <BookIcon size={20} />
             ストーリーを読む
           </span>
         </div>

@@ -1,33 +1,24 @@
 import Link from 'next/link';
 import { Property } from '@/types/microcms';
 import CmsImage from '@/components/ui/CmsImage';
+import { BookIcon } from '@/components/ui/icons';
+import { getPropertyStatus, getPropertyCategoryLabel, formatPropertyPrice } from '@/lib/propertyDisplay';
 
 interface PropertyCardProps {
   property: Property;
 }
 
 export default function PropertyCard({ property }: PropertyCardProps) {
-  const isSold = property.status === 'sold';
-  const isNegotiating = property.status === 'negotiating';
-  // 状態ラベル: 成約済み or 商談中（案内中は非表示）(#35)
-  const statusLabel = isSold ? '成約済み' : isNegotiating ? '商談中' : null;
-  // ピルは CMS の label を優先。未設定なら category+type から算出 (#30)
-  const categoryLabel =
-    property.label ||
-    (property.category === 'property'
-      ? property.type === 'sell'
-        ? '中古住宅'
-        : '賃貸物件'
-      : property.type === 'sell'
-        ? '売土地'
-        : '貸土地');
+  const { isSold, label: statusLabel } = getPropertyStatus(property);
+  const categoryLabel = getPropertyCategoryLabel(property);
   const locationText = property.regions?.map((r) => r.name).join('・');
+  const { amount: priceAmount, unit: priceUnit } = formatPropertyPrice(property, isSold);
 
   return (
     <Link href={`/properties/${property.id}`} className="block group w-full hover:opacity-70 transition-opacity">
       {/* Tags above image — PC のみ。SP では画像内オーバーレイ */}
       <div className="hidden tablet:flex gap-3 items-center pb-3">
-        <span className="tag-pill">
+        <span className="tag">
           {categoryLabel}
         </span>
         {locationText && (
@@ -58,7 +49,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
         />
         <div className="tablet:hidden absolute inset-x-0 top-0 p-2.5 flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 min-w-0">
-            <span className="tag-pill shrink-0">{categoryLabel}</span>
+            <span className="tag shrink-0">{categoryLabel}</span>
             {locationText && (
               <span className="font-gothic font-medium text-body-m text-cream truncate">
                 {locationText}
@@ -66,14 +57,14 @@ export default function PropertyCard({ property }: PropertyCardProps) {
             )}
           </div>
           {statusLabel && (
-            <span className="tag-pill-dark shrink-0">
+            <span className="tag-dark shrink-0">
               {statusLabel}
             </span>
           )}
         </div>
         {/* PC: 画像右上に状態ラベル */}
         {statusLabel && (
-          <span className="tag-pill-dark hidden tablet:inline-flex absolute top-3 right-3">
+          <span className="tag-dark hidden tablet:inline-flex absolute top-3 right-3">
             {statusLabel}
           </span>
         )}
@@ -102,16 +93,10 @@ export default function PropertyCard({ property }: PropertyCardProps) {
               </div>
               <div className="flex items-end justify-center h-[2.375rem]">
                 <span className="font-gothic font-medium text-category-2 tablet:text-category-1 text-black px-2">
-                  {isSold
-                    ? '-'
-                    : property.price
-                      ? property.price.toLocaleString()
-                      : property.rent
-                        ? property.rent.toLocaleString()
-                        : '応談'}
+                  {priceAmount}
                 </span>
                 <span className="font-gothic font-medium text-body-s text-black pb-1 whitespace-nowrap">
-                  {isSold ? '万円' : property.price ? '万円' : property.rent ? '円/月' : ''}
+                  {priceUnit}
                 </span>
               </div>
             </div>
@@ -157,18 +142,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
         {isSold && property.story && (
           <div className="tablet:hidden pb-2">
             <span className="flex items-center justify-center gap-1 w-full h-[2.75rem] btn-outline-fill text-[1rem] leading-none">
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                className="shrink-0"
-              >
-                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
-                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
-              </svg>
+              <BookIcon />
               ストーリーを読む
             </span>
           </div>
@@ -201,18 +175,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
             {isSold && property.story && (
               <div className="h-[2.75rem] w-[11.6875rem]">
                 <span className="flex items-center justify-center gap-1 w-full h-full btn-outline-fill text-[1rem] leading-none">
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    className="shrink-0"
-                  >
-                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
-                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
-                  </svg>
+                  <BookIcon />
                   ストーリーを読む
                 </span>
               </div>
