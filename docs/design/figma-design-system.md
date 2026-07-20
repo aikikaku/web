@@ -222,8 +222,9 @@ Typography/Color/Assets/Breakpoints は `tailwind.config.ts` / `globals.css` 側
 ## Other
 
 1. PC
-   1. List Item Deco: [node-id=4211-25250](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25250&m=dev) → `src/app/about/page.tsx`の会社概要`<dl>`内、所在地行(ラベル+値+MAPバッジ)が該当(2026-07-20判明。当初「対応コード無し」と誤評価。単一箇所のため共通コンポーネント化はせず、対応先の記録のみ)
-   2. List Item Def: [node-id=4211-25259](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25259&m=dev) → `src/app/about/page.tsx`の会社概要`<dl>`(商号/設立等のラベル+値行)が該当(2026-07-20判明。同上の理由で共通化はせず)
+   1. List Item Deco(実レイヤー名`List Item-deco`): [node-id=4211-25250](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25250&m=dev) → `src/components/ui/content/ListItemDeco.tsx`(2026-07-21新設。ラベル固定幅+値+MAPタグ。`properties/[id]/page.tsx`の物件概要テーブル所在地行で使用)
+   2. List Item Def(実レイヤー名`List Item-def`): [node-id=4211-25259](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25259&m=dev) → `src/components/ui/content/ListItemDef.tsx`(2026-07-21新設。ラベル固定幅+値。`properties/[id]/page.tsx`の物件概要テーブル各行で使用)
+      **未解決(要確認)**: `about/page.tsx`の会社概要`<dl>`も同種のラベル+値リストだが、`justify-between`で値を**右寄せ**にする別レイアウト(かつ所在地行にiframe地図・営業時間の複数行+注記など特殊行を含む)であり、上記コンポーネント(Figma仕様=ラベル固定幅・値左寄せ)とは視覚デザインが異なる。about側をこのコンポーネントに移行すると見た目が変わるため一旦据え置き。about会社概要が意図的に右寄せデザインなのか、Figma List Item仕様に合わせるべきなのかを要確認。
    3. Side Bar Dots: [node-id=4211-25262](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25262&m=dev) → `src/components/ui/content/SlideshowNav.tsx`
    4. Navigation Slide Show: [node-id=4211-25269](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25269&m=dev) → `content/SlideshowNav.tsx`(同上。6箇所で共通利用)
    5. Question List: [node-id=4211-25275](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25275&m=dev) → `src/lib/useAccordionHeight.ts` + `src/components/ui/content/AccordionChevron.tsx`
@@ -232,8 +233,8 @@ Typography/Color/Assets/Breakpoints は `tailwind.config.ts` / `globals.css` 側
    8. Paragraph: [node-id=4211-25308](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25308&m=dev) → `globals.css` `.rich-content p`
 2. SP
    1. Side Bar Dots SP: [node-id=4211-25722](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25722&m=dev) → `content/SlideshowNav.tsx`(共通)
-   2. List Item Deco SP: [node-id=4211-25729](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25729&m=dev) → 共通(PC参照、`about/page.tsx`の`<dl>`はレスポンシブ対応でSPも同一マークアップ)
-   3. List Item Def SP: [node-id=4211-25738](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25738&m=dev) → 共通(PC参照)
+   2. List Item Deco SP: [node-id=4211-25729](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25729&m=dev) → 共通(`ListItemDeco.tsx`がレスポンシブ対応、SP 16px→PC 18px)
+   3. List Item Def SP: [node-id=4211-25738](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25738&m=dev) → 共通(`ListItemDef.tsx`、同上)
    4. Question List SP: [node-id=4211-25741](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25741&m=dev) → 共通(PC参照)
    5. Question SP: [node-id=4211-25747](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25747&m=dev) → 共通(PC参照)
    6. Popup Filter Drop Down SP: [node-id=4211-25768](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25768&m=dev) → `MobileFilterNav.tsx` / `MobileStoriesFilter.tsx`(共通`src/components/ui/popup/{SpFloatingTrigger,SpModalBackdrop,SpModalCloseButton}.tsx`経由、2026-07-20共通化。「Filter」の名前は`## Filter`見出し=`PropertyFilter.tsx`/`StoriesFilter.tsx`のために予約するため`ui/popup/`に配置)

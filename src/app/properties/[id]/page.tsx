@@ -15,6 +15,8 @@ import type { MicroCMSImage } from '@/types/microcms';
 import PropertyDetailClient from '@/components/property/PropertyDetailClient';
 import RichText, { extractTocFromHtml } from '@/components/ui/post/RichText';
 import TocNav from '@/components/ui/navigation/TocNav';
+import ListItemDeco from '@/components/ui/content/ListItemDeco';
+import ListItemDef from '@/components/ui/content/ListItemDef';
 
 export const revalidate = 3600;
 
@@ -357,34 +359,16 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
               <div className="border-b border-dark-green/10">
                 {detailFields.map((field) =>
                   field.value ? (
-                    <div
-                      key={field.label}
-                      className="flex gap-[1.875rem] items-start py-6 border-t border-dark-green/10"
-                    >
-                      <p className="font-gothic font-medium text-[1rem] leading-[1.8] tablet:text-body-l text-dark-green w-[7.5rem] tablet:w-[9.1875rem] shrink-0">
-                        {field.label}
-                      </p>
-                      <div className="flex-1 flex items-center justify-between gap-3">
-                        <p className="font-gothic font-medium text-[1rem] leading-[1.8] tablet:text-body-l text-black whitespace-pre-line">
-                          {field.value}
-                        </p>
-                        {field.hasTag &&
-                          (property.googleMapUrl ? (
-                            <a
-                              href={property.googleMapUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="tag shrink-0 hover:opacity-70 transition-opacity"
-                            >
-                              MAP
-                            </a>
-                          ) : (
-                            <span className="tag shrink-0">
-                              MAP
-                            </span>
-                          ))}
-                      </div>
-                    </div>
+                    field.hasTag ? (
+                      <ListItemDeco
+                        key={field.label}
+                        label={field.label}
+                        value={field.value}
+                        mapUrl={property.googleMapUrl || undefined}
+                      />
+                    ) : (
+                      <ListItemDef key={field.label} label={field.label} value={field.value} />
+                    )
                   ) : null
                 )}
                 {/* 価格行（成約時は非表示 #31） */}
