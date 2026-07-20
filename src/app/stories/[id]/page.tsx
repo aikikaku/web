@@ -1,5 +1,5 @@
 import { getStory, getStories } from '@/lib/microcms/queries';
-import StoryCard from '@/components/story/StoryCard';
+import RelatedStoriesGrid from '@/components/story/RelatedStoriesGrid';
 import CmsImage from '@/components/ui/CmsImage';
 import ArrowButton from '@/components/ui/ArrowButton';
 import Link from 'next/link';
@@ -213,14 +213,8 @@ export default async function StoryPage({ params }: StoryPageProps) {
               もっとストーリーを見る
             </h3>
 
-            {/* カード3列 */}
-            <div className="grid grid-cols-1 tablet:grid-cols-3 gap-y-12 gap-x-[1.875rem] max-tablet:flex max-tablet:overflow-x-auto max-tablet:pb-4 max-tablet:gap-x-4">
-              {relatedStories.contents.map((s) => (
-                <div key={s.id} className="max-tablet:w-[18.75rem] max-tablet:shrink-0">
-                  <StoryCard story={s} size="l" />
-                </div>
-              ))}
-            </div>
+            {/* カード3列(PC) / 横スクロール+ドットページャー(SP) */}
+            <RelatedStoriesGrid stories={relatedStories.contents} />
 
             {/* ナビゲーション: すべて見る */}
             <div className="flex items-center justify-end">
