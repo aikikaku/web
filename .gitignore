@@ -41,3 +41,6 @@ next-env.d.ts
 
 # Claude Code subagent worktrees
 .claude/worktrees/
+
+*storybook.log
+storybook-static

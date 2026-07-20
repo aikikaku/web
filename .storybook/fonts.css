@@ -1,0 +1,9 @@
+/* Storybook プレビュー専用。本番は next/font でセルフホストしているが、
+   next/font のCSS変数は <html> の className 経由でしか注入されないため
+   Storybook 単体では効かない。表示確認用に Google Fonts CDN 経由で代替。 */
+@import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap');
+
+:root {
+  --font-shippori-mincho: 'Shippori Mincho';
+  --font-zen-kaku: 'Zen Kaku Gothic New';
+}
