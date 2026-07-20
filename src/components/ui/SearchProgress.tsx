@@ -1,5 +1,5 @@
 interface Props {
-  /** 表示テキスト。既定「検索中...」 */
+  /** 表示テキスト。既定「ページを読み込み中...」 */
   label?: string;
 }
 
@@ -9,7 +9,7 @@ interface Props {
  * バーは light-blue(#D9E9F4) → blue(#3CB1FF) のグラデーションが流れる
  * ローディングアニメーション（CSS のみ・サーバーコンポーネントのまま）。
  */
-export default function SearchProgress({ label = '検索中...' }: Props) {
+export default function SearchProgress({ label = 'ページを読み込み中...' }: Props) {
   return (
     <div className="flex flex-col items-center py-12">
       <p className="font-gothic font-medium text-[1rem] leading-[2] text-dark-green/60">

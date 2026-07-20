@@ -9,6 +9,7 @@ import HeroSlideshowSP from '@/components/home/HeroSlideshowSP';
 import HeroFrame from '@/components/home/HeroFrame';
 import HeroVideo from '@/components/home/HeroVideo';
 import SeeAllLink from '@/components/ui/SeeAllLink';
+import ArrowButton from '@/components/ui/ArrowButton';
 import ParkingBanner from '@/components/ui/ParkingBanner';
 import Reveal from '@/components/ui/Reveal';
 import ParallaxLayer from '@/components/ui/ParallaxLayer';
@@ -36,10 +37,11 @@ export default async function HomePage() {
     <div>
       {/* ヒーローセクション */}
       <section className="bg-cream overflow-hidden relative">
-        {/* SP: テキスト上 → スライドショー画像（next + dots） */}
-        <div className="flex flex-col gap-8 pt-12 px-4 tablet:hidden">
-          <div className="pl-4">
-            <h1 className="font-mincho text-[2rem] leading-[1.5] tracking-[0.08rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+        {/* SP〜ラップトップ(〜1439px): テキスト上 → スライドショー画像（縦積みで重なり無し #40）。
+            1440px 以上でのみ下の absolute 配置レイアウトを使う */}
+        <div className="flex flex-col gap-8 pt-12 tablet:pt-14 px-4 tablet:px-[4.6875rem] max-w-[90rem] mx-auto min-[1440px]:hidden">
+          <div className="pl-4 tablet:pl-0">
+            <h1 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.08rem] tablet:tracking-[0.14rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               家と街と人が<br />
               つながる、<br />
               三島の暮らし
@@ -48,9 +50,10 @@ export default async function HomePage() {
           <HeroSlideshowSP />
         </div>
 
-        {/* PC: absolute配置レイアウト (1440フレーム中央寄せ + 右側画像は viewport右端アンカー) */}
-        <div className="hidden tablet:block relative h-[56rem] w-full max-w-[90rem] mx-auto">
-          <div className="absolute left-[2.8125rem] top-[9.625rem] w-[34.8125rem] h-[46.375rem] rounded-2xl overflow-hidden">
+        {/* PC(1440px以上): absolute配置レイアウト (1440フレーム中央寄せ + 右側画像は viewport右端アンカー)。
+            1440px 未満は上の縦積みレイアウトを使うため min-[1440px] で限定 (#40) */}
+        <div className="hidden min-[1440px]:block relative h-[49.875rem] w-full max-w-[90rem] mx-auto">
+          <div className="absolute left-[2.8125rem] top-[3.5rem] w-[34.8125rem] h-[46.375rem] rounded-2xl overflow-hidden">
             {/* メイン枠は動画背景（Slack「Heroの演出」）。ロード前/reduced-motion は poster 静止画 */}
             <HeroVideo
               src="/videos/hero.mp4"
@@ -58,7 +61,7 @@ export default async function HomePage() {
               className="absolute inset-0 h-full w-full object-cover"
             />
           </div>
-          <div className="absolute left-[48.0625rem] top-[25.5rem] w-[40.3125rem]">
+          <div className="absolute left-[48.0625rem] top-[19.375rem] w-[40.3125rem]">
             <h1 className="font-mincho text-[3.5rem] leading-[1.5] tracking-[0.14rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               家と街と人が<br />
               つながる、<br />
@@ -67,22 +70,16 @@ export default async function HomePage() {
           </div>
         </div>
         {/* 右上画像: viewport右端アンカー (Figma: 右端から28px はみ出る) */}
-        <div className="hidden tablet:block absolute right-[-1.75rem] top-[9.625rem] w-[13.75rem] h-[18.3125rem] rounded-2xl overflow-hidden">
+        <div className="hidden min-[1440px]:block absolute right-[-1.75rem] top-[3.5rem] w-[13.75rem] h-[18.3125rem] rounded-2xl overflow-hidden">
           <HeroFrame
             srcs={HERO_IMAGES.topRight}
             alt="三島の自然"
             delayMs={500}
             sizes="220px"
           />
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage: 'linear-gradient(209deg, #fcfff7 6.2%, rgba(252,255,247,0) 84.4%)',
-            }}
-          />
         </div>
         {/* 右下画像: viewport右端から89px (Figma: 1145+206=1351, 1440-1351=89) */}
-        <div className="hidden tablet:block absolute right-[5.5625rem] top-[46.375rem] w-[12.875rem] h-[9.625rem] rounded-xl overflow-hidden">
+        <div className="hidden min-[1440px]:block absolute right-[5.5625rem] top-[40.25rem] w-[12.875rem] h-[9.625rem] rounded-xl overflow-hidden">
           <HeroFrame
             srcs={HERO_IMAGES.bottomRight}
             alt="三島の街並み"
@@ -139,15 +136,10 @@ export default async function HomePage() {
                 <div className="hidden tablet:flex tablet:justify-end">
                   <Link
                     href="/about"
-                    className="inline-flex items-center gap-2 font-gothic font-medium text-[1.125rem] text-dark-green hover:opacity-70 transition-opacity"
+                    className="group inline-flex items-center gap-2 font-gothic font-medium text-[1.125rem] text-dark-green"
                   >
                     もっと知る
-                    <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                        <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
+                    <ArrowButton />
                   </Link>
                 </div>
               </div>
@@ -224,12 +216,7 @@ export default async function HomePage() {
                   買いたい・借りたい
                 </p>
               </div>
-              <span className="relative z-10 inline-flex items-center justify-center size-11 rounded-full bg-accent-blue shrink-0">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                  <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </span>
+              <ArrowButton size="sm" className="relative z-10" />
             </Link>
 
             <Link
@@ -256,12 +243,7 @@ export default async function HomePage() {
                   売りたい・貸したい
                 </p>
               </div>
-              <span className="relative z-10 inline-flex items-center justify-center size-11 rounded-full bg-accent-blue shrink-0">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                  <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </span>
+              <ArrowButton size="sm" className="relative z-10" />
             </Link>
           </div>
 
@@ -281,12 +263,7 @@ export default async function HomePage() {
                     買いたい・借りたい
                   </p>
                 </div>
-                <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                    <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                    <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </span>
+                <ArrowButton />
               </div>
               <div className="w-[18.375rem] h-[13.75rem] relative rounded-xl overflow-hidden shrink-0">
                 <Image
@@ -312,12 +289,7 @@ export default async function HomePage() {
                     売りたい・貸したい
                   </p>
                 </div>
-                <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                    <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                    <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </span>
+                <ArrowButton />
               </div>
               <div className="w-[18.375rem] h-[13.75rem] relative rounded-xl overflow-hidden shrink-0">
                 <Image
@@ -567,7 +539,8 @@ export default async function HomePage() {
             />
           </div>
           <div className="relative z-10 flex gap-[1.875rem] items-start">
-            <div className="text-white shrink-0 pl-[3.75rem]">
+            {/* 左余白: カード padding 30px + この pl で合計60pxにする（旧 pl-[3.75rem] は合計90pxだった）(#30) */}
+            <div className="text-white shrink-0 pl-[1.875rem]">
               <p className="text-body-m font-gothic font-medium leading-[2] mb-2">お問い合わせ</p>
               <p className="font-mincho text-[2rem] leading-[1.5] tracking-[0.08rem] whitespace-nowrap" style={{ fontFeatureSettings: "'palt' 1" }}>
                 不動産に関すること、<br />
@@ -577,17 +550,12 @@ export default async function HomePage() {
             <div className="flex-1 flex gap-3 justify-end">
               <Link
                 href="/for-customer"
-                className="bg-cream/95 rounded-3xl px-[1.875rem] pt-10 pb-[1.875rem] text-center w-[16.5rem] flex flex-col items-center gap-[1.875rem] hover:opacity-70 transition-opacity"
+                className="group bg-cream/95 rounded-3xl px-[1.875rem] pt-10 pb-[1.875rem] text-center w-[16.5rem] flex flex-col items-center gap-[1.875rem]"
               >
                 <span className="font-gothic font-medium text-[1.25rem] leading-[1.6] text-dark-green">
                   不動産に関する<br />ご相談はこちら
                 </span>
-                <span className="bg-accent-blue w-12 h-12 rounded-full flex items-center justify-center">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                    <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </span>
+                <ArrowButton />
               </Link>
             </div>
           </div>

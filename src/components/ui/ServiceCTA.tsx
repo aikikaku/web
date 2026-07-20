@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import ArrowButton from '@/components/ui/ArrowButton';
 
 /**
  * 「不動産をお探しの方へ / お持ちの方へ」CTA セクション。
@@ -68,12 +69,7 @@ export default function ServiceCTA({
               </h3>
               <p className="text-body-m font-gothic font-medium leading-[2]">買いたい・借りたい</p>
             </div>
-            <span className="relative z-10 inline-flex items-center justify-center size-11 rounded-full bg-accent-blue shrink-0">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </span>
+            <ArrowButton size="sm" className="relative z-10" />
           </Link>
 
           <Link
@@ -99,12 +95,7 @@ export default function ServiceCTA({
               </h3>
               <p className="text-body-m font-gothic font-medium leading-[2]">売りたい・貸したい</p>
             </div>
-            <span className="relative z-10 inline-flex items-center justify-center size-11 rounded-full bg-accent-blue shrink-0">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </span>
+            <ArrowButton size="sm" className="relative z-10" />
           </Link>
         </div>
 
@@ -121,12 +112,7 @@ export default function ServiceCTA({
                 </h3>
                 <p className="text-[1.125rem] leading-[1.8] font-gothic font-medium text-dark-green">買いたい・借りたい</p>
               </div>
-              <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                  <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </span>
+              <ArrowButton />
             </div>
             <div className="w-[18.375rem] h-[13.75rem] relative rounded-xl overflow-hidden shrink-0">
               <Image
@@ -150,12 +136,7 @@ export default function ServiceCTA({
                 </h3>
                 <p className="text-[1.125rem] leading-[1.8] font-gothic font-medium text-dark-green">売りたい・貸したい</p>
               </div>
-              <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                  <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </span>
+              <ArrowButton />
             </div>
             <div className="w-[18.375rem] h-[13.75rem] relative rounded-xl overflow-hidden shrink-0">
               <Image

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import ArrowButton from '@/components/ui/ArrowButton';
 
 /**
  * お問い合わせバナー（PC・SP 兼用）。Figma 4211:10744 (SP) に準拠。
@@ -67,31 +68,21 @@ export default function ContactBanner() {
           <div className="flex-1 flex gap-3 justify-end">
             <Link
               href="/for-customer"
-              className="bg-cream/95 rounded-3xl px-[1.875rem] pt-10 pb-[1.875rem] text-center w-[16.5rem] flex flex-col items-center gap-[1.875rem] hover:opacity-70 transition-opacity"
+              className="group bg-cream/95 rounded-3xl px-[1.875rem] pt-10 pb-[1.875rem] text-center w-[16.5rem] flex flex-col items-center gap-[1.875rem]"
             >
               <span className="font-gothic font-medium text-[1.25rem] leading-[1.6] text-dark-green">
                 不動産をお探しの方
               </span>
-              <span className="bg-accent-blue w-12 h-12 rounded-full flex items-center justify-center">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                  <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </span>
+              <ArrowButton />
             </Link>
             <Link
               href="/contact"
-              className="bg-cream/95 rounded-3xl px-[1.875rem] pt-10 pb-[1.875rem] text-center w-[16.5rem] flex flex-col items-center gap-[1.875rem] hover:opacity-70 transition-opacity"
+              className="group bg-cream/95 rounded-3xl px-[1.875rem] pt-10 pb-[1.875rem] text-center w-[16.5rem] flex flex-col items-center gap-[1.875rem]"
             >
               <span className="font-gothic font-medium text-[1.25rem] leading-[1.6] text-dark-green">
                 その他のお問い合わせ
               </span>
-              <span className="bg-accent-blue w-12 h-12 rounded-full flex items-center justify-center">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                  <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </span>
+              <ArrowButton />
             </Link>
           </div>
         </div>

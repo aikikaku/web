@@ -46,6 +46,7 @@ export default function AboutPage() {
               fill
               className="object-cover"
               priority
+              quality={90}
               sizes="(max-width: 992px) 100vw, 0px"
             />
           </div>
@@ -65,6 +66,7 @@ export default function AboutPage() {
               fill
               className="object-cover"
               priority
+              quality={90}
               sizes="(min-width: 992px) 1350px, 0px"
             />
           </div>
@@ -210,9 +212,10 @@ export default function AboutPage() {
         </Reveal>
       </section>
 
-      {/* コンポスト活動セクション (Figma SP 4211:11127 / PC 既存) */}
+      {/* コンポスト活動セクション (Figma SP 4211:11127 / PC 既存)。
+          左テキストを上部「スタッフインタビュー」section と同じ左45px(pl-[2.8125rem])に揃える (#23) */}
       <Reveal as="section" className="bg-light-green py-[3.75rem] pb-[5rem] tablet:py-24 tablet:pb-32">
-        <div className="px-4 tablet:px-[4.6875rem] max-w-[90rem] mx-auto">
+        <div className="px-4 tablet:pl-[2.8125rem] tablet:pr-[4.6875rem] max-w-[90rem] mx-auto">
           {/* 見出し */}
           <div className="mb-12 tablet:mb-24 px-2 tablet:px-0">
             <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1.125rem] leading-[1.8] text-dark-green mb-2">コンポスト活動</p>
@@ -312,22 +315,16 @@ export default function AboutPage() {
                       </a>
                     </dd>
                   </div>
-                  {/* 地図画像をクリックで Google マップへ (#59) */}
-                  <a
-                    href="https://maps.google.com/?q=静岡県三島市加茂18番地の7"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Google マップでアイ企画の所在地を開く"
-                    className="block w-full aspect-[528/370] relative rounded-2xl overflow-hidden border border-dark-green/20 hover:opacity-90 transition-opacity"
-                  >
-                    <Image
-                      src="/images/about/map.jpg"
-                      alt="アイ企画の所在地マップ"
-                      fill
-                      className="object-cover"
-                      sizes="(min-width: 992px) 528px, 100vw"
-                    />
-                  </a>
+                  {/* Google マップ埋め込み (#22)。APIキー不要の output=embed 形式・遅延読込 */}
+                  <iframe
+                    src="https://maps.google.com/maps?q=%E9%9D%99%E5%B2%A1%E7%9C%8C%E4%B8%89%E5%B3%B6%E5%B8%82%E5%8A%A0%E8%8C%8218%E7%95%AA%E5%9C%B0%E3%81%AE7&z=16&output=embed"
+                    title="アイ企画の所在地（Google マップ）"
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    allowFullScreen
+                    className="block w-full aspect-[528/370] rounded-2xl overflow-hidden border border-dark-green/20"
+                    style={{ border: 0 }}
+                  />
                 </div>
                 <div className="flex items-center justify-between gap-4 py-5 tablet:py-6">
                   <dt className="font-gothic font-medium text-[0.875rem] tablet:text-[1.125rem] leading-[1.8] text-dark-green shrink-0">電話</dt>

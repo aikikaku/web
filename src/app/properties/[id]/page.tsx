@@ -4,6 +4,7 @@ import Link from 'next/link';
 import MoreProperties from '@/components/property/MoreProperties';
 import MobileTocNav from '@/components/ui/MobileTocNav';
 import CmsImage from '@/components/ui/CmsImage';
+import ArrowButton from '@/components/ui/ArrowButton';
 import StoryCardOverlay from '@/components/story/StoryCardOverlay';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
@@ -413,32 +414,22 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                     href={property.documentUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 bg-dark-green rounded-2xl p-[1.875rem] h-[6.75rem] flex items-center justify-between hover:opacity-90 transition-opacity"
+                    className="group flex-1 bg-dark-green rounded-2xl p-[1.875rem] h-[6.75rem] flex items-center justify-between"
                   >
                     <p className="font-gothic font-medium text-[1.25rem] leading-[1.6] text-white px-3">
                       物件資料
                     </p>
-                    <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue shrink-0">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                        <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
+                    <ArrowButton variant="cream" />
                   </a>
                 ) : (
                   <Link
                     href="/for-customer"
-                    className="flex-1 bg-dark-green rounded-2xl p-[1.875rem] h-[6.75rem] flex items-center justify-between hover:opacity-90 transition-opacity"
+                    className="group flex-1 bg-dark-green rounded-2xl p-[1.875rem] h-[6.75rem] flex items-center justify-between"
                   >
                     <p className="font-gothic font-medium text-[1.25rem] leading-[1.6] text-white px-3">
                       物件資料
                     </p>
-                    <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue shrink-0">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                        <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
+                    <ArrowButton variant="cream" />
                   </Link>
                 )}
                 {typeformContactUrl ? (
@@ -446,32 +437,22 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                     href={typeformContactUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 bg-dark-green rounded-2xl p-[1.875rem] h-[6.75rem] flex items-center justify-between hover:opacity-90 transition-opacity"
+                    className="group flex-1 bg-dark-green rounded-2xl p-[1.875rem] h-[6.75rem] flex items-center justify-between"
                   >
                     <p className="font-gothic font-medium text-[1.25rem] leading-[1.6] text-white px-3">
                       お問い合わせ
                     </p>
-                    <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue shrink-0">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                        <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
+                    <ArrowButton variant="cream" />
                   </a>
                 ) : (
                   <Link
                     href="/for-customer"
-                    className="flex-1 bg-dark-green rounded-2xl p-[1.875rem] h-[6.75rem] flex items-center justify-between hover:opacity-90 transition-opacity"
+                    className="group flex-1 bg-dark-green rounded-2xl p-[1.875rem] h-[6.75rem] flex items-center justify-between"
                   >
                     <p className="font-gothic font-medium text-[1.25rem] leading-[1.6] text-white px-3">
                       お問い合わせ
                     </p>
-                    <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue shrink-0">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                        <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
+                    <ArrowButton variant="cream" />
                   </Link>
                 )}
               </div>

@@ -38,3 +38,6 @@ next-env.d.ts
 
 # playwright
 .playwright-mcp/
+
+# Claude Code subagent worktrees
+.claude/worktrees/

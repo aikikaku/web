@@ -56,51 +56,50 @@ const allNavItems = [
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  // クリックで固定表示（ピン留め）。true の間はホバーで離れても閉じない。
-  const [dropdownPinned, setDropdownPinned] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
-  // ホバー開閉 (#17): 閉じるのは header 全体から離れたとき（トリガー↔パネル間の
-  // ギャップを跨いでも header 内なら閉じない）。少し遅延してチラつきも防ぐ。
+  // ホバーインテント: トリガー/パネルから離れたら遅延して閉じる（トリガー↔パネル間の
+  // 隙間を跨ぐ猶予）。トリガー配下の不可視ブリッジと併用してチラつきを防ぐ。
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  // setTimeout のクロージャから最新の pinned 値を参照するため ref に同期
-  const pinnedRef = useRef(false);
-  pinnedRef.current = dropdownPinned;
 
+  const clearCloseTimer = () => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  };
   const openDropdown = () => {
-    if (closeTimer.current) clearTimeout(closeTimer.current);
+    clearCloseTimer();
     setDropdownOpen(true);
   };
+  // トリガー/パネルから離れたら閉じる（他ナビ項目へ移っても閉じる）。250ms の猶予で隙間を跨ぐ。
   const scheduleCloseDropdown = () => {
-    // ピン留め中はホバーで離れても閉じない（クリックで解除するまで維持）
-    if (pinnedRef.current) return;
-    if (closeTimer.current) clearTimeout(closeTimer.current);
-    closeTimer.current = setTimeout(() => setDropdownOpen(false), 200);
+    clearCloseTimer();
+    closeTimer.current = setTimeout(() => setDropdownOpen(false), 250);
   };
-  // 「アイ企画を知る」クリック: ピン留めのトグル。もう一度クリックで閉じる。
-  const toggleDropdownPinned = () => {
-    if (closeTimer.current) clearTimeout(closeTimer.current);
-    setDropdownPinned((prev) => {
-      const next = !prev;
-      setDropdownOpen(next);
-      return next;
-    });
+  // クリックはトグル: 開いていれば閉じ、閉じていれば開く。
+  const toggleDropdown = () => {
+    clearCloseTimer();
+    setDropdownOpen((prev) => !prev);
   };
   const closeDropdown = () => {
-    if (closeTimer.current) clearTimeout(closeTimer.current);
-    setDropdownPinned(false);
+    clearCloseTimer();
     setDropdownOpen(false);
   };
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (headerRef.current && !headerRef.current.contains(e.target as Node)) {
-        setDropdownPinned(false);
         setDropdownOpen(false);
       }
     }
+    function handleEsc(e: KeyboardEvent) {
+      if (e.key === 'Escape') setDropdownOpen(false);
+    }
     document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleEsc);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEsc);
       if (closeTimer.current) clearTimeout(closeTimer.current);
     };
   }, []);
@@ -109,7 +108,6 @@ export default function Header() {
     <header
       ref={headerRef}
       className="sticky top-0 z-50 bg-cream"
-      onMouseLeave={scheduleCloseDropdown}
     >
       {/* ナビゲーションバー */}
       <nav className="px-[2.8125rem] py-[1.875rem] max-w-[90rem] mx-auto max-tablet:px-5 max-tablet:py-4">
@@ -139,13 +137,14 @@ export default function Header() {
               </Link>
             ))}
 
-            {/* アイ企画を知る (ドロップダウントリガー)。ホバーで開き header から離れると閉じる (#17)。
-                クリックするとピン留めされ、再クリックするまでホバーで離れても閉じない。 */}
+            {/* アイ企画を知る (ドロップダウントリガー)。ホバーで開き、トリガー/パネルから
+                離れると閉じる (#17)。クリックはトグル（開いていれば閉じる）。 */}
             <button
-              onClick={toggleDropdownPinned}
+              onClick={toggleDropdown}
               onMouseEnter={openDropdown}
+              onMouseLeave={scheduleCloseDropdown}
               aria-expanded={dropdownOpen}
-              className="flex items-center gap-1 px-4 py-2.5 font-gothic font-medium text-base leading-none text-dark-green hover:text-accent-blue transition-colors"
+              className="relative flex items-center gap-1 px-4 py-2.5 font-gothic font-medium text-base leading-none text-dark-green hover:text-accent-blue transition-colors"
             >
               アイ企画を知る
               <svg
@@ -159,6 +158,14 @@ export default function Header() {
               >
                 <path d="M6 9l6 6 6-6" />
               </svg>
+              {/* トリガー↔パネル間の隙間を跨ぐ不可視ブリッジ（開いている時のみ・トリガー幅のみ）。
+                  他ナビ項目のクリックを妨げないよう幅はボタン内に限定。 */}
+              {dropdownOpen && (
+                <span
+                  aria-hidden
+                  className="absolute left-0 right-0 top-full h-[1.875rem]"
+                />
+              )}
             </button>
 
             {navLinksAfter.map((item) => (
@@ -193,12 +200,12 @@ export default function Header() {
         </div>
       </nav>
 
-      {/* Desktop: フル幅ドロップダウンセクション。閉じる判定は header 全体の onMouseLeave に集約し、
-          トリガー↔パネル間のギャップで閉じないようにする (#17)。 */}
+      {/* Desktop: フル幅ドロップダウンセクション。ホバー維持し、離れたら閉じる (#17)。 */}
       {dropdownOpen && (
         <div
           className="hidden tablet:block bg-light-green"
           onMouseEnter={openDropdown}
+          onMouseLeave={scheduleCloseDropdown}
         >
           <div className="flex items-start justify-between px-[4.6875rem] py-12 max-w-[90rem] mx-auto">
             {/* 左: サブページリンク */}
@@ -240,13 +247,13 @@ export default function Header() {
                     <ArrowButton />
                   </div>
 
-                  {/* 画像 */}
+                  {/* 画像（hover で拡大、他カードと統一 #43） */}
                   <div className="w-[18.375rem] h-[13.75rem] relative rounded-xl overflow-hidden">
                     <Image
                       src={card.image}
                       alt={card.label}
                       fill
-                      className="object-cover"
+                      className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
                     />
                   </div>
                 </Link>

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import ArrowButton from '@/components/ui/ArrowButton';
 
 interface SeeAllLinkProps {
   href: string;
@@ -29,12 +30,7 @@ export default function SeeAllLink({
         className={`inline-flex items-center justify-between w-[11.625rem] font-gothic font-medium text-[1.125rem] leading-none tracking-[0.00112rem] text-dark-green cursor-not-allowed ${className ?? ''}`}
       >
         <span className="px-6 py-[0.8125rem] whitespace-nowrap opacity-40">{label}</span>
-        <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-dark-green/20 shrink-0">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-            <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </span>
+        <ArrowButton variant="disabled" />
       </span>
     );
   }
@@ -47,12 +43,7 @@ export default function SeeAllLink({
       <span className="px-6 py-[0.8125rem] whitespace-nowrap transition-opacity group-hover:opacity-60">
         {label}
       </span>
-      <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue group-hover:bg-light-blue shrink-0 transition-colors text-white group-hover:text-accent-blue">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-          <path d="M12 5L19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </span>
+      <ArrowButton />
     </Link>
   );
 }
