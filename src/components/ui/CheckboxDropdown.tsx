@@ -110,7 +110,7 @@ export default function CheckboxDropdown({
           fill="none"
           className={`shrink-0 transition-transform ${isOpen ? 'rotate-180' : ''}`}
         >
-          <path d="M3 5l5 6 5-6" fill="#2a363b" />
+          <path d="M3 5l5 6 5-6" className="fill-dark-green" />
         </svg>
       </button>
 
@@ -147,7 +147,7 @@ export default function CheckboxDropdown({
                   </svg>
                 )}
               </span>
-              <span className="font-gothic font-medium text-[1rem] leading-[2] text-black">
+              <span className="font-gothic font-medium text-body-m text-black">
                 すべて
               </span>
             </button>
@@ -180,7 +180,7 @@ export default function CheckboxDropdown({
                     </svg>
                   )}
                 </span>
-                <span className="font-gothic font-medium text-[1rem] leading-[2] text-black">
+                <span className="font-gothic font-medium text-body-m text-black">
                   {option.label}
                 </span>
               </button>

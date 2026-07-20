@@ -58,28 +58,39 @@ export default function PickupCard({ property }: Props) {
               className="absolute inset-0 z-10 pointer-events-none rounded-2xl tablet:rounded-[1.5rem]"
               style={{ backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0) 73.635%, rgba(0,0,0,0.2) 92.755%)' }}
             />
+            {/* Figma 4211:12000: sold 時は斜めグラデーションの暗転オーバーレイを追加 */}
+            {isSold && (
+              <div
+                aria-hidden
+                className="absolute inset-0 z-10 pointer-events-none rounded-2xl tablet:rounded-[1.5rem]"
+                style={{
+                  backgroundImage:
+                    'linear-gradient(194.36deg, rgba(39,51,59,0.5) 4%, rgba(39,51,59,0.25) 51.9%, rgba(39,51,59,0.5) 103.7%)',
+                }}
+              />
+            )}
             {/* SP: ラベルを画像内 top に overlay（Figma 4211:10721）
                 location は cream (白) text 16px leading-2、画像上端の暗グラデで可読化 */}
             <div className="tablet:hidden absolute inset-x-0 top-0 z-20 p-2.5 flex items-center justify-between gap-2">
               <div className="flex items-center gap-2 min-w-0">
-                <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5 shrink-0">
+                <span className="tag-pill shrink-0">
                   {categoryLabel}
                 </span>
                 {locationText && (
-                  <span className="font-gothic font-medium text-[1rem] leading-[2] text-cream truncate px-1">
+                  <span className="font-gothic font-medium text-body-m text-cream truncate px-1">
                     {locationText}
                   </span>
                 )}
               </div>
               {statusLabel && (
-                <span className="inline-flex items-center bg-dark-green text-white font-gothic font-medium text-[0.875rem] leading-none rounded-full px-3 py-1.5 shrink-0">
+                <span className="tag-pill-dark shrink-0">
                   {statusLabel}
                 </span>
               )}
             </div>
             {/* PC: 状態バッジは右上に単独 */}
             {statusLabel && (
-              <span className="hidden tablet:inline-flex absolute top-4 right-4 z-20 items-center bg-dark-green text-white font-gothic font-medium text-[0.875rem] leading-none rounded-full px-3 py-1.5">
+              <span className="tag-pill-dark hidden tablet:inline-flex absolute top-4 right-4 z-20">
                 {statusLabel}
               </span>
             )}
@@ -118,11 +129,11 @@ export default function PickupCard({ property }: Props) {
             {/* Tags + Location: PC のみ（SP はラベルを画像内 overlay に表示）*/}
             <div className="hidden tablet:flex flex-wrap items-center gap-2">
               {statusLabel && (
-                <span className="inline-flex items-center bg-dark-green text-white font-gothic font-medium text-[0.875rem] leading-none rounded-full px-3 py-1.5">
+                <span className="tag-pill-dark">
                   {statusLabel}
                 </span>
               )}
-              <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5">
+              <span className="tag-pill">
                 {categoryLabel}
               </span>
               {locationText && (
@@ -144,15 +155,15 @@ export default function PickupCard({ property }: Props) {
 
             {/* Price / Layout split — 余白なし、border full-width */}
             <div className="pb-4">
-              <div className="flex border-t border-b border-dark-green/20">
-                <div className={`flex-1 ${property.layout ? 'border-r border-dark-green/20' : ''} pt-2 pb-4`}>
+              <div className="flex border-t border-b border-dark-green/10">
+                <div className={`flex-1 ${property.layout ? 'border-r border-dark-green/10' : ''} pt-2 pb-4`}>
                   <div className="pl-2">
-                    <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
+                    <span className="font-gothic font-medium text-body-s text-dark-green">
                       {property.type === 'rent' ? '賃料' : '価格'}
                     </span>
                   </div>
                   <div className="flex items-end justify-center">
-                    <span className="font-gothic font-medium text-[1.25rem] tablet:text-[1.5rem] leading-[1.6] text-black px-1">
+                    <span className="font-gothic font-medium text-category-2 tablet:text-category-1 text-black px-1">
                       {isSold
                         ? '-'
                         : property.price
@@ -169,12 +180,12 @@ export default function PickupCard({ property }: Props) {
                 {property.layout && (
                   <div className="flex-1 pt-2 pb-4">
                     <div className="pl-2">
-                      <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
+                      <span className="font-gothic font-medium text-body-s text-dark-green">
                         間取り
                       </span>
                     </div>
                     <div className="flex items-end justify-center">
-                      <span className="font-gothic font-medium text-[1.25rem] tablet:text-[1.5rem] leading-[1.6] text-black">
+                      <span className="font-gothic font-medium text-category-2 tablet:text-category-1 text-black">
                         {property.layout}
                       </span>
                     </div>
@@ -186,8 +197,31 @@ export default function PickupCard({ property }: Props) {
             {/* SP: 物件詳細ボタン（station の前） */}
             {!isSold && (
               <div className="tablet:hidden pb-6">
-                <span className="inline-flex items-center justify-center h-[2.75rem] px-6 border border-dark-green rounded-full font-gothic font-medium text-[1rem] leading-none text-dark-green transition-colors group-hover:bg-dark-green group-hover:text-white">
+                <span className="inline-flex items-center justify-center h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none">
                   物件詳細
+                </span>
+              </div>
+            )}
+            {/* SP: 成約済み+ストーリーありの場合は物件詳細+ストーリーを読むの2ボタン（PropertyCard.tsxと同じパターン） */}
+            {isSold && property.story && (
+              <div className="tablet:hidden pb-6 flex items-center gap-2.5">
+                <span className="flex-1 inline-flex items-center justify-center h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none">
+                  物件詳細
+                </span>
+                <span className="flex-1 inline-flex items-center justify-center gap-1 h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    className="shrink-0"
+                  >
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
+                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
+                  </svg>
+                  ストーリーを読む
                 </span>
               </div>
             )}
@@ -195,12 +229,12 @@ export default function PickupCard({ property }: Props) {
             {/* Station / Construction */}
             <div className="flex items-center flex-wrap">
               {property.nearestStation && (
-                <span className="font-gothic font-medium text-[1rem] leading-[2] text-black px-2">
+                <span className="font-gothic font-medium text-body-m text-black px-2">
                   {property.nearestStation}
                 </span>
               )}
               {property.constructionDate && (
-                <span className="font-gothic font-medium text-[1rem] leading-[2] text-black px-2">
+                <span className="font-gothic font-medium text-body-m text-black px-2">
                   築{property.constructionDate}
                 </span>
               )}
@@ -209,8 +243,31 @@ export default function PickupCard({ property }: Props) {
             {/* PC: 物件詳細ボタン */}
             {!isSold && (
               <div className="hidden tablet:block mt-10">
-                <span className="inline-flex items-center justify-center h-[2.75rem] px-6 border border-dark-green rounded-full font-gothic font-medium text-[1rem] leading-none text-dark-green transition-colors group-hover:bg-dark-green group-hover:text-white">
+                <span className="inline-flex items-center justify-center h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none">
                   物件詳細
+                </span>
+              </div>
+            )}
+            {/* PC: 成約済み+ストーリーありの場合は物件詳細+ストーリーを読むの2ボタン */}
+            {isSold && property.story && (
+              <div className="hidden tablet:flex items-center gap-2.5 mt-10">
+                <span className="inline-flex items-center justify-center h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none">
+                  物件詳細
+                </span>
+                <span className="inline-flex items-center justify-center gap-1 h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    className="shrink-0"
+                  >
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
+                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
+                  </svg>
+                  ストーリーを読む
                 </span>
               </div>
             )}

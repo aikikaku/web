@@ -198,7 +198,7 @@ export default function PropertyFilter() {
           onClick={applyFilters}
           disabled={!hasPendingChange}
           className={`h-[3.5rem] px-10 bg-dark-green border border-dark-green rounded-lg font-gothic font-medium text-[1rem] leading-none text-white transition-opacity shrink-0 ${
-            hasPendingChange ? 'hover:opacity-90' : 'opacity-30 cursor-not-allowed'
+            hasPendingChange ? 'hover:opacity-60' : 'opacity-20 cursor-not-allowed'
           }`}
         >
           絞り込み
@@ -206,8 +206,8 @@ export default function PropertyFilter() {
         <button
           onClick={clearFilters}
           disabled={!hasActiveFilters}
-          className={`w-[3.5rem] h-[3.5rem] border border-dark-green rounded-lg flex items-center justify-center transition-colors shrink-0 ${
-            hasActiveFilters ? 'hover:bg-cream' : 'opacity-30 cursor-not-allowed'
+          className={`w-[3.9375rem] h-[3.5rem] border border-dark-green text-dark-green rounded-lg flex items-center justify-center transition-colors shrink-0 ${
+            hasActiveFilters ? 'hover:bg-dark-green hover:border-[rgba(252,255,247,0.3)] hover:text-white' : 'opacity-40 cursor-not-allowed'
           }`}
           aria-label="フィルターをクリア"
         >

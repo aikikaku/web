@@ -67,7 +67,7 @@ export default function ArticleCarousel({ articles, href = '/for-owner' }: Props
             <div key={i} className="w-[20.75rem] tablet:w-[25.625rem] shrink-0 snap-start flex flex-col">
               <div className="relative aspect-[410/293] rounded-lg overflow-hidden mb-0">
                 <div className="absolute inset-0 bg-dark-green/10" />
-                <span className="absolute top-4 left-4 tag-pill text-[0.875rem] leading-none px-3 py-1.5">
+                <span className="absolute top-4 left-4 tag-pill">
                   {article.tag}
                 </span>
               </div>
@@ -81,7 +81,7 @@ export default function ArticleCarousel({ articles, href = '/for-owner' }: Props
                   </h3>
                 </div>
                 <div className="flex items-center justify-between gap-2.5">
-                  <span className="font-gothic font-medium text-[1rem] leading-[2] text-dark-green">
+                  <span className="font-gothic font-medium text-body-m text-dark-green">
                     {article.date}
                   </span>
                   <span className="inline-flex items-center justify-center min-w-[11rem] h-11 px-6 border border-dark-green rounded-full font-gothic font-medium text-[1rem] leading-none text-dark-green">

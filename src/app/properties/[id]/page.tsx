@@ -220,11 +220,11 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
             isSold={isSold}
             spLabelsSlot={(
               <div className="flex items-center gap-2 min-w-0">
-                <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5 shrink-0">
+                <span className="tag-pill shrink-0">
                   {categoryLabel}
                 </span>
                 {locationText && (
-                  <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green truncate">
+                  <span className="font-gothic font-medium text-body-s text-dark-green truncate">
                     {locationText}
                   </span>
                 )}
@@ -236,11 +236,11 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                 <div>
                   <div className="hidden tablet:flex gap-3 items-center">
                     {statusLabel && (
-                      <span className="tag-pill-dark text-[0.875rem] leading-none px-3 py-1.5">
+                      <span className="tag-pill-dark">
                         {statusLabel}
                       </span>
                     )}
-                    <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5">
+                    <span className="tag-pill">
                       {categoryLabel}
                     </span>
                     {locationText && (
@@ -262,15 +262,15 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
 
                   {/* 価格 / 間取り */}
                   <div className="pb-4">
-                    <div className="flex border-t border-b border-dark-green/20">
-                      <div className="flex-1 border-r border-dark-green/20 pt-2 pb-4">
+                    <div className="flex border-t border-b border-dark-green/10">
+                      <div className="flex-1 border-r border-dark-green/10 pt-2 pb-4">
                         <div className="pl-2">
-                          <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
+                          <span className="font-gothic font-medium text-body-s text-dark-green">
                             価格
                           </span>
                         </div>
                         <div className="flex items-end justify-center">
-                          <span className="font-gothic font-medium text-[1.5rem] leading-[1.6] text-black px-1">
+                          <span className="font-gothic font-medium text-category-1 text-black px-1">
                             {priceValue || '応談'}
                           </span>
                           {priceUnit && (
@@ -283,12 +283,12 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                       {property.layout && (
                         <div className="flex-1 pt-2 pb-4">
                           <div className="pl-2">
-                            <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
+                            <span className="font-gothic font-medium text-body-s text-dark-green">
                               間取り
                             </span>
                           </div>
                           <div className="flex items-end justify-center">
-                            <span className="font-gothic font-medium text-[1.5rem] leading-[1.6] text-black">
+                            <span className="font-gothic font-medium text-category-1 text-black">
                               {property.layout}
                             </span>
                           </div>
@@ -300,12 +300,12 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                   {/* 最寄駅 / 築年月 */}
                   <div className="flex items-center flex-wrap">
                     {property.nearestStation && (
-                      <span className="font-gothic font-medium text-[1rem] leading-[2] text-black px-2">
+                      <span className="font-gothic font-medium text-body-m text-black px-2">
                         {property.nearestStation}
                       </span>
                     )}
                     {property.constructionDate && (
-                      <span className="font-gothic font-medium text-[1rem] leading-[2] text-black px-2">
+                      <span className="font-gothic font-medium text-body-m text-black px-2">
                         築{property.constructionDate}
                       </span>
                     )}
@@ -353,18 +353,18 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
 
             {/* 物件概要テーブル (SP は下余白を縮めて action card との間 32px に) */}
             <div className="pt-12 pb-8 tablet:py-24">
-              <div className="border-b border-dark-green/20">
+              <div className="border-b border-dark-green/10">
                 {detailFields.map((field) =>
                   field.value ? (
                     <div
                       key={field.label}
-                      className="flex gap-[1.875rem] items-start py-6 border-t border-dark-green/20"
+                      className="flex gap-[1.875rem] items-start py-6 border-t border-dark-green/10"
                     >
-                      <p className="font-gothic font-medium text-[1rem] tablet:text-[1.125rem] leading-[1.8] text-dark-green w-[7.5rem] tablet:w-[9.1875rem] shrink-0">
+                      <p className="font-gothic font-medium text-[1rem] leading-[1.8] tablet:text-body-l text-dark-green w-[7.5rem] tablet:w-[9.1875rem] shrink-0">
                         {field.label}
                       </p>
                       <div className="flex-1 flex items-center justify-between gap-3">
-                        <p className="font-gothic font-medium text-[1rem] tablet:text-[1.125rem] leading-[1.8] text-black whitespace-pre-line">
+                        <p className="font-gothic font-medium text-[1rem] leading-[1.8] tablet:text-body-l text-black whitespace-pre-line">
                           {field.value}
                         </p>
                         {field.hasTag &&
@@ -373,12 +373,12 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                               href={property.googleMapUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="tag-pill text-[0.875rem] leading-none px-3 py-1.5 shrink-0 hover:opacity-70 transition-opacity"
+                              className="tag-pill shrink-0 hover:opacity-70 transition-opacity"
                             >
                               MAP
                             </a>
                           ) : (
-                            <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5 shrink-0">
+                            <span className="tag-pill shrink-0">
                               MAP
                             </span>
                           ))}
@@ -388,15 +388,15 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                 )}
                 {/* 価格行（成約時は非表示 #31） */}
                 {!isSold && priceValue && (
-                  <div className="flex gap-[1.875rem] items-center py-6 border-t border-dark-green/20">
-                    <p className="font-gothic font-medium text-[1rem] tablet:text-[1.125rem] leading-[1.8] text-dark-green w-[7.5rem] tablet:w-[9.1875rem] shrink-0">
+                  <div className="flex gap-[1.875rem] items-center py-6 border-t border-dark-green/10">
+                    <p className="font-gothic font-medium text-[1rem] leading-[1.8] tablet:text-body-l text-dark-green w-[7.5rem] tablet:w-[9.1875rem] shrink-0">
                       価格
                     </p>
                     <div className="flex items-end gap-1">
-                      <span className="font-gothic font-medium text-[1.5rem] leading-[1.6] text-black">
+                      <span className="font-gothic font-medium text-category-1 text-black">
                         {priceValue}
                       </span>
-                      <span className="font-gothic font-medium text-[1.125rem] leading-[1.8] text-black">
+                      <span className="font-gothic font-medium text-body-s text-black">
                         {priceUnit}
                       </span>
                     </div>
@@ -416,7 +416,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                     rel="noopener noreferrer"
                     className="group flex-1 bg-dark-green rounded-2xl p-[1.875rem] h-[6.75rem] flex items-center justify-between"
                   >
-                    <p className="font-gothic font-medium text-[1.25rem] leading-[1.6] text-white px-3">
+                    <p className="font-gothic font-medium text-category-2 text-white px-3">
                       物件資料
                     </p>
                     <ArrowButton variant="cream" />
@@ -426,7 +426,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                     href="/for-customer"
                     className="group flex-1 bg-dark-green rounded-2xl p-[1.875rem] h-[6.75rem] flex items-center justify-between"
                   >
-                    <p className="font-gothic font-medium text-[1.25rem] leading-[1.6] text-white px-3">
+                    <p className="font-gothic font-medium text-category-2 text-white px-3">
                       物件資料
                     </p>
                     <ArrowButton variant="cream" />
@@ -439,7 +439,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                     rel="noopener noreferrer"
                     className="group flex-1 bg-dark-green rounded-2xl p-[1.875rem] h-[6.75rem] flex items-center justify-between"
                   >
-                    <p className="font-gothic font-medium text-[1.25rem] leading-[1.6] text-white px-3">
+                    <p className="font-gothic font-medium text-category-2 text-white px-3">
                       お問い合わせ
                     </p>
                     <ArrowButton variant="cream" />
@@ -449,7 +449,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                     href="/for-customer"
                     className="group flex-1 bg-dark-green rounded-2xl p-[1.875rem] h-[6.75rem] flex items-center justify-between"
                   >
-                    <p className="font-gothic font-medium text-[1.25rem] leading-[1.6] text-white px-3">
+                    <p className="font-gothic font-medium text-category-2 text-white px-3">
                       お問い合わせ
                     </p>
                     <ArrowButton variant="cream" />
@@ -466,14 +466,14 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
           <1440px はオーバーレイカード、>=1440px は 見出し | 画像 | テキスト の3カラム */}
       {isSold && property.story && (
         <section className="bg-light-green">
-          <div className="max-w-[90rem] mx-auto px-4 tablet:px-[2.8125rem] min-[1440px]:px-[4.6875rem] py-16 min-[1440px]:py-24 flex flex-col min-[1440px]:flex-row min-[1440px]:gap-[1.875rem] min-[1440px]:items-start">
+          <div className="max-w-[90rem] mx-auto px-4 tablet:px-[2.8125rem] desktop:px-[4.6875rem] py-16 desktop:py-24 flex flex-col desktop:flex-row desktop:gap-[1.875rem] desktop:items-start">
             {/* 見出し */}
-            <div className="flex flex-col gap-2 mb-8 min-[1440px]:mb-0 min-[1440px]:w-[32.9375rem] min-[1440px]:shrink-0">
-              <p className="font-gothic font-medium text-[1rem] leading-[2] text-dark-green">
+            <div className="flex flex-col gap-2 mb-8 desktop:mb-0 desktop:w-[32.9375rem] desktop:shrink-0">
+              <p className="font-gothic font-medium text-body-m text-dark-green">
                 継承者のストーリー
               </p>
               <p
-                className="font-mincho text-[1.5rem] min-[1440px]:text-[2rem] leading-[1.5] tracking-[0.04em] text-dark-green"
+                className="font-mincho text-[1.5rem] desktop:text-[2rem] leading-[1.5] tracking-[0.04em] text-dark-green"
                 style={{ fontFeatureSettings: "'palt' 1" }}
               >
                 この物件を選んだ人の、
@@ -483,14 +483,14 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
             </div>
 
             {/* <1440px: オーバーレイカード（SPカンプ準拠）。物件の続きなので category は property 固定 */}
-            <div className="min-[1440px]:hidden">
+            <div className="desktop:hidden">
               <StoryCardOverlay story={{ ...property.story, category: 'property' }} />
             </div>
 
             {/* >=1440px: 画像 | テキスト の3カラム右側 */}
             <Link
               href={`/stories/${property.story.id}`}
-              className="hidden min-[1440px]:flex flex-1 gap-[3.75rem] items-start group"
+              className="hidden desktop:flex flex-1 gap-[3.75rem] items-start group"
             >
               <div className="w-[22rem] h-[29.375rem] shrink-0 relative rounded-2xl overflow-hidden">
                 {property.story.thumbnail && (
@@ -506,24 +506,24 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
               <div className="flex-1 flex flex-col gap-6">
                 <div className="flex flex-col gap-3">
                   <div className="flex gap-2 items-center">
-                    <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5">
+                    <span className="tag-pill">
                       物件のつづき
                     </span>
                     {property.story.regions && property.story.regions.length > 0 && (
-                      <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
+                      <span className="font-gothic font-medium text-body-s text-dark-green">
                         {property.story.regions.map((r) => r.name).join('・')}
                       </span>
                     )}
                   </div>
                   <p
-                    className="font-mincho text-[1.5rem] leading-[1.6] tracking-[0.04em] text-dark-green"
+                    className="font-mincho text-heading-24 text-dark-green"
                     style={{ fontFeatureSettings: "'palt' 1" }}
                   >
                     {property.story.title}
                   </p>
                 </div>
                 {/* button-secondary: ストーリーを読む */}
-                <span className="inline-flex items-center gap-1 h-[2.75rem] px-6 border border-dark-green rounded-full font-gothic font-medium text-[1rem] leading-none text-dark-green transition-colors group-hover:bg-dark-green group-hover:text-white w-fit">
+                <span className="inline-flex items-center gap-1 h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none w-fit">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="shrink-0">
                     <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
                     <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />

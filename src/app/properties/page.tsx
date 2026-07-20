@@ -146,7 +146,7 @@ export default async function PropertiesPage({
               ))}
             </div>
           ) : (
-            <p className="text-center font-gothic font-medium text-[1rem] leading-[2] text-dark-green/60 py-12">
+            <p className="text-center font-gothic font-medium text-body-m text-dark-green/60 py-12">
               条件に一致する物件が見つかりませんでした
             </p>
           )}

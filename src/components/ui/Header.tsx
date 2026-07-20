@@ -51,6 +51,7 @@ const allNavItems = [
   },
   { href: '/voice', label: 'お客様の声' },
   { href: CONTACT_URL, label: 'お問い合わせ', external: CONTACT_EXTERNAL },
+  { href: 'https://nakabito.jp', label: '仲人', external: true, showExternalIcon: true },
 ];
 
 export default function Header() {
@@ -110,7 +111,7 @@ export default function Header() {
       className="sticky top-0 z-50 bg-cream"
     >
       {/* ナビゲーションバー */}
-      <nav className="px-[2.8125rem] py-[1.875rem] max-w-[90rem] mx-auto max-tablet:px-5 max-tablet:py-4">
+      <nav className="px-[2.8125rem] py-[1.875rem] max-w-[90rem] mx-auto max-tablet:px-4 max-tablet:py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="block shrink-0">
@@ -120,6 +121,7 @@ export default function Header() {
               width={232}
               height={38}
               priority
+              className="w-[11rem] h-auto tablet:w-[14.5rem]"
             />
           </Link>
 
@@ -185,7 +187,7 @@ export default function Header() {
 
           {/* Mobile hamburger */}
           <button
-            className="tablet:hidden p-2"
+            className="tablet:hidden p-2 -mr-2"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="メニュー"
           >
@@ -235,12 +237,12 @@ export default function Header() {
                   <div className="flex items-end w-full">
                     <div className="flex-1 flex flex-col gap-1 px-3">
                       <span
-                        className="font-mincho text-[1.125rem] leading-[1.6] tracking-[0.04em] text-dark-green"
+                        className="font-mincho text-heading-18 text-dark-green"
                         style={{ fontFeatureSettings: "'palt' 1" }}
                       >
                         {card.label}
                       </span>
-                      <span className="font-gothic font-medium text-base leading-[2] text-dark-green">
+                      <span className="font-gothic font-medium text-body-m text-dark-green">
                         {card.sub}
                       </span>
                     </div>
@@ -263,60 +265,46 @@ export default function Header() {
         </div>
       )}
 
-      {/* Mobile menu */}
+      {/* Mobile menu (Figma 4211:25413 SP_nav_open 準拠: bg-light-green, px-56/py-80, gap-32) */}
       {mobileOpen && (
-        <div className="tablet:hidden px-5 pb-6 border-t border-gray-100 pt-6">
-          <ul className="space-y-1">
-            {allNavItems.map((item) =>
-              'children' in item && item.children ? (
-                <li key={item.label}>
-                  <span className="block px-3 py-2 text-caption text-gray-500 uppercase tracking-widest">
-                    {item.label}
-                  </span>
-                  <ul className="pl-4">
-                    {item.children.map((child) => (
-                      <li key={child.href}>
-                        <Link
-                          href={child.href}
-                          className="block px-3 py-3 text-dark-green text-body-s hover:bg-cream transition-colors rounded-lg"
-                          onClick={() => setMobileOpen(false)}
-                        >
-                          {child.label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                  {'cards' in item && item.cards && (
-                    <ul className="pl-4 mt-1">
-                      {item.cards.map((card) => (
-                        <li key={card.href}>
-                          <Link
-                            href={card.href}
-                            className="block px-3 py-3 text-dark-green text-body-s hover:bg-cream transition-colors rounded-lg"
-                            onClick={() => setMobileOpen(false)}
-                          >
-                            {card.label}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
-              ) : (
-                <li key={item.href}>
-                  <Link
-                    href={item.href!}
-                    target={'external' in item && item.external ? '_blank' : undefined}
-                    rel={'external' in item && item.external ? 'noopener noreferrer' : undefined}
-                    className="block px-3 py-3 text-dark-green text-body-s hover:bg-cream transition-colors rounded-lg"
-                    onClick={() => setMobileOpen(false)}
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              )
-            )}
-          </ul>
+        <div className="tablet:hidden bg-light-green px-[3.5rem] py-[5rem] flex flex-col gap-8">
+          {allNavItems.map((item) =>
+            'children' in item && item.children ? (
+              <div key={item.label} className="flex flex-col gap-4">
+                <p className="font-gothic font-medium text-[1.25rem] leading-none text-dark-green">
+                  {item.label}
+                </p>
+                <div className="flex flex-col gap-4 pl-4 pt-2">
+                  {[...item.children, ...(('cards' in item && item.cards) || [])].map((child) => (
+                    <Link
+                      key={child.href}
+                      href={child.href}
+                      className="block font-gothic font-medium text-[1rem] leading-none text-dark-green hover:opacity-60 transition-opacity"
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      {child.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <Link
+                key={item.href}
+                href={item.href!}
+                target={'external' in item && item.external ? '_blank' : undefined}
+                rel={'external' in item && item.external ? 'noopener noreferrer' : undefined}
+                className="inline-flex items-end gap-2 font-gothic font-medium text-[1.25rem] leading-none text-dark-green hover:opacity-60 transition-opacity"
+                onClick={() => setMobileOpen(false)}
+              >
+                {item.label}
+                {'showExternalIcon' in item && item.showExternalIcon && (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="shrink-0 mb-0.5">
+                    <path d="M7 17L17 7M17 7H8M17 7v9" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                )}
+              </Link>
+            )
+          )}
         </div>
       )}
     </header>

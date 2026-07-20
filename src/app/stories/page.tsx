@@ -64,23 +64,23 @@ function StoryCardLarge({ story }: { story: Story }) {
         <div className="flex flex-col gap-6 items-start justify-center pt-[1.875rem] px-3 w-full">
           <div className="flex flex-col gap-4 items-start w-full">
             <div className="flex gap-3 items-center">
-              <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5">
+              <span className="tag-pill">
                 {getCategoryLabel(story.category)}
               </span>
               {regionNames && (
-                <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
+                <span className="font-gothic font-medium text-body-s text-dark-green">
                   {regionNames}
                 </span>
               )}
             </div>
             <h3
-              className="font-mincho text-[2rem] leading-[1.5] tracking-[0.04em] text-dark-green line-clamp-2"
+              className="font-mincho text-heading-32 text-dark-green line-clamp-2"
               style={{ fontFeatureSettings: "'palt' 1" }}
             >
               {story.title}
             </h3>
           </div>
-          <span className="inline-flex items-center gap-1 h-[2.75rem] px-6 border border-dark-green rounded-full font-gothic font-medium text-[1rem] leading-none text-dark-green transition-colors group-hover:bg-dark-green group-hover:text-white">
+          <span className="inline-flex items-center gap-1 h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="shrink-0">
               <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
               <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
@@ -116,11 +116,11 @@ function FeaturedStoryCard({ story }: { story: Story }) {
         <div className="flex flex-col gap-6 tablet:gap-12 items-start justify-center flex-1 min-w-0 tablet:pl-[5.5625rem] tablet:pr-[3.75rem]">
           <div className="flex flex-col gap-4 items-start w-full">
             <div className="flex gap-3 items-center">
-              <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5">
+              <span className="tag-pill">
                 {getCategoryLabel(story.category)}
               </span>
               {regionNames && (
-                <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
+                <span className="font-gothic font-medium text-body-s text-dark-green">
                   {regionNames}
                 </span>
               )}
@@ -134,7 +134,7 @@ function FeaturedStoryCard({ story }: { story: Story }) {
             </h3>
           </div>
 
-          <span className="inline-flex items-center gap-2 h-[2.75rem] px-4 border border-dark-green rounded-full font-gothic font-medium text-[0.875rem] leading-[1.25rem] tracking-[0.00625rem] text-dark-green transition-colors group-hover:bg-dark-green group-hover:text-white">
+          <span className="inline-flex items-center gap-2 h-[2.75rem] px-4 btn-outline-fill text-[0.875rem] leading-[1.25rem] tracking-[0.00625rem]">
             <svg width="20" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="shrink-0">
               <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2V3z" />
               <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V3z" />
@@ -185,13 +185,13 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
         <div className="flex flex-col gap-8 tablet:gap-12">
           <div className="flex flex-col gap-2">
             <h1
-              className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.04em] text-dark-green"
+              className="font-mincho text-heading-32 tablet:text-heading-48 text-dark-green"
               style={{ fontFeatureSettings: "'palt' 1" }}
             >
               暮らしを知る
             </h1>
           </div>
-          <p className="font-gothic font-medium text-[1rem] tablet:text-[1.125rem] leading-[1.8] text-dark-green max-w-[48rem]">
+          <p className="font-gothic font-medium text-[1rem] leading-[1.8] tablet:text-body-l text-dark-green max-w-[48rem]">
             物件だけじゃわからない、<br className="tablet:hidden" />三島での暮らしのこと。
             <br />
             ここで一緒に、のぞいてみませんか？
@@ -237,7 +237,7 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
               )}
             </>
           ) : (
-            <p className="text-center font-gothic font-medium text-[1rem] leading-[2] text-dark-green/60 py-12">
+            <p className="text-center font-gothic font-medium text-body-m text-dark-green/60 py-12">
               条件に一致するストーリーが見つかりませんでした
             </p>
           )}
@@ -284,7 +284,7 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
                   className="absolute left-[7.3125rem] top-[1.125rem]"
                 />
               </div>
-              <p className="font-gothic font-medium text-[1rem] leading-[2] text-black">
+              <p className="font-gothic font-medium text-body-m text-black">
                 想いが、ひとをつないでいく。
               </p>
             </div>

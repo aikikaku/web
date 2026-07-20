@@ -49,17 +49,17 @@ function AccordionItem({ item, isOpen, onToggle }: AccordionItemProps) {
   }, [isOpen, item.content]);
 
   return (
-    <div className="border-b border-dark-green/20">
+    <div className="border-b border-dark-green/10">
       <button
         type="button"
         onClick={onToggle}
         className="flex items-center justify-between w-full py-6 pr-2 text-left cursor-pointer hover:opacity-70 transition-opacity"
       >
         <div>
-          <p className="font-gothic font-medium text-[1rem] leading-[2] text-black">
+          <p className="font-gothic font-medium text-body-m text-black">
             {item.title}
           </p>
-          <p className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green opacity-60">
+          <p className="font-gothic font-medium text-body-s text-dark-green opacity-60">
             {item.date}
           </p>
         </div>
@@ -70,7 +70,7 @@ function AccordionItem({ item, isOpen, onToggle }: AccordionItemProps) {
           fill="none"
           className={`shrink-0 transition-transform duration-500 ease-in-out ${isOpen ? 'rotate-180' : ''}`}
         >
-          <path d="M6 9l6 6 6-6" stroke="#2a363b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M6 9l6 6 6-6" className="stroke-dark-green" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </button>
       <div
@@ -81,7 +81,7 @@ function AccordionItem({ item, isOpen, onToggle }: AccordionItemProps) {
         {item.content && (
           <div className="pb-6">
             <div className="bg-light-green rounded-2xl pt-[1.875rem] pb-8 px-6 tablet:px-[1.875rem]">
-              <p className="font-gothic font-medium text-[1rem] leading-[2] text-black whitespace-pre-line">
+              <p className="font-gothic font-medium text-body-m text-black whitespace-pre-line">
                 {item.content}
               </p>
               {item.link && (

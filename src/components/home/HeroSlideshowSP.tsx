@@ -41,7 +41,7 @@ export default function HeroSlideshowSP() {
   const goTo = (index: number) => setActiveIndex(index);
 
   return (
-    <div className="flex flex-col gap-[0.625rem] min-[1440px]:hidden">
+    <div className="flex flex-col gap-[0.625rem] desktop:hidden">
       <div className="relative h-[22.125rem] tablet:h-[32rem]">
         {/* 画像は右へ 16px はみ出す rounded-l-3xl コンテナ内でクロスフェード */}
         <div className="relative h-full w-full -mr-4 tablet:mr-0 rounded-l-3xl tablet:rounded-3xl overflow-hidden">
@@ -77,7 +77,7 @@ export default function HeroSlideshowSP() {
           style={{ filter: 'drop-shadow(0 0 8px rgba(0,0,0,0.16))' }}
         >
           <svg viewBox="0 0 24 24" fill="none" className="size-full">
-            <circle cx="12" cy="12" r="12" fill="#FCFFF7" fillOpacity="0.5" />
+            <circle cx="12" cy="12" r="12" className="fill-cream" fillOpacity="0.5" />
             {playing ? (
               // 一時停止（2本線）
               <g fill="#27333B">

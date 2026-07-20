@@ -16,13 +16,13 @@ export default function ContactBanner() {
           <Image src="/images/home/cta-banner.jpg" alt="" fill className="object-cover" />
           <div
             className="absolute inset-0"
-            style={{ backgroundImage: 'linear-gradient(-46deg, rgba(39,51,59,0.1) 0%, rgba(39,51,59,0.25) 87%)' }}
+            style={{ backgroundImage: 'linear-gradient(-46deg, rgb(var(--overlay-dark) / 0.1) 0%, rgb(var(--overlay-dark) / 0.25) 87%)' }}
           />
         </div>
         <div className="relative z-10 flex flex-col gap-2 text-white">
-          <p className="font-gothic font-medium text-[0.875rem] leading-[1.8]">お問い合わせ</p>
+          <p className="font-gothic font-medium text-body-s">お問い合わせ</p>
           <p
-            className="font-mincho text-[1.5rem] leading-[1.6] tracking-[0.06rem]"
+            className="font-mincho text-heading-24"
             style={{ fontFeatureSettings: "'palt' 1" }}
           >
             不動産に関すること、<br />
@@ -35,6 +35,12 @@ export default function ContactBanner() {
             className="flex items-center justify-center w-full max-w-[20.375rem] h-12 rounded-full bg-cream/95 border border-cream shadow-[0_0_16px_rgba(0,0,0,0.16)] font-gothic font-medium text-[1rem] leading-none text-dark-green hover:opacity-70 transition-opacity"
           >
             不動産をお探しの方
+          </Link>
+          <Link
+            href="/for-owner"
+            className="flex items-center justify-center w-full max-w-[20.375rem] h-12 rounded-full bg-cream/95 border border-cream shadow-[0_0_16px_rgba(0,0,0,0.16)] font-gothic font-medium text-[1rem] leading-none text-dark-green hover:opacity-70 transition-opacity"
+          >
+            不動産をお持ちの方
           </Link>
           <Link
             href="/contact"
@@ -51,14 +57,14 @@ export default function ContactBanner() {
           <Image src="/images/home/cta-banner.jpg" alt="" fill className="object-cover" />
           <div
             className="absolute inset-0"
-            style={{ backgroundImage: 'linear-gradient(218deg, rgba(39,51,59,0.1) 26.6%, rgba(39,51,59,0.25) 72.5%)' }}
+            style={{ backgroundImage: 'linear-gradient(218deg, rgb(var(--overlay-dark) / 0.1) 26.6%, rgb(var(--overlay-dark) / 0.25) 72.5%)' }}
           />
         </div>
         <div className="relative z-10 flex gap-[1.875rem] items-start">
           <div className="text-white shrink-0">
-            <p className="text-body-m font-gothic font-medium leading-[2] mb-2">お問い合わせ</p>
+            <p className="text-body-m font-gothic font-medium mb-2">お問い合わせ</p>
             <p
-              className="font-mincho text-[2rem] leading-[1.5] tracking-[0.08rem] whitespace-nowrap"
+              className="font-mincho text-heading-32 whitespace-nowrap"
               style={{ fontFeatureSettings: "'palt' 1" }}
             >
               不動産に関すること、<br />
@@ -70,8 +76,17 @@ export default function ContactBanner() {
               href="/for-customer"
               className="group bg-cream/95 rounded-3xl px-[1.875rem] pt-10 pb-[1.875rem] text-center w-[16.5rem] flex flex-col items-center gap-[1.875rem]"
             >
-              <span className="font-gothic font-medium text-[1.25rem] leading-[1.6] text-dark-green">
+              <span className="font-gothic font-medium text-category-2 text-dark-green">
                 不動産をお探しの方
+              </span>
+              <ArrowButton />
+            </Link>
+            <Link
+              href="/for-owner"
+              className="hidden desktop:flex group bg-cream/95 rounded-3xl px-[1.875rem] pt-10 pb-[1.875rem] text-center w-[16.5rem] flex-col items-center gap-[1.875rem]"
+            >
+              <span className="font-gothic font-medium text-category-2 text-dark-green">
+                不動産をお持ちの方
               </span>
               <ArrowButton />
             </Link>
@@ -79,7 +94,7 @@ export default function ContactBanner() {
               href="/contact"
               className="group bg-cream/95 rounded-3xl px-[1.875rem] pt-10 pb-[1.875rem] text-center w-[16.5rem] flex flex-col items-center gap-[1.875rem]"
             >
-              <span className="font-gothic font-medium text-[1.25rem] leading-[1.6] text-dark-green">
+              <span className="font-gothic font-medium text-category-2 text-dark-green">
                 その他のお問い合わせ
               </span>
               <ArrowButton />

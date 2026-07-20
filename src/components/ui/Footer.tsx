@@ -70,7 +70,7 @@ export default function Footer() {
                 <div key={item.label} className="flex flex-col gap-2">
                   <button
                     onClick={() => setIsAccordionOpen(!isAccordionOpen)}
-                    className="flex items-center gap-1 text-white text-lg font-gothic font-medium leading-none tracking-[0.00112rem] cursor-pointer"
+                    className="flex items-center gap-1 text-cream text-lg font-gothic font-medium leading-none tracking-[0.00112rem] cursor-pointer"
                   >
                     <span>{item.label}</span>
                     <svg
@@ -95,7 +95,7 @@ export default function Footer() {
                         <li key={child.href}>
                           <Link
                             href={child.href}
-                            className="text-body-s text-white hover:text-white/70 transition-colors"
+                            className="text-body-s text-light-green hover:text-light-green/70 transition-colors"
                           >
                             {child.label}
                           </Link>
@@ -221,7 +221,7 @@ export default function Footer() {
                     <div key={item.label} className="flex flex-col gap-2">
                       <button
                         onClick={() => setIsAccordionOpen(!isAccordionOpen)}
-                        className="flex items-center text-white text-base font-gothic font-medium leading-none cursor-pointer"
+                        className="flex items-center text-cream text-base font-gothic font-medium leading-none cursor-pointer"
                       >
                         <span>{item.label}</span>
                         <svg
@@ -246,7 +246,7 @@ export default function Footer() {
                             <li key={child.href}>
                               <Link
                                 href={child.href}
-                                className="text-body-s text-white hover:text-white/70 transition-colors"
+                                className="text-body-s text-light-green hover:text-light-green/70 transition-colors"
                               >
                                 {child.label}
                               </Link>

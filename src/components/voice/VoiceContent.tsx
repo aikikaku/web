@@ -41,17 +41,17 @@ function VoiceItem({
   // Figma 4211:11537: 質問アコーディオン (FaqAccordion) と同パターン
   // border-b + py-6 + smooth max-h transition (duration-500 ease-in-out)
   return (
-    <div className="border-b border-dark-green/20 py-6 flex flex-col gap-6">
+    <div className="border-b border-dark-green/10 py-6 flex flex-col gap-6">
       <button
         type="button"
         onClick={onToggle}
         className="w-full flex items-start justify-between pr-2 text-left cursor-pointer hover:opacity-70 transition-opacity gap-3"
       >
         <div className="flex-1 min-w-0">
-          <p className="font-gothic font-medium text-[1rem] leading-[2] text-black">
+          <p className="font-gothic font-medium text-body-m text-black">
             {voice.title || voice.customerName}
           </p>
-          <p className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green/60">
+          <p className="font-gothic font-medium text-body-s text-dark-green/60">
             {voice.customerName}
             {voice.location && `　${voice.location}`}
             {voice.propertyType && ` / ${voice.propertyType}`}
@@ -64,7 +64,7 @@ function VoiceItem({
           fill="none"
           className={`shrink-0 mt-0.5 transition-transform duration-500 ease-in-out ${open ? 'rotate-180' : ''}`}
         >
-          <path d="M6 9l6 6 6-6" stroke="#2a363b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M6 9l6 6 6-6" className="stroke-dark-green" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </button>
       <div
@@ -72,9 +72,9 @@ function VoiceItem({
         className="overflow-hidden transition-[max-height] duration-500 ease-in-out"
         style={{ maxHeight: `${maxHeight}px` }}
       >
-        <div className="bg-light-green rounded-2xl px-5 py-8 tablet:px-[1.875rem] tablet:py-8 flex flex-col gap-12">
+        <div className="bg-[rgba(225,237,225,0.5)] rounded-2xl px-5 py-8 tablet:px-[1.875rem] tablet:py-8 flex flex-col gap-12">
           <div
-            className="font-gothic font-medium text-[1rem] leading-[2] text-black whitespace-pre-line voice-rich"
+            className="font-gothic font-medium text-body-m text-black whitespace-pre-line voice-rich"
             dangerouslySetInnerHTML={{ __html: voice.content }}
           />
           {voice.image && (
@@ -294,20 +294,20 @@ function MobileVoiceFilter({
       <button
         type="button"
         onClick={open}
-        className={`fixed bottom-4 left-1/2 -translate-x-1/2 z-40 inline-flex items-center bg-cream border border-dark-green/20 rounded-full pl-10 pr-5 py-2 shadow-[0_-1px_4px_rgba(0,0,0,0.1)] w-[21.375rem] h-14 transition-opacity duration-300 ${showBar ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        className={`fixed bottom-4 left-1/2 -translate-x-1/2 z-40 inline-flex items-center bg-cream border border-dark-green/10 rounded-full pl-10 pr-5 py-2 shadow-[0_-1px_4px_rgba(0,0,0,0.1)] w-[21.375rem] h-14 transition-opacity duration-300 ${showBar ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
         aria-label="カテゴリを絞り込む"
       >
-        <span className="flex-1 text-center font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
+        <span className="flex-1 text-center font-gothic font-medium text-body-s text-dark-green">
           絞り込む
         </span>
         <span className="size-5 inline-flex items-center justify-center shrink-0">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M3 5h14" stroke="#2a363b" strokeWidth="1.5" strokeLinecap="round" />
-            <path d="M3 10h14" stroke="#2a363b" strokeWidth="1.5" strokeLinecap="round" />
-            <path d="M3 15h14" stroke="#2a363b" strokeWidth="1.5" strokeLinecap="round" />
-            <circle cx="7" cy="5" r="1.5" fill="#fcfff7" stroke="#2a363b" strokeWidth="1.5" />
-            <circle cx="13" cy="10" r="1.5" fill="#fcfff7" stroke="#2a363b" strokeWidth="1.5" />
-            <circle cx="9" cy="15" r="1.5" fill="#fcfff7" stroke="#2a363b" strokeWidth="1.5" />
+            <path d="M3 5h14" className="stroke-dark-green" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M3 10h14" className="stroke-dark-green" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M3 15h14" className="stroke-dark-green" strokeWidth="1.5" strokeLinecap="round" />
+            <circle cx="7" cy="5" r="1.5" className="fill-cream stroke-dark-green" strokeWidth="1.5" />
+            <circle cx="13" cy="10" r="1.5" className="fill-cream stroke-dark-green" strokeWidth="1.5" />
+            <circle cx="9" cy="15" r="1.5" className="fill-cream stroke-dark-green" strokeWidth="1.5" />
           </svg>
         </span>
       </button>
@@ -348,7 +348,7 @@ function MobileVoiceFilter({
                               isActive ? 'bg-dark-green' : 'bg-dark-green/40'
                             }`}
                           />
-                          <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
+                          <span className="font-gothic font-medium text-body-s text-dark-green">
                             {cat.label}
                           </span>
                         </button>
@@ -373,7 +373,7 @@ function MobileVoiceFilter({
                     aria-label="キャンセル"
                   >
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                      <path d="M13.5 4.5L4.5 13.5M4.5 4.5l9 9" stroke="#2a363b" strokeWidth="1.5" strokeLinecap="round" />
+                      <path d="M13.5 4.5L4.5 13.5M4.5 4.5l9 9" className="stroke-dark-green" strokeWidth="1.5" strokeLinecap="round" />
                     </svg>
                   </button>
                 </div>

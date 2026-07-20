@@ -34,12 +34,12 @@ export default function ContactCtaBanner({ bgImage, heading, caption = 'お問�
             className="absolute inset-0"
             style={{
               backgroundImage:
-                'linear-gradient(218deg, rgba(39, 51, 59, 0.1) 26.6%, rgba(39, 51, 59, 0.25) 72.5%)',
+                'linear-gradient(218deg, rgb(var(--overlay-dark) / 0.1) 26.6%, rgb(var(--overlay-dark) / 0.25) 72.5%)',
             }}
           />
           <div className="relative z-10 flex flex-col tablet:flex-row items-stretch tablet:items-center justify-between gap-8 tablet:gap-[1.875rem]">
             <div className="text-white">
-              <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1.125rem] leading-[1.8] mb-2">
+              <p className="font-gothic font-medium text-body-s tablet:text-body-l mb-2">
                 {caption}
               </p>
               <h2

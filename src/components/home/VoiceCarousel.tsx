@@ -97,7 +97,7 @@ function VoiceCard({ voice }: { voice: CustomerVoice }) {
           className="w-4 h-3 tablet:w-8 tablet:h-6"
         />
         <h3
-          className="font-mincho text-[1.125rem] tablet:text-[2rem] leading-[1.6] tablet:leading-[1.5] tracking-[0.045rem] tablet:tracking-[0.08rem] text-dark-green"
+          className="font-mincho text-heading-18 tablet:text-heading-32 text-dark-green"
           style={{ fontFeatureSettings: "'palt' 1" }}
         >
           {voice.title || voice.customerName}
@@ -106,7 +106,7 @@ function VoiceCard({ voice }: { voice: CustomerVoice }) {
           {voice.content.replace(/<[^>]*>/g, '')}
         </p>
       </div>
-      <div className="flex items-start gap-[0.375rem] tablet:gap-3 mt-6 tablet:mt-12 text-body-s tablet:text-body-m font-gothic font-medium text-dark-green leading-[1.8] tablet:leading-[2] flex-wrap">
+      <div className="flex items-start gap-[0.375rem] tablet:gap-3 mt-6 tablet:mt-12 text-body-s tablet:text-body-m font-gothic font-medium text-dark-green flex-wrap">
         <div className="flex items-center">
           {voice.location && <span className="opacity-60">{voice.location}</span>}
           {voice.location && voice.propertyType && <span className="leading-[1.4]">｜</span>}

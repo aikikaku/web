@@ -11,6 +11,7 @@ interface Props {
   options: Option[];
   selected: string[];
   onChange: (value: string) => void;
+  onClear: () => void;
   placeholder: string;
 }
 
@@ -26,6 +27,7 @@ export default function MultiSelectDropdown({
   options,
   selected,
   onChange,
+  onClear,
   placeholder,
 }: Props) {
   const firstSelectedLabel = options.find((o) => o.value === selected[0])?.label ?? selected[0];
@@ -35,12 +37,10 @@ export default function MultiSelectDropdown({
       <button
         type="button"
         onClick={onToggle}
-        className={`flex items-center gap-2 h-14 px-4 rounded-lg border border-dark-green w-full ${
-          isOpen ? 'bg-light-green' : 'bg-cream'
-        }`}
+        className="flex items-center gap-2 h-14 px-4 rounded-lg border border-dark-green w-full bg-light-green"
       >
         {selected.length === 0 ? (
-          <span className="flex-1 text-left font-gothic font-medium text-[1rem] leading-[2] text-dark-green/40">
+          <span className="flex-1 text-left font-gothic font-medium text-body-m text-black opacity-20">
             {placeholder}
           </span>
         ) : (
@@ -85,7 +85,7 @@ export default function MultiSelectDropdown({
         >
           <path
             d="M5.5 8L10.5 13L15.5 8"
-            stroke="#2a363b"
+            className="stroke-dark-green"
             strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -94,6 +94,30 @@ export default function MultiSelectDropdown({
       </button>
       {isOpen && (
         <div className="bg-cream rounded-lg shadow-[0_0_8px_rgba(0,0,0,0.16)] py-4 flex flex-col">
+          <button
+            type="button"
+            onClick={onClear}
+            className="flex items-center gap-2 h-8 pl-4 pr-2 hover:bg-light-green/50 text-left"
+          >
+            <span
+              className={`size-[1.125rem] inline-flex items-center justify-center rounded border shrink-0 ${
+                selected.length === 0 ? 'bg-dark-green border-dark-green' : 'border-dark-green/40'
+              }`}
+            >
+              {selected.length === 0 && (
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path
+                    d="M3 7l3 3 5-6"
+                    stroke="white"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              )}
+            </span>
+            <span className="font-gothic font-medium text-body-s text-black">すべて</span>
+          </button>
           {options.map((opt) => {
             const checked = selected.includes(opt.value);
             return (
@@ -120,7 +144,7 @@ export default function MultiSelectDropdown({
                     </svg>
                   )}
                 </span>
-                <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-black">
+                <span className="font-gothic font-medium text-body-s text-black">
                   {opt.label}
                 </span>
               </button>

@@ -124,7 +124,7 @@ export default async function ForOwnerPage() {
       <section className="pb-[3.75rem] tablet:pb-24 pt-[3.75rem] tablet:pt-12 max-w-[90rem] mx-auto">
         <div className="flex flex-col tablet:flex-row items-stretch tablet:items-center gap-6 tablet:gap-[1.875rem]">
           <div className="flex-1 flex items-start tablet:items-center px-4 tablet:pl-[4.6875rem] tablet:pr-0">
-            <h1 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.08rem] tablet:tracking-[0.12rem] text-dark-green text-left" style={{ fontFeatureSettings: "'palt' 1" }}>
+            <h1 className="font-mincho text-heading-32 tablet:text-heading-48 text-dark-green text-left" style={{ fontFeatureSettings: "'palt' 1" }}>
               不動産を<br className="tablet:hidden" />お持ちの方へ
             </h1>
           </div>
@@ -155,21 +155,21 @@ export default async function ForOwnerPage() {
           <div
             className="absolute inset-0"
             style={{
-              backgroundImage: 'linear-gradient(243deg, rgba(39, 51, 59, 0.15) 21.5%, rgba(39, 51, 59, 0.4) 80.4%)',
+              backgroundImage: 'linear-gradient(243deg, rgb(var(--overlay-dark) / 0.15) 21.5%, rgb(var(--overlay-dark) / 0.4) 80.4%)',
             }}
           />
         </ParallaxLayer>
         <div className="relative px-4 tablet:px-[4.6875rem] max-w-[90rem] mx-auto py-[3.75rem] tablet:py-24 w-full">
           <div className="flex flex-col gap-6 tablet:gap-8">
             <div className="flex flex-col gap-2 text-cream">
-              <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1.125rem] leading-[1.8]">
+              <p className="font-gothic font-medium text-body-s tablet:text-body-l">
                 不動産をお持ちですか？
               </p>
-              <h2 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.08rem] tablet:tracking-[0.12rem] text-cream" style={{ fontFeatureSettings: "'palt' 1" }}>
+              <h2 className="font-mincho text-heading-32 tablet:text-heading-48 text-cream" style={{ fontFeatureSettings: "'palt' 1" }}>
                 まずはご相談ください。
               </h2>
             </div>
-            <div className="font-gothic font-medium text-[0.875rem] tablet:text-[1.125rem] leading-[1.8] text-cream">
+            <div className="font-gothic font-medium text-body-s tablet:text-body-l text-cream">
               <p>本当は価値のある不動産、空き家や空き地などを眠らせていませんか？</p>
               <p>不動産は、ただ所有しているだけでは価値はどんどんと落ちてしまいます。</p>
               <p>それぞれ個性のある不動産だからこそ、小さな土地や古い建物にも、魅力があります。</p>
@@ -185,22 +185,22 @@ export default async function ForOwnerPage() {
       <Reveal as="section" className="bg-cream py-[3.75rem] tablet:py-24">
         <div className="page-container">
           <div className="flex flex-col gap-2 items-start tablet:items-center tablet:text-center mb-8 tablet:mb-12">
-            <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1.125rem] leading-[1.8] text-dark-green">
+            <p className="font-gothic font-medium text-body-s tablet:text-body-l text-dark-green">
               物件サポート
             </p>
-            <h2 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.08rem] tablet:tracking-[0.12rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+            <h2 className="font-mincho text-heading-32 tablet:text-heading-48 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               売却までの流れ
             </h2>
           </div>
           <div className="max-w-[49.5rem] mx-auto flex flex-col items-center">
             {steps.map((step, i) => (
               <div key={step.title} className="w-full flex flex-col items-center">
-                <div className="w-full bg-cream rounded-2xl tablet:rounded-3xl shadow-[0px_-1px_8px_0px_rgba(0,0,0,0.1)] p-5 tablet:pl-6 tablet:pr-8 tablet:py-8">
+                <div className="w-full bg-cream rounded-3xl shadow-[0px_-1px_8px_0px_rgba(0,0,0,0.1)] p-6 tablet:pl-6 tablet:pr-8 tablet:py-8">
                   <div className="flex flex-col tablet:flex-row gap-2 tablet:gap-8 items-start tablet:items-center">
-                    <p className="font-mincho text-[1rem] tablet:text-2xl text-dark-green text-left tablet:text-center w-full tablet:w-[8.75rem] shrink-0 whitespace-pre-line leading-[1.6] tablet:leading-[1.4] tracking-wider">
+                    <p className="font-mincho text-lg tablet:text-2xl text-dark-green text-left tablet:text-center w-full tablet:w-[8.75rem] shrink-0 whitespace-pre-line leading-[1.6] tablet:leading-[1.4] tracking-wider">
                       {step.title}
                     </p>
-                    <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1rem] leading-[1.8] tablet:leading-[2] text-black whitespace-pre-line flex-1">
+                    <p className="font-gothic font-medium text-body-m text-dark-green whitespace-pre-line flex-1">
                       {step.desc}
                     </p>
                   </div>
@@ -231,10 +231,10 @@ export default async function ForOwnerPage() {
       <Reveal as="section" className="bg-light-green py-[3.75rem] tablet:py-24">
         <div className="page-container">
           <div className="flex flex-col gap-2 mb-6 tablet:mb-8">
-            <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1.125rem] leading-[1.8] text-dark-green">
+            <p className="font-gothic font-medium text-body-s tablet:text-body-l text-dark-green">
               アイ企画の強み
             </p>
-            <h2 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.08rem] tablet:tracking-[0.12rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+            <h2 className="font-mincho text-heading-32 tablet:text-heading-48 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               アイ企画で物件を活用する
             </h2>
           </div>
@@ -251,7 +251,7 @@ export default async function ForOwnerPage() {
             {features.map((feature, i) => (
               <div
                 key={feature.title}
-                className={`flex flex-col tablet:flex-row gap-8 tablet:gap-[3.625rem] items-start ${i < features.length - 1 ? 'pb-12 tablet:pb-24 tablet:border-b tablet:border-dark-green/20' : ''}`}
+                className={`flex flex-col tablet:flex-row gap-8 tablet:gap-[3.625rem] items-start ${i < features.length - 1 ? 'pb-12 tablet:pb-24 tablet:border-b tablet:border-dark-green/10' : ''}`}
               >
                 {/* Image (PC: テキストと 50:50) #9 */}
                 <div className="w-full tablet:flex-1 tablet:min-w-0">
@@ -269,26 +269,26 @@ export default async function ForOwnerPage() {
                 <div className="flex-1 pt-0 tablet:pt-4">
                   <div className="flex flex-col gap-12">
                     <div className="flex flex-col gap-4">
-                      <h3 className="font-mincho text-lg tablet:text-2xl tracking-wider !leading-[1.6]">
+                      <h3 className="font-mincho text-lg tablet:text-2xl tracking-[0.04em] !leading-[1.6] text-dark-green">
                         {feature.title}
                       </h3>
-                      <p className="text-body-m tablet:text-body-l font-gothic font-medium text-black whitespace-pre-line leading-[2] tablet:leading-[1.8]">
+                      <p className="text-body-m tablet:text-body-l font-gothic font-medium text-black whitespace-pre-line">
                         {feature.body}
                       </p>
                     </div>
 
                     {/* Activity cards */}
-                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-2">
                       {feature.activities.map((activity) => (
                         <div
                           key={activity.title}
                           className="bg-cream rounded-2xl p-6 tablet:px-8 tablet:py-8"
                         >
                           <div className="flex flex-col gap-2">
-                            <p className="font-gothic font-medium text-base tablet:text-[1.25rem] leading-[2] tablet:leading-[1.6] text-dark-green">
+                            <p className="font-gothic font-medium text-body-m tablet:text-category-2 text-dark-green">
                               {activity.title}
                             </p>
-                            <p className="font-gothic font-medium text-body-s tablet:text-body-m text-black leading-[1.8] tablet:leading-[2] whitespace-pre-line">
+                            <p className="font-gothic font-medium text-body-s tablet:text-body-m text-black whitespace-pre-line">
                               {activity.desc}
                             </p>
                           </div>
@@ -296,7 +296,7 @@ export default async function ForOwnerPage() {
                             <div className="mt-4">
                               <Link
                                 href={activity.link.href}
-                                className="inline-flex items-center gap-1 text-body-s font-gothic font-medium text-dark-green hover:opacity-70 transition-opacity"
+                                className="inline-flex items-center gap-1 text-[0.75rem] leading-none font-gothic font-medium text-dark-green hover:opacity-70 transition-opacity"
                                 {...(activity.link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                               >
                                 {activity.link.label}

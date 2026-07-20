@@ -143,10 +143,10 @@ export default function MobileFilterNav() {
       {/* floating button: Figma 4211:10780 (Column 342×56, pl-40 pr-20 py-8) */}
       <button
         onClick={openModal}
-        className={`fixed bottom-4 left-1/2 -translate-x-1/2 z-40 flex items-center justify-between gap-3 bg-[#f4faf0] border border-dark-green/20 rounded-full pl-10 pr-5 py-2 shadow-[0_-1px_4px_rgba(0,0,0,0.1)] w-[21.375rem] h-14 transition-opacity duration-300 ${showBar ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        className={`fixed bottom-4 left-1/2 -translate-x-1/2 z-40 flex items-center justify-between gap-3 bg-[#f4faf0] border border-dark-green/10 rounded-full pl-10 pr-5 py-2 shadow-[0_-1px_4px_rgba(0,0,0,0.1)] w-[21.375rem] h-14 transition-opacity duration-300 ${showBar ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
         aria-label="物件を絞り込む"
       >
-        <span className="flex-1 text-center font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
+        <span className="flex-1 text-center font-gothic font-medium text-body-s text-dark-green">
           物件を絞り込む
         </span>
         <span className="size-5 inline-flex items-center justify-center text-dark-green shrink-0">
@@ -154,9 +154,9 @@ export default function MobileFilterNav() {
             <path d="M3 5h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
             <path d="M3 10h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
             <path d="M3 15h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-            <circle cx="7" cy="5" r="1.5" fill="#fcfff7" stroke="currentColor" strokeWidth="1.5" />
-            <circle cx="13" cy="10" r="1.5" fill="#fcfff7" stroke="currentColor" strokeWidth="1.5" />
-            <circle cx="9" cy="15" r="1.5" fill="#fcfff7" stroke="currentColor" strokeWidth="1.5" />
+            <circle cx="7" cy="5" r="1.5" className="fill-cream" stroke="currentColor" strokeWidth="1.5" />
+            <circle cx="13" cy="10" r="1.5" className="fill-cream" stroke="currentColor" strokeWidth="1.5" />
+            <circle cx="9" cy="15" r="1.5" className="fill-cream" stroke="currentColor" strokeWidth="1.5" />
           </svg>
         </span>
       </button>
@@ -211,6 +211,7 @@ export default function MobileFilterNav() {
                   options={propertyTypes}
                   selected={localTypes}
                   onChange={toggleType}
+                  onClear={() => setLocalTypes([])}
                   placeholder="物件"
                 />
                 <MultiSelectDropdown
@@ -219,6 +220,7 @@ export default function MobileFilterNav() {
                   options={regions.map((r) => ({ value: r, label: r }))}
                   selected={localRegions}
                   onChange={toggleRegion}
+                  onClear={() => setLocalRegions([])}
                   placeholder="地域"
                 />
               </div>
@@ -228,18 +230,18 @@ export default function MobileFilterNav() {
                 <button
                   onClick={applyFilters}
                   disabled={!hasPendingChange}
-                  className="flex-1 h-full bg-dark-green text-white rounded-lg font-gothic font-medium text-[0.875rem] leading-none transition-opacity disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="flex-1 h-full bg-dark-green text-white rounded-lg font-gothic font-medium text-[0.875rem] leading-none transition-opacity disabled:opacity-20 disabled:cursor-not-allowed"
                 >
                   絞り込み
                 </button>
                 <button
                   onClick={clearFilters}
                   disabled={!hasActiveFilters}
-                  className="w-[3.8125rem] h-full border border-dark-green rounded-lg flex items-center justify-center shrink-0 disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="w-[3.8125rem] h-full border border-dark-green rounded-lg flex items-center justify-center shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
                   aria-label="条件をクリア"
                 >
                   <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                    <path d="M13.5 4.5L4.5 13.5M4.5 4.5l9 9" stroke="#2a363b" strokeWidth="1.5" strokeLinecap="round" />
+                    <path d="M13.5 4.5L4.5 13.5M4.5 4.5l9 9" className="stroke-dark-green" strokeWidth="1.5" strokeLinecap="round" />
                   </svg>
                 </button>
               </div>

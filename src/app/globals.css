@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* オーバーレイ用の暗色 #27333b (rgb 39 51 59)。dark-green(#2a363b / rgb 42 54 59)とは
+     別の色で、ヒーロー/カード画像に重ねるグラデーション専用。inline style の
+     linear-gradient からは Tailwind クラスを使えないため、rgb()/CSS変数で一元管理する。 */
+  --overlay-dark: 39 51 59;
+}
+
 @layer base {
   /* レスポンシブ (#Pd9lJMyO318a): 1440px 基準の比例拡大。
      ルート font-size を 1440→1920 で 16px→21.33px に可変させ、
@@ -115,13 +122,14 @@
   }
 
   /* ─── 検索ローディングのプログレスバー (#25) ─── */
-  /* light-blue(#d9e9f4) → blue(#3cb1ff) のグラデーションが左右に流れる */
+  /* light-blue → blue のグラデーションが左右に流れる。色は tailwind.config の
+     light-blue/accent-blue トークンを theme() で参照（値の二重管理を避ける） */
   .search-progress {
     background-image: linear-gradient(
       90deg,
-      #d9e9f4 0%,
-      #3cb1ff 50%,
-      #d9e9f4 100%
+      theme('colors.light-blue') 0%,
+      theme('colors.accent-blue') 50%,
+      theme('colors.light-blue') 100%
     );
     background-size: 200% 100%;
     animation: search-progress-slide 1.4s ease-in-out infinite;
@@ -170,6 +178,13 @@
     @apply inline-flex items-center justify-center px-6 py-2.5 bg-white text-dark-green border border-dark-green font-gothic font-medium text-[0.8125rem] leading-[1.4] tracking-normal rounded-full transition-colors hover:bg-gray-50;
   }
 
+  /* outline→fill セカンダリボタン: 「ストーリーを読む」等で使用（Figma Button Secondary 4211:26046）。
+     枠線+ダークグリーン文字 → hover(親の group) で塗り+白文字に切り替わる。
+     サイズ(高さ/padding/文字サイズ/gap)は呼び出し側で個別指定するため、ここでは含めない。 */
+  .btn-outline-fill {
+    @apply border border-dark-green rounded-full font-gothic font-medium text-dark-green transition-colors group-hover:bg-dark-green group-hover:border-[rgba(252,255,247,0.3)] group-hover:text-white;
+  }
+
   /* Button S: 14px, lineHeight 1 */
   .btn-secondary-s {
     @apply inline-flex items-center justify-center px-5 py-2 bg-white text-dark-green border border-dark-green font-gothic font-medium text-sm leading-none tracking-normal rounded-full transition-colors hover:bg-gray-50;
@@ -179,12 +194,14 @@
     @apply inline-flex items-center font-gothic font-medium text-dark-green underline underline-offset-4 transition-opacity hover:opacity-70;
   }
 
+  /* 全呼び出し箇所で text-[0.875rem] leading-none px-3 py-1.5 が例外なく上書きされていたため
+     (18箇所で完全一致確認済み)、ベースクラスに統合。見た目の変化なし。 */
   .tag-pill {
-    @apply inline-flex items-center px-3 py-0.5 bg-light-blue text-dark-green text-caption rounded-full;
+    @apply inline-flex items-center px-3 py-1.5 bg-light-blue text-dark-green text-[0.875rem] leading-none rounded-full;
   }
 
   .tag-pill-dark {
-    @apply inline-flex items-center px-3 py-0.5 bg-dark-green text-white text-caption rounded-full;
+    @apply inline-flex items-center px-3 py-1.5 bg-dark-green text-white text-[0.875rem] leading-none rounded-full;
   }
 
   .section-padding {
@@ -227,11 +244,11 @@
   /* ─── リッチテキスト（microCMS richEditorV2）Figma 4211:10802 (SP) 準拠 ─── */
   /* セクションごとに pb-32 を共通の block マージンで再現する。h5+h3 のみ詰めて表示。 */
   .rich-content h3 {
-    @apply font-mincho text-[1.5rem] tablet:text-[2rem] leading-[1.6] text-black;
+    @apply font-mincho text-[1.5rem] tablet:text-[2rem] leading-[1.5] text-black tablet:text-dark-green tablet:text-center;
     font-feature-settings: 'palt' 1;
     letter-spacing: 0.04em;
     margin-top: 0;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
   }
 
   .rich-content h5 {
@@ -250,25 +267,23 @@
 
   /* コンテンツ(テキスト/画像)ごとの下方向間隔を 48px に (#25) */
   .rich-content p {
-    @apply font-gothic font-medium text-[1rem] tablet:text-[1.125rem] leading-[2] text-black;
+    @apply font-gothic font-medium text-body-m tablet:text-[1.125rem] text-black;
     margin-bottom: 3rem;
   }
 
   /* 画像は下 48px（連続写真の間隔 #3）。直後にキャプションが来る場合はキャプション側の
      負マージンで密着させる（下記 p:has(em) の margin-top）。 */
   .rich-content img {
-    @apply w-full rounded-2xl;
+    @apply w-full rounded-2xl tablet:rounded-3xl;
     aspect-ratio: 763 / 509;
     object-fit: cover;
     margin-bottom: 3rem;
   }
 
-  /* 画像キャプション: img の直後の em を含む p (Figma SP: pl-8, pb-8, text-12 dark-green regular)。
-     直前の画像に密着させるため margin-top を詰める */
+  /* 画像キャプション: img の直後の em を含む p (Figma SP: pl-8, pb-8, text-12 dark-green regular /
+     Figma PC: pl-30, text-14 dark-green medium)。直前の画像に密着させるため margin-top を詰める */
   .rich-content p:has(> em:only-child) {
-    @apply font-gothic font-normal text-[0.75rem] tablet:text-[0.875rem] leading-[1.8] text-dark-green;
-    padding-left: 0.5rem;
-    padding-bottom: 0.5rem;
+    @apply font-gothic font-normal tablet:font-medium text-[0.75rem] tablet:text-[0.875rem] leading-[1.8] text-dark-green pl-2 tablet:pl-[1.875rem] pb-2;
     margin-top: -2.5rem;
     margin-bottom: 3rem;
     font-style: normal;
@@ -286,12 +301,10 @@
     font-style: normal;
   }
 
-  /* コメント吹き出し（アバター付き） Figma SP: gap-16, pl-8, avatar 44, bubble p-24 light-green text-14 black */
+  /* コメント吹き出し（アバター付き） Figma SP: gap-16, pl-8, avatar 44, bubble px-24/py-12 light-green text-14 black /
+     Figma PC: gap-24, pl-0, avatar 50, bubble pt-30/pb-32/px-30, name text-14 medium */
   .rich-content .rich-comment {
-    display: flex;
-    gap: 1rem;
-    align-items: flex-start;
-    padding-left: 0.5rem;
+    @apply flex items-start gap-4 tablet:gap-6 pl-2 tablet:pl-0;
     margin-bottom: 3rem;
   }
 
@@ -304,23 +317,19 @@
   }
 
   .rich-content .rich-comment-avatar-circle {
-    width: 2.75rem;
-    height: 2.75rem;
-    border-radius: 50%;
-    @apply bg-dark-green/10;
+    @apply w-11 h-11 tablet:w-[3.125rem] tablet:h-[3.125rem] rounded-full bg-dark-green/10;
     background-image: url('/images/home/about.jpg');
     background-size: cover;
     background-position: center;
   }
 
   .rich-content .rich-comment-avatar-name {
-    @apply font-gothic font-normal text-[0.75rem] leading-[1.8] text-dark-green;
+    @apply font-gothic font-normal tablet:font-medium text-[0.75rem] tablet:text-[0.875rem] leading-[1.8] text-dark-green;
   }
 
   .rich-content .rich-comment-bubble {
     flex: 1;
-    @apply bg-light-green rounded-2xl font-gothic font-medium text-[0.875rem] tablet:text-[1rem] leading-[1.8] tablet:leading-[2] text-black;
-    padding: 1.5rem;
+    @apply bg-light-green rounded-2xl tablet:rounded-3xl font-gothic font-medium text-body-s tablet:text-body-m text-dark-green px-6 py-3 tablet:pt-[1.875rem] tablet:pb-8 tablet:px-[1.875rem];
     display: flex;
     align-items: center;
   }

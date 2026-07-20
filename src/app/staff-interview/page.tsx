@@ -187,28 +187,30 @@ const staffProfiles = [
 function InterviewItemComponent({ item }: { item: InterviewItem }) {
   const info = speakerInfo[item.speaker];
   return (
-    <div className="flex gap-4 tablet:gap-[3.1875rem] items-start min-h-[5.625rem] tablet:min-h-0 pb-6 tablet:pb-0">
+    <div className="flex gap-3 tablet:gap-[3.1875rem] items-start min-h-[5.625rem] tablet:min-h-0 pb-6 tablet:pb-0">
       <div className="flex flex-col items-center shrink-0 w-[2.5rem] tablet:w-auto">
         {info.avatar ? (
-          <div className="w-10 h-10 tablet:w-[3.125rem] tablet:h-[3.125rem] rounded-full overflow-hidden relative shrink-0">
+          <div className="w-11 h-11 tablet:w-[3.125rem] tablet:h-[3.125rem] rounded-full overflow-hidden relative shrink-0">
             <Image src={info.avatar} alt={info.name} fill className="object-cover" sizes="50px" />
           </div>
         ) : (
-          <div className="w-10 h-10 tablet:w-[3.125rem] tablet:h-[3.125rem] rounded-full bg-light-green flex items-center justify-center shrink-0">
+          <div className="w-11 h-11 tablet:w-[3.125rem] tablet:h-[3.125rem] rounded-full bg-light-green flex items-center justify-center shrink-0">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="tablet:w-6 tablet:h-6">
               <path
                 d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
-                fill="#2a363b"
+                className="fill-dark-green"
               />
             </svg>
           </div>
         )}
-        <p className="font-gothic font-medium text-[0.625rem] tablet:text-[0.75rem] leading-none text-dark-green text-center whitespace-nowrap mt-1">
+        <p className="font-gothic font-medium text-[0.75rem] tablet:text-[0.875rem] leading-none tablet:leading-[1.8] text-dark-green text-center whitespace-nowrap mt-1 tablet:mt-0">
           {info.name}
         </p>
       </div>
       <div className="flex-1 min-w-0 tablet:pb-12 tablet:pt-2">
-        <p className="font-gothic font-medium text-[0.875rem] leading-[1.8] tablet:text-[1.125rem] tablet:leading-[1.8] text-black">{item.text}</p>
+        <div className="bg-light-green rounded-2xl pl-2 pr-3 py-2 tablet:bg-transparent tablet:rounded-none tablet:p-0">
+          <p className="font-gothic font-medium text-body-s tablet:text-body-l text-black">{item.text}</p>
+        </div>
       </div>
     </div>
   );
@@ -236,13 +238,13 @@ export default function StaffInterviewPage() {
       <section className="relative bg-cream overflow-hidden pt-[3.75rem] tablet:pt-[6.25rem] pb-[3.75rem] tablet:pb-24">
         {/* SP: 見出し → card-story (Figma 4211:11616: 60px section padding, title 358×48, 32px gap to card-story) */}
         <div className="tablet:hidden px-4 mb-8">
-          <h1 className="font-mincho text-[2rem] leading-[1.5] tracking-[0.08rem] text-dark-green pl-2" style={{ fontFeatureSettings: "'palt' 1" }}>
+          <h1 className="font-mincho text-heading-32 text-dark-green pl-2" style={{ fontFeatureSettings: "'palt' 1" }}>
             スタッフインタビュー
           </h1>
         </div>
         {/* PC: タイトル左上 (絶対位置) */}
         <div className="hidden tablet:block relative max-w-[90rem] mx-auto">
-          <h1 className="absolute left-[4.6875rem] top-[6rem] w-[33rem] font-mincho text-[3rem] leading-[1.5] tracking-[0.12rem] text-dark-green z-10" style={{ fontFeatureSettings: "'palt' 1" }}>
+          <h1 className="absolute left-[4.6875rem] top-[6rem] w-[33rem] font-mincho text-heading-48 text-dark-green z-10" style={{ fontFeatureSettings: "'palt' 1" }}>
             スタッフインタビュー
           </h1>
         </div>
@@ -369,11 +371,11 @@ export default function StaffInterviewPage() {
                           sizes="51px"
                         />
                       </div>
-                      <h4 className="font-mincho text-[1.125rem] leading-[1.6] tracking-[0.04em] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+                      <h4 className="font-mincho text-heading-18 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
                         {staff.name}
                       </h4>
                     </div>
-                    <p className="text-body-s text-dark-green leading-[1.8]">
+                    <p className="text-body-s text-dark-green">
                       {staff.description}
                     </p>
                   </div>
