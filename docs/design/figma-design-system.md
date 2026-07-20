@@ -18,7 +18,7 @@ Figma fileKey: `rAdZUPq1BgzHVRP7QOhXC8`
 | `interactive/` | Interactive > Buttons(PC/SP), DropDown |
 | `card/` | Components > Card(Card Contact / Banner Contact 系) |
 | `content/` | Other(Question/Question List, Card Arrow, Side Bar Dots 等) |
-| `filter/` | Other > Popup Filter Drop Down SP / List SP(SP 絞り込みモーダル殻) |
+| `popup/` | Other > Popup Filter Drop Down SP / List SP(SP 絞り込みモーダル殻。「Filter」はPropertyFilter/StoriesFilterのため予約し`filter`という名前は使わない) |
 | `post/` | Post |
 | `icons/` | Iconography |
 | `footer/` | Footer |
@@ -231,7 +231,7 @@ Typography/Color/Assets/Breakpoints は `tailwind.config.ts` / `globals.css` 側
    3. List Item Def SP: [node-id=4211-25738](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25738&m=dev) → 共通(PC参照)
    4. Question List SP: [node-id=4211-25741](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25741&m=dev) → 共通(PC参照)
    5. Question SP: [node-id=4211-25747](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25747&m=dev) → 共通(PC参照)
-   6. Popup Filter Drop Down SP: [node-id=4211-25768](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25768&m=dev) → `MobileFilterNav.tsx` / `MobileStoriesFilter.tsx`(共通`src/components/ui/filter/{SpFloatingTrigger,SpModalBackdrop,SpModalCloseButton}.tsx`経由、2026-07-20共通化)
+   6. Popup Filter Drop Down SP: [node-id=4211-25768](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25768&m=dev) → `MobileFilterNav.tsx` / `MobileStoriesFilter.tsx`(共通`src/components/ui/popup/{SpFloatingTrigger,SpModalBackdrop,SpModalCloseButton}.tsx`経由、2026-07-20共通化。「Filter」の名前は`## Filter`見出し=`PropertyFilter.tsx`/`StoriesFilter.tsx`のために予約するため`ui/popup/`に配置)
    7. Popup Filter List SP: [node-id=4211-25779](https://www.figma.com/design/rAdZUPq1BgzHVRP7QOhXC8/アイ企画--Dev-?node-id=4211-25779&m=dev) → 同上
 
 ## Pattern

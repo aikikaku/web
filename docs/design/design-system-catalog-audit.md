@@ -44,7 +44,7 @@ Figma fileKey: `rAdZUPq1BgzHVRP7QOhXC8`
 
 - 対象は `ui/` のみ。`home/property/story/voice/owner` はページ機能で凝集させる既存方針を維持し、Figma カテゴリでの再編対象から明示的に除外した(理由: Card 系コンポーネントがドメイン横断で `property/story/voice` に分散しているため、これらを `ui/card/` 等へ統合すると機能的凝集が失われ、85ファイル規模の大規模移動になりリスクに見合わない)。
 - Typography/Color/Assets/Breakpoints の4見出しはトークンであり `tailwind.config.ts`/`globals.css` に対応するため、コンポーネントフォルダへの写像対象外とした。
-- 「Other」「Pattern」は Figma 側の雑多カテゴリ名であり、そのままフォルダ名に採用すると可読性が下がるため、実体(アコーディオン/カルーセル系→`content/`、SP絞り込みモーダル殻→`filter/`)に即した名前を付けた。マッピングの詳細と対応表は `figma-design-system.md` の「ディレクトリ構成」節を参照。
+- 「Other」「Pattern」は Figma 側の雑多カテゴリ名であり、そのままフォルダ名に採用すると可読性が下がるため、実体(アコーディオン/カルーセル系→`content/`、SP絞り込みモーダル殻→`popup/`)に即した名前を付けた。「Filter」はドキュメントの独立見出し(`PropertyFilter.tsx`/`StoriesFilter.tsx`)のために予約し、当初`ui/filter/`としていたSPモーダル殻は`ui/popup/`に訂正(2026-07-20)。マッピングの詳細と対応表は `figma-design-system.md` の「ディレクトリ構成」節を参照。
 - 本ドキュメントに掲載の無いユーティリティ/ページ固有コンポーネント(`CmsImage`/`ParallaxLayer`/`Reveal`/`ParkingBanner`/`HeroCardStory`/`SearchProgress`/`Pagination`)は `ui/misc/` に集約し、「カタログ対象外である」ことを隠さず可視化した。
 - 全 import パス・Storybook `title` を新パスに追従させ、`tsc --noEmit` / `next lint` / `next build`(28/28ページ生成) / Playwright(TOP・properties・stories・for-owner・staff-interview、コンソールエラー0件)で回帰なしを確認済み。
 

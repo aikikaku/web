@@ -5,9 +5,9 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import DropdownSp from '@/components/ui/interactive/DropdownSp';
 import SortSp from '@/components/ui/interactive/SortSp';
 import SortClearSp from '@/components/ui/interactive/SortClearSp';
-import SpFloatingTrigger from '@/components/ui/filter/SpFloatingTrigger';
-import SpModalBackdrop from '@/components/ui/filter/SpModalBackdrop';
-import SpModalCloseButton from '@/components/ui/filter/SpModalCloseButton';
+import SpFloatingTrigger from '@/components/ui/popup/SpFloatingTrigger';
+import SpModalBackdrop from '@/components/ui/popup/SpModalBackdrop';
+import SpModalCloseButton from '@/components/ui/popup/SpModalCloseButton';
 import { useScrollVisibility } from '@/lib/useScrollVisibility';
 
 const categories = [

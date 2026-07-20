@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import SpFloatingTrigger from '@/components/ui/filter/SpFloatingTrigger';
-import SpModalBackdrop from '@/components/ui/filter/SpModalBackdrop';
-import SpModalCloseButton from '@/components/ui/filter/SpModalCloseButton';
+import SpFloatingTrigger from '@/components/ui/popup/SpFloatingTrigger';
+import SpModalBackdrop from '@/components/ui/popup/SpModalBackdrop';
+import SpModalCloseButton from '@/components/ui/popup/SpModalCloseButton';
 
 interface Props {
   items: string[];
