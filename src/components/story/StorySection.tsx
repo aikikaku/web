@@ -1,8 +1,7 @@
-import Link from 'next/link';
 import { Story } from '@/types/microcms';
 import StoryCarousel from '@/components/home/StoryCarousel';
 import CardStory from '@/components/ui/card/CardStory';
-import Arrow from '@/components/ui/interactive/Arrow';
+import ButtonPrimary from '@/components/ui/interactive/ButtonPrimary';
 
 interface Props {
   /** 表示するストーリー一覧 */
@@ -34,7 +33,6 @@ export default function StorySection({
   const isDark = variant === 'dark';
   const sectionBg = isDark ? 'bg-dark-green' : 'bg-cream';
   const titleColor = isDark ? 'text-cream' : 'text-dark-green';
-  const linkColor = isDark ? 'text-cream' : 'text-dark-green';
 
   return (
     <section className={`${sectionBg} py-[3.75rem] tablet:py-24`}>
@@ -58,13 +56,7 @@ export default function StorySection({
           ))}
         </div>
         <div className="flex items-center justify-end">
-          <Link
-            href={href}
-            className={`group inline-flex items-center gap-2 font-gothic font-medium text-[1.125rem] ${linkColor}`}
-          >
-            すべて見る
-            <Arrow />
-          </Link>
+          <ButtonPrimary href={href} label="すべて見る" color={isDark ? 'cream' : 'dark-green'} />
         </div>
       </div>
     </section>
