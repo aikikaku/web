@@ -12,9 +12,9 @@ export default function ParkingBanner() {
       <div className="px-4 tablet:px-[2.8125rem] tablet:flex tablet:justify-center">
         <Link
           href="/for-customer"
-          className="block bg-light-green rounded-2xl tablet:rounded-[1.5rem] pt-9 pb-10 px-4 tablet:pt-6 tablet:pb-8 tablet:px-[1.875rem] tablet:max-w-[40.375rem] tablet:w-[40.375rem] w-full group"
+          className="block bg-light-green rounded-2xl tablet:rounded-[1.5rem] pt-9 pb-10 px-4 tablet:p-[1.875rem] tablet:h-[11.25rem] tablet:flex tablet:flex-col tablet:justify-center tablet:max-w-[40.375rem] tablet:w-[40.375rem] w-full group"
         >
-          <div className="flex items-center justify-between gap-6 tablet:gap-4">
+          <div className="flex items-center tablet:items-end justify-between gap-6 tablet:gap-4">
             <div className="flex flex-col gap-2 min-w-0">
               {/* SP: タイトル先 */}
               <p

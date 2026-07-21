@@ -1,8 +1,7 @@
 'use client';
 
-import Link from 'next/link';
 import ButtonPrimarySp from '@/components/ui/interactive/ButtonPrimarySp';
-import Arrow from '@/components/ui/interactive/Arrow';
+import ButtonPrimary from '@/components/ui/interactive/ButtonPrimary';
 import SliderDots from '@/components/ui/content/SliderDots';
 
 interface Props {
@@ -46,7 +45,6 @@ export default function NavigationSlideshow({
   label = 'すべて見る',
   variant = 'light',
 }: Props) {
-  const textColor = variant === 'dark' ? 'text-cream' : 'text-dark-green';
   const arrowColor = variant === 'dark' ? 'text-cream' : 'text-dark-green';
 
   // SP は専用 props があればそれを使い、なければ PC と同じ
@@ -100,13 +98,7 @@ export default function NavigationSlideshow({
           <div />
         )}
         {href && (
-          <Link
-            href={href}
-            className={`group inline-flex items-center gap-2 font-gothic font-medium text-[1.125rem] leading-none ${textColor}`}
-          >
-            {label}
-            <Arrow />
-          </Link>
+          <ButtonPrimary href={href} label={label} color={variant === 'dark' ? 'cream' : 'dark-green'} />
         )}
       </div>
 

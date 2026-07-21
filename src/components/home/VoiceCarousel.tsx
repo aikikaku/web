@@ -65,7 +65,7 @@ export default function VoiceCarousel({ voices }: Props) {
         className="overflow-x-auto pl-4 tablet:pl-[4.6875rem] pb-4 scroll-smooth snap-x snap-mandatory scroll-pl-4 tablet:scroll-pl-[4.6875rem]"
         style={{ scrollbarWidth: 'none' }}
       >
-        <div ref={flexRef} className="flex gap-3 min-w-max pr-4 tablet:pr-[4.6875rem]">
+        <div ref={flexRef} className="flex items-start gap-3 min-w-max pr-4 tablet:pr-[4.6875rem]">
           {voices.map((voice) => (
             <div key={voice.id} className="w-[20.125rem] tablet:w-[40.25rem] shrink-0 snap-start">
               <VoiceCard voice={voice} />
@@ -87,7 +87,7 @@ export default function VoiceCarousel({ voices }: Props) {
 
 function VoiceCard({ voice }: { voice: CustomerVoice }) {
   return (
-    <div className="bg-cream rounded-xl tablet:rounded-3xl px-[1.8125rem] tablet:px-[3.625rem] pt-[1.875rem] tablet:pt-12 pb-12 tablet:pb-14 h-full">
+    <div className="bg-cream rounded-xl tablet:rounded-3xl px-[1.8125rem] tablet:px-[3.625rem] pt-[1.875rem] tablet:pt-12 pb-12 tablet:pb-14">
       <div className="flex flex-col gap-2 tablet:gap-4">
         <Image
           src="/images/mock/quote-mark-blue.svg"

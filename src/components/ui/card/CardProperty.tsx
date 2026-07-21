@@ -84,9 +84,9 @@ export default function CardProperty({ property }: CardPropertyProps) {
 
         {/* Price / Layout — borders are full-width on SP。layout が無い場合は border-r を出さず単独セルに */}
         <div className="pb-3">
-          <div className="flex border-t border-b border-dark-green/10">
-            <div className={`flex-1 ${property.layout ? 'border-r border-dark-green/10' : ''} p-2`}>
-              <div>
+          <div className="flex border-t border-b border-dark-green/20">
+            <div className={`flex-1 ${property.layout ? 'border-r border-dark-green/20' : ''} px-2 pt-2 pb-4`}>
+              <div className="pl-2">
                 <span className="font-gothic font-medium text-body-s text-dark-green">
                   {property.type === 'rent' ? '賃料' : '価格'}
                 </span>
@@ -101,8 +101,8 @@ export default function CardProperty({ property }: CardPropertyProps) {
               </div>
             </div>
             {property.layout && (
-              <div className="flex-1 p-2">
-                <div>
+              <div className="flex-1 px-2 pt-2 pb-4">
+                <div className="pl-2">
                   <span className="font-gothic font-medium text-body-s text-dark-green">
                     間取り
                   </span>
