@@ -98,6 +98,7 @@ export default function AboutPage() {
               fill
               className="object-cover"
               sizes="(max-width: 992px) 100vw, 0px"
+              quality={90}
             />
           </div>
           <MoreLinkButton href="/message" mode="sp" />
@@ -127,6 +128,7 @@ export default function AboutPage() {
                 fill
                 className="object-cover"
                 sizes="(min-width: 992px) 557px, 0px"
+                quality={90}
               />
             </div>
           </div>
@@ -161,6 +163,7 @@ export default function AboutPage() {
               fill
               className="object-cover"
               sizes="(max-width: 992px) 100vw, 0px"
+              quality={90}
             />
           </div>
           <MoreLinkButton href="/staff-interview" mode="sp" />
@@ -175,6 +178,7 @@ export default function AboutPage() {
                 fill
                 className="object-cover"
                 sizes="(min-width: 992px) 557px, 0px"
+                quality={90}
               />
             </div>
             <div className="flex-1 max-w-[38.5rem]">
