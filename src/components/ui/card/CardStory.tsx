@@ -27,7 +27,7 @@ const sizeConfig = {
 function ReadStoryButton({ isDark }: { isDark: boolean }) {
   return (
     <span
-      className={`inline-flex items-center gap-1 h-[2.75rem] px-4 border rounded-full font-gothic font-medium text-[1rem] leading-none transition-colors ${
+      className={`inline-flex items-center gap-2 h-[2.75rem] px-4 border rounded-full font-gothic font-medium text-[1rem] leading-none transition-colors ${
         isDark
           ? 'border-white text-white hover:opacity-70'
           : 'border-dark-green text-dark-green group-hover:bg-dark-green group-hover:border-[rgba(252,255,247,0.3)] group-hover:text-white'

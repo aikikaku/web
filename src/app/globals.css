@@ -26,6 +26,16 @@
     letter-spacing: 0;
   }
 
+  /* タブレット域 (993–1439px): PC レイアウト(1440px 設計)を崩さず維持し、
+     収まらない分は横スクロールで見せる。Figma にタブレット専用デザインが無いため、
+     この範囲は 1440px の PC 表示そのまま + 横スクロールとする方針(ユーザー確定)。
+     <993px は SP レイアウト、>=1440px は等倍〜比例拡大(html の clamp)。 */
+  @media (min-width: 993px) and (max-width: 1439.98px) {
+    body {
+      min-width: 90rem; /* 1440px */
+    }
+  }
+
   h1, h2, h3, h4, h5, h6 {
     @apply font-mincho font-normal;
     letter-spacing: 0.04em;

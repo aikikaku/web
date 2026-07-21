@@ -10,7 +10,7 @@ export default meta;
 
 type Story = StoryObj<typeof ButtonPrimarySp>;
 
-/** Default: bg-blue の全幅ボタン + book アイコン */
+/** Default: bg-blue の全幅ボタン(アイコン無し。Figma button-primary-sp) */
 export const Default: Story = {
   args: {
     href: '/properties',
@@ -18,12 +18,11 @@ export const Default: Story = {
   },
 };
 
-/** book アイコンなし */
-export const WithoutIcon: Story = {
+/** ラベル違い(もっと知る) */
+export const MoreLink: Story = {
   args: {
-    href: '/voice',
-    label: 'すべて見る',
-    showBookIcon: false,
+    href: '/about',
+    label: 'もっと知る',
   },
 };
 
