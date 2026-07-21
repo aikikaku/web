@@ -8,7 +8,7 @@ const meta: Meta<typeof StoryCarousel> = {
   argTypes: {
     variant: { control: 'radio', options: ['light', 'dark'] },
   },
-  // トップページでは SP〜タブレット幅で表示されるカルーセル（desktop:hidden）
+  // トップページでは SP〜タブレット幅で表示されるカルーセル（tablet:hidden）
   decorators: [
     (Story) => (
       <div style={{ maxWidth: 390 }}>

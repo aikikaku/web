@@ -73,7 +73,7 @@ export default function BannerContact() {
           </div>
           <div className="flex-1 flex gap-3 justify-end">
             <CardContact href="/for-customer" label="不動産をお探しの方" />
-            <CardContact href="/for-owner" label="不動産をお持ちの方" display="hidden desktop:flex" />
+            <CardContact href="/for-owner" label="不動産をお持ちの方" display="hidden tablet:flex" />
             <CardContact href="/contact" label="その他のお問い合わせ" />
           </div>
         </div>
