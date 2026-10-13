@@ -1,4 +1,4 @@
-import SearchProgress from '@/components/ui/SearchProgress';
+import SearchProgress from '@/components/common/SearchProgress';
 
 export default function Loading() {
   return (
@@ -11,7 +11,7 @@ export default function Loading() {
           >
             暮らしを知る
           </h1>
-          <SearchProgress label="検索中..." />
+          <SearchProgress />
         </div>
       </section>
     </div>

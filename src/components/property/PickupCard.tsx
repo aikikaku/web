@@ -5,36 +5,32 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Property } from '@/types/microcms';
 import { getImageUrl } from '@/lib/microcms/image';
-import CmsImage from '@/components/ui/CmsImage';
+import CmsImage from '@/components/common/CmsImage';
+import { BookIcon } from '@/components/ui/icons/icons';
+import { getPropertyStatus, getPropertyCategoryLabel, formatPropertyPrice } from '@/lib/propertyDisplay';
+import { getPriceLabel, getPropertyLayoutCell } from '@/components/property/propertyCells';
 
 interface Props {
   property: Property;
 }
 
 export default function PickupCard({ property }: Props) {
-  const isSold = property.status === 'sold';
-  const statusLabel = isSold ? '成約済み' : property.status === 'negotiating' ? '商談中' : null;
+  const { isSold, label: statusLabel } = getPropertyStatus(property);
   const allImages = [property.mainImage, ...(property.images || [])].filter(Boolean);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  // ピルは CMS の label を優先。未設定なら category+type から算出 (#30)
-  const categoryLabel =
-    property.label ||
-    (property.category === 'property'
-      ? property.type === 'sell'
-        ? '中古住宅'
-        : '賃貸物件'
-      : property.type === 'sell'
-        ? '売土地'
-        : '貸土地');
+  const categoryLabel = getPropertyCategoryLabel(property);
   const locationText = property.regions?.map((r) => r.name).join('・');
+  const { amount: priceAmount, unit: priceUnit } = formatPropertyPrice(property, isSold);
+  const layoutCell = getPropertyLayoutCell(property);
 
   return (
     <Link
       data-mobile-filter-start
       href={`/properties/${property.id}`}
-      // Figma 4211:10721: section bg-light-green px-16 py-32 を Link 単体で再現
-      className="block bg-light-green rounded-2xl tablet:rounded-[2rem] py-8 px-4 tablet:p-[1.875rem] group"
+      // Figma 4211:10721: section bg-light-green px-16 py-32 を Link 単体で再現。
+      // SP は Figma Handoff 4470:14849 通り緑背景を全幅 (角丸なし) にするため、親の px-4 を -mx-4 で打ち消す
+      className="block bg-light-green -mx-4 tablet:mx-0 tablet:rounded-[2rem] py-8 px-4 tablet:p-[1.875rem] group"
     >
       {/* SP: 縦積み image → thumbs → details / PC: 横並び image | details(thumbs下) */}
       <div className="flex flex-col tablet:flex-row tablet:gap-[3.75rem] tablet:items-stretch">
@@ -52,37 +48,43 @@ export default function PickupCard({ property }: Props) {
                 priority={i === 0}
               />
             ))}
-            {/* Figma 4211:10721: 画像上端の暗グラデ（ラベル可読性のため）。to top: 73.6% transparent → 92.7% rgba(0,0,0,0.2) */}
+            {/* Figma 4211:10721: 画像上端の暗グラデ（ラベル可読性のため）。to top: 73.6% transparent → 92.7% rgba(0,0,0,0.2)
+                SP のみ（PC 4470:14410 は画像上にラベルが無くグラデも無し） */}
             <div
               aria-hidden
-              className="absolute inset-0 z-10 pointer-events-none rounded-2xl tablet:rounded-[1.5rem]"
+              className="tablet:hidden absolute inset-0 z-10 pointer-events-none rounded-2xl"
               style={{ backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0) 73.635%, rgba(0,0,0,0.2) 92.755%)' }}
             />
+            {/* Figma 4211:12000: sold 時は斜めグラデーションの暗転オーバーレイを追加 */}
+            {isSold && (
+              <div
+                aria-hidden
+                className="absolute inset-0 z-10 pointer-events-none rounded-2xl tablet:rounded-[1.5rem]"
+                style={{
+                  backgroundImage:
+                    'linear-gradient(194.36deg, rgba(39,51,59,0.5) 4%, rgba(39,51,59,0.25) 51.9%, rgba(39,51,59,0.5) 103.7%)',
+                }}
+              />
+            )}
             {/* SP: ラベルを画像内 top に overlay（Figma 4211:10721）
                 location は cream (白) text 16px leading-2、画像上端の暗グラデで可読化 */}
             <div className="tablet:hidden absolute inset-x-0 top-0 z-20 p-2.5 flex items-center justify-between gap-2">
               <div className="flex items-center gap-2 min-w-0">
-                <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5 shrink-0">
+                <span className="tag shrink-0">
                   {categoryLabel}
                 </span>
                 {locationText && (
-                  <span className="font-gothic font-medium text-[1rem] leading-[2] text-cream truncate px-1">
+                  <span className="font-gothic font-medium text-body-m text-cream truncate px-1">
                     {locationText}
                   </span>
                 )}
               </div>
               {statusLabel && (
-                <span className="inline-flex items-center bg-dark-green text-white font-gothic font-medium text-[0.875rem] leading-none rounded-full px-3 py-1.5 shrink-0">
+                <span className="tag-dark shrink-0">
                   {statusLabel}
                 </span>
               )}
             </div>
-            {/* PC: 状態バッジは右上に単独 */}
-            {statusLabel && (
-              <span className="hidden tablet:inline-flex absolute top-4 right-4 z-20 items-center bg-dark-green text-white font-gothic font-medium text-[0.875rem] leading-none rounded-full px-3 py-1.5">
-                {statusLabel}
-              </span>
-            )}
           </div>
 
           {/* SP: thumbs（画像の下）。flex-1 + aspect-square + max-w-[3.25rem] で親要素 (Link px-4 内側 326px) に収まるよう均等配分。 */}
@@ -113,16 +115,17 @@ export default function PickupCard({ property }: Props) {
         </div>
 
         {/* 右カラム: 詳細＋thumbs（PC 用） */}
-        <div className="flex-1 flex flex-col justify-between min-w-0 pt-4 tablet:pt-0">
+        {/* SP: thumbs(pb-24) の直後にタイトル（Figma 4470:14849）。thumbs が無い場合のみ画像との間に 16px */}
+        <div className={`flex-1 flex flex-col justify-between min-w-0 ${allImages.length > 1 ? 'pt-0' : 'pt-4'} tablet:pt-0`}>
           <div className="flex flex-col tablet:pt-3">
             {/* Tags + Location: PC のみ（SP はラベルを画像内 overlay に表示）*/}
             <div className="hidden tablet:flex flex-wrap items-center gap-2">
               {statusLabel && (
-                <span className="inline-flex items-center bg-dark-green text-white font-gothic font-medium text-[0.875rem] leading-none rounded-full px-3 py-1.5">
+                <span className="tag-dark">
                   {statusLabel}
                 </span>
               )}
-              <span className="tag-pill text-[0.875rem] leading-none px-3 py-1.5">
+              <span className="tag">
                 {categoryLabel}
               </span>
               {locationText && (
@@ -132,50 +135,44 @@ export default function PickupCard({ property }: Props) {
               )}
             </div>
 
-            {/* タイトル */}
-            <div className="py-[1.5rem] tablet:py-[1.875rem] px-2 tablet:px-0">
+            {/* タイトル: SP は上余白なし・下 24 / 行間 1.6 (Figma 4470:14849)、PC は上下 30 / 行間 1.5 */}
+            <div className="pb-6 tablet:py-[1.875rem] px-2 tablet:px-0">
               <h3
-                className="font-mincho text-[1.5rem] tablet:text-[2rem] leading-[1.5] tablet:leading-[1.5] tracking-[0.04em] text-black"
+                className="font-mincho text-[1.5rem] tablet:text-[2rem] leading-[1.6] tablet:leading-[1.5] tracking-[0.04em] text-black"
                 style={{ fontFeatureSettings: "'palt' 1" }}
               >
                 {property.title}
               </h3>
             </div>
 
-            {/* Price / Layout split — 余白なし、border full-width */}
-            <div className="pb-4">
+            {/* Price / Layout split — 余白なし、border full-width。罫線 dark-green 20% / 下余白 SP 24・PC 16 (Figma 4470:14410 / 14849) */}
+            <div className="pb-6 tablet:pb-4">
               <div className="flex border-t border-b border-dark-green/20">
-                <div className={`flex-1 ${property.layout ? 'border-r border-dark-green/20' : ''} pt-2 pb-4`}>
+                <div className={`flex-1 ${layoutCell ? 'border-r border-dark-green/20' : ''} pt-2 pb-4`}>
                   <div className="pl-2">
-                    <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
-                      {property.type === 'rent' ? '賃料' : '価格'}
+                    <span className="font-gothic font-medium text-body-s text-dark-green">
+                      {getPriceLabel(property)}
                     </span>
                   </div>
                   <div className="flex items-end justify-center">
-                    <span className="font-gothic font-medium text-[1.25rem] tablet:text-[1.5rem] leading-[1.6] text-black px-1">
-                      {isSold
-                        ? '-'
-                        : property.price
-                          ? property.price.toLocaleString()
-                          : property.rent
-                            ? property.rent.toLocaleString()
-                            : '応談'}
+                    <span className="font-gothic font-medium text-category-2 tablet:text-category-1 text-black px-1">
+                      {priceAmount}
                     </span>
                     <span className="font-gothic font-medium text-[0.875rem] leading-[1.5] text-black pb-1 w-7">
-                      {isSold ? '万円' : property.price ? '万円' : property.rent ? '円/月' : ''}
+                      {priceUnit}
                     </span>
                   </div>
                 </div>
-                {property.layout && (
+                {layoutCell && (
                   <div className="flex-1 pt-2 pb-4">
                     <div className="pl-2">
-                      <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
-                        間取り
+                      <span className="font-gothic font-medium text-body-s text-dark-green">
+                        {layoutCell.label}
                       </span>
                     </div>
                     <div className="flex items-end justify-center">
-                      <span className="font-gothic font-medium text-[1.25rem] tablet:text-[1.5rem] leading-[1.6] text-black">
-                        {property.layout}
+                      <span className="font-gothic font-medium text-category-2 tablet:text-category-1 text-black">
+                        {layoutCell.value}
                       </span>
                     </div>
                   </div>
@@ -186,21 +183,33 @@ export default function PickupCard({ property }: Props) {
             {/* SP: 物件詳細ボタン（station の前） */}
             {!isSold && (
               <div className="tablet:hidden pb-6">
-                <span className="inline-flex items-center justify-center h-[2.75rem] px-6 border border-dark-green rounded-full font-gothic font-medium text-[1rem] leading-none text-dark-green transition-colors group-hover:bg-dark-green group-hover:text-white">
+                <span className="inline-flex items-center justify-center h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none">
                   物件詳細
                 </span>
               </div>
             )}
+            {/* SP: 成約済み+ストーリーありの場合は物件詳細+ストーリーを読むの2ボタン（CardProperty.tsxと同じパターン） */}
+            {isSold && property.story && (
+              <div className="tablet:hidden pb-6 flex items-center gap-2.5">
+                <span className="flex-1 inline-flex items-center justify-center h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none">
+                  物件詳細
+                </span>
+                <span className="flex-1 inline-flex items-center justify-center gap-1 h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none">
+                  <BookIcon />
+                  ストーリーを読む
+                </span>
+              </div>
+            )}
 
-            {/* Station / Construction */}
-            <div className="flex items-center flex-wrap">
+            {/* Station / Construction: SP は縦積み (Figma 4470:14849)、PC は横並び */}
+            <div className="flex flex-col items-start tablet:flex-row tablet:items-center tablet:flex-wrap">
               {property.nearestStation && (
-                <span className="font-gothic font-medium text-[1rem] leading-[2] text-black px-2">
+                <span className="font-gothic font-medium text-body-m text-black px-2">
                   {property.nearestStation}
                 </span>
               )}
               {property.constructionDate && (
-                <span className="font-gothic font-medium text-[1rem] leading-[2] text-black px-2">
+                <span className="font-gothic font-medium text-body-m text-black px-2">
                   築{property.constructionDate}
                 </span>
               )}
@@ -209,8 +218,20 @@ export default function PickupCard({ property }: Props) {
             {/* PC: 物件詳細ボタン */}
             {!isSold && (
               <div className="hidden tablet:block mt-10">
-                <span className="inline-flex items-center justify-center h-[2.75rem] px-6 border border-dark-green rounded-full font-gothic font-medium text-[1rem] leading-none text-dark-green transition-colors group-hover:bg-dark-green group-hover:text-white">
+                <span className="inline-flex items-center justify-center h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none">
                   物件詳細
+                </span>
+              </div>
+            )}
+            {/* PC: 成約済み+ストーリーありの場合は物件詳細+ストーリーを読むの2ボタン */}
+            {isSold && property.story && (
+              <div className="hidden tablet:flex items-center gap-2.5 mt-10">
+                <span className="inline-flex items-center justify-center h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none">
+                  物件詳細
+                </span>
+                <span className="inline-flex items-center justify-center gap-1 h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none">
+                  <BookIcon />
+                  ストーリーを読む
                 </span>
               </div>
             )}

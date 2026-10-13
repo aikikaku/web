@@ -2,13 +2,15 @@ import { getProperties, getCustomerVoices, getStories } from '@/lib/microcms/que
 import MoreProperties from '@/components/property/MoreProperties';
 import VoiceCarousel from '@/components/home/VoiceCarousel';
 import StorySection from '@/components/story/StorySection';
-import FaqSection from '@/components/ui/FaqSection';
-import ContactCtaBanner from '@/components/ui/ContactCtaBanner';
-import Reveal from '@/components/ui/Reveal';
-import ParallaxLayer from '@/components/ui/ParallaxLayer';
+import FaqSection from '@/components/ui/content/FaqSection';
+import ContactCtaBanner from '@/components/ui/card/ContactCtaBanner';
+import Reveal from '@/components/common/Reveal';
+import ParallaxLayer from '@/components/common/ParallaxLayer';
+import CardArrowFlow from '@/components/ui/content/CardArrowFlow';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
 
 export const metadata: Metadata = {
   title: '不動産をお探しの方へ',
@@ -43,6 +45,7 @@ const steps = [
 const features = [
   {
     image: '/images/for-customer/tsumugi.jpg',
+    imageSp: '/images/for-customer/tsumugi-sp.jpg',
     title: 'アイ企画の紡ぐ家づくり',
     body: 'これからはじまる家づくり、その一コマ一コマを思い出に残してみませんか。\nアイ企画では、『紡ぐ家づくり』と題して、その大切な一瞬を残す為にフィルムカメラによる撮影サービスを行なっています。\n土地のお引渡し、建築の地鎮祭、建築途中の様子、完成写真等をフォトグラファーがフィルムカメラで撮影しお子様や、大切な方へ思いを紡ぐお手伝いをします',
     activities: [
@@ -55,6 +58,7 @@ const features = [
   },
   {
     image: '/images/for-customer/community.jpg',
+    imageSp: '/images/for-customer/community-sp.jpg',
     title: '地域づくりへの取り組み',
     body: '家を買おうと考えたとき、まず住宅メーカーや展示場に足を運ぶ人が多いと思います。\n\nでも、暮らしは家だけで完結するのではなく地域の一部。\nまずは、その地域の特徴をよく理解している不動産屋を訪ねてみてください。\n私たちは、同じ地域に住む住民として、日頃から地域の人たちと関わることで、いざというときに頼れる存在でありたいと思っています。',
     activities: [
@@ -106,59 +110,83 @@ export default async function ForCustomerPage() {
           }),
         }}
       />
+      <Breadcrumb items={[{ label: 'アイ企画を知る' }, { label: '不動産をお探しの方へ' }]} />
 
       {/* ヒーロー (Figma 4211:11400 PC = 1440×784, Figma 4211:11782 SP).
           PC: outer margin なし。text frame at x=75, image at x=720-1395 (右 45px gap)
-          → 親 section に padding なし、text col に tablet:pl-[4.6875rem]、image col は flush right */}
+          → 親 section に padding なし、text col に tablet:pl-[4.6875rem]、image col は flush right
+          SP (Figma 4470:15937): 見出しと画像の間 32、画像は 358×358 (r24) の正方形。SP 専用トリミング hero-sp.jpg */}
       <section className="pb-[3.75rem] tablet:pb-24 pt-[3.75rem] tablet:pt-12 max-w-[90rem] mx-auto">
-        <div className="flex flex-col tablet:flex-row items-stretch tablet:items-center gap-6 tablet:gap-[1.875rem]">
+        <div className="flex flex-col tablet:flex-row items-stretch tablet:items-center gap-8 tablet:gap-[1.875rem]">
           <div className="flex-1 flex items-start tablet:items-center px-4 tablet:pl-[4.6875rem] tablet:pr-0">
-            <h1 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.08rem] tablet:tracking-[0.12rem] text-dark-green text-left" style={{ fontFeatureSettings: "'palt' 1" }}>
+            <h1 className="font-mincho text-heading-32 tablet:text-heading-48 text-dark-green text-left" style={{ fontFeatureSettings: "'palt' 1" }}>
               不動産を<br className="tablet:hidden" />お探しの方へ
             </h1>
           </div>
           <div className="w-full px-4 tablet:px-0 tablet:w-[42.1875rem] tablet:mr-[2.8125rem] shrink-0">
-            <div className="relative aspect-[358/443] tablet:aspect-auto tablet:h-[40rem] rounded-3xl overflow-hidden">
+            <div className="relative aspect-square tablet:aspect-auto tablet:h-[40rem] rounded-3xl overflow-hidden">
+              <Image
+                src="/images/for-customer/hero-sp.jpg"
+                alt="不動産をお探しの方へ"
+                fill
+                className="object-cover tablet:hidden"
+                priority
+                sizes="100vw"
+              />
               <Image
                 src="/images/for-customer/hero.jpg"
                 alt="不動産をお探しの方へ"
                 fill
-                className="object-cover"
+                className="object-cover hidden tablet:block"
                 priority
-                sizes="(max-width: 992px) 100vw, 675px"
+                sizes="675px"
               />
             </div>
           </div>
         </div>
       </section>
 
-      {/* まずはご相談 (Figma PC 4211:11405 = 1440×720 / SP 4211:11902 = compact) */}
+      {/* まずはご相談 (Figma PC 4470:15544 = 1440×720 / SP 4470:15941)。
+          SP は背景写真のトリミングとグラデーションが PC と異なる (section-bg-sp.jpg) */}
       <Reveal as="section" className="relative overflow-hidden tablet:min-h-[45rem] tablet:flex tablet:items-center">
         <ParallaxLayer>
+          <Image
+            src="/images/for-customer/section-bg-sp.jpg"
+            alt=""
+            fill
+            className="object-cover tablet:hidden"
+            sizes="100vw"
+          />
           <Image
             src="/images/for-customer/section-bg.jpg"
             alt=""
             fill
-            className="object-cover"
+            className="object-cover hidden tablet:block"
           />
           <div
-            className="absolute inset-0"
+            className="absolute inset-0 tablet:hidden"
             style={{
-              backgroundImage: 'linear-gradient(243deg, rgba(39, 51, 59, 0.15) 21.5%, rgba(39, 51, 59, 0.4) 80.4%)',
+              backgroundImage: 'linear-gradient(-46.15deg, rgb(var(--overlay-dark) / 0.25) 3.3%, rgb(var(--overlay-dark) / 0.4) 95%)',
+            }}
+          />
+          <div
+            className="absolute inset-0 hidden tablet:block"
+            style={{
+              backgroundImage: 'linear-gradient(243deg, rgb(var(--overlay-dark) / 0.15) 21.5%, rgb(var(--overlay-dark) / 0.4) 80.4%)',
             }}
           />
         </ParallaxLayer>
         <div className="relative px-4 tablet:px-[4.6875rem] max-w-[90rem] mx-auto py-[3.75rem] tablet:py-24 w-full">
-          <div className="flex flex-col gap-6 tablet:gap-8">
+          <div className="flex flex-col gap-8">
             <div className="flex flex-col gap-2 text-cream">
-              <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1.125rem] leading-[1.8]">
+              <p className="font-gothic font-medium text-body-m">
                 不動産をお探しですか？
               </p>
-              <h2 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.08rem] tablet:tracking-[0.12rem] text-cream" style={{ fontFeatureSettings: "'palt' 1" }}>
+              <h2 className="font-mincho text-heading-32 tablet:text-heading-48 text-cream" style={{ fontFeatureSettings: "'palt' 1" }}>
                 まずはご相談ください。
               </h2>
             </div>
-            <div className="font-gothic font-medium text-[0.875rem] tablet:text-[1.125rem] leading-[1.8] text-cream">
+            <div className="font-gothic font-medium text-body-m tablet:text-body-l text-cream">
               <p>あなたの想いを聞かせてください。どんな暮らしをしたいか、どんなお店をしたいか。</p>
               <p>私たちは、その想いを共有し、正しい情報をお伝えしながら、</p>
               <p>セカンドオピニオン的な立ち位置でお客様に最適なご提案をさせて頂きます。</p>
@@ -174,38 +202,15 @@ export default async function ForCustomerPage() {
       {/* ご入居までの流れ (Figma SP 4211:11793 - 左寄せ) */}
       <Reveal as="section" className="bg-cream py-[3.75rem] tablet:py-24">
         <div className="page-container">
-          <div className="flex flex-col gap-2 items-start tablet:items-center tablet:text-center mb-8 tablet:mb-12">
-            <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1.125rem] leading-[1.8] text-dark-green">
+          <div className="flex flex-col gap-2 items-start tablet:items-center tablet:text-center mb-10 tablet:mb-12">
+            <p className="font-gothic font-medium text-body-s tablet:text-body-m text-dark-green">
               物件サポート
             </p>
-            <h2 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.08rem] tablet:tracking-[0.12rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+            <h2 className="font-mincho text-heading-32 tablet:text-heading-48 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               ご入居までの流れ
             </h2>
           </div>
-          <div className="max-w-[49.5rem] mx-auto flex flex-col items-center">
-            {steps.map((step, i) => (
-              <div key={step.title} className="w-full flex flex-col items-center">
-                <div className="w-full bg-cream rounded-2xl tablet:rounded-3xl shadow-[0px_-1px_8px_0px_rgba(0,0,0,0.1)] p-5 tablet:pl-6 tablet:pr-8 tablet:py-8">
-                  <div className="flex flex-col tablet:flex-row gap-2 tablet:gap-8 items-start tablet:items-center">
-                    <p className="font-mincho text-[1rem] tablet:text-2xl text-dark-green text-left tablet:text-center w-full tablet:w-[8.75rem] shrink-0 leading-[1.6] tablet:leading-[1.4] tracking-wider">
-                      {step.title}
-                    </p>
-                    <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1rem] leading-[1.8] tablet:leading-[2] text-black whitespace-pre-line flex-1">
-                      {step.desc}
-                    </p>
-                  </div>
-                </div>
-                {/* Figma 4211:11798 / 4211:11801 (Polygon2 21×18 正三角形, 半透明 dark-green). gap 8px */}
-                {i < steps.length - 1 && (
-                  <span className="inline-flex items-center justify-center w-6 h-6 my-2">
-                    <svg width="21" height="18" viewBox="0 0 20.7846 18" fill="currentColor" className="text-dark-green/25">
-                      <path d="M10.3923 18L20.7846 0H0L10.3923 18Z" />
-                    </svg>
-                  </span>
-                )}
-              </div>
-            ))}
-          </div>
+          <CardArrowFlow steps={steps} />
         </div>
       </Reveal>
 
@@ -214,18 +219,19 @@ export default async function ForCustomerPage() {
         <div className="page-container">
           {/* Section heading */}
           <div className="flex flex-col gap-2 mb-6 tablet:mb-8">
-            <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1.125rem] leading-[1.8] text-dark-green">
+            <p className="font-gothic font-medium text-body-s tablet:text-body-m text-dark-green">
               アイ企画の強み
             </p>
-            <h2 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.08rem] tablet:tracking-[0.12rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
-              アイ企画での物件探しの特徴
+            <h2 className="font-mincho text-heading-32 tablet:text-heading-48 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+              アイ企画での<br className="tablet:hidden" />物件探しの特徴
             </h2>
           </div>
-          <div className="mb-10 tablet:mb-8">
-            <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1rem] leading-[1.8] text-dark-green">
+          {/* 導入文: 16px / 行間 2 (PC/SP 共通)。下余白 SP 34 (pb24 + gap10, 4470:15959) / PC 96 (4470:15557 gap96) */}
+          <div className="mb-[2.125rem] tablet:mb-24">
+            <p className="font-gothic font-medium text-body-m text-dark-green">
               私たちのプロセスは、お客様のニーズに合わせたサポートを提供します。
             </p>
-            <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1rem] leading-[1.8] text-dark-green">
+            <p className="font-gothic font-medium text-body-m text-dark-green">
               安心して新生活をスタートできるよう、全力でお手伝いします。
             </p>
           </div>
@@ -234,51 +240,63 @@ export default async function ForCustomerPage() {
             {features.map((feature, i) => (
               <div
                 key={feature.title}
-                className={`flex flex-col tablet:flex-row gap-8 tablet:gap-[3.625rem] items-start ${i < features.length - 1 ? 'pb-12 tablet:pb-24 tablet:border-b tablet:border-dark-green/20' : ''}`}
+                // 区切り線 rgba(42,54,59,.2)。SP (Paragraph-sp 4470:15966) は最後の活動カード直下に線・下余白なし、
+                // PC (Paragraph 4470:15563) は pb96 の下に線
+                className={`flex flex-col tablet:flex-row gap-8 tablet:gap-[3.625rem] items-start ${i < features.length - 1 ? 'tablet:pb-24 border-b border-dark-green/20' : ''}`}
               >
-                {/* Image (PC: テキストと 50:50) */}
+                {/* Image (PC: テキストと 50:50, 616×461 r12 / SP: 763:508.67 r16, SP 専用トリミング) */}
                 <div className="w-full tablet:flex-1 tablet:min-w-0">
-                  <div className="relative aspect-[616/461] rounded-xl overflow-hidden">
+                  <div className="relative aspect-[3/2] tablet:aspect-[616/461] rounded-2xl tablet:rounded-xl overflow-hidden">
+                    <Image
+                      src={feature.imageSp}
+                      alt={feature.title}
+                      fill
+                      className="object-cover tablet:hidden"
+                      sizes="100vw"
+                    />
                     <Image
                       src={feature.image}
                       alt={feature.title}
                       fill
-                      className="object-cover"
+                      className="object-cover hidden tablet:block"
+                      sizes="616px"
                     />
                   </div>
                 </div>
 
                 {/* Text + Activities */}
                 <div className="flex-1 pt-0 tablet:pt-4">
-                  <div className="flex flex-col gap-12">
+                  {/* 本文→活動カード: SP 32 (4732:20677) / PC 48 */}
+                  <div className="flex flex-col gap-8 tablet:gap-12">
                     <div className="flex flex-col gap-4">
-                      <h3 className="font-mincho text-lg tablet:text-2xl tracking-wider !leading-[1.6]">
+                      <h3 className="font-mincho text-lg tablet:text-2xl tracking-[0.04em] !leading-[1.6] text-dark-green">
                         {feature.title}
                       </h3>
-                      <p className="text-body-m tablet:text-body-l font-gothic font-medium text-black whitespace-pre-line leading-[2] tablet:leading-[1.8]">
+                      <p className="text-body-m tablet:text-body-l font-gothic font-medium text-black whitespace-pre-line">
                         {feature.body}
                       </p>
                     </div>
 
-                    {/* Activity cards */}
-                    <div className="flex flex-col gap-4">
+                    {/* Activity cards: 間隔 SP 8 / PC 16 (4715:18752) */}
+                    <div className="flex flex-col gap-2 tablet:gap-4">
                       {feature.activities.map((activity) => (
                         <div
                           key={activity.title}
                           className="bg-cream rounded-2xl p-6 tablet:px-[1.875rem] tablet:pt-[1.875rem] tablet:pb-[2rem] flex flex-col gap-4"
                         >
                           <div className="flex flex-col gap-2">
-                            <p className="font-gothic font-medium text-base tablet:text-[1.25rem] leading-[2] tablet:leading-[1.6] text-dark-green">
+                            <p className="font-gothic font-medium text-body-m tablet:text-category-2 text-dark-green">
                               {activity.title}
                             </p>
-                            <p className="font-gothic font-medium text-body-s tablet:text-body-m text-black leading-[1.8] tablet:leading-[2]">
+                            <p className="font-gothic font-medium text-body-s tablet:text-body-m text-black">
                               {activity.desc}
                             </p>
                           </div>
                           {activity.link && (
                             <Link
                               href={activity.link.href}
-                              className="inline-flex items-center gap-1 self-start text-[0.875rem] leading-none font-gothic font-medium text-dark-green hover:opacity-70 transition-opacity"
+                              // Textlink: SP 12px Regular 行間1.8 (Textlink-sp) / PC 14px Medium (JP/Button S)
+                              className="inline-flex items-center gap-1 self-start text-[0.75rem] leading-[1.8] font-normal tablet:text-[0.875rem] tablet:leading-none tablet:font-medium font-gothic text-dark-green hover:opacity-70 transition-opacity"
                               {...(activity.link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                             >
                               {activity.link.label}
@@ -302,7 +320,8 @@ export default async function ForCustomerPage() {
       {properties.contents.length > 0 && (
         <Reveal as="section" className="bg-cream py-[3.75rem] tablet:py-24">
           <div className="px-4 tablet:px-[4.6875rem] max-w-[90rem] mx-auto">
-            <h2 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.08rem] tablet:tracking-[0.12rem] text-dark-green mb-8 tablet:mb-12" style={{ fontFeatureSettings: "'palt' 1" }}>
+            {/* Figma sub-heading: SP 24px (4470:15970) / PC 32px (4470:15568)、カードまで SP 32 / PC 64 */}
+            <h2 className="font-mincho text-heading-24 tablet:text-heading-32 text-dark-green mb-8 tablet:mb-16" style={{ fontFeatureSettings: "'palt' 1" }}>
               物件情報
             </h2>
             <MoreProperties properties={properties.contents.slice(0, 6)} />
@@ -329,9 +348,10 @@ export default async function ForCustomerPage() {
 
       {/* お客様の声 (Figma 4211:11890 / 11447) */}
       {voices.contents.length > 0 && (
-        <Reveal as="section" className="bg-light-green py-[3.75rem] tablet:py-24">
-          <div className="px-4 tablet:px-[4.6875rem] max-w-[90rem] mx-auto mb-8 tablet:mb-[3.75rem]">
-            <h2 className="font-mincho text-[1.75rem] tablet:text-[3rem] leading-[1.5] tracking-[0.07rem] tablet:tracking-[0.12rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+        // Figma PC 4470:13405 (pt96 / pb64 / 見出し→カード 64) / SP 4470:13745 (py60 / 32)
+        <Reveal as="section" className="bg-light-green py-[3.75rem] tablet:pt-24 tablet:pb-16">
+          <div className="px-4 tablet:px-[4.6875rem] max-w-[90rem] mx-auto mb-8 tablet:mb-16">
+            <h2 className="font-mincho text-heading-24 tablet:text-heading-32 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               お客様の声
             </h2>
           </div>
@@ -342,6 +362,8 @@ export default async function ForCustomerPage() {
       {/* よくある質問 (Figma 4211:11894) - 共通 FaqSection */}
       <Reveal>
         <FaqSection
+        // Figma PC 4470:15587 pb144 / SP 4470:16046 pb120 (このページではフッター直前)
+        sectionPaddingClassName="pt-[3.75rem] pb-[7.5rem] tablet:pt-24 tablet:pb-36"
         items={[
           {
             question: '購入にかかる諸経費は？',

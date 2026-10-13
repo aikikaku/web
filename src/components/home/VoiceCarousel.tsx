@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { CustomerVoice } from '@/types/microcms';
-import SlideshowNav from '@/components/ui/SlideshowNav';
+import NavigationSlideshow from '@/components/ui/content/NavigationSlideshow';
 
 interface Props {
   voices: CustomerVoice[];
@@ -33,7 +33,7 @@ export default function VoiceCarousel({ voices }: Props) {
       const card = flex.children[0] as HTMLElement | undefined;
       if (!card) return;
       const cardWidth = card.getBoundingClientRect().width;
-      const gap = 12;
+      const gap = parseFloat(getComputedStyle(flex).columnGap) || 0;
       const cardIdx = Math.max(0, Math.round(el.scrollLeft / (cardWidth + gap)));
       const page = Math.min(totalPages - 1, Math.floor(cardIdx / PAGE_SIZE));
       setActivePage(page);
@@ -65,7 +65,8 @@ export default function VoiceCarousel({ voices }: Props) {
         className="overflow-x-auto pl-4 tablet:pl-[4.6875rem] pb-4 scroll-smooth snap-x snap-mandatory scroll-pl-4 tablet:scroll-pl-[4.6875rem]"
         style={{ scrollbarWidth: 'none' }}
       >
-        <div ref={flexRef} className="flex gap-3 min-w-max pr-4 tablet:pr-[4.6875rem]">
+        {/* カード間: SP 8px (Figma 4470:14831) / PC 12px (Figma 4470:14108) */}
+        <div ref={flexRef} className="flex items-start gap-2 tablet:gap-3 min-w-max pr-4 tablet:pr-[4.6875rem]">
           {voices.map((voice) => (
             <div key={voice.id} className="w-[20.125rem] tablet:w-[40.25rem] shrink-0 snap-start">
               <VoiceCard voice={voice} />
@@ -74,12 +75,14 @@ export default function VoiceCarousel({ voices }: Props) {
         </div>
       </div>
 
-      {/* Navigation-Slideshow (Figma 4211:11501 共通) */}
-      <div className="hidden tablet:block mt-16 px-[4.6875rem]">
-        <SlideshowNav activePage={activePage} totalPages={totalPages} onPageChange={goToPage} href="/voice" />
+      {/* Navigation-Slideshow (Figma 4211:11501 共通)。PC: カード下→ナビ 64px (Figma 4470:14108 gap-64)
+          = track の pb-4(16) + mt-12(48) */}
+      <div className="hidden tablet:block mt-12 px-[4.6875rem]">
+        <NavigationSlideshow activePage={activePage} totalPages={totalPages} onPageChange={goToPage} href="/voice" />
       </div>
-      <div className="tablet:hidden mt-8 px-4">
-        <SlideshowNav activePage={activePage} totalPages={totalPages} onPageChange={goToPage} href="/voice" />
+      {/* SP: カード下→ナビ 32px (Figma 4470:14831) = track の pb-4(16) + mt-4(16) */}
+      <div className="tablet:hidden mt-4 px-4">
+        <NavigationSlideshow activePage={activePage} totalPages={totalPages} onPageChange={goToPage} href="/voice" />
       </div>
     </div>
   );
@@ -87,7 +90,7 @@ export default function VoiceCarousel({ voices }: Props) {
 
 function VoiceCard({ voice }: { voice: CustomerVoice }) {
   return (
-    <div className="bg-cream rounded-xl tablet:rounded-3xl px-[1.8125rem] tablet:px-[3.625rem] pt-[1.875rem] tablet:pt-12 pb-12 tablet:pb-14 h-full">
+    <div className="bg-cream rounded-xl tablet:rounded-3xl px-[1.8125rem] tablet:px-[3.625rem] pt-[1.875rem] tablet:pt-12 pb-12 tablet:pb-14">
       <div className="flex flex-col gap-2 tablet:gap-4">
         <Image
           src="/images/mock/quote-mark-blue.svg"
@@ -96,17 +99,19 @@ function VoiceCard({ voice }: { voice: CustomerVoice }) {
           height={24}
           className="w-4 h-3 tablet:w-8 tablet:h-6"
         />
-        <h3
-          className="font-mincho text-[1.125rem] tablet:text-[2rem] leading-[1.6] tablet:leading-[1.5] tracking-[0.045rem] tablet:tracking-[0.08rem] text-dark-green"
-          style={{ fontFeatureSettings: "'palt' 1" }}
-        >
-          {voice.title || voice.customerName}
-        </h3>
-        <p className="text-body-m font-gothic font-medium text-black">
+        {/* 見出しなし (Figma Handoff 20260724 card-voice 4470:14108): タイトルは本文の1行目に置く。
+            省略行数: SP 6行 (card-voice-sp 4470:14831 h-339) / PC 3行 (4470:14108) */}
+        <p className="text-body-m font-gothic font-medium text-black line-clamp-6 tablet:line-clamp-3">
+          {voice.title && (
+            <>
+              {voice.title}
+              <br />
+            </>
+          )}
           {voice.content.replace(/<[^>]*>/g, '')}
         </p>
       </div>
-      <div className="flex items-start gap-[0.375rem] tablet:gap-3 mt-6 tablet:mt-12 text-body-s tablet:text-body-m font-gothic font-medium text-dark-green leading-[1.8] tablet:leading-[2] flex-wrap">
+      <div className="flex items-start gap-[0.375rem] tablet:gap-3 mt-6 tablet:mt-12 text-body-s tablet:text-body-m font-gothic font-medium text-dark-green flex-wrap">
         <div className="flex items-center">
           {voice.location && <span className="opacity-60">{voice.location}</span>}
           {voice.location && voice.propertyType && <span className="leading-[1.4]">｜</span>}

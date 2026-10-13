@@ -1,7 +1,7 @@
-import Link from 'next/link';
 import { Story } from '@/types/microcms';
 import StoryCarousel from '@/components/home/StoryCarousel';
-import StoryCard from '@/components/story/StoryCard';
+import CardStory from '@/components/ui/card/CardStory';
+import ButtonPrimary from '@/components/ui/interactive/ButtonPrimary';
 
 interface Props {
   /** 表示するストーリー一覧 */
@@ -33,13 +33,14 @@ export default function StorySection({
   const isDark = variant === 'dark';
   const sectionBg = isDark ? 'bg-dark-green' : 'bg-cream';
   const titleColor = isDark ? 'text-cream' : 'text-dark-green';
-  const linkColor = isDark ? 'text-cream' : 'text-dark-green';
 
   return (
-    <section className={`${sectionBg} py-[3.75rem] tablet:py-24`}>
+    // Figma 4470:15578 (PC: pt96 / pb64) / 4470:16030 (SP: py60)
+    <section className={`${sectionBg} py-[3.75rem] tablet:pt-24 tablet:pb-16`}>
       <div className="px-4 tablet:px-[4.6875rem] max-w-[90rem] mx-auto mb-8 tablet:mb-16">
         <h2
-          className={`font-mincho text-[1.75rem] tablet:text-[3rem] leading-[1.5] tracking-[0.07rem] tablet:tracking-[0.12rem] ${titleColor}`}
+          // Figma sub-heading: SP 24px (JP/H4) / PC 32px (JP/H3)
+          className={`font-mincho text-heading-24 tablet:text-heading-32 ${titleColor}`}
           style={{ fontFeatureSettings: "'palt' 1" }}
         >
           {title}
@@ -53,22 +54,11 @@ export default function StorySection({
       <div className="hidden tablet:block px-[4.6875rem] max-w-[90rem] mx-auto">
         <div className="grid grid-cols-3 gap-[1.875rem] mb-16">
           {stories.map((story) => (
-            <StoryCard key={story.id} story={story} variant={variant} />
+            <CardStory key={story.id} story={story} size="s" variant={variant} />
           ))}
         </div>
         <div className="flex items-center justify-end">
-          <Link
-            href={href}
-            className={`inline-flex items-center gap-2 font-gothic font-medium text-[1.125rem] ${linkColor} hover:opacity-70 transition-opacity`}
-          >
-            すべて見る
-            <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-blue">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </span>
-          </Link>
+          <ButtonPrimary href={href} label="すべて見る" color={isDark ? 'cream' : 'dark-green'} />
         </div>
       </div>
     </section>

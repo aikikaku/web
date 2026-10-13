@@ -2,8 +2,8 @@
 
 import { useRef, useState, useEffect } from 'react';
 import { Story } from '@/types/microcms';
-import StoryCardOverlay from '@/components/story/StoryCardOverlay';
-import SlideshowNav from '@/components/ui/SlideshowNav';
+import CardStorySp from '@/components/ui/card/CardStorySp';
+import NavigationSlideshow from '@/components/ui/content/NavigationSlideshow';
 
 interface Props {
   stories: Story[];
@@ -44,7 +44,7 @@ export default function StoryCarousel({ stories, href = '/stories', variant = 'l
   if (!stories.length) return null;
 
   return (
-    <div className="min-[1440px]:hidden">
+    <div className="tablet:hidden">
       <div
         ref={trackRef}
         className="overflow-x-auto pl-4 pb-4 snap-x snap-mandatory scroll-smooth scroll-pl-4"
@@ -53,15 +53,16 @@ export default function StoryCarousel({ stories, href = '/stories', variant = 'l
         <div ref={flexRef} className="flex gap-5 min-w-max pr-4">
           {stories.map((story) => (
             <div key={story.id} className="w-[20.75rem] shrink-0 snap-start">
-              <StoryCardOverlay story={story} />
+              <CardStorySp story={story} />
             </div>
           ))}
         </div>
       </div>
 
-      {/* Navigation-Slideshow (Figma 4211:11501 共通) */}
-      <div className="mt-8 px-4">
-        <SlideshowNav
+      {/* Navigation-Slideshow (Figma 4211:11501 共通)。カード下→ナビは 32px
+          (Figma 4470:14806 / 4470:14822) = track の pb-4(16) + mt-4(16) */}
+      <div className="mt-4 px-4">
+        <NavigationSlideshow
           activePage={activeIndex}
           totalPages={stories.length}
           onPageChange={scrollTo}

@@ -2,8 +2,8 @@
 
 import { useRef, useState, useEffect } from 'react';
 import { Property } from '@/types/microcms';
-import PropertyCard from '@/components/property/PropertyCard';
-import SlideshowNav from '@/components/ui/SlideshowNav';
+import CardProperty from '@/components/ui/card/CardProperty';
+import NavigationSlideshow from '@/components/ui/content/NavigationSlideshow';
 
 interface Props {
   properties: Property[];
@@ -51,15 +51,16 @@ export default function PropertyCarousel({ properties, href = '/properties' }: P
         <div ref={flexRef} className="flex gap-5 min-w-max pr-4">
           {properties.map((property) => (
             <div key={property.id} className="w-[20.75rem] shrink-0 snap-start">
-              <PropertyCard property={property} />
+              <CardProperty property={property} />
             </div>
           ))}
         </div>
       </div>
 
-      {/* Navigation-Slideshow (Figma 4211:11501 共通) */}
-      <div className="mt-8 px-4">
-        <SlideshowNav
+      {/* Navigation-Slideshow (Figma 4211:11501 共通)。カード下→ナビは 32px
+          (Figma 4470:14806 / 4470:14822) = track の pb-4(16) + mt-4(16) */}
+      <div className="mt-4 px-4">
+        <NavigationSlideshow
           activePage={activeIndex}
           totalPages={properties.length}
           onPageChange={scrollTo}

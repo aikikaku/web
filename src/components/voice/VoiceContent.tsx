@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { CustomerVoice } from '@/types/microcms';
+import { useAccordionHeight } from '@/lib/useAccordionHeight';
+import AccordionChevron from '@/components/ui/content/AccordionChevron';
 
 const categories = [
   { key: 'all', label: 'すべて' },
@@ -22,70 +24,66 @@ function getCategoryKey(voice: CustomerVoice): Exclude<CategoryKey, 'all'> {
 
 function VoiceItem({
   voice,
-  defaultOpen = false,
+  isOpen,
+  onToggle,
 }: {
   voice: CustomerVoice;
-  defaultOpen?: boolean;
+  isOpen: boolean;
+  onToggle: () => void;
 }) {
-  const [open, setOpen] = useState(defaultOpen);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const [maxHeight, setMaxHeight] = useState(0);
-
-  useEffect(() => {
-    if (!contentRef.current) return;
-    setMaxHeight(open ? contentRef.current.scrollHeight : 0);
-  }, [open, voice.content, voice.image]);
+  const open = isOpen;
+  const { contentRef, maxHeight } = useAccordionHeight(open, [voice.content, voice.image]);
 
   // Figma 4211:11537: 質問アコーディオン (FaqAccordion) と同パターン
   // border-b + py-6 + smooth max-h transition (duration-500 ease-in-out)
+  // Figma Handoff 20260724 PC Question-list 4470:15711: 下線 dark-green/20、Item pr-8、タイトル black /
+  // SP Question-list-sp 4470:15314: 下線 light-green、Content pl-8、タイトル dark-green
+  // 見出し→本文の gap-24 は閉じている時に残らないよう、開閉ラッパーの内側 (pt-6) で持つ
+  // (Figma Question-sp 閉 105px = py-24 + 見出し 57 / I4470:15315;4671:15725)
   return (
-    <div className="border-b border-dark-green/20 py-6 flex flex-col gap-6">
+    <div className="border-b border-light-green tablet:border-dark-green/20 py-6 flex flex-col">
       <button
         type="button"
-        onClick={() => setOpen(!open)}
-        className="w-full flex items-start justify-between pr-2 text-left cursor-pointer hover:opacity-70 transition-opacity gap-3"
+        onClick={onToggle}
+        className="w-full flex items-start justify-between pl-2 tablet:pl-0 tablet:pr-2 text-left cursor-pointer hover:opacity-70 transition-opacity gap-3"
       >
         <div className="flex-1 min-w-0">
-          <p className="font-gothic font-medium text-[1rem] leading-[2] text-black">
+          <p className="font-gothic font-medium text-body-m text-dark-green tablet:text-black">
             {voice.title || voice.customerName}
           </p>
-          <p className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green/60">
+          <p className="font-gothic font-medium text-body-s text-dark-green/60">
             {voice.customerName}
             {voice.location && `　${voice.location}`}
             {voice.propertyType && ` / ${voice.propertyType}`}
           </p>
         </div>
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          className={`shrink-0 mt-0.5 transition-transform duration-500 ease-in-out ${open ? 'rotate-180' : ''}`}
-        >
-          <path d="M6 9l6 6 6-6" stroke="#2a363b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
+        <AccordionChevron isOpen={open} className="mt-0.5" />
       </button>
       <div
         ref={contentRef}
         className="overflow-hidden transition-[max-height] duration-500 ease-in-out"
         style={{ maxHeight: `${maxHeight}px` }}
       >
-        <div className="bg-light-green rounded-2xl px-5 py-8 tablet:px-[1.875rem] tablet:py-8 flex flex-col gap-12">
-          <div
-            className="font-gothic font-medium text-[1rem] leading-[2] text-black whitespace-pre-line voice-rich"
-            dangerouslySetInnerHTML={{ __html: voice.content }}
-          />
-          {voice.image && (
-            <div className="relative w-full aspect-[260/368] overflow-hidden rounded-2xl">
-              <Image
-                src={voice.image.url}
-                alt=""
-                fill
-                className="object-cover"
-                sizes="(min-width: 992px) 704px, 100vw"
-              />
-            </div>
-          )}
+        {/* Item-open: PC px-30 py-32 rounded-16 gap-48 本文 black (4470:15711) /
+            SP px-29 py-32 rounded-12 gap-24 本文 dark-green (4470:15314)。背景はどちらも light-green */}
+        <div className="pt-6">
+          <div className="bg-light-green rounded-xl tablet:rounded-2xl px-[1.8125rem] py-8 tablet:px-[1.875rem] flex flex-col gap-6 tablet:gap-12">
+            <div
+              className="font-gothic font-medium text-body-m text-dark-green tablet:text-black whitespace-pre-line voice-rich"
+              dangerouslySetInnerHTML={{ __html: voice.content }}
+            />
+            {voice.image && (
+              <div className="relative w-full aspect-[260/368] overflow-hidden rounded-2xl">
+                <Image
+                  src={voice.image.url}
+                  alt=""
+                  fill
+                  className="object-cover"
+                  sizes="(min-width: 992px) 704px, 100vw"
+                />
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
@@ -114,6 +112,9 @@ export default function VoiceContent({ voices }: { voices: CustomerVoice[] }) {
   for (const v of voices) {
     grouped[getCategoryKey(v)].push(v);
   }
+
+  // アコーディオンは常に 1 つだけ開く（別の項目を開くと他は閉じる）。初期は先頭を開く
+  const [openId, setOpenId] = useState<string | null>(grouped.inherited[0]?.id ?? null);
 
   // スクロール位置から active カテゴリを更新
   useEffect(() => {
@@ -154,8 +155,9 @@ export default function VoiceContent({ voices }: { voices: CustomerVoice[] }) {
           sticky の containing block を「PC では tablet:w-[20.1875rem]」「flex row stretch で tall」にすると、
           sticky 要素が containing block の height 内に room を持って top-24 で stick する */}
       <aside className="hidden tablet:block tablet:w-[20.1875rem] shrink-0">
+        {/* Figma 4470:15692: 各行 h-40、左 40px 幅の列の中央に 10px の丸、テキスト 16px/1.5 */}
         <div className="sticky top-24 bg-light-green rounded-[2rem] px-[1.875rem] py-[2.8125rem]">
-          <nav className="flex flex-col gap-6">
+          <nav className="flex flex-col">
             {categories.map((cat) => {
               const isActive = activeCategory === cat.key;
               return (
@@ -163,15 +165,17 @@ export default function VoiceContent({ voices }: { voices: CustomerVoice[] }) {
                   key={cat.key}
                   type="button"
                   onClick={() => handleClick(cat.key)}
-                  className={`flex items-center gap-3 text-left cursor-pointer transition-opacity duration-300 ${
+                  className={`flex items-center h-10 text-left cursor-pointer transition-opacity duration-300 ${
                     isActive ? 'opacity-100' : 'opacity-50'
                   }`}
                 >
-                  <div
-                    className={`w-[0.625rem] h-[0.625rem] rounded-full shrink-0 transition-colors ${
-                      isActive ? 'bg-dark-green' : 'bg-dark-green/40'
-                    }`}
-                  />
+                  <span className="w-10 h-full flex items-center justify-center shrink-0">
+                    <span
+                      className={`w-[0.625rem] h-[0.625rem] rounded-full transition-colors ${
+                        isActive ? 'bg-dark-green' : 'bg-dark-green/40'
+                      }`}
+                    />
+                  </span>
                   <span className="font-gothic font-medium text-[1rem] leading-[1.5] text-dark-green">
                     {cat.label}
                   </span>
@@ -199,8 +203,13 @@ export default function VoiceContent({ voices }: { voices: CustomerVoice[] }) {
               <h2 className="hidden tablet:block font-mincho text-[1.5rem] leading-[1.5] tracking-[0.04em] text-dark-green mb-6">
                 {cat.label}
               </h2>
-              {list.map((voice, index) => (
-                <VoiceItem key={voice.id} voice={voice} defaultOpen={index === 0 && key === 'inherited'} />
+              {list.map((voice) => (
+                <VoiceItem
+                  key={voice.id}
+                  voice={voice}
+                  isOpen={openId === voice.id}
+                  onToggle={() => setOpenId((prev) => (prev === voice.id ? null : voice.id))}
+                />
               ))}
             </section>
           );
@@ -284,20 +293,20 @@ function MobileVoiceFilter({
       <button
         type="button"
         onClick={open}
-        className={`fixed bottom-4 left-1/2 -translate-x-1/2 z-40 inline-flex items-center bg-cream border border-dark-green/20 rounded-full pl-10 pr-5 py-2 shadow-[0_-1px_4px_rgba(0,0,0,0.1)] w-[21.375rem] h-14 transition-opacity duration-300 ${showBar ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        className={`fixed bottom-4 left-1/2 -translate-x-1/2 z-40 inline-flex items-center bg-cream border border-dark-green/10 rounded-full pl-10 pr-5 py-2 shadow-[0_-1px_4px_rgba(0,0,0,0.1)] w-[21.375rem] h-14 transition-opacity duration-300 ${showBar ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
         aria-label="カテゴリを絞り込む"
       >
-        <span className="flex-1 text-center font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
+        <span className="flex-1 text-center font-gothic font-medium text-body-s text-dark-green">
           絞り込む
         </span>
         <span className="size-5 inline-flex items-center justify-center shrink-0">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M3 5h14" stroke="#2a363b" strokeWidth="1.5" strokeLinecap="round" />
-            <path d="M3 10h14" stroke="#2a363b" strokeWidth="1.5" strokeLinecap="round" />
-            <path d="M3 15h14" stroke="#2a363b" strokeWidth="1.5" strokeLinecap="round" />
-            <circle cx="7" cy="5" r="1.5" fill="#fcfff7" stroke="#2a363b" strokeWidth="1.5" />
-            <circle cx="13" cy="10" r="1.5" fill="#fcfff7" stroke="#2a363b" strokeWidth="1.5" />
-            <circle cx="9" cy="15" r="1.5" fill="#fcfff7" stroke="#2a363b" strokeWidth="1.5" />
+            <path d="M3 5h14" className="stroke-dark-green" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M3 10h14" className="stroke-dark-green" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M3 15h14" className="stroke-dark-green" strokeWidth="1.5" strokeLinecap="round" />
+            <circle cx="7" cy="5" r="1.5" className="fill-cream stroke-dark-green" strokeWidth="1.5" />
+            <circle cx="13" cy="10" r="1.5" className="fill-cream stroke-dark-green" strokeWidth="1.5" />
+            <circle cx="9" cy="15" r="1.5" className="fill-cream stroke-dark-green" strokeWidth="1.5" />
           </svg>
         </span>
       </button>
@@ -338,7 +347,7 @@ function MobileVoiceFilter({
                               isActive ? 'bg-dark-green' : 'bg-dark-green/40'
                             }`}
                           />
-                          <span className="font-gothic font-medium text-[0.875rem] leading-[1.8] text-dark-green">
+                          <span className="font-gothic font-medium text-body-s text-dark-green">
                             {cat.label}
                           </span>
                         </button>
@@ -363,7 +372,7 @@ function MobileVoiceFilter({
                     aria-label="キャンセル"
                   >
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                      <path d="M13.5 4.5L4.5 13.5M4.5 4.5l9 9" stroke="#2a363b" strokeWidth="1.5" strokeLinecap="round" />
+                      <path d="M13.5 4.5L4.5 13.5M4.5 4.5l9 9" className="stroke-dark-green" strokeWidth="1.5" strokeLinecap="round" />
                     </svg>
                   </button>
                 </div>

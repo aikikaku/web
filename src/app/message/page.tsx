@@ -1,8 +1,9 @@
 import Image from 'next/image';
 import type { Metadata } from 'next';
-import HeroCardStory from '@/components/ui/HeroCardStory';
-import ServiceCTA from '@/components/ui/ServiceCTA';
-import Reveal from '@/components/ui/Reveal';
+import HeroCardStory from '@/components/common/HeroCardStory';
+import ServiceCTA from '@/components/ui/card/ServiceCTA';
+import Reveal from '@/components/common/Reveal';
+import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
 
 export const metadata: Metadata = {
   title: 'ご挨拶',
@@ -12,7 +13,10 @@ export const metadata: Metadata = {
 export const revalidate = 3600;
 
 interface Section {
-  heading: string | string[];
+  /** 見出しの行。行間の改行は lineBreak で PC / SP の出し分けを指定 (Figma PC Rich Text-pc / SP Rich Text_sp で改行位置が異なる) */
+  heading: string[];
+  /** both: PC・SP とも改行 / sp: SP のみ改行 / pc: PC のみ改行。1 行の見出しでは無視 */
+  lineBreak?: 'both' | 'sp' | 'pc';
   paragraphs: string[];
   image: string;
   imageAlt: string;
@@ -20,18 +24,22 @@ interface Section {
 
 const sections: Section[] = [
   {
-    heading: '不動産業のあるべき姿を目指して',
+    // SP 4470:15749 のみ「不動産業の / あるべき姿を目指して」で改行
+    heading: ['不動産業の', 'あるべき姿を目指して'],
+    lineBreak: 'sp',
     paragraphs: [
       '弊社では、昭和61年から地域密着で地元三島を中心として、静岡県東部のお客様の住宅や店舗用の土地・建物の売買取引のお手伝いをさせていただいています。',
       '父が創業した(有)アイ企画に入社する前は、大学で建築設計を専攻していました。',
       '卒業後、品質の高い木造住宅を提供する大工に憧れ、大工を雇用する平成建設に就職しました。その会社は設計から施工までの流れを社内で内製化しており、余分な費用をおさえつつ高品質を実現できる素晴らしい企業でした。',
       'そのため、一切の隙間も妥協せず、丁寧に施工しお客様に喜んでもらえるマイホームを造っていると自信を持って仕事をしていました。',
     ],
-    image: '/images/message/section-1.png',
-    imageAlt: '不動産業のあるべき姿',
+    image: '/images/message/section-1.jpg',
+    imageAlt: '田んぼ沿いで年配の男性と話すスタッフ',
   },
   {
+    // PC 4470:14266 は 2 行、SP 4470:15750 は改行なし
     heading: ['アイ企画で働く前の', '大工時代に起こった許せない出来事'],
+    lineBreak: 'pc',
     paragraphs: [
       '当時、高齢のお客様が住む建物のリフォームを任されました。',
       '高齢のお客様にとって、トイレやキッチンが狭く使いづらかったので、配置換えをして広く使いやすいようにリフォームしました。',
@@ -49,11 +57,11 @@ const sections: Section[] = [
       '',
       'そんな悪徳不動産業者に出会うお客様が1人でも減るように、私は父が創業した(有)アイ企画に入社して不動産業を始めることにしたのです。',
     ],
-    image: '/images/message/section-2.png',
-    imageAlt: '大工時代の経験',
+    image: '/images/message/section-2.jpg',
+    imageAlt: '木の板を扱う大工仕事の様子',
   },
   {
-    heading: '父の仕事に向き合う姿',
+    heading: ['父の仕事に向き合う姿'],
     paragraphs: [
       '私が小さいころ、アイ企画を創業する前の父は住宅会社で営業をしていました。しかし、会社の利益ばかり考えすぎたことが原因でその住宅会社は大きく傾き、会社は未完成の住宅を残し、突然倒産してしまったのです。会社がつぶれたのは経営者の怠慢によるものだったのですが、お客様の幸せを第一に考える父は、自らの資産を投げ売って住宅を完成させました。',
       '',
@@ -61,11 +69,11 @@ const sections: Section[] = [
       '',
       'これが、アイ企画起業のきっかけとなります。この経験をしたからこそ、父の考えがわかるようになり、それが尊敬に代わり「一緒に地元のお客様を守っていきたい！」と強く思うきっかけになりました。',
     ],
-    image: '/images/message/section-3.png',
-    imageAlt: '父の仕事への姿勢',
+    image: '/images/message/section-3.jpg',
+    imageAlt: '麦わら帽子をかぶり植木の手入れをする年配の男性',
   },
   {
-    heading: '不動産業界の闇と裏側',
+    heading: ['不動産業界の闇と裏側'],
     paragraphs: [
       '不動産業界では、「築年数」が建物の価格を算出する基準になります。',
       '',
@@ -83,11 +91,13 @@ const sections: Section[] = [
       '私はどうしてもこれが納得いきません。',
       'だから弊社では、内装などの表層で判断することは絶対にありえません。床下や天井裏の深層に潜り、シロアリの食害、雨漏りの痕跡、検査機器を使った含水率（がんすいりつ｜物質に含まれる水分の割合）、傾きの確認を行います。これを行うと、「本当に再利用できない建物なのか？」を確認することで売主は得をします。また結果として、買主が購入する際の安心に直接的につながっていくのです。',
     ],
-    image: '/images/message/section-4.png',
-    imageAlt: '不動産業界の実態',
+    image: '/images/message/section-4.jpg',
+    imageAlt: '木造住宅の骨組みを確認するスタッフ',
   },
   {
-    heading: '私たちが目指す不動産業の本当の姿',
+    // SP 4470:15753 のみ改行
+    heading: ['私たちが目指す', '不動産業の本当の姿'],
+    lineBreak: 'sp',
     paragraphs: [
       'ここまで述べさせていただいた通り、不動産業界はノルマや利益が優先され、「ただ売却、購入できれば良い」と考えている不動産業者が多いのが現実です。お客様の立場に立った、幸福の最大値を目指す努力を怠っています。その要因として、お客様自身が人生に何度も売却や購入を経験することがないからです。そのため、知識が乏しく適切な判断を下せないため不動産業者のアドバイスに頼ってしまう傾向にあります。結果として、悪い不動産業者を選んでしまうと損をしたり、トラブルに巻き込まれたりします。',
       '',
@@ -101,10 +111,12 @@ const sections: Section[] = [
       'そこで、（有）アイ企画がお客様に対して真剣に向き合い、親身になって納得のいくお取引を行うお手伝いをさせていただきます。',
     ],
     image: '/images/message/section-5.jpg',
-    imageAlt: '私たちが目指す姿',
+    imageAlt: 'テーブルを囲んで打ち合わせをするスタッフ',
   },
   {
-    heading: '不動産業に対する熱意・こだわり',
+    // SP 4470:15754 のみ改行
+    heading: ['不動産業に対する', '熱意・こだわり'],
+    lineBreak: 'sp',
     paragraphs: [
       '不動産売買において、重要事項説明書（家電製品で言う取り扱い説明書）という書類を資格者（宅地建物取引士）が作成してお客様に説明して、理解いただいた上で売買が行われます。ただ、その重要事項説明書に記載しなければいけない内容（大部分はネットで調べられる）はあくまで最低限の内容で、この内容さえ満たしていれば売買できてしまうのです。',
       '',
@@ -118,8 +130,8 @@ const sections: Section[] = [
       '「不動産を買いたい・売りたいけど、どの会社に依頼したらよいかわからない」',
       'もし、そんな悩みをお持ちでしたら（有）アイ企画へご相談ください。無料査定や相談を受け付けておりますので、遠慮なくご利用いただけますと幸いです。あなたが不動産売買で失敗せずに最大の利益を得られるように、全力でサポートさせていただきます。',
     ],
-    image: '/images/message/section-5.jpg',
-    imageAlt: '不動産業への熱意',
+    image: '/images/message/section-6.jpg',
+    imageAlt: '夕暮れの屋外に立つスタッフ',
   },
 ];
 
@@ -136,29 +148,32 @@ export default function MessagePage() {
             '@type': 'BreadcrumbList',
             itemListElement: [
               { '@type': 'ListItem', position: 1, name: 'ホーム', item: BASE_URL },
-              { '@type': 'ListItem', position: 2, name: 'アイ企画について', item: `${BASE_URL}/about` },
+              { '@type': 'ListItem', position: 2, name: 'アイ企画を知る' },
               { '@type': 'ListItem', position: 3, name: 'ご挨拶' },
             ],
           }),
         }}
       />
-      {/* ヒーローセクション (Figma PC 4211:10119 / SP 4211:11591) */}
-      <section className="relative bg-cream overflow-hidden pt-12 tablet:pt-[6.25rem] pb-12 tablet:pb-24">
+      <Breadcrumb items={[{ label: 'アイ企画を知る' }, { label: 'ご挨拶' }]} />
+      {/* ヒーローセクション (Figma Handoff 20260724: PC 4470:14253 / SP 4470:15736 = py-60・タイトル→card-story 32) */}
+      <section className="relative bg-cream overflow-hidden pt-[3.75rem] tablet:pt-[6.25rem] pb-[3.75rem] tablet:pb-24">
         {/* SP: 見出し → card-story 3 枚レイアウト */}
         <div className="tablet:hidden px-4 mb-8">
-          <h1 className="font-mincho text-[2rem] leading-[1.5] tracking-[0.08rem] text-dark-green pl-2" style={{ fontFeatureSettings: "'palt' 1" }}>
+          <h1 className="font-mincho text-heading-32 text-dark-green pl-2" style={{ fontFeatureSettings: "'palt' 1" }}>
             ご挨拶
           </h1>
         </div>
         {/* PC: タイトル左上 (絶対位置) */}
         <div className="hidden tablet:block relative max-w-[90rem] mx-auto">
-          <h1 className="absolute left-[4.6875rem] top-[6rem] w-[33rem] font-mincho text-[3rem] leading-[1.5] tracking-[0.12rem] text-dark-green z-10" style={{ fontFeatureSettings: "'palt' 1" }}>
+          <h1 className="absolute left-[4.6875rem] top-[6rem] w-[33rem] font-mincho text-heading-48 text-dark-green z-10" style={{ fontFeatureSettings: "'palt' 1" }}>
             ご挨拶
           </h1>
         </div>
         {/* card-story (PC 3 枚 / SP 3 枚 + パララックス) */}
         <HeroCardStory
           mainImage="/images/message/hero-center.jpg"
+          // SP のメイン写真は PC と切り出しが異なる (Figma 4470:15741)
+          spMainImage="/images/message/hero-center-sp.jpg"
           leftImage="/images/message/hero-left.jpg"
           rightImage="/images/message/hero-right.jpg"
           mainAlt="ご挨拶"
@@ -166,58 +181,64 @@ export default function MessagePage() {
         />
       </section>
 
-      {/* リッチテキストセクション (Figma SP 4211:11606 = 左寄せ・mincho 22px 見出し / 14px 本文 / 画像 358×268) */}
-      {sections.map((section, index) => (
-        <Reveal
-          as="section"
-          key={index}
-          className={`bg-cream ${index === sections.length - 1 ? 'pt-12 pb-16 tablet:pt-24 tablet:pb-36' : index === 0 ? '' : 'pt-12 tablet:pt-24'}`}
-        >
-          <div className="max-w-[45rem] mx-auto px-4 tablet:px-2">
-            {/* 見出し: SP は左寄せ / PC は中央寄せ (Figma 4211:11606 SP は left-aligned) */}
-            <div className="pt-2 pb-6 tablet:pt-6 tablet:pb-12">
-              <h3 className="font-mincho text-[1.375rem] tablet:text-[2rem] leading-[1.5] tracking-[0.04em] text-left tablet:text-center text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
-                {Array.isArray(section.heading)
-                  ? section.heading.map((line, i) => (
-                      <span key={i}>
-                        {i > 0 && <br />}
-                        {line}
-                      </span>
-                    ))
-                  : section.heading}
-              </h3>
-            </div>
+      {/* リッチテキストセクション (Figma Handoff 20260724: PC Rich Text-pc 4470:14264 等 / SP Rich Text_sp 4470:15749 等)
+          PC: 見出し 32px 中央・pt24/pb48、本文ブロックのみ左右 8px、本文→画像 72 (pb48 + gap24)、セクション間 96
+          SP: 見出し 24px 左寄せ・pt28 (先頭のみ 0)/pb32、本文 16px/行間 2、本文→画像 32、画像→次の見出し 32、末尾 pb-120 */}
+      {sections.map((section, index) => {
+        const isFirst = index === 0;
+        const isLast = index === sections.length - 1;
+        const breakClass =
+          section.lineBreak === 'sp' ? 'tablet:hidden' : section.lineBreak === 'pc' ? 'hidden tablet:inline' : undefined;
+        return (
+          <Reveal
+            as="section"
+            key={index}
+            className={`bg-cream ${isFirst ? '' : 'tablet:pt-24'} ${isLast ? 'pb-[7.5rem] tablet:pb-36' : ''}`}
+          >
+            <div className="max-w-[45rem] mx-auto px-4 tablet:px-2">
+              {/* 見出し: SP は左寄せ / PC は中央寄せ */}
+              <div className={`${isFirst ? '' : 'pt-7'} pb-8 tablet:pt-6 tablet:pb-12 tablet:px-2`}>
+                <h3 className="font-mincho text-heading-24 tablet:text-heading-32 text-left tablet:text-center text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+                  {section.heading.map((line, i) => (
+                    <span key={i}>
+                      {i > 0 && <br className={breakClass} />}
+                      {line}
+                    </span>
+                  ))}
+                </h3>
+              </div>
 
-            {/* 本文: SP は 14px / leading 1.8、PC は 18px / leading 1.8 */}
-            <div className="pb-6 tablet:pb-12">
-              <div className="font-gothic font-medium text-[0.875rem] leading-[1.8] tablet:text-[1.125rem] tablet:leading-[1.8] text-black">
-                {section.paragraphs.map((p, i) =>
-                  p === '' ? (
-                    <br key={i} />
-                  ) : (
-                    <p key={i} className="mb-0">
-                      {p}
-                    </p>
-                  )
-                )}
+              {/* 本文: SP は 16px / leading 2 (Body M)、PC は 18px / leading 1.8 (Body L) */}
+              <div className="pb-8 tablet:pb-[4.5rem] tablet:px-2">
+                <div className="font-gothic font-medium text-body-m tablet:text-body-l text-black">
+                  {section.paragraphs.map((p, i) =>
+                    p === '' ? (
+                      <br key={i} />
+                    ) : (
+                      <p key={i} className="mb-0">
+                        {p}
+                      </p>
+                    )
+                  )}
+                </div>
+              </div>
+
+              {/* 画像: SP 358×238.67 / PC 704×469 (いずれも 3:2)。SP は画像下 32 で次の見出しへ */}
+              <div className={`rounded-2xl overflow-hidden ${isLast ? '' : 'mb-8 tablet:mb-0'}`}>
+                <div className="aspect-[704/469] relative">
+                  <Image
+                    src={section.image}
+                    alt={section.imageAlt}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 992px) 100vw, 720px"
+                  />
+                </div>
               </div>
             </div>
-
-            {/* 画像: SP 358×268 / PC 704×469 (aspect 一致なので aspect-[704/469] で OK) */}
-            <div className="rounded-2xl overflow-hidden">
-              <div className="aspect-[704/469] relative">
-                <Image
-                  src={section.image}
-                  alt={section.imageAlt}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 992px) 100vw, 720px"
-                />
-              </div>
-            </div>
-          </div>
-        </Reveal>
-      ))}
+          </Reveal>
+        );
+      })}
 
       {/* サービス CTA (共通コンポーネント Figma 4211:10153) */}
       <Reveal>

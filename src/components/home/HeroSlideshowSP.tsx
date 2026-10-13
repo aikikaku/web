@@ -2,9 +2,12 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import SliderDots from '@/components/ui/content/SliderDots';
 
 const slides = [
-  '/images/home/hero-1.jpg',
+  // 1枚目は Figma 4470:14736 の切り出し (hero-1.jpg を w191.51%/left-45.76%/top4.24% で拡大・下揃え)
+  // を書き出した SP 専用画像 (374×354 @2x)
+  '/images/home/hero-1-sp.jpg',
   '/images/home/hero-2.jpg',
   '/images/home/hero-3.jpg',
 ];
@@ -41,10 +44,11 @@ export default function HeroSlideshowSP() {
   const goTo = (index: number) => setActiveIndex(index);
 
   return (
-    <div className="flex flex-col gap-[0.625rem] tablet:hidden">
-      <div className="relative h-[22.125rem]">
+    // 画像→ドットの間隔は 32px (Figma 4470:14732: component→Navigation-Slideshow gap-32)
+    <div className="flex flex-col gap-8 tablet:hidden">
+      <div className="relative h-[22.125rem] tablet:h-[32rem]">
         {/* 画像は右へ 16px はみ出す rounded-l-3xl コンテナ内でクロスフェード */}
-        <div className="relative h-full w-full -mr-4 rounded-l-3xl overflow-hidden">
+        <div className="relative h-full w-full -mr-4 tablet:mr-0 rounded-l-3xl tablet:rounded-3xl overflow-hidden">
           {slides.map((src, i) => (
             <div
               key={src}
@@ -77,7 +81,7 @@ export default function HeroSlideshowSP() {
           style={{ filter: 'drop-shadow(0 0 8px rgba(0,0,0,0.16))' }}
         >
           <svg viewBox="0 0 24 24" fill="none" className="size-full">
-            <circle cx="12" cy="12" r="12" fill="#FCFFF7" fillOpacity="0.5" />
+            <circle cx="12" cy="12" r="12" className="fill-cream" fillOpacity="0.5" />
             {playing ? (
               // 一時停止（2本線）
               <g fill="#27333B">
@@ -93,16 +97,13 @@ export default function HeroSlideshowSP() {
       </div>
 
       {/* dots */}
-      <div className="flex items-center justify-center gap-2 pt-2">
-        {slides.map((_, i) => (
-          <button
-            key={i}
-            type="button"
-            aria-label={`スライド${i + 1}`}
-            onClick={() => goTo(i)}
-            className={`size-1 rounded-full transition-colors ${i === activeIndex ? 'bg-dark-green' : 'bg-dark-green/30'}`}
-          />
-        ))}
+      <div className="flex items-center justify-center">
+        <SliderDots
+          count={slides.length}
+          activeIndex={activeIndex}
+          onDotClick={goTo}
+          size="sm"
+        />
       </div>
     </div>
   );
