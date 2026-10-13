@@ -1,6 +1,7 @@
 import { getCustomerVoices } from '@/lib/microcms/queries';
 import VoiceContent from '@/components/voice/VoiceContent';
 import type { Metadata } from 'next';
+import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
 
 export const metadata: Metadata = {
   title: 'お客様の声',
@@ -34,6 +35,7 @@ export default async function VoicePage() {
           }),
         }}
       />
+      <Breadcrumb items={[{ label: 'お客様の声' }]} />
 
       {/* Section heading + Voice list (Figma SP 4211:11177: pt-60 / gap-60 / pb-120) */}
       <section className="px-4 tablet:px-[4.6875rem] pt-[3.75rem] tablet:pt-24 pb-[7.5rem] tablet:pb-36 max-w-[90rem] mx-auto flex flex-col gap-[3.75rem] tablet:gap-24">

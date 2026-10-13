@@ -68,10 +68,10 @@ export default function Footer() {
           <nav className="flex flex-col gap-6">
             {footerNav.map((item) =>
               'children' in item && item.children ? (
-                <div key={item.label} className="flex flex-col gap-2">
+                <div key={item.label} className="flex flex-col">
                   <button
                     onClick={() => setIsAccordionOpen(!isAccordionOpen)}
-                    className="flex items-center gap-1 text-cream text-lg font-gothic font-medium leading-none tracking-[0.00112rem] cursor-pointer"
+                    className="flex items-center gap-1 text-white text-lg font-gothic font-medium leading-none tracking-[0.00112rem] cursor-pointer"
                   >
                     <span>{item.label}</span>
                     <svg
@@ -81,7 +81,8 @@ export default function Footer() {
                       fill="none"
                       className={`transition-transform duration-300 ease-in-out ${isAccordionOpen ? 'rotate-180' : ''}`}
                     >
-                      <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      {/* Figma 4470:16318: 24px / stroke 1 / linecap square */}
+                      <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="1" strokeLinecap="square" strokeLinejoin="round" />
                     </svg>
                   </button>
                   <div
@@ -91,7 +92,8 @@ export default function Footer() {
                       opacity: isAccordionOpen ? 1 : 0,
                     }}
                   >
-                    <ul className="flex flex-col gap-1 pl-4 pt-2">
+                    {/* 見出しとの間隔は折りたたみ側の padding で取る（親 gap だと閉じた状態でも 8px 余る） */}
+                    <ul className="flex flex-col gap-1 pl-4 pt-4">
                       {item.children.map((child) => (
                         <li key={child.href}>
                           <Link
@@ -114,10 +116,11 @@ export default function Footer() {
                   className="inline-flex items-center gap-2 text-white text-lg font-gothic font-medium leading-none tracking-[0.00112rem] hover:text-white/70 transition-colors"
                 >
                   {item.label}
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  {/* Figma 4470:16318: 24px / stroke 1 */}
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinejoin="round">
                     <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
                     <path d="M15 3h6v6" />
-                    <path d="M10 14L21 3" />
+                    <path d="M12 12L21 3" />
                   </svg>
                 </a>
               ) : (
@@ -210,12 +213,13 @@ export default function Footer() {
               <nav className="flex flex-col gap-4">
                 {footerNav.map((item) =>
                   'children' in item && item.children ? (
-                    <div key={item.label} className="flex flex-col gap-2">
+                    <div key={item.label} className="flex flex-col">
                       <button
                         onClick={() => setIsAccordionOpen(!isAccordionOpen)}
                         className="flex items-center text-cream text-base font-gothic font-medium leading-none cursor-pointer"
                       >
-                        <span>{item.label}</span>
+                        {/* Figma 4470:16316: ラベルは white、シェブロンは cream */}
+                        <span className="text-white">{item.label}</span>
                         <svg
                           width="16"
                           height="16"
@@ -223,7 +227,8 @@ export default function Footer() {
                           fill="none"
                           className={`ml-1 transition-transform duration-300 ease-in-out ${isAccordionOpen ? 'rotate-180' : ''}`}
                         >
-                          <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                          {/* 16px 表示で stroke 1px 相当 (24 viewBox × 1.5) */}
+                          <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="round" />
                         </svg>
                       </button>
                       <div
@@ -233,12 +238,15 @@ export default function Footer() {
                           opacity: isAccordionOpen ? 1 : 0,
                         }}
                       >
-                        <ul className="flex flex-col gap-1 pl-4 pt-1">
+                        {/* Figma 4470:16316: pl-8 / 行間(1.8)のみで項目間 gap なし / 見出しとの間 8px。
+                            間隔は折りたたみ側の pt-2 で取る（親 gap だと閉じた状態でも 8px 余り、
+                            Figma 4470:14115 の nav 等間隔 16px からずれる） */}
+                        <ul className="flex flex-col pl-2 pt-2">
                           {item.children.map((child) => (
                             <li key={child.href}>
                               <Link
                                 href={child.href}
-                                className="text-body-s text-light-green hover:text-light-green/70 transition-colors"
+                                className="block text-body-s text-light-green hover:text-light-green/70 transition-colors"
                               >
                                 {child.label}
                               </Link>
@@ -256,10 +264,11 @@ export default function Footer() {
                       className="inline-flex items-center gap-1 text-white text-base font-gothic font-medium leading-none hover:text-white/70 transition-colors"
                     >
                       {item.label}
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      {/* Figma 4470:16316: 16px / stroke 1px 相当 (24 viewBox × 1.5) */}
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round">
                         <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
                         <path d="M15 3h6v6" />
-                        <path d="M10 14L21 3" />
+                        <path d="M12 12L21 3" />
                       </svg>
                     </a>
                   ) : (

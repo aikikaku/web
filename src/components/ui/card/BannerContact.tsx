@@ -9,7 +9,8 @@ import CardContact from '@/components/ui/card/CardContact';
  */
 export default function BannerContact() {
   return (
-    <section className="px-4 tablet:px-12 pb-[3.75rem] tablet:pb-24">
+    // セクション余白: Figma Handoff 4470:14484 (PC px-45 / pb-144) / 4470:14871 (SP px-16 / pb-120)
+    <section className="px-4 tablet:px-[2.8125rem] pb-[7.5rem] tablet:pb-36">
       {/* SP */}
       <div className="tablet:hidden relative rounded-2xl overflow-hidden pt-8 pb-[3.75rem] px-4 min-h-[26.5625rem] flex flex-col justify-between">
         <div className="absolute inset-0">
@@ -52,7 +53,8 @@ export default function BannerContact() {
       </div>
 
       {/* PC（既存レイアウト維持） */}
-      <div className="hidden tablet:block relative rounded-3xl overflow-hidden px-[1.875rem] py-[6rem]">
+      {/* バナー内側: Figma 4470:14485 pl-60 pr-30 py-96 */}
+      <div className="hidden tablet:block relative rounded-3xl overflow-hidden pl-[3.75rem] pr-[1.875rem] py-[6rem]">
         <div className="absolute inset-0">
           <Image src="/images/home/cta-banner.jpg" alt="" fill className="object-cover" />
           <div

@@ -32,6 +32,7 @@ interface Props {
  * - SP: 中央に「< • • • • >」のみ、その下に全幅「すべて見るボタン」
  *
  * ドット部分は [[SliderDots]](Figma「Slider Dots」)を内部利用。
+ * 矢印アイコンは stroke 1.5 (Figma 4470:14108 / 4470:14806 Icon - 24px)。
  * MoreProperties / VoiceCarousel / PropertyCarousel など複数の carousel から再利用する想定。
  */
 export default function NavigationSlideshow({
@@ -71,7 +72,7 @@ export default function NavigationSlideshow({
               className={`size-6 inline-flex items-center justify-center ${arrowColor} transition-colors hover:text-accent-blue disabled:opacity-20 disabled:cursor-not-allowed`}
             >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
             <SliderDots
@@ -90,7 +91,7 @@ export default function NavigationSlideshow({
               className={`size-6 inline-flex items-center justify-center ${arrowColor} transition-colors hover:text-accent-blue disabled:opacity-20 disabled:cursor-not-allowed`}
             >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
           </div>
@@ -115,7 +116,7 @@ export default function NavigationSlideshow({
                 className={`size-6 inline-flex items-center justify-center ${arrowColor} disabled:opacity-50`}
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </button>
               <SliderDots
@@ -133,7 +134,7 @@ export default function NavigationSlideshow({
                 className={`size-6 inline-flex items-center justify-center ${arrowColor} disabled:opacity-50`}
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </button>
             </div>

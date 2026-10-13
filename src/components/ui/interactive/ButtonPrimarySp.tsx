@@ -4,6 +4,8 @@ interface Props {
   href: string;
   label?: string;
   disabled?: boolean;
+  /** 文字色。既定 'white'。dark-green 背景上の配置では Figma 上 cream (例: /about スタッフインタビュー SP I4470:15257) */
+  textColor?: 'white' | 'cream';
   className?: string;
 }
 
@@ -22,11 +24,12 @@ export default function ButtonPrimarySp({
   href,
   label = 'すべて見る',
   disabled = false,
+  textColor = 'white',
   className,
 }: Props) {
   // 親要素 (px-4 など) の inner 幅に追従させるため w-full で運用
   const baseInner =
-    'flex items-center justify-center w-full h-12 rounded-full font-gothic font-medium text-[1rem] leading-none text-white px-6 py-4';
+    `flex items-center justify-center w-full h-12 rounded-full font-gothic font-medium text-[1rem] leading-none ${textColor === 'cream' ? 'text-cream' : 'text-white'} px-6 py-4`;
 
   if (disabled) {
     return (

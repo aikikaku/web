@@ -3,6 +3,7 @@ import { Property } from '@/types/microcms';
 import CmsImage from '@/components/common/CmsImage';
 import { BookIcon } from '@/components/ui/icons/icons';
 import { getPropertyStatus, getPropertyCategoryLabel, formatPropertyPrice } from '@/lib/propertyDisplay';
+import { getPriceLabel, getPropertyLayoutCell } from '@/components/property/propertyCells';
 
 interface CardPropertyProps {
   property: Property;
@@ -13,6 +14,7 @@ export default function CardProperty({ property }: CardPropertyProps) {
   const categoryLabel = getPropertyCategoryLabel(property);
   const locationText = property.regions?.map((r) => r.name).join('・');
   const { amount: priceAmount, unit: priceUnit } = formatPropertyPrice(property, isSold);
+  const layoutCell = getPropertyLayoutCell(property);
 
   return (
     <Link href={`/properties/${property.id}`} className="block group w-full hover:opacity-70 transition-opacity">
@@ -72,44 +74,46 @@ export default function CardProperty({ property }: CardPropertyProps) {
 
       {/* Details — SP: 外側 px なし / PC: 既存通り px-3 */}
       <div className="tablet:px-3">
-        {/* Title — SP: px-2 py-6 / PC: py-6 */}
+        {/* Title — SP: px-2 py-6 / PC: py-6。文字色 SP black / PC dark-green (Figma 4470:14852 / 4470:14454) */}
         <div className="px-2 py-6 tablet:px-0">
           <h3
-            className="font-mincho text-heading-18 tablet:text-heading-24 text-black"
+            className="font-mincho text-heading-18 tablet:text-heading-24 text-black tablet:text-dark-green"
             style={{ fontFeatureSettings: "'palt' 1" }}
           >
             {property.title}
           </h3>
         </div>
 
-        {/* Price / Layout — borders are full-width on SP。layout が無い場合は border-r を出さず単独セルに */}
+        {/* Price / Layout — borders are full-width on SP。右セル(間取り/広さ)が無い場合は border-r を出さず単独セルに。
+            セル自体に左右余白なし・ラベルのみ pl-8 (Figma 4470:14454 / 4470:14852)。数値色 SP black / PC dark-green */}
         <div className="pb-3">
           <div className="flex border-t border-b border-dark-green/20">
-            <div className={`flex-1 ${property.layout ? 'border-r border-dark-green/20' : ''} px-2 pt-2 pb-4`}>
+            <div className={`flex-1 ${layoutCell ? 'border-r border-dark-green/20' : ''} pt-2 pb-4`}>
               <div className="pl-2">
                 <span className="font-gothic font-medium text-body-s text-dark-green">
-                  {property.type === 'rent' ? '賃料' : '価格'}
+                  {getPriceLabel(property)}
                 </span>
               </div>
-              <div className="flex items-end justify-center h-[2.375rem]">
-                <span className="font-gothic font-medium text-category-2 tablet:text-category-1 text-black px-2">
+              {/* 数値行の高さ: SP 32 (20px×1.6, Figma I4470:14852;4646:28875) / PC 38 (24px×1.6) */}
+              <div className="flex items-end justify-center h-8 tablet:h-[2.375rem]">
+                <span className="font-gothic font-medium text-category-2 tablet:text-category-1 text-black tablet:text-dark-green px-2">
                   {priceAmount}
                 </span>
-                <span className="font-gothic font-medium text-body-s text-black pb-1 whitespace-nowrap">
+                <span className="font-gothic font-medium text-body-s text-black tablet:text-dark-green pb-1 whitespace-nowrap">
                   {priceUnit}
                 </span>
               </div>
             </div>
-            {property.layout && (
-              <div className="flex-1 px-2 pt-2 pb-4">
+            {layoutCell && (
+              <div className="flex-1 pt-2 pb-4">
                 <div className="pl-2">
                   <span className="font-gothic font-medium text-body-s text-dark-green">
-                    間取り
+                    {layoutCell.label}
                   </span>
                 </div>
                 <div className="flex items-end justify-center">
-                  <span className="font-gothic font-medium text-category-2 tablet:text-category-1 text-black">
-                    {property.layout}
+                  <span className="font-gothic font-medium text-category-2 tablet:text-category-1 text-black tablet:text-dark-green">
+                    {layoutCell.value}
                   </span>
                 </div>
               </div>
@@ -117,21 +121,22 @@ export default function CardProperty({ property }: CardPropertyProps) {
           </div>
         </div>
 
-        {/* SP: Station/Construction（左・縦並び）+ Arrow（右） */}
-        <div className="tablet:hidden flex items-center justify-between pb-2 pt-2">
+        {/* SP: Station/Construction（左・縦並び、各行 px-8）+ Arrow（右）。価格欄 pb-12 の直後・下 8 (Figma 4470:14852) */}
+        <div className="tablet:hidden flex items-center justify-between pb-2">
           <div className="flex flex-col flex-1 min-w-0 pr-2">
             {property.nearestStation && (
-              <span className="font-gothic font-medium text-body-m text-black truncate">
+              <span className="font-gothic font-medium text-body-m text-black truncate px-2">
                 {property.nearestStation}
               </span>
             )}
             {property.constructionDate && (
-              <span className="font-gothic font-medium text-body-m text-black truncate">
+              <span className="font-gothic font-medium text-body-m text-black truncate px-2">
                 築{property.constructionDate}
               </span>
             )}
           </div>
-          <span className="flex items-center justify-center w-[2.75rem] h-[2.75rem] border border-dark-green rounded-full shrink-0">
+          {/* 矢印は右端から 8px 内側 (Figma I4470:14852;4646:28893: x250 幅108 内の x56 → 右余白 8) */}
+          <span className="flex items-center justify-center w-[2.75rem] h-[2.75rem] mr-2 border border-dark-green rounded-full shrink-0">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
@@ -148,16 +153,16 @@ export default function CardProperty({ property }: CardPropertyProps) {
           </div>
         )}
 
-        {/* PC: Station/Construction */}
+        {/* PC: Station/Construction（dark-green, Figma 4470:14454） */}
         <div className="hidden tablet:flex items-center pb-6">
           <div className="flex flex-row items-center">
             {property.nearestStation && (
-              <span className="font-gothic font-medium text-body-m text-black px-2">
+              <span className="font-gothic font-medium text-body-m text-dark-green px-2">
                 {property.nearestStation}
               </span>
             )}
             {property.constructionDate && (
-              <span className="font-gothic font-medium text-body-m text-black px-2">
+              <span className="font-gothic font-medium text-body-m text-dark-green px-2">
                 築{property.constructionDate}
               </span>
             )}

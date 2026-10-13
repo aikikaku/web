@@ -1,60 +1,29 @@
-'use client';
-
-import { useEffect, useRef, useState } from 'react';
 import { Story } from '@/types/microcms';
 import CardStory from '@/components/ui/card/CardStory';
-import NavigationSlideshow from '@/components/ui/content/NavigationSlideshow';
+import StoryCarousel from '@/components/home/StoryCarousel';
 
 interface Props {
   stories: Story[];
 }
 
 /**
- * ストーリー詳細「もっとストーリーを見る」のカードグリッド。
- * PC: 3列グリッド(スクロール無し)。SP: 横スクロール+ドットページャー
- * (Figma Navigation-Slideshow SP 4211:12124。以前は横スクロールのみでページャー未実装だった)。
+ * ストーリー詳細「もっとストーリーを見る」のカード一覧。
+ * - PC: card-story-l の3列グリッド(スクロール無し)。Figma 4470:14724
+ * - SP: card-story-sp(幅 332・gap 20・左 16 から画面右端まで)の横スクロール +
+ *   Navigation-Slideshow + 全幅 button-primary-sp「すべて見る」。Figma 4470:16279 / 4470:16282 / 4470:16290
+ *   トップページと同じ構成なので [[StoryCarousel]] をそのまま使う。
+ *   StoryCarousel は track 側に pl-4 を持つため、親セクションの px-4 を -mx-4 で打ち消して画面端まで広げる。
  */
 export default function RelatedStoriesGrid({ stories }: Props) {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  useEffect(() => {
-    const el = trackRef.current;
-    if (!el) return;
-    const handleScroll = () => {
-      const card = el.children[0] as HTMLElement | undefined;
-      const cardWidth = card?.getBoundingClientRect().width || 1;
-      const gap = 16; // max-tablet:gap-x-4 = 1rem = 16px
-      const idx = Math.round(el.scrollLeft / (cardWidth + gap));
-      setActiveIndex(Math.min(Math.max(idx, 0), stories.length - 1));
-    };
-    el.addEventListener('scroll', handleScroll, { passive: true });
-    return () => el.removeEventListener('scroll', handleScroll);
-  }, [stories.length]);
-
-  const scrollTo = (index: number) => {
-    const el = trackRef.current;
-    if (!el) return;
-    const card = el.children[index] as HTMLElement | undefined;
-    if (!card) return;
-    const delta = card.getBoundingClientRect().left - el.getBoundingClientRect().left;
-    el.scrollTo({ left: el.scrollLeft + delta, behavior: 'smooth' });
-  };
-
   return (
     <>
-      <div
-        ref={trackRef}
-        className="grid grid-cols-1 tablet:grid-cols-3 gap-y-12 gap-x-[1.875rem] max-tablet:flex max-tablet:overflow-x-auto max-tablet:pb-4 max-tablet:gap-x-4"
-      >
+      <div className="hidden tablet:grid grid-cols-3 gap-y-12 gap-x-[1.875rem]">
         {stories.map((s) => (
-          <div key={s.id} className="max-tablet:w-[18.75rem] max-tablet:shrink-0">
-            <CardStory story={s} size="l" />
-          </div>
+          <CardStory key={s.id} story={s} size="l" />
         ))}
       </div>
-      <div className="tablet:hidden mt-8">
-        <NavigationSlideshow activePage={activeIndex} totalPages={stories.length} onPageChange={scrollTo} />
+      <div className="tablet:hidden -mx-4">
+        <StoryCarousel stories={stories} href="/stories" />
       </div>
     </>
   );

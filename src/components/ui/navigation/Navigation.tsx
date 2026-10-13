@@ -196,11 +196,12 @@ export default function Navigation() {
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="メニュー"
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            {/* Figma 4470:16321 (ハンバーガー) / 4470:16320 (×): stroke 1.5, linecap square */}
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="round">
               {mobileOpen ? (
-                <path strokeLinecap="round" d="M6 18L18 6M6 6l12 12" />
+                <path d="M18 6L6 18M6 6l12 12" />
               ) : (
-                <path strokeLinecap="round" d="M4 6h16M4 12h16M4 18h16" />
+                <path d="M3 6h18M3 12h18M3 18h18" />
               )}
             </svg>
           </button>
@@ -303,8 +304,11 @@ export default function Navigation() {
               >
                 {item.label}
                 {'showExternalIcon' in item && item.showExternalIcon && (
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="shrink-0 mb-0.5">
-                    <path d="M7 17L17 7M17 7H8M17 7v9" strokeLinecap="round" strokeLinejoin="round" />
+                  // 外部リンクアイコン (Figma 4470:16320: 四角 + 右上矢印, 16px, stroke 1.5)
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" className="shrink-0 mb-0.5">
+                    <path d="M12 8.66667V12.6667C12 13.0203 11.8595 13.3594 11.6095 13.6095C11.3594 13.8595 11.0203 14 10.6667 14H3.33333C2.97971 14 2.64057 13.8595 2.39052 13.6095C2.14048 13.3594 2 13.0203 2 12.6667V5.33333C2 4.97971 2.14048 4.64057 2.39052 4.39052C2.64057 4.14048 2.97971 4 3.33333 4H7.33333" />
+                    <path d="M10 2H14V6" />
+                    <path d="M8 8L14 2" />
                   </svg>
                 )}
               </Link>

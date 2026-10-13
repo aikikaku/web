@@ -95,23 +95,32 @@ export default async function HomePage() {
                       不動産会社です。
                     </h2>
                   </div>
+                  {/* Figma 4470:14078 (PC) / 4470:14751 (SP): 4文それぞれで改行 */}
                   <p className="text-body-m tablet:text-[1.125rem] font-gothic font-medium text-dark-green leading-[2] tablet:leading-[1.8] tablet:w-[29.3125rem]">
-                    昭和61年、三島市加茂の住宅街に、不動産屋の店舗兼住宅を構えました。
-                    ここにいると、町の人の顔が見え、声が聞こえます。
-                    地域と日々関わりながら、暮らしの視点で、このまちの魅力と住まいの価値をていねいに伝えていく。
+                    昭和61年、三島市加茂の住宅街に、不動産屋の店舗兼住宅を構えました。<br />
+                    ここにいると、町の人の顔が見え、声が聞こえます。<br />
+                    地域と日々関わりながら、暮らしの視点で、このまちの魅力と住まいの価値をていねいに伝えていく。<br />
                     そうして、地域の環境を「ともにつくる」ことが私たちの仕事です。
                   </p>
                 </div>
 
                 {/* 画像 (1440px 未満: テキストの下に表示) */}
                 <div className="w-full tablet:hidden">
+                  {/* Figma 4470:14753 のトリミング（元画像 about.jpg 2000×3000 と同一ファイル）を
+                      absolute の % 指定で再現: w 108.94% / h 218.28% / left -4.47% / top -74.5% */}
                   <div className="relative h-[16.75rem] rounded-2xl overflow-hidden">
-                    <Image
-                      src="/images/home/about.jpg"
-                      alt="アイ企画スタッフ"
-                      fill
-                      className="object-cover"
-                    />
+                    <div
+                      className="absolute"
+                      style={{ width: '108.94%', height: '218.28%', left: '-4.47%', top: '-74.5%' }}
+                    >
+                      <Image
+                        src="/images/home/about.jpg"
+                        alt="アイ企画スタッフ"
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 992px) 110vw, 0px"
+                      />
+                    </div>
                   </div>
                 </div>
 
@@ -127,13 +136,21 @@ export default async function HomePage() {
 
             {/* 画像 (1440px 以上: 右カラムに表示) */}
             <div className="hidden tablet:block w-[34.8125rem] shrink-0">
+              {/* Figma 4470:14082 のトリミング（元画像 about.jpg と同一ファイル）を % 指定で再現:
+                  w 141.78% / h 159.64% / left -19.64% / top -34.56% */}
               <div className="relative h-[46.375rem] rounded-2xl overflow-hidden">
-                <Image
-                  src="/images/home/about.jpg"
-                  alt="アイ企画スタッフ"
-                  fill
-                  className="object-cover"
-                />
+                <div
+                  className="absolute"
+                  style={{ width: '141.78%', height: '159.64%', left: '-19.64%', top: '-34.56%' }}
+                >
+                  <Image
+                    src="/images/home/about.jpg"
+                    alt="アイ企画スタッフ"
+                    fill
+                    className="object-cover"
+                    sizes="790px"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -259,7 +276,8 @@ export default async function HomePage() {
           <div className="flex flex-col tablet:flex-row gap-8 tablet:gap-[5.5rem]">
             {/* 見出し */}
             <div className="tablet:w-[25.625rem] shrink-0">
-              <h2 className="font-mincho text-[1.5rem] tablet:text-[2rem] leading-[1.5] tracking-[0.06rem] tablet:tracking-[0.08rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+              {/* SP も sub-heading-1 (32px) (Figma 4470:14834 / PC 4470:14110) */}
+              <h2 className="font-mincho text-[2rem] leading-[1.5] tracking-[0.08rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
                 お知らせ
               </h2>
             </div>

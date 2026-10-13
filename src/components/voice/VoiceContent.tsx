@@ -36,15 +36,19 @@ function VoiceItem({
 
   // Figma 4211:11537: 質問アコーディオン (FaqAccordion) と同パターン
   // border-b + py-6 + smooth max-h transition (duration-500 ease-in-out)
+  // Figma Handoff 20260724 PC Question-list 4470:15711: 下線 dark-green/20、Item pr-8、タイトル black /
+  // SP Question-list-sp 4470:15314: 下線 light-green、Content pl-8、タイトル dark-green
+  // 見出し→本文の gap-24 は閉じている時に残らないよう、開閉ラッパーの内側 (pt-6) で持つ
+  // (Figma Question-sp 閉 105px = py-24 + 見出し 57 / I4470:15315;4671:15725)
   return (
-    <div className="border-b border-dark-green/10 py-6 flex flex-col gap-6">
+    <div className="border-b border-light-green tablet:border-dark-green/20 py-6 flex flex-col">
       <button
         type="button"
         onClick={onToggle}
-        className="w-full flex items-start justify-between pr-2 text-left cursor-pointer hover:opacity-70 transition-opacity gap-3"
+        className="w-full flex items-start justify-between pl-2 tablet:pl-0 tablet:pr-2 text-left cursor-pointer hover:opacity-70 transition-opacity gap-3"
       >
         <div className="flex-1 min-w-0">
-          <p className="font-gothic font-medium text-body-m text-black">
+          <p className="font-gothic font-medium text-body-m text-dark-green tablet:text-black">
             {voice.title || voice.customerName}
           </p>
           <p className="font-gothic font-medium text-body-s text-dark-green/60">
@@ -60,22 +64,26 @@ function VoiceItem({
         className="overflow-hidden transition-[max-height] duration-500 ease-in-out"
         style={{ maxHeight: `${maxHeight}px` }}
       >
-        <div className="bg-[rgba(225,237,225,0.5)] rounded-2xl px-5 py-8 tablet:px-[1.875rem] tablet:py-8 flex flex-col gap-12">
-          <div
-            className="font-gothic font-medium text-body-m text-black whitespace-pre-line voice-rich"
-            dangerouslySetInnerHTML={{ __html: voice.content }}
-          />
-          {voice.image && (
-            <div className="relative w-full aspect-[260/368] overflow-hidden rounded-2xl">
-              <Image
-                src={voice.image.url}
-                alt=""
-                fill
-                className="object-cover"
-                sizes="(min-width: 992px) 704px, 100vw"
-              />
-            </div>
-          )}
+        {/* Item-open: PC px-30 py-32 rounded-16 gap-48 本文 black (4470:15711) /
+            SP px-29 py-32 rounded-12 gap-24 本文 dark-green (4470:15314)。背景はどちらも light-green */}
+        <div className="pt-6">
+          <div className="bg-light-green rounded-xl tablet:rounded-2xl px-[1.8125rem] py-8 tablet:px-[1.875rem] flex flex-col gap-6 tablet:gap-12">
+            <div
+              className="font-gothic font-medium text-body-m text-dark-green tablet:text-black whitespace-pre-line voice-rich"
+              dangerouslySetInnerHTML={{ __html: voice.content }}
+            />
+            {voice.image && (
+              <div className="relative w-full aspect-[260/368] overflow-hidden rounded-2xl">
+                <Image
+                  src={voice.image.url}
+                  alt=""
+                  fill
+                  className="object-cover"
+                  sizes="(min-width: 992px) 704px, 100vw"
+                />
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
@@ -147,8 +155,9 @@ export default function VoiceContent({ voices }: { voices: CustomerVoice[] }) {
           sticky の containing block を「PC では tablet:w-[20.1875rem]」「flex row stretch で tall」にすると、
           sticky 要素が containing block の height 内に room を持って top-24 で stick する */}
       <aside className="hidden tablet:block tablet:w-[20.1875rem] shrink-0">
+        {/* Figma 4470:15692: 各行 h-40、左 40px 幅の列の中央に 10px の丸、テキスト 16px/1.5 */}
         <div className="sticky top-24 bg-light-green rounded-[2rem] px-[1.875rem] py-[2.8125rem]">
-          <nav className="flex flex-col gap-6">
+          <nav className="flex flex-col">
             {categories.map((cat) => {
               const isActive = activeCategory === cat.key;
               return (
@@ -156,15 +165,17 @@ export default function VoiceContent({ voices }: { voices: CustomerVoice[] }) {
                   key={cat.key}
                   type="button"
                   onClick={() => handleClick(cat.key)}
-                  className={`flex items-center gap-3 text-left cursor-pointer transition-opacity duration-300 ${
+                  className={`flex items-center h-10 text-left cursor-pointer transition-opacity duration-300 ${
                     isActive ? 'opacity-100' : 'opacity-50'
                   }`}
                 >
-                  <div
-                    className={`w-[0.625rem] h-[0.625rem] rounded-full shrink-0 transition-colors ${
-                      isActive ? 'bg-dark-green' : 'bg-dark-green/40'
-                    }`}
-                  />
+                  <span className="w-10 h-full flex items-center justify-center shrink-0">
+                    <span
+                      className={`w-[0.625rem] h-[0.625rem] rounded-full transition-colors ${
+                        isActive ? 'bg-dark-green' : 'bg-dark-green/40'
+                      }`}
+                    />
+                  </span>
                   <span className="font-gothic font-medium text-[1rem] leading-[1.5] text-dark-green">
                     {cat.label}
                   </span>

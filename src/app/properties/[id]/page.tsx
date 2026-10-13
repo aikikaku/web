@@ -17,6 +17,8 @@ import RichText, { extractTocFromHtml } from '@/components/ui/post/RichText';
 import TocNav from '@/components/ui/navigation/TocNav';
 import ListItemDeco from '@/components/ui/content/ListItemDeco';
 import ListItemDef from '@/components/ui/content/ListItemDef';
+import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
+import { getPriceLabel, getPropertyLayoutCell } from '@/components/property/propertyCells';
 
 export const revalidate = 3600;
 
@@ -125,19 +127,9 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
     title: property.title,
   });
 
-  // 物件概要フィールド。成約時は所在地・土地面積・建物面積を非表示 (#31/#32)
-  const detailFields: { label: string; value: string | undefined; hasTag?: boolean }[] = [
-    ...(!isSold ? [{ label: '所在地', value: property.location, hasTag: true }] : []),
-    { label: '最寄駅', value: property.nearestStation },
-    { label: '種別', value: categoryLabel },
-    ...(!isSold && property.landArea ? [{ label: '土地面積', value: `${property.landArea}㎡` }] : []),
-    ...(!isSold && property.buildingArea ? [{ label: '建物面積', value: `${property.buildingArea}㎡` }] : []),
-    ...(property.layout ? [{ label: '間取り', value: property.layout }] : []),
-    ...(property.constructionDate ? [{ label: '築年月', value: property.constructionDate }] : []),
-    ...(property.schoolDistrict ? [{ label: '学区', value: property.schoolDistrict }] : []),
-    ...(property.transactionType ? [{ label: '取引態様', value: property.transactionType }] : []),
-    ...(property.remarks ? [{ label: '備考', value: property.remarks }] : []),
-  ];
+  // 価格/賃料ラベル（貸物件・貸土地は「賃料」）と、価格セル右隣（間取り / 土地は「広さ」）。Figma 付箋 4470:16568
+  const priceLabel = getPriceLabel(property);
+  const layoutCell = getPropertyLayoutCell(property);
 
   // 価格フィールド（特別扱い）
   const priceValue = isSold
@@ -148,6 +140,23 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
         ? property.rent.toLocaleString()
         : null;
   const priceUnit = property.price ? '万円' : property.rent ? '円/月' : '';
+
+  // 物件概要フィールド。成約時は所在地・土地面積・建物面積を非表示 (#31/#32)。
+  // 並びは Figma 4470:14376 / 付箋 4470:16691 通り「…取引態様 → 価格 → 備考」。
+  // 成約時は価格(賃料)・備考も非表示（付箋 4470:16814）。
+  const detailFields: { label: string; value: string | undefined; hasTag?: boolean; isPrice?: boolean }[] = [
+    ...(!isSold ? [{ label: '所在地', value: property.location, hasTag: true }] : []),
+    { label: '最寄駅', value: property.nearestStation },
+    { label: '種別', value: categoryLabel },
+    ...(!isSold && property.landArea ? [{ label: '土地面積', value: `${property.landArea}㎡` }] : []),
+    ...(!isSold && property.buildingArea ? [{ label: '建物面積', value: `${property.buildingArea}㎡` }] : []),
+    ...(property.layout ? [{ label: '間取り', value: property.layout }] : []),
+    ...(property.constructionDate ? [{ label: '築年月', value: property.constructionDate }] : []),
+    ...(property.schoolDistrict ? [{ label: '学区', value: property.schoolDistrict }] : []),
+    ...(property.transactionType ? [{ label: '取引態様', value: property.transactionType }] : []),
+    ...(!isSold && priceValue ? [{ label: priceLabel, value: priceValue, isPrice: true }] : []),
+    ...(!isSold && property.remarks ? [{ label: '備考', value: property.remarks }] : []),
+  ];
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -210,31 +219,42 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <Breadcrumb items={[{ label: '物件を探す', href: '/properties' }, { label: property.title }]} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      {/* ヒーローセクション - カード型 */}
-      <section className="px-4 tablet:px-[2.8125rem] pt-12 max-w-[90rem] mx-auto">
-        <div className="bg-light-green rounded-[2rem] p-4 tablet:p-[1.875rem]">
+      {/* ヒーローセクション - カード型。パンくず追加に伴い上余白を調整 (Figma Handoff 20260724):
+          PC はパンくず下 48px、SP は緑背景を全幅にしてパンくず下 8px / 内側 上下32px・左右16px (4470:14926) */}
+      <section className="tablet:px-[2.8125rem] pt-2 tablet:pt-12 max-w-[90rem] mx-auto">
+        <div className="bg-light-green tablet:rounded-[2rem] px-4 py-8 tablet:p-[1.875rem]">
           <PropertyDetailClient
             allImages={allImages}
             title={property.title}
             isSold={isSold}
             spLabelsSlot={(
-              <div className="flex items-center gap-2 min-w-0">
-                <span className="tag shrink-0">
-                  {categoryLabel}
-                </span>
-                {locationText && (
-                  <span className="font-gothic font-medium text-body-s text-dark-green truncate">
-                    {locationText}
+              // SP 画像内ラベル: 左に種別タグ + 地域(16px cream)、右に状態タグ (Figma 4470:14927 / 成約 4470:16161)
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2 min-w-0">
+                  <span className="tag shrink-0">
+                    {categoryLabel}
+                  </span>
+                  {locationText && (
+                    <span className="font-gothic font-medium text-body-m text-cream truncate pl-1">
+                      {locationText}
+                    </span>
+                  )}
+                </div>
+                {statusLabel && (
+                  <span className="tag-dark shrink-0">
+                    {statusLabel}
                   </span>
                 )}
               </div>
             )}
             detailsSlot={(
-              <div className="flex flex-col gap-6 tablet:gap-10 pt-4 tablet:pt-3 min-w-0">
+              // SP: thumbs(pb-24) の直後にタイトル。thumbs が無い場合のみ画像との間に 16px (Figma 4470:14927)
+              <div className={`flex flex-col gap-6 tablet:gap-10 ${allImages.length > 1 ? 'pt-0' : 'pt-4'} tablet:pt-3 min-w-0`}>
                 {/* ラベル + 地域 (PC のみ。SP は spLabelsSlot で画像 overlay) */}
                 <div>
                   <div className="hidden tablet:flex gap-3 items-center">
@@ -253,27 +273,27 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                     )}
                   </div>
 
-                  {/* タイトル */}
-                  <div className="py-6 tablet:py-[1.875rem]">
+                  {/* タイトル: SP 上余白なし・下 24・左右 8 / 行間 1.6 (Figma I4470:14927;4699:24103)、PC 上下 30 / 行間 1.5 */}
+                  <div className="pb-6 px-2 tablet:px-0 tablet:py-[1.875rem]">
                     <h1
-                      className="font-mincho text-[1.5rem] tablet:text-[2rem] leading-[1.5] tracking-[0.04em] text-black"
+                      className="font-mincho text-[1.5rem] tablet:text-[2rem] leading-[1.6] tablet:leading-[1.5] tracking-[0.04em] text-black"
                       style={{ fontFeatureSettings: "'palt' 1" }}
                     >
                       {property.title}
                     </h1>
                   </div>
 
-                  {/* 価格 / 間取り */}
-                  <div className="pb-4">
-                    <div className="flex border-t border-b border-dark-green/10">
-                      <div className="flex-1 border-r border-dark-green/10 pt-2 pb-4">
+                  {/* 価格 / 間取り(土地は広さ)。罫線 dark-green 20%、下余白 SP 24 / PC 16、数値 SP 20px / PC 24px (Figma 4470:14283 / 14927) */}
+                  <div className="pb-6 tablet:pb-4">
+                    <div className="flex border-t border-b border-dark-green/20">
+                      <div className={`flex-1 ${layoutCell ? 'border-r border-dark-green/20' : ''} pt-2 pb-4`}>
                         <div className="pl-2">
                           <span className="font-gothic font-medium text-body-s text-dark-green">
-                            価格
+                            {priceLabel}
                           </span>
                         </div>
                         <div className="flex items-end justify-center">
-                          <span className="font-gothic font-medium text-category-1 text-black px-1">
+                          <span className="font-gothic font-medium text-category-2 tablet:text-category-1 text-black px-1">
                             {priceValue || '応談'}
                           </span>
                           {priceUnit && (
@@ -283,16 +303,16 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                           )}
                         </div>
                       </div>
-                      {property.layout && (
+                      {layoutCell && (
                         <div className="flex-1 pt-2 pb-4">
                           <div className="pl-2">
                             <span className="font-gothic font-medium text-body-s text-dark-green">
-                              間取り
+                              {layoutCell.label}
                             </span>
                           </div>
                           <div className="flex items-end justify-center">
-                            <span className="font-gothic font-medium text-category-1 text-black">
-                              {property.layout}
+                            <span className="font-gothic font-medium text-category-2 tablet:text-category-1 text-black">
+                              {layoutCell.value}
                             </span>
                           </div>
                         </div>
@@ -300,8 +320,20 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                     </div>
                   </div>
 
-                  {/* 最寄駅 / 築年月 */}
-                  <div className="flex items-center flex-wrap">
+                  {/* SP: 物件詳細ボタンは価格欄の後・駅の前 (Figma 4470:14927)。下 24 */}
+                  {!isSold && (
+                    <div className="tablet:hidden pb-6">
+                      <a
+                        href="#property-detail-body"
+                        className="inline-flex items-center justify-center h-[2.75rem] px-6 border border-dark-green rounded-full font-gothic font-medium text-[1rem] leading-none text-dark-green transition-colors hover:bg-dark-green hover:text-white"
+                      >
+                        物件詳細
+                      </a>
+                    </div>
+                  )}
+
+                  {/* 最寄駅 / 築年月: SP 縦積み / PC 横並び */}
+                  <div className="flex flex-col items-start tablet:flex-row tablet:items-center tablet:flex-wrap">
                     {property.nearestStation && (
                       <span className="font-gothic font-medium text-body-m text-black px-2">
                         {property.nearestStation}
@@ -315,9 +347,9 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                   </div>
                 </div>
 
-                {/* 物件詳細ボタン: 詳細セクションへの anchor scroll */}
+                {/* 物件詳細ボタン(PC): 詳細セクションへの anchor scroll。SP は上の価格欄直後に配置 */}
                 {!isSold && (
-                  <div>
+                  <div className="hidden tablet:block">
                     <a
                       href="#property-detail-body"
                       className="inline-flex items-center justify-center h-[2.75rem] px-6 border border-dark-green rounded-full font-gothic font-medium text-[1rem] leading-none text-dark-green transition-colors hover:bg-dark-green hover:text-white"
@@ -354,12 +386,33 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
               </div>
             )}
 
-            {/* 物件概要テーブル (SP は下余白を縮めて action card との間 32px に) */}
-            <div className="pt-12 pb-8 tablet:py-24">
-              <div className="border-b border-dark-green/10">
+            {/* 物件概要テーブル (SP は下余白を縮めて action card との間 32px に)。
+                成約時は action card が無く、Figma 4470:14584 (PC pt-48・下余白なし→セクション pb-96) /
+                4470:16178 (SP pt-60、セクション末尾まで 120 = pb-56 + セクション pb-64) に合わせる */}
+            <div className={isSold ? 'pt-[3.75rem] pb-14 tablet:pt-12 tablet:pb-0' : 'pt-12 pb-8 tablet:py-24'}>
+              <div className="border-b border-dark-green/20">
                 {detailFields.map((field) =>
                   field.value ? (
-                    field.hasTag ? (
+                    field.isPrice ? (
+                      // 価格(賃料)行: PC は 24px + 単位 18px(black)、SP は縦積みで 24px + 単位 16px(dark-green)
+                      // (Figma 4470:14385 / 4470:14954)
+                      <div
+                        key={field.label}
+                        className="flex flex-col gap-3 pr-6 tablet:flex-row tablet:gap-[1.875rem] tablet:items-center tablet:pr-0 py-6 border-t border-dark-green/20 first:border-t-0"
+                      >
+                        <p className="font-gothic font-medium text-body-m tablet:text-body-l text-dark-green tablet:w-[9.1875rem] shrink-0">
+                          {field.label}
+                        </p>
+                        <div className="flex items-end gap-1 h-[2.125rem]">
+                          <span className="font-gothic font-medium text-category-1 text-dark-green tablet:text-black">
+                            {field.value}
+                          </span>
+                          <span className="font-gothic font-medium text-body-m tablet:text-body-l text-dark-green tablet:text-black">
+                            {priceUnit}
+                          </span>
+                        </div>
+                      </div>
+                    ) : field.hasTag ? (
                       <ListItemDeco
                         key={field.label}
                         label={field.label}
@@ -370,22 +423,6 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                       <ListItemDef key={field.label} label={field.label} value={field.value} />
                     )
                   ) : null
-                )}
-                {/* 価格行（成約時は非表示 #31） */}
-                {!isSold && priceValue && (
-                  <div className="flex gap-[1.875rem] items-center py-6 border-t border-dark-green/10">
-                    <p className="font-gothic font-medium text-[1rem] leading-[1.8] tablet:text-body-l text-dark-green w-[7.5rem] tablet:w-[9.1875rem] shrink-0">
-                      価格
-                    </p>
-                    <div className="flex items-end gap-1">
-                      <span className="font-gothic font-medium text-category-1 text-black">
-                        {priceValue}
-                      </span>
-                      <span className="font-gothic font-medium text-body-s text-black">
-                        {priceUnit}
-                      </span>
-                    </div>
-                  </div>
                 )}
               </div>
             </div>
@@ -412,17 +449,20 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
       </section>
 
       {/* 継承者のストーリー (#18/#34): カンプ準拠の全幅セクション。
-          <1440px はオーバーレイカード、>=1440px は 見出し | 画像 | テキスト の3カラム */}
-      {isSold && property.story && (
+          <1440px はオーバーレイカード、>=1440px は 見出し | 画像 | テキスト の3カラム。
+          成約前でもストーリーがあれば表示、無ければ非表示（Figma 付箋 4470:17326 / 4470:16773） */}
+      {property.story && (
         <section className="bg-light-green">
-          <div className="max-w-[90rem] mx-auto px-4 tablet:px-[4.6875rem] py-16 tablet:py-24 flex flex-col tablet:flex-row tablet:gap-[1.875rem] tablet:items-start">
+          {/* 上下余白 SP 60 (Figma 4470:16188) / PC 96 (Figma 4470:14595) */}
+          <div className="max-w-[90rem] mx-auto px-4 tablet:px-[4.6875rem] py-[3.75rem] tablet:py-24 flex flex-col tablet:flex-row tablet:gap-[1.875rem] tablet:items-start">
             {/* 見出し */}
             <div className="flex flex-col gap-2 mb-8 tablet:mb-0 tablet:w-[32.9375rem] tablet:shrink-0">
-              <p className="font-gothic font-medium text-body-m text-dark-green">
+              {/* SP: sub-heading-2 (Figma 4470:16189) 14px / 24px 行間 1.6、PC: sub-heading-1 16px / 32px 行間 1.5 */}
+              <p className="font-gothic font-medium text-body-s tablet:text-body-m text-dark-green">
                 継承者のストーリー
               </p>
               <p
-                className="font-mincho text-[1.5rem] tablet:text-[2rem] leading-[1.5] tracking-[0.04em] text-dark-green"
+                className="font-mincho text-[1.5rem] tablet:text-[2rem] leading-[1.6] tablet:leading-[1.5] tracking-[0.04em] text-dark-green"
                 style={{ fontFeatureSettings: "'palt' 1" }}
               >
                 この物件を選んだ人の、
@@ -453,23 +493,24 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                 )}
               </div>
               <div className="flex-1 flex flex-col gap-6">
-                <div className="flex flex-col gap-3">
-                  <div className="flex gap-2 items-center">
-                    <span className="tag">
-                      物件のつづき
-                    </span>
+                {/* Figma 4470:14601: タグ → (地域 / タイトル を gap-12 で縦積み) を gap-12 で縦積み */}
+                <div className="flex flex-col gap-3 items-start">
+                  <span className="tag">
+                    物件のつづき
+                  </span>
+                  <div className="flex flex-col gap-3">
                     {property.story.regions && property.story.regions.length > 0 && (
                       <span className="font-gothic font-medium text-body-s text-dark-green">
                         {property.story.regions.map((r) => r.name).join('・')}
                       </span>
                     )}
+                    <p
+                      className="font-mincho text-heading-24 text-dark-green"
+                      style={{ fontFeatureSettings: "'palt' 1" }}
+                    >
+                      {property.story.title}
+                    </p>
                   </div>
-                  <p
-                    className="font-mincho text-heading-24 text-dark-green"
-                    style={{ fontFeatureSettings: "'palt' 1" }}
-                  >
-                    {property.story.title}
-                  </p>
                 </div>
                 {/* button-secondary: ストーリーを読む */}
                 <span className="inline-flex items-center gap-1 h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none w-fit">
@@ -483,10 +524,19 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
       )}
 
       <div data-mobile-toc-end />
-      {/* もっと物件を見る */}
+      {/* PC: 本文と「もっと物件を見る」の区切り線 (Figma 4470:14390: x75〜1365, dark-green 20%)。
+          ストーリーセクションがある場合は背景色で区切られるため不要（成約 PC 4470:14489 には線なし） */}
+      {!property.story && relatedProperties.contents.length > 0 && (
+        <div className="hidden tablet:block max-w-[90rem] mx-auto px-[4.6875rem]">
+          <div className="border-t border-dark-green/20" />
+        </div>
+      )}
+      {/* もっと物件を見る: SP 下余白 120 (Figma 4470:14959) / PC 144 */}
       {relatedProperties.contents.length > 0 && (
-        <section className="px-4 tablet:px-[4.6875rem] pt-[3.75rem] pb-[3.75rem] tablet:pt-24 tablet:pb-36 max-w-[90rem] mx-auto">
-          <div className="max-w-[80rem]">
+        <section className="px-4 tablet:px-[4.6875rem] pt-[3.75rem] pb-[7.5rem] tablet:pt-24 tablet:pb-36 max-w-[90rem] mx-auto">
+          {/* Figma 4470:14393 Container 幅 1280 だが Navigation-Slideshow は 1290 (=セクション内幅) のため max-w は付けない。
+              カードの右 peek は MoreProperties 側で画面右端まではみ出させる */}
+          <div>
             <h2
               className="font-mincho text-[1.5rem] tablet:text-[2rem] leading-[1.5] tracking-[0.04em] text-dark-green mb-8 tablet:mb-16"
               style={{ fontFeatureSettings: "'palt' 1" }}

@@ -5,6 +5,7 @@ import HeroCardStory from '@/components/common/HeroCardStory';
 import ServiceCTA from '@/components/ui/card/ServiceCTA';
 import Reveal from '@/components/common/Reveal';
 import type { Metadata } from 'next';
+import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
 
 export const metadata: Metadata = {
   title: 'スタッフインタビュー',
@@ -186,31 +187,47 @@ const staffProfiles = [
   },
 ];
 
+/**
+ * 会話 1 件。PC: interview-item-pc (Figma 4470:15456 等 = アイコン 50 / gap 51 / 本文 pt8・pb48)、
+ * SP: interview-item-sp (Figma 4470:15777 等 = 左 16 / アイコン列 48 幅・アイコン 44・名前 12px Regular /
+ * gap 12 / 吹き出しは背景なしで pl8・pr12・py8)。司会は light-green 円 + account アイコン (PC 30 / SP 24)。
+ */
 function InterviewItemComponent({ item }: { item: InterviewItem }) {
   const info = speakerInfo[item.speaker];
   return (
-    <div className="flex gap-3 tablet:gap-[3.1875rem] items-start min-h-[5.625rem] tablet:min-h-0 pb-6 tablet:pb-0">
-      <div className="flex flex-col items-center shrink-0 w-[2.5rem] tablet:w-auto">
+    <div className="flex gap-3 tablet:gap-[3.1875rem] items-start min-h-[5.625rem] tablet:min-h-0 pl-4 tablet:pl-0 pb-6 tablet:pb-0">
+      <div className="flex flex-col items-center gap-0.5 tablet:gap-0 shrink-0 w-12 tablet:w-auto">
         {info.avatar ? (
           <div className="w-11 h-11 tablet:w-[3.125rem] tablet:h-[3.125rem] rounded-full overflow-hidden relative shrink-0">
             <Image src={info.avatar} alt={info.name} fill className="object-cover" sizes="50px" />
           </div>
         ) : (
           <div className="w-11 h-11 tablet:w-[3.125rem] tablet:h-[3.125rem] rounded-full bg-light-green flex items-center justify-center shrink-0">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="tablet:w-6 tablet:h-6">
+            {/* Icon - AI-Kikaku - Common/account (Figma I4470:15456;4715:18089) */}
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="tablet:w-[1.875rem] tablet:h-[1.875rem]" aria-hidden>
               <path
-                d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
-                className="fill-dark-green"
+                d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21"
+                className="stroke-dark-green"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z"
+                className="stroke-dark-green"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </div>
         )}
-        <p className="font-gothic font-medium text-[0.75rem] tablet:text-[0.875rem] leading-none tablet:leading-[1.8] text-dark-green text-center whitespace-nowrap mt-1 tablet:mt-0">
+        <p className="font-gothic font-normal tablet:font-medium text-[0.75rem] tablet:text-[0.875rem] leading-[1.8] text-dark-green text-center whitespace-nowrap">
           {info.name}
         </p>
       </div>
       <div className="flex-1 min-w-0 tablet:pb-12 tablet:pt-2">
-        <div className="bg-light-green rounded-2xl pl-2 pr-3 py-2 tablet:bg-transparent tablet:rounded-none tablet:p-0">
+        <div className="pl-2 pr-3 py-2 tablet:p-0">
           <p className="font-gothic font-medium text-body-s tablet:text-body-l text-black">{item.text}</p>
         </div>
       </div>
@@ -231,11 +248,13 @@ export default function StaffInterviewPage() {
             '@type': 'BreadcrumbList',
             itemListElement: [
               { '@type': 'ListItem', position: 1, name: 'ホーム', item: BASE_URL },
-              { '@type': 'ListItem', position: 2, name: 'スタッフインタビュー' },
+              { '@type': 'ListItem', position: 2, name: 'アイ企画を知る' },
+              { '@type': 'ListItem', position: 3, name: 'スタッフインタビュー' },
             ],
           }),
         }}
       />
+      <Breadcrumb items={[{ label: 'アイ企画を知る' }, { label: 'スタッフインタビュー' }]} />
       {/* ヒーローセクション (Figma PC 4211:11332 / SP 4211:11616) */}
       <section className="relative bg-cream overflow-hidden pt-[3.75rem] tablet:pt-[6.25rem] pb-[3.75rem] tablet:pb-24">
         {/* SP: 見出し → card-story (Figma 4211:11616: 60px section padding, title 358×48, 32px gap to card-story) */}
@@ -254,6 +273,10 @@ export default function StaffInterviewPage() {
           mainImage="/images/staff-interview/hero.jpg"
           leftImage="/images/staff-interview/photo-interview-1.jpg"
           rightImage="/images/staff-interview/photo-caption.jpg"
+          // SP は 3 枚とも PC と切り出しが異なる (Figma 4470:15765 / 15769 / 15767)
+          spMainImage="/images/staff-interview/hero-sp.jpg"
+          spLeftImage="/images/staff-interview/photo-interview-1-sp.jpg"
+          spRightImage="/images/staff-interview/photo-caption-sp.jpg"
           mainAlt="髙野大地と髙野恒成のインタビュー風景"
           priority
         />
@@ -264,7 +287,8 @@ export default function StaffInterviewPage() {
 
       {/* インタビューセクション（PC: サイドバー付き / SP: フローティング TOC）
           Figma SP 4211:11660: section pb-[7.5rem]、各 item pb-[1.5rem] */}
-      <Reveal as="section" className="pt-12 tablet:pt-24 pb-[7.5rem] tablet:pb-24 px-4 tablet:pl-[2.8125rem] tablet:pr-[4.6875rem] max-w-[90rem] mx-auto">
+      {/* Figma Handoff 20260724: PC 4470:15450 (上余白なし・下 144) / SP 4470:15770 等 (上余白なし・末尾 pb-120) */}
+      <Reveal as="section" className="pb-[7.5rem] tablet:pb-36 px-4 tablet:pl-[2.8125rem] tablet:pr-[4.6875rem] max-w-[90rem] mx-auto">
         <div className="flex max-tablet:flex-col items-start tablet:justify-between">
           {/* PC: TOC サイドバー（スクロール追従）。SP は PageNavSp で代替 */}
           <div className="hidden tablet:block tablet:w-[20.1875rem] shrink-0 tablet:sticky tablet:top-24">
@@ -275,13 +299,14 @@ export default function StaffInterviewPage() {
 
           {/* 右コンテンツ */}
           <div className="w-full tablet:w-[49.5rem]" data-mobile-toc-start>
-            {/* セクション見出し */}
-            <div className="mb-16" id="toc-0">
-              <p className="text-body-m font-gothic font-medium text-dark-green mb-4">インタビュー</p>
-              <h2 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.12rem] text-dark-green mb-4" style={{ fontFeatureSettings: "'palt' 1" }}>
+            {/* セクション見出し (PC Unit 4470:15451: ラベル→見出し 8 / 見出し 48px / →サブ 16 / サブ 18px・行間 1.6 / 一覧まで 96。
+                SP 4470:15773: ラベルなし / 見出し 24px / →サブ 8 / サブ 14px / 一覧まで 32) */}
+            <div className="mb-8 tablet:mb-24" id="toc-0">
+              <p className="hidden tablet:block text-body-m font-gothic font-medium text-dark-green mb-2">インタビュー</p>
+              <h2 className="font-mincho text-heading-24 tablet:text-heading-48 text-dark-green mb-2 tablet:mb-4" style={{ fontFeatureSettings: "'palt' 1" }}>
                 地域に開かれたサステナブルな不動産屋を目指して
               </h2>
-              <p className="text-body-m text-dark-green">髙野大地 × 髙野恒成</p>
+              <p className="font-gothic font-medium text-body-s tablet:text-[1.125rem] tablet:leading-[1.6] text-dark-green">髙野大地 × 髙野恒成</p>
             </div>
 
             {/* インタビュー本文 */}
@@ -292,8 +317,9 @@ export default function StaffInterviewPage() {
                 if (section.type === 'heading') {
                   const tocId = `toc-${headingIndex++}`;
                   return (
-                    <div key={sIdx} className="py-12" id={tocId}>
-                      <h3 className="font-mincho text-2xl tablet:text-[2rem] leading-[1.5] tracking-[0.04em] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+                    // 見出し下 SP 32 / PC 48 (Figma SP 4470:15797 / PC Rich Text-pc 4470:15473)。上の余白は直前の画像の mb で取る
+                    <div key={sIdx} className="pb-8 tablet:pb-12" id={tocId}>
+                      <h3 className="font-mincho text-heading-24 tablet:text-heading-32 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
                         {section.heading}
                       </h3>
                     </div>
@@ -302,7 +328,9 @@ export default function StaffInterviewPage() {
 
                 if (section.type === 'image') {
                   return section.image ? (
-                    <div key={sIdx} className="my-8 tablet:my-12 w-full aspect-[792/528] relative rounded-2xl overflow-hidden">
+                    // Image + Caption (PC 4470:15471 = r24 / SP 4470:15793 = r16)。直前の会話直下に置き、
+                    // 次の見出しまで SP 84 (pb24 + section pb60) / PC 96
+                    <div key={sIdx} className="mb-[5.25rem] tablet:mb-24 w-full aspect-[792/528] relative rounded-2xl tablet:rounded-3xl overflow-hidden">
                       <Image
                         src={section.image}
                         alt=""
@@ -359,12 +387,15 @@ export default function StaffInterviewPage() {
             </div>
 
             {/* スタッフプロフィール (data-mobile-toc-end: ここまで TOC ボタン表示) */}
-            <div className="bg-light-green rounded-2xl p-12 mt-16" data-mobile-toc-end>
-              <div className="grid grid-cols-1 tablet:grid-cols-2 gap-12">
+            {/* Figma PC unit 4470:15497 = px60・py48・gap30・カード 321 / アイコン 51・名前 18px・gap16・説明まで 8。
+                SP unit 4470:15818 = px24・py32・gap24 / アイコン 44・名前 16px・gap12・説明まで 4。
+                最後の会話の直下 (PC は会話の pb48 + 48 = 96) */}
+            <div className="bg-light-green rounded-2xl px-6 py-8 tablet:px-[3.75rem] tablet:py-12 tablet:mt-12" data-mobile-toc-end>
+              <div className="grid grid-cols-1 tablet:grid-cols-2 gap-6 tablet:gap-[1.875rem]">
                 {staffProfiles.map((staff) => (
                   <div key={staff.name}>
-                    <div className="flex items-center gap-4 mb-2">
-                      <div className="w-[3.1875rem] h-[3.1875rem] rounded-full overflow-hidden relative shrink-0">
+                    <div className="flex items-center gap-3 tablet:gap-4 h-[3.1875rem] mb-1 tablet:mb-2">
+                      <div className="w-11 h-11 tablet:w-[3.1875rem] tablet:h-[3.1875rem] rounded-full overflow-hidden relative shrink-0">
                         <Image
                           src={staff.avatar}
                           alt={staff.name}
@@ -373,11 +404,11 @@ export default function StaffInterviewPage() {
                           sizes="51px"
                         />
                       </div>
-                      <h4 className="font-mincho text-heading-18 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+                      <h4 className="font-mincho text-heading-16 tablet:text-heading-18 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
                         {staff.name}
                       </h4>
                     </div>
-                    <p className="text-body-s text-dark-green">
+                    <p className="font-gothic text-body-s text-dark-green">
                       {staff.description}
                     </p>
                   </div>

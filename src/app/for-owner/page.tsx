@@ -10,6 +10,7 @@ import CardArrowFlow from '@/components/ui/content/CardArrowFlow';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
 
 export const metadata: Metadata = {
   title: '不動産をお持ちの方へ',
@@ -44,6 +45,7 @@ const steps = [
 const features = [
   {
     image: '/images/for-owner/iejmai.jpg',
+    imageSp: '/images/for-owner/iejmai-sp.jpg',
     title: 'アイ企画の家じまい',
     body: '大切に使ってきた家、幼い頃育ったご実家、相続で受け継いだ祖先の古家。\nいつかは手放さないといけないのはわかっているけど、思い入れもあるし、、、\n新規活用や、次の方へ受け継ぐ前に、気持ちの整理整頓をしませんか。\n弊社では、思い出の詰まった建物を、フィルムカメラに残す撮影サービスを行なっています。\nフォトグラファーとともにご依頼先に伺い、撮影いたします。',
     activities: [
@@ -56,8 +58,9 @@ const features = [
   },
   {
     image: '/images/for-owner/chiiki.jpg',
+    imageSp: '/images/for-owner/chiiki-sp.jpg',
     title: '地域づくりへの取り組み',
-    body: '不動産は土地固有の条件だけでは"金額"が決まりません。その土地が属する地域も、査定価格に大きく関わります。そこでアイ企画では、そこに住む皆さんで、地域の魅力を高め、住みたいと思われる地域づくりをお手伝いする取り組みを行なっています。',
+    body: '不動産は土地固有の条件だけでは“金額”が決まりません。その土地が属する地域も、査定価格に大きく関わります。そこでアイ企画では、そこに住む皆さんで、地域の魅力を高め、住みたいと思われる地域づくりをお手伝いする取り組みを行なっています。',
     activities: [
       {
         title: '空き家の管理',
@@ -119,58 +122,82 @@ export default async function ForOwnerPage() {
           }),
         }}
       />
+      <Breadcrumb items={[{ label: 'アイ企画を知る' }, { label: '不動産をお持ちの方へ' }]} />
 
       {/* ヒーロー (Figma 4211:11400 PC: 1440×784 / 4211:11898 SP).
-          PC: top 48px + content 640px + bottom 96px. SP: top/bottom 60px. */}
+          PC: top 48px + content 640px + bottom 96px。画像 675×640 / 右 45px (Figma 4470:15598)。
+          SP (4470:16054): top/bottom 60px、見出しと画像の間 32、画像 358×358 正方形 (SP 専用トリミング hero-sp.jpg) */}
       <section className="pb-[3.75rem] tablet:pb-24 pt-[3.75rem] tablet:pt-12 max-w-[90rem] mx-auto">
-        <div className="flex flex-col tablet:flex-row items-stretch tablet:items-center gap-6 tablet:gap-[1.875rem]">
+        <div className="flex flex-col tablet:flex-row items-stretch tablet:items-center gap-8 tablet:gap-[1.875rem]">
           <div className="flex-1 flex items-start tablet:items-center px-4 tablet:pl-[4.6875rem] tablet:pr-0">
             <h1 className="font-mincho text-heading-32 tablet:text-heading-48 text-dark-green text-left" style={{ fontFeatureSettings: "'palt' 1" }}>
               不動産を<br className="tablet:hidden" />お持ちの方へ
             </h1>
           </div>
-          <div className="w-full px-4 tablet:px-0 tablet:w-[40.3125rem] tablet:mr-[4.6875rem] shrink-0">
-            <div className="relative aspect-[358/443] tablet:aspect-auto tablet:h-[40rem] rounded-3xl overflow-hidden">
+          <div className="w-full px-4 tablet:px-0 tablet:w-[42.1875rem] tablet:mr-[2.8125rem] shrink-0">
+            <div className="relative aspect-square tablet:aspect-auto tablet:h-[40rem] rounded-3xl overflow-hidden">
+              <Image
+                src="/images/for-owner/hero-sp.jpg"
+                alt="不動産をお持ちの方へ"
+                fill
+                className="object-cover tablet:hidden"
+                priority
+                sizes="100vw"
+              />
               <Image
                 src="/images/for-owner/hero.jpg"
                 alt="不動産をお持ちの方へ"
                 fill
-                className="object-cover"
+                className="object-cover hidden tablet:block"
                 priority
-                sizes="(max-width: 992px) 100vw, 645px"
+                sizes="675px"
               />
             </div>
           </div>
         </div>
       </section>
 
-      {/* まずはご相談 (Figma PC 4211:11405 = 1440×720 / SP 4211:11902 = compact) */}
+      {/* まずはご相談 (Figma PC 4470:15600 = 1440×720 / SP 4470:16058)。
+          SP は背景写真のトリミングとグラデーションが PC と異なる (section-bg-sp.jpg) */}
       <Reveal as="section" className="relative overflow-hidden tablet:min-h-[45rem] tablet:flex tablet:items-center">
         <ParallaxLayer>
+          <Image
+            src="/images/for-owner/section-bg-sp.jpg"
+            alt=""
+            fill
+            className="object-cover tablet:hidden"
+            sizes="100vw"
+          />
           <Image
             src="/images/for-owner/section-bg.jpg"
             alt=""
             fill
-            className="object-cover"
+            className="object-cover hidden tablet:block"
           />
           <div
-            className="absolute inset-0"
+            className="absolute inset-0 tablet:hidden"
+            style={{
+              backgroundImage: 'linear-gradient(-46.15deg, rgb(var(--overlay-dark) / 0.25) 3.3%, rgb(var(--overlay-dark) / 0.4) 95%)',
+            }}
+          />
+          <div
+            className="absolute inset-0 hidden tablet:block"
             style={{
               backgroundImage: 'linear-gradient(243deg, rgb(var(--overlay-dark) / 0.15) 21.5%, rgb(var(--overlay-dark) / 0.4) 80.4%)',
             }}
           />
         </ParallaxLayer>
         <div className="relative px-4 tablet:px-[4.6875rem] max-w-[90rem] mx-auto py-[3.75rem] tablet:py-24 w-full">
-          <div className="flex flex-col gap-6 tablet:gap-8">
+          <div className="flex flex-col gap-8">
             <div className="flex flex-col gap-2 text-cream">
-              <p className="font-gothic font-medium text-body-s tablet:text-body-l">
+              <p className="font-gothic font-medium text-body-m">
                 不動産をお持ちですか？
               </p>
               <h2 className="font-mincho text-heading-32 tablet:text-heading-48 text-cream" style={{ fontFeatureSettings: "'palt' 1" }}>
                 まずはご相談ください。
               </h2>
             </div>
-            <div className="font-gothic font-medium text-body-s tablet:text-body-l text-cream">
+            <div className="font-gothic font-medium text-body-m tablet:text-body-l text-cream">
               <p>本当は価値のある不動産、空き家や空き地などを眠らせていませんか？</p>
               <p>不動産は、ただ所有しているだけでは価値はどんどんと落ちてしまいます。</p>
               <p>それぞれ個性のある不動産だからこそ、小さな土地や古い建物にも、魅力があります。</p>
@@ -182,19 +209,20 @@ export default async function ForOwnerPage() {
         </div>
       </Reveal>
 
-      {/* 売却までの流れ (SP 左寄せ) */}
+      {/* 売却までの流れ (SP 左寄せ)。PC 見出し・タイムライン・注記は幅 704 (Figma 4470:15606 / 15607 / 15613) */}
       <Reveal as="section" className="bg-cream py-[3.75rem] tablet:py-24">
         <div className="page-container">
-          <div className="flex flex-col gap-2 items-start tablet:items-center tablet:text-center mb-8 tablet:mb-12">
-            <p className="font-gothic font-medium text-body-s tablet:text-body-l text-dark-green">
+          <div className="flex flex-col gap-2 items-start tablet:items-center tablet:text-center mb-10 tablet:mb-12">
+            <p className="font-gothic font-medium text-body-s tablet:text-body-m text-dark-green">
               物件サポート
             </p>
             <h2 className="font-mincho text-heading-32 tablet:text-heading-48 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               売却までの流れ
             </h2>
           </div>
-          <CardArrowFlow steps={steps} />
-          <div className="max-w-[49.5rem] mx-auto mt-8">
+          <CardArrowFlow steps={steps} maxWidthClassName="max-w-[44rem]" />
+          {/* 注記: SP は py24 の枠 (4470:16075) → タイムラインから 24・下にも 24 / PC はタイムラインから 48 (section gap48) */}
+          <div className="max-w-[44rem] mx-auto mt-6 pb-6 tablet:mt-12 tablet:pb-0">
             <p className="text-sm text-dark-green/50 leading-[1.6]">
               ※査定・提案、媒介契約には費用は発生しません。
             </p>
@@ -209,18 +237,19 @@ export default async function ForOwnerPage() {
       <Reveal as="section" className="bg-light-green py-[3.75rem] tablet:py-24">
         <div className="page-container">
           <div className="flex flex-col gap-2 mb-6 tablet:mb-8">
-            <p className="font-gothic font-medium text-body-s tablet:text-body-l text-dark-green">
+            <p className="font-gothic font-medium text-body-s tablet:text-body-m text-dark-green">
               アイ企画の強み
             </p>
             <h2 className="font-mincho text-heading-32 tablet:text-heading-48 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
-              アイ企画で物件を活用する
+              アイ企画で<br className="tablet:hidden" />物件を活用する
             </h2>
           </div>
-          <div className="mb-10 tablet:mb-24">
-            <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1rem] leading-[1.8] text-dark-green">
+          {/* 導入文: 16px / 行間 2 (PC/SP 共通)。下余白 SP 34 (pb24 + gap10, 4470:16078) / PC 96 */}
+          <div className="mb-[2.125rem] tablet:mb-24">
+            <p className="font-gothic font-medium text-body-m text-dark-green">
               私たちのプロセスは、お客様のニーズに合わせたサポートを提供します。
             </p>
-            <p className="font-gothic font-medium text-[0.875rem] tablet:text-[1rem] leading-[1.8] text-dark-green">
+            <p className="font-gothic font-medium text-body-m text-dark-green">
               安心して次の一歩へ進めるよう、全力でお手伝いします。
             </p>
           </div>
@@ -229,23 +258,34 @@ export default async function ForOwnerPage() {
             {features.map((feature, i) => (
               <div
                 key={feature.title}
-                className={`flex flex-col tablet:flex-row gap-8 tablet:gap-[3.625rem] items-start ${i < features.length - 1 ? 'pb-12 tablet:pb-24 tablet:border-b tablet:border-dark-green/10' : ''}`}
+                // 区切り線 rgba(42,54,59,.2)。SP (Paragraph-sp 4470:16085) は最後の活動カード直下に線・下余白なし、
+                // PC (Paragraph 4470:15621) は pb96 の下に線
+                className={`flex flex-col tablet:flex-row gap-8 tablet:gap-[3.625rem] items-start ${i < features.length - 1 ? 'tablet:pb-24 border-b border-dark-green/20' : ''}`}
               >
-                {/* Image (PC: テキストと 50:50) #9 */}
+                {/* Image (PC: テキストと 50:50, 616×461 r12 / SP: 763:508.67 r16, SP 専用トリミング) #9 */}
                 <div className="w-full tablet:flex-1 tablet:min-w-0">
-                  <div className="relative aspect-[616/461] rounded-xl overflow-hidden">
+                  <div className="relative aspect-[3/2] tablet:aspect-[616/461] rounded-2xl tablet:rounded-xl overflow-hidden">
+                    <Image
+                      src={feature.imageSp}
+                      alt={feature.title}
+                      fill
+                      className="object-cover tablet:hidden"
+                      sizes="100vw"
+                    />
                     <Image
                       src={feature.image}
                       alt={feature.title}
                       fill
-                      className="object-cover"
+                      className="object-cover hidden tablet:block"
+                      sizes="616px"
                     />
                   </div>
                 </div>
 
                 {/* Text + Activities */}
                 <div className="flex-1 pt-0 tablet:pt-4">
-                  <div className="flex flex-col gap-12">
+                  {/* 本文→活動カード: SP 32 (4732:20677) / PC 48 */}
+                  <div className="flex flex-col gap-8 tablet:gap-12">
                     <div className="flex flex-col gap-4">
                       <h3 className="font-mincho text-lg tablet:text-2xl tracking-[0.04em] !leading-[1.6] text-dark-green">
                         {feature.title}
@@ -255,12 +295,14 @@ export default async function ForOwnerPage() {
                       </p>
                     </div>
 
-                    {/* Activity cards */}
-                    <div className="flex flex-col gap-2">
+                    {/* Activity cards: 間隔 SP 8 / PC 16 (4715:18752) */}
+                    <div className="flex flex-col gap-2 tablet:gap-4">
                       {feature.activities.map((activity) => (
                         <div
                           key={activity.title}
-                          className="bg-cream rounded-2xl p-6 tablet:px-8 tablet:py-8"
+                          // SP: 本文が短い項目も高さ 143 で揃え、中身は上下中央 (Item 4732:20679 / 20684 h143 justify-center)
+                          // PC: pt30 pb32 px30 (Item 4715:18744 / 18748)
+                          className="bg-cream rounded-2xl p-6 min-h-[8.9375rem] flex flex-col justify-center tablet:block tablet:min-h-0 tablet:px-[1.875rem] tablet:pt-[1.875rem] tablet:pb-8"
                         >
                           <div className="flex flex-col gap-2">
                             <p className="font-gothic font-medium text-body-m tablet:text-category-2 text-dark-green">
@@ -274,7 +316,8 @@ export default async function ForOwnerPage() {
                             <div className="mt-4">
                               <Link
                                 href={activity.link.href}
-                                className="inline-flex items-center gap-1 text-[0.75rem] leading-none font-gothic font-medium text-dark-green hover:opacity-70 transition-opacity"
+                                // Textlink: SP 12px Regular 行間1.8 (Textlink-sp) / PC 14px Medium (JP/Button S)
+                                className="inline-flex items-center gap-1 text-[0.75rem] leading-[1.8] font-normal tablet:text-[0.875rem] tablet:leading-none tablet:font-medium font-gothic text-dark-green hover:opacity-70 transition-opacity"
                                 {...(activity.link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                               >
                                 {activity.link.label}
@@ -308,9 +351,10 @@ export default async function ForOwnerPage() {
           </h2>
           <ArticleCarousel
             articles={[
-              { tag: '不動産活用', title: '子どもに安心して引き継げる駐車場経営とは？ 今から始める管理の仕組み作り', date: '2025.09.18' },
-              { tag: '不動産活用', title: '契約が早い＝空きが埋まる！ 三島市の月極駐車場に電子契約を導入すべき理由', date: '2025.09.18' },
-              { tag: '不動産活用', title: '小さな駐車場でも"すぐに埋まる"借り手が見つかるGoogleマップ活用法', date: '2025.09.18' },
+              // image: Figma card-article (4470:15637〜15639) のサムネイル。タイトルが一致する 3 件のみ
+              { tag: '不動産活用', title: '子どもに安心して引き継げる駐車場経営とは？ 今から始める管理の仕組み作り', date: '2025.09.18', image: '/images/for-owner/article-1.jpg' },
+              { tag: '不動産活用', title: '契約が早い＝空きが埋まる！ 三島市の月極駐車場に電子契約を導入すべき理由', date: '2025.09.18', image: '/images/for-owner/article-2.jpg' },
+              { tag: '不動産活用', title: '小さな駐車場でも"すぐに埋まる"借り手が見つかるGoogleマップ活用法', date: '2025.09.18', image: '/images/for-owner/article-3.jpg' },
               { tag: '不動産活用', title: '空き家を活かす：相続した実家を負動産にしないための3つの選択肢', date: '2025.09.04' },
               { tag: '不動産活用', title: 'サブリースのメリット・デメリットを地元目線で整理する', date: '2025.08.21' },
               { tag: '不動産活用', title: '三島市で進む再開発、所有不動産への影響と備え方', date: '2025.08.07' },
@@ -322,9 +366,10 @@ export default async function ForOwnerPage() {
 
       {/* お客様の声 (Figma 4211:11890 / 11447) */}
       {voices.contents.length > 0 && (
-        <Reveal as="section" className="bg-light-green py-[3.75rem] tablet:py-24">
-          <div className="px-4 tablet:px-[4.6875rem] max-w-[90rem] mx-auto mb-8 tablet:mb-[3.75rem]">
-            <h2 className="font-mincho text-[1.75rem] tablet:text-[3rem] leading-[1.5] tracking-[0.07rem] tablet:tracking-[0.12rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
+        // Figma PC 4470:13405 (pt96 / pb64 / 見出し→カード 64) / SP 4470:13745 (py60 / 32)
+        <Reveal as="section" className="bg-light-green py-[3.75rem] tablet:pt-24 tablet:pb-16">
+          <div className="px-4 tablet:px-[4.6875rem] max-w-[90rem] mx-auto mb-8 tablet:mb-16">
+            <h2 className="font-mincho text-heading-24 tablet:text-heading-32 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               お客様の声
             </h2>
           </div>
@@ -342,6 +387,8 @@ export default async function ForOwnerPage() {
         <ContactCtaBanner
           bgImage="/images/for-owner/banner-contact.jpg"
           heading={<>不動産に関すること、<br />ぜひご相談ください。</>}
+          // Figma PC 4470:15647 pb144 / SP 4470:16121 pt0 pb120 (FAQ 直後・フッター直前)
+          sectionPaddingClassName="pt-0 pb-[7.5rem] tablet:pb-36"
           ctas={[
             { label: '不動産をお持ちの方', href: '/contact' },
             { label: 'その他のお問い合わせ', href: '/contact' },

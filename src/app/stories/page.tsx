@@ -12,6 +12,7 @@ import { BookIcon } from '@/components/ui/icons/icons';
 import Reveal from '@/components/common/Reveal';
 import Arrow from '@/components/ui/interactive/Arrow';
 import type { Metadata } from 'next';
+import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
 
 export const metadata: Metadata = {
   title: '暮らしを知る',
@@ -96,8 +97,9 @@ function FeaturedStoryCard({ story }: { story: Story }) {
 
   return (
     <Link href={`/stories/${story.id}`} className="block group w-full">
-      {/* #22: 詳細ページのヒーローと同じレイアウト(1440px時)。画像 675×640 / テキスト左89・右60 */}
-      <div className="flex flex-col tablet:flex-row gap-6 tablet:gap-0 items-stretch">
+      {/* #22: 詳細ページのヒーローと同じレイアウト(1440px時)。画像 675×640 / テキスト左89・右60
+          (Figma 4470:15360 PC / 4470:15097 SP: SP は画像→テキスト gap-30) */}
+      <div className="flex flex-col tablet:flex-row gap-[1.875rem] tablet:gap-0 items-stretch">
         {/* Image */}
         <div className="relative w-full tablet:w-[42.1875rem] shrink-0 aspect-[850/639] tablet:aspect-auto tablet:h-[40rem] overflow-hidden rounded-[1.5rem]">
           <CmsImage
@@ -110,8 +112,8 @@ function FeaturedStoryCard({ story }: { story: Story }) {
           />
         </div>
 
-        {/* Info */}
-        <div className="flex flex-col gap-6 tablet:gap-12 items-start justify-center flex-1 min-w-0 tablet:pl-[5.5625rem] tablet:pr-[3.75rem]">
+        {/* Info (Figma 4470:15363 / 4470:15100: Top→ボタン gap-24、SP は px-12) */}
+        <div className="flex flex-col gap-6 items-start justify-center flex-1 min-w-0 px-3 tablet:pl-[5.5625rem] tablet:pr-[3.75rem]">
           <div className="flex flex-col gap-4 items-start w-full">
             <div className="flex gap-3 items-center">
               <span className="tag">
@@ -175,8 +177,9 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
 
   return (
     <div className="bg-cream">
-      {/* ヘッダーセクション (Figma 4211:10961: SP pt-60 pb-32 px-16, gap-32) */}
-      <section className="px-4 tablet:px-[2.8125rem] pt-[3.75rem] pb-8 tablet:py-24 max-w-[90rem] mx-auto">
+      <Breadcrumb items={[{ label: '暮らしを知る' }]} />
+      {/* ヘッダーセクション (Figma 4470:15091 SP: pt-60 pb-32 px-16, gap-32 / 4470:15353 PC: py-96 px-75, gap-48) */}
+      <section className="px-4 tablet:px-[4.6875rem] pt-[3.75rem] pb-8 tablet:py-24 max-w-[90rem] mx-auto">
         <div className="flex flex-col gap-8 tablet:gap-12">
           <div className="flex flex-col gap-2">
             <h1
@@ -186,7 +189,7 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
               暮らしを知る
             </h1>
           </div>
-          <p className="font-gothic font-medium text-[1rem] leading-[1.8] tablet:text-body-l text-dark-green max-w-[48rem]">
+          <p className="font-gothic font-medium text-[1rem] leading-[2] tablet:text-body-l text-dark-green max-w-[48rem]">
             物件だけじゃわからない、<br className="tablet:hidden" />三島での暮らしのこと。
             <br />
             ここで一緒に、のぞいてみませんか？
@@ -199,8 +202,8 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
         <MobileStoriesFilter />
       </Suspense>
 
-      {/* フィルター + リスト */}
-      <Reveal as="section" className="px-4 tablet:px-[2.8125rem] pb-[3.75rem] tablet:pb-24 max-w-[90rem] mx-auto">
+      {/* フィルター + リスト (Figma 4470:15357 PC: px-75 pb-96 / 4470:15116 SP: pb-120) */}
+      <Reveal as="section" className="px-4 tablet:px-[4.6875rem] pb-[7.5rem] tablet:pb-24 max-w-[90rem] mx-auto">
         <div>
           {/* PC用フィルターバー（pickup の上に配置） */}
           <div className="hidden tablet:block mb-[6rem]">
@@ -215,9 +218,9 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
 
           {filteredContents.length > 0 ? (
             <>
-              {/* フィーチャードストーリー (Figma 4211:10987: SP cards gap-32) */}
+              {/* フィーチャードストーリー (Figma 4470:15097 SP: pb-60 / PC: 下の一覧まで 96) */}
               {featuredStory && (
-                <div data-stories-filter-start id="stories-list" className="mb-8 tablet:mb-24">
+                <div data-stories-filter-start id="stories-list" className="mb-[3.75rem] tablet:mb-24">
                   <FeaturedStoryCard story={featuredStory} />
                 </div>
               )}
@@ -254,14 +257,14 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
         </div>
       </Reveal>
 
-      {/* 仲人バナー */}
-      <Reveal as="section" className="px-4 tablet:px-[2.8125rem] pb-24 tablet:pb-36 max-w-[90rem] mx-auto flex justify-center">
+      {/* 仲人バナー (Figma 4470:15412 PC: px-45 pb-144, Card p-30 / 4470:15135 SP: pb-120, Card pt-48 pb-30 px-30, ロゴ→文言 gap-30) */}
+      <Reveal as="section" className="px-4 tablet:px-[2.8125rem] pb-[7.5rem] tablet:pb-36 max-w-[90rem] mx-auto flex justify-center">
         <Link
           href="/about"
-          className="block group bg-light-green rounded-[1.5rem] p-[1.875rem] w-full max-w-[40.375rem] overflow-hidden"
+          className="block group bg-light-green rounded-[1.5rem] pt-12 pb-[1.875rem] px-[1.875rem] tablet:p-[1.875rem] w-full max-w-[40.375rem] overflow-hidden"
         >
           <div className="flex flex-col items-center text-center gap-[1.875rem] tablet:flex-row tablet:items-end tablet:justify-between tablet:text-left">
-            <div className="flex flex-col gap-4 items-center tablet:items-start justify-center p-3 tablet:flex-1">
+            <div className="flex flex-col gap-[1.875rem] tablet:gap-4 items-center tablet:items-start justify-center tablet:p-3 tablet:flex-1">
               {/* 仲 + NAKA-BITO ロゴ */}
               <div className="h-[3.5rem] w-[16.25rem] relative">
                 <Image
