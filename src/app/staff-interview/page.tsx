@@ -97,6 +97,8 @@ const interviewSections: InterviewSection[] = [
       },
     ],
   },
+  // Figma 4470:15471 (SP 4470:15793): 最初の会話ブロックの末尾に画像
+  { type: 'image', image: '/images/staff-interview/photo-body-1.jpg' },
   { type: 'heading', heading: '三島の魅力を伝え続けるということ' },
   {
     type: 'conversation',
@@ -123,8 +125,8 @@ const interviewSections: InterviewSection[] = [
       },
     ],
   },
-  // Figma 4211:11346: 画像は「三島の魅力」セクション会話の末尾に配置
-  { type: 'image', image: '/images/staff-interview/photo-caption.jpg' },
+  // Figma 4470:15483 (SP 4470:15805): 画像は「三島の魅力」セクション会話の末尾に配置
+  { type: 'image', image: '/images/staff-interview/photo-body-2.jpg' },
   { type: 'heading', heading: '中古住宅も大切にする「もったいない精神」' },
   {
     type: 'conversation',
@@ -388,10 +390,7 @@ export default function StaffInterviewPage() {
 
       {/* サービス CTA (共通コンポーネント Figma 4211:11395) */}
       <Reveal>
-        <ServiceCTA
-          customerImage="/images/staff-interview/cta-customer.jpg"
-          ownerImage="/images/staff-interview/cta-owner.jpg"
-        />
+        <ServiceCTA />
       </Reveal>
     </div>
   );
