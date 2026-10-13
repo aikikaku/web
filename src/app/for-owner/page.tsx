@@ -10,6 +10,7 @@ import CardArrowFlow from '@/components/ui/content/CardArrowFlow';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
 
 export const metadata: Metadata = {
   title: '不動産をお持ちの方へ',
@@ -119,6 +120,7 @@ export default async function ForOwnerPage() {
           }),
         }}
       />
+      <Breadcrumb items={[{ label: 'アイ企画を知る' }, { label: '不動産をお持ちの方へ' }]} />
 
       {/* ヒーロー (Figma 4211:11400 PC: 1440×784 / 4211:11898 SP).
           PC: top 48px + content 640px + bottom 96px. SP: top/bottom 60px. */}

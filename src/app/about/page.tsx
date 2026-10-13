@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import ServiceCTA from '@/components/ui/card/ServiceCTA';
 import MoreLinkButton from '@/components/ui/interactive/MoreLinkButton';
 import Reveal from '@/components/common/Reveal';
+import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
 
 export const metadata: Metadata = {
   title: 'アイ企画について',
@@ -27,6 +28,7 @@ export default function AboutPage() {
           }),
         }}
       />
+      <Breadcrumb items={[{ label: 'アイ企画を知る' }, { label: 'アイ企画について' }]} />
 
       {/* ヒーローセクション (Figma 4211:11107 + 4211:11109 / PC: 4211:10001 等) */}
       <section className="bg-cream pt-12 pb-12 tablet:py-24">

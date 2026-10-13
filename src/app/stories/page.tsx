@@ -12,6 +12,7 @@ import { BookIcon } from '@/components/ui/icons/icons';
 import Reveal from '@/components/common/Reveal';
 import Arrow from '@/components/ui/interactive/Arrow';
 import type { Metadata } from 'next';
+import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
 
 export const metadata: Metadata = {
   title: '暮らしを知る',
@@ -175,6 +176,7 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
 
   return (
     <div className="bg-cream">
+      <Breadcrumb items={[{ label: '暮らしを知る' }]} />
       {/* ヘッダーセクション (Figma 4211:10961: SP pt-60 pb-32 px-16, gap-32) */}
       <section className="px-4 tablet:px-[2.8125rem] pt-[3.75rem] pb-8 tablet:py-24 max-w-[90rem] mx-auto">
         <div className="flex flex-col gap-8 tablet:gap-12">

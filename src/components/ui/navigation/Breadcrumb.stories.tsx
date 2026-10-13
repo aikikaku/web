@@ -4,37 +4,32 @@ import Breadcrumb from './Breadcrumb';
 const meta: Meta<typeof Breadcrumb> = {
   title: 'ui/navigation/Breadcrumb',
   component: Breadcrumb,
-  parameters: { layout: 'padded' },
+  parameters: { layout: 'fullscreen' },
 };
 export default meta;
 
 type Story = StoryObj<typeof Breadcrumb>;
 
-// このコンポーネントは現状 src/app 配下のどのページからも実際には呼ばれていない
-// (各ページは JSON-LD の BreadcrumbList のみで見た目のパンくずは独自実装)。
-// interface (label / href?) から妥当な例をここで組み立てている。
-
+/** 一覧ページ (/voice, /properties, /stories 等) */
 export const TwoLevel: Story = {
   args: {
     items: [{ label: 'お客様の声' }],
   },
 };
 
-export const ThreeLevel: Story = {
+/** アイ企画を知る配下 (/about, /message 等)。「アイ企画を知る」はページが無いのでリンクなし */
+export const UnderAboutMenu: Story = {
   args: {
-    items: [
-      { label: '物件を探す', href: '/properties' },
-      { label: '三島市谷田の一戸建て' },
-    ],
+    items: [{ label: 'アイ企画を知る' }, { label: 'アイ企画について' }],
   },
 };
 
-export const DeepPath: Story = {
+/** 詳細ページ (/properties/[id], /stories/[id])。長いタイトルは省略記号で切る */
+export const Detail: Story = {
   args: {
     items: [
-      { label: '暮らしを知る', href: '/stories' },
-      { label: '光ヶ丘・富士見台', href: '/stories?region=nagaizumi' },
-      { label: '家族の夢を叶えた、三島市谷田での新生活' },
+      { label: '物件を探す', href: '/properties' },
+      { label: '静かな住宅街で叶える、理想の暮らし。三島市谷田の中古住宅（4LDK+S）' },
     ],
   },
 };

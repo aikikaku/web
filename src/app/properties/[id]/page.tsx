@@ -17,6 +17,7 @@ import RichText, { extractTocFromHtml } from '@/components/ui/post/RichText';
 import TocNav from '@/components/ui/navigation/TocNav';
 import ListItemDeco from '@/components/ui/content/ListItemDeco';
 import ListItemDef from '@/components/ui/content/ListItemDef';
+import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
 
 export const revalidate = 3600;
 
@@ -210,13 +211,15 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <Breadcrumb items={[{ label: '物件を探す', href: '/properties' }, { label: property.title }]} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      {/* ヒーローセクション - カード型 */}
-      <section className="px-4 tablet:px-[2.8125rem] pt-12 max-w-[90rem] mx-auto">
-        <div className="bg-light-green rounded-[2rem] p-4 tablet:p-[1.875rem]">
+      {/* ヒーローセクション - カード型。パンくず追加に伴い上余白を調整 (Figma Handoff 20260724):
+          PC はパンくず下 48px、SP は緑背景を全幅にしてパンくず下 8px / 内側 上下32px・左右16px (4470:14926) */}
+      <section className="tablet:px-[2.8125rem] pt-2 tablet:pt-12 max-w-[90rem] mx-auto">
+        <div className="bg-light-green tablet:rounded-[2rem] px-4 py-8 tablet:p-[1.875rem]">
           <PropertyDetailClient
             allImages={allImages}
             title={property.title}

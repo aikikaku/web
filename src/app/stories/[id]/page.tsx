@@ -11,6 +11,7 @@ import TocNav from '@/components/ui/navigation/TocNav';
 import PageNavSp from '@/components/ui/navigation/PageNavSp';
 import ButtonPrimary from '@/components/ui/interactive/ButtonPrimary';
 import { getStoryCategoryLabel } from '@/lib/storyCategory';
+import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
 
 export const revalidate = 3600;
 
@@ -102,6 +103,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
+      <Breadcrumb items={[{ label: '暮らしを知る', href: '/stories' }, { label: story.title }]} />
 
       {/* ヒーローセクション */}
       <section className="pt-12 pb-24 px-[2.8125rem] max-w-[90rem] mx-auto max-tablet:px-4 max-tablet:pb-12">

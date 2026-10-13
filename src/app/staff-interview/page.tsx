@@ -5,6 +5,7 @@ import HeroCardStory from '@/components/common/HeroCardStory';
 import ServiceCTA from '@/components/ui/card/ServiceCTA';
 import Reveal from '@/components/common/Reveal';
 import type { Metadata } from 'next';
+import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
 
 export const metadata: Metadata = {
   title: 'スタッフインタビュー',
@@ -236,6 +237,7 @@ export default function StaffInterviewPage() {
           }),
         }}
       />
+      <Breadcrumb items={[{ label: 'アイ企画を知る' }, { label: 'スタッフインタビュー' }]} />
       {/* ヒーローセクション (Figma PC 4211:11332 / SP 4211:11616) */}
       <section className="relative bg-cream overflow-hidden pt-[3.75rem] tablet:pt-[6.25rem] pb-[3.75rem] tablet:pb-24">
         {/* SP: 見出し → card-story (Figma 4211:11616: 60px section padding, title 358×48, 32px gap to card-story) */}

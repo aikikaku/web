@@ -10,6 +10,7 @@ import ParkingBanner from '@/components/common/ParkingBanner';
 import BannerContact from '@/components/ui/card/BannerContact';
 import Reveal from '@/components/common/Reveal';
 import type { Metadata } from 'next';
+import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
 
 export const metadata: Metadata = {
   title: '物件を探す',
@@ -109,6 +110,7 @@ export default async function PropertiesPage({
           }),
         }}
       />
+      <Breadcrumb items={[{ label: '物件を探す' }]} />
       <Suspense fallback={null}>
         <MobileFilterNav />
       </Suspense>

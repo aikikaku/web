@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
 
 export const metadata: Metadata = {
   title: 'プライバシーポリシーについて',
@@ -50,6 +51,7 @@ export default function PrivacyPolicyPage() {
           }),
         }}
       />
+      <Breadcrumb items={[{ label: 'プライバシーポリシーについて' }]} />
 
       <section className="pt-24 pb-36 px-5 tablet:px-[4.6875rem] max-w-[90rem] mx-auto">
         <h1 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.12rem] text-dark-green mb-24" style={{ fontFeatureSettings: "'palt' 1" }}>プライバシーポリシーについて</h1>

@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import HeroCardStory from '@/components/common/HeroCardStory';
 import ServiceCTA from '@/components/ui/card/ServiceCTA';
 import Reveal from '@/components/common/Reveal';
+import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
 
 export const metadata: Metadata = {
   title: 'ご挨拶',
@@ -142,6 +143,7 @@ export default function MessagePage() {
           }),
         }}
       />
+      <Breadcrumb items={[{ label: 'アイ企画を知る' }, { label: 'ご挨拶' }]} />
       {/* ヒーローセクション (Figma PC 4211:10119 / SP 4211:11591) */}
       <section className="relative bg-cream overflow-hidden pt-12 tablet:pt-[6.25rem] pb-12 tablet:pb-24">
         {/* SP: 見出し → card-story 3 枚レイアウト */}
