@@ -142,11 +142,7 @@ export default async function HomePage() {
 
       {/* 不動産サービスリンク */}
       <Reveal>
-        <ServiceCTA
-          customerImage="/images/home/service-customer.jpg"
-          ownerImage="/images/home/service-owner.jpg"
-          parallax
-        />
+        <ServiceCTA parallax />
       </Reveal>
 
       {/* 新着物件セクション */}

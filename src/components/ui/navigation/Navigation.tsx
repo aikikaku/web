@@ -22,13 +22,13 @@ const dropdownCards = [
     href: '/for-customer',
     label: '不動産をお探しの方へ',
     sub: '買いたい・借りたい',
-    image: '/images/home/service-customer.jpg',
+    image: '/images/about/service-customer.jpg',
   },
   {
     href: '/for-owner',
     label: '不動産をお持ちの方へ',
     sub: '売りたい・貸したい',
-    image: '/images/home/service-owner.jpg',
+    image: '/images/about/service-owner.jpg',
   },
 ];
 
