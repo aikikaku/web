@@ -140,34 +140,39 @@ export default function Navigation() {
             ))}
 
             {/* アイ企画を知る (ドロップダウントリガー)。ホバーで開き、トリガー/パネルから
-                離れると閉じる (#17)。クリックはトグル（開いていれば閉じる）。 */}
+                離れると閉じる (#17)。クリックはトグル（開いていれば閉じる）。
+                ホバー判定は文字+矢印の範囲のみ（ボタンの padding 部分では開かない）。 */}
             <button
               onClick={toggleDropdown}
-              onMouseEnter={openDropdown}
-              onMouseLeave={scheduleCloseDropdown}
               aria-expanded={dropdownOpen}
-              className="relative flex items-center gap-1 px-4 py-2.5 font-gothic font-medium text-base leading-none text-dark-green hover:text-accent-blue transition-colors"
+              className="px-4 py-2.5 font-gothic font-medium text-base leading-none text-dark-green"
             >
-              アイ企画を知る
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                className={`transition-transform ${dropdownOpen ? 'rotate-180' : ''}`}
+              <span
+                onMouseEnter={openDropdown}
+                onMouseLeave={scheduleCloseDropdown}
+                className="relative flex items-center gap-1 hover:text-accent-blue transition-colors"
               >
-                <path d="M6 9l6 6 6-6" />
-              </svg>
-              {/* トリガー↔パネル間の隙間を跨ぐ不可視ブリッジ（開いている時のみ・トリガー幅のみ）。
-                  他ナビ項目のクリックを妨げないよう幅はボタン内に限定。 */}
-              {dropdownOpen && (
-                <span
-                  aria-hidden
-                  className="absolute left-0 right-0 top-full h-[1.875rem]"
-                />
-              )}
+                アイ企画を知る
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  className={`transition-transform ${dropdownOpen ? 'rotate-180' : ''}`}
+                >
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+                {/* 文字↔パネル間の隙間（ボタン下 padding 10px + nav 下 padding 30px）を跨ぐ
+                    不可視ブリッジ（開いている時のみ・文字幅のみ）。 */}
+                {dropdownOpen && (
+                  <span
+                    aria-hidden
+                    className="absolute left-0 right-0 top-full h-[2.5rem]"
+                  />
+                )}
+              </span>
             </button>
 
             {navLinksAfter.map((item) => (
