@@ -30,7 +30,10 @@ export default function SliderDots({
 }: Props) {
   const dotSize = size === 'sm' ? 'size-1' : 'size-2';
   const active = variant === 'dark' ? 'bg-cream' : 'bg-dark-green';
-  const inactive = variant === 'dark' ? 'bg-cream/30' : 'bg-dark-green/30';
+  // 非アクティブ dot の不透明度: PC(md)=0.2 (Figma 4470:14108) / SP(sm)=0.5 (Figma 4470:14806 slider-dots-sp)。
+  // dark variant は Figma 未照合のため従来どおり /30
+  const inactive =
+    variant === 'dark' ? 'bg-cream/30' : size === 'sm' ? 'bg-dark-green/50' : 'bg-dark-green/20';
 
   return (
     <div className={`flex items-center gap-2 ${className}`}>

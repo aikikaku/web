@@ -44,14 +44,17 @@ function AccordionItem({ item, isOpen, onToggle }: AccordionItemProps) {
   const { contentRef, maxHeight } = useAccordionHeight(isOpen, [item.content]);
 
   return (
-    <div className="border-b border-dark-green/10">
+    // 罫線: SP light-green (Figma 4470:14836) / PC dark-green 20% (Figma 4470:14112)
+    <div className="border-b border-light-green tablet:border-dark-green/20">
+      {/* SP: タイトル pl-8・dark-green、シェブロンは上揃え (Figma 4470:14836)
+          PC: pr-8・black、シェブロンは中央揃え (Figma 4470:14112) */}
       <button
         type="button"
         onClick={onToggle}
-        className="flex items-center justify-between w-full py-6 pr-2 text-left cursor-pointer hover:opacity-70 transition-opacity"
+        className="flex items-start tablet:items-center justify-between w-full py-6 tablet:pr-2 text-left cursor-pointer hover:opacity-70 transition-opacity"
       >
-        <div>
-          <p className="font-gothic font-medium text-body-m text-black">
+        <div className="pl-2 tablet:pl-0">
+          <p className="font-gothic font-medium text-body-m text-dark-green tablet:text-black">
             {item.title}
           </p>
           <p className="font-gothic font-medium text-body-s text-dark-green opacity-60">
@@ -67,14 +70,16 @@ function AccordionItem({ item, isOpen, onToggle }: AccordionItemProps) {
       >
         {item.content && (
           <div className="pb-6">
-            <div className="bg-[rgba(225,237,225,0.5)] rounded-2xl pt-[1.875rem] pb-8 px-6 tablet:px-[1.875rem]">
-              <p className="font-gothic font-medium text-body-m text-black whitespace-pre-line">
+            {/* SP: px-29 py-32 rounded-12 本文 dark-green、リンクまで 24px、リンクは 12px Regular (Figma 4470:14836)
+                PC: px-30 pt-30 pb-32 rounded-16 本文 black、リンクまで 48px、リンクは 14px Medium (Figma 4470:14112) */}
+            <div className="bg-light-green rounded-xl tablet:rounded-2xl py-8 tablet:pt-[1.875rem] px-[1.8125rem] tablet:px-[1.875rem]">
+              <p className="font-gothic font-medium text-body-m text-dark-green tablet:text-black whitespace-pre-line">
                 {item.content}
               </p>
               {item.link && (
                 <a
                   href={item.link.href}
-                  className="inline-flex items-center gap-1 font-gothic font-medium text-[0.875rem] leading-none text-dark-green mt-12 hover:opacity-70 transition-opacity"
+                  className="inline-flex items-center gap-1 font-gothic font-normal tablet:font-medium text-[0.75rem] tablet:text-[0.875rem] leading-[1.8] tablet:leading-none text-dark-green mt-6 tablet:mt-12 hover:opacity-70 transition-opacity"
                 >
                   {item.link.label}
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none">

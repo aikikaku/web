@@ -15,6 +15,9 @@ interface Props {
   className?: string;
   /** 各ボタンへの追加クラス。高さ・flexの挙動はここで指定 */
   buttonClassName?: string;
+  /** true(既定): 枠の内側に 2px 余白を取り、アクティブのピルを内側に収める。
+      false: 余白なしでピルを枠いっぱいに敷く（/properties PC フィルタ行 Figma 4470:14413） */
+  inset?: boolean;
 }
 
 /**
@@ -27,6 +30,7 @@ export default function Toggle({
   onChange,
   className = '',
   buttonClassName = 'h-[3.25rem] px-6',
+  inset = true,
 }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const btnRefs = useRef<Record<string, HTMLButtonElement | null>>({});
@@ -52,12 +56,12 @@ export default function Toggle({
   return (
     <div
       ref={containerRef}
-      className={`relative flex rounded-[3.125rem] border border-dark-green overflow-hidden p-[0.125rem] ${className}`}
+      className={`relative flex rounded-[3.125rem] border border-dark-green overflow-hidden ${inset ? 'p-[0.125rem]' : ''} ${className}`}
     >
       {indicator && (
         <span
           aria-hidden
-          className="absolute top-[0.125rem] bottom-[0.125rem] bg-dark-green rounded-[3.125rem] transition-all duration-300 ease-out"
+          className={`absolute ${inset ? 'top-[0.125rem] bottom-[0.125rem]' : 'top-0 bottom-0'} bg-dark-green rounded-[3.125rem] transition-all duration-300 ease-out`}
           style={{ left: indicator.left, width: indicator.width }}
         />
       )}

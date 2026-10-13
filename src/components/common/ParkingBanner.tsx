@@ -4,7 +4,7 @@ import Arrow from '@/components/ui/interactive/Arrow';
 /**
  * 駐車場バナー（PC・SP 兼用）。Figma 4211:10353 (PC) / 4211:10741 (SP) に準拠。
  * - PC: section py-[6rem] px-[2.8125rem]、Card max-w-[40.375rem] h-[11.25rem] pt-24 pb-32 px-30、サブ→タイトル順
- * - SP: section pb-[3.75rem] px-4、Card pt-36 pb-40 px-16、タイトル→サブ順
+ * - SP: section pb-[3.75rem] px-4、Card pt-36 pb-40 px-16 角丸12 (Figma 4470:14816)、タイトル→サブ順
  */
 export default function ParkingBanner() {
   return (
@@ -12,7 +12,7 @@ export default function ParkingBanner() {
       <div className="px-4 tablet:px-[2.8125rem] tablet:flex tablet:justify-center">
         <Link
           href="/for-customer"
-          className="block bg-light-green rounded-2xl tablet:rounded-[1.5rem] pt-9 pb-10 px-4 tablet:p-[1.875rem] tablet:h-[11.25rem] tablet:flex tablet:flex-col tablet:justify-center tablet:max-w-[40.375rem] tablet:w-[40.375rem] w-full group"
+          className="block bg-light-green rounded-xl tablet:rounded-[1.5rem] pt-9 pb-10 px-4 tablet:p-[1.875rem] tablet:h-[11.25rem] tablet:flex tablet:flex-col tablet:justify-center tablet:max-w-[40.375rem] tablet:w-[40.375rem] w-full group"
         >
           <div className="flex items-center tablet:items-end justify-between gap-6 tablet:gap-4">
             <div className="flex flex-col gap-2 min-w-0">

@@ -88,10 +88,11 @@ export default function Pagination({
       <Link
         href={currentPage > 1 ? buildHref(currentPage - 1) : '#'}
         onClick={(e) => handleNavigate(e, currentPage - 1)}
+        // 無効時は矢印ごと要素全体を opacity 40% (Figma 4470:14464)
         className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors ${
           currentPage > 1
             ? 'bg-light-green text-dark-green hover:bg-light-green/80'
-            : 'bg-light-green/40 text-dark-green pointer-events-none'
+            : 'bg-light-green opacity-40 text-dark-green pointer-events-none'
         }`}
         aria-label="前のページ"
         aria-disabled={currentPage <= 1}

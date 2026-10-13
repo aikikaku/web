@@ -60,13 +60,16 @@ export default function MoreProperties({ properties, href = '/properties' }: Pro
 
   return (
     <div>
-      {/* 横スクロールトラック（PC/SP 共通） */}
+      {/* 横スクロールトラック（PC/SP 共通）。下余白はナビ側の mt (SP 32 / PC 64, Figma 4470:15968 / 4470:15569) のみ。
+          SP: Figma 4470:14962 / 4470:15971 の cards は全幅 (x0〜390) でカードは x16 から並び、次カードが右端に peek。
+          親セクションの px-4 を -mx-4 で打ち消し、トラック自身の pl-4 / pr-4 で 16px を確保する。
+          PC: Figma 4470:14396 は 4 枚目 (x1320〜) が画面右端まで peek するため、右だけ親の px-75 分はみ出させる */}
       <div
         ref={trackRef}
-        className="overflow-x-auto pl-4 tablet:pl-0 pb-4 scroll-smooth snap-x snap-mandatory scroll-pl-4 tablet:scroll-pl-0"
+        className="overflow-x-auto -mx-4 pl-4 tablet:mx-0 tablet:-mr-[4.6875rem] tablet:pl-0 scroll-smooth snap-x snap-mandatory scroll-pl-4 tablet:scroll-pl-0"
         style={{ scrollbarWidth: 'none' }}
       >
-        <div ref={flexRef} className="flex gap-5 tablet:gap-[1.875rem] min-w-max pr-4 tablet:pr-0">
+        <div ref={flexRef} className="flex gap-4 tablet:gap-[1.875rem] min-w-max pr-4 tablet:pr-[4.6875rem]">
           {properties.map((p) => (
             <div key={p.id} className="w-[20.75rem] tablet:w-[25.625rem] shrink-0 snap-start">
               <CardProperty property={p} />

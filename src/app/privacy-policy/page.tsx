@@ -53,28 +53,31 @@ export default function PrivacyPolicyPage() {
       />
       <Breadcrumb items={[{ label: 'プライバシーポリシーについて' }]} />
 
-      <section className="pt-24 pb-36 px-5 tablet:px-[4.6875rem] max-w-[90rem] mx-auto">
-        <h1 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.12rem] text-dark-green mb-24" style={{ fontFeatureSettings: "'palt' 1" }}>プライバシーポリシーについて</h1>
+      {/* Figma Handoff 20260724 PC 4470:15650: pt-96 / タイトル→本文 96 / ブロック間 64 / 見出し→本文 16 / pb-144、本文 18px/1.8
+          SP 4470:15317: px-16 / pt-60 / タイトル→本文 60 / ブロック間 60 (pb-32 + pt-28) / 見出し→本文 8 / pb-120、本文 16px/2.0
+          見出しは PC/SP とも 24px/1.6 (高さ 38)。タイトルの字間は 4% (sub-heading-1 / section-heading) */}
+      <section className="pt-[3.75rem] tablet:pt-24 pb-[7.5rem] tablet:pb-36 px-4 tablet:px-[4.6875rem] max-w-[90rem] mx-auto">
+        <h1 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.04em] text-dark-green mb-[3.75rem] tablet:mb-24" style={{ fontFeatureSettings: "'palt' 1" }}>プライバシーポリシーについて</h1>
 
         <div className="flex justify-center">
-          <div className="w-full max-w-[44rem] flex flex-col gap-16">
+          <div className="w-full max-w-[44rem] flex flex-col gap-[3.75rem] tablet:gap-16">
             {/* イントロ */}
-            <p className="text-body-l text-black">
+            <p className="text-body-m tablet:text-body-l text-black">
               アイ企画が運営する当サイト「 izuip.com 」における、個人情報に関する取扱いについて以下に記載致します。
             </p>
 
             {/* セクション */}
             {sections.map((section) => (
-              <div key={section.heading} className="flex flex-col gap-4">
-                <h4 className="text-black">{section.heading}</h4>
-                <p className="text-body-l text-black whitespace-pre-line">
+              <div key={section.heading} className="flex flex-col gap-2 tablet:gap-4">
+                <h4 className="text-[1.5rem] leading-[1.6] text-black">{section.heading}</h4>
+                <p className="text-body-m tablet:text-body-l text-black whitespace-pre-line">
                   {section.body}
                 </p>
               </div>
             ))}
 
             {/* 制定日（公開日） */}
-            <p className="text-body-l text-black">
+            <p className="text-body-m tablet:text-body-l text-black">
               2026.8.1　アイ企画
             </p>
           </div>

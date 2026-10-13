@@ -29,14 +29,14 @@ export default function CardVoice({ voice }: CardVoiceProps) {
         {voice.content.replace(/<[^>]*>/g, '')}
       </p>
 
-      {/* Name + Location/Type */}
+      {/* Name + Location/Type (Figma 4470:14108 card-voice Name: 地名・種別・名前は opacity-60、区切り「｜」は不透過) */}
       <div className="mt-12 flex gap-3 items-center font-gothic font-medium text-[1rem] text-dark-green">
-        <div className="flex items-center opacity-60">
-          {voice.location && <span className="leading-[2]">{voice.location}</span>}
+        <div className="flex items-center">
+          {voice.location && <span className="leading-[2] opacity-60">{voice.location}</span>}
           {voice.location && voice.propertyType && (
             <span className="leading-[1.4] mx-0">｜</span>
           )}
-          {voice.propertyType && <span className="leading-[2]">{voice.propertyType}</span>}
+          {voice.propertyType && <span className="leading-[2] opacity-60">{voice.propertyType}</span>}
         </div>
         <span className="leading-[2] opacity-60">{voice.customerName}</span>
       </div>

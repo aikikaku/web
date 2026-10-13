@@ -49,7 +49,7 @@ export default function PropertyDetailClient({
   }, []);
 
   const thumbClass = (index: number) =>
-    `relative rounded-xl overflow-hidden transition-opacity ${
+    `relative overflow-hidden transition-opacity ${
       index === selectedIndex ? 'opacity-100' : 'opacity-[0.15] hover:opacity-50'
     } ${!ready ? 'pointer-events-none opacity-40 cursor-wait' : ''}`;
 
@@ -71,6 +71,12 @@ export default function PropertyDetailClient({
               onLoad={i === 0 ? () => setReady(true) : undefined}
             />
           ))}
+          {/* SP: 画像上端の暗グラデ（ラベル可読性のため。Figma 4470:14927 / PickupCard と同値） */}
+          <div
+            aria-hidden
+            className="tablet:hidden absolute inset-0 z-10 pointer-events-none"
+            style={{ backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0) 73.635%, rgba(0,0,0,0.2) 92.755%)' }}
+          />
           {/* 成約時は写真をブラックアウト (#33) */}
           {isSold && <div aria-hidden className="absolute inset-0 z-10 bg-black/55" />}
           {spLabelsSlot && (
@@ -86,9 +92,9 @@ export default function PropertyDetailClient({
           )}
         </div>
 
-        {/* SP サムネイル */}
+        {/* SP サムネイル: 52px・角丸 8・上 16 / 下 24 (Figma 4470:14927 thumbs) */}
         {allImages.length > 1 && (
-          <div className="flex tablet:hidden flex-wrap gap-2 mt-3">
+          <div className="flex tablet:hidden flex-wrap gap-2 pt-4 pb-6">
             {allImages.slice(0, 6).map((image, index) => (
               <button
                 key={index}
@@ -96,14 +102,14 @@ export default function PropertyDetailClient({
                 disabled={!ready}
                 onClick={() => setSelectedIndex(index)}
                 aria-label={`画像 ${index + 1} を表示`}
-                className={`${thumbClass(index)} w-[3.75rem] h-[3.75rem]`}
+                className={`${thumbClass(index)} rounded-lg w-[3.25rem] h-[3.25rem]`}
               >
                 <Image
                   src={getImageUrl(image, { width: 100, height: 100, format: 'webp' })}
                   alt=""
                   fill
                   className="object-cover"
-                  sizes="60px"
+                  sizes="52px"
                 />
               </button>
             ))}
@@ -125,7 +131,7 @@ export default function PropertyDetailClient({
                   disabled={!ready}
                   onClick={() => setSelectedIndex(index)}
                   aria-label={`画像 ${index + 1} を表示`}
-                  className={`${thumbClass(index)} flex-1 aspect-square min-w-0`}
+                  className={`${thumbClass(index)} rounded-xl flex-1 aspect-square min-w-0`}
                 >
                   <Image
                     src={getImageUrl(image, { width: 200, height: 200, format: 'webp' })}

@@ -59,8 +59,9 @@ export default function StoryCarousel({ stories, href = '/stories', variant = 'l
         </div>
       </div>
 
-      {/* Navigation-Slideshow (Figma 4211:11501 共通) */}
-      <div className="mt-8 px-4">
+      {/* Navigation-Slideshow (Figma 4211:11501 共通)。カード下→ナビは 32px
+          (Figma 4470:14806 / 4470:14822) = track の pb-4(16) + mt-4(16) */}
+      <div className="mt-4 px-4">
         <NavigationSlideshow
           activePage={activeIndex}
           totalPages={stories.length}

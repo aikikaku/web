@@ -35,10 +35,12 @@ export default function StorySection({
   const titleColor = isDark ? 'text-cream' : 'text-dark-green';
 
   return (
-    <section className={`${sectionBg} py-[3.75rem] tablet:py-24`}>
+    // Figma 4470:15578 (PC: pt96 / pb64) / 4470:16030 (SP: py60)
+    <section className={`${sectionBg} py-[3.75rem] tablet:pt-24 tablet:pb-16`}>
       <div className="px-4 tablet:px-[4.6875rem] max-w-[90rem] mx-auto mb-8 tablet:mb-16">
         <h2
-          className={`font-mincho text-[1.75rem] tablet:text-[3rem] leading-[1.5] tracking-[0.07rem] tablet:tracking-[0.12rem] ${titleColor}`}
+          // Figma sub-heading: SP 24px (JP/H4) / PC 32px (JP/H3)
+          className={`font-mincho text-heading-24 tablet:text-heading-32 ${titleColor}`}
           style={{ fontFeatureSettings: "'palt' 1" }}
         >
           {title}

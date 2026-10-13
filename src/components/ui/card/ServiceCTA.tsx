@@ -61,11 +61,12 @@ export default function ServiceCTA({
         </>
       )}
       <div className="relative px-4 tablet:px-[2.8125rem] max-w-[90rem] mx-auto">
-        {/* SP: 縦積みカード (背景画像 + ダーク gradient overlay) */}
+        {/* SP: 縦積みカード (Figma 4470:14755 card-sp): 角丸12、矢印 44px 円 + 24px アイコン。
+            写真上のかぶせは「お探しの方」のみ rgba(0,0,0,0.4) 一様、「お持ちの方へ」はかぶせ無し */}
         <div className="flex flex-col gap-6 tablet:hidden">
           <Link
             href="/for-customer"
-            className="group relative flex items-center gap-6 rounded-2xl overflow-hidden px-4 pt-9 pb-10"
+            className="group relative flex items-center gap-6 rounded-xl overflow-hidden px-4 pt-9 pb-10"
           >
             <div className="absolute inset-0 -z-0">
               <Image
@@ -75,10 +76,7 @@ export default function ServiceCTA({
                 className="object-cover"
                 sizes="(max-width: 992px) 100vw, 0px"
               />
-              <div
-                className="absolute inset-0"
-                style={{ backgroundImage: 'linear-gradient(-28deg, rgb(var(--overlay-dark) / 0.2) 1.5%, rgb(var(--overlay-dark) / 0.5) 39.7%)' }}
-              />
+              <div className="absolute inset-0 bg-black/40" />
             </div>
             <div className="relative z-10 flex-1 min-w-0 flex flex-col gap-2 text-white">
               <h3 className="font-mincho text-heading-24" style={{ fontFeatureSettings: "'palt' 1" }}>
@@ -86,12 +84,12 @@ export default function ServiceCTA({
               </h3>
               <p className="text-body-m font-gothic font-medium">買いたい・借りたい</p>
             </div>
-            <Arrow size="sm" className="relative z-10" />
+            <Arrow sizeClassName="w-11 h-11" className="relative z-10" />
           </Link>
 
           <Link
             href="/for-owner"
-            className="group relative flex items-center gap-6 rounded-2xl overflow-hidden px-4 pt-9 pb-10"
+            className="group relative flex items-center gap-6 rounded-xl overflow-hidden px-4 pt-9 pb-10"
           >
             <div className="absolute inset-0 -z-0">
               <Image
@@ -101,10 +99,6 @@ export default function ServiceCTA({
                 className="object-cover"
                 sizes="(max-width: 992px) 100vw, 0px"
               />
-              <div
-                className="absolute inset-0"
-                style={{ backgroundImage: 'linear-gradient(to left, rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 100%)' }}
-              />
             </div>
             <div className="relative z-10 flex-1 min-w-0 flex flex-col gap-2 text-white">
               <h3 className="font-mincho text-heading-24" style={{ fontFeatureSettings: "'palt' 1" }}>
@@ -112,7 +106,7 @@ export default function ServiceCTA({
               </h3>
               <p className="text-body-m font-gothic font-medium">売りたい・貸したい</p>
             </div>
-            <Arrow size="sm" className="relative z-10" />
+            <Arrow sizeClassName="w-11 h-11" className="relative z-10" />
           </Link>
         </div>
 

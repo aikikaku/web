@@ -5,7 +5,9 @@ import Image from 'next/image';
 import SliderDots from '@/components/ui/content/SliderDots';
 
 const slides = [
-  '/images/home/hero-1.jpg',
+  // 1枚目は Figma 4470:14736 の切り出し (hero-1.jpg を w191.51%/left-45.76%/top4.24% で拡大・下揃え)
+  // を書き出した SP 専用画像 (374×354 @2x)
+  '/images/home/hero-1-sp.jpg',
   '/images/home/hero-2.jpg',
   '/images/home/hero-3.jpg',
 ];
@@ -42,7 +44,8 @@ export default function HeroSlideshowSP() {
   const goTo = (index: number) => setActiveIndex(index);
 
   return (
-    <div className="flex flex-col gap-[0.625rem] tablet:hidden">
+    // 画像→ドットの間隔は 32px (Figma 4470:14732: component→Navigation-Slideshow gap-32)
+    <div className="flex flex-col gap-8 tablet:hidden">
       <div className="relative h-[22.125rem] tablet:h-[32rem]">
         {/* 画像は右へ 16px はみ出す rounded-l-3xl コンテナ内でクロスフェード */}
         <div className="relative h-full w-full -mr-4 tablet:mr-0 rounded-l-3xl tablet:rounded-3xl overflow-hidden">
@@ -94,7 +97,7 @@ export default function HeroSlideshowSP() {
       </div>
 
       {/* dots */}
-      <div className="flex items-center justify-center pt-2">
+      <div className="flex items-center justify-center">
         <SliderDots
           count={slides.length}
           activeIndex={activeIndex}

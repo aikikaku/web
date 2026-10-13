@@ -24,10 +24,11 @@ const sizeConfig = {
   s: { imageAspect: 'aspect-[4/3]', imageR: 'rounded-2xl', titleSize: 'text-heading-24', width: 'w-full' },
 };
 
+// Button-secondary (Figma 4470:14103 / 4470:14105): 左右 24px (px-12 + State-layer px-12)、アイコン↔文字 4px
 function ReadStoryButton({ isDark }: { isDark: boolean }) {
   return (
     <span
-      className={`inline-flex items-center gap-2 h-[2.75rem] px-4 border rounded-full font-gothic font-medium text-[1rem] leading-none transition-colors ${
+      className={`inline-flex items-center gap-1 h-[2.75rem] px-6 border rounded-full font-gothic font-medium text-[1rem] leading-none transition-colors ${
         isDark
           ? 'border-white text-white hover:opacity-70'
           : 'border-dark-green text-dark-green group-hover:bg-dark-green group-hover:border-[rgba(252,255,247,0.3)] group-hover:text-white'
@@ -68,7 +69,7 @@ export default function CardStory({ story, size = 's', variant = 'light' }: Card
               )}
             </div>
             <h4
-              className={`font-mincho text-heading-24 line-clamp-2 ${isDark ? 'text-white' : 'text-black'}`}
+              className={`font-mincho text-heading-24 line-clamp-2 ${isDark ? 'text-white' : 'text-dark-green'}`}
               style={{ fontFeatureSettings: "'palt' 1" }}
             >
               {story.title}
@@ -119,10 +120,12 @@ export default function CardStory({ story, size = 's', variant = 'light' }: Card
           {story.title}
         </h3>
 
-        {/* Button */}
-        <div className="mt-6">
-          <ReadStoryButton isDark={isDark} />
-        </div>
+        {/* Button: card-story-s (PC 小カード) は「ストーリーを読む」ボタンを表示しない */}
+        {size !== 's' && (
+          <div className="mt-6">
+            <ReadStoryButton isDark={isDark} />
+          </div>
+        )}
       </div>
     </Link>
   );

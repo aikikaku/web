@@ -122,9 +122,10 @@ export default async function PropertiesPage({
           <h1 className="font-mincho text-[2rem] tablet:text-[3rem] leading-[1.5] tracking-[0.12rem] text-dark-green mb-8 tablet:mb-12" style={{ fontFeatureSettings: "'palt' 1" }}>物件を探す</h1>
 
           {/* pickup 物件（サムネイル切替対応） */}
-          {/* Figma 4211:10722 SP: pickup → grid 60px / PC: pickup → filter row 120px */}
+          {/* SP: pickup → grid 60px / PC: pickup → filter row 128px (Figma Handoff 4470:14406 gap-128)。
+              PC は sticky バー側の pt-6(24px) と合わせて 104 + 24 = 128px */}
           {featuredProperty && (
-            <div className="mb-[3.75rem] tablet:mb-[7.5rem]">
+            <div className="mb-[3.75rem] tablet:mb-[6.5rem]">
               <PickupCard property={featuredProperty} />
             </div>
           )}
@@ -132,9 +133,13 @@ export default async function PropertiesPage({
           {/* ページャー遷移時のスクロール着地点（絞り込みバーを含む位置）。#67 */}
           <div id="properties-list-top" />
 
+          {/* 一覧エリア: Figma Handoff 4470:14411 は幅 1290（ページ端から 75px）。pickup(1350) より左右 30px 内側 */}
+          <div className="tablet:px-[1.875rem]">
+
           {/* PC: 検索バー (フィルター)。ヘッダー(高さ98px)直下に sticky 固定 (#68)。
               スクロール時にカードが透けないよう bg-cream + 上下に余白 */}
-          <div className="hidden tablet:block sticky top-[6.125rem] z-30 bg-cream pt-6 pb-8 mb-[4.5rem]">
+          {/* filter → grid は 96px (Figma 4470:14411 gap-96) = pb-8(32) + mb-16(64) */}
+          <div className="hidden tablet:block sticky top-[6.125rem] z-30 bg-cream pt-6 pb-8 mb-16">
             <Suspense fallback={<div className="h-14 bg-cream animate-pulse rounded-lg" />}>
               <PropertyFilter />
             </Suspense>
@@ -168,6 +173,7 @@ export default async function PropertiesPage({
               ) as Record<string, string>
             }
           />
+          </div>
         </div>
       </section>
 

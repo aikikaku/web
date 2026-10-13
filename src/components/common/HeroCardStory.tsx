@@ -11,17 +11,29 @@ import Image from 'next/image';
  * 小さい写真がメイン写真の上に少しずつせり上がるパララックスを期待されている。
  *
  * PC では、左 280×368 + 中央 704×469 + 右 280×374 の 3 枚レイアウト。
+ *
+ * Figma Handoff 20260724 (/message SP 4470:15738・/staff-interview SP 4470:15762) では SP の写真の
+ * 切り出しが PC と異なるため、sp* で SP 専用画像を渡せる (省略時は PC と同じ画像)。SP 小写真は角丸 12。
  */
 export default function HeroCardStory({
   mainImage,
   leftImage,
   rightImage,
+  spMainImage,
+  spLeftImage,
+  spRightImage,
   mainAlt = '',
   priority = false,
 }: {
   mainImage: string;
   leftImage: string;
   rightImage: string;
+  /** SP 用メイン写真 (358×268)。省略時は mainImage */
+  spMainImage?: string;
+  /** SP 用左下写真 (119×159)。省略時は leftImage */
+  spLeftImage?: string;
+  /** SP 用右下写真 (119×159)。省略時は rightImage */
+  spRightImage?: string;
   mainAlt?: string;
   priority?: boolean;
 }) {
@@ -93,7 +105,7 @@ export default function HeroCardStory({
         {/* メイン写真 (top, 358×268) */}
         <div className="hero-card-in absolute left-0 top-0 w-full aspect-[358/268] rounded-2xl overflow-hidden">
           <Image
-            src={mainImage}
+            src={spMainImage ?? mainImage}
             alt={mainAlt}
             fill
             className="object-cover"
@@ -104,18 +116,18 @@ export default function HeroCardStory({
         {/* 左下の縦長写真 (32, 300, 119×159)。パララックス付きのため登場は opacity のみ */}
         <div
           ref={leftRef}
-          className="hero-card-fade absolute z-10 rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.08)] will-change-transform transition-none"
+          className="hero-card-fade absolute z-10 rounded-xl overflow-hidden will-change-transform transition-none"
           style={{ left: '32px', top: '300px', width: '119px', height: '159px', animationDelay: '0.15s' }}
         >
-          <Image src={leftImage} alt="" fill className="object-cover" sizes="119px" />
+          <Image src={spLeftImage ?? leftImage} alt="" fill className="object-cover" sizes="119px" />
         </div>
         {/* 右下の縦長写真 (207, 348, 119×159) */}
         <div
           ref={rightRef}
-          className="hero-card-fade absolute z-10 rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.08)] will-change-transform transition-none"
+          className="hero-card-fade absolute z-10 rounded-xl overflow-hidden will-change-transform transition-none"
           style={{ left: '207px', top: '348px', width: '119px', height: '159px', animationDelay: '0.3s' }}
         >
-          <Image src={rightImage} alt="" fill className="object-cover" sizes="119px" />
+          <Image src={spRightImage ?? rightImage} alt="" fill className="object-cover" sizes="119px" />
         </div>
       </div>
 

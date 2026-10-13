@@ -63,7 +63,8 @@ export default function CardStorySp({ story, className }: Props) {
               {story.title}
             </p>
             <span className="size-11 rounded-full bg-accent-blue inline-flex items-center justify-center shrink-0">
-              <BookIcon size={20} stroke="white" className="" />
+              {/* Figma 4470:14820 arrow-sp: 44px 円 + 24px アイコン */}
+              <BookIcon size={24} stroke="white" className="" />
             </span>
           </div>
         </div>

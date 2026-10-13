@@ -184,13 +184,14 @@
   }
 
   /* 全呼び出し箇所で text-[0.875rem] leading-none px-3 py-1.5 が例外なく上書きされていたため
-     (18箇所で完全一致確認済み)、ベースクラスに統合。見た目の変化なし。 */
+     (18箇所で完全一致確認済み)、ベースクラスに統合。
+     Figma Tag (JP/Button S: Zen Kaku Gothic New Medium 14px) に合わせ font-medium(500) を指定 */
   .tag {
-    @apply inline-flex items-center px-3 py-1.5 bg-light-blue text-dark-green text-[0.875rem] leading-none rounded-full;
+    @apply inline-flex items-center px-3 py-1.5 bg-light-blue text-dark-green font-medium text-[0.875rem] leading-none rounded-full;
   }
 
   .tag-dark {
-    @apply inline-flex items-center px-3 py-1.5 bg-dark-green text-white text-[0.875rem] leading-none rounded-full;
+    @apply inline-flex items-center px-3 py-1.5 bg-dark-green text-white font-medium text-[0.875rem] leading-none rounded-full;
   }
 
   .section-padding {
@@ -199,9 +200,10 @@
 
   /* 1440px で 中央寄せ余白80px + padding64px の二重余白になっていた (#20/#21)。
      max-w を 90rem(1440) に広げ、desktop padding を他セクション(px-[4.6875rem])と統一して
-     左右余白を一本化。1440px 時は左右 75px の一段のみになる */
+     左右余白を一本化。1440px 時は左右 75px の一段のみになる。
+     SP は Figma Handoff(20260724) で全ページ左右 16px のため px-4 */
   .page-container {
-    @apply max-w-[90rem] mx-auto px-5 tablet:px-[4.6875rem];
+    @apply max-w-[90rem] mx-auto px-4 tablet:px-[4.6875rem];
   }
 
   /* Body L: Zen Kaku Gothic New, Medium, 18px, lineHeight 1.8 */
@@ -230,23 +232,31 @@
     object-fit: contain;
   }
 
-  /* ─── リッチテキスト（microCMS richEditorV2）Figma 4211:10802 (SP) 準拠 ─── */
-  /* セクションごとに pb-32 を共通の block マージンで再現する。h5+h3 のみ詰めて表示。 */
+  /* ─── リッチテキスト（microCMS richEditorV2）Figma Handoff 20260724: PC 4470:14676 / SP 4470:16268 準拠 ─── */
+  /* セクションごとの下余白（SP pb-32 / PC pb-48）を共通の block マージンで再現する。h5+h3 のみ詰めて表示。
+     h3 は PC も左揃え（Figma 4470:14678 sub-heading-1 に text-center なし） */
   .rich-content h3 {
-    @apply font-mincho text-[1.5rem] tablet:text-[2rem] leading-[1.5] text-black tablet:text-dark-green tablet:text-center;
+    /* SP JP/H4 24px/1.6 (Figma I4470:16269;4671:16978) / PC JP/H3 32px/1.5 (Figma 4470:14678) */
+    @apply font-mincho text-[1.5rem] tablet:text-[2rem] leading-[1.6] tablet:leading-[1.5] text-black tablet:text-dark-green mb-8 tablet:mb-12;
     font-feature-settings: 'palt' 1;
     letter-spacing: 0.04em;
     margin-top: 0;
-    margin-bottom: 3rem;
   }
 
   .rich-content h5 {
     font-family: var(--font-zen-kaku), sans-serif;
-    @apply font-medium text-[0.875rem] tablet:text-[1rem] leading-[1.8] text-dark-green tracking-normal;
+    /* SP 14px/1.8, PC 16px/2.0 (Figma 4470:14678 JP/Body M) */
+    @apply font-medium text-[0.875rem] tablet:text-[1rem] leading-[1.8] tablet:leading-[2] text-dark-green tracking-normal;
     font-feature-settings: normal;
     letter-spacing: 0;
     margin-bottom: 0.5rem;
     margin-top: 0;
+  }
+
+  /* 2つ目以降のセクション見出しは前セクションの下余白に加えて上余白を持つ
+     (SP pt-28: Figma I4470:16270;4671:15551 / PC pt-48: Figma 4470:14685) */
+  .rich-content h5:not(:first-child) {
+    @apply mt-7 tablet:mt-12;
   }
 
   /* h5 の直後の h3 は上マージンを詰める */
@@ -254,27 +264,25 @@
     margin-top: 0;
   }
 
-  /* コンテンツ(テキスト/画像)ごとの下方向間隔を 48px に (#25) */
+  /* コンテンツ(テキスト/画像)ごとの下方向間隔: SP 32px / PC 48px (#25, Figma 4470:16269 / 4470:14679) */
   .rich-content p {
-    @apply font-gothic font-medium text-body-m tablet:text-[1.125rem] text-black;
-    margin-bottom: 3rem;
+    /* SP JP/Body M 16px/2.0 black (Figma I4470:16269;4671:15553) / PC JP/Body L 18px/1.8 dark-green (Figma 4470:14680) */
+    @apply font-gothic font-medium text-body-m tablet:text-[1.125rem] tablet:leading-[1.8] text-black tablet:text-dark-green mb-8 tablet:mb-12;
   }
 
-  /* 画像は下 48px（連続写真の間隔 #3）。直後にキャプションが来る場合はキャプション側の
+  /* 画像は下 SP 32px / PC 48px（連続写真の間隔 #3）。直後にキャプションが来る場合はキャプション側の
      負マージンで密着させる（下記 p:has(em) の margin-top）。 */
   .rich-content img {
-    @apply w-full rounded-2xl tablet:rounded-3xl;
+    @apply w-full rounded-2xl tablet:rounded-3xl mb-8 tablet:mb-12;
     aspect-ratio: 763 / 509;
     object-fit: cover;
-    margin-bottom: 3rem;
   }
 
-  /* 画像キャプション: img の直後の em を含む p (Figma SP: pl-8, pb-8, text-12 dark-green regular /
-     Figma PC: pl-30, text-14 dark-green medium)。直前の画像に密着させるため margin-top を詰める */
+  /* 画像キャプション: img の直後の em を含む p (Figma SP Image + Caption-sp: gap-4, pl-8, pb-8, text-12 dark-green regular /
+     Figma PC Image + Caption 4470:14682: gap-12, pl-30, text-14 dark-green medium)。
+     直前の画像の下マージン(SP 32 / PC 48)を負マージンで打ち消し、画像→キャプション間を SP 4px / PC 12px にする */
   .rich-content p:has(> em:only-child) {
-    @apply font-gothic font-normal tablet:font-medium text-[0.75rem] tablet:text-[0.875rem] leading-[1.8] text-dark-green pl-2 tablet:pl-[1.875rem] pb-2;
-    margin-top: -2.5rem;
-    margin-bottom: 3rem;
+    @apply font-gothic font-normal tablet:font-medium text-[0.75rem] tablet:text-[0.875rem] leading-[1.8] text-dark-green pl-2 tablet:pl-[1.875rem] pb-2 -mt-7 tablet:-mt-9 mb-8 tablet:mb-12;
     font-style: normal;
   }
 
@@ -282,19 +290,18 @@
      空 <p> や <br> のみの段落に高さを持たせ、行間ぶんの余白を作る */
   .rich-content p:empty,
   .rich-content p:has(> br:only-child) {
+    @apply mb-8 tablet:mb-12;
     min-height: 1.5rem;
-    margin-bottom: 3rem;
   }
 
   .rich-content p > em:only-child {
     font-style: normal;
   }
 
-  /* コメント吹き出し（アバター付き） Figma SP: gap-16, pl-8, avatar 44, bubble px-24/py-12 light-green text-14 black /
-     Figma PC: gap-24, pl-0, avatar 50, bubble pt-30/pb-32/px-30, name text-14 medium */
+  /* コメント吹き出し（アバター付き） Figma SP Comment-sp: gap-16, pl-8, avatar 44, bubble p-24 rounded-16 light-green text-14 black /
+     Figma PC Comment 4470:14684: gap-24, pl-0, avatar 50, bubble pt-30/pb-32/px-30, text-16 dark-green, name text-14 medium */
   .rich-content .rich-comment {
-    @apply flex items-start gap-4 tablet:gap-6 pl-2 tablet:pl-0;
-    margin-bottom: 3rem;
+    @apply flex items-start gap-4 tablet:gap-6 pl-2 tablet:pl-0 mb-8 tablet:mb-12;
   }
 
   .rich-content .rich-comment-avatar {
@@ -318,13 +325,17 @@
 
   .rich-content .rich-comment-bubble {
     flex: 1;
-    @apply bg-light-green rounded-2xl tablet:rounded-3xl font-gothic font-medium text-body-s tablet:text-body-m text-dark-green px-6 py-3 tablet:pt-[1.875rem] tablet:pb-8 tablet:px-[1.875rem];
+    @apply bg-light-green rounded-2xl tablet:rounded-3xl font-gothic font-medium text-body-s tablet:text-body-m text-black tablet:text-dark-green p-6 tablet:pt-[1.875rem] tablet:pb-8 tablet:px-[1.875rem];
     display: flex;
     align-items: center;
   }
 
+  /* blockquote 内の <p> に本文用 .rich-content p（PC 18px）が効かないよう、吹き出しの文字指定を継承させる */
   .rich-content .rich-comment-bubble p {
     margin-bottom: 0;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
   }
 
   /* セクション区切り（線なし・余白のみ） */

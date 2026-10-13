@@ -23,13 +23,17 @@ function FaqItemRow({ item, isOpen, onToggle }: FaqItemRowProps) {
   const { contentRef, maxHeight } = useAccordionHeight(isOpen, [item.answer]);
 
   return (
-    <div className="border-b border-dark-green/10 py-4 tablet:py-6 flex flex-col gap-4 tablet:gap-6">
+    // Figma Question (PC 4715:18839) / Question-sp (SP 4671:15725):
+    // 上下 24・質問と回答の間 24。区切り線 PC rgba(42,54,59,.2) / SP light-green (SP は最終行のみ線なし)
+    // 質問と回答の間 24 は回答側 (開閉する領域) の pt に持たせる。flex gap だと閉じた行にも 24 が残るため
+    <div className="border-b border-light-green last:border-b-0 tablet:border-dark-green/20 tablet:last:border-b py-6">
       <button
         type="button"
         onClick={onToggle}
-        className="flex items-start justify-between w-full pr-2 text-left cursor-pointer hover:opacity-70 transition-opacity gap-3"
+        className="flex items-start tablet:items-center justify-between w-full pl-2 tablet:pl-0 tablet:pr-2 text-left cursor-pointer hover:opacity-70 transition-opacity gap-3"
       >
-        <p className="font-gothic font-medium text-body-s tablet:text-body-m text-black">
+        {/* 質問: SP 16px dark-green / PC 16px black */}
+        <p className="font-gothic font-medium text-body-m text-dark-green tablet:text-black">
           {item.question}
         </p>
         <AccordionChevron isOpen={isOpen} className="mt-0.5" />
@@ -39,10 +43,13 @@ function FaqItemRow({ item, isOpen, onToggle }: FaqItemRowProps) {
         className="overflow-hidden transition-[max-height] duration-500 ease-in-out"
         style={{ maxHeight: `${maxHeight}px` }}
       >
-        <div className="bg-[rgba(225,237,225,0.5)] rounded-2xl px-5 py-5 tablet:px-[1.875rem] tablet:py-[2rem]">
-          <p className="font-gothic font-medium text-body-s tablet:text-body-m text-black whitespace-pre-line">
-            {item.answer}
-          </p>
+        <div className="pt-6">
+          {/* Item-open: SP px29 py32 r12 / PC px30 py32 r16。本文 SP dark-green / PC black */}
+          <div className="bg-[rgba(225,237,225,0.5)] rounded-xl tablet:rounded-2xl px-[1.8125rem] tablet:px-[1.875rem] py-8">
+            <p className="font-gothic font-medium text-body-m text-dark-green tablet:text-black whitespace-pre-line">
+              {item.answer}
+            </p>
+          </div>
         </div>
       </div>
     </div>

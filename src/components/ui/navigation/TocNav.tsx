@@ -10,6 +10,9 @@ interface TocNavProps {
  * スクロール追従する目次ナビゲーション。
  * .rich-content 内の h5[id^="toc-"] 要素を IntersectionObserver で監視し、
  * 現在表示中のセクションをアクティブ表示する。
+ *
+ * Figma 4470:14285（物件詳細 PC 目次）準拠: 1 行 40px、線 1.5px・丸 10px は全て dark-green 塗り。
+ * 未到達の行は丸・線とも 50% 不透明（Figma では行ごと opacity-50）、アクティブ行の下線も 50%。
  */
 export default function TocNav({ items }: TocNavProps) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -58,14 +61,14 @@ export default function TocNav({ items }: TocNavProps) {
             key={i}
             type="button"
             onClick={() => handleClick(i)}
-            className="flex items-center h-[3.5rem] text-left cursor-pointer"
+            className="flex items-center h-[2.5rem] text-left cursor-pointer"
           >
             {/* タイムラインドット + 線 */}
             <div className="w-[2.5rem] flex flex-col items-center h-full shrink-0">
               {/* 上の線 */}
               {i > 0 && (
                 <div className={`w-[0.09375rem] flex-1 ${
-                  i <= activeIndex ? 'bg-dark-green' : 'bg-dark-green/30'
+                  i <= activeIndex ? 'bg-dark-green' : 'bg-dark-green/50'
                 } transition-colors duration-300`} />
               )}
               {i === 0 && <div className="flex-1" />}
@@ -76,13 +79,13 @@ export default function TocNav({ items }: TocNavProps) {
                   ? 'bg-dark-green'
                   : i < activeIndex
                     ? 'bg-dark-green'
-                    : 'border-2 border-dark-green/30'
+                    : 'bg-dark-green/50'
               }`} />
 
               {/* 下の線 */}
               {i < arr.length - 1 && (
                 <div className={`w-[0.09375rem] flex-1 ${
-                  i < activeIndex ? 'bg-dark-green' : 'bg-dark-green/30'
+                  i < activeIndex ? 'bg-dark-green' : 'bg-dark-green/50'
                 } transition-colors duration-300`} />
               )}
               {i === arr.length - 1 && <div className="flex-1" />}

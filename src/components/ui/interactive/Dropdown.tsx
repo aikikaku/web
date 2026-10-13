@@ -10,6 +10,9 @@ interface DropdownProps {
   /** 指定すると選択肢の先頭に「すべて」行を表示し、クリックで全解除する (#66) */
   onClear?: () => void;
   variant?: 'default' | 'light-green';
+  /** 外枠の幅クラス。省略時は SP 全幅 / PC 360px 固定（stories 側の既存挙動）。
+      /properties の PC フィルタ行は Figma 4470:14414 に合わせ flex-1 で等分するため上書きする */
+  widthClassName?: string;
 }
 
 /**
@@ -27,6 +30,7 @@ export default function Dropdown({
   selected,
   onToggle,
   onClear,
+  widthClassName = 'w-full tablet:w-[22.5rem]',
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -49,7 +53,7 @@ export default function Dropdown({
     : null;
 
   return (
-    <div className="relative w-full tablet:w-[22.5rem]" ref={ref}>
+    <div className={`relative ${widthClassName}`} ref={ref}>
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}

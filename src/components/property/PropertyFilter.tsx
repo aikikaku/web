@@ -134,9 +134,9 @@ export default function PropertyFilter() {
     optimisticRegions.length > 0;
 
   return (
-    <div className="hidden tablet:flex items-center gap-2 justify-between">
-      <div className="flex items-center gap-2 min-w-0">
-      {/* ステータス切替トグル */}
+    // Figma Handoff 4470:14412: Toggle / dropdowns(flex-1, gap-8) / Sort 群を gap-30 で横並び
+    <div className="hidden tablet:flex items-center gap-[1.875rem]">
+      {/* ステータス切替トグル: Figma 4470:14413 高さ 56・内側余白なし、「ご案内中の物件」側は幅 198 */}
       <Toggle
         options={statusOptions}
         value={optimisticStatus}
@@ -146,23 +146,29 @@ export default function PropertyFilter() {
           setOptimisticStatus(next);
           applyWith(next, optimisticTypes, optimisticRegions);
         }}
-        className="shrink-0 mr-4"
+        className="shrink-0 h-14"
+        buttonClassName="h-full px-6 last:w-[12.375rem]"
+        inset={false}
       />
 
-      <Dropdown
-        label="物件"
-        options={propertyTypes}
-        selected={optimisticTypes}
-        onToggle={toggleType}
-        onClear={clearTypes}
-      />
-      <Dropdown
-        label="地域"
-        options={regions.map((r) => ({ value: r, label: r }))}
-        selected={optimisticRegions}
-        onToggle={toggleRegion}
-        onClear={clearRegions}
-      />
+      {/* Figma 4470:14414: 2 つの dropdown は残り幅を等分 (flex-1)、間隔 8 */}
+      <div className="flex-1 min-w-0 flex items-center gap-2">
+        <Dropdown
+          label="物件"
+          options={propertyTypes}
+          selected={optimisticTypes}
+          onToggle={toggleType}
+          onClear={clearTypes}
+          widthClassName="flex-1 min-w-0"
+        />
+        <Dropdown
+          label="地域"
+          options={regions.map((r) => ({ value: r, label: r }))}
+          selected={optimisticRegions}
+          onToggle={toggleRegion}
+          onClear={clearRegions}
+          widthClassName="flex-1 min-w-0"
+        />
       </div>
 
       <div className="flex gap-2 shrink-0">
