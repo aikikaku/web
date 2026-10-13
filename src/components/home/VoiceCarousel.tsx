@@ -96,13 +96,14 @@ function VoiceCard({ voice }: { voice: CustomerVoice }) {
           height={24}
           className="w-4 h-3 tablet:w-8 tablet:h-6"
         />
-        <h3
-          className="font-mincho text-heading-18 tablet:text-heading-32 text-dark-green"
-          style={{ fontFeatureSettings: "'palt' 1" }}
-        >
-          {voice.title || voice.customerName}
-        </h3>
-        <p className="text-body-m font-gothic font-medium text-black">
+        {/* 見出しなし (Figma Handoff 20260724 card-voice 4470:14108): タイトルは本文の1行目に置き、全体を3行で省略 */}
+        <p className="text-body-m font-gothic font-medium text-black line-clamp-3">
+          {voice.title && (
+            <>
+              {voice.title}
+              <br />
+            </>
+          )}
           {voice.content.replace(/<[^>]*>/g, '')}
         </p>
       </div>

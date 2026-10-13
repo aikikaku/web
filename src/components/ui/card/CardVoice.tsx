@@ -18,16 +18,14 @@ export default function CardVoice({ voice }: CardVoiceProps) {
         />
       </div>
 
-      {/* Title */}
-      <h3
-        className="font-mincho text-heading-32 text-dark-green mb-4"
-        style={{ fontFeatureSettings: "'palt' 1" }}
-      >
-        {voice.customerName}　{voice.location} / {voice.propertyType}
-      </h3>
-
-      {/* Content excerpt */}
+      {/* Content excerpt (見出しなし。タイトルは本文の1行目 / Figma Handoff 20260724 card-voice) */}
       <p className="font-gothic font-medium text-body-m text-black line-clamp-3 mb-0">
+        {voice.title && (
+          <>
+            {voice.title}
+            <br />
+          </>
+        )}
         {voice.content.replace(/<[^>]*>/g, '')}
       </p>
 
