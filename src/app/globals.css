@@ -80,7 +80,11 @@
 
   /* ─── 表示演出（MotionProvider）。html.motion-ready の時だけ、main 内の対象を最初から隠しておく ───
      対象と除外は MotionProvider.tsx の TEXT_TARGETS / EXCLUDE と同じにすること。
-     transform ではなく個別プロパティ（translate / scale）を使い、既存のホバー拡大等と干渉させない */
+     transform ではなく個別プロパティ（translate / scale）を使い、既存のホバー拡大等と干渉させない。
+     イージングは参考サイトと同じ expo-out 系 1種類（--ease-soft）に統一し、時間は 1.2〜1.6s */
+  :root {
+    --ease-soft: cubic-bezier(0.16, 1, 0.3, 1);
+  }
   html.motion-ready
     main
     :is(p, h3, h4, li, dl, blockquote, .tag, .tag-dark, .btn-outline-fill, .btn-outline-hover):not(
@@ -88,27 +92,28 @@
       :is(p, h3, h4, li, dl, blockquote, .tag, .tag-dark, .btn-outline-fill, .btn-outline-hover) *
     ):not(.m-in) {
     opacity: 0;
-    translate: 0 0.75rem;
-    filter: blur(4px);
+    translate: 0 2rem;
+    filter: blur(2px);
   }
   /* 表示中だけ付く（MotionProvider が出し終わったら外す）。要素自身のホバー用トランジションを上書きし続けないため */
   html.motion-ready main .m-anim {
     transition:
-      opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
-      translate 1.2s cubic-bezier(0.16, 1, 0.3, 1),
-      filter 1s cubic-bezier(0.16, 1, 0.3, 1),
-      scale 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+      opacity 1.2s var(--ease-soft),
+      translate 1.4s var(--ease-soft),
+      filter 1.2s var(--ease-soft),
+      clip-path 1.2s var(--ease-soft),
+      scale 1.8s var(--ease-soft);
   }
 
-  /* 写真: ぼかしと少しの拡大を解きながら（opacity を自前で切り替える画像は除く） */
+  /* 写真: 下から幕が開くように + 少しの拡大を解きながら（opacity を自前で切り替える画像は除く） */
   html.motion-ready
     main
     img:not([class*='opacity-']):not(
       :is(header, nav, footer, form, [role='listbox'], .fixed, .sticky, [data-no-motion]) *
     ):not(.m-in) {
     opacity: 0;
-    scale: 1.06;
-    filter: blur(8px);
+    scale: 1.08;
+    clip-path: inset(100% 0 0 0);
   }
 
   /* 明朝の見出し: 1文字ずつ（分割前は見出しごと隠す） */
@@ -121,14 +126,44 @@
   }
   html.motion-ready main .m-split .m-char {
     opacity: 0;
-    filter: blur(6px);
+    filter: blur(4px);
     transition:
-      opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-      filter 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+      opacity 1.2s var(--ease-soft),
+      filter 1.2s var(--ease-soft);
   }
   html.motion-ready main .m-split.m-in .m-char {
     opacity: 1;
     filter: none;
+  }
+
+  /* Lenis（慣性スクロール）の推奨スタイル */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-stopped {
+    overflow: clip;
+  }
+
+  /* ヒーロー写真の Ken Burns（表示中にゆっくり引いていく。参考: notahotel / hachi-to-waltz） */
+  @keyframes ken-burns {
+    from {
+      transform: scale(1.12);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+  .ken-burns {
+    animation: ken-burns 9s linear both;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ken-burns {
+      animation: none;
+    }
   }
 
   /* ─── ヒーロー(画像3枚)の登場アニメーション (#lB0tVZMFjn0S / #eS_5ZxrNoxye) ─── */

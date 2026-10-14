@@ -2,15 +2,17 @@
 
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
+import Lenis from 'lenis';
 
 /**
  * サイト全体の表示演出（Vercel コメント「表示アニメーションが不足…時間がふわっと流れるような柔らかい演出に」）。
- * 参考: iwatetown-sdgs.jp（要素・文字ごとに 0.8s で少しずつ遅らせて出す）/ qino.jp（ぼかしを解きながら出す）
+ * 参考: iwatetown-sdgs.jp / qino.jp（どちらも慣性スクロール + 1種類のイージング（expo-out 系）で 0.8〜1.6s の表示）
  *
+ * - 慣性スクロール（Lenis）: PC（マウス等の精密なポインタ）のみ。タッチ端末・reduced-motion では使わない
  * main 内の要素を自動で対象にするので、各ページ側の実装は不要:
- * - 本文系（p / h3 / li / タグ / ボタン 等）: ぼかし + 少し下から、順番にふわっと
+ * - 本文系（p / h3 / li / タグ / ボタン 等）: 下から 32px、順番にふわっと
  * - 明朝の見出し（h1 / h2.font-mincho）: 1文字ずつ
- * - 写真（img）: ぼかしと少しの拡大を解きながら
+ * - 写真（img）: 下から幕が開くように（clip-path）+ 少しの拡大を解きながら
  *
  * 初回描画のちらつきを避けるため、隠す指定は CSS（html.motion-ready + globals.css の .m-* ）で最初から当て、
  * ここでは画面に入った要素に .m-in を付けて表示させるだけにしている。
@@ -18,7 +20,7 @@ import { usePathname } from 'next/navigation';
  */
 const TEXT_TARGETS = 'p, h3, h4, li, dl, blockquote, .tag, .tag-dark, .btn-outline-fill, .btn-outline-hover';
 const EXCLUDE = 'header, nav, footer, form, [role="listbox"], .fixed, .sticky, [data-no-motion]';
-const STAGGER_MS = 90; // 同時に画面に入った要素同士のずらし
+const STAGGER_MS = 110; // 同時に画面に入った要素同士のずらし
 const MAX_STAGGER_MS = 720;
 const CHAR_STAGGER_MS = 45; // 見出しの1文字ごとのずらし
 
@@ -56,8 +58,27 @@ function splitChars(el: HTMLElement) {
   el.classList.add('m-split');
 }
 
+/** 慣性スクロールの設定。参考サイトの実測（ホイール1回でゆっくり 0.6s ほどかけて止まる）に合わせた */
+const LENIS_OPTIONS = {
+  duration: 1.2,
+  easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // expo-out
+  wheelMultiplier: 0.55,
+  anchors: true,
+  autoRaf: true,
+  // 内側でスクロールする要素（モーダル・リスト等）は Lenis に奪わせない
+  prevent: (node: HTMLElement) => !!node.closest('[data-lenis-prevent], [role="listbox"], .overflow-y-auto'),
+};
+
 export default function MotionProvider() {
   const pathname = usePathname();
+
+  // 慣性スクロール（ページをまたいで1つだけ）
+  useEffect(() => {
+    if (!document.documentElement.classList.contains('motion-ready')) return;
+    if (!window.matchMedia('(pointer: fine)').matches) return;
+    const lenis = new Lenis(LENIS_OPTIONS);
+    return () => lenis.destroy();
+  }, []);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -84,14 +105,23 @@ export default function MotionProvider() {
           setTimeout(() => {
             h.classList.remove('m-anim');
             h.style.transitionDelay = '';
-          }, delay + 1800);
+          }, delay + 2000);
         });
     };
 
+    // 写真は clip-path で面積 0 にして隠しているため、写真自身は「画面に入った」と判定されない。
+    // 親要素の出入りを監視し、入ったらその中の写真を出す
+    const proxied = new Map<Element, Element[]>();
     const io = new IntersectionObserver(
       (entries) => {
-        const hits = entries.filter((e) => e.isIntersecting).map((e) => e.target);
-        hits.forEach((t) => io.unobserve(t));
+        const hits = entries
+          .filter((e) => e.isIntersecting)
+          .flatMap((e) => {
+            io.unobserve(e.target);
+            const imgs = proxied.get(e.target);
+            proxied.delete(e.target);
+            return imgs ?? [e.target];
+          });
         if (hits.length) reveal(hits);
       },
       { threshold: 0, rootMargin: '0px 0px -10% 0px' },
@@ -103,6 +133,16 @@ export default function MotionProvider() {
     const watch = (el: Element) => {
       if (observed.has(el)) return;
       observed.add(el);
+      if (el instanceof HTMLImageElement && el.parentElement) {
+        const host = el.parentElement;
+        const list = proxied.get(host);
+        if (list) list.push(el);
+        else {
+          proxied.set(host, [el]);
+          io.observe(host);
+        }
+        return;
+      }
       io.observe(el);
     };
     const isTarget = (el: Element) => !el.closest(EXCLUDE) && !el.classList.contains('m-in');

@@ -116,14 +116,17 @@ export function HeroSetSlot({ slot, alt, priority, sizes }: SlotProps) {
                 className="absolute inset-0 h-full w-full object-cover"
               />
             ) : (
-              <Image
-                src={media.src}
-                alt={i === 0 ? alt : ''}
-                fill
-                className="object-cover"
-                priority={priority && i === 0}
-                sizes={sizes}
-              />
+              // 表示中（とフェードアウト中）の写真はゆっくり引いていく（Ken Burns）。表示のたびに最初から
+              <div className={`absolute inset-0 ${(active || leaving) && !reduced ? 'ken-burns' : ''}`}>
+                <Image
+                  src={media.src}
+                  alt={i === 0 ? alt : ''}
+                  fill
+                  className="object-cover"
+                  priority={priority && i === 0}
+                  sizes={sizes}
+                />
+              </div>
             )}
           </div>
         );
