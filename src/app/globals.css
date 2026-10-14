@@ -97,11 +97,27 @@
   html.motion-ready main :is(img, video).m-hide:not(.m-in) {
     scale: 1.03;
   }
+  /* 大きな写真: 出たあと約4秒かけて、わずかな拡大から落ち着く（ゆっくり時間が流れる余韻） */
+  html.motion-ready main img.m-large.m-hide:not(.m-in) {
+    scale: 1.08;
+  }
+  /* PC のパララックス対象は、枠の中で上下 3% ずらしても端が見えないよう、ごくわずかに拡大したまま落ち着く */
+  html.motion-ready main img.m-parallax.m-hide:not(.m-in) {
+    scale: 1.13;
+  }
+  html.motion-ready main img.m-parallax.m-in {
+    scale: 1.07;
+  }
   /* 表示中だけ付く（MotionProvider が出し終わったら外す）。要素自身のホバー用トランジションを上書きし続けないため */
   html.motion-ready main .m-anim {
     transition:
       opacity 0.9s var(--ease-fade),
       scale 1.4s var(--ease-soft);
+  }
+  html.motion-ready main img.m-large.m-anim {
+    transition:
+      opacity 0.9s var(--ease-fade),
+      scale 4.2s var(--ease-soft);
   }
 
   /* ヒーロー写真の Ken Burns（表示中にゆっくり引いていく。参考: notahotel / hachi-to-waltz） */

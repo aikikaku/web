@@ -12,6 +12,9 @@ import { useEffect } from 'react';
  *   CMS から取得した文字が漏れて、そこだけ機械的にパッと出てしまうため（レビュー指摘）
  * - 同時に画面に入ったものは上（DOM 順）から少しずつずらして出す。見出しがその下のカードより後から出ないように
  * - 文字はすぐ、写真・動画は読み込みが終わってからフェードを始める（読み込み前に始めると「パッと出る」）
+ * - 大きな写真だけ「ゆっくり時間が流れる」演出: 出たあと約4秒かけてわずかな拡大から落ち着く。
+ *   PC では枠の中で写真だけがスクロールよりわずかに遅れて動く（ゆるいパララックス・上下 3%）。
+ *   枠・レイアウト・スクロール量は変えない。SP・reduced-motion では入れない
  *
  * 初回表示のちらつき（一瞬見えてから消えてフェードし直す）を避けるため、main は対象に印（.m-hide）を
  * 付け終わるまで CSS で見えなくしておき（html.motion-ready main:not(.m-ready)）、付け終えたら表示する。
@@ -24,6 +27,11 @@ const STAGGER_MS = 60; // 同時に画面に入った要素同士のずらし
 const MAX_STAGGER_MS = 240;
 // 動画が再生できない（自動再生ブロック・読み込み失敗等）ときに見えないままにならないための保険
 const VIDEO_FALLBACK_MS = 2500;
+// 「ゆっくり時間が流れる」演出の対象にする大きな写真の下限（カードの小さな写真は落ち着かなくなるので対象外）
+const LARGE_MIN_W = 480;
+const LARGE_MIN_H = 280;
+// パララックスで写真が枠の中で動く量（枠の高さに対する割合・片側）
+const PARALLAX_AMP = 0.03;
 
 /** 空白以外の文字を直接（子のテキストノードとして）持っているか */
 function hasOwnText(el: Element) {
@@ -53,7 +61,7 @@ export default function MotionProvider() {
       setTimeout(() => {
         h.classList.remove('m-anim');
         h.style.transitionDelay = '';
-      }, delay + 1600);
+      }, delay + (h.classList.contains('m-large') ? 4600 : 1600));
     };
 
     const reveal = (els: Element[]) => {
@@ -100,6 +108,52 @@ export default function MotionProvider() {
       { threshold: 0, rootMargin: '0px 0px -10% 0px' },
     );
 
+    // 大きな写真の判定。枠（はみ出しを切り抜く親）に収まっている写真だけ。横スクロールのカルーセル内は除く
+    const parallaxOn = window.matchMedia('(min-width: 993px) and (pointer: fine)').matches;
+    const parallaxEls = new Set<HTMLImageElement>();
+    const visibleParallax = new Set<HTMLImageElement>();
+    const pio = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) visibleParallax.add(e.target as HTMLImageElement);
+        else visibleParallax.delete(e.target as HTMLImageElement);
+      }
+    });
+    const frameOf = (img: HTMLElement) => {
+      let a = img.parentElement;
+      for (let i = 0; i < 3 && a; i++, a = a.parentElement) {
+        const ov = getComputedStyle(a).overflow;
+        if (ov.includes('hidden') || ov.includes('clip')) return a;
+      }
+      return null;
+    };
+    const markLarge = (img: HTMLImageElement) => {
+      const r = img.getBoundingClientRect();
+      if (r.width < LARGE_MIN_W || r.height < LARGE_MIN_H) return;
+      if (img.closest('.overflow-x-auto, [data-motion-fade]')) return;
+      const frame = frameOf(img);
+      if (!frame) return;
+      img.classList.add('m-large');
+      if (parallaxOn) {
+        img.classList.add('m-parallax');
+        parallaxEls.add(img);
+        pio.observe(img);
+      }
+    };
+    // 枠の中心が画面の下端→上端へ動く間に、写真を枠の中で下向きに少しずつずらす（スクロールよりわずかに遅れて見える）
+    const updateParallax = () => {
+      const vh = window.innerHeight;
+      visibleParallax.forEach((img) => {
+        if (!img.isConnected) {
+          visibleParallax.delete(img);
+          return;
+        }
+        const frame = frameOf(img) ?? img;
+        const r = frame.getBoundingClientRect();
+        const progress = Math.max(-1, Math.min(1, (r.top + r.height / 2 - vh / 2) / (vh / 2 + r.height / 2)));
+        img.style.translate = `0 ${(-progress * PARALLAX_AMP * r.height).toFixed(1)}px`;
+      });
+    };
+
     // 対象の選び方: 写真・動画・枠、または文字を直接持つ要素。すでに対象になっている要素の中は外側と一緒に出す
     const observed = new WeakSet<Element>();
     const scan = () => {
@@ -112,6 +166,7 @@ export default function MotionProvider() {
         if (el.parentElement?.closest('.m-hide')) continue;
         observed.add(el);
         el.classList.add('m-hide');
+        if (el instanceof HTMLImageElement && !/opacity-/.test(el.className)) markLarge(el);
         io.observe(el);
       }
     };
@@ -130,6 +185,7 @@ export default function MotionProvider() {
           io.unobserve(el);
           show(el as HTMLElement, 0);
         });
+        if (parallaxOn) updateParallax();
       });
     };
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -144,6 +200,7 @@ export default function MotionProvider() {
     const start = window.setTimeout(() => {
       try {
         scan();
+        if (parallaxOn) requestAnimationFrame(updateParallax);
       } finally {
         main.classList.add('m-ready');
       }
@@ -154,6 +211,8 @@ export default function MotionProvider() {
       alive = false;
       window.clearTimeout(start);
       io.disconnect();
+      pio.disconnect();
+      parallaxEls.forEach((img) => (img.style.translate = ''));
       mo.disconnect();
       cancelAnimationFrame(raf);
       cancelAnimationFrame(scrollRaf);
