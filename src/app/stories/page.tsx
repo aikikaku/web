@@ -53,8 +53,13 @@ function StoryCardLarge({ story }: { story: Story }) {
       </div>
 
       {/* PC: 既存（画像の下にテキスト） */}
-      <Link href={`/stories/${story.id}`} className="hidden tablet:flex group w-full flex-col items-start">
-        <div className="relative aspect-[410/308] w-full overflow-hidden rounded-[1.5rem]">
+      {/* カード全体はリンクにせず、写真・タイトル・ボタンだけをリンクにする（空いている所のクリックで遷移しない） */}
+      <div className="hidden tablet:flex w-full flex-col items-start">
+        <Link
+          href={`/stories/${story.id}`}
+          aria-label={story.title}
+          className="group block relative aspect-[410/308] w-full overflow-hidden rounded-[1.5rem]"
+        >
           <CmsImage
             image={story.thumbnail}
             alt={story.title}
@@ -62,7 +67,7 @@ function StoryCardLarge({ story }: { story: Story }) {
             className="object-cover transition-transform group-hover:scale-[1.02]"
             sizes="410px"
           />
-        </div>
+        </Link>
         <div className="flex flex-col gap-6 items-start justify-center pt-[1.875rem] px-3 w-full">
           <div className="flex flex-col gap-4 items-start w-full">
             <div className="flex gap-3 items-center">
@@ -79,15 +84,20 @@ function StoryCardLarge({ story }: { story: Story }) {
               className="font-mincho text-heading-32 text-dark-green line-clamp-2"
               style={{ fontFeatureSettings: "'palt' 1" }}
             >
-              {story.title}
+              <Link href={`/stories/${story.id}`} className="hover:opacity-70 transition-opacity">
+                {story.title}
+              </Link>
             </h3>
           </div>
-          <span className="inline-flex items-center gap-1 h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none">
+          <Link
+            href={`/stories/${story.id}`}
+            className="inline-flex items-center gap-1 h-[2.75rem] px-6 btn-outline-hover text-[1rem] leading-none"
+          >
             <BookIcon />
             ストーリーを読む
-          </span>
+          </Link>
         </div>
-      </Link>
+      </div>
     </>
   );
 }
@@ -96,12 +106,17 @@ function FeaturedStoryCard({ story }: { story: Story }) {
   const regionNames = story.regions?.map((r) => r.name).join('・');
 
   return (
-    <Link href={`/stories/${story.id}`} className="block group w-full">
+    // カード全体はリンクにせず、写真・タイトル・ボタンだけをリンクにする（空いている所のクリックで遷移しない）
+    <div className="w-full">
       {/* #22: 詳細ページのヒーローと同じレイアウト(1440px時)。画像 675×640 / テキスト左89・右60
           (Figma 4470:15360 PC / 4470:15097 SP: SP は画像→テキスト gap-30) */}
       <div className="flex flex-col tablet:flex-row gap-[1.875rem] tablet:gap-0 items-stretch">
         {/* Image */}
-        <div className="relative w-full tablet:w-[42.1875rem] shrink-0 aspect-[850/639] tablet:aspect-auto tablet:h-[40rem] overflow-hidden rounded-[1.5rem]">
+        <Link
+          href={`/stories/${story.id}`}
+          aria-label={story.title}
+          className="group block relative w-full tablet:w-[42.1875rem] shrink-0 aspect-[850/639] tablet:aspect-auto tablet:h-[40rem] overflow-hidden rounded-[1.5rem]"
+        >
           <CmsImage
             image={story.thumbnail}
             alt={story.title}
@@ -110,7 +125,7 @@ function FeaturedStoryCard({ story }: { story: Story }) {
             sizes="(max-width: 992px) 100vw, 675px"
             priority
           />
-        </div>
+        </Link>
 
         {/* Info (Figma 4470:15363 / 4470:15100: Top→ボタン gap-24、SP は px-12) */}
         <div className="flex flex-col gap-6 items-start justify-center flex-1 min-w-0 px-3 tablet:pl-[5.5625rem] tablet:pr-[3.75rem]">
@@ -130,17 +145,22 @@ function FeaturedStoryCard({ story }: { story: Story }) {
               className="font-mincho text-[2rem] leading-[1.4] text-dark-green"
               style={{ fontFeatureSettings: "'palt' 1" }}
             >
-              {story.title}
+              <Link href={`/stories/${story.id}`} className="hover:opacity-70 transition-opacity">
+                {story.title}
+              </Link>
             </h3>
           </div>
 
-          <span className="inline-flex items-center gap-2 h-[2.75rem] px-4 btn-outline-fill text-[0.875rem] leading-[1.25rem] tracking-[0.00625rem]">
+          <Link
+            href={`/stories/${story.id}`}
+            className="inline-flex items-center gap-2 h-[2.75rem] px-4 btn-outline-hover text-[0.875rem] leading-[1.25rem] tracking-[0.00625rem]"
+          >
             <BookIcon size={20} />
             ストーリーを読む
-          </span>
+          </Link>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
 
@@ -148,9 +168,13 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
   const currentPage = Number(searchParams.page) || 1;
   const offset = (currentPage - 1) * PER_PAGE;
 
+  // 絞り込みがある場合は全件取得 → 絞り込み → ページ分割（/properties の地域フィルタと同じ方式）。
+  // 取得した1ページ分を絞り込むと、件数とページネーションが絞り込み前の総数のままになるため
+  const hasFilter = !!searchParams.category || !!searchParams.regions;
+
   const data = await getStories({
-    limit: PER_PAGE,
-    offset,
+    limit: hasFilter ? 100 : PER_PAGE,
+    offset: hasFilter ? 0 : offset,
     orders: '-publishedAt',
   }).catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: PER_PAGE }));
 
@@ -170,6 +194,9 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
       story.regions?.some((r) => selectedRegions.includes(r.name))
     );
   }
+
+  const totalCount = hasFilter ? filteredContents.length : data.totalCount;
+  if (hasFilter) filteredContents = filteredContents.slice(offset, offset + PER_PAGE);
 
   // 最初の1件をフィーチャード、残りをグリッド
   const featuredStory = filteredContents[0];
@@ -243,7 +270,7 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
           {/* ページネーション */}
           <div data-stories-filter-end />
           <Pagination
-            totalCount={data.totalCount}
+            totalCount={totalCount}
             perPage={PER_PAGE}
             currentPage={currentPage}
             basePath="/stories"

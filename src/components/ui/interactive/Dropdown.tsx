@@ -37,15 +37,25 @@ export default function Dropdown({
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
+  // 開いている時の外側クリックは「閉じるだけ」にする。閉じるつもりで空いている所をクリックしても、
+  // 下にあるカードのリンク等が反応してページ遷移しないよう、その1回の click を握りつぶす
   useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
+    if (!isOpen) return;
+    function swallowClick(e: MouseEvent) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    function handleMouseDown(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) {
         setIsOpen(false);
+        document.addEventListener('click', swallowClick, { capture: true, once: true });
+        // ドラッグ等で click が発生しなかった場合に、次の通常クリックを潰さないよう解除
+        setTimeout(() => document.removeEventListener('click', swallowClick, { capture: true }), 600);
       }
     }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+    document.addEventListener('mousedown', handleMouseDown);
+    return () => document.removeEventListener('mousedown', handleMouseDown);
+  }, [isOpen]);
 
   const hasSelection = selected.length > 0;
   // hover/pressed/selected で bg-light-green を当てる
