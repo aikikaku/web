@@ -8,8 +8,9 @@ const slides = [
   // 1枚目は Figma 4470:14736 の切り出し (hero-1.jpg を w191.51%/left-45.76%/top4.24% で拡大・下揃え)
   // を書き出した SP 専用画像 (374×354 @2x)
   '/images/home/hero-1-sp.jpg',
-  '/images/home/hero-2.jpg',
-  '/images/home/hero-3.jpg',
+  // 2・3枚目は Figma に SP の指定が無いため、PC ヒーローの各セットの大枠と同じ写真（heroSets.ts）
+  '/images/home/hero/set2-main.jpg',
+  '/images/home/hero/set3-main.jpg',
 ];
 
 const DISPLAY_MS = 4500; // 各画像の表示時間

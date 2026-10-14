@@ -125,14 +125,15 @@ export default function Navigation() {
             />
           </Link>
 
-          {/* Desktop nav */}
-          <div className="hidden tablet:flex items-center">
+          {/* Desktop nav。ホバー中/メガメニューを開いている項目以外を 40% に透過する
+              (Figma Header Type=Open 4470:13222、2026-10-14 MTG でホバーも同じ表現に決定) */}
+          <div className="group/nav hidden tablet:flex items-center">
             {navLinks.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`px-4 py-2.5 font-gothic font-medium text-base leading-none text-dark-green transition-colors ${
-                  dropdownOpen ? 'opacity-40' : 'hover:text-accent-blue'
+                className={`px-4 py-2.5 font-gothic font-medium text-base leading-none text-dark-green transition-opacity ${
+                  dropdownOpen ? 'opacity-40' : 'group-hover/nav:opacity-40 hover:!opacity-100'
                 }`}
               >
                 {item.label}
@@ -145,12 +146,14 @@ export default function Navigation() {
             <button
               onClick={toggleDropdown}
               aria-expanded={dropdownOpen}
-              className="px-4 py-2.5 font-gothic font-medium text-base leading-none text-dark-green"
+              className={`px-4 py-2.5 font-gothic font-medium text-base leading-none text-dark-green transition-opacity ${
+                dropdownOpen ? '' : 'group-hover/nav:opacity-40 hover:!opacity-100'
+              }`}
             >
               <span
                 onMouseEnter={openDropdown}
                 onMouseLeave={scheduleCloseDropdown}
-                className="relative flex items-center gap-1 hover:text-accent-blue transition-colors"
+                className="relative flex items-center gap-1"
               >
                 アイ企画を知る
                 <svg
@@ -181,8 +184,8 @@ export default function Navigation() {
                 href={item.href}
                 target={item.external ? '_blank' : undefined}
                 rel={item.external ? 'noopener noreferrer' : undefined}
-                className={`px-4 py-2.5 font-gothic font-medium text-base leading-none text-dark-green transition-colors ${
-                  dropdownOpen ? 'opacity-40' : 'hover:text-accent-blue'
+                className={`px-4 py-2.5 font-gothic font-medium text-base leading-none text-dark-green transition-opacity ${
+                  dropdownOpen ? 'opacity-40' : 'group-hover/nav:opacity-40 hover:!opacity-100'
                 }`}
               >
                 {item.label}
