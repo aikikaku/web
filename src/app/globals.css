@@ -234,6 +234,21 @@
     --paper-blend: darken;
   }
 
+  /* 写真の上に重ねる紙テクスチャ（Figma の画像レイヤーの Paper パターン）。写真の直後に置き、
+     グラデーション・文字より下に重ねる。濃さは --paper-opacity。-sp は SP（〜992px）のみ（Figma で SP だけの指定） */
+  .paper-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: url('/images/textures/paper.png') repeat 0 0 / 450px 450px;
+    opacity: var(--paper-opacity, 0.4);
+  }
+  @media (min-width: 993px) {
+    .paper-overlay-sp {
+      display: none;
+    }
+  }
+
   /* btn-outline-fill と同じ見た目で、ボタン自体のホバーでだけ反転する（カード全体がリンクでない場合用） */
   .btn-outline-hover {
     @apply border border-dark-green rounded-full font-gothic font-medium text-dark-green transition-colors hover:bg-dark-green hover:border-[rgba(252,255,247,0.3)] hover:text-white;
