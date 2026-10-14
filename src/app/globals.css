@@ -173,6 +173,11 @@
     @apply border border-dark-green rounded-full font-gothic font-medium text-dark-green transition-colors group-hover:bg-dark-green group-hover:border-[rgba(252,255,247,0.3)] group-hover:text-white;
   }
 
+  /* btn-outline-fill と同じ見た目で、ボタン自体のホバーでだけ反転する（カード全体がリンクでない場合用） */
+  .btn-outline-hover {
+    @apply border border-dark-green rounded-full font-gothic font-medium text-dark-green transition-colors hover:bg-dark-green hover:border-[rgba(252,255,247,0.3)] hover:text-white;
+  }
+
   /* 全呼び出し箇所で text-[0.875rem] leading-none px-3 py-1.5 が例外なく上書きされていたため
      (18箇所で完全一致確認済み)、ベースクラスに統合。
      Figma Tag (JP/Button S: Zen Kaku Gothic New Medium 14px) に合わせ font-medium(500) を指定 */

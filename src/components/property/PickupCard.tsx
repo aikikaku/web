@@ -23,20 +23,26 @@ export default function PickupCard({ property }: Props) {
   const locationText = property.regions?.map((r) => r.name).join('・');
   const { amount: priceAmount, unit: priceUnit } = formatPropertyPrice(property, isSold);
   const layoutCell = getPropertyLayoutCell(property);
+  const detailHref = `/properties/${property.id}`;
 
   return (
-    <Link
+    // カード全体はリンクにせず、写真・タイトル・ボタンだけをリンクにする（文字や写真の外ではポインターにならない）。
+    // ボタンはボタン自体のホバーでだけ反転する
+    <div
       data-mobile-filter-start
-      href={`/properties/${property.id}`}
-      // Figma 4211:10721: section bg-light-green px-16 py-32 を Link 単体で再現。
+      // Figma 4211:10721: section bg-light-green px-16 py-32。
       // SP は Figma Handoff 4470:14849 通り緑背景を全幅 (角丸なし) にするため、親の px-4 を -mx-4 で打ち消す
-      className="block bg-light-green -mx-4 tablet:mx-0 tablet:rounded-[2rem] py-8 px-4 tablet:p-[1.875rem] group"
+      className="block bg-light-green -mx-4 tablet:mx-0 tablet:rounded-[2rem] py-8 px-4 tablet:p-[1.875rem]"
     >
       {/* SP: 縦積み image → thumbs → details / PC: 横並び image | details(thumbs下) */}
       <div className="flex flex-col tablet:flex-row tablet:gap-[3.75rem] tablet:items-stretch">
         {/* メイン画像 */}
         <div className="tablet:w-[40.375rem] tablet:shrink-0">
-          <div className="aspect-[294/220] tablet:aspect-[646/485] relative overflow-hidden rounded-2xl tablet:rounded-[1.5rem]">
+          <Link
+            href={detailHref}
+            aria-label={property.title}
+            className="block aspect-[294/220] tablet:aspect-[646/485] relative overflow-hidden rounded-2xl tablet:rounded-[1.5rem]"
+          >
             {allImages.map((img, i) => (
               <CmsImage
                 key={i}
@@ -85,7 +91,7 @@ export default function PickupCard({ property }: Props) {
                 </span>
               )}
             </div>
-          </div>
+          </Link>
 
           {/* SP: thumbs（画像の下）。flex-1 + aspect-square + max-w-[3.25rem] で親要素 (Link px-4 内側 326px) に収まるよう均等配分。 */}
           {allImages.length > 1 && (
@@ -141,7 +147,9 @@ export default function PickupCard({ property }: Props) {
                 className="font-mincho text-[1.5rem] tablet:text-[2rem] leading-[1.6] tablet:leading-[1.5] tracking-[0.04em] text-black"
                 style={{ fontFeatureSettings: "'palt' 1" }}
               >
-                {property.title}
+                <Link href={detailHref} className="hover:opacity-70 transition-opacity">
+                  {property.title}
+                </Link>
               </h3>
             </div>
 
@@ -183,21 +191,21 @@ export default function PickupCard({ property }: Props) {
             {/* SP: 物件詳細ボタン（station の前） */}
             {!isSold && (
               <div className="tablet:hidden pb-6">
-                <span className="inline-flex items-center justify-center h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none">
+                <Link href={detailHref} className="inline-flex items-center justify-center h-[2.75rem] px-6 btn-outline-hover text-[1rem] leading-none">
                   物件詳細
-                </span>
+                </Link>
               </div>
             )}
             {/* SP: 成約済み+ストーリーありの場合は物件詳細+ストーリーを読むの2ボタン（CardProperty.tsxと同じパターン） */}
             {isSold && property.story && (
               <div className="tablet:hidden pb-6 flex items-center gap-2.5">
-                <span className="flex-1 inline-flex items-center justify-center h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none">
+                <Link href={detailHref} className="flex-1 inline-flex items-center justify-center h-[2.75rem] px-6 btn-outline-hover text-[1rem] leading-none">
                   物件詳細
-                </span>
-                <span className="flex-1 inline-flex items-center justify-center gap-1 h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none">
+                </Link>
+                <Link href={`/stories/${property.story!.id}`} className="flex-1 inline-flex items-center justify-center gap-1 h-[2.75rem] px-6 btn-outline-hover text-[1rem] leading-none">
                   <BookIcon />
                   ストーリーを読む
-                </span>
+                </Link>
               </div>
             )}
 
@@ -218,21 +226,21 @@ export default function PickupCard({ property }: Props) {
             {/* PC: 物件詳細ボタン */}
             {!isSold && (
               <div className="hidden tablet:block mt-10">
-                <span className="inline-flex items-center justify-center h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none">
+                <Link href={detailHref} className="inline-flex items-center justify-center h-[2.75rem] px-6 btn-outline-hover text-[1rem] leading-none">
                   物件詳細
-                </span>
+                </Link>
               </div>
             )}
             {/* PC: 成約済み+ストーリーありの場合は物件詳細+ストーリーを読むの2ボタン */}
             {isSold && property.story && (
               <div className="hidden tablet:flex items-center gap-2.5 mt-10">
-                <span className="inline-flex items-center justify-center h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none">
+                <Link href={detailHref} className="inline-flex items-center justify-center h-[2.75rem] px-6 btn-outline-hover text-[1rem] leading-none">
                   物件詳細
-                </span>
-                <span className="inline-flex items-center justify-center gap-1 h-[2.75rem] px-6 btn-outline-fill text-[1rem] leading-none">
+                </Link>
+                <Link href={`/stories/${property.story!.id}`} className="inline-flex items-center justify-center gap-1 h-[2.75rem] px-6 btn-outline-hover text-[1rem] leading-none">
                   <BookIcon />
                   ストーリーを読む
-                </span>
+                </Link>
               </div>
             )}
           </div>
@@ -264,6 +272,6 @@ export default function PickupCard({ property }: Props) {
           )}
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
