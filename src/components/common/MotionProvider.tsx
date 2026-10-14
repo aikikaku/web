@@ -32,19 +32,34 @@ export default function MotionProvider() {
     const main = document.querySelector('main');
     if (!main) return;
 
+    let alive = true;
+    const show = (h: HTMLElement, delay: number) => {
+      if (!alive) return;
+      if (delay) h.style.transitionDelay = `${delay}ms`;
+      h.classList.add('m-anim', 'm-in');
+      // 出し終わったら演出用のトランジションと delay を外す（ホバー等の後続トランジションを妨げない）
+      setTimeout(() => {
+        h.classList.remove('m-anim');
+        h.style.transitionDelay = '';
+      }, delay + 2400);
+    };
+
     const reveal = (els: Element[]) => {
       els
         .sort((a, b) => (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1))
         .forEach((el, i) => {
-          const h = el as HTMLElement;
           const delay = Math.min(i * STAGGER_MS, MAX_STAGGER_MS);
-          if (delay) h.style.transitionDelay = `${delay}ms`;
-          h.classList.add('m-anim', 'm-in');
-          // 出し終わったら演出用のトランジションと delay を外す（ホバー等の後続トランジションを妨げない）
-          setTimeout(() => {
-            h.classList.remove('m-anim');
-            h.style.transitionDelay = '';
-          }, delay + 2000);
+          // 写真は読み込みと描画の準備が終わってからフェードを始める。
+          // 枠が画面に入った時点で始めると、読み込み中にフェードが終わり、読み込み完了でパッと出て見えるため
+          if (el instanceof HTMLImageElement && !(el.complete && el.naturalWidth > 0)) {
+            const onReady = () => {
+              el.decode().catch(() => {}).finally(() => show(el, 0));
+            };
+            el.addEventListener('load', onReady, { once: true });
+            el.addEventListener('error', () => show(el, 0), { once: true });
+            return;
+          }
+          show(el as HTMLElement, delay);
         });
     };
 
@@ -80,6 +95,7 @@ export default function MotionProvider() {
     }, 250);
 
     return () => {
+      alive = false;
       window.clearTimeout(start);
       io.disconnect();
       mo.disconnect();

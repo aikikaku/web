@@ -83,6 +83,9 @@
      スクロールの挙動も変えない（NN/g Scrolljacking 101）。対象と除外は MotionProvider.tsx と同じにすること */
   :root {
     --ease-soft: cubic-bezier(0.16, 1, 0.3, 1);
+    /* フェード（濃さ）用。expo-out だと最初の 0.1〜0.2 秒で 7 割以上濃くなり「パッと出る」ため、
+       始めから終わりまで均等にゆっくり変わる ease-in-out（sine）にする */
+    --ease-fade: cubic-bezier(0.37, 0, 0.63, 1);
   }
   html.motion-ready
     main
@@ -91,20 +94,20 @@
     ):not(.m-in) {
     opacity: 0;
   }
-  /* 写真: その場でゆっくりフェード + ごくわずかな拡大を解く（opacity を自前で切り替える画像は除く） */
+  /* 写真: 読み込み完了後に、その場でゆっくりフェード + ごくわずかな拡大を解く（opacity を自前で切り替える画像は除く） */
   html.motion-ready
     main
     img:not([class*='opacity-']):not(
       :is(header, nav, footer, form, [role='listbox'], .fixed, .sticky, [data-no-motion]) *
     ):not(.m-in) {
     opacity: 0;
-    scale: 1.03;
+    scale: 1.04;
   }
   /* 表示中だけ付く（MotionProvider が出し終わったら外す）。要素自身のホバー用トランジションを上書きし続けないため */
   html.motion-ready main .m-anim {
     transition:
-      opacity 1.4s var(--ease-soft),
-      scale 1.8s var(--ease-soft);
+      opacity 1.6s var(--ease-fade),
+      scale 2.4s var(--ease-soft);
   }
 
   /* ヒーロー写真の Ken Burns（表示中にゆっくり引いていく。参考: notahotel / hachi-to-waltz） */
