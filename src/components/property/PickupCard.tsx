@@ -54,6 +54,8 @@ export default function PickupCard({ property }: Props) {
                 priority={i === 0}
               />
             ))}
+            {/* Figma card-story-xl-sp: 写真に Paper 40%（SP のみ） */}
+            <div aria-hidden className="paper-overlay paper-overlay-sp" style={{ '--paper-opacity': 0.4 } as React.CSSProperties} />
             {/* Figma 4211:10721: 画像上端の暗グラデ（ラベル可読性のため）。to top: 73.6% transparent → 92.7% rgba(0,0,0,0.2)
                 SP のみ（PC 4470:14410 は画像上にラベルが無くグラデも無し） */}
             <div

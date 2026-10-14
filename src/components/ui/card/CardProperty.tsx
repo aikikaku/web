@@ -40,6 +40,8 @@ export default function CardProperty({ property }: CardPropertyProps) {
           className="object-cover"
           sizes="(min-width: 1440px) 28.47vw, (max-width: 992px) 100vw, 410px"
         />
+        {/* Figma card-propaty-sp: 写真に Paper 40%（SP のみ） */}
+        <div aria-hidden className="paper-overlay paper-overlay-sp" style={{ '--paper-opacity': 0.4 } as React.CSSProperties} />
         {isSold && (
           <div className="absolute inset-0 bg-dark-green/50 pointer-events-none" aria-hidden="true" />
         )}

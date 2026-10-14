@@ -299,6 +299,7 @@ export default async function HomePage() {
               fill
               className="object-cover"
             />
+            <div aria-hidden className="paper-overlay" />
             <div
               className="absolute inset-0"
               style={{
@@ -332,6 +333,7 @@ export default async function HomePage() {
               fill
               className="object-cover"
             />
+            <div aria-hidden className="paper-overlay" />
             <div
               className="absolute inset-0"
               style={{
