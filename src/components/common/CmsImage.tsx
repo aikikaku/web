@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Image, { type ImageProps } from 'next/image';
 import type { MicroCMSImage } from '@/types/microcms';
-import { PLACEHOLDER_IMAGE_URL } from '@/lib/microcms/image';
+import { PLACEHOLDER_IMAGE_URL, hasNoImage } from '@/lib/microcms/image';
 import { isMicrocmsImage, microcmsLoader } from '@/lib/microcms/loader';
 
 type CmsImageProps = Omit<ImageProps, 'src' | 'loader'> & {
@@ -14,7 +14,7 @@ type CmsImageProps = Omit<ImageProps, 'src' | 'loader'> & {
 /**
  * microCMS 画像を表示する next/image ラッパー。
  * - microCMS CDN の画像は {@link microcmsLoader} を使い、表示幅に応じた解像度を CDN から配信
- * - 画像未設定時は「画像準備中」プレースホルダにフォールバック
+ * - 画像未設定時（CMS の「画像なし」用画像を含む）は「画像準備中」プレースホルダにフォールバック
  * - 読み込みに失敗した場合は段階的に救済する:
  *   変換付き URL → 変換なしの元画像 → 「画像準備中」プレースホルダ
  *   （例: CMS に登録された一部の PNG は microCMS の画像変換 API（fm=webp 等）が 422 を返す）
@@ -22,7 +22,8 @@ type CmsImageProps = Omit<ImageProps, 'src' | 'loader'> & {
  * 呼び出し側は width を焼き込まず、fill + sizes（または width/height）を渡すだけでよい。
  */
 export default function CmsImage({ image, alt, onError, ...rest }: CmsImageProps) {
-  const url = image?.url;
+  // CMS の「画像なし」用画像は未設定と同じ扱いにし、サイト共通のシンプルなプレースホルダに揃える
+  const url = hasNoImage(image) ? undefined : image?.url;
   // 0: 通常 / 1: 変換なしの元画像 / 2: プレースホルダ
   const [fallback, setFallback] = useState<0 | 1 | 2>(0);
 
