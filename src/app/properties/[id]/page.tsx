@@ -18,6 +18,7 @@ import ListItemDeco from '@/components/ui/content/ListItemDeco';
 import ListItemDef from '@/components/ui/content/ListItemDef';
 import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
 import { getPriceLabel, getPropertyLayoutCell } from '@/components/property/propertyCells';
+import LayoutValue from '@/components/property/LayoutValue';
 import { propertyDocumentHref } from '@/lib/propertyDocument';
 import { SITE_URL } from '@/lib/site';
 
@@ -309,9 +310,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                             </span>
                           </div>
                           <div className="flex items-end justify-center">
-                            <span className="font-gothic font-medium text-category-2 tablet:text-category-1 text-black">
-                              {layoutCell.value}
-                            </span>
+                            <LayoutValue value={layoutCell.value} />
                           </div>
                         </div>
                       )}
