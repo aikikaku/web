@@ -13,7 +13,7 @@ const HeroSetContext = createContext<{
   prev: number | null;
   reduced: boolean;
   /** 表示中セットの動画が最後まで再生されたときに各枠から呼ぶ */
-  onVideoEnded: (setIndex: number, slot: HeroSlot) => void;
+  onVideoEnded: (setIndex: number) => void;
 } | null>(null);
 
 const SLOTS: HeroSlot[] = ['main', 'topRight', 'bottomRight'];
@@ -23,7 +23,8 @@ const VIDEO_FALLBACK_MS = 15000;
 /**
  * トップ PC ヒーローのセット切り替え。3枠は配置の都合で別々の要素にあるため、
  * Provider で「いま何番目のセットか」を共有し、各枠（HeroSetSlot）が同時に切り替わる。
- * 動画を含むセットは、動画をループさせず、すべての動画が最後まで再生されたら次のセットへ移る。
+ * 動画を含むセットは、動画をループさせず、セット内でいちばん短い動画が再生し終わったら次のセットへ移る
+ * （長い方の動画はフェードアウト中も再生を続ける）。
  * 画像だけのセットは durationMs（Figma の After delay 6 秒）表示して次へ。
  * prefers-reduced-motion 時は切り替えず先頭セットを静止表示。
  */
@@ -38,17 +39,11 @@ export function HeroSetProvider({ sets, children }: { sets: HeroSet[]; children:
 
   // Figma の After delay と同じく、フェードし終わってから表示時間を数える（初回はフェードなし）
   const faded = useRef(false);
-  // 表示中セットで再生し終わった動画の枠
-  const endedSlots = useRef(new Set<HeroSlot>());
-
   const advance = useCallback(() => {
     faded.current = true;
-    endedSlots.current = new Set();
     setPrev(index);
     setIndex((index + 1) % sets.length);
   }, [index, sets.length]);
-
-  const videoSlots = SLOTS.filter((slot) => sets[index][slot].type === 'video');
 
   // 画像だけのセットは表示時間で、動画を含むセットは保険のタイマーで次へ
   useEffect(() => {
@@ -63,13 +58,13 @@ export function HeroSetProvider({ sets, children }: { sets: HeroSet[]; children:
     return () => clearTimeout(t);
   }, [index, reduced, sets, advance]);
 
+  // 表示中セットの動画のうち最初に終わったもの（= いちばん短い動画）で次へ
   const onVideoEnded = useCallback(
-    (setIndex: number, slot: HeroSlot) => {
+    (setIndex: number) => {
       if (reduced || sets.length <= 1 || setIndex !== index) return;
-      endedSlots.current.add(slot);
-      if (videoSlots.every((s) => endedSlots.current.has(s))) advance();
+      advance();
     },
-    [reduced, sets.length, index, videoSlots, advance],
+    [reduced, sets.length, index, advance],
   );
 
   return (
@@ -117,7 +112,7 @@ export function HeroSetSlot({ slot, alt, priority, sizes }: SlotProps) {
                 active={active}
                 pauseDelayMs={HERO_FADE_MS}
                 loop={false}
-                onEnded={() => onVideoEnded(i, slot)}
+                onEnded={() => onVideoEnded(i)}
                 className="absolute inset-0 h-full w-full object-cover"
               />
             ) : (
