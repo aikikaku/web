@@ -14,15 +14,26 @@ interface Props {
   active?: boolean;
   /** active が false になってから一時停止するまでの時間。フェードアウト中も動かし続けるために使う */
   pauseDelayMs?: number;
+  /** ループ再生するか。false なら最後のコマで止まり onEnded を呼ぶ。省略時は true */
+  loop?: boolean;
+  onEnded?: () => void;
 }
 
 /**
  * トップ PC ヒーローの動画 (#Heroの演出 / Slack)。
- * - muted + loop + playsInline で背景ループ再生。
+ * - muted + playsInline で自動再生（loop=false なら最後のコマで止まり onEnded を呼ぶ）。
  * - poster を指定し、ロード前や再生不可時も静止画で表示。
  * - prefers-reduced-motion 時は再生せず poster（先頭フレーム）で静止。
  */
-export default function HeroVideo({ src, poster, className, active = true, pauseDelayMs = 0 }: Props) {
+export default function HeroVideo({
+  src,
+  poster,
+  className,
+  active = true,
+  pauseDelayMs = 0,
+  loop = true,
+  onEnded,
+}: Props) {
   const ref = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -48,7 +59,8 @@ export default function HeroVideo({ src, poster, className, active = true, pause
       src={src}
       poster={poster}
       muted
-      loop
+      loop={loop}
+      onEnded={onEnded}
       playsInline
       preload={active ? 'auto' : 'metadata'}
       aria-hidden="true"

@@ -6,13 +6,17 @@ export type HeroMedia =
   | { type: 'video'; src: string; poster: string };
 
 export type HeroSet = Record<HeroSlot, HeroMedia> & {
-  /** このセットの表示時間（切り替えのフェード時間は含まない）。省略時は DEFAULT_HERO_SET_MS */
+  /**
+   * 画像だけのセットの表示時間（切り替えのフェード時間は含まない）。省略時は DEFAULT_HERO_SET_MS。
+   * 動画を含むセットは、動画が最後まで再生されたら次へ移るので使わない
+   */
   durationMs?: number;
 };
 
 /**
  * Figma Handoff(20260724) のプロトタイプ「Hero_Preview_20260731」(Hero 4470:17400 → 17407 → 17414 → 17400)。
  * 各セットを 6 秒表示 → 2 秒の Smart Animate（ease-in）で次のセットへ、をループする。
+ * 実装では動画はループさせず、セット内の動画がすべて再生し終わったら次へ移る（2026-10-15 指示）。
  */
 export const DEFAULT_HERO_SET_MS = 6000;
 export const HERO_FADE_MS = 2000;
