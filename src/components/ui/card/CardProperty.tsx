@@ -4,6 +4,7 @@ import CmsImage from '@/components/common/CmsImage';
 import { BookIcon } from '@/components/ui/icons/icons';
 import { getPropertyStatus, getPropertyCategoryLabel, formatPropertyPrice } from '@/lib/propertyDisplay';
 import { getPriceLabel, getPropertyLayoutCell } from '@/components/property/propertyCells';
+import LayoutValue from '@/components/property/LayoutValue';
 
 interface CardPropertyProps {
   property: Property;
@@ -114,9 +115,7 @@ export default function CardProperty({ property }: CardPropertyProps) {
                   </span>
                 </div>
                 <div className="flex items-end justify-center">
-                  <span className="font-gothic font-medium text-category-2 tablet:text-category-1 text-black tablet:text-dark-green">
-                    {layoutCell.value}
-                  </span>
+                  <LayoutValue value={layoutCell.value} className="text-black tablet:text-dark-green" />
                 </div>
               </div>
             )}

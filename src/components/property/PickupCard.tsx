@@ -9,6 +9,7 @@ import CmsImage from '@/components/common/CmsImage';
 import { BookIcon } from '@/components/ui/icons/icons';
 import { getPropertyStatus, getPropertyCategoryLabel, formatPropertyPrice } from '@/lib/propertyDisplay';
 import { getPriceLabel, getPropertyLayoutCell } from '@/components/property/propertyCells';
+import LayoutValue from '@/components/property/LayoutValue';
 
 interface Props {
   property: Property;
@@ -181,9 +182,7 @@ export default function PickupCard({ property }: Props) {
                       </span>
                     </div>
                     <div className="flex items-end justify-center">
-                      <span className="font-gothic font-medium text-category-2 tablet:text-category-1 text-black">
-                        {layoutCell.value}
-                      </span>
+                      <LayoutValue value={layoutCell.value} />
                     </div>
                   </div>
                 )}
