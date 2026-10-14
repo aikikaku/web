@@ -35,7 +35,7 @@ export default function CardStorySp({ story, className }: Props) {
           alt={story.title}
           fill
           className="object-cover transition-transform group-hover:scale-[1.02]"
-          sizes="(max-width: 992px) 332px, 410px"
+          sizes="(min-width: 1440px) 28.47vw, (max-width: 992px) 332px, 410px"
         />
         <div
           className="absolute inset-0 pointer-events-none"

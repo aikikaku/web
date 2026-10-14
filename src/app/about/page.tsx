@@ -100,7 +100,7 @@ export default function AboutPage() {
               className="object-cover"
               priority
               quality={90}
-              sizes="(min-width: 992px) 1290px, 0px"
+              sizes="(min-width: 1440px) 89.58vw, (min-width: 992px) 1290px, 0px"
             />
           </div>
         </div>
@@ -165,7 +165,7 @@ export default function AboutPage() {
                 alt="三島の街並み"
                 fill
                 className="object-cover"
-                sizes="(min-width: 992px) 557px, 0px"
+                sizes="(min-width: 1440px) 38.68vw, (min-width: 992px) 557px, 0px"
                 quality={90}
               />
             </div>
@@ -210,7 +210,7 @@ export default function AboutPage() {
                 alt="スタッフインタビュー"
                 fill
                 className="object-cover"
-                sizes="(min-width: 992px) 557px, 0px"
+                sizes="(min-width: 1440px) 38.68vw, (min-width: 992px) 557px, 0px"
                 quality={90}
               />
             </div>
@@ -257,7 +257,7 @@ export default function AboutPage() {
                   alt="コンポスト活動の循環図"
                   fill
                   className="object-contain"
-                  sizes="(min-width: 992px) 554px, 100vw"
+                  sizes="(min-width: 1440px) 38.47vw, (min-width: 992px) 554px, 100vw"
                 />
               </div>
             </div>

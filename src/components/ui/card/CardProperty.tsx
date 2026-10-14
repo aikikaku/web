@@ -38,7 +38,7 @@ export default function CardProperty({ property }: CardPropertyProps) {
           alt={property.title}
           fill
           className="object-cover"
-          sizes="(max-width: 992px) 100vw, 410px"
+          sizes="(min-width: 1440px) 28.47vw, (max-width: 992px) 100vw, 410px"
         />
         {isSold && (
           <div className="absolute inset-0 bg-dark-green/50 pointer-events-none" aria-hidden="true" />

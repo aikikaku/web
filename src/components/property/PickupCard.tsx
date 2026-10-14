@@ -50,7 +50,7 @@ export default function PickupCard({ property }: Props) {
                 alt={property.title}
                 fill
                 className={`object-cover transition-opacity duration-300 ease-out ${i === activeIndex ? 'opacity-100' : 'opacity-0'}`}
-                sizes="(max-width: 992px) 100vw, 646px"
+                sizes="(min-width: 1440px) 44.86vw, (max-width: 992px) 100vw, 646px"
                 priority={i === 0}
               />
             ))}

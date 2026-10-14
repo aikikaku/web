@@ -65,7 +65,7 @@ function StoryCardLarge({ story }: { story: Story }) {
             alt={story.title}
             fill
             className="object-cover transition-transform group-hover:scale-[1.02]"
-            sizes="410px"
+            sizes="(min-width: 1440px) 28.47vw, 410px"
           />
         </Link>
         <div className="flex flex-col gap-6 items-start justify-center pt-[1.875rem] px-3 w-full">
@@ -122,7 +122,7 @@ function FeaturedStoryCard({ story }: { story: Story }) {
             alt={story.title}
             fill
             className="object-cover transition-transform group-hover:scale-[1.02]"
-            sizes="(max-width: 992px) 100vw, 675px"
+            sizes="(min-width: 1440px) 46.88vw, (max-width: 992px) 100vw, 675px"
             priority
           />
         </Link>

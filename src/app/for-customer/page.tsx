@@ -139,7 +139,7 @@ export default async function ForCustomerPage() {
                 fill
                 className="object-cover hidden tablet:block"
                 priority
-                sizes="675px"
+                sizes="(min-width: 1440px) 46.88vw, 675px"
               />
             </div>
           </div>
@@ -259,7 +259,7 @@ export default async function ForCustomerPage() {
                       alt={feature.title}
                       fill
                       className="object-cover hidden tablet:block"
-                      sizes="616px"
+                      sizes="(min-width: 1440px) 42.78vw, 616px"
                     />
                   </div>
                 </div>

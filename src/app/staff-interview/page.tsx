@@ -336,7 +336,7 @@ export default function StaffInterviewPage() {
                         alt=""
                         fill
                         className="object-cover"
-                        sizes="(min-width: 992px) 792px, 100vw"
+                        sizes="(min-width: 1440px) 55.0vw, (min-width: 992px) 792px, 100vw"
                       />
                     </div>
                   ) : null;
