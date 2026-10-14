@@ -75,17 +75,60 @@
   /* NOTE: will-change は指定しない。permanent な will-change:transform は
      子孫の position:sticky が参照する containing block を生成し、
      staff-interview の追従 TOC 等を壊すため (is-visible 後も残る)。 */
-  .reveal {
+  /* セクション丸ごとのフェード（.reveal）は、要素ごとの演出（下の .m-* / MotionProvider）に置き換えたため無効。
+     Reveal コンポーネントはマークアップ互換のため残している */
+
+  /* ─── 表示演出（MotionProvider）。html.motion-ready の時だけ、main 内の対象を最初から隠しておく ───
+     対象と除外は MotionProvider.tsx の TEXT_TARGETS / EXCLUDE と同じにすること。
+     transform ではなく個別プロパティ（translate / scale）を使い、既存のホバー拡大等と干渉させない */
+  html.motion-ready
+    main
+    :is(p, h3, h4, li, dl, blockquote, .tag, .tag-dark, .btn-outline-fill, .btn-outline-hover):not(
+      :is(header, nav, footer, form, [role='listbox'], .fixed, .sticky, [data-no-motion]) *,
+      :is(p, h3, h4, li, dl, blockquote, .tag, .tag-dark, .btn-outline-fill, .btn-outline-hover) *
+    ):not(.m-in) {
     opacity: 0;
-    transform: translateY(1.5rem);
+    translate: 0 0.75rem;
+    filter: blur(4px);
+  }
+  /* 表示中だけ付く（MotionProvider が出し終わったら外す）。要素自身のホバー用トランジションを上書きし続けないため */
+  html.motion-ready main .m-anim {
     transition:
-      opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-      transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+      opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+      translate 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+      filter 1s cubic-bezier(0.16, 1, 0.3, 1),
+      scale 1.6s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .reveal.is-visible {
+  /* 写真: ぼかしと少しの拡大を解きながら（opacity を自前で切り替える画像は除く） */
+  html.motion-ready
+    main
+    img:not([class*='opacity-']):not(
+      :is(header, nav, footer, form, [role='listbox'], .fixed, .sticky, [data-no-motion]) *
+    ):not(.m-in) {
+    opacity: 0;
+    scale: 1.06;
+    filter: blur(8px);
+  }
+
+  /* 明朝の見出し: 1文字ずつ（分割前は見出しごと隠す） */
+  html.motion-ready
+    main
+    :is(h1, h2).font-mincho:not(
+      :is(header, nav, footer, form, [role='listbox'], .fixed, .sticky, [data-no-motion]) *
+    ):not(.m-split) {
+    opacity: 0;
+  }
+  html.motion-ready main .m-split .m-char {
+    opacity: 0;
+    filter: blur(6px);
+    transition:
+      opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+      filter 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  html.motion-ready main .m-split.m-in .m-char {
     opacity: 1;
-    transform: none;
+    filter: none;
   }
 
   /* ─── ヒーロー(画像3枚)の登場アニメーション (#lB0tVZMFjn0S / #eS_5ZxrNoxye) ─── */

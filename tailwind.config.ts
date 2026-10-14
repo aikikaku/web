@@ -8,6 +8,13 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      // ホバー等の切り替えを既定 150ms → 450ms に（「パキッと」した印象をやわらげる。表示演出と同じ系統のカーブ）
+      transitionDuration: {
+        DEFAULT: '450ms',
+      },
+      transitionTimingFunction: {
+        DEFAULT: 'cubic-bezier(0.25, 0.8, 0.35, 1)',
+      },
       colors: {
         'dark-green': '#2a363b',
         'cream': '#fcfff7',
