@@ -134,7 +134,7 @@ export default function Navigation() {
       <nav className="px-[2.8125rem] py-[1.875rem] max-w-[90rem] mx-auto max-tablet:px-4 max-tablet:py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="block shrink-0">
+          <Link href="/" className="block shrink-0 transition-opacity hover:opacity-70">
             <Image
               src="/images/logo-dark.svg"
               alt="有限会社 アイ企画"

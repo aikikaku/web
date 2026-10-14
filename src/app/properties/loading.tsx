@@ -1,8 +1,11 @@
 import SearchProgress from '@/components/common/SearchProgress';
+import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
 
 export default function Loading() {
   return (
     <div className="bg-cream">
+      {/* ページ本体（page.tsx）と同じくパンくずを出し、読み込み完了時に見出しがずれないようにする */}
+      <Breadcrumb items={[{ label: '物件を探す' }]} />
       <section className="pt-[3.75rem] tablet:pt-24 pb-[7.5rem] tablet:pb-0">
         <div className="max-w-[90rem] mx-auto px-4 tablet:px-[2.8125rem]">
           <h1
