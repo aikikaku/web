@@ -28,7 +28,8 @@ const image = (name: string): HeroMedia => ({ type: 'image', src: `/images/home/
  * トップ PC ヒーローの切り替えセット。3枠（左の大枠 main / 右上 topRight / 右下 bottomRight）を
  * 1セットとしてまとめて切り替える。どの枠を動画にするかは Figma のプロトタイプの指定どおり。
  * 動画の poster には同じ枠の静止画（public/images/home/hero/）を使う。
- * 動画ファイル本体は public/videos/hero/<セット>-<枠>.mp4 に置く（Figma の動画は MCP から取り出せないため別途書き出し）。
+ * 動画は public/videos/hero/<セット>-<枠>.mp4（元素材 hero_video_01〜06 を枠の比率で中央切り抜き・
+ * 表示サイズの約2倍に縮小・音声なし H.264）。poster は各動画の先頭フレーム。
  */
 export const HERO_SETS: HeroSet[] = [
   {
