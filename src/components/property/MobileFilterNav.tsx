@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import DropdownSp from '@/components/ui/interactive/DropdownSp';
 import Toggle from '@/components/ui/interactive/Toggle';
 import SortSp from '@/components/ui/interactive/SortSp';
+import { REGION_OPTIONS, sameSet } from '@/lib/filterOptions';
 import SortClearSp from '@/components/ui/interactive/SortClearSp';
 import SpFloatingTrigger from '@/components/ui/popup/SpFloatingTrigger';
 import SpModalBackdrop from '@/components/ui/popup/SpModalBackdrop';
@@ -23,23 +24,7 @@ const propertyTypes = [
   { value: 'rent_land', label: '貸土地' },
 ];
 
-const regions = [
-  '三島市',
-  '長泉町',
-  '清水町',
-  '沼津市',
-  '裾野市',
-  '函南町',
-  '伊豆の国市',
-  'そのほかの地域',
-];
 
-/** 2つの文字列配列が同じ要素集合かどうか（順序無視） */
-function sameSet(a: string[], b: string[]): boolean {
-  if (a.length !== b.length) return false;
-  const sb = new Set(b);
-  return a.every((x) => sb.has(x));
-}
 
 /**
  * /properties SP 用フィルター（Figma 4211:11098 floating button + 4211:11572 popup）
@@ -185,7 +170,7 @@ export default function MobileFilterNav() {
                 <DropdownSp
                   isOpen={openSection === 'regions'}
                   onToggle={() => setOpenSection(openSection === 'regions' ? null : 'regions')}
-                  options={regions.map((r) => ({ value: r, label: r }))}
+                  options={REGION_OPTIONS}
                   selected={localRegions}
                   onChange={toggleRegion}
                   onClear={() => setLocalRegions([])}
