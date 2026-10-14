@@ -173,16 +173,8 @@ export default function AboutPage() {
         </div>
       </Reveal>
 
-      {/* スタッフインタビューセクション (Figma PC 4211:10036 dot pattern bg / SP 4211:11120) */}
-      <section
-        className="bg-dark-green py-[3.75rem] tablet:py-24 relative"
-        style={{
-          backgroundImage:
-            'radial-gradient(circle, rgba(252,255,247,0.08) 1px, transparent 1px)',
-          backgroundSize: '24px 24px',
-          backgroundPosition: '0 0',
-        }}
-      >
+      {/* スタッフインタビューセクション (Figma 4470:14154: dark-green + Paper パターン 20% / SP 4211:11120) */}
+      <section className="bg-dark-green py-[3.75rem] tablet:py-24 paper-texture">
         {/* SP: 縦積み (label → heading → body → image → button)。Figma 4470:15252 (ご挨拶 SP と同じ構成) */}
         <Reveal className="tablet:hidden flex flex-col gap-8 px-4">
           <div className="flex flex-col gap-4">

@@ -12,28 +12,45 @@ interface Props {
    * false で一時停止する。省略時は常に再生（単体の背景ループ用途）。
    */
   active?: boolean;
+  /** active が false になってから一時停止するまでの時間。フェードアウト中も動かし続けるために使う */
+  pauseDelayMs?: number;
+  /** ループ再生するか。false なら最後のコマで止まり onEnded を呼ぶ。省略時は true */
+  loop?: boolean;
+  onEnded?: () => void;
 }
 
 /**
  * トップ PC ヒーローの動画 (#Heroの演出 / Slack)。
- * - muted + loop + playsInline で背景ループ再生。
+ * - muted + playsInline で自動再生（loop=false なら最後のコマで止まり onEnded を呼ぶ）。
  * - poster を指定し、ロード前や再生不可時も静止画で表示。
  * - prefers-reduced-motion 時は再生せず poster（先頭フレーム）で静止。
  */
-export default function HeroVideo({ src, poster, className, active = true }: Props) {
+export default function HeroVideo({
+  src,
+  poster,
+  className,
+  active = true,
+  pauseDelayMs = 0,
+  loop = true,
+  onEnded,
+}: Props) {
   const ref = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const v = ref.current;
     if (!v) return;
-    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || !active) {
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
       v.pause();
       return;
+    }
+    if (!active) {
+      const t = setTimeout(() => v.pause(), pauseDelayMs);
+      return () => clearTimeout(t);
     }
     v.currentTime = 0;
     // 自動再生がブロックされても poster のまま表示されるだけなので握りつぶす
     v.play().catch(() => {});
-  }, [active]);
+  }, [active, pauseDelayMs]);
 
   return (
     <video
@@ -42,7 +59,8 @@ export default function HeroVideo({ src, poster, className, active = true }: Pro
       src={src}
       poster={poster}
       muted
-      loop
+      loop={loop}
+      onEnded={onEnded}
       playsInline
       preload={active ? 'auto' : 'metadata'}
       aria-hidden="true"

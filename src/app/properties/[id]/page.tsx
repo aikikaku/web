@@ -320,14 +320,15 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                     </div>
                   </div>
 
-                  {/* SP: 物件詳細ボタンは価格欄の後・駅の前 (Figma 4470:14927)。下 24 */}
+                  {/* SP: 「詳しく見る」ボタンは価格欄の後・駅の前 (Figma 4470:14927 の「物件詳細」ボタン)。下 24 */}
                   {!isSold && (
                     <div className="tablet:hidden pb-6">
                       <a
                         href="#property-detail-body"
-                        className="inline-flex items-center justify-center h-[2.75rem] px-6 border border-dark-green rounded-full font-gothic font-medium text-[1rem] leading-none text-dark-green transition-colors hover:bg-dark-green hover:text-white"
+                        className="inline-flex items-center justify-center gap-1 h-[2.75rem] px-6 border border-dark-green rounded-full font-gothic font-medium text-[1rem] leading-none text-dark-green transition-colors hover:bg-dark-green hover:text-white"
                       >
-                        物件詳細
+                        詳しく見る
+                        <ScrollDownIcon />
                       </a>
                     </div>
                   )}
@@ -347,14 +348,16 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                   </div>
                 </div>
 
-                {/* 物件詳細ボタン(PC): 詳細セクションへの anchor scroll。SP は上の価格欄直後に配置 */}
+                {/* 「詳しく見る」ボタン(PC): 詳細セクションへの anchor scroll。SP は上の価格欄直後に配置。
+                    Figma の文言は「物件詳細」だが、詳細ページ内では紛らわしいため「詳しく見る」+下向き矢印にしている */}
                 {!isSold && (
                   <div className="hidden tablet:block">
                     <a
                       href="#property-detail-body"
-                      className="inline-flex items-center justify-center h-[2.75rem] px-6 border border-dark-green rounded-full font-gothic font-medium text-[1rem] leading-none text-dark-green transition-colors hover:bg-dark-green hover:text-white"
+                      className="inline-flex items-center justify-center gap-1 h-[2.75rem] px-6 border border-dark-green rounded-full font-gothic font-medium text-[1rem] leading-none text-dark-green transition-colors hover:bg-dark-green hover:text-white"
                     >
-                      物件詳細
+                      詳しく見る
+                      <ScrollDownIcon />
                     </a>
                   </div>
                 )}
@@ -548,5 +551,14 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
         </section>
       )}
     </div>
+  );
+}
+
+/** 「詳しく見る」ボタンの下向き矢印（ページ内の詳細セクションへスクロールすることを示す） */
+function ScrollDownIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+      <path d="M6 9l6 6 6-6" />
+    </svg>
   );
 }

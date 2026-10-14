@@ -23,6 +23,8 @@ interface DropdownProps {
  * - Hover: bg light-green、それ以外同じ
  * - Pressed: bg light-green + 下にオプションパネル展開
  * - Selected: bg light-green、選択肢を chip 化（先頭は dark-green pill + ✕、残りは「+N」バッジ）
+ * - 選択肢の行のホバーは Figma に指定が無いため、トリガーの Hover に合わせて行に bg light-green を敷き、
+ *   未選択のチェックボックスの枠を濃くする（デザインシステムにリンク系ホバーが追加されたら合わせる）
  */
 export default function Dropdown({
   label,
@@ -35,15 +37,25 @@ export default function Dropdown({
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
+  // 開いている時の外側クリックは「閉じるだけ」にする。閉じるつもりで空いている所をクリックしても、
+  // 下にあるカードのリンク等が反応してページ遷移しないよう、その1回の click を握りつぶす
   useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
+    if (!isOpen) return;
+    function swallowClick(e: MouseEvent) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    function handleMouseDown(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) {
         setIsOpen(false);
+        document.addEventListener('click', swallowClick, { capture: true, once: true });
+        // ドラッグ等で click が発生しなかった場合に、次の通常クリックを潰さないよう解除
+        setTimeout(() => document.removeEventListener('click', swallowClick, { capture: true }), 600);
       }
     }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+    document.addEventListener('mousedown', handleMouseDown);
+    return () => document.removeEventListener('mousedown', handleMouseDown);
+  }, [isOpen]);
 
   const hasSelection = selected.length > 0;
   // hover/pressed/selected で bg-light-green を当てる
@@ -132,11 +144,11 @@ export default function Dropdown({
               onClick={() => {
                 if (selected.length > 0) onClear();
               }}
-              className="flex items-center gap-2 h-[2.5rem] w-full text-left cursor-pointer"
+              className="group flex items-center gap-2 h-[2.5rem] w-[calc(100%+1.5rem)] -mx-3 px-3 rounded-md text-left cursor-pointer transition-colors hover:bg-light-green"
             >
               <span
                 className={`size-[1.125rem] shrink-0 inline-flex items-center justify-center rounded-[0.1875rem] border ${
-                  selected.length === 0 ? 'bg-dark-green border-dark-green' : 'bg-transparent border-dark-green/40'
+                  selected.length === 0 ? 'bg-dark-green border-dark-green' : 'bg-transparent border-dark-green/40 group-hover:border-dark-green'
                 }`}
               >
                 {selected.length === 0 && (
@@ -165,11 +177,11 @@ export default function Dropdown({
                 role="option"
                 aria-selected={checked}
                 onClick={() => onToggle(option.value)}
-                className="flex items-center gap-2 h-[2.5rem] w-full text-left cursor-pointer"
+                className="group flex items-center gap-2 h-[2.5rem] w-[calc(100%+1.5rem)] -mx-3 px-3 rounded-md text-left cursor-pointer transition-colors hover:bg-light-green"
               >
                 <span
                   className={`size-[1.125rem] shrink-0 inline-flex items-center justify-center rounded-[0.1875rem] border ${
-                    checked ? 'bg-dark-green border-dark-green' : 'bg-transparent border-dark-green/40'
+                    checked ? 'bg-dark-green border-dark-green' : 'bg-transparent border-dark-green/40 group-hover:border-dark-green'
                   }`}
                 >
                   {checked && (

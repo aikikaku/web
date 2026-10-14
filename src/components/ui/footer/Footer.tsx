@@ -55,7 +55,7 @@ export default function Footer() {
         {/* === Mobile Layout === */}
         <div className="flex flex-col gap-12 tablet:hidden">
           {/* Logo */}
-          <Link href="/" className="block">
+          <Link href="/" className="block transition-opacity hover:opacity-70">
             <Image
               src="/images/logo-white.svg"
               alt="有限会社 アイ企画"
@@ -178,7 +178,7 @@ export default function Footer() {
         <div className="hidden tablet:flex tablet:items-start tablet:justify-between">
           {/* Left: Logo + Company info */}
           <div className="flex flex-col justify-between self-stretch">
-            <Link href="/" className="block">
+            <Link href="/" className="block transition-opacity hover:opacity-70">
               <Image
                 src="/images/logo-white.svg"
                 alt="有限会社 アイ企画"

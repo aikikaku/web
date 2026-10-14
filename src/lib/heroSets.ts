@@ -6,45 +6,52 @@ export type HeroMedia =
   | { type: 'video'; src: string; poster: string };
 
 export type HeroSet = Record<HeroSlot, HeroMedia> & {
-  /** このセットの表示時間。省略時は DEFAULT_HERO_SET_MS */
+  /**
+   * 画像だけのセットの表示時間（切り替えのフェード時間は含まない）。省略時は DEFAULT_HERO_SET_MS。
+   * 動画を含むセットは、いちばん短い動画が再生し終わったら次へ移るので使わない
+   */
   durationMs?: number;
 };
 
+/**
+ * Figma Handoff(20260724) のプロトタイプ「Hero_Preview_20260731」(Hero 4470:17400 → 17407 → 17414 → 17400)。
+ * 各セットを 6 秒表示 → 2 秒の Smart Animate（ease-in）で次のセットへ、をループする。
+ * 実装では動画はループさせず、セット内でいちばん短い動画が再生し終わったら次へ移る（2026-10-15 指示）。
+ */
 export const DEFAULT_HERO_SET_MS = 6000;
+export const HERO_FADE_MS = 2000;
+
+const video = (name: string): HeroMedia => ({
+  type: 'video',
+  src: `/videos/hero/${name}.mp4`,
+  poster: `/images/home/hero/${name}.jpg`,
+});
+const image = (name: string): HeroMedia => ({ type: 'image', src: `/images/home/hero/${name}.jpg` });
 
 /**
- * トップ PC ヒーローの切り替えセット（Figma AI-Kikaku_share「2026-07-24 / 追加写真反映」
- * Hero 4963:12106 / 4963:12113 / 4963:12120）。
- *
- * 3枠（左の大枠 main / 右上 topRight / 右下 bottomRight）を1セットとしてまとめて切り替える。
- * 各枠は画像か動画を選べるので、「1: a動画 / 2: b動画 / 3: c動画」のような指定ができる。
- *
- * ⚠️ 動画はデザイナーからの納品待ち。現在の動画枠は既存の `/videos/hero.mp4` を
- *    仮で入れている（動作確認用）。納品後に src / poster を差し替える。
+ * トップ PC ヒーローの切り替えセット。3枠（左の大枠 main / 右上 topRight / 右下 bottomRight）を
+ * 1セットとしてまとめて切り替える。どの枠を動画にするかは Figma のプロトタイプの指定どおり。
+ * 動画の poster には同じ枠の静止画（public/images/home/hero/）を使う。
+ * 動画は public/videos/hero/<セット>-<枠>.mp4（元素材 hero_video_01〜06 を枠の比率で中央切り抜き・
+ * 表示サイズの約2倍に縮小・音声なし H.264）。poster は各動画の先頭フレーム。
  */
-const DUMMY_VIDEO = {
-  type: 'video',
-  src: '/videos/hero.mp4',
-  poster: '/images/home/hero-video-poster.jpg',
-} as const;
-
 export const HERO_SETS: HeroSet[] = [
   {
-    // 1: a動画 / b画像 / c画像 （Figma 本来の a = 校庭と山並み）
-    main: DUMMY_VIDEO,
-    topRight: { type: 'image', src: '/images/home/hero/set1-top-right.jpg' },
-    bottomRight: { type: 'image', src: '/images/home/hero/set1-bottom-right.jpg' },
+    // 4470:17400: 校庭と山並み / 商店街の子ども（動画）/ 橋の欄干（動画）
+    main: image('set1-main'),
+    topRight: video('set1-top-right'),
+    bottomRight: video('set1-bottom-right'),
   },
   {
-    // 2: a画像 / b動画 / c画像 （Figma 本来の b = トマトの無人販売）
-    main: { type: 'image', src: '/images/home/hero/set2-main.jpg' },
-    topRight: DUMMY_VIDEO,
-    bottomRight: { type: 'image', src: '/images/home/hero/set2-bottom-right.jpg' },
+    // 4470:17407: 富士山と稲穂（動画）/ トマトの無人販売 / 田んぼ道のバイク（動画）
+    main: video('set2-main'),
+    topRight: image('set2-top-right'),
+    bottomRight: video('set2-bottom-right'),
   },
   {
-    // 3: a画像 / b画像 / c動画 （Figma 本来の c = 湧水）
-    main: { type: 'image', src: '/images/home/hero/set3-main.jpg' },
-    topRight: { type: 'image', src: '/images/home/hero/set3-top-right.jpg' },
-    bottomRight: DUMMY_VIDEO,
+    // 4470:17414: 神社の屋根と鳥 / 木立（動画）/ 湧水（動画）
+    main: image('set3-main'),
+    topRight: video('set3-top-right'),
+    bottomRight: video('set3-bottom-right'),
   },
 ];
