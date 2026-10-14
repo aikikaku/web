@@ -173,6 +173,23 @@
     @apply border border-dark-green rounded-full font-gothic font-medium text-dark-green transition-colors group-hover:bg-dark-green group-hover:border-[rgba(252,255,247,0.3)] group-hover:text-white;
   }
 
+  /* Figma の「Paper」パターン塗り（450px の紙テクスチャを敷き詰め）。背景色の上・中身の下に重ねる。
+     濃さは --paper-opacity（Figma の PATTERN の opacity。既定 0.2）で指定する */
+  .paper-texture {
+    position: relative;
+    isolation: isolate;
+  }
+  .paper-texture::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    border-radius: inherit;
+    background: url('/images/textures/paper.png') repeat 0 0 / 450px 450px;
+    opacity: var(--paper-opacity, 0.2);
+  }
+
   /* btn-outline-fill と同じ見た目で、ボタン自体のホバーでだけ反転する（カード全体がリンクでない場合用） */
   .btn-outline-hover {
     @apply border border-dark-green rounded-full font-gothic font-medium text-dark-green transition-colors hover:bg-dark-green hover:border-[rgba(252,255,247,0.3)] hover:text-white;

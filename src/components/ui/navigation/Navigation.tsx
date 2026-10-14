@@ -67,12 +67,14 @@ export default function Navigation() {
     ([...dropdownLinks, ...dropdownCards].some((l) => inSection(l.href)) ? 'about' : null);
 
   const navItemClass = (key: string) => {
-    const dimmed = dropdownOpen ? key !== 'about' : currentKey !== null && key !== currentKey;
+    const isCurrent = key === currentKey;
+    const dimmed = dropdownOpen ? key !== 'about' : currentKey !== null && !isCurrent;
     return [
       'font-gothic font-medium text-base leading-none text-dark-green transition-opacity',
       dimmed ? 'opacity-40' : '',
-      // メガメニューを開いている間はホバーで濃淡を変えない
-      dropdownOpen ? '' : 'group-has-[>*:hover]/nav:opacity-40 hover:!opacity-100',
+      // メガメニューを開いている間はホバーで濃淡を変えない。
+      // 表示中のページの項目は、ほかの項目をホバーしても透過させない（濃いまま）
+      dropdownOpen || isCurrent ? '' : 'group-has-[>*:hover]/nav:opacity-40 hover:!opacity-100',
     ].join(' ');
   };
   const headerRef = useRef<HTMLElement>(null);
