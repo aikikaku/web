@@ -288,7 +288,7 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
       <Reveal as="section" className="px-4 tablet:px-[2.8125rem] pb-[7.5rem] tablet:pb-36 max-w-[90rem] mx-auto flex justify-center">
         <Link
           href="/about"
-          className="block group bg-light-green rounded-[1.5rem] pt-12 pb-[1.875rem] px-[1.875rem] tablet:p-[1.875rem] w-full max-w-[40.375rem] overflow-hidden"
+          className="block group bg-light-green paper-texture paper-texture-light rounded-[1.5rem] pt-12 pb-[1.875rem] px-[1.875rem] tablet:p-[1.875rem] w-full max-w-[40.375rem] overflow-hidden"
         >
           <div className="flex flex-col items-center text-center gap-[1.875rem] tablet:flex-row tablet:items-end tablet:justify-between tablet:text-left">
             <div className="flex flex-col gap-[1.875rem] tablet:gap-4 items-center tablet:items-start justify-center tablet:p-3 tablet:flex-1">

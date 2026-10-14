@@ -258,7 +258,7 @@ export default async function HomePage() {
 
       {/* お客様の声セクション */}
       {voices.contents.length > 0 && (
-        <Reveal as="section" className="bg-light-green py-[3.75rem] tablet:pt-[6rem] tablet:pb-16">
+        <Reveal as="section" className="bg-light-green paper-texture paper-texture-light py-[3.75rem] tablet:pt-[6rem] tablet:pb-16">
           <div className="px-4 tablet:px-[4.6875rem] max-w-[90rem] mx-auto">
             <div className="mb-8 tablet:mb-16">
               <h3 className="font-mincho text-[1.5rem] tablet:text-[2rem] leading-[1.5] tracking-[0.06rem] tablet:tracking-[0.08rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
