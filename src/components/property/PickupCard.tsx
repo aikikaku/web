@@ -42,6 +42,7 @@ export default function PickupCard({ property }: Props) {
           <Link
             href={detailHref}
             aria-label={property.title}
+            data-motion-fade
             className="block aspect-[294/220] tablet:aspect-[646/485] relative overflow-hidden rounded-2xl tablet:rounded-[1.5rem]"
           >
             {allImages.map((img, i) => (

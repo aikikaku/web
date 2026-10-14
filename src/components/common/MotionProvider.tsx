@@ -8,16 +8,17 @@ import { usePathname } from 'next/navigation';
  *
  * 方針（NN/g「Scrolljacking 101」「The Role of Animation and Motion in UX」に沿って控えめに）:
  * - スクロールの速さ・量は変えない（慣性スクロール等のスクロールジャックはしない）
- * - 読ませる本文・タグ・ボタンは動かさない
- * - 見出し（明朝の h1 / h2）と写真・動画だけ、画面に入った時にその場でゆっくりフェードイン（位置は動かさない）。
- *   写真・動画は読み込みが終わってから始める
+ * - 文字（見出し・本文・タグ・ボタン）は動かさない。見出しだけフェードさせると、ページ上部の見出しが
+ *   その下のカードより後から出て読む順番と逆になるため（レビュー指摘）
+ * - 写真・動画だけ、画面に入って読み込みが終わった時にその場でふわっとフェードイン（位置は動かさない）
  *
  * main 内の要素を自動で対象にするので、各ページ側の実装は不要。
  * 初回描画のちらつきを避けるため、隠す指定は CSS（html.motion-ready + globals.css の .m-* ）で最初から当て、
  * ここでは画面に入った要素に .m-in を付けて表示させるだけにしている。
  * 対象と除外は globals.css と同じにすること。
  */
-const TARGETS = 'h1.font-mincho, h2.font-mincho, img, video';
+// data-motion-fade: 中の写真の透明度を自前で切り替える枠（PICK UP カードのギャラリー等）。枠ごとフェードする
+const TARGETS = 'img, video, [data-motion-fade]';
 // 動画が再生できない（自動再生ブロック・読み込み失敗等）ときに見えないままにならないための保険
 const VIDEO_FALLBACK_MS = 2500;
 const EXCLUDE = 'header, nav, footer, form, [role="listbox"], .fixed, .sticky, [data-no-motion]';
@@ -67,12 +68,14 @@ export default function MotionProvider() {
             setTimeout(onReady, VIDEO_FALLBACK_MS);
             return;
           }
-          if (el instanceof HTMLImageElement && !(el.complete && el.naturalWidth > 0)) {
+          // 枠ごとフェードする場合は、中の最初の写真の読み込みを待つ
+          const img = el instanceof HTMLImageElement ? el : el.matches('[data-motion-fade]') ? el.querySelector('img') : null;
+          if (img && !(img.complete && img.naturalWidth > 0)) {
             const onReady = () => {
-              el.decode().catch(() => {}).finally(() => show(el, 0));
+              img.decode().catch(() => {}).finally(() => show(el as HTMLElement, 0));
             };
-            el.addEventListener('load', onReady, { once: true });
-            el.addEventListener('error', () => show(el, 0), { once: true });
+            img.addEventListener('load', onReady, { once: true });
+            img.addEventListener('error', () => show(el as HTMLElement, 0), { once: true });
             return;
           }
           show(el as HTMLElement, delay);
@@ -93,6 +96,7 @@ export default function MotionProvider() {
     const scan = () => {
       main.querySelectorAll(TARGETS).forEach((el) => {
         if (observed.has(el) || el.classList.contains('m-in') || el.closest(EXCLUDE)) return;
+        if (!el.matches('[data-motion-fade]') && el.parentElement?.closest('[data-motion-fade]')) return;
         observed.add(el);
         io.observe(el);
       });
