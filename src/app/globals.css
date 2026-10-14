@@ -78,40 +78,24 @@
   /* セクション丸ごとのフェード（.reveal）は、要素ごとの演出（下の .m-* / MotionProvider）に置き換えたため無効。
      Reveal コンポーネントはマークアップ互換のため残している */
 
-  /* ─── 表示演出（MotionProvider）。html.motion-ready の時だけ、main 内の写真・動画を最初から隠しておく ───
-     控えめに: 文字も写真も位置は動かさず、その場でふわっとフェードインするだけ（写真は読み込み後）。
-     スクロールの挙動も変えない（NN/g Scrolljacking 101）。対象と除外は MotionProvider.tsx と同じにすること */
+  /* ─── 表示演出（MotionProvider）。html.motion-ready の時だけ有効 ───
+     文字も写真も、位置は動かさず、その場でふわっとフェードインするだけ（写真・動画は読み込み後）。
+     対象は MotionProvider が main 内から自動で選び .m-hide を付ける（文字を直接持つ要素・写真・動画）。
+     印を付け終わるまで main は見えなくしておく（付ける前に一瞬見えてからフェードし直す、ちらつき防止） */
   :root {
     --ease-soft: cubic-bezier(0.16, 1, 0.3, 1);
     /* フェード（濃さ）用。expo-out だと最初の 0.1〜0.2 秒で 7 割以上濃くなり「パッと出る」、
        ease-in-out だと出だしが遅く「出るのが遅い」ため、出だしから変わり始めて最後をゆるめる ease-out（quad） */
     --ease-fade: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
-  /* 写真・動画: 読み込み完了後に、その場でゆっくりフェード + ごくわずかな拡大を解く（opacity を自前で切り替える画像は除く） */
-  html.motion-ready
-    main
-    :is(img, video):not([class*='opacity-']):not(
-      :is(header, nav, footer, form, [role='listbox'], .fixed, .sticky, [data-no-motion]) *
-    ):not(.m-in) {
+  html.motion-ready main:not(.m-ready) {
+    visibility: hidden;
+  }
+  html.motion-ready main .m-hide:not(.m-in) {
     opacity: 0;
+  }
+  html.motion-ready main :is(img, video).m-hide:not(.m-in) {
     scale: 1.03;
-  }
-  /* 文字: その場で濃くなるだけ（位置・ぼかしは変えない）。入れ子の内側は外側と一緒に出す */
-  html.motion-ready
-    main
-    :is(h1, h2, h3, h4, p, li, dl, blockquote, .tag, .tag-dark, .btn-outline-fill, .btn-outline-hover):not(
-      :is(header, nav, footer, form, [role='listbox'], .fixed, .sticky, [data-no-motion]) *,
-      :is(h1, h2, h3, h4, p, li, dl, blockquote, .tag, .tag-dark, .btn-outline-fill, .btn-outline-hover) *
-    ):not(.m-in) {
-    opacity: 0;
-  }
-  /* 中の写真の透明度を自前で切り替える枠（PICK UP カード等）は、枠ごとフェード（拡大はしない） */
-  html.motion-ready
-    main
-    [data-motion-fade]:not(
-      :is(header, nav, footer, form, [role='listbox'], .fixed, .sticky, [data-no-motion]) *
-    ):not(.m-in) {
-    opacity: 0;
   }
   /* 表示中だけ付く（MotionProvider が出し終わったら外す）。要素自身のホバー用トランジションを上書きし続けないため */
   html.motion-ready main .m-anim {
