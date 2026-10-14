@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Arrow from '@/components/ui/interactive/Arrow';
 import { getContactUrl } from '@/lib/typeform';
 import { useState, useEffect, useRef } from 'react';
+import { usePathname } from 'next/navigation';
 
 const navLinks = [
   { href: '/properties', label: '物件を探す' },
@@ -57,6 +58,23 @@ const allNavItems = [
 export default function Navigation() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const pathname = usePathname();
+
+  // 表示中のページが属するナビ項目（詳細ページ含む）。「アイ企画を知る」配下は 'about'
+  const inSection = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
+  const currentKey =
+    [...navLinks, ...navLinksAfter].find((l) => l.href.startsWith('/') && inSection(l.href))?.href ??
+    ([...dropdownLinks, ...dropdownCards].some((l) => inSection(l.href)) ? 'about' : null);
+
+  const navItemClass = (key: string) => {
+    const dimmed = dropdownOpen ? key !== 'about' : currentKey !== null && key !== currentKey;
+    return [
+      'font-gothic font-medium text-base leading-none text-dark-green transition-opacity',
+      dimmed ? 'opacity-40' : '',
+      // メガメニューを開いている間はホバーで濃淡を変えない
+      dropdownOpen ? '' : 'group-has-[>*:hover]/nav:opacity-40 hover:!opacity-100',
+    ].join(' ');
+  };
   const headerRef = useRef<HTMLElement>(null);
   // ホバーインテント: トリガー/パネルから離れたら遅延して閉じる（トリガー↔パネル間の
   // 隙間を跨ぐ猶予）。トリガー配下の不可視ブリッジと併用してチラつきを防ぐ。
@@ -125,30 +143,28 @@ export default function Navigation() {
             />
           </Link>
 
-          {/* Desktop nav。ホバー中/メガメニューを開いている項目以外を 40% に透過する
-              (Figma Header Type=Open 4470:13222、2026-10-14 MTG でホバーも同じ表現に決定) */}
-          <div className="group/nav hidden tablet:flex items-center">
+          {/* Desktop nav。表示中のページの項目以外、ホバー中の項目以外、メガメニューを開いている時は
+              「アイ企画を知る」以外を 40% に透過する (Figma Header Type=Open 4470:13222 の表現。
+              2026-10-14 MTG でホバーにも適用)。クリック範囲は文字だけにするため項目に padding は持たせず、
+              項目間 32px は gap で取る (Figma の各ボタン左右 padding 16px 相当)。 */}
+          <div className="group/nav hidden tablet:flex items-center gap-8">
             {navLinks.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`px-4 py-2.5 font-gothic font-medium text-base leading-none text-dark-green transition-opacity ${
-                  dropdownOpen ? 'opacity-40' : 'group-hover/nav:opacity-40 hover:!opacity-100'
-                }`}
+                aria-current={currentKey === item.href ? 'page' : undefined}
+                className={navItemClass(item.href)}
               >
                 {item.label}
               </Link>
             ))}
 
             {/* アイ企画を知る (ドロップダウントリガー)。ホバーで開き、トリガー/パネルから
-                離れると閉じる (#17)。クリックはトグル（開いていれば閉じる）。
-                ホバー判定は文字+矢印の範囲のみ（ボタンの padding 部分では開かない）。 */}
+                離れると閉じる (#17)。クリックはトグル（開いていれば閉じる）。 */}
             <button
               onClick={toggleDropdown}
               aria-expanded={dropdownOpen}
-              className={`px-4 py-2.5 font-gothic font-medium text-base leading-none text-dark-green transition-opacity ${
-                dropdownOpen ? '' : 'group-hover/nav:opacity-40 hover:!opacity-100'
-              }`}
+              className={navItemClass('about')}
             >
               <span
                 onMouseEnter={openDropdown}
@@ -167,12 +183,12 @@ export default function Navigation() {
                 >
                   <path d="M6 9l6 6 6-6" />
                 </svg>
-                {/* 文字↔パネル間の隙間（ボタン下 padding 10px + nav 下 padding 30px）を跨ぐ
+                {/* 文字↔パネル間の隙間（nav 下 padding 30px + ロゴとの高さ差）を跨ぐ
                     不可視ブリッジ（開いている時のみ・文字幅のみ）。 */}
                 {dropdownOpen && (
                   <span
                     aria-hidden
-                    className="absolute left-0 right-0 top-full h-[2.5rem]"
+                    className="absolute left-0 right-0 top-full h-[3rem]"
                   />
                 )}
               </span>
@@ -184,9 +200,8 @@ export default function Navigation() {
                 href={item.href}
                 target={item.external ? '_blank' : undefined}
                 rel={item.external ? 'noopener noreferrer' : undefined}
-                className={`px-4 py-2.5 font-gothic font-medium text-base leading-none text-dark-green transition-opacity ${
-                  dropdownOpen ? 'opacity-40' : 'group-hover/nav:opacity-40 hover:!opacity-100'
-                }`}
+                aria-current={currentKey === item.href ? 'page' : undefined}
+                className={navItemClass(item.href)}
               >
                 {item.label}
               </Link>
