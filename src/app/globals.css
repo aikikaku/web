@@ -78,74 +78,33 @@
   /* セクション丸ごとのフェード（.reveal）は、要素ごとの演出（下の .m-* / MotionProvider）に置き換えたため無効。
      Reveal コンポーネントはマークアップ互換のため残している */
 
-  /* ─── 表示演出（MotionProvider）。html.motion-ready の時だけ、main 内の対象を最初から隠しておく ───
-     対象と除外は MotionProvider.tsx の TEXT_TARGETS / EXCLUDE と同じにすること。
-     transform ではなく個別プロパティ（translate / scale）を使い、既存のホバー拡大等と干渉させない。
-     イージングは参考サイトと同じ expo-out 系 1種類（--ease-soft）に統一し、時間は 1.2〜1.6s */
+  /* ─── 表示演出（MotionProvider）。html.motion-ready の時だけ、main 内の見出し・写真を最初から隠しておく ───
+     控えめに: 位置は動かさず、その場でゆっくりフェードインするだけ。本文・タグ・ボタンは動かさない。
+     スクロールの挙動も変えない（NN/g Scrolljacking 101）。対象と除外は MotionProvider.tsx と同じにすること */
   :root {
     --ease-soft: cubic-bezier(0.16, 1, 0.3, 1);
   }
   html.motion-ready
     main
-    :is(p, h3, h4, li, dl, blockquote, .tag, .tag-dark, .btn-outline-fill, .btn-outline-hover):not(
-      :is(header, nav, footer, form, [role='listbox'], .fixed, .sticky, [data-no-motion]) *,
-      :is(p, h3, h4, li, dl, blockquote, .tag, .tag-dark, .btn-outline-fill, .btn-outline-hover) *
+    :is(h1.font-mincho, h2.font-mincho):not(
+      :is(header, nav, footer, form, [role='listbox'], .fixed, .sticky, [data-no-motion]) *
     ):not(.m-in) {
     opacity: 0;
-    translate: 0 2rem;
-    filter: blur(2px);
   }
-  /* 表示中だけ付く（MotionProvider が出し終わったら外す）。要素自身のホバー用トランジションを上書きし続けないため */
-  html.motion-ready main .m-anim {
-    transition:
-      opacity 1.2s var(--ease-soft),
-      translate 1.4s var(--ease-soft),
-      filter 1.2s var(--ease-soft),
-      clip-path 1.2s var(--ease-soft),
-      scale 1.8s var(--ease-soft);
-  }
-
-  /* 写真: 下から幕が開くように + 少しの拡大を解きながら（opacity を自前で切り替える画像は除く） */
+  /* 写真: その場でゆっくりフェード + ごくわずかな拡大を解く（opacity を自前で切り替える画像は除く） */
   html.motion-ready
     main
     img:not([class*='opacity-']):not(
       :is(header, nav, footer, form, [role='listbox'], .fixed, .sticky, [data-no-motion]) *
     ):not(.m-in) {
     opacity: 0;
-    scale: 1.08;
-    clip-path: inset(100% 0 0 0);
+    scale: 1.03;
   }
-
-  /* 明朝の見出し: 1文字ずつ（分割前は見出しごと隠す） */
-  html.motion-ready
-    main
-    :is(h1, h2).font-mincho:not(
-      :is(header, nav, footer, form, [role='listbox'], .fixed, .sticky, [data-no-motion]) *
-    ):not(.m-split) {
-    opacity: 0;
-  }
-  html.motion-ready main .m-split .m-char {
-    opacity: 0;
-    filter: blur(4px);
+  /* 表示中だけ付く（MotionProvider が出し終わったら外す）。要素自身のホバー用トランジションを上書きし続けないため */
+  html.motion-ready main .m-anim {
     transition:
-      opacity 1.2s var(--ease-soft),
-      filter 1.2s var(--ease-soft);
-  }
-  html.motion-ready main .m-split.m-in .m-char {
-    opacity: 1;
-    filter: none;
-  }
-
-  /* Lenis（慣性スクロール）の推奨スタイル */
-  html.lenis,
-  html.lenis body {
-    height: auto;
-  }
-  .lenis.lenis-smooth {
-    scroll-behavior: auto !important;
-  }
-  .lenis.lenis-stopped {
-    overflow: clip;
+      opacity 1.4s var(--ease-soft),
+      scale 1.8s var(--ease-soft);
   }
 
   /* ヒーロー写真の Ken Burns（表示中にゆっくり引いていく。参考: notahotel / hachi-to-waltz） */

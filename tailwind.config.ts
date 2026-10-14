@@ -8,10 +8,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      // ホバー等の切り替えを既定 150ms → 600ms に（「パキッと」した印象をやわらげる）。
+      // ホバー等の切り替えを既定 150ms → 400ms に（「パキッと」した印象をやわらげる）。
       // カーブは表示演出と同じ expo-out 系（globals.css の --ease-soft）に統一
       transitionDuration: {
-        DEFAULT: '600ms',
+        DEFAULT: '400ms',
       },
       transitionTimingFunction: {
         DEFAULT: 'cubic-bezier(0.16, 1, 0.3, 1)',
