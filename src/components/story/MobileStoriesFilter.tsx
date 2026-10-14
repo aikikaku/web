@@ -10,6 +10,7 @@ import SpModalBackdrop from '@/components/ui/popup/SpModalBackdrop';
 import SpModalCloseButton from '@/components/ui/popup/SpModalCloseButton';
 import { useScrollVisibility } from '@/lib/useScrollVisibility';
 import { REGION_OPTIONS, sameSet } from '@/lib/filterOptions';
+import { usePresence, presenceClass } from '@/lib/usePresence';
 
 const categories = [
   { value: 'daily', label: '日々のこと' },
@@ -26,6 +27,8 @@ const categories = [
  */
 export default function MobileStoriesFilter() {
   const [isOpen, setIsOpen] = useState(false);
+  // 開く時も閉じる時もふわっと（背景とパネルを一緒にフェード）
+  const modal = usePresence(isOpen, 300);
   const [openSection, setOpenSection] = useState<'category' | 'region' | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -103,8 +106,8 @@ export default function MobileStoriesFilter() {
       </SpFloatingTrigger>
 
       {/* modal: Figma 4211:11572 / 4211:10793 (height 固定・上下中央配置・内部スクロール) */}
-      {isOpen && (
-        <div className="fixed inset-0 z-50">
+      {modal.mounted && (
+        <div className={`fixed inset-0 z-50 ${presenceClass(modal.visible)}`}>
           <SpModalBackdrop onClick={closeModal} />
           {/* 上下中央配置のラッパ */}
           <div className="absolute inset-0 flex items-center justify-center px-6 py-12">

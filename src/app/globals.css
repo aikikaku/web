@@ -172,6 +172,24 @@
     }
   }
 
+  /* 読み込み中表示: 0.3 秒待ってからふわっと出す（すぐ終わる読み込みで一瞬出て消える点滅を避ける） */
+  @keyframes search-progress-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  .search-progress-in {
+    animation: search-progress-in 0.5s ease-out 0.3s both;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .search-progress-in {
+      animation: none;
+    }
+  }
+
   /* ─── 検索ローディングのプログレスバー (#25) ─── */
   /* light-blue → blue のグラデーションが左右に流れる。色は tailwind.config の
      light-blue/accent-blue トークンを theme() で参照（値の二重管理を避ける） */
