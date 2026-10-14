@@ -57,7 +57,7 @@ export default async function HomePage() {
               1440px 未満は上の縦積みレイアウトを使うため min-[1440px] で限定 (#40) */}
           <div className="hidden tablet:block relative h-[49.875rem] w-full max-w-[90rem] mx-auto">
             <div className="absolute left-[2.8125rem] top-[3.5rem] w-[34.8125rem] h-[46.375rem] rounded-2xl overflow-hidden">
-              <HeroSetSlot slot="main" alt="三島の風景" priority sizes="557px" />
+              <HeroSetSlot slot="main" alt="三島の風景" priority sizes="(min-width: 1440px) 38.68vw, 557px" />
             </div>
             <div className="absolute left-[48.0625rem] top-[19.375rem] w-[40.3125rem]">
               <h1 className="font-mincho text-heading-56 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
@@ -69,11 +69,11 @@ export default async function HomePage() {
           </div>
           {/* 右上画像: viewport右端アンカー (Figma: 右端から28px はみ出る) */}
           <div className="hidden tablet:block absolute right-[-1.75rem] top-[3.5rem] w-[13.75rem] h-[18.3125rem] rounded-2xl overflow-hidden">
-            <HeroSetSlot slot="topRight" alt="三島の暮らし" sizes="220px" />
+            <HeroSetSlot slot="topRight" alt="三島の暮らし" sizes="(min-width: 1440px) 15.28vw, 220px" />
           </div>
           {/* 右下画像: viewport右端から89px (Figma: 1145+206=1351, 1440-1351=89) */}
           <div className="hidden tablet:block absolute right-[5.5625rem] top-[40.25rem] w-[12.875rem] h-[9.625rem] rounded-xl overflow-hidden">
-            <HeroSetSlot slot="bottomRight" alt="三島の街並み" sizes="206px" />
+            <HeroSetSlot slot="bottomRight" alt="三島の街並み" sizes="(min-width: 1440px) 14.31vw, 206px" />
           </div>
         </HeroSetProvider>
       </section>
@@ -148,7 +148,7 @@ export default async function HomePage() {
                     alt="アイ企画スタッフ"
                     fill
                     className="object-cover"
-                    sizes="790px"
+                    sizes="(min-width: 1440px) 54.86vw, 790px"
                   />
                 </div>
               </div>
@@ -258,7 +258,7 @@ export default async function HomePage() {
 
       {/* お客様の声セクション */}
       {voices.contents.length > 0 && (
-        <Reveal as="section" className="bg-light-green py-[3.75rem] tablet:pt-[6rem] tablet:pb-16">
+        <Reveal as="section" className="bg-light-green paper-texture paper-texture-light py-[3.75rem] tablet:pt-[6rem] tablet:pb-16">
           <div className="px-4 tablet:px-[4.6875rem] max-w-[90rem] mx-auto">
             <div className="mb-8 tablet:mb-16">
               <h3 className="font-mincho text-[1.5rem] tablet:text-[2rem] leading-[1.5] tracking-[0.06rem] tablet:tracking-[0.08rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>

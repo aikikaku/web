@@ -32,7 +32,7 @@ export default function PickupCard({ property }: Props) {
       data-mobile-filter-start
       // Figma 4211:10721: section bg-light-green px-16 py-32。
       // SP は Figma Handoff 4470:14849 通り緑背景を全幅 (角丸なし) にするため、親の px-4 を -mx-4 で打ち消す
-      className="block bg-light-green -mx-4 tablet:mx-0 tablet:rounded-[2rem] py-8 px-4 tablet:p-[1.875rem]"
+      className="block bg-light-green paper-texture paper-texture-light -mx-4 tablet:mx-0 tablet:rounded-[2rem] py-8 px-4 tablet:p-[1.875rem]"
     >
       {/* SP: 縦積み image → thumbs → details / PC: 横並び image | details(thumbs下) */}
       <div className="flex flex-col tablet:flex-row tablet:gap-[3.75rem] tablet:items-stretch">
@@ -50,7 +50,7 @@ export default function PickupCard({ property }: Props) {
                 alt={property.title}
                 fill
                 className={`object-cover transition-opacity duration-300 ease-out ${i === activeIndex ? 'opacity-100' : 'opacity-0'}`}
-                sizes="(max-width: 992px) 100vw, 646px"
+                sizes="(min-width: 1440px) 44.86vw, (max-width: 992px) 100vw, 646px"
                 priority={i === 0}
               />
             ))}

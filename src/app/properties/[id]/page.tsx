@@ -491,7 +491,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                     alt={property.story.title}
                     fill
                     className="object-cover transition-transform group-hover:scale-[1.02]"
-                    sizes="352px"
+                    sizes="(min-width: 1440px) 24.44vw, 352px"
                   />
                 )}
               </div>

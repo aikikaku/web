@@ -231,7 +231,7 @@ export default function Navigation() {
       {/* Desktop: フル幅ドロップダウンセクション。ホバー維持し、離れたら閉じる (#17)。 */}
       {dropdownOpen && (
         <div
-          className="hidden tablet:block bg-light-green"
+          className="hidden tablet:block bg-light-green paper-texture paper-texture-light"
           onMouseEnter={openDropdown}
           onMouseLeave={scheduleCloseDropdown}
         >
@@ -293,7 +293,7 @@ export default function Navigation() {
 
       {/* Mobile menu (Figma 4211:25413 SP_nav_open 準拠: bg-light-green, px-56/py-80, gap-32) */}
       {mobileOpen && (
-        <div className="tablet:hidden bg-light-green px-[3.5rem] py-[5rem] flex flex-col gap-8">
+        <div className="tablet:hidden bg-light-green paper-texture paper-texture-light px-[3.5rem] py-[5rem] flex flex-col gap-8">
           {allNavItems.map((item) =>
             'children' in item && item.children ? (
               <div key={item.label} className="flex flex-col gap-4">
