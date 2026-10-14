@@ -9,17 +9,20 @@ import { usePathname } from 'next/navigation';
  * 方針（NN/g「Scrolljacking 101」「The Role of Animation and Motion in UX」に沿って控えめに）:
  * - スクロールの速さ・量は変えない（慣性スクロール等のスクロールジャックはしない）
  * - 読ませる本文・タグ・ボタンは動かさない
- * - 見出し（明朝の h1 / h2）と写真だけ、画面に入った時にその場でゆっくりフェードイン（位置は動かさない）
+ * - 見出し（明朝の h1 / h2）と写真・動画だけ、画面に入った時にその場でゆっくりフェードイン（位置は動かさない）。
+ *   写真・動画は読み込みが終わってから始める
  *
  * main 内の要素を自動で対象にするので、各ページ側の実装は不要。
  * 初回描画のちらつきを避けるため、隠す指定は CSS（html.motion-ready + globals.css の .m-* ）で最初から当て、
  * ここでは画面に入った要素に .m-in を付けて表示させるだけにしている。
  * 対象と除外は globals.css と同じにすること。
  */
-const TARGETS = 'h1.font-mincho, h2.font-mincho, img';
+const TARGETS = 'h1.font-mincho, h2.font-mincho, img, video';
+// 動画が再生できない（自動再生ブロック・読み込み失敗等）ときに見えないままにならないための保険
+const VIDEO_FALLBACK_MS = 2500;
 const EXCLUDE = 'header, nav, footer, form, [role="listbox"], .fixed, .sticky, [data-no-motion]';
-const STAGGER_MS = 120; // 同時に画面に入った要素同士のずらし
-const MAX_STAGGER_MS = 480;
+const STAGGER_MS = 80; // 同時に画面に入った要素同士のずらし
+const MAX_STAGGER_MS = 240;
 
 export default function MotionProvider() {
   const pathname = usePathname();
@@ -41,7 +44,7 @@ export default function MotionProvider() {
       setTimeout(() => {
         h.classList.remove('m-anim');
         h.style.transitionDelay = '';
-      }, delay + 2400);
+      }, delay + 1600);
     };
 
     const reveal = (els: Element[]) => {
@@ -51,6 +54,19 @@ export default function MotionProvider() {
           const delay = Math.min(i * STAGGER_MS, MAX_STAGGER_MS);
           // 写真は読み込みと描画の準備が終わってからフェードを始める。
           // 枠が画面に入った時点で始めると、読み込み中にフェードが終わり、読み込み完了でパッと出て見えるため
+          // 動画も同じく、映像を表示できる状態（loadeddata）になってからフェード
+          if (el instanceof HTMLVideoElement && el.readyState < 2) {
+            let done = false;
+            const onReady = () => {
+              if (done) return;
+              done = true;
+              show(el, 0);
+            };
+            el.addEventListener('loadeddata', onReady, { once: true });
+            el.addEventListener('error', onReady, { once: true });
+            setTimeout(onReady, VIDEO_FALLBACK_MS);
+            return;
+          }
           if (el instanceof HTMLImageElement && !(el.complete && el.naturalWidth > 0)) {
             const onReady = () => {
               el.decode().catch(() => {}).finally(() => show(el, 0));
