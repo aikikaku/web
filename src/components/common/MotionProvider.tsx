@@ -8,21 +8,23 @@ import { usePathname } from 'next/navigation';
  *
  * 方針（NN/g「Scrolljacking 101」「The Role of Animation and Motion in UX」に沿って控えめに）:
  * - スクロールの速さ・量は変えない（慣性スクロール等のスクロールジャックはしない）
- * - 文字（見出し・本文・タグ・ボタン）は動かさない。見出しだけフェードさせると、ページ上部の見出しが
- *   その下のカードより後から出て読む順番と逆になるため（レビュー指摘）
- * - 写真・動画だけ、画面に入って読み込みが終わった時にその場でふわっとフェードイン（位置は動かさない）
+ * - 文字も写真も「その場で濃くなるだけ」。下から出す・1文字ずつ・ぼかしは使わない（「くどい」とのレビュー指摘）
+ * - 同時に画面に入ったものは上（DOM 順）から少しずつずらして出す。見出しがその下のカードより後から出ないように
+ * - 文字はすぐ、写真・動画は読み込みが終わってからフェードを始める（読み込み前に始めると「パッと出る」）
  *
  * main 内の要素を自動で対象にするので、各ページ側の実装は不要。
  * 初回描画のちらつきを避けるため、隠す指定は CSS（html.motion-ready + globals.css の .m-* ）で最初から当て、
  * ここでは画面に入った要素に .m-in を付けて表示させるだけにしている。
  * 対象と除外は globals.css と同じにすること。
  */
+// 文字のまとまり（その場で濃くなるだけ。位置・ぼかしは変えない）
+const TEXT_TARGETS = 'h1, h2, h3, h4, p, li, dl, blockquote, .tag, .tag-dark, .btn-outline-fill, .btn-outline-hover';
 // data-motion-fade: 中の写真の透明度を自前で切り替える枠（PICK UP カードのギャラリー等）。枠ごとフェードする
-const TARGETS = 'img, video, [data-motion-fade]';
+const TARGETS = `img, video, [data-motion-fade], ${TEXT_TARGETS}`;
 // 動画が再生できない（自動再生ブロック・読み込み失敗等）ときに見えないままにならないための保険
 const VIDEO_FALLBACK_MS = 2500;
 const EXCLUDE = 'header, nav, footer, form, [role="listbox"], .fixed, .sticky, [data-no-motion]';
-const STAGGER_MS = 80; // 同時に画面に入った要素同士のずらし
+const STAGGER_MS = 60; // 同時に画面に入った要素同士のずらし
 const MAX_STAGGER_MS = 240;
 
 export default function MotionProvider() {
@@ -97,6 +99,8 @@ export default function MotionProvider() {
       main.querySelectorAll(TARGETS).forEach((el) => {
         if (observed.has(el) || el.classList.contains('m-in') || el.closest(EXCLUDE)) return;
         if (!el.matches('[data-motion-fade]') && el.parentElement?.closest('[data-motion-fade]')) return;
+        // 文字は入れ子の外側だけ（li の中の p 等は外側と一緒に出す。CSS 側も同じ条件で隠していない）
+        if (el.matches(TEXT_TARGETS) && el.parentElement?.closest(TEXT_TARGETS)) return;
         observed.add(el);
         io.observe(el);
       });

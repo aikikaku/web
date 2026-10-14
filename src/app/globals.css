@@ -79,7 +79,7 @@
      Reveal コンポーネントはマークアップ互換のため残している */
 
   /* ─── 表示演出（MotionProvider）。html.motion-ready の時だけ、main 内の写真・動画を最初から隠しておく ───
-     控えめに: 位置は動かさず、読み込めたらその場でふわっとフェードインするだけ。文字は動かさない。
+     控えめに: 文字も写真も位置は動かさず、その場でふわっとフェードインするだけ（写真は読み込み後）。
      スクロールの挙動も変えない（NN/g Scrolljacking 101）。対象と除外は MotionProvider.tsx と同じにすること */
   :root {
     --ease-soft: cubic-bezier(0.16, 1, 0.3, 1);
@@ -95,6 +95,15 @@
     ):not(.m-in) {
     opacity: 0;
     scale: 1.03;
+  }
+  /* 文字: その場で濃くなるだけ（位置・ぼかしは変えない）。入れ子の内側は外側と一緒に出す */
+  html.motion-ready
+    main
+    :is(h1, h2, h3, h4, p, li, dl, blockquote, .tag, .tag-dark, .btn-outline-fill, .btn-outline-hover):not(
+      :is(header, nav, footer, form, [role='listbox'], .fixed, .sticky, [data-no-motion]) *,
+      :is(h1, h2, h3, h4, p, li, dl, blockquote, .tag, .tag-dark, .btn-outline-fill, .btn-outline-hover) *
+    ):not(.m-in) {
+    opacity: 0;
   }
   /* 中の写真の透明度を自前で切り替える枠（PICK UP カード等）は、枠ごとフェード（拡大はしない） */
   html.motion-ready
