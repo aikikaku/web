@@ -15,7 +15,7 @@ interface Props {
  * スクロール連動フェードイン (デザインレビュー #74 / Tkv1NaGcdcNc)。
  *
  * 方針: やさしく、ゆったりとした空気感。
- * - きっかけ: 要素がビューポートに ~15% 入ったら発火、1回のみ (unobserve)
+ * - きっかけ: 要素の上端が画面下端から 15% 入ったら発火、1回のみ (unobserve)
  * - 動き: opacity 0 → 1 / translateY 24px → 0 (CSS `.reveal` で定義)
  * - duration 0.9s / easing cubic-bezier(0.16, 1, 0.3, 1)
  * - stagger: delayMs で並列要素を順に表示
@@ -58,7 +58,10 @@ export default function Reveal({ as: Tag = 'div', className = '', delayMs, child
           }
         }
       },
-      { threshold: 0.15 },
+      // 「要素の 15% が見えたら」(threshold 0.15) だと、ビューポートより縦に長い要素
+      // （例: /staff-interview の本文セクション 5700px）は 15% が画面に収まらず永久に表示されない。
+      // 要素の上端が画面下端から 15% 入った時点で発火するよう rootMargin で判定する
+      { threshold: 0, rootMargin: '0px 0px -15% 0px' },
     );
     observer.observe(el);
     return () => observer.disconnect();
