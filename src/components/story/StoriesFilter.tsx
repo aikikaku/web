@@ -1,22 +1,12 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState, useTransition } from 'react';
 import Dropdown from '@/components/ui/interactive/Dropdown';
 import Sort from '@/components/ui/interactive/Sort';
 import SortClear from '@/components/ui/interactive/SortClear';
+import { REGION_OPTIONS, sameSet } from '@/lib/filterOptions';
 
-const regionOptions = [
-  { value: 'すべて', label: 'すべて' },
-  { value: '三島市', label: '三島市' },
-  { value: '長泉町', label: '長泉町' },
-  { value: '清水町', label: '清水町' },
-  { value: '函南町', label: '函南町' },
-  { value: '沼津市', label: '沼津市' },
-  { value: '裾野市', label: '裾野市' },
-  { value: '伊豆の国市', label: '伊豆の国市' },
-  { value: 'その他の地域', label: 'その他の地域' },
-];
 
 interface StoriesFilterProps {
   categories: { value: string; label: string }[];
@@ -24,6 +14,13 @@ interface StoriesFilterProps {
   currentRegions?: string;
 }
 
+
+/**
+ * 暮らしを知るの絞り込み（PC）。挙動は /properties の PropertyFilter に揃えている:
+ * - 何も選んでいない時はドロップダウンの「すべて」にチェック。「すべて」を押すとその項目を全解除して即反映
+ * - チェックの追加は「絞り込み」ボタン待ち、解除は即時反映
+ * - 「絞り込み」は URL に未反映の変更がある時だけ押せる。押してから結果が出るまで「絞り込み中…」
+ */
 export default function StoriesFilter({
   categories,
   currentCategory,
@@ -31,63 +28,67 @@ export default function StoriesFilter({
 }: StoriesFilterProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [isPending, startTransition] = useTransition();
 
-  const [selectedCategories, setSelectedCategories] = useState<string[]>(
-    currentCategory ? [currentCategory] : []
-  );
-  const [selectedRegions, setSelectedRegions] = useState<string[]>(
-    currentRegions ? currentRegions.split(',') : []
+  const urlCategories = useMemo(() => (currentCategory ? [currentCategory] : []), [currentCategory]);
+  const urlRegions = useMemo(
+    () => (currentRegions ? currentRegions.split(',').filter(Boolean) : []),
+    [currentRegions],
   );
 
-  const buildUrl = useCallback(
-    (overrides: Record<string, string | undefined>) => {
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(urlCategories);
+  const [selectedRegions, setSelectedRegions] = useState<string[]>(urlRegions);
+  // URL が変わったら（戻る・クリア等）選択状態を合わせる
+  useEffect(() => setSelectedCategories(urlCategories), [urlCategories]);
+  useEffect(() => setSelectedRegions(urlRegions), [urlRegions]);
+
+  const applyWith = useCallback(
+    (categoriesSel: string[], regionsSel: string[]) => {
       const params = new URLSearchParams(searchParams.toString());
       params.delete('page');
-      for (const [key, value] of Object.entries(overrides)) {
-        if (value) {
-          params.set(key, value);
-        } else {
-          params.delete(key);
-        }
-      }
+      if (categoriesSel[0]) params.set('category', categoriesSel[0]);
+      else params.delete('category');
+      if (regionsSel.length > 0) params.set('regions', regionsSel.join(','));
+      else params.delete('regions');
       const qs = params.toString();
-      return qs ? `/stories?${qs}` : '/stories';
+      startTransition(() => router.push(qs ? `/stories?${qs}` : '/stories', { scroll: false }));
     },
-    [searchParams]
+    [router, searchParams],
   );
 
+  // チェックの追加は「絞り込み」ボタン待ち、解除は即時反映（/properties #69 と同じ）
   const toggleCategory = (value: string) => {
-    setSelectedCategories((prev) =>
-      prev.includes(value) ? prev.filter((v) => v !== value) : [value]
-    );
+    const isRemoval = selectedCategories.includes(value);
+    const next = isRemoval ? [] : [value];
+    setSelectedCategories(next);
+    if (isRemoval) applyWith(next, selectedRegions);
   };
 
   const toggleRegion = (value: string) => {
-    if (value === 'すべて') {
-      setSelectedRegions([]);
-      return;
-    }
-    setSelectedRegions((prev) =>
-      prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]
-    );
+    const isRemoval = selectedRegions.includes(value);
+    const next = isRemoval ? selectedRegions.filter((v) => v !== value) : [...selectedRegions, value];
+    setSelectedRegions(next);
+    if (isRemoval) applyWith(selectedCategories, next);
   };
 
-  const applyFilter = () => {
-    router.push(
-      buildUrl({
-        category: selectedCategories[0] || undefined,
-        regions: selectedRegions.length > 0 ? selectedRegions.join(',') : undefined,
-      }),
-      { scroll: false }
-    );
+  const clearCategories = () => {
+    setSelectedCategories([]);
+    applyWith([], selectedRegions);
+  };
+
+  const clearRegions = () => {
+    setSelectedRegions([]);
+    applyWith(selectedCategories, []);
   };
 
   const handleClear = () => {
     setSelectedCategories([]);
     setSelectedRegions([]);
-    router.push('/stories', { scroll: false });
+    startTransition(() => router.push('/stories', { scroll: false }));
   };
 
+  const hasPendingChange =
+    !sameSet(selectedCategories, urlCategories) || !sameSet(selectedRegions, urlRegions);
   const hasFilters = selectedCategories.length > 0 || selectedRegions.length > 0;
 
   return (
@@ -98,20 +99,26 @@ export default function StoriesFilter({
           options={categories}
           selected={selectedCategories}
           onToggle={toggleCategory}
+          onClear={clearCategories}
           variant="light-green"
         />
         <Dropdown
           label="地域"
-          options={regionOptions}
+          options={REGION_OPTIONS}
           selected={selectedRegions}
           onToggle={toggleRegion}
+          onClear={clearRegions}
           variant="light-green"
         />
       </div>
 
       <div className="flex gap-2 shrink-0">
-        <Sort onClick={applyFilter} disabled={!hasFilters} />
-        <SortClear onClick={handleClear} disabled={!hasFilters} />
+        <Sort
+          onClick={() => applyWith(selectedCategories, selectedRegions)}
+          disabled={!hasPendingChange}
+          pending={isPending}
+        />
+        <SortClear onClick={handleClear} disabled={!hasFilters && urlCategories.length === 0 && urlRegions.length === 0} />
       </div>
     </div>
   );
