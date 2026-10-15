@@ -55,7 +55,7 @@ export default function CardStory({ story, size = 's', variant = 'light' }: Card
             alt={story.title}
             fill
             className="object-cover transition-transform group-hover:scale-[1.02]"
-            sizes="264px"
+            sizes="(min-width: 1440px) 18.33vw, 264px"
           />
         </div>
         <div className="flex flex-col gap-6 flex-1 min-w-0">
@@ -92,7 +92,7 @@ export default function CardStory({ story, size = 's', variant = 'light' }: Card
           alt={story.title}
           fill
           className="object-cover transition-transform group-hover:scale-[1.02]"
-          sizes="(max-width: 992px) 100vw, 646px"
+          sizes="(min-width: 1440px) 44.86vw, (max-width: 992px) 100vw, 646px"
         />
       </div>
 

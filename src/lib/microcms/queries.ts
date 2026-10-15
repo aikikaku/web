@@ -149,3 +149,19 @@ export async function getStaffInterviews() {
     queries: { limit: 20, orders: 'order' },
   });
 }
+
+/**
+ * 一覧を全件取得する（microCMS の1回の取得は最大 100 件のため、offset を進めて繰り返す）。
+ * 「絞り込み」ボタンの該当件数など、全件の一部の項目だけが必要な時に使う
+ */
+export async function fetchAllPages<T>(
+  fetchPage: (q: { limit: number; offset: number }) => Promise<{ contents: T[]; totalCount: number }>,
+): Promise<T[]> {
+  const LIMIT = 100;
+  const first = await fetchPage({ limit: LIMIT, offset: 0 });
+  const all = [...first.contents];
+  for (let offset = LIMIT; offset < first.totalCount && offset < 1000; offset += LIMIT) {
+    all.push(...(await fetchPage({ limit: LIMIT, offset })).contents);
+  }
+  return all;
+}
