@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState, useTransition } from 'react';
 import Dropdown from '@/components/ui/interactive/Dropdown';
 import Sort from '@/components/ui/interactive/Sort';
-import { REGION_OPTIONS, sameSet } from '@/lib/filterOptions';
+import { REGION_OPTIONS, countProperties, sameSet, sortLabel, type PropertyCountItem } from '@/lib/filterOptions';
 import SortClear from '@/components/ui/interactive/SortClear';
 import Toggle from '@/components/ui/interactive/Toggle';
 
@@ -22,7 +22,7 @@ const propertyTypes = [
 
 
 
-export default function PropertyFilter() {
+export default function PropertyFilter({ countItems }: { countItems?: PropertyCountItem[] }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   // 絞り込みの適用〜結果の表示まで（ボタンを「絞り込み中…」にする）
@@ -159,7 +159,17 @@ export default function PropertyFilter() {
       </div>
 
       <div className="flex gap-2 shrink-0">
-        <Sort onClick={applyFilters} disabled={!hasPendingChange} pending={isPending} />
+        <Sort
+          onClick={applyFilters}
+          disabled={!hasPendingChange}
+          pending={isPending}
+          // 押せる時だけ、押した後の該当件数を出す（コメント NWv6SpfgM7n2）
+          label={sortLabel(
+            hasPendingChange && countItems
+              ? countProperties(countItems, { status: optimisticStatus, types: optimisticTypes, regions: optimisticRegions })
+              : undefined,
+          )}
+        />
         <SortClear onClick={clearFilters} disabled={!hasActiveFilters} />
       </div>
     </div>

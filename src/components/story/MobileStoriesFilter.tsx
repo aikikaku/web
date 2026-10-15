@@ -9,7 +9,7 @@ import SpFloatingTrigger from '@/components/ui/popup/SpFloatingTrigger';
 import SpModalBackdrop from '@/components/ui/popup/SpModalBackdrop';
 import SpModalCloseButton from '@/components/ui/popup/SpModalCloseButton';
 import { useScrollVisibility } from '@/lib/useScrollVisibility';
-import { REGION_OPTIONS, sameSet } from '@/lib/filterOptions';
+import { REGION_OPTIONS, countStories, sameSet, sortLabel, type StoryCountItem } from '@/lib/filterOptions';
 import { usePresence, presenceClass } from '@/lib/usePresence';
 
 const categories = [
@@ -25,7 +25,7 @@ const categories = [
  * - 挙動は /properties の MobileFilterNav に揃えている（共通 DropdownSp・「すべて」はチェック方式・
  *   「絞り込み」は未反映の変更がある時だけ押せる）
  */
-export default function MobileStoriesFilter() {
+export default function MobileStoriesFilter({ countItems }: { countItems?: StoryCountItem[] }) {
   const [isOpen, setIsOpen] = useState(false);
   // 開く時も閉じる時もふわっと（背景とパネルを一緒にフェード）
   const modal = usePresence(isOpen, 300);
@@ -143,7 +143,16 @@ export default function MobileStoriesFilter() {
 
               {/* action: 絞り込み + × clear (shrink-0 で dropdown 開時に潰れない) */}
               <div className="flex gap-2 h-10 shrink-0">
-                <SortSp onClick={applyFilters} disabled={!hasPendingChange} />
+                <SortSp
+                  onClick={applyFilters}
+                  disabled={!hasPendingChange}
+                  // 押せる時だけ、押した後の該当件数を出す（PC と同じ）
+                  label={sortLabel(
+                    hasPendingChange && countItems
+                      ? countStories(countItems, { category: localCategory, regions: localRegions })
+                      : undefined,
+                  )}
+                />
                 <SortClearSp onClick={clearFilters} disabled={!hasActiveFilters} />
               </div>
               </div>
