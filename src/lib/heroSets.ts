@@ -11,6 +11,12 @@ export type HeroSet = Record<HeroSlot, HeroMedia> & {
    * 動画を含むセットは、いちばん短い動画の終わりに合わせて次へ移るので使わない
    */
   durationMs?: number;
+  /**
+   * 動画の再生速度（セット内の全動画に同じ値）。いちばん短い動画で切り替えるため、短い動画を含むセットは
+   * そのままだと表示時間が短すぎる（セット1は右下が 4 秒で、全部見えるのは約 2 秒）。
+   * ゆっくり再生して、どのセットも約 7 秒見えるようにそろえる。省略時は 1
+   */
+  playbackRate?: number;
 };
 
 /**
@@ -41,17 +47,20 @@ export const HERO_SETS: HeroSet[] = [
     main: image('set1-main'),
     topRight: video('set1-top-right'),
     bottomRight: video('set1-bottom-right'),
+    playbackRate: 0.6, // 最短 4.0 秒 → 6.7 秒
   },
   {
     // 4470:17407: 富士山と稲穂（動画）/ トマトの無人販売 / 田んぼ道のバイク（動画）
     main: video('set2-main'),
     topRight: image('set2-top-right'),
     bottomRight: video('set2-bottom-right'),
+    playbackRate: 0.7, // 最短 5.0 秒 → 7.1 秒
   },
   {
     // 4470:17414: 神社の屋根と鳥 / 木立（動画）/ 湧水（動画）
     main: image('set3-main'),
     topRight: video('set3-top-right'),
     bottomRight: video('set3-bottom-right'),
+    playbackRate: 0.85, // 最短 6.0 秒 → 7.1 秒
   },
 ];
