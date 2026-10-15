@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import DropdownSp from '@/components/ui/interactive/DropdownSp';
 import Toggle from '@/components/ui/interactive/Toggle';
 import SortSp from '@/components/ui/interactive/SortSp';
-import { REGION_OPTIONS, sameSet } from '@/lib/filterOptions';
+import { REGION_OPTIONS, countProperties, sameSet, sortLabel, type PropertyCountItem } from '@/lib/filterOptions';
 import SortClearSp from '@/components/ui/interactive/SortClearSp';
 import SpFloatingTrigger from '@/components/ui/popup/SpFloatingTrigger';
 import SpModalBackdrop from '@/components/ui/popup/SpModalBackdrop';
@@ -31,7 +31,7 @@ const propertyTypes = [
  * - floating: cream rounded-50 + drop-shadow + filter icon
  * - popup: cream rounded-24 + drop-shadow、ステータストグル + ドロップダウン (inline 展開) + 絞り込み/× clear
  */
-export default function MobileFilterNav() {
+export default function MobileFilterNav({ countItems }: { countItems?: PropertyCountItem[] }) {
   const [isOpen, setIsOpen] = useState(false);
   const [openSection, setOpenSection] = useState<'types' | 'regions' | null>(null);
   const router = useRouter();
@@ -180,7 +180,16 @@ export default function MobileFilterNav() {
 
               {/* action: 絞り込み + × clear (shrink-0 で dropdown 開時に潰れない) */}
               <div className="flex gap-2 h-10 shrink-0">
-                <SortSp onClick={applyFilters} disabled={!hasPendingChange} />
+                <SortSp
+                  onClick={applyFilters}
+                  disabled={!hasPendingChange}
+                  // 押せる時だけ、押した後の該当件数を出す（PC と同じ）
+                  label={sortLabel(
+                    hasPendingChange && countItems
+                      ? countProperties(countItems, { status: localStatus, types: localTypes, regions: localRegions })
+                      : undefined,
+                  )}
+                />
                 <SortClearSp onClick={clearFilters} disabled={!hasActiveFilters} />
               </div>
               </div>

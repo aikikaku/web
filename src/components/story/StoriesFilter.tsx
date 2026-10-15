@@ -5,13 +5,15 @@ import { useCallback, useEffect, useMemo, useState, useTransition } from 'react'
 import Dropdown from '@/components/ui/interactive/Dropdown';
 import Sort from '@/components/ui/interactive/Sort';
 import SortClear from '@/components/ui/interactive/SortClear';
-import { REGION_OPTIONS, sameSet } from '@/lib/filterOptions';
+import { REGION_OPTIONS, countStories, sameSet, sortLabel, type StoryCountItem } from '@/lib/filterOptions';
 
 
 interface StoriesFilterProps {
   categories: { value: string; label: string }[];
   currentCategory?: string;
   currentRegions?: string;
+  /** 「絞り込み」ボタンに出す該当件数を数えるための全ストーリーの絞り込み項目 */
+  countItems?: StoryCountItem[];
 }
 
 
@@ -25,6 +27,7 @@ export default function StoriesFilter({
   categories,
   currentCategory,
   currentRegions,
+  countItems,
 }: StoriesFilterProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -117,6 +120,12 @@ export default function StoriesFilter({
           onClick={() => applyWith(selectedCategories, selectedRegions)}
           disabled={!hasPendingChange}
           pending={isPending}
+          // 押せる時だけ、押した後の該当件数を出す（コメント f4RwHBCdJbD5）
+          label={sortLabel(
+            hasPendingChange && countItems
+              ? countStories(countItems, { category: selectedCategories[0] ?? '', regions: selectedRegions })
+              : undefined,
+          )}
         />
         <SortClear onClick={handleClear} disabled={!hasFilters && urlCategories.length === 0 && urlRegions.length === 0} />
       </div>

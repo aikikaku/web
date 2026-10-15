@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { getStories } from '@/lib/microcms/queries';
+import { fetchAllPages, getStories } from '@/lib/microcms/queries';
 import { Story } from '@/types/microcms';
 import CmsImage from '@/components/common/CmsImage';
 import Pagination from '@/components/common/Pagination';
@@ -13,6 +13,7 @@ import Reveal from '@/components/common/Reveal';
 import Arrow from '@/components/ui/interactive/Arrow';
 import type { Metadata } from 'next';
 import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
+import { toStoryCountItem } from '@/lib/filterOptions';
 
 export const metadata: Metadata = {
   title: '暮らしを知る',
@@ -172,11 +173,11 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
   // 取得した1ページ分を絞り込むと、件数とページネーションが絞り込み前の総数のままになるため
   const hasFilter = !!searchParams.category || !!searchParams.regions;
 
-  const data = await getStories({
-    limit: hasFilter ? 100 : PER_PAGE,
-    offset: hasFilter ? 0 : offset,
-    orders: '-publishedAt',
-  }).catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: PER_PAGE }));
+  // 絞り込む時は全件（100 件を超える分も）
+  const data = await (hasFilter
+    ? fetchAllPages((q) => getStories({ orders: '-publishedAt', ...q })).then((contents) => ({ contents, totalCount: contents.length }))
+    : getStories({ limit: PER_PAGE, offset, orders: '-publishedAt' })
+  ).catch(() => ({ contents: [], totalCount: 0 }));
 
   let filteredContents = data.contents;
 
@@ -200,6 +201,10 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
 
   // 最初の1件をフィーチャード、残りをグリッド
   const featuredStory = filteredContents[0];
+  // 「絞り込み」ボタンに押す前の該当件数を出すため、全ストーリーの絞り込み項目だけを渡す
+  const countItems = await fetchAllPages((q) => getStories({ ...q, fields: 'category,regions' }))
+    .then((all) => all.map(toStoryCountItem))
+    .catch(() => undefined);
   const gridStories = filteredContents.slice(1);
 
   return (
@@ -226,7 +231,7 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
 
       {/* SP用フローティングフィルター */}
       <Suspense fallback={null}>
-        <MobileStoriesFilter />
+        <MobileStoriesFilter countItems={countItems} />
       </Suspense>
 
       {/* フィルター + リスト (Figma 4470:15357 PC: px-75 pb-96 / 4470:15116 SP: pb-120) */}
@@ -236,6 +241,7 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
           <div className="hidden tablet:block mb-[6rem]">
             <Suspense fallback={<div className="h-14 bg-cream animate-pulse rounded-lg" />}>
               <StoriesFilter
+                countItems={countItems}
                 categories={categoryLabels}
                 currentCategory={searchParams.category}
                 currentRegions={searchParams.regions}
