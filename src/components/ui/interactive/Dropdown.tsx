@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { usePresence, presenceClass } from '@/lib/usePresence';
 
 interface DropdownProps {
   label: string;
@@ -35,6 +36,7 @@ export default function Dropdown({
   widthClassName = 'w-full tablet:w-[22.5rem]',
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const list = usePresence(isOpen, 200);
   const ref = useRef<HTMLDivElement>(null);
 
   // 開いている時の外側クリックは「閉じるだけ」にする。閉じるつもりで空いている所をクリックしても、
@@ -130,10 +132,10 @@ export default function Dropdown({
         </svg>
       </button>
 
-      {isOpen && (
+      {list.mounted && (
         <div
           role="listbox"
-          className="absolute top-[4rem] left-0 w-full bg-cream rounded-lg shadow-[0_0_8px_rgba(0,0,0,0.16)] z-20 px-6 py-4"
+          className={`absolute top-[4rem] left-0 w-full bg-cream rounded-lg shadow-[0_0_8px_rgba(0,0,0,0.16)] z-20 px-6 py-4 ${presenceClass(list.visible, 'duration-200')}`}
         >
           {/* 「すべて」行: 選択ゼロ（＝絞り込みなし）の時にチェック表示。クリックで全解除 (#66) */}
           {onClear && (
