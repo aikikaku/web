@@ -20,6 +20,8 @@ interface Props {
   /** 再生の残りが nearEndMs 以下になったら1回呼ぶ（終わる少し前から次へ切り替え始めるため） */
   onNearEnd?: () => void;
   nearEndMs?: number;
+  /** 再生速度（1 未満でゆっくり）。省略時は 1 */
+  playbackRate?: number;
 }
 
 /**
@@ -38,6 +40,7 @@ export default function HeroVideo({
   onEnded,
   onNearEnd,
   nearEndMs = 0,
+  playbackRate = 1,
 }: Props) {
   const ref = useRef<HTMLVideoElement>(null);
   // onNearEnd は再生1回につき1回だけ
@@ -55,10 +58,12 @@ export default function HeroVideo({
       return () => clearTimeout(t);
     }
     v.currentTime = 0;
+    v.defaultPlaybackRate = playbackRate;
+    v.playbackRate = playbackRate;
     nearEndFired.current = false;
     // 自動再生がブロックされても poster のまま表示されるだけなので握りつぶす
     v.play().catch(() => {});
-  }, [active, pauseDelayMs]);
+  }, [active, pauseDelayMs, playbackRate]);
 
   return (
     <video
@@ -74,7 +79,8 @@ export default function HeroVideo({
           ? (e) => {
               const v = e.currentTarget;
               if (!active || nearEndFired.current || !v.duration) return;
-              if ((v.duration - v.currentTime) * 1000 <= nearEndMs) {
+              // 残りは実時間で比べる（ゆっくり再生ではその分だけ長い）
+              if (((v.duration - v.currentTime) * 1000) / v.playbackRate <= nearEndMs) {
                 nearEndFired.current = true;
                 onNearEnd();
               }

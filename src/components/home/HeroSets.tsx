@@ -117,6 +117,7 @@ export function HeroSetSlot({ slot, alt, priority, sizes }: SlotProps) {
                 // 切り替えを始め、動画の終わりとフェードの終わりを揃える
                 onNearEnd={() => onVideoEnded(i)}
                 nearEndMs={HERO_FADE_MS}
+                playbackRate={set.playbackRate}
                 className="absolute inset-0 h-full w-full object-cover"
               />
             ) : (
