@@ -30,7 +30,6 @@ export default function PickupCard({ property }: Props) {
     // カード全体はリンクにせず、写真・タイトル・ボタンだけをリンクにする（文字や写真の外ではポインターにならない）。
     // ボタンはボタン自体のホバーでだけ反転する
     <div
-      data-mobile-filter-start
       // Figma 4211:10721: section bg-light-green px-16 py-32。
       // SP は Figma Handoff 4470:14849 通り緑背景を全幅 (角丸なし) にするため、親の px-4 を -mx-4 で打ち消す
       className="block bg-light-green paper-texture paper-texture-light -mx-4 tablet:mx-0 tablet:rounded-[2rem] py-8 px-4 tablet:p-[1.875rem]"

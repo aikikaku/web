@@ -92,8 +92,13 @@ export default async function PropertiesPage({
     orders: '-publishedAt',
   }).catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: 1 }));
   const featuredProperty = pickupData.contents[0];
-  // grid は paginatedContents から pickup と同じ ID を除外（同じ物件を 2 回描画しないため）
-  const gridProperties = paginatedContents.filter((p) => p.id !== featuredProperty?.id);
+  // 絞り込みなしの時は、grid から pickup と同じ ID を除外（同じ物件を 2 回描画しないため）。
+  // 絞り込み中は除外しない。pickup は条件に関係なく固定なので、除くと「条件に合うのが pickup の物件だけ」の時に
+  // 一覧が「見つかりませんでした」になり、件数・ページ送りとも食い違う
+  const isFiltered = !!(searchParams.types || searchParams.regions || searchParams.q || searchParams.status === 'all');
+  const gridProperties = isFiltered
+    ? paginatedContents
+    : paginatedContents.filter((p) => p.id !== featuredProperty?.id);
 
   return (
     <div className="bg-cream">
@@ -124,6 +129,8 @@ export default async function PropertiesPage({
           {/* pickup 物件（サムネイル切替対応） */}
           {/* SP: pickup → grid 60px / PC: pickup → filter row 128px (Figma Handoff 4470:14406 gap-128)。
               PC は sticky バー側の pt-6(24px) と合わせて 104 + 24 = 128px */}
+          {/* SP の「物件を絞り込む」ボタンを出し始める位置。条件に合う PICK UP がない時も出せるよう、カードの外に置く */}
+          <div data-mobile-filter-start />
           {featuredProperty && (
             <div className="mb-[3.75rem] tablet:mb-[6.5rem]">
               <PickupCard property={featuredProperty} />
