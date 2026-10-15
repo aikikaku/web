@@ -243,11 +243,13 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
             </Suspense>
           </div>
 
+          {/* SP の「記事を絞り込む」ボタンを出し始める位置。0件で特集ストーリーがない時も出せるよう、一覧の外に置く */}
+          <div data-stories-filter-start id="stories-list" />
           {filteredContents.length > 0 ? (
             <>
               {/* フィーチャードストーリー (Figma 4470:15097 SP: pb-60 / PC: 下の一覧まで 96) */}
               {featuredStory && (
-                <div data-stories-filter-start id="stories-list" className="mb-[3.75rem] tablet:mb-24">
+                <div className="mb-[3.75rem] tablet:mb-24">
                   <FeaturedStoryCard story={featuredStory} />
                 </div>
               )}
