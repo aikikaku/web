@@ -184,6 +184,8 @@ export default function StaffInterviewPage() {
               fill
               className="object-cover"
               sizes="(min-width: 1440px) 46.88vw, (max-width: 992px) 100vw, 675px"
+              // 既定の画質 75 だと顔や髪にブロック状の崩れが出るため上げる（元画像は Figma の 4096px 原本から書き出し）
+              quality={90}
               priority
             />
           </div>
@@ -248,6 +250,7 @@ export default function StaffInterviewPage() {
                         fill
                         className="object-cover"
                         sizes="(min-width: 1440px) 51.0vw, (min-width: 992px) 734px, 100vw"
+                        quality={90}
                       />
                     </div>
                   )}
