@@ -51,6 +51,7 @@ export const HERO_SETS: HeroSet[] = [
   },
   {
     // 4470:17407: 富士山と稲穂（動画）/ トマトの無人販売 / 田んぼ道のバイク（動画）
+    // 稲の動画は中田さん提供のアップスケール版（hero_video_03_4K, 2160×3840）から 1440×1918 に切り抜き・縮小（デザインレビュー3）
     main: video('set2-main'),
     topRight: image('set2-top-right'),
     bottomRight: video('set2-bottom-right'),
