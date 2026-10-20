@@ -1,176 +1,124 @@
 import Image from 'next/image';
 import TocNav from '@/components/ui/navigation/TocNav';
 import PageNavSp from '@/components/ui/navigation/PageNavSp';
-import HeroCardStory from '@/components/common/HeroCardStory';
 import ServiceCTA from '@/components/ui/card/ServiceCTA';
 import Reveal from '@/components/common/Reveal';
 import type { Metadata } from 'next';
 import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
 
+const ARTICLE_TITLE = '街をつくるのは、そこに暮らす人たち。';
+const ARTICLE_LEAD = '三島で暮らし、三島で働く。アイ企画が大切にしていること。';
+
 export const metadata: Metadata = {
   title: 'スタッフインタビュー',
-  description: 'アイ企画のスタッフをご紹介します。地域に開かれたサステナブルな不動産屋を目指して。',
+  description: `${ARTICLE_LEAD}三島で不動産業を営むアイ企画の二人を、nakabito の取材メンバーが紹介します。`,
 };
 
-type Speaker = 'moderator' | 'daichi' | 'tsunenari';
-
-interface InterviewItem {
-  speaker: Speaker;
-  text: string;
-}
-
-interface InterviewSection {
-  type: 'conversation' | 'heading' | 'image' | 'photos';
+/**
+ * 原稿は nakabito の取材メンバー（宮﨑 美咲さん）による読み物記事。
+ * 以前の「司会／話し手」の対談形式から、ストーリー詳細（/stories/[id]）と同じ記事レイアウトに変更。
+ * 段落内の改行は原稿どおり \n で持ち、white-space: pre-line で表示する。
+ */
+interface ArticleSection {
+  /** 目次に出す見出し。冒頭のリード部分は見出しなし */
   heading?: string;
+  paragraphs: string[];
+  /** セクション末尾に置く写真 */
   image?: string;
-  items?: InterviewItem[];
 }
 
-const speakerInfo: Record<Speaker, { name: string; avatar: string | null }> = {
-  moderator: { name: '司会', avatar: null },
-  daichi: { name: '大地', avatar: '/images/staff-interview/avatar-daichi.jpg' },
-  tsunenari: { name: '恒成', avatar: '/images/staff-interview/avatar-tsunenari.jpg' },
+const articleSections: ArticleSection[] = [
+  {
+    paragraphs: [
+      '「子どもの頃は、三島のことをつまらない街だと思っていました」',
+      'そう話すのは、三島で不動産業を営むアイ企画のお二人。',
+      '田舎すぎるわけでもなければ、都会でもない。東京で流行したものが遅れてやってくるような、どこか中途半端な街。学生時代は刺激を求め、遊びに行くのは隣の沼津市や東京だったという。',
+      'そんな三島への印象が変わったのは、一度街を離れ、再び戻ってきてからのこと。',
+      '「戻ってきたら、意外と面白い街だなと思ったんです。学生の頃には気づけなかった人たちの面白さに気づくようになって」',
+      'かつて物足りなく感じていた街の姿は、時間を経て、暮らしやすさへと変わっていた。',
+    ],
+  },
+  {
+    heading: '街を面白くするのは、人だった。',
+    paragraphs: [
+      '学生時代に留学したポートランド。\nもともとは工場の街だった場所に、ヒッピーやアーティスト、さまざまな表現者が集まり、街の雰囲気が少しずつ変わっていった変化を目の当たりにした経験が、街を見る視点を変えたという。',
+      '「こうやって街って変わっていくんだな、と実感したんです」',
+      '三島に戻ってきてからも、個人で店を営む人や、自分たちなりの表現を続ける人たちの存在に目が向くようになった。',
+      '街の魅力は、大きな商業施設や目新しい観光資源だけで生まれるものではない。そこに暮らす人たちが、それぞれの生活のなかで小さな営みを重ねていくこと。その積み重ねが、街の表情をつくっていく。',
+      '「結局、人なんだなと思いました」',
+      '三島には、外から来た人や新しいものを、自然に受け入れる空気があるという。',
+      '誰かが新しい店を始めれば、昔から街にいる人たちが受け入れ、若い世代の挑戦を面白がり、ときには世話を焼きながら見守る。',
+      '新しいものを拒むのでも、ただ流行を追いかけるのでもない。\nそんな人と人との距離感が、この街には残っている。',
+    ],
+    image: '/images/staff-interview/photo-body-1.jpg',
+  },
+  {
+    heading: '中途半端だからこその、豊かさ。',
+    paragraphs: [
+      'お二人が三島を語るとき、何度も出てきたのが「中途半端」という言葉だった。都会でもなく、田舎でもない。けれど、東京へ行こうと思えばすぐに行ける。少し車を走らせれば、海や山など豊かな自然がある。\n大きなスーパーもあれば、昔から続く八百屋や肉屋、魚屋もある。',
+      '「若い頃は刺激を求めて外に出たんですけど、今は昔から続いているもののほうに、豊かさを感じるようになりました」',
+      'この土地は、休日には海へ出かけたり、釣りをしたり、特別な施設へ行かなくても、自然のなかで過ごすこともできる。\n一方で、日々の買い物に困ることもない。\nそうした暮らしのバランスが心地よい街。',
+      '「三島が東京になろうとする必要はないと思うんです。刺激が欲しければ東京にはすぐに行けるんだから」',
+      '街が必要以上に盛り上がらなくてもいい。\n新しいものが次々と生まれることだけが、街の豊かさではない。\nむしろ、昔から続いてきた普通の営みが、これからも当たり前に続いていくこと。そんな素朴な暮らしにこそ、価値を感じるようになったという。',
+    ],
+  },
+  {
+    heading: '家を売るのではなく、暮らしの選択肢を増やしたい。',
+    paragraphs: [
+      'お二人がお父様から仕事を引き継いで、およそ4年。\n二人で事業を担うようになってから、アイ企画の働き方も少しずつ変化してきた。',
+      '以前はチラシを中心に情報を届けていたが、今ではSNSを使った発信やオンラインでの打ち合わせも増えた。それに伴い、若い世代や首都圏からの移住者との出会いも増えている。',
+      '三島への移住を考える人たちが求めているのは、必ずしも不便を楽しむような田舎暮らしではない。自然の近くで暮らしたい。でも、これまで当たり前だった生活の便利さも失いたくない。そんな人たちにとって、三島はちょうどよい場所なのかもしれない。',
+      '「三島は田舎だから不動産が安い、という場所ではないんです。がっつり田舎暮らしをしたい人には、少し物足りないかもしれない。でも、そのバランスがいいんですよね」',
+      'アイ企画が大切にしているのは、そうした一人ひとりの暮らしに合った選択肢を提案すること。家を建てるとなれば、まずハウスメーカーを思い浮かべる人も多い。けれど、設計事務所に依頼する方法もあれば、中古住宅を購入して手を入れる方法もある。',
+      '「ハウスメーカーが悪いということではなくて、それ以外にも選択肢があることを知ってほしいんです」',
+      '住まいの選び方が変われば、暮らしのあり方も変わる。だからこそ、すぐに何かを売るのではなく、まずはその人がどんな暮らしをしたいのかを考える。時には、今はまだ買わなくてもいいのではないかと伝えることもあるそう。',
+      '「基本的には、お客さんファーストです。それが巡り巡って次の出会い、仕事にもつながっていくと思っているので」',
+      '目先の利益よりも、その先にある生活を考える。\nそれが、アイ企画の仕事の根底にあるように感じた。',
+    ],
+    image: '/images/staff-interview/photo-body-2.jpg',
+  },
+  {
+    heading: '残せるものは残し、使えるものは使う。',
+    paragraphs: [
+      'お二人とも古い建物が好きだという。',
+      '不動産の仕事では、古い家を取り壊して土地として売ったほうが、取引を進めやすい場合もある。それでも、まだ使えるものを簡単に壊してしまうことには、違和感があると話す。',
+      '「残せるものは残したいし、使えるものは使いたいんです」',
+      'この地域には、腕のよい職人や工務店がいる。\n古い建物を生かすための知恵や技術もある。\nそうした人たちとのつながりを生かしながら、一つひとつの建物に向き合っていく。',
+      '建物を残すこと自体が目的なのではない。\nそこに暮らす人にとって、本当に心地よい選択は何なのか。\nその答えを一緒に考えることを大切にしているように感じた。',
+      '「自分たちも、この街に住んでいるということが大きいのかもしれません」',
+      '家を売ったあとも、街のどこかで顔を合わせるかもしれない。同じ地域で暮らしているからこそ、売ったら終わりという関係ではなく、長く安心して暮らせる住まいを届けたいという想いが強くある。',
+    ],
+  },
+  {
+    heading: 'この街に、ずっといるという仕事。',
+    paragraphs: [
+      'そうした想いから、アイ企画と地域のつながりは、不動産の仕事だけにとどまらない。',
+      '事務所の前で餅つきを開けば、近所の人や昔からのお客さんが顔を出す。畑で育てたみかんなど、季節の作物をお客さんに届けることもある。町の祭りや地域の行事にも参加する。子どもが地域のしゃぎりに参加していることも、近所の人たちとのつながりをつくっている。\n特別大きなことをしなくても、日々の暮らしのなかで自然と関係が生まれていく。',
+      '「ここにずっといることも、仕事なのかもしれません」',
+      '住まいを紹介することは、その街での暮らしを紹介することでもある。\nだからこそ、街のことを知り、そこで暮らす人たちと関わり続ける。\n長く地域に根づいてきた不動産会社だからこそ、築ける関係があると思う。',
+    ],
+  },
+  {
+    heading: '変わっていく街と、変わらずにいてほしいもの。',
+    paragraphs: [
+      '今、三島の周辺でも新しい動きが生まれている。\n沼津、裾野、御殿場、伊豆…\nそれぞれの街に、それぞれの面白さがある。',
+      '何か新しいものに触れたくなったら、少し足を延ばせばいい。\nそしてまた、いつもの暮らしへ戻ってくることができる。',
+      '「三島は、ゆるいんですよね」',
+      '街を変えてやろうという強い気負いよりも、自分が心地よく暮らせる場所を選び、好きなことを始める。そんな人たちが集まっているように感じるという。',
+      '10年後、三島がどんな街になっているのかは分からない。\nけれど、大きな開発や一時的な流行だけが、街の未来を決めるわけではない。',
+      '昔から続く商店があり、新しく店を始める若い人がいて、そこへ足を運ぶ地域の人たちがいる。そんな何気ない営みの積み重ねが、これからの街をつくっていく。',
+      '家を売ることも、街で暮らすことも、その先にある日常を大切にするという意味では同じなのかもしれない。',
+      'アイ企画は今日も、三島という街のなかで、人と人をつなぎながら仕事を続けている。',
+    ],
+  },
+];
+
+const tocItems = articleSections.flatMap((s) => (s.heading ? [s.heading] : []));
+
+const writer = {
+  name: '宮﨑 美咲｜nemurineco',
+  description: '写真家。日本とインドの２拠点生活。写真のこと、仕事のこと、旅の記憶、日々の想いを綴っています。',
 };
-
-const interviewSections: InterviewSection[] = [
-  {
-    type: 'conversation',
-    items: [
-      {
-        speaker: 'moderator',
-        text: '今日はよろしくお願いします。私、お父さん（社長） には随分お世話になってきたんです。畑を借りたのがきっかけで親しくなり、祖父母の家や自分の家を売却してもらい、子育てや車のこと、果樹のことなど、不動産に限らずアドバイスしてもらいました。今は若いお二人が会社を引っ張っているのですね！',
-      },
-      {
-        speaker: 'daichi',
-        text: '私は2014年からアイ企画の仕事をしています。大学では建築を専攻して、工務店に就職して大工をしていました。',
-      },
-      {
-        speaker: 'moderator',
-        text: '不動産業を手伝うつもりはあったんですか？',
-      },
-      {
-        speaker: 'daichi',
-        text: '知らない人と話をするのが苦手だったので、実家を手伝うなんて思ってもみませんでした。',
-      },
-      {
-        speaker: 'tsunenari',
-        text: '私も家業を継ぐことは考えていませんでした。大学進学をきっかけに上京して、途中でアメリカのポートランドに留学、社会人になってからはゼネコンで現場監督をして全国転勤を経験しました。退職して3ヶ月ほど旅人をして、2019年に三島に戻ってきてアイ企画で働き始めました。',
-      },
-      {
-        speaker: 'moderator',
-        text: 'お二人とも、三島で生まれ育ったのですか？',
-      },
-      {
-        speaker: 'daichi',
-        text: 'そうです。三島市加茂で生まれて、加茂で育ちました。',
-      },
-      {
-        speaker: 'moderator',
-        text: '大人になってみて、地域の印象はどうですか？',
-      },
-      {
-        speaker: 'daichi',
-        text: '山田学区って良いところだったんだなと感じます。今は妻が新幹線通勤していることもあり三島駅前に住んでいますが、駅前だと車との距離が近くて危ないので、子どもを自由に遊ばせてあげられない。保育園の後や休みの日には山田学区の公園や川などで自由にのびのび遊んでいます。',
-      },
-      {
-        speaker: 'tsunenari',
-        text: '坂が多くて高校に通うのが大変で、当時は東京に出たかったですね。国内外のいろいろな街のことを知って初めて、三島にも目が向くようになりました。三島には自然がたくさんあるし、面白い人がたくさんいる、とても魅力的な街だと思います。',
-      },
-      {
-        speaker: 'moderator',
-        text: '恒成さんは、今はどちらにお住まいなんですか？',
-      },
-      {
-        speaker: 'tsunenari',
-        text: '加茂の実家に住んでいます。（最近、三島市内に古民家を購入。現在改装中。）',
-      },
-      {
-        speaker: 'moderator',
-        text: 'ご両親と一緒に暮らしているんですね。そういえば、お父さんと一緒に畑仕事をしている姿を見かけたことがあります。',
-      },
-      {
-        speaker: 'tsunenari',
-        text: '畑や自然が好きなんです。だから、アイ企画の取り組みのひとつ「コンポスト活動」のような、サステナブルな生活を提案していきたくて。',
-      },
-      {
-        speaker: 'daichi',
-        text: '不動産屋だからといって、不動産の売買だけやっていても、やりがいがないように感じてしまう。地域をつくることが、私たちの役目だと思っています。',
-      },
-    ],
-  },
-  // Figma 4470:15471 (SP 4470:15793): 最初の会話ブロックの末尾に画像
-  { type: 'image', image: '/images/staff-interview/photo-body-1.jpg' },
-  { type: 'heading', heading: '三島の魅力を伝え続けるということ' },
-  {
-    type: 'conversation',
-    items: [
-      {
-        speaker: 'moderator',
-        text: 'お父さんも、地域全体のこと、社会や地球の循環のことをよくおっしゃっていました。大地さんや恒成さんにもその意志が受け継がれているようですね。',
-      },
-      {
-        speaker: 'daichi',
-        text: '父は35年間「三島ってこんなにいいところなんだよ」とお客様に伝え続けていました。他の地域の物件を探している人にでも、その人に合う学区を探し、時間と労力をかけて魅力を伝えていました。',
-      },
-      {
-        speaker: 'tsunenari',
-        text: 'お客様本位なんですよね。新築を希望されている人にも、その人のこれからの子育てにかかる費用とか将来のことを考えて中古を進めたり…そんなだから合わないお客様もいましたけど、お客様の人生をまじめに考えてこそ信頼も得られてきたと思います。',
-      },
-      {
-        speaker: 'moderator',
-        text: 'そんな真摯な不動産屋さんって、滅多にいないような気がします。',
-      },
-      {
-        speaker: 'daichi',
-        text: '僕らの場合は同じ地域内で生活しているから、売れたら終わりではないし、売れたら終わりではいけないと思っています。かつて父の仲介で不動産を購入された人が、いま私たちのところに売却の相談などに来られていたりもするんです。私たちも、次の世代に繋げられるような不動産屋でいたいと思います。',
-      },
-    ],
-  },
-  // Figma 4470:15483 (SP 4470:15805): 画像は「三島の魅力」セクション会話の末尾に配置
-  { type: 'image', image: '/images/staff-interview/photo-body-2.jpg' },
-  { type: 'heading', heading: '中古住宅も大切にする「もったいない精神」' },
-  {
-    type: 'conversation',
-    items: [
-      {
-        speaker: 'tsunenari',
-        text: '父の「もったいない精神」も受け継ぎたいことのひとつです。父は新築全盛の時代から中古住宅の活用に力を入れてきました。いまでこそ中古住宅のリノベーションが見直されていますが、30年も前から続けてきた。これからは、自分たちらしい中古住宅のリノベーション提案もしていきたいと思っています。',
-      },
-      {
-        speaker: 'moderator',
-        text: 'そいえいば大地さん、三島市内で引っ越しされたいという希望があるのだとか。',
-      },
-      {
-        speaker: 'daichi',
-        text: '駅前も便利で良いですが、今は妻も私も、三島ならではの自然いっぱいの環境で子育てできたらいいなと思って引っ越しを検討しています。山田学区は候補のひとつなんです。子どもの頃の楽しかった思い出がたくさんありますし、山田小のときの友だちとは未だに仲が良いんです。',
-      },
-      {
-        speaker: 'tsunenari',
-        text: '私も山田学区を含め三島市内のいくつかの町に住んだことがありますが、それぞれいろんな良さがありますよね。三島の環境って、全国的に見ても良いですよね。',
-      },
-      {
-        speaker: 'daichi',
-        text: '本当に。自信を持っておすすめできる街です。',
-      },
-      {
-        speaker: 'tsunenari',
-        text: 'これからは、マルシェなどの地域イベントを開催して、地域の人たちの交流の場を増やしていきたいです。ほかにも、地域の価値を上げるための取り組みや発信方法を、工夫していきたい。',
-      },
-      {
-        speaker: 'moderator',
-        text: '不動産屋のイメージが変わりますね。これからのアイ企画、楽しみにしています！',
-      },
-    ],
-  },
-];
-
-// Figma 4211:11373 は 5 項目だがインタビュー内容の自然な区切りに合わせて 3 項目に。
-// toc-0 = 主旨見出し / toc-1 = 三島の魅力 / toc-2 = もったいない精神
-const tocItems = [
-  '会社のこと',
-  '三島の魅力を伝え続けるということ',
-  '中古住宅も大切にする「もったいない精神」',
-];
 
 const staffProfiles = [
   {
@@ -187,57 +135,11 @@ const staffProfiles = [
   },
 ];
 
-/**
- * 会話 1 件。PC: interview-item-pc (Figma 4470:15456 等 = アイコン 50 / gap 51 / 本文 pt8・pb48)、
- * SP: interview-item-sp (Figma 4470:15777 等 = 左 16 / アイコン列 48 幅・アイコン 44・名前 12px Regular /
- * gap 12 / 吹き出しは背景なしで pl8・pr12・py8)。司会は light-green 円 + account アイコン (PC 30 / SP 24)。
- */
-function InterviewItemComponent({ item }: { item: InterviewItem }) {
-  const info = speakerInfo[item.speaker];
-  return (
-    <div className="flex gap-3 tablet:gap-[3.1875rem] items-start min-h-[5.625rem] tablet:min-h-0 pl-4 tablet:pl-0 pb-6 tablet:pb-0">
-      <div className="flex flex-col items-center gap-0.5 tablet:gap-0 shrink-0 w-12 tablet:w-auto">
-        {info.avatar ? (
-          <div className="w-11 h-11 tablet:w-[3.125rem] tablet:h-[3.125rem] rounded-full overflow-hidden relative shrink-0">
-            <Image src={info.avatar} alt={info.name} fill className="object-cover" sizes="50px" />
-          </div>
-        ) : (
-          <div className="w-11 h-11 tablet:w-[3.125rem] tablet:h-[3.125rem] rounded-full bg-light-green flex items-center justify-center shrink-0">
-            {/* Icon - AI-Kikaku - Common/account (Figma I4470:15456;4715:18089) */}
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="tablet:w-[1.875rem] tablet:h-[1.875rem]" aria-hidden>
-              <path
-                d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21"
-                className="stroke-dark-green"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z"
-                className="stroke-dark-green"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </div>
-        )}
-        <p className="font-gothic font-normal tablet:font-medium text-[0.75rem] tablet:text-[0.875rem] leading-[1.8] text-dark-green text-center whitespace-nowrap">
-          {info.name}
-        </p>
-      </div>
-      <div className="flex-1 min-w-0 tablet:pb-12 tablet:pt-2">
-        <div className="pl-2 pr-3 py-2 tablet:p-0">
-          <p className="font-gothic font-medium text-body-s tablet:text-body-l text-black">{item.text}</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp';
 
 export default function StaffInterviewPage() {
+  let tocIndex = 0;
+
   return (
     <div className="bg-cream">
       <script
@@ -255,164 +157,123 @@ export default function StaffInterviewPage() {
         }}
       />
       <Breadcrumb items={[{ label: 'アイ企画を知る' }, { label: 'スタッフインタビュー' }]} />
-      {/* ヒーローセクション (Figma PC 4211:11332 / SP 4211:11616) */}
-      <section className="relative bg-cream overflow-hidden pt-[3.75rem] tablet:pt-[6.25rem] pb-[3.75rem] tablet:pb-24">
-        {/* SP: 見出し → card-story (Figma 4211:11616: 60px section padding, title 358×48, 32px gap to card-story) */}
-        <div className="tablet:hidden px-4 mb-8">
-          <h1 className="font-mincho text-heading-32 text-dark-green pl-2" style={{ fontFeatureSettings: "'palt' 1" }}>
-            スタッフインタビュー
-          </h1>
+
+      {/* ヒーロー: ストーリー詳細 (/stories/[id]) と同じ「左に写真・右にタグ＋タイトル＋書き手」の構成
+          (Figma 4470:14621 PC: pt-48 pb-96 px-45 / 4470:16255 SP: py-60 px-16, gap-32) */}
+      <section className="pt-12 pb-24 px-[2.8125rem] max-w-[90rem] mx-auto max-tablet:px-4 max-tablet:py-[3.75rem]">
+        <div className="flex max-tablet:flex-col gap-0 max-tablet:gap-8">
+          <div className="max-tablet:order-2 tablet:w-[42.1875rem] shrink-0 h-[40rem] max-tablet:h-auto max-tablet:aspect-square rounded-3xl overflow-hidden relative">
+            <Image
+              src="/images/staff-interview/hero.jpg"
+              alt="髙野大地と髙野恒成"
+              fill
+              className="object-cover"
+              sizes="(min-width: 1440px) 46.88vw, (max-width: 992px) 100vw, 675px"
+              priority
+            />
+          </div>
+
+          <div className="flex-1 flex flex-col gap-12 items-start justify-center tablet:pl-[5.5625rem] tablet:pr-[3.75rem] max-tablet:contents">
+            <div className="max-tablet:order-1 flex flex-col gap-4 tablet:gap-8 items-start tablet:items-center w-full">
+              <span className="tag">スタッフインタビュー</span>
+              <h1
+                className="font-mincho text-heading-32 tablet:text-heading-48 text-dark-green text-left tablet:text-center"
+                style={{ fontFeatureSettings: "'palt' 1" }}
+              >
+                {ARTICLE_TITLE}
+              </h1>
+            </div>
+
+            <p className="max-tablet:order-3 w-full text-body-m tablet:text-body-l font-gothic font-medium text-dark-green text-center">
+              文：{writer.name}
+            </p>
+          </div>
         </div>
-        {/* PC: タイトル左上 (絶対位置) */}
-        <div className="hidden tablet:block relative max-w-[90rem] mx-auto">
-          <h1 className="absolute left-[4.6875rem] top-[6rem] w-[33rem] font-mincho text-heading-48 text-dark-green z-10" style={{ fontFeatureSettings: "'palt' 1" }}>
-            スタッフインタビュー
-          </h1>
-        </div>
-        <HeroCardStory
-          mainImage="/images/staff-interview/hero.jpg"
-          leftImage="/images/staff-interview/photo-interview-1.jpg"
-          rightImage="/images/staff-interview/photo-caption.jpg"
-          // SP は 3 枚とも PC と切り出しが異なる (Figma 4470:15765 / 15769 / 15767)
-          spMainImage="/images/staff-interview/hero-sp.jpg"
-          spLeftImage="/images/staff-interview/photo-interview-1-sp.jpg"
-          spRightImage="/images/staff-interview/photo-caption-sp.jpg"
-          mainAlt="髙野大地と髙野恒成のインタビュー風景"
-          priority
-        />
       </section>
 
-      {/* SP: フローティング TOC ボタン (Figma 4211:11761 closed / 4211:11779 open) */}
+      {/* SP: フローティング TOC ボタン */}
       <PageNavSp items={tocItems} />
 
-      {/* インタビューセクション（PC: サイドバー付き / SP: フローティング TOC）
-          Figma SP 4211:11660: section pb-[7.5rem]、各 item pb-[1.5rem] */}
-      {/* Figma Handoff 20260724: PC 4470:15450 (上余白なし・下 144) / SP 4470:15770 等 (上余白なし・末尾 pb-120) */}
-      <Reveal as="section" className="pb-[7.5rem] tablet:pb-36 px-4 tablet:pl-[2.8125rem] tablet:pr-[4.6875rem] max-w-[90rem] mx-auto">
+      {/* 本文: 目次サイドバー + 記事 (Figma 4470:14633 PC: pb-96 / 4470:16266 SP: pb-120) */}
+      <Reveal
+        as="section"
+        className="pb-24 px-[2.8125rem] tablet:pr-[4.6875rem] max-w-[90rem] mx-auto max-tablet:px-4 max-tablet:pb-[7.5rem]"
+      >
         <div className="flex max-tablet:flex-col items-start tablet:justify-between">
-          {/* PC: TOC サイドバー（スクロール追従）。SP は PageNavSp で代替 */}
           <div className="hidden tablet:block tablet:w-[20.1875rem] shrink-0 tablet:sticky tablet:top-24">
             <div className="bg-light-green rounded-[2rem] px-[1.875rem] py-[2.8125rem]">
               <TocNav items={tocItems} />
             </div>
           </div>
 
-          {/* 右コンテンツ */}
-          <div className="w-full tablet:w-[49.5rem]" data-mobile-toc-start>
-            {/* セクション見出し (PC Unit 4470:15451: ラベル→見出し 8 / 見出し 48px / →サブ 16 / サブ 18px・行間 1.6 / 一覧まで 96。
-                SP 4470:15773: ラベルなし / 見出し 24px / →サブ 8 / サブ 14px / 一覧まで 32) */}
-            <div className="mb-8 tablet:mb-24" id="toc-0">
-              <p className="hidden tablet:block text-body-m font-gothic font-medium text-dark-green mb-2">インタビュー</p>
-              <h2 className="font-mincho text-heading-24 tablet:text-heading-48 text-dark-green mb-2 tablet:mb-4" style={{ fontFeatureSettings: "'palt' 1" }}>
-                地域に開かれたサステナブルな不動産屋を目指して
-              </h2>
-              <p className="font-gothic font-medium text-body-s tablet:text-[1.125rem] tablet:leading-[1.6] text-dark-green">髙野大地 × 髙野恒成</p>
-            </div>
-
-            {/* インタビュー本文 */}
-            <div>
-              {(() => {
-                let headingIndex = 1; // toc-0 is the main heading
-                return interviewSections.map((section, sIdx) => {
-                if (section.type === 'heading') {
-                  const tocId = `toc-${headingIndex++}`;
-                  return (
-                    // 見出し下 SP 32 / PC 48 (Figma SP 4470:15797 / PC Rich Text-pc 4470:15473)。上の余白は直前の画像の mb で取る
-                    <div key={sIdx} className="pb-8 tablet:pb-12" id={tocId}>
-                      <h3 className="font-mincho text-heading-24 tablet:text-heading-32 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
-                        {section.heading}
-                      </h3>
-                    </div>
-                  );
-                }
-
-                if (section.type === 'image') {
-                  return section.image ? (
-                    // Image + Caption (PC 4470:15471 = r24 / SP 4470:15793 = r16)。直前の会話直下に置き、
-                    // 次の見出しまで SP 84 (pb24 + section pb60) / PC 96
-                    <div key={sIdx} className="mb-[5.25rem] tablet:mb-24 w-full aspect-[792/528] relative rounded-2xl tablet:rounded-3xl overflow-hidden">
+          <div className="w-full tablet:w-[45.875rem]" data-mobile-toc-start>
+            {/* 見出し・本文・写真の文字組みと余白は microCMS のストーリー本文と同じ .rich-content を使う */}
+            <div className="rich-content tablet:pt-6">
+              <h3>{ARTICLE_LEAD}</h3>
+              {articleSections.map((section, sIdx) => (
+                <div key={sIdx}>
+                  {section.heading && (
+                    <h3 id={`toc-${tocIndex++}`} className="pt-7 tablet:pt-12">
+                      {section.heading}
+                    </h3>
+                  )}
+                  {section.paragraphs.map((text, pIdx) => (
+                    <p key={pIdx} className="whitespace-pre-line">
+                      {text}
+                    </p>
+                  ))}
+                  {section.image && (
+                    <div className="relative w-full aspect-[763/509] rounded-2xl tablet:rounded-3xl overflow-hidden mb-8 tablet:mb-12">
                       <Image
                         src={section.image}
                         alt=""
                         fill
                         className="object-cover"
-                        sizes="(min-width: 1440px) 55.0vw, (min-width: 992px) 792px, 100vw"
+                        sizes="(min-width: 1440px) 51.0vw, (min-width: 992px) 734px, 100vw"
                       />
                     </div>
-                  ) : null;
-                }
-
-                if (section.type === 'photos') {
-                  return (
-                    <div
-                      key={sIdx}
-                      className="grid grid-cols-1 tablet:grid-cols-2 gap-6 my-12"
-                    >
-                      <div className="aspect-[3/2] relative rounded-2xl overflow-hidden">
-                        <Image
-                          src="/images/staff-interview/hero.jpg"
-                          alt="インタビュー風景"
-                          fill
-                          className="object-cover"
-                          sizes="(min-width: 993px) 50vw, 100vw"
-                        />
-                      </div>
-                      <div className="aspect-[3/2] relative rounded-2xl overflow-hidden">
-                        <Image
-                          src="/images/staff-interview/photo-interview-1.jpg"
-                          alt="インタビュー風景"
-                          fill
-                          className="object-cover"
-                          sizes="(min-width: 993px) 50vw, 100vw"
-                        />
-                      </div>
-                    </div>
-                  );
-                }
-
-                return (
-                  <div key={sIdx}>
-                    {section.items?.map((item, iIdx) => (
-                      <div
-                        key={iIdx}
-                        className=""
-                      >
-                        <InterviewItemComponent item={item} />
-                      </div>
-                    ))}
-                  </div>
-                );
-              });
-              })()}
+                  )}
+                </div>
+              ))}
             </div>
 
-            {/* スタッフプロフィール (data-mobile-toc-end: ここまで TOC ボタン表示) */}
-            {/* Figma PC unit 4470:15497 = px60・py48・gap30・カード 321 / アイコン 51・名前 18px・gap16・説明まで 8。
-                SP unit 4470:15818 = px24・py32・gap24 / アイコン 44・名前 16px・gap12・説明まで 4。
-                最後の会話の直下 (PC は会話の pb48 + 48 = 96) */}
-            <div className="bg-light-green rounded-2xl px-6 py-8 tablet:px-[3.75rem] tablet:py-12 tablet:mt-12" data-mobile-toc-end>
-              <div className="grid grid-cols-1 tablet:grid-cols-2 gap-6 tablet:gap-[1.875rem]">
-                {staffProfiles.map((staff) => (
-                  <div key={staff.name}>
-                    <div className="flex items-center gap-3 tablet:gap-4 h-[3.1875rem] mb-1 tablet:mb-2">
-                      <div className="w-11 h-11 tablet:w-[3.1875rem] tablet:h-[3.1875rem] rounded-full overflow-hidden relative shrink-0">
-                        <Image
-                          src={staff.avatar}
-                          alt={staff.name}
-                          fill
-                          className="object-cover"
-                          sizes="51px"
-                        />
+            {/* 書き手とスタッフのプロフィール (data-mobile-toc-end: ここまで TOC ボタン表示)。
+                カードの寸法は以前のスタッフプロフィール (PC 4470:15497 / SP 4470:15818) を踏襲 */}
+            <div
+              className="bg-light-green rounded-2xl px-6 py-8 tablet:px-[3.75rem] tablet:py-12 flex flex-col gap-8 tablet:gap-10"
+              data-mobile-toc-end
+            >
+              <div>
+                <p className="font-gothic font-medium text-body-s text-dark-green mb-2">この記事を書いた人</p>
+                <p
+                  className="font-mincho text-heading-16 tablet:text-heading-18 text-dark-green mb-1 tablet:mb-2"
+                  style={{ fontFeatureSettings: "'palt' 1" }}
+                >
+                  {writer.name}
+                </p>
+                <p className="font-gothic text-body-s text-dark-green">{writer.description}</p>
+              </div>
+
+              <div className="border-t border-dark-green/10 pt-8 tablet:pt-10">
+                <p className="font-gothic font-medium text-body-s text-dark-green mb-4">アイ企画のふたり</p>
+                <div className="grid grid-cols-1 tablet:grid-cols-2 gap-6 tablet:gap-[1.875rem]">
+                  {staffProfiles.map((staff) => (
+                    <div key={staff.name}>
+                      <div className="flex items-center gap-3 tablet:gap-4 h-[3.1875rem] mb-1 tablet:mb-2">
+                        <div className="w-11 h-11 tablet:w-[3.1875rem] tablet:h-[3.1875rem] rounded-full overflow-hidden relative shrink-0">
+                          <Image src={staff.avatar} alt={staff.name} fill className="object-cover" sizes="51px" />
+                        </div>
+                        <h4
+                          className="font-mincho text-heading-16 tablet:text-heading-18 text-dark-green"
+                          style={{ fontFeatureSettings: "'palt' 1" }}
+                        >
+                          {staff.name}
+                        </h4>
                       </div>
-                      <h4 className="font-mincho text-heading-16 tablet:text-heading-18 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
-                        {staff.name}
-                      </h4>
+                      <p className="font-gothic text-body-s text-dark-green">{staff.description}</p>
                     </div>
-                    <p className="font-gothic text-body-s text-dark-green">
-                      {staff.description}
-                    </p>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           </div>
