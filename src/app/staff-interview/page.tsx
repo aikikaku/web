@@ -6,12 +6,13 @@ import Reveal from '@/components/common/Reveal';
 import type { Metadata } from 'next';
 import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
 
-const ARTICLE_TITLE = '街をつくるのは、そこに暮らす人たち。';
-const ARTICLE_LEAD = '三島で暮らし、三島で働く。アイ企画が大切にしていること。';
+// 意味の切れ目で改行させるため、句ごとに分けて持つ（BreakPhrases で inline-block にする）
+const ARTICLE_TITLE = ['街をつくるのは、', 'そこに暮らす人たち。'];
+const ARTICLE_LEAD = ['三島で暮らし、三島で働く。', 'アイ企画が大切にしていること。'];
 
 export const metadata: Metadata = {
   title: 'スタッフインタビュー',
-  description: `${ARTICLE_LEAD}三島で不動産業を営むアイ企画の二人を、nakabito の取材メンバーが紹介します。`,
+  description: `${ARTICLE_LEAD.join('')}三島で不動産業を営むアイ企画の二人を、nakabito の取材メンバーが紹介します。`,
 };
 
 /**
@@ -135,6 +136,19 @@ const staffProfiles = [
   },
 ];
 
+/** 句の途中で改行されないよう、句ごとに inline-block で並べる（幅が足りない句だけ中で折り返す） */
+function BreakPhrases({ phrases }: { phrases: string[] }) {
+  return (
+    <>
+      {phrases.map((phrase) => (
+        <span key={phrase} className="inline-block">
+          {phrase}
+        </span>
+      ))}
+    </>
+  );
+}
+
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp';
 
 export default function StaffInterviewPage() {
@@ -162,7 +176,8 @@ export default function StaffInterviewPage() {
           (Figma 4470:14621 PC: pt-48 pb-96 px-45 / 4470:16255 SP: py-60 px-16, gap-32) */}
       <section className="pt-12 pb-24 px-[2.8125rem] max-w-[90rem] mx-auto max-tablet:px-4 max-tablet:py-[3.75rem]">
         <div className="flex max-tablet:flex-col gap-0 max-tablet:gap-8">
-          <div className="max-tablet:order-2 tablet:w-[42.1875rem] shrink-0 h-[40rem] max-tablet:h-auto max-tablet:aspect-square rounded-3xl overflow-hidden relative">
+          {/* 写真は二人が横に並んだ横長のため、ストーリーの正方形に近い枠だと端の人が切れる。元写真と同じ 3:2 で見せる */}
+          <div className="max-tablet:order-2 tablet:w-[42.1875rem] shrink-0 aspect-[3/2] rounded-3xl overflow-hidden relative">
             <Image
               src="/images/staff-interview/hero.jpg"
               alt="髙野大地と髙野恒成"
@@ -180,7 +195,7 @@ export default function StaffInterviewPage() {
                 className="font-mincho text-heading-32 tablet:text-heading-48 text-dark-green text-left tablet:text-center"
                 style={{ fontFeatureSettings: "'palt' 1" }}
               >
-                {ARTICLE_TITLE}
+                <BreakPhrases phrases={ARTICLE_TITLE} />
               </h1>
             </div>
 
@@ -209,7 +224,10 @@ export default function StaffInterviewPage() {
           <div className="w-full tablet:w-[45.875rem]" data-mobile-toc-start>
             {/* 見出し・本文・写真の文字組みと余白は microCMS のストーリー本文と同じ .rich-content を使う */}
             <div className="rich-content tablet:pt-6">
-              <h3>{ARTICLE_LEAD}</h3>
+              {/* SP 24px だと2句目が1文字だけ次の行に落ちるため、リードだけ SP 22px にする */}
+              <h3 className="max-tablet:!text-[1.375rem]">
+                <BreakPhrases phrases={ARTICLE_LEAD} />
+              </h3>
               {articleSections.map((section, sIdx) => (
                 <div key={sIdx}>
                   {section.heading && (
