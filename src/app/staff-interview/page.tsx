@@ -141,7 +141,8 @@ function QuoteBubble({ quote }: { quote: Quote }) {
   const people = quote.speaker === 'both' ? [speakers.daichi, speakers.tsunenari] : [speakers[quote.speaker]];
   return (
     <div className="rich-comment">
-      <div className="rich-comment-avatar">
+      {/* 吹き出しの1行目の高さにアイコンの中心をそろえる（吹き出しの上 padding SP 24 / PC 30 に合わせる） */}
+      <div className="rich-comment-avatar pt-3.5 tablet:pt-5">
         <div className="flex">
           {people.map((person, i) => (
             <div
