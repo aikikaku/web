@@ -10,7 +10,6 @@ import CardStorySp from '@/components/ui/card/CardStorySp';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getImageUrl } from '@/lib/microcms/image';
-import { getTypeformContactUrl } from '@/lib/typeform';
 import type { MicroCMSImage } from '@/types/microcms';
 import PropertyDetailClient from '@/components/property/PropertyDetailClient';
 import RichText, { extractTocFromHtml } from '@/components/ui/post/RichText';
@@ -121,12 +120,6 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
   const isSold = property.status === 'sold';
   // 状態ラベル: 成約済み or 商談中（案内中は非表示）(#35)
   const statusLabel = isSold ? '成約済み' : property.status === 'negotiating' ? '商談中' : null;
-
-  // お問い合わせ: Typeform フォームが設定されていれば物件情報付きでそこへ、無ければ /for-customer (#63)
-  const typeformContactUrl = getTypeformContactUrl({
-    id: property.id,
-    title: property.title,
-  });
 
   // 価格/賃料ラベル（貸物件・貸土地は「賃料」）と、価格セル右隣（間取り / 土地は「広さ」）。Figma 付箋 4470:16568
   const priceLabel = getPriceLabel(property);
@@ -434,17 +427,13 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
             {/* アクションカード */}
             {!isSold && (
               <div className="flex flex-col tablet:flex-row gap-3">
-                {/* 物件資料: documentUrl があれば資料を別タブで開く。無ければ従来通りお問い合わせへ */}
+                {/* 物件資料: documentUrl があれば資料を別タブで開く。無ければこの物件のお問い合わせへ */}
                 {property.documentUrl ? (
                   <CardLink href={property.documentUrl} label="物件資料" external />
                 ) : (
-                  <CardLink href="/for-customer" label="物件資料" />
+                  <CardLink href={`/contact?property=${property.id}`} label="物件資料" />
                 )}
-                {typeformContactUrl ? (
-                  <CardLink href={typeformContactUrl} label="お問い合わせ" external />
-                ) : (
-                  <CardLink href="/for-customer" label="お問い合わせ" />
-                )}
+                <CardLink href={`/contact?property=${property.id}`} label="お問い合わせ" />
               </div>
             )}
 
