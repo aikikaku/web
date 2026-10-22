@@ -13,7 +13,8 @@ export const metadata: Metadata = {
 /**
  * お問い合わせ。?category=buy|sell|parking|other で種類を、?property=<物件ID> で物件を選んだ状態で開く。
  */
-export default async function ContactPage({ searchParams }: { searchParams: { category?: string; property?: string } }) {
+export default async function ContactPage(props: { searchParams: Promise<{ category?: string; property?: string }> }) {
+  const searchParams = await props.searchParams;
   const found = searchParams.property ? await getProperty(searchParams.property).catch(() => null) : null;
   const property = found ? { id: found.id, title: found.title } : null;
   const initialCategory = property ? 'property' : isInquiryCategory(searchParams.category) ? searchParams.category : '';

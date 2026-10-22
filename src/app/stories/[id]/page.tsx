@@ -22,13 +22,14 @@ export async function generateStaticParams() {
 }
 
 interface StoryPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export async function generateMetadata({
   params,
 }: StoryPageProps): Promise<Metadata> {
-  const story = await getStory(params.id).catch(() => null);
+  const { id } = await params;
+  const story = await getStory(id).catch(() => null);
 
   if (!story) {
     return { title: 'ストーリーが見つかりません' };
@@ -56,7 +57,8 @@ export async function generateMetadata({
 }
 
 export default async function StoryPage({ params }: StoryPageProps) {
-  const story = await getStory(params.id).catch(() => null);
+  const { id } = await params;
+  const story = await getStory(id).catch(() => null);
 
   if (!story) {
     notFound();
