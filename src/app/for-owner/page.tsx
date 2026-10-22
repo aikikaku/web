@@ -3,7 +3,6 @@ import VoiceCarousel from '@/components/home/VoiceCarousel';
 import StorySection from '@/components/story/StorySection';
 import FaqSection from '@/components/ui/content/FaqSection';
 import ContactCtaBanner from '@/components/ui/card/ContactCtaBanner';
-import ArticleCarousel from '@/components/owner/ArticleCarousel';
 import Reveal from '@/components/common/Reveal';
 import ParallaxLayer from '@/components/common/ParallaxLayer';
 import CardArrowFlow from '@/components/ui/content/CardArrowFlow';
@@ -11,6 +10,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
+import { SITE_URL, NAKABITO_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: '不動産をお持ちの方へ',
@@ -52,7 +52,7 @@ const features = [
       {
         title: '「家じまい」撮影サービス',
         desc: '仲人のフォトグラファー宮﨑美咲さんとともにご依頼先に伺い、撮影いたします。右記リンクより仲人をご覧いただけます。',
-        link: { label: '仲人 NAKA-BITO', href: 'https://example.com', external: true },
+        link: { label: '仲人 NAKA-BITO', href: NAKABITO_URL, external: true },
       },
     ],
   },
@@ -97,8 +97,6 @@ const faqItems = [
   },
 ];
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp';
-
 export default async function ForOwnerPage() {
   const [voices, stories] = await Promise.all([
     getCustomerVoices()
@@ -116,7 +114,7 @@ export default async function ForOwnerPage() {
             '@context': 'https://schema.org',
             '@type': 'BreadcrumbList',
             itemListElement: [
-              { '@type': 'ListItem', position: 1, name: 'ホーム', item: BASE_URL },
+              { '@type': 'ListItem', position: 1, name: 'ホーム', item: SITE_URL },
               { '@type': 'ListItem', position: 2, name: '不動産をお持ちの方へ' },
             ],
           }),
@@ -341,27 +339,6 @@ export default async function ForOwnerPage() {
       {/* 物件のその後のはなし (Figma 4211:11931) - 共通 StorySection */}
       <Reveal>
         <StorySection stories={stories.contents} title="物件のその後のはなし" />
-      </Reveal>
-
-      {/* 不動産活用に関する記事 */}
-      <Reveal as="section" className="py-[3.75rem] tablet:py-[6rem]">
-        <div className="tablet:px-[4.6875rem] max-w-[90rem] mx-auto">
-          <h2 className="px-4 tablet:px-0 font-mincho text-[1.5rem] tablet:text-[2rem] leading-[1.5] tracking-[0.08rem] text-dark-green mb-8 tablet:mb-16" style={{ fontFeatureSettings: "'palt' 1" }}>
-            不動産活用に関する記事
-          </h2>
-          <ArticleCarousel
-            articles={[
-              // image: Figma card-article (4470:15637〜15639) のサムネイル。タイトルが一致する 3 件のみ
-              { tag: '不動産活用', title: '子どもに安心して引き継げる駐車場経営とは？ 今から始める管理の仕組み作り', date: '2025.09.18', image: '/images/for-owner/article-1.jpg' },
-              { tag: '不動産活用', title: '契約が早い＝空きが埋まる！ 三島市の月極駐車場に電子契約を導入すべき理由', date: '2025.09.18', image: '/images/for-owner/article-2.jpg' },
-              { tag: '不動産活用', title: '小さな駐車場でも"すぐに埋まる"借り手が見つかるGoogleマップ活用法', date: '2025.09.18', image: '/images/for-owner/article-3.jpg' },
-              { tag: '不動産活用', title: '空き家を活かす：相続した実家を負動産にしないための3つの選択肢', date: '2025.09.04' },
-              { tag: '不動産活用', title: 'サブリースのメリット・デメリットを地元目線で整理する', date: '2025.08.21' },
-              { tag: '不動産活用', title: '三島市で進む再開発、所有不動産への影響と備え方', date: '2025.08.07' },
-            ]}
-            href="/for-owner"
-          />
-        </div>
       </Reveal>
 
       {/* お客様の声 (Figma 4211:11890 / 11447) */}

@@ -11,6 +11,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
+import { SITE_URL, NAKABITO_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: '不動産をお探しの方へ',
@@ -52,7 +53,7 @@ const features = [
       {
         title: '「紡ぐ家づくり」撮影サービス',
         desc: '仲人のフォトグラファー宮﨑美咲さんとともにご新居に伺い、撮影いたします。右記リンクより仲人をご覧いただけます。',
-        link: { label: '仲人 NAKA-BITO', href: 'https://example.com', external: true },
+        link: { label: '仲人 NAKA-BITO', href: NAKABITO_URL, external: true },
       },
     ],
   },
@@ -65,7 +66,7 @@ const features = [
       {
         title: '仲人の運営',
         desc: 'この土地で暮らす人の想いと、この土地に興味を持ってくれた方々とを繋ぐメディアの運営',
-        link: { label: '仲人 NAKA-BITO', href: 'https://example.com', external: true },
+        link: { label: '仲人 NAKA-BITO', href: NAKABITO_URL, external: true },
       },
       {
         title: 'コンポスト活動',
@@ -82,8 +83,6 @@ const features = [
     ],
   },
 ];
-
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp';
 
 export default async function ForCustomerPage() {
   const [properties, voices, stories] = await Promise.all([
@@ -104,7 +103,7 @@ export default async function ForCustomerPage() {
             '@context': 'https://schema.org',
             '@type': 'BreadcrumbList',
             itemListElement: [
-              { '@type': 'ListItem', position: 1, name: 'ホーム', item: BASE_URL },
+              { '@type': 'ListItem', position: 1, name: 'ホーム', item: SITE_URL },
               { '@type': 'ListItem', position: 2, name: '不動産をお探しの方へ' },
             ],
           }),
