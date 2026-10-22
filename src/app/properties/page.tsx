@@ -23,18 +23,17 @@ export const revalidate = 3600;
 const PER_PAGE = 9;
 
 interface PropertiesPageProps {
-  searchParams: {
+  searchParams: Promise<{
     status?: string;
     types?: string;
     regions?: string;
     q?: string;
     page?: string;
-  };
+  }>;
 }
 
-export default async function PropertiesPage({
-  searchParams,
-}: PropertiesPageProps) {
+export default async function PropertiesPage(props: PropertiesPageProps) {
+  const searchParams = await props.searchParams;
   noStore();
   const currentPage = Number(searchParams.page) || 1;
   const offset = (currentPage - 1) * PER_PAGE;

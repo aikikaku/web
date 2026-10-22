@@ -31,13 +31,14 @@ export async function generateStaticParams() {
 }
 
 interface PropertyPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export async function generateMetadata({
   params,
 }: PropertyPageProps): Promise<Metadata> {
-  const property = await getProperty(params.id).catch(() => null);
+  const { id } = await params;
+  const property = await getProperty(id).catch(() => null);
 
   if (!property) {
     return { title: '物件が見つかりません' };
@@ -77,8 +78,9 @@ export async function generateMetadata({
 }
 
 export default async function PropertyPage({ params }: PropertyPageProps) {
+  const { id } = await params;
   noStore();
-  const property = await getProperty(params.id).catch(() => null);
+  const property = await getProperty(id).catch(() => null);
 
   if (!property) {
     notFound();
