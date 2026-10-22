@@ -43,6 +43,8 @@ export default function ContactCtaBanner({
         {/* PC: pl60 / pr30 / py96。SP: px16 / pt32 / pb60、h-425 */}
         <div className="relative flex flex-col h-[26.5625rem] tablet:h-auto px-4 pt-8 pb-[3.75rem] tablet:pl-[3.75rem] tablet:pr-[1.875rem] tablet:py-[6rem]">
           <Image src={bgImage} alt="" fill className="object-cover" />
+          {/* Figma banner-contact: 写真に Paper 40% */}
+          <div aria-hidden className="paper-overlay" />
           {/* PC gradient (4470:15577) */}
           <div
             className="absolute inset-0 hidden tablet:block"

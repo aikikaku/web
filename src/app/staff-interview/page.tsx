@@ -20,10 +20,21 @@ export const metadata: Metadata = {
  * 以前の「司会／話し手」の対談形式から、ストーリー詳細（/stories/[id]）と同じ記事レイアウトに変更。
  * 段落内の改行は原稿どおり \n で持ち、white-space: pre-line で表示する。
  */
+type Speaker = 'daichi' | 'tsunenari' | 'both';
+
+/**
+ * 原稿の「」の発言。どちらの言葉か分かるよう、ストーリー本文と同じアバター付きの吹き出し（Figma Comment 4470:14684）で出す。
+ * 発言者は原稿に書かれていないため仮置き。高野さんから Vercel コメントで確定をもらって直す。
+ */
+interface Quote {
+  speaker: Speaker;
+  text: string;
+}
+
 interface ArticleSection {
   /** 目次に出す見出し。冒頭のリード部分は見出しなし */
   heading?: string;
-  paragraphs: string[];
+  paragraphs: (string | Quote)[];
   /** セクション末尾に置く写真 */
   image?: string;
 }
@@ -31,11 +42,11 @@ interface ArticleSection {
 const articleSections: ArticleSection[] = [
   {
     paragraphs: [
-      '「子どもの頃は、三島のことをつまらない街だと思っていました」',
+      { speaker: 'both', text: '子どもの頃は、三島のことをつまらない街だと思っていました' },
       'そう話すのは、三島で不動産業を営むアイ企画のお二人。',
       '田舎すぎるわけでもなければ、都会でもない。東京で流行したものが遅れてやってくるような、どこか中途半端な街。学生時代は刺激を求め、遊びに行くのは隣の沼津市や東京だったという。',
       'そんな三島への印象が変わったのは、一度街を離れ、再び戻ってきてからのこと。',
-      '「戻ってきたら、意外と面白い街だなと思ったんです。学生の頃には気づけなかった人たちの面白さに気づくようになって」',
+      { speaker: 'tsunenari', text: '戻ってきたら、意外と面白い街だなと思ったんです。学生の頃には気づけなかった人たちの面白さに気づくようになって' },
       'かつて物足りなく感じていた街の姿は、時間を経て、暮らしやすさへと変わっていた。',
     ],
   },
@@ -43,10 +54,10 @@ const articleSections: ArticleSection[] = [
     heading: '街を面白くするのは、人だった。',
     paragraphs: [
       '学生時代に留学したポートランド。\nもともとは工場の街だった場所に、ヒッピーやアーティスト、さまざまな表現者が集まり、街の雰囲気が少しずつ変わっていった変化を目の当たりにした経験が、街を見る視点を変えたという。',
-      '「こうやって街って変わっていくんだな、と実感したんです」',
+      { speaker: 'tsunenari', text: 'こうやって街って変わっていくんだな、と実感したんです' },
       '三島に戻ってきてからも、個人で店を営む人や、自分たちなりの表現を続ける人たちの存在に目が向くようになった。',
       '街の魅力は、大きな商業施設や目新しい観光資源だけで生まれるものではない。そこに暮らす人たちが、それぞれの生活のなかで小さな営みを重ねていくこと。その積み重ねが、街の表情をつくっていく。',
-      '「結局、人なんだなと思いました」',
+      { speaker: 'tsunenari', text: '結局、人なんだなと思いました' },
       '三島には、外から来た人や新しいものを、自然に受け入れる空気があるという。',
       '誰かが新しい店を始めれば、昔から街にいる人たちが受け入れ、若い世代の挑戦を面白がり、ときには世話を焼きながら見守る。',
       '新しいものを拒むのでも、ただ流行を追いかけるのでもない。\nそんな人と人との距離感が、この街には残っている。',
@@ -57,9 +68,9 @@ const articleSections: ArticleSection[] = [
     heading: '中途半端だからこその、豊かさ。',
     paragraphs: [
       'お二人が三島を語るとき、何度も出てきたのが「中途半端」という言葉だった。都会でもなく、田舎でもない。けれど、東京へ行こうと思えばすぐに行ける。少し車を走らせれば、海や山など豊かな自然がある。\n大きなスーパーもあれば、昔から続く八百屋や肉屋、魚屋もある。',
-      '「若い頃は刺激を求めて外に出たんですけど、今は昔から続いているもののほうに、豊かさを感じるようになりました」',
+      { speaker: 'daichi', text: '若い頃は刺激を求めて外に出たんですけど、今は昔から続いているもののほうに、豊かさを感じるようになりました' },
       'この土地は、休日には海へ出かけたり、釣りをしたり、特別な施設へ行かなくても、自然のなかで過ごすこともできる。\n一方で、日々の買い物に困ることもない。\nそうした暮らしのバランスが心地よい街。',
-      '「三島が東京になろうとする必要はないと思うんです。刺激が欲しければ東京にはすぐに行けるんだから」',
+      { speaker: 'tsunenari', text: '三島が東京になろうとする必要はないと思うんです。刺激が欲しければ東京にはすぐに行けるんだから' },
       '街が必要以上に盛り上がらなくてもいい。\n新しいものが次々と生まれることだけが、街の豊かさではない。\nむしろ、昔から続いてきた普通の営みが、これからも当たり前に続いていくこと。そんな素朴な暮らしにこそ、価値を感じるようになったという。',
     ],
   },
@@ -69,11 +80,11 @@ const articleSections: ArticleSection[] = [
       'お二人がお父様から仕事を引き継いで、およそ4年。\n二人で事業を担うようになってから、アイ企画の働き方も少しずつ変化してきた。',
       '以前はチラシを中心に情報を届けていたが、今ではSNSを使った発信やオンラインでの打ち合わせも増えた。それに伴い、若い世代や首都圏からの移住者との出会いも増えている。',
       '三島への移住を考える人たちが求めているのは、必ずしも不便を楽しむような田舎暮らしではない。自然の近くで暮らしたい。でも、これまで当たり前だった生活の便利さも失いたくない。そんな人たちにとって、三島はちょうどよい場所なのかもしれない。',
-      '「三島は田舎だから不動産が安い、という場所ではないんです。がっつり田舎暮らしをしたい人には、少し物足りないかもしれない。でも、そのバランスがいいんですよね」',
+      { speaker: 'daichi', text: '三島は田舎だから不動産が安い、という場所ではないんです。がっつり田舎暮らしをしたい人には、少し物足りないかもしれない。でも、そのバランスがいいんですよね' },
       'アイ企画が大切にしているのは、そうした一人ひとりの暮らしに合った選択肢を提案すること。家を建てるとなれば、まずハウスメーカーを思い浮かべる人も多い。けれど、設計事務所に依頼する方法もあれば、中古住宅を購入して手を入れる方法もある。',
-      '「ハウスメーカーが悪いということではなくて、それ以外にも選択肢があることを知ってほしいんです」',
+      { speaker: 'daichi', text: 'ハウスメーカーが悪いということではなくて、それ以外にも選択肢があることを知ってほしいんです' },
       '住まいの選び方が変われば、暮らしのあり方も変わる。だからこそ、すぐに何かを売るのではなく、まずはその人がどんな暮らしをしたいのかを考える。時には、今はまだ買わなくてもいいのではないかと伝えることもあるそう。',
-      '「基本的には、お客さんファーストです。それが巡り巡って次の出会い、仕事にもつながっていくと思っているので」',
+      { speaker: 'daichi', text: '基本的には、お客さんファーストです。それが巡り巡って次の出会い、仕事にもつながっていくと思っているので' },
       '目先の利益よりも、その先にある生活を考える。\nそれが、アイ企画の仕事の根底にあるように感じた。',
     ],
     image: '/images/staff-interview/photo-body-2.jpg',
@@ -83,10 +94,10 @@ const articleSections: ArticleSection[] = [
     paragraphs: [
       'お二人とも古い建物が好きだという。',
       '不動産の仕事では、古い家を取り壊して土地として売ったほうが、取引を進めやすい場合もある。それでも、まだ使えるものを簡単に壊してしまうことには、違和感があると話す。',
-      '「残せるものは残したいし、使えるものは使いたいんです」',
+      { speaker: 'daichi', text: '残せるものは残したいし、使えるものは使いたいんです' },
       'この地域には、腕のよい職人や工務店がいる。\n古い建物を生かすための知恵や技術もある。\nそうした人たちとのつながりを生かしながら、一つひとつの建物に向き合っていく。',
       '建物を残すこと自体が目的なのではない。\nそこに暮らす人にとって、本当に心地よい選択は何なのか。\nその答えを一緒に考えることを大切にしているように感じた。',
-      '「自分たちも、この街に住んでいるということが大きいのかもしれません」',
+      { speaker: 'both', text: '自分たちも、この街に住んでいるということが大きいのかもしれません' },
       '家を売ったあとも、街のどこかで顔を合わせるかもしれない。同じ地域で暮らしているからこそ、売ったら終わりという関係ではなく、長く安心して暮らせる住まいを届けたいという想いが強くある。',
     ],
   },
@@ -95,7 +106,7 @@ const articleSections: ArticleSection[] = [
     paragraphs: [
       'そうした想いから、アイ企画と地域のつながりは、不動産の仕事だけにとどまらない。',
       '事務所の前で餅つきを開けば、近所の人や昔からのお客さんが顔を出す。畑で育てたみかんなど、季節の作物をお客さんに届けることもある。町の祭りや地域の行事にも参加する。子どもが地域のしゃぎりに参加していることも、近所の人たちとのつながりをつくっている。\n特別大きなことをしなくても、日々の暮らしのなかで自然と関係が生まれていく。',
-      '「ここにずっといることも、仕事なのかもしれません」',
+      { speaker: 'daichi', text: 'ここにずっといることも、仕事なのかもしれません' },
       '住まいを紹介することは、その街での暮らしを紹介することでもある。\nだからこそ、街のことを知り、そこで暮らす人たちと関わり続ける。\n長く地域に根づいてきた不動産会社だからこそ、築ける関係があると思う。',
     ],
   },
@@ -104,7 +115,7 @@ const articleSections: ArticleSection[] = [
     paragraphs: [
       '今、三島の周辺でも新しい動きが生まれている。\n沼津、裾野、御殿場、伊豆…\nそれぞれの街に、それぞれの面白さがある。',
       '何か新しいものに触れたくなったら、少し足を延ばせばいい。\nそしてまた、いつもの暮らしへ戻ってくることができる。',
-      '「三島は、ゆるいんですよね」',
+      { speaker: 'tsunenari', text: '三島は、ゆるいんですよね' },
       '街を変えてやろうという強い気負いよりも、自分が心地よく暮らせる場所を選び、好きなことを始める。そんな人たちが集まっているように感じるという。',
       '10年後、三島がどんな街になっているのかは分からない。\nけれど、大きな開発や一時的な流行だけが、街の未来を決めるわけではない。',
       '昔から続く商店があり、新しく店を始める若い人がいて、そこへ足を運ぶ地域の人たちがいる。そんな何気ない営みの積み重ねが、これからの街をつくっていく。',
@@ -120,6 +131,38 @@ const writer = {
   name: '宮﨑 美咲｜nemurineco',
   description: '写真家。日本とインドの２拠点生活。写真のこと、仕事のこと、旅の記憶、日々の想いを綴っています。',
 };
+
+const speakers: Record<Exclude<Speaker, 'both'>, { name: string; avatar: string }> = {
+  daichi: { name: '大地', avatar: '/images/staff-interview/avatar-daichi.jpg' },
+  tsunenari: { name: '恒成', avatar: '/images/staff-interview/avatar-tsunenari.jpg' },
+};
+
+function QuoteBubble({ quote }: { quote: Quote }) {
+  const people = quote.speaker === 'both' ? [speakers.daichi, speakers.tsunenari] : [speakers[quote.speaker]];
+  return (
+    <div className="rich-comment">
+      {/* 吹き出しの1行目の高さにアイコンの中心をそろえる（吹き出しの上 padding SP 24 / PC 30 に合わせる） */}
+      <div className="rich-comment-avatar pt-3.5 tablet:pt-5">
+        <div className="flex">
+          {people.map((person, i) => (
+            <div
+              key={person.name}
+              className={`relative w-11 h-11 tablet:w-[3.125rem] tablet:h-[3.125rem] rounded-full overflow-hidden ${
+                i > 0 ? '-ml-4 ring-2 ring-cream' : ''
+              }`}
+            >
+              <Image src={person.avatar} alt="" fill className="object-cover" sizes="50px" />
+            </div>
+          ))}
+        </div>
+        <span className="rich-comment-avatar-name">{people.map((person) => person.name).join('・')}</span>
+      </div>
+      <div className="rich-comment-bubble">
+        <p>{quote.text}</p>
+      </div>
+    </div>
+  );
+}
 
 const staffProfiles = [
   {
@@ -183,7 +226,9 @@ export default function StaffInterviewPage() {
               alt="髙野大地と髙野恒成"
               fill
               className="object-cover"
-              sizes="(max-width: 992px) 100vw, 675px"
+              sizes="(min-width: 1440px) 46.88vw, (max-width: 992px) 100vw, 675px"
+              // 既定の画質 75 だと顔や髪にブロック状の崩れが出るため上げる（元画像は Figma の 4096px 原本から書き出し）
+              quality={90}
               priority
             />
           </div>
@@ -235,11 +280,15 @@ export default function StaffInterviewPage() {
                       {section.heading}
                     </h3>
                   )}
-                  {section.paragraphs.map((text, pIdx) => (
-                    <p key={pIdx} className="whitespace-pre-line">
-                      {text}
-                    </p>
-                  ))}
+                  {section.paragraphs.map((paragraph, pIdx) =>
+                    typeof paragraph === 'string' ? (
+                      <p key={pIdx} className="whitespace-pre-line">
+                        {paragraph}
+                      </p>
+                    ) : (
+                      <QuoteBubble key={pIdx} quote={paragraph} />
+                    ),
+                  )}
                   {section.image && (
                     <div className="relative w-full aspect-[763/509] rounded-2xl tablet:rounded-3xl overflow-hidden mb-8 tablet:mb-12">
                       <Image
@@ -247,7 +296,8 @@ export default function StaffInterviewPage() {
                         alt=""
                         fill
                         className="object-cover"
-                        sizes="(min-width: 992px) 734px, 100vw"
+                        sizes="(min-width: 1440px) 51.0vw, (min-width: 992px) 734px, 100vw"
+                        quality={90}
                       />
                     </div>
                   )}

@@ -19,6 +19,7 @@ import ListItemDeco from '@/components/ui/content/ListItemDeco';
 import ListItemDef from '@/components/ui/content/ListItemDef';
 import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
 import { getPriceLabel, getPropertyLayoutCell } from '@/components/property/propertyCells';
+import LayoutValue from '@/components/property/LayoutValue';
 
 export const revalidate = 3600;
 
@@ -311,9 +312,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                             </span>
                           </div>
                           <div className="flex items-end justify-center">
-                            <span className="font-gothic font-medium text-category-2 tablet:text-category-1 text-black">
-                              {layoutCell.value}
-                            </span>
+                            <LayoutValue value={layoutCell.value} />
                           </div>
                         </div>
                       )}
@@ -491,7 +490,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                     alt={property.story.title}
                     fill
                     className="object-cover transition-transform group-hover:scale-[1.02]"
-                    sizes="352px"
+                    sizes="(min-width: 1440px) 24.44vw, 352px"
                   />
                 )}
               </div>

@@ -79,7 +79,7 @@ function VoiceItem({
                   alt=""
                   fill
                   className="object-cover"
-                  sizes="(min-width: 992px) 704px, 100vw"
+                  sizes="(min-width: 1440px) 48.89vw, (min-width: 992px) 704px, 100vw"
                 />
               </div>
             )}
