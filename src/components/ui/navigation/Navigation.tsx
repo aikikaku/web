@@ -6,6 +6,7 @@ import Arrow from '@/components/ui/interactive/Arrow';
 import { getContactUrl } from '@/lib/typeform';
 import { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
+import { NAKABITO_URL } from '@/lib/site';
 
 const navLinks = [
   { href: '/properties', label: '物件を探す' },
@@ -52,7 +53,7 @@ const allNavItems = [
   },
   { href: '/voice', label: 'お客様の声' },
   { href: CONTACT_URL, label: 'お問い合わせ', external: CONTACT_EXTERNAL },
-  { href: 'https://nakabito.jp', label: '仲人', external: true, showExternalIcon: true },
+  { href: NAKABITO_URL, label: '仲人', external: true, showExternalIcon: true },
 ];
 
 export default function Navigation() {

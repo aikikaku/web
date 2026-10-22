@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { getContactUrl } from '@/lib/typeform';
 import { FooterSocialLinks } from '@/components/ui/icons/icons';
+import { NAKABITO_URL } from '@/lib/site';
 
 const CONTACT_URL = getContactUrl();
 
@@ -38,7 +39,7 @@ const footerNav = [
   },
   {
     label: '仲人',
-    href: 'https://nakabito.jp',
+    href: NAKABITO_URL,
     external: true,
   },
 ];
