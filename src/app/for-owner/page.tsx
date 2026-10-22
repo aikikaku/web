@@ -367,7 +367,7 @@ export default async function ForOwnerPage() {
           // Figma PC 4470:15647 pb144 / SP 4470:16121 pt0 pb120 (FAQ 直後・フッター直前)
           sectionPaddingClassName="pt-0 pb-[7.5rem] tablet:pb-36"
           ctas={[
-            { label: '不動産をお持ちの方', href: '/contact' },
+            { label: '不動産をお持ちの方', href: '/contact?category=sell' },
             { label: 'その他のお問い合わせ', href: '/contact' },
           ]}
         />

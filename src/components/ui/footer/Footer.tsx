@@ -3,11 +3,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { getContactUrl } from '@/lib/typeform';
 import { FooterSocialLinks } from '@/components/ui/icons/icons';
 import { NAKABITO_URL } from '@/lib/site';
-
-const CONTACT_URL = getContactUrl();
 
 const footerNav = [
   {
@@ -34,8 +31,7 @@ const footerNav = [
   },
   {
     label: 'お問い合わせ',
-    href: CONTACT_URL,
-    external: CONTACT_URL.startsWith('http'),
+    href: '/contact',
   },
   {
     label: '仲人',

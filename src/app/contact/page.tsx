@@ -1,5 +1,8 @@
 import ContactForm from './ContactForm';
 import type { Metadata } from 'next';
+import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
+import { isInquiryCategory } from '@/lib/contact/inquiry';
+import { getProperty } from '@/lib/microcms/queries';
 
 export const metadata: Metadata = {
   title: 'お問い合わせ',
@@ -7,10 +10,17 @@ export const metadata: Metadata = {
     '不動産の購入・売却・賃貸に関するご相談やお問い合わせは、アイ企画までお気軽にどうぞ。',
 };
 
-export default function ContactPage() {
+/**
+ * お問い合わせ。?category=buy|sell|parking|other で種類を、?property=<物件ID> で物件を選んだ状態で開く。
+ */
+export default async function ContactPage({ searchParams }: { searchParams: { category?: string; property?: string } }) {
+  const found = searchParams.property ? await getProperty(searchParams.property).catch(() => null) : null;
+  const property = found ? { id: found.id, title: found.title } : null;
+  const initialCategory = property ? 'property' : isInquiryCategory(searchParams.category) ? searchParams.category : '';
+
   return (
     <div className="bg-cream">
-
+      <Breadcrumb items={[{ label: 'お問い合わせ' }]} />
       <section className="page-container py-16 tablet:py-24">
         <div className="max-w-[49.5rem] mx-auto">
           {/* Heading */}
@@ -56,7 +66,7 @@ export default function ContactPage() {
           </div>
 
           {/* Form */}
-          <ContactForm />
+          <ContactForm initialCategory={initialCategory} property={property} />
         </div>
       </section>
     </div>
