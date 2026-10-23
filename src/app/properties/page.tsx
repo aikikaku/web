@@ -11,6 +11,7 @@ import BannerContact from '@/components/ui/card/BannerContact';
 import Reveal from '@/components/common/Reveal';
 import type { Metadata } from 'next';
 import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
+import { SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: '物件を探す',
@@ -19,7 +20,6 @@ export const metadata: Metadata = {
 
 export const revalidate = 3600;
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp';
 const PER_PAGE = 9;
 
 interface PropertiesPageProps {
@@ -104,7 +104,7 @@ export default async function PropertiesPage({
             '@context': 'https://schema.org',
             '@type': 'BreadcrumbList',
             itemListElement: [
-              { '@type': 'ListItem', position: 1, name: 'ホーム', item: BASE_URL },
+              { '@type': 'ListItem', position: 1, name: 'ホーム', item: SITE_URL },
               { '@type': 'ListItem', position: 2, name: '物件を探す' },
             ],
           }),

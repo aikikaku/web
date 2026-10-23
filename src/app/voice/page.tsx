@@ -2,6 +2,7 @@ import { getCustomerVoices } from '@/lib/microcms/queries';
 import VoiceContent from '@/components/voice/VoiceContent';
 import type { Metadata } from 'next';
 import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
+import { SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'お客様の声',
@@ -9,8 +10,6 @@ export const metadata: Metadata = {
 };
 
 export const revalidate = 3600;
-
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp';
 
 export default async function VoicePage() {
   const data = await getCustomerVoices().catch(() => ({
@@ -29,7 +28,7 @@ export default async function VoicePage() {
             '@context': 'https://schema.org',
             '@type': 'BreadcrumbList',
             itemListElement: [
-              { '@type': 'ListItem', position: 1, name: 'ホーム', item: BASE_URL },
+              { '@type': 'ListItem', position: 1, name: 'ホーム', item: SITE_URL },
               { '@type': 'ListItem', position: 2, name: 'お客様の声' },
             ],
           }),
