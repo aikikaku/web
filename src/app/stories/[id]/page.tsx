@@ -12,6 +12,7 @@ import PageNavSp from '@/components/ui/navigation/PageNavSp';
 import ButtonPrimary from '@/components/ui/interactive/ButtonPrimary';
 import { getStoryCategoryLabel } from '@/lib/storyCategory';
 import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
+import { SITE_URL } from '@/lib/site';
 
 export const revalidate = 3600;
 
@@ -21,13 +22,14 @@ export async function generateStaticParams() {
 }
 
 interface StoryPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export async function generateMetadata({
   params,
 }: StoryPageProps): Promise<Metadata> {
-  const story = await getStory(params.id).catch(() => null);
+  const { id } = await params;
+  const story = await getStory(id).catch(() => null);
 
   if (!story) {
     return { title: 'ストーリーが見つかりません' };
@@ -54,9 +56,9 @@ export async function generateMetadata({
   };
 }
 
-
 export default async function StoryPage({ params }: StoryPageProps) {
-  const story = await getStory(params.id).catch(() => null);
+  const { id } = await params;
+  const story = await getStory(id).catch(() => null);
 
   if (!story) {
     notFound();
@@ -81,13 +83,13 @@ export default async function StoryPage({ params }: StoryPageProps) {
         '@type': 'ListItem',
         position: 1,
         name: 'ホーム',
-        item: process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp',
+        item: SITE_URL,
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: '暮らしを知る',
-        item: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp'}/stories`,
+        item: `${SITE_URL}/stories`,
       },
       {
         '@type': 'ListItem',

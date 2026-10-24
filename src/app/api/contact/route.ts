@@ -1,61 +1,28 @@
 import { NextResponse } from 'next/server';
+import { isBot, parseInquiry } from '@/lib/contact/inquiry';
+import { deliverInquiry, type InquiryProperty } from '@/lib/contact/deliver';
+import { getProperty } from '@/lib/microcms/queries';
+import { SITE_URL } from '@/lib/site';
 
-interface ContactBody {
-  name: string;
-  email: string;
-  phone?: string;
-  category: string;
-  message: string;
+/** 物件名はブラウザから受け取らず、ID から microCMS で引き直す（書き換えられた物件名がメールに載らないように） */
+async function findProperty(id: string): Promise<InquiryProperty | null> {
+  if (!id) return null;
+  const property = await getProperty(id).catch(() => null);
+  return property ? { title: property.title, url: `${SITE_URL}/properties/${property.id}` } : null;
 }
 
 export async function POST(request: Request) {
-  try {
-    const body: ContactBody = await request.json();
+  const raw: unknown = await request.json().catch(() => null);
 
-    // Server-side validation
-    if (!body.name?.trim()) {
-      return NextResponse.json(
-        { error: 'お名前は必須です' },
-        { status: 400 },
-      );
-    }
+  // 機械による送信には、成功したように見せて何もしない
+  if (isBot(raw)) return NextResponse.json({ ok: true });
 
-    if (!body.email?.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email)) {
-      return NextResponse.json(
-        { error: '正しいメールアドレスを入力してください' },
-        { status: 400 },
-      );
-    }
+  const parsed = parseInquiry(raw);
+  if (!parsed.ok) return NextResponse.json({ ok: false, errors: parsed.errors }, { status: 400 });
 
-    if (!body.category) {
-      return NextResponse.json(
-        { error: 'お問い合わせ種別は必須です' },
-        { status: 400 },
-      );
-    }
+  const property = await findProperty(parsed.inquiry.propertyId);
+  const result = await deliverInquiry(parsed.inquiry, property);
+  if (!result.ok) return NextResponse.json({ ok: false }, { status: 502 });
 
-    if (!body.message?.trim()) {
-      return NextResponse.json(
-        { error: 'お問い合わせ内容は必須です' },
-        { status: 400 },
-      );
-    }
-
-    // Log the submission (email sending can be added later)
-    console.log('=== Contact Form Submission ===');
-    console.log('Name:', body.name);
-    console.log('Email:', body.email);
-    console.log('Phone:', body.phone || '(未入力)');
-    console.log('Category:', body.category);
-    console.log('Message:', body.message);
-    console.log('Timestamp:', new Date().toISOString());
-    console.log('===============================');
-
-    return NextResponse.json({ success: true });
-  } catch {
-    return NextResponse.json(
-      { error: 'リクエストの処理に失敗しました' },
-      { status: 500 },
-    );
-  }
+  return NextResponse.json({ ok: true });
 }

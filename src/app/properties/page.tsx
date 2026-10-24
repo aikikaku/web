@@ -12,6 +12,7 @@ import Reveal from '@/components/common/Reveal';
 import type { Metadata } from 'next';
 import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
 import { toPropertyCountItem } from '@/lib/filterOptions';
+import { SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: '物件を探す',
@@ -20,22 +21,20 @@ export const metadata: Metadata = {
 
 export const revalidate = 3600;
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp';
 const PER_PAGE = 9;
 
 interface PropertiesPageProps {
-  searchParams: {
+  searchParams: Promise<{
     status?: string;
     types?: string;
     regions?: string;
     q?: string;
     page?: string;
-  };
+  }>;
 }
 
-export default async function PropertiesPage({
-  searchParams,
-}: PropertiesPageProps) {
+export default async function PropertiesPage(props: PropertiesPageProps) {
+  const searchParams = await props.searchParams;
   noStore();
   const currentPage = Number(searchParams.page) || 1;
   const offset = (currentPage - 1) * PER_PAGE;
@@ -117,7 +116,7 @@ export default async function PropertiesPage({
             '@context': 'https://schema.org',
             '@type': 'BreadcrumbList',
             itemListElement: [
-              { '@type': 'ListItem', position: 1, name: 'ホーム', item: BASE_URL },
+              { '@type': 'ListItem', position: 1, name: 'ホーム', item: SITE_URL },
               { '@type': 'ListItem', position: 2, name: '物件を探す' },
             ],
           }),

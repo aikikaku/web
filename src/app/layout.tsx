@@ -5,6 +5,7 @@ import Navigation from '@/components/ui/navigation/Navigation';
 import Footer from '@/components/ui/footer/Footer';
 import { Analytics } from '@vercel/analytics/next';
 import MotionProvider from '@/components/common/MotionProvider';
+import { SITE_URL } from '@/lib/site';
 
 const shipporiMincho = Shippori_Mincho({
   subsets: ['latin'],
@@ -21,7 +22,7 @@ const zenKaku = Zen_Kaku_Gothic_New({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp'),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: 'アイ企画 | 静岡県三島市の不動産情報',
     template: '%s | アイ企画',
@@ -77,8 +78,8 @@ export default function RootLayout({
               '@context': 'https://schema.org',
               '@type': 'Organization',
               name: '有限会社アイ企画',
-              url: process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp',
-              logo: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp'}/icon.svg`,
+              url: SITE_URL,
+              logo: `${SITE_URL}/icon.svg`,
               description:
                 '静岡県三島市を中心に、不動産の売買・賃貸情報をお届けします。',
               address: {

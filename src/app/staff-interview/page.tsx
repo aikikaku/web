@@ -5,6 +5,7 @@ import ServiceCTA from '@/components/ui/card/ServiceCTA';
 import Reveal from '@/components/common/Reveal';
 import type { Metadata } from 'next';
 import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
+import { SITE_URL } from '@/lib/site';
 
 // 意味の切れ目で改行させるため、句ごとに分けて持つ（BreakPhrases で inline-block にする）
 const ARTICLE_TITLE = ['街をつくるのは、', 'そこに暮らす人たち。'];
@@ -192,8 +193,6 @@ function BreakPhrases({ phrases }: { phrases: string[] }) {
   );
 }
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp';
-
 export default function StaffInterviewPage() {
   let tocIndex = 0;
 
@@ -206,7 +205,7 @@ export default function StaffInterviewPage() {
             '@context': 'https://schema.org',
             '@type': 'BreadcrumbList',
             itemListElement: [
-              { '@type': 'ListItem', position: 1, name: 'ホーム', item: BASE_URL },
+              { '@type': 'ListItem', position: 1, name: 'ホーム', item: SITE_URL },
               { '@type': 'ListItem', position: 2, name: 'アイ企画を知る' },
               { '@type': 'ListItem', position: 3, name: 'スタッフインタビュー' },
             ],

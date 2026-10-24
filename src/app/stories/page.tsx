@@ -36,11 +36,11 @@ function getCategoryLabel(category?: string): string {
 }
 
 interface StoriesPageProps {
-  searchParams: {
+  searchParams: Promise<{
     category?: string;
     regions?: string;
     page?: string;
-  };
+  }>;
 }
 
 function StoryCardLarge({ story }: { story: Story }) {
@@ -165,7 +165,8 @@ function FeaturedStoryCard({ story }: { story: Story }) {
   );
 }
 
-export default async function StoriesPage({ searchParams }: StoriesPageProps) {
+export default async function StoriesPage(props: StoriesPageProps) {
+  const searchParams = await props.searchParams;
   const currentPage = Number(searchParams.page) || 1;
   const offset = (currentPage - 1) * PER_PAGE;
 

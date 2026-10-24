@@ -10,7 +10,6 @@ import CardStorySp from '@/components/ui/card/CardStorySp';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getImageUrl } from '@/lib/microcms/image';
-import { getTypeformContactUrl } from '@/lib/typeform';
 import type { MicroCMSImage } from '@/types/microcms';
 import PropertyDetailClient from '@/components/property/PropertyDetailClient';
 import RichText, { extractTocFromHtml } from '@/components/ui/post/RichText';
@@ -20,6 +19,7 @@ import ListItemDef from '@/components/ui/content/ListItemDef';
 import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
 import { getPriceLabel, getPropertyLayoutCell } from '@/components/property/propertyCells';
 import LayoutValue from '@/components/property/LayoutValue';
+import { SITE_URL } from '@/lib/site';
 
 export const revalidate = 3600;
 
@@ -32,13 +32,14 @@ export async function generateStaticParams() {
 }
 
 interface PropertyPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export async function generateMetadata({
   params,
 }: PropertyPageProps): Promise<Metadata> {
-  const property = await getProperty(params.id).catch(() => null);
+  const { id } = await params;
+  const property = await getProperty(id).catch(() => null);
 
   if (!property) {
     return { title: '物件が見つかりません' };
@@ -78,8 +79,9 @@ export async function generateMetadata({
 }
 
 export default async function PropertyPage({ params }: PropertyPageProps) {
+  const { id } = await params;
   noStore();
-  const property = await getProperty(params.id).catch(() => null);
+  const property = await getProperty(id).catch(() => null);
 
   if (!property) {
     notFound();
@@ -122,12 +124,6 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
   // 状態ラベル: 成約済み or 商談中（案内中は非表示）(#35)
   const statusLabel = isSold ? '成約済み' : property.status === 'negotiating' ? '商談中' : null;
 
-  // お問い合わせ: Typeform フォームが設定されていれば物件情報付きでそこへ、無ければ /for-customer (#63)
-  const typeformContactUrl = getTypeformContactUrl({
-    id: property.id,
-    title: property.title,
-  });
-
   // 価格/賃料ラベル（貸物件・貸土地は「賃料」）と、価格セル右隣（間取り / 土地は「広さ」）。Figma 付箋 4470:16568
   const priceLabel = getPriceLabel(property);
   const layoutCell = getPropertyLayoutCell(property);
@@ -166,7 +162,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
     description: property.description
       ? property.description.replace(/<[^>]*>/g, '').slice(0, 200)
       : property.title,
-    url: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp'}/properties/${property.id}`,
+    url: `${SITE_URL}/properties/${property.id}`,
     image: property.mainImage?.url,
     datePosted: property.publishedAt,
     ...(property.location && {
@@ -198,13 +194,13 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
         '@type': 'ListItem',
         position: 1,
         name: 'ホーム',
-        item: process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp',
+        item: SITE_URL,
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: '物件を探す',
-        item: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp'}/properties`,
+        item: `${SITE_URL}/properties`,
       },
       {
         '@type': 'ListItem',
@@ -432,17 +428,13 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
             {/* アクションカード */}
             {!isSold && (
               <div className="flex flex-col tablet:flex-row gap-3">
-                {/* 物件資料: documentUrl があれば資料を別タブで開く。無ければ従来通りお問い合わせへ */}
+                {/* 物件資料: documentUrl があれば資料を別タブで開く。無ければこの物件のお問い合わせへ */}
                 {property.documentUrl ? (
                   <CardLink href={property.documentUrl} label="物件資料" external />
                 ) : (
-                  <CardLink href="/for-customer" label="物件資料" />
+                  <CardLink href={`/contact?property=${property.id}`} label="物件資料" />
                 )}
-                {typeformContactUrl ? (
-                  <CardLink href={typeformContactUrl} label="お問い合わせ" external />
-                ) : (
-                  <CardLink href="/for-customer" label="お問い合わせ" />
-                )}
+                <CardLink href={`/contact?property=${property.id}`} label="お問い合わせ" />
               </div>
             )}
 

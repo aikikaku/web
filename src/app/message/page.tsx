@@ -4,6 +4,7 @@ import HeroCardStory from '@/components/common/HeroCardStory';
 import ServiceCTA from '@/components/ui/card/ServiceCTA';
 import Reveal from '@/components/common/Reveal';
 import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
+import { SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'ご挨拶',
@@ -135,8 +136,6 @@ const sections: Section[] = [
   },
 ];
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp';
-
 export default function MessagePage() {
   return (
     <div className="bg-cream">
@@ -147,7 +146,7 @@ export default function MessagePage() {
             '@context': 'https://schema.org',
             '@type': 'BreadcrumbList',
             itemListElement: [
-              { '@type': 'ListItem', position: 1, name: 'ホーム', item: BASE_URL },
+              { '@type': 'ListItem', position: 1, name: 'ホーム', item: SITE_URL },
               { '@type': 'ListItem', position: 2, name: 'アイ企画を知る' },
               { '@type': 'ListItem', position: 3, name: 'ご挨拶' },
             ],
