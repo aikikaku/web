@@ -1,7 +1,6 @@
 import { getProperties, getStories, getCustomerVoices } from '@/lib/microcms/queries';
 import { HERO_SETS } from '@/lib/heroSets';
 import CardProperty from '@/components/ui/card/CardProperty';
-import NewsAccordion from '@/components/home/NewsAccordion';
 import VoiceCarousel from '@/components/home/VoiceCarousel';
 import PropertyCarousel from '@/components/home/PropertyCarousel';
 import StoryCarousel from '@/components/home/StoryCarousel';
@@ -270,26 +269,8 @@ export default async function HomePage() {
         </Reveal>
       )}
 
-      {/* お知らせセクション */}
-      <Reveal as="section" className="py-[3.75rem] tablet:py-[6rem]">
-        <div className="px-4 tablet:px-[4.6875rem] max-w-[90rem] mx-auto">
-          <div className="flex flex-col tablet:flex-row gap-8 tablet:gap-[5.5rem]">
-            {/* 見出し */}
-            <div className="tablet:w-[25.625rem] shrink-0">
-              {/* SP も sub-heading-1 (32px) (Figma 4470:14834 / PC 4470:14110) */}
-              <h2 className="font-mincho text-[2rem] leading-[1.5] tracking-[0.08rem] text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
-                お知らせ
-              </h2>
-            </div>
-
-            {/* ニュースリスト（アコーディオン） */}
-            <NewsAccordion />
-          </div>
-        </div>
-      </Reveal>
-
-      {/* CTAバナー */}
-      <Reveal as="section" className="px-4 tablet:px-[2.8125rem] pb-[7.5rem] tablet:pb-36 max-w-[90rem] mx-auto">
+      {/* CTAバナー。上の余白は、以前ここにあったお知らせ欄の上下余白と同じ */}
+      <Reveal as="section" className="px-4 tablet:px-[2.8125rem] pt-[3.75rem] tablet:pt-[6rem] pb-[7.5rem] tablet:pb-36 max-w-[90rem] mx-auto">
         {/* SP版 */}
         <div className="tablet:hidden relative rounded-2xl overflow-hidden h-[26.5625rem] flex flex-col justify-between pt-8 pb-[3.75rem] px-4">
           <div className="absolute inset-0">

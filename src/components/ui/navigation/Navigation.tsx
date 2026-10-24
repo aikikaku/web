@@ -3,9 +3,10 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import Arrow from '@/components/ui/interactive/Arrow';
-import { getContactUrl } from '@/lib/typeform';
 import { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
+import { usePresence, presenceClass } from '@/lib/usePresence';
+import { NAKABITO_URL } from '@/lib/site';
 
 const navLinks = [
   { href: '/properties', label: '物件を探す' },
@@ -33,12 +34,9 @@ const dropdownCards = [
   },
 ];
 
-const CONTACT_URL = getContactUrl();
-const CONTACT_EXTERNAL = CONTACT_URL.startsWith('http');
-
 const navLinksAfter = [
   { href: '/voice', label: 'お客様の声' },
-  { href: CONTACT_URL, label: 'お問い合わせ', external: CONTACT_EXTERNAL },
+  { href: '/contact', label: 'お問い合わせ' },
 ];
 
 // Mobile用: 全navItems
@@ -51,13 +49,16 @@ const allNavItems = [
     cards: dropdownCards,
   },
   { href: '/voice', label: 'お客様の声' },
-  { href: CONTACT_URL, label: 'お問い合わせ', external: CONTACT_EXTERNAL },
-  { href: 'https://nakabito.jp', label: '仲人', external: true, showExternalIcon: true },
+  { href: '/contact', label: 'お問い合わせ' },
+  { href: NAKABITO_URL, label: '仲人', external: true, showExternalIcon: true },
 ];
 
 export default function Navigation() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  // 開閉のフェード（出る時も消える時もふわっと）
+  const mega = usePresence(dropdownOpen, 300);
+  const mobileMenu = usePresence(mobileOpen, 400);
   const pathname = usePathname();
 
   // 表示中のページが属するナビ項目（詳細ページ含む）。「アイ企画を知る」配下は 'about'
@@ -202,8 +203,6 @@ export default function Navigation() {
               <Link
                 key={item.href}
                 href={item.href}
-                target={item.external ? '_blank' : undefined}
-                rel={item.external ? 'noopener noreferrer' : undefined}
                 aria-current={currentKey === item.href ? 'page' : undefined}
                 className={navItemClass(item.href)}
               >
@@ -231,13 +230,18 @@ export default function Navigation() {
       </nav>
 
       {/* Desktop: フル幅ドロップダウンセクション。ホバー維持し、離れたら閉じる (#17)。 */}
-      {dropdownOpen && (
+      {mega.mounted && (
         <div
-          className="hidden tablet:block bg-light-green paper-texture paper-texture-light"
+          className={`hidden tablet:block bg-light-green paper-texture paper-texture-light ${presenceClass(mega.visible)}`}
           onMouseEnter={openDropdown}
           onMouseLeave={scheduleCloseDropdown}
         >
-          <div className="flex items-start justify-between px-[4.6875rem] py-12 max-w-[90rem] mx-auto">
+          {/* パネルが開いてから中身が少し遅れてふわっと出る */}
+          <div
+            className={`flex items-start justify-between px-[4.6875rem] py-12 max-w-[90rem] mx-auto transition-opacity duration-500 ease-out motion-reduce:transition-none ${
+              mega.visible ? 'opacity-100 delay-100' : 'opacity-0'
+            }`}
+          >
             {/* 左: サブページリンク */}
             <div className="flex flex-col gap-4 w-[34.875rem] py-[1.875rem]">
               {dropdownLinks.map((link) => (
@@ -294,8 +298,8 @@ export default function Navigation() {
       )}
 
       {/* Mobile menu (Figma 4211:25413 SP_nav_open 準拠: bg-light-green, px-56/py-80, gap-32) */}
-      {mobileOpen && (
-        <div className="tablet:hidden bg-light-green paper-texture paper-texture-light px-[3.5rem] py-[5rem] flex flex-col gap-8">
+      {mobileMenu.mounted && (
+        <div className={`tablet:hidden bg-light-green paper-texture paper-texture-light px-[3.5rem] py-[5rem] flex flex-col gap-8 ${presenceClass(mobileMenu.visible, 'duration-[400ms]')}`}>
           {allNavItems.map((item) =>
             'children' in item && item.children ? (
               <div key={item.label} className="flex flex-col gap-4">

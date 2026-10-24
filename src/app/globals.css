@@ -75,17 +75,67 @@
   /* NOTE: will-change は指定しない。permanent な will-change:transform は
      子孫の position:sticky が参照する containing block を生成し、
      staff-interview の追従 TOC 等を壊すため (is-visible 後も残る)。 */
-  .reveal {
+  /* セクション丸ごとのフェード（.reveal）は、要素ごとの演出（下の .m-* / MotionProvider）に置き換えたため無効。
+     Reveal コンポーネントはマークアップ互換のため残している */
+
+  /* ─── 表示演出（MotionProvider）。html.motion-ready の時だけ有効 ───
+     文字も写真も、位置は動かさず、その場でふわっとフェードインするだけ（写真・動画は読み込み後）。
+     対象は MotionProvider が main 内から自動で選び .m-hide を付ける（文字を直接持つ要素・写真・動画）。
+     印を付け終わるまで main は見えなくしておく（付ける前に一瞬見えてからフェードし直す、ちらつき防止） */
+  :root {
+    --ease-soft: cubic-bezier(0.16, 1, 0.3, 1);
+    /* フェード（濃さ）用。expo-out だと最初の 0.1〜0.2 秒で 7 割以上濃くなり「パッと出る」、
+       ease-in-out だと出だしが遅く「出るのが遅い」ため、出だしから変わり始めて最後をゆるめる ease-out（quad） */
+    --ease-fade: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  html.motion-ready main:not(.m-ready) {
+    visibility: hidden;
+  }
+  html.motion-ready main .m-hide:not(.m-in) {
     opacity: 0;
-    transform: translateY(1.5rem);
+  }
+  html.motion-ready main :is(img, video).m-hide:not(.m-in) {
+    scale: 1.03;
+  }
+  /* 大きな写真: 出たあと約4秒かけて、わずかな拡大から落ち着く（ゆっくり時間が流れる余韻） */
+  html.motion-ready main img.m-large.m-hide:not(.m-in) {
+    scale: 1.08;
+  }
+  /* PC のパララックス対象は、枠の中で上下 3% ずらしても端が見えないよう、ごくわずかに拡大したまま落ち着く */
+  html.motion-ready main img.m-parallax.m-hide:not(.m-in) {
+    scale: 1.13;
+  }
+  html.motion-ready main img.m-parallax.m-in {
+    scale: 1.07;
+  }
+  /* 表示中だけ付く（MotionProvider が出し終わったら外す）。要素自身のホバー用トランジションを上書きし続けないため */
+  html.motion-ready main .m-anim {
     transition:
-      opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-      transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+      opacity 0.9s var(--ease-fade),
+      scale 1.4s var(--ease-soft);
+  }
+  html.motion-ready main img.m-large.m-anim {
+    transition:
+      opacity 0.9s var(--ease-fade),
+      scale 4.2s var(--ease-soft);
   }
 
-  .reveal.is-visible {
-    opacity: 1;
-    transform: none;
+  /* ヒーロー写真の Ken Burns（表示中にゆっくり引いていく。参考: notahotel / hachi-to-waltz） */
+  @keyframes ken-burns {
+    from {
+      transform: scale(1.12);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+  .ken-burns {
+    animation: ken-burns 9s linear both;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ken-burns {
+      animation: none;
+    }
   }
 
   /* ─── ヒーロー(画像3枚)の登場アニメーション (#lB0tVZMFjn0S / #eS_5ZxrNoxye) ─── */
@@ -119,6 +169,24 @@
     .hero-card-in,
     .hero-card-fade {
       animation: none !important;
+    }
+  }
+
+  /* 読み込み中表示: 0.3 秒待ってからふわっと出す（すぐ終わる読み込みで一瞬出て消える点滅を避ける） */
+  @keyframes search-progress-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  .search-progress-in {
+    animation: search-progress-in 0.5s ease-out 0.3s both;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .search-progress-in {
+      animation: none;
     }
   }
 
