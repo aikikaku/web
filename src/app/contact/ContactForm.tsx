@@ -1,307 +1,331 @@
 'use client';
 
-import { useState, type FormEvent, type ChangeEvent } from 'react';
+import Link from 'next/link';
+import { useState, type FormEvent, type ReactNode } from 'react';
+import Select from '@/components/ui/interactive/Select';
+import Toggle from '@/components/ui/interactive/Toggle';
+import {
+  FORMS,
+  TAB_KINDS,
+  describeValues,
+  parseInquiry,
+  type FieldDef,
+  type FieldValues,
+  type FormKind,
+  type Inquiry,
+  type InquiryErrors,
+  type InquiryInput,
+} from '@/lib/contact/inquiry';
 
-interface FormData {
-  name: string;
-  email: string;
-  phone: string;
-  category: string;
-  message: string;
+interface ContactFormProps {
+  initialKind: FormKind;
+  /** 物件ページから来たときの物件。あれば物件お問い合わせのフォームだけを出す（物件カードはページ側で出す） */
+  property: { id: string; title: string; location: string } | null;
 }
 
-interface FormErrors {
-  name?: string;
-  email?: string;
-  phone?: string;
-  category?: string;
-  message?: string;
+type Status = 'editing' | 'confirming' | 'sending' | 'sent' | 'failed';
+
+const TAB_QUERY: Record<FormKind, string> = { general: '', buy: '?category=buy', sell: '?category=sell', property: '' };
+
+const inputClass = (hasError: boolean) =>
+  `w-full px-5 py-4 bg-cream border rounded-xl font-gothic text-body-m text-dark-green placeholder:text-dark-green/30 outline-none transition-colors ${
+    hasError ? 'border-red-400 focus:border-red-400' : 'border-dark-green/20 focus:border-accent-blue'
+  }`;
+
+
+function RequiredMark({ required }: { required: boolean }) {
+  return required ? <span className="ml-2 text-body-s text-red-500">必須</span> : <span className="ml-2 text-body-s text-dark-green/50">任意</span>;
 }
 
-const categories = [
-  { value: '', label: 'お問い合わせ種別を選択してください' },
-  { value: 'property', label: '物件について' },
-  { value: 'sell', label: '売却について' },
-  { value: 'other', label: 'その他' },
-];
+function ErrorText({ id, error }: { id: string; error?: string }) {
+  return error ? (
+    <p id={`${id}-error`} className="text-body-s text-red-500 font-gothic">
+      {error}
+    </p>
+  ) : null;
+}
 
-export default function ContactForm() {
-  const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    phone: '',
-    category: '',
-    message: '',
-  });
-  const [errors, setErrors] = useState<FormErrors>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [submitError, setSubmitError] = useState('');
+function FieldInput({
+  field,
+  value,
+  error,
+  onChange,
+}: {
+  field: FieldDef;
+  value: FieldValues[string] | undefined;
+  error?: string;
+  onChange: (value: FieldValues[string]) => void;
+}) {
+  const a11y = { 'aria-invalid': !!error, 'aria-describedby': error ? `${field.name}-error` : undefined };
 
-  function validate(): FormErrors {
-    const newErrors: FormErrors = {};
-
-    if (!formData.name.trim()) {
-      newErrors.name = 'お名前を入力してください';
-    }
-
-    if (!formData.email.trim()) {
-      newErrors.email = 'メールアドレスを入力してください';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = '正しいメールアドレスを入力してください';
-    }
-
-    if (formData.phone && !/^[\d\-+() ]+$/.test(formData.phone)) {
-      newErrors.phone = '正しい電話番号を入力してください';
-    }
-
-    if (!formData.category) {
-      newErrors.category = 'お問い合わせ種別を選択してください';
-    }
-
-    if (!formData.message.trim()) {
-      newErrors.message = 'お問い合わせ内容を入力してください';
-    }
-
-    return newErrors;
+  if (field.type === 'multi') {
+    const picked = Array.isArray(value) ? value : [];
+    return (
+      <fieldset className="flex flex-col gap-3" {...a11y}>
+        <legend className="font-gothic font-medium text-body-m text-dark-green mb-3">
+          {field.label}
+          <RequiredMark required={field.required} />
+        </legend>
+        <div className="grid grid-cols-1 tablet:grid-cols-2 gap-x-6 gap-y-3">
+          {field.options!.map((option, i) => (
+            <label key={option} className="flex items-center gap-3 font-gothic text-body-m text-dark-green cursor-pointer">
+              <input
+                type="checkbox"
+                id={`${field.name}-${i}`}
+                checked={picked.includes(option)}
+                onChange={(e) => onChange(e.target.checked ? [...picked, option] : picked.filter((p) => p !== option))}
+                className="w-5 h-5 shrink-0 accent-accent-blue"
+              />
+              {option}
+            </label>
+          ))}
+        </div>
+        <ErrorText id={field.name} error={error} />
+      </fieldset>
+    );
   }
 
-  function handleChange(
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
-  ) {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    // Clear field error on change
-    if (errors[name as keyof FormErrors]) {
-      setErrors((prev) => ({ ...prev, [name]: undefined }));
-    }
+  const text = typeof value === 'string' ? value : '';
+  let control: ReactNode;
+  if (field.type === 'textarea') {
+    control = (
+      <textarea
+        id={field.name}
+        value={text}
+        onChange={(e) => onChange(e.target.value)}
+        rows={6}
+        placeholder={field.placeholder}
+        className={`${inputClass(!!error)} resize-y`}
+        {...a11y}
+      />
+    );
+  } else if (field.type === 'select') {
+    control = (
+      <Select
+        id={field.name}
+        value={text}
+        options={field.options!}
+        onChange={onChange}
+        invalid={!!error}
+        describedBy={a11y['aria-describedby']}
+      />
+    );
+  } else {
+    control = (
+      <input
+        type={field.type}
+        id={field.name}
+        value={text}
+        onChange={(e) => onChange(e.target.value)}
+        autoComplete={field.autoComplete}
+        inputMode={field.type === 'email' ? 'email' : undefined}
+        placeholder={field.placeholder}
+        className={inputClass(!!error)}
+        {...a11y}
+      />
+    );
   }
 
-  async function handleSubmit(e: FormEvent) {
+  return (
+    <div className="flex flex-col gap-2">
+      <label htmlFor={field.name} className="font-gothic font-medium text-body-m text-dark-green">
+        {field.label}
+        <RequiredMark required={field.required} />
+      </label>
+      {control}
+      <ErrorText id={field.name} error={error} />
+    </div>
+  );
+}
+
+
+export default function ContactForm({ initialKind, property }: ContactFormProps) {
+  const [kind, setKind] = useState<FormKind>(property ? 'property' : initialKind);
+  const [values, setValues] = useState<FieldValues>({});
+  const [consent, setConsent] = useState(false);
+  const [website, setWebsite] = useState('');
+  const [errors, setErrors] = useState<InquiryErrors>({});
+  const [status, setStatus] = useState<Status>('editing');
+  const [confirmed, setConfirmed] = useState<Inquiry | null>(null);
+  const form = FORMS[kind];
+
+  function input(): InquiryInput {
+    return { kind, values, propertyId: property?.id ?? '', consent, website };
+  }
+
+  function switchTab(next: string) {
+    const nextKind = next as FormKind;
+    setKind(nextKind);
+    setErrors({});
+    window.history.replaceState(null, '', `/contact${TAB_QUERY[nextKind]}`);
+  }
+
+  function showErrors(next: InquiryErrors) {
+    setErrors(next);
+    setStatus('editing');
+    const first = form.fields.find((field) => next[field.name]) ?? null;
+    const id = first ? (first.type === 'multi' ? `${first.name}-0` : first.name) : next.consent ? 'consent' : null;
+    requestAnimationFrame(() => id && document.getElementById(id)?.focus());
+  }
+
+  function handleConfirm(e: FormEvent) {
     e.preventDefault();
-    setSubmitError('');
+    const parsed = parseInquiry(input());
+    if (!parsed.ok) return showErrors(parsed.errors);
+    setConfirmed(parsed.inquiry);
+    setStatus('confirming');
+    window.scrollTo({ top: 0 });
+  }
 
-    const newErrors = validate();
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
+  async function handleSend() {
+    setStatus('sending');
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(input()),
+    }).catch(() => null);
+    if (res?.ok) {
+      setStatus('sent');
+      window.scrollTo({ top: 0 });
       return;
     }
-
-    setIsSubmitting(true);
-
-    try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-
-      if (!res.ok) {
-        throw new Error('送信に失敗しました');
-      }
-
-      setIsSubmitted(true);
-    } catch {
-      setSubmitError(
-        '送信中にエラーが発生しました。しばらくしてからもう一度お試しください。',
-      );
-    } finally {
-      setIsSubmitting(false);
+    if (res?.status === 400) {
+      const body = (await res.json().catch(() => null)) as { errors?: InquiryErrors } | null;
+      return showErrors(body?.errors ?? {});
     }
+    setStatus('failed');
   }
 
-  if (isSubmitted) {
+  if (status === 'sent') {
     return (
-      <div className="bg-cream rounded-3xl p-8 tablet:p-16 text-center">
-        <div className="flex flex-col items-center gap-6">
-          <div className="w-16 h-16 rounded-full bg-accent-blue/10 flex items-center justify-center">
-            <svg
-              width="32"
-              height="32"
-              viewBox="0 0 24 24"
-              fill="none"
-              className="stroke-accent-blue"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M20 6L9 17l-5-5" />
-            </svg>
+      <div className="bg-light-green rounded-3xl p-8 tablet:p-16 text-center" role="status">
+        <h2 className="font-mincho text-heading-24 tablet:text-heading-32 text-dark-green mb-6" style={{ fontFeatureSettings: "'palt' 1" }}>
+          お問い合わせを受け付けました
+        </h2>
+        <p className="text-body-m font-gothic font-medium text-dark-green leading-[2]">
+          ご入力のメールアドレスに、受付のお知らせをお送りしました。
+          <br />
+          内容を確認のうえ、担当者よりご連絡いたします。
+        </p>
+        <p className="mt-4 text-body-s font-gothic text-dark-green/70 leading-[2]">
+          受付のメールが届かない場合は、迷惑メールのフォルダをご確認いただくか、
+          <br className="hidden tablet:inline" />
+          お電話（055-976-5300）でお問い合わせください。
+        </p>
+      </div>
+    );
+  }
+
+  if ((status === 'confirming' || status === 'sending' || status === 'failed') && confirmed) {
+    return (
+      <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-2">
+          <h2 className="font-mincho text-heading-24 text-dark-green">入力内容の確認</h2>
+          <p className="text-body-m font-gothic text-dark-green/70">以下の内容で送信します。よろしければ「送信する」を押してください。</p>
+        </div>
+        <dl className="flex flex-col border-t border-dark-green/20 font-gothic text-body-m text-dark-green">
+          {[
+            { label: 'お問い合わせの種類', value: form.label },
+            ...(property ? [{ label: 'お問い合わせ物件', value: property.location || property.title }] : []),
+            ...describeValues(confirmed),
+          ].map(({ label, value }) => (
+            <div key={label} className="flex flex-col tablet:flex-row gap-1 tablet:gap-6 py-4 border-b border-dark-green/20">
+              <dt className="tablet:w-[14rem] shrink-0 font-medium">{label}</dt>
+              <dd className="whitespace-pre-wrap break-words">{value}</dd>
+            </div>
+          ))}
+        </dl>
+        {status === 'failed' && (
+          <div className="bg-red-50 border border-red-200 rounded-xl p-4" role="alert">
+            <p className="text-body-s text-red-600 font-gothic leading-[1.8]">
+              送信できませんでした。時間をおいてもう一度お試しいただくか、お電話（055-976-5300）でお問い合わせください。
+            </p>
           </div>
-          <h2 className="font-mincho text-2xl tablet:text-[2rem] tracking-wider text-dark-green">
-            お問い合わせありがとうございます
-          </h2>
-          <p className="text-body-m font-gothic font-medium text-dark-green/70">
-            内容を確認次第、担当者よりご連絡いたします。
-            <br />
-            しばらくお待ちくださいませ。
-          </p>
+        )}
+        <div className="flex flex-col-reverse tablet:flex-row justify-center gap-4">
+          <button
+            type="button"
+            onClick={() => setStatus('editing')}
+            disabled={status === 'sending'}
+            className="min-w-[12.5rem] h-14 rounded-full border border-dark-green font-gothic font-medium text-dark-green disabled:opacity-50"
+          >
+            入力画面に戻る
+          </button>
+          <button
+            type="button"
+            onClick={handleSend}
+            disabled={status === 'sending'}
+            className="btn-primary min-w-[12.5rem] h-14 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {status === 'sending' ? '送信しています…' : '送信する'}
+          </button>
         </div>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-8">
-      {/* お名前 */}
-      <div className="flex flex-col gap-2">
-        <label
-          htmlFor="name"
-          className="font-gothic font-medium text-body-m text-dark-green"
-        >
-          お名前 <span className="text-red-500">*</span>
-        </label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          placeholder="例: 山田 太郎"
-          className={`w-full px-5 py-4 bg-cream border rounded-xl font-gothic text-body-m text-dark-green placeholder:text-dark-green/30 outline-none transition-colors ${
-            errors.name
-              ? 'border-red-400 focus:border-red-400'
-              : 'border-dark-green/20 focus:border-accent-blue'
-          }`}
-        />
-        {errors.name && (
-          <p className="text-body-s text-red-500 font-gothic">{errors.name}</p>
-        )}
-      </div>
-
-      {/* メールアドレス */}
-      <div className="flex flex-col gap-2">
-        <label
-          htmlFor="email"
-          className="font-gothic font-medium text-body-m text-dark-green"
-        >
-          メールアドレス <span className="text-red-500">*</span>
-        </label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="例: taro@example.com"
-          className={`w-full px-5 py-4 bg-cream border rounded-xl font-gothic text-body-m text-dark-green placeholder:text-dark-green/30 outline-none transition-colors ${
-            errors.email
-              ? 'border-red-400 focus:border-red-400'
-              : 'border-dark-green/20 focus:border-accent-blue'
-          }`}
-        />
-        {errors.email && (
-          <p className="text-body-s text-red-500 font-gothic">
-            {errors.email}
-          </p>
-        )}
-      </div>
-
-      {/* 電話番号 */}
-      <div className="flex flex-col gap-2">
-        <label
-          htmlFor="phone"
-          className="font-gothic font-medium text-body-m text-dark-green"
-        >
-          電話番号
-        </label>
-        <input
-          type="tel"
-          id="phone"
-          name="phone"
-          value={formData.phone}
-          onChange={handleChange}
-          placeholder="例: 055-976-5300"
-          className={`w-full px-5 py-4 bg-cream border rounded-xl font-gothic text-body-m text-dark-green placeholder:text-dark-green/30 outline-none transition-colors ${
-            errors.phone
-              ? 'border-red-400 focus:border-red-400'
-              : 'border-dark-green/20 focus:border-accent-blue'
-          }`}
-        />
-        {errors.phone && (
-          <p className="text-body-s text-red-500 font-gothic">
-            {errors.phone}
-          </p>
-        )}
-      </div>
-
-      {/* お問い合わせ種別 */}
-      <div className="flex flex-col gap-2">
-        <label
-          htmlFor="category"
-          className="font-gothic font-medium text-body-m text-dark-green"
-        >
-          お問い合わせ種別 <span className="text-red-500">*</span>
-        </label>
-        <select
-          id="category"
-          name="category"
-          value={formData.category}
-          onChange={handleChange}
-          className={`w-full px-5 py-4 bg-cream border rounded-xl font-gothic text-body-m text-dark-green outline-none transition-colors appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%232a363b%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M6%209l6%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:24px] bg-[right_16px_center] bg-no-repeat ${
-            !formData.category ? 'text-dark-green/30' : ''
-          } ${
-            errors.category
-              ? 'border-red-400 focus:border-red-400'
-              : 'border-dark-green/20 focus:border-accent-blue'
-          }`}
-        >
-          {categories.map((cat) => (
-            <option key={cat.value} value={cat.value} disabled={!cat.value}>
-              {cat.label}
-            </option>
-          ))}
-        </select>
-        {errors.category && (
-          <p className="text-body-s text-red-500 font-gothic">
-            {errors.category}
-          </p>
-        )}
-      </div>
-
-      {/* お問い合わせ内容 */}
-      <div className="flex flex-col gap-2">
-        <label
-          htmlFor="message"
-          className="font-gothic font-medium text-body-m text-dark-green"
-        >
-          お問い合わせ内容 <span className="text-red-500">*</span>
-        </label>
-        <textarea
-          id="message"
-          name="message"
-          value={formData.message}
-          onChange={handleChange}
-          rows={6}
-          placeholder="お問い合わせ内容をご記入ください"
-          className={`w-full px-5 py-4 bg-cream border rounded-xl font-gothic text-body-m text-dark-green placeholder:text-dark-green/30 outline-none transition-colors resize-vertical ${
-            errors.message
-              ? 'border-red-400 focus:border-red-400'
-              : 'border-dark-green/20 focus:border-accent-blue'
-          }`}
-        />
-        {errors.message && (
-          <p className="text-body-s text-red-500 font-gothic">
-            {errors.message}
-          </p>
-        )}
-      </div>
-
-      {/* エラーメッセージ */}
-      {submitError && (
-        <div className="bg-red-50 border border-red-200 rounded-xl p-4">
-          <p className="text-body-s text-red-600 font-gothic">{submitError}</p>
+    <form onSubmit={handleConfirm} noValidate className="flex flex-col gap-8">
+      {!property && (
+        <div className="flex flex-col gap-3">
+          <p className="font-gothic font-medium text-body-m text-dark-green">お問い合わせの種類</p>
+          <Toggle
+            options={TAB_KINDS.map((k) => ({ value: k, label: FORMS[k].label }))}
+            value={kind}
+            onChange={switchTab}
+            className="w-full tablet:w-fit"
+            buttonClassName="flex-1 h-12 px-3 tablet:px-6"
+          />
         </div>
       )}
+      <ErrorText id="property" error={errors.property} />
 
-      {/* 送信ボタン */}
-      <div className="flex justify-center pt-4">
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="btn-primary min-w-[12.5rem] disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {isSubmitting ? '送信中...' : '送信する'}
+      {form.fields.map((field) => (
+        <FieldInput
+          key={field.name}
+          field={field}
+          value={values[field.name]}
+          error={errors[field.name]}
+          onChange={(value) => {
+            setValues((prev) => ({ ...prev, [field.name]: value }));
+            setErrors((prev) => ({ ...prev, [field.name]: '' }));
+          }}
+        />
+      ))}
+
+      {/* 人には見えない入力欄。機械による送信だけがここを埋める */}
+      <div aria-hidden className="absolute -left-[9999px] w-px h-px overflow-hidden">
+        <label htmlFor="website">ウェブサイト</label>
+        <input type="text" id="website" name="website" tabIndex={-1} autoComplete="off" value={website} onChange={(e) => setWebsite(e.target.value)} />
+      </div>
+
+      <div className="flex flex-col items-center gap-2">
+        <label className="flex items-center gap-3 font-gothic text-body-m text-dark-green cursor-pointer">
+          <input
+            type="checkbox"
+            id="consent"
+            checked={consent}
+            onChange={(e) => {
+              setConsent(e.target.checked);
+              setErrors((prev) => ({ ...prev, consent: '' }));
+            }}
+            aria-invalid={!!errors.consent}
+            aria-describedby={errors.consent ? 'consent-error' : undefined}
+            className="w-5 h-5 accent-accent-blue"
+          />
+          <span>
+            <Link href="/privacy-policy" target="_blank" className="underline underline-offset-4 hover:opacity-60">
+              プライバシーポリシー
+            </Link>
+            に同意する
+          </span>
+        </label>
+        <ErrorText id="consent" error={errors.consent} />
+      </div>
+
+      <div className="flex justify-center">
+        <button type="submit" className="btn-primary min-w-[12.5rem] h-14">
+          入力内容を確認する
         </button>
       </div>
     </form>

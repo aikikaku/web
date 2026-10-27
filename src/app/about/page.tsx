@@ -6,13 +6,12 @@ import MoreLinkButton from '@/components/ui/interactive/MoreLinkButton';
 import ButtonPrimarySp from '@/components/ui/interactive/ButtonPrimarySp';
 import Reveal from '@/components/common/Reveal';
 import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
+import { SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'アイ企画について',
   description: 'アイ企画の企業理念・ビジョン・会社概要をご紹介します。',
 };
-
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp';
 
 /** 会社概要の通常行 (Figma List Item-def 4470:14226 等): dt 幅 147 + gap 30 + dd 左揃え・縦中央 */
 function CompanyRow({ label, children }: { label: string; children: ReactNode }) {
@@ -51,7 +50,7 @@ export default function AboutPage() {
             '@context': 'https://schema.org',
             '@type': 'BreadcrumbList',
             itemListElement: [
-              { '@type': 'ListItem', position: 1, name: 'ホーム', item: BASE_URL },
+              { '@type': 'ListItem', position: 1, name: 'ホーム', item: SITE_URL },
               { '@type': 'ListItem', position: 2, name: 'アイ企画を知る' },
               { '@type': 'ListItem', position: 3, name: 'アイ企画について' },
             ],

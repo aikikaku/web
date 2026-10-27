@@ -12,10 +12,11 @@ export const PLACEHOLDER_IMAGE_URL = '/images/property-placeholder.svg';
 
 /**
  * 実際の写真が無いかどうか。未設定のほか、CMS に「画像なし」用として登録された画像
- * （placeholder-noimage.png 等。灰色の枠付きで、microCMS の画像変換 API も 422 を返す）も含める
+ * （placeholder-noimage.png・story-placeholder.png 等。灰色の枠付きで、microCMS の画像変換 API も 422 を返す）も含める。
+ * 見落とすと変換なしの元画像（1200×800）を読み込むことになり、遅い回線では上半分だけ見える
  */
 export function hasNoImage(image: MicroCMSImage | undefined | null): boolean {
-  return !image?.url || /noimage/i.test(image.url);
+  return !image?.url || /noimage|placeholder/i.test(image.url);
 }
 
 export function getImageUrl(

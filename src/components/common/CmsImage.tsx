@@ -1,10 +1,31 @@
 'use client';
 
-import { useState } from 'react';
-import Image, { type ImageProps } from 'next/image';
+import { use, useState } from 'react';
+import Image, { getImageProps, type ImageProps } from 'next/image';
 import type { MicroCMSImage } from '@/types/microcms';
 import { PLACEHOLDER_IMAGE_URL, hasNoImage } from '@/lib/microcms/image';
 import { isMicrocmsImage, microcmsLoader } from '@/lib/microcms/loader';
+import { isWaitingForImages } from '@/lib/navigation';
+
+// ページ移動で写真を待つ上限。回線が遅い時はこれ以上待たずに切り替える
+const NAVIGATION_WAIT_MS = 1500;
+// use() は同じ promise を受け取る必要があるので、写真ごとに使い回す
+const preloads = new Map<string, Promise<void>>();
+
+/** 表示時と同じ srcset・sizes で読み込み、ブラウザに同じ解像度の写真をキャッシュさせる */
+function preload({ src, srcSet, sizes }: { src: string; srcSet?: string; sizes?: string }) {
+  const key = srcSet ?? src;
+  let promise = preloads.get(key);
+  if (!promise) {
+    const img = new window.Image();
+    if (sizes) img.sizes = sizes;
+    if (srcSet) img.srcset = srcSet;
+    img.src = src;
+    promise = Promise.race([img.decode().catch(() => {}), new Promise<void>((resolve) => setTimeout(resolve, NAVIGATION_WAIT_MS))]);
+    preloads.set(key, promise);
+  }
+  return promise;
+}
 
 type CmsImageProps = Omit<ImageProps, 'src' | 'loader'> & {
   /** microCMS の画像オブジェクト。未設定（任意項目で空）の場合はプレースホルダを表示 */
@@ -28,6 +49,7 @@ export default function CmsImage({ image, alt, onError, ...rest }: CmsImageProps
   const [fallback, setFallback] = useState<0 | 1 | 2>(0);
 
   if (!url || fallback === 2) {
+    if (isWaitingForImages()) use(preload(getImageProps({ src: PLACEHOLDER_IMAGE_URL, alt, unoptimized: true, ...rest }).props));
     return <Image src={PLACEHOLDER_IMAGE_URL} alt={alt} unoptimized {...rest} />;
   }
 
@@ -40,9 +62,9 @@ export default function CmsImage({ image, alt, onError, ...rest }: CmsImageProps
     return <Image key="raw" src={url} alt={alt} unoptimized onError={handleError} {...rest} />;
   }
 
-  if (isMicrocmsImage(url)) {
-    return <Image src={url} loader={microcmsLoader} alt={alt} onError={handleError} {...rest} />;
-  }
+  const loader = isMicrocmsImage(url) ? microcmsLoader : undefined;
+  // ページ移動の最中は写真がそろうまで描画を保留する（移動は transition なので、今のページが出たままになる）
+  if (isWaitingForImages()) use(preload(getImageProps({ src: url, loader, alt, ...rest }).props));
 
-  return <Image src={url} alt={alt} onError={handleError} {...rest} />;
+  return <Image src={url} loader={loader} alt={alt} onError={handleError} {...rest} />;
 }

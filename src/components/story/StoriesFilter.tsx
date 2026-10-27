@@ -6,6 +6,7 @@ import Dropdown from '@/components/ui/interactive/Dropdown';
 import Sort from '@/components/ui/interactive/Sort';
 import SortClear from '@/components/ui/interactive/SortClear';
 import { REGION_OPTIONS, countStories, sameSet, sortLabel, type StoryCountItem } from '@/lib/filterOptions';
+import { startNavigation } from '@/lib/navigation';
 
 
 interface StoriesFilterProps {
@@ -54,6 +55,7 @@ export default function StoriesFilter({
       if (regionsSel.length > 0) params.set('regions', regionsSel.join(','));
       else params.delete('regions');
       const qs = params.toString();
+      startNavigation();
       startTransition(() => router.push(qs ? `/stories?${qs}` : '/stories', { scroll: false }));
     },
     [router, searchParams],
@@ -87,6 +89,7 @@ export default function StoriesFilter({
   const handleClear = () => {
     setSelectedCategories([]);
     setSelectedRegions([]);
+    startNavigation();
     startTransition(() => router.push('/stories', { scroll: false }));
   };
 
