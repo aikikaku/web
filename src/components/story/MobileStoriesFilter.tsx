@@ -11,6 +11,7 @@ import SpModalCloseButton from '@/components/ui/popup/SpModalCloseButton';
 import { useScrollVisibility } from '@/lib/useScrollVisibility';
 import { REGION_OPTIONS, countStories, sameSet, sortLabel, type StoryCountItem } from '@/lib/filterOptions';
 import { usePresence, presenceClass } from '@/lib/usePresence';
+import { startNavigation } from '@/lib/navigation';
 
 const categories = [
   { value: 'daily', label: '日々のこと' },
@@ -67,6 +68,7 @@ export default function MobileStoriesFilter({ countItems }: { countItems?: Story
     if (localCategory) params.set('category', localCategory);
     if (localRegions.length > 0) params.set('regions', localRegions.join(','));
     const qs = params.toString();
+    startNavigation();
     router.push(qs ? `/stories?${qs}` : '/stories', { scroll: false });
     closeModal();
   }, [router, localCategory, localRegions, closeModal]);

@@ -7,6 +7,7 @@ import Sort from '@/components/ui/interactive/Sort';
 import { REGION_OPTIONS, countProperties, sameSet, sortLabel, type PropertyCountItem } from '@/lib/filterOptions';
 import SortClear from '@/components/ui/interactive/SortClear';
 import Toggle from '@/components/ui/interactive/Toggle';
+import { startNavigation } from '@/lib/navigation';
 
 const statusOptions = [
   { value: 'all', label: 'すべて' },
@@ -56,6 +57,7 @@ export default function PropertyFilter({ countItems }: { countItems?: PropertyCo
       if (types.length > 0) params.set('types', types.join(','));
       if (regions.length > 0) params.set('regions', regions.join(','));
       const qs = params.toString();
+      startNavigation();
       startTransition(() => router.push(qs ? `/properties?${qs}` : '/properties', { scroll: false }));
     },
     [router],
@@ -105,6 +107,7 @@ export default function PropertyFilter({ countItems }: { countItems?: PropertyCo
     setOptimisticStatus('available');
     setOptimisticTypes([]);
     setOptimisticRegions([]);
+    startNavigation();
     startTransition(() => router.push('/properties', { scroll: false }));
   };
 

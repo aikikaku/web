@@ -8,6 +8,7 @@ import MotionProvider from '@/components/common/MotionProvider';
 import { SITE_URL } from '@/lib/site';
 import { Suspense } from 'react';
 import { PaginationScrollRestorer } from '@/components/common/Pagination';
+import NavigationProgress from '@/components/common/NavigationProgress';
 
 const shipporiMincho = Shippori_Mincho({
   subsets: ['latin'],
@@ -106,6 +107,7 @@ export default function RootLayout({
         <MotionProvider />
         <Suspense fallback={null}>
           <PaginationScrollRestorer />
+          <NavigationProgress />
         </Suspense>
         <Footer />
         <Analytics />
