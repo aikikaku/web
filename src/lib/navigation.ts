@@ -10,7 +10,7 @@ let startedAt = 0;
 const listeners = new Set<() => void>();
 // 写真を待つのは移動の開始からこの時間まで。URL が変わらない移動（同じ条件での絞り込み等）で
 // 印が残っても、後から出る写真を待ち続けないための保険
-const IMAGE_WAIT_WINDOW_MS = 3000;
+const IMAGE_WAIT_WINDOW_MS = 8000;
 
 export const isNavigating = () => pending;
 export const isWaitingForImages = () => pending && performance.now() - startedAt < IMAGE_WAIT_WINDOW_MS;
