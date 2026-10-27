@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useLayoutEffect, useTransition } from 'react';
+import { useCallback, useLayoutEffect, useOptimistic, useTransition } from 'react';
 
 /** ページ送りの行き先。新しいページが差し込まれたら PaginationScrollRestorer がここへ戻す */
 let pendingScrollTargetId: string | null = null;
@@ -42,13 +42,15 @@ interface PaginationProps {
 export default function Pagination({
   totalCount,
   perPage,
-  currentPage,
+  currentPage: urlPage,
   basePath,
   searchParams = {},
   scrollTargetId,
 }: PaginationProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  // 押した番号を読み込みを待たずに「今のページ」にする（押したことがすぐ分かるように）
+  const [currentPage, setOptimisticPage] = useOptimistic(urlPage);
   const totalPages = Math.ceil(totalCount / perPage);
 
   const buildHref = useCallback(
@@ -67,11 +69,14 @@ export default function Pagination({
       if (page === currentPage || page < 1 || page > Math.max(1, totalPages)) return;
       e.preventDefault();
       pendingScrollTargetId = scrollTargetId ?? '';
-      startTransition(() => router.push(buildHref(page), { scroll: false }));
+      startTransition(() => {
+        setOptimisticPage(page);
+        router.push(buildHref(page), { scroll: false });
+      });
       // 一覧の先頭へ smooth scroll（Pagination がページ切替後に再描画されても同じ id 要素が残るのでズレない）
       requestAnimationFrame(() => window.scrollTo({ top: scrollTargetTop(scrollTargetId ?? ''), behavior: 'smooth' }));
     },
-    [router, buildHref, currentPage, totalPages, scrollTargetId],
+    [router, buildHref, currentPage, totalPages, scrollTargetId, setOptimisticPage],
   );
 
   // 1 件以下なら totalPages = 0 になりうるので、常に少なくとも 1 ページ分の nav を出す
@@ -99,7 +104,6 @@ export default function Pagination({
   return (
     <nav
       aria-label="ページネーション"
-      // 読み込み中は globals.css で一覧（data-list-items）を薄くする
       aria-busy={isPending || undefined}
       // Figma 4211:10722 SP / 4211:10269 PC: cards bottom → nav top は 96px gap
       className="flex justify-center items-center gap-2 mt-24"
