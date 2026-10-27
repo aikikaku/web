@@ -1,8 +1,33 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useCallback } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useCallback, useLayoutEffect } from 'react';
+
+/** ページ送りの行き先。新しいページが差し込まれたら PaginationScrollRestorer がここへ戻す */
+let pendingScrollTargetId: string | null = null;
+
+function scrollTargetTop(id: string): number {
+  const target = id ? document.getElementById(id) : null;
+  return target ? target.getBoundingClientRect().top + window.scrollY - 80 : 0;
+}
+
+/**
+ * Next.js は router.push(..., { scroll: false }) でも、サーバーの応答が遅いと新しいページを差し込む時に
+ * html.scrollTop = 0 にすることがある（Vercel のプレビューで確認。手元のように応答が速いと起きない）。
+ * 一覧の先頭へスクロールした後に一番上へ飛ぶ 2 段階の動きになるので、差し込みの直後・描画の前に行き先へ戻す。
+ * Next.js のスクロール処理より後に動かすため、ルートレイアウトの {children} の後ろに置く。
+ */
+export function PaginationScrollRestorer() {
+  const searchParams = useSearchParams();
+  useLayoutEffect(() => {
+    if (pendingScrollTargetId === null) return;
+    const top = scrollTargetTop(pendingScrollTargetId);
+    pendingScrollTargetId = null;
+    window.scrollTo({ top, behavior: 'instant' });
+  }, [searchParams]);
+  return null;
+}
 
 interface PaginationProps {
   totalCount: number;
@@ -40,19 +65,10 @@ export default function Pagination({
     (e: React.MouseEvent<HTMLAnchorElement>, page: number) => {
       if (page === currentPage || page < 1 || page > Math.max(1, totalPages)) return;
       e.preventDefault();
+      pendingScrollTargetId = scrollTargetId ?? '';
       router.push(buildHref(page), { scroll: false });
       // 一覧の先頭へ smooth scroll（Pagination がページ切替後に再描画されても同じ id 要素が残るのでズレない）
-      requestAnimationFrame(() => {
-        if (scrollTargetId) {
-          const target = document.getElementById(scrollTargetId);
-          if (target) {
-            const top = target.getBoundingClientRect().top + window.scrollY - 80;
-            window.scrollTo({ top, behavior: 'smooth' });
-            return;
-          }
-        }
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
+      requestAnimationFrame(() => window.scrollTo({ top: scrollTargetTop(scrollTargetId ?? ''), behavior: 'smooth' }));
     },
     [router, buildHref, currentPage, totalPages, scrollTargetId],
   );
