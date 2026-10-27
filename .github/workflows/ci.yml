@@ -14,9 +14,8 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      # lock は npm 11 で作っている。Node 22 付属の npm 10 だと npm ci が lock を受け付けない
-      - run: npm install -g npm@11
-      - run: npm ci
+      # npm ci は、macOS で作った lock に Linux 用の追加パッケージが載っていないと失敗するため、Vercel と同じく npm install を使う
+      - run: npm install --no-audit --no-fund
       - run: npx vitest run --project unit
       # microCMS の鍵を CI に置かないため、モックデータでビルドする
       - run: npx next build
