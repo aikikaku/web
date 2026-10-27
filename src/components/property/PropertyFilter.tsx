@@ -6,6 +6,7 @@ import Dropdown from '@/components/ui/interactive/Dropdown';
 import Sort from '@/components/ui/interactive/Sort';
 import SortClear from '@/components/ui/interactive/SortClear';
 import Toggle from '@/components/ui/interactive/Toggle';
+import { startNavigation } from '@/lib/navigation';
 
 const statusOptions = [
   { value: 'all', label: 'すべて' },
@@ -69,6 +70,7 @@ export default function PropertyFilter() {
       if (types.length > 0) params.set('types', types.join(','));
       if (regions.length > 0) params.set('regions', regions.join(','));
       const qs = params.toString();
+      startNavigation();
       router.push(qs ? `/properties?${qs}` : '/properties', { scroll: false });
     },
     [router],
@@ -118,6 +120,7 @@ export default function PropertyFilter() {
     setOptimisticStatus('available');
     setOptimisticTypes([]);
     setOptimisticRegions([]);
+    startNavigation();
     router.push('/properties', { scroll: false });
   };
 
