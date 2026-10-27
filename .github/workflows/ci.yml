@@ -14,6 +14,8 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      # lock は npm 11 で作っている。Node 22 付属の npm 10 だと npm ci が lock を受け付けない
+      - run: npm install -g npm@11
       - run: npm ci
       - run: npx vitest run --project unit
       # microCMS の鍵を CI に置かないため、モックデータでビルドする
