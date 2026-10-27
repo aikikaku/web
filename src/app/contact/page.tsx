@@ -1,5 +1,5 @@
 import ContactForm from './ContactForm';
-import CardProperty from '@/components/ui/card/CardProperty';
+import PropertySummary from './PropertySummary';
 import type { Metadata } from 'next';
 import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
 import type { FormKind } from '@/lib/contact/inquiry';
@@ -68,16 +68,7 @@ export default async function ContactPage({ searchParams }: { searchParams: { ca
             {/* 物件お問い合わせ: 物件カードを左に出し続け、どの物件の問い合わせかを見失わないようにする（10/27 MTG） */}
             <div className="flex flex-col tablet:grid tablet:grid-cols-[minmax(0,22.5rem)_minmax(0,1fr)] tablet:gap-16 tablet:items-start">
               <aside className="mb-12 tablet:mb-0 tablet:sticky tablet:top-[7.5rem]">
-                <div className="bg-light-green rounded-[2rem] p-6 tablet:p-[1.875rem] flex flex-col gap-4">
-                  <p className="font-gothic font-medium text-body-s text-dark-green/70">お問い合わせの物件</p>
-                  <CardProperty property={found} />
-                  {found.location && (
-                    <p className="font-gothic text-body-s text-dark-green">
-                      <span className="text-dark-green/70">所在地：</span>
-                      {found.location}
-                    </p>
-                  )}
-                </div>
+                <PropertySummary property={found} />
               </aside>
               <div className="min-w-0">
                 {contactInfo}
