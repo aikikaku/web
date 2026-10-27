@@ -8,7 +8,7 @@ import { SITE_URL } from '@/lib/site';
 async function findProperty(id: string): Promise<InquiryProperty | null> {
   if (!id) return null;
   const property = await getProperty(id).catch(() => null);
-  return property ? { title: property.title, url: `${SITE_URL}/properties/${property.id}` } : null;
+  return property ? { title: property.title, location: property.location ?? '', url: `${SITE_URL}/properties/${property.id}` } : null;
 }
 
 /** 送信したページの URL。自サイトのもの以外は記録しない */
@@ -32,6 +32,9 @@ export async function POST(request: Request) {
   if (!parsed.ok) return NextResponse.json({ ok: false, errors: parsed.errors }, { status: 400 });
 
   const property = await findProperty(parsed.inquiry.propertyId);
+  if (parsed.inquiry.form.kind === 'property' && !property) {
+    return NextResponse.json({ ok: false, errors: { property: 'お問い合わせの物件が見つかりません。物件のページからもう一度お試しください' } }, { status: 400 });
+  }
   const result = await deliverInquiry(parsed.inquiry, property, sourcePageUrl(request));
   if (!result.ok) return NextResponse.json({ ok: false }, { status: 502 });
 

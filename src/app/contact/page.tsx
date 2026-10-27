@@ -1,7 +1,7 @@
 import ContactForm from './ContactForm';
 import type { Metadata } from 'next';
 import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
-import { isInquiryCategory } from '@/lib/contact/inquiry';
+import type { FormKind } from '@/lib/contact/inquiry';
 import { getProperty } from '@/lib/microcms/queries';
 
 export const metadata: Metadata = {
@@ -11,13 +11,14 @@ export const metadata: Metadata = {
 };
 
 /**
- * お問い合わせ。?category=buy|sell|parking|other で種類を、?property=<物件ID> で物件を選んだ状態で開く。
+ * お問い合わせ。総合・購入相談・売却相談をタブで切り替える。?category=buy|sell でそのタブを開く。
+ * ?property=<物件ID> のときは、物件お問い合わせのフォームだけを出す（物件ページからだけ開く）。
  */
 export default async function ContactPage(props: { searchParams: Promise<{ category?: string; property?: string }> }) {
   const searchParams = await props.searchParams;
   const found = searchParams.property ? await getProperty(searchParams.property).catch(() => null) : null;
-  const property = found ? { id: found.id, title: found.title } : null;
-  const initialCategory = property ? 'property' : isInquiryCategory(searchParams.category) ? searchParams.category : '';
+  const property = found ? { id: found.id, title: found.title, location: found.location ?? '' } : null;
+  const initialKind: FormKind = searchParams.category === 'buy' || searchParams.category === 'sell' ? searchParams.category : 'general';
 
   return (
     <div className="bg-cream">
@@ -67,7 +68,7 @@ export default async function ContactPage(props: { searchParams: Promise<{ categ
           </div>
 
           {/* Form */}
-          <ContactForm initialCategory={initialCategory} property={property} />
+          <ContactForm initialKind={initialKind} property={property} />
         </div>
       </section>
     </div>

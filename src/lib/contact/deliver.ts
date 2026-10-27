@@ -1,4 +1,4 @@
-import { INQUIRY_CATEGORIES, type Inquiry, type InquiryCategory } from './inquiry';
+import { describeValues, type Inquiry } from './inquiry';
 
 /**
  * お問い合わせを届ける（サーバー専用。API キーを使うのでブラウザ側から import しない）。順番は CRM への記録 → 社内への通知メール → お客様への自動返信。
@@ -15,6 +15,8 @@ import { INQUIRY_CATEGORIES, type Inquiry, type InquiryCategory } from './inquir
 
 export interface InquiryProperty {
   title: string;
+  /** 所在地 */
+  location: string;
   url: string;
 }
 
@@ -44,15 +46,15 @@ function receivedAt(date: Date): string {
 
 function summaryLines(inquiry: Inquiry, property: InquiryProperty | null): string[] {
   return [
-    `種類：${INQUIRY_CATEGORIES[inquiry.category]}`,
+    `種類：${inquiry.form.label}`,
     ...(property ? [`物件：${property.title}`, `　　　${property.url}`] : []),
-    `お名前：${inquiry.name}`,
-    `メール：${inquiry.email}`,
-    `電話：${inquiry.phone || '（未入力）'}`,
-    '',
-    '【お問い合わせ内容】',
-    inquiry.message,
+    ...describeValues(inquiry).map(({ label, value }) => (value.includes('\n') ? `【${label}】\n${value}` : `${label}：${value}`)),
   ];
+}
+
+/** お客様のお名前・メールアドレス（どのフォームにもある必須項目） */
+function customer(inquiry: Inquiry): { name: string; email: string } {
+  return { name: String(inquiry.values.name), email: String(inquiry.values.email) };
 }
 
 async function sendEmail(
@@ -73,43 +75,36 @@ async function sendEmail(
   return res.ok;
 }
 
-/** 案件管理CRM の「お問い合わせ」表の選択肢。表側の文字列と完全に一致させる（一致しないと選択肢に入らない） */
-const CRM_SOURCE: Record<InquiryCategory, string> = {
-  property: '物件お問い合わせ',
-  buy: '購入相談',
-  sell: '売却相談',
-  parking: '総合お問い合わせ',
-  other: '総合お問い合わせ',
-};
-const CRM_TOPIC: Record<InquiryCategory, string> = {
-  property: '',
-  buy: '買いたい',
-  sell: '売りたい',
-  parking: '借りたい',
-  other: 'その他',
-};
+type Crm = { token: string; docId: string; tableId: string };
+
+function crmTableUrl(crm: Crm): string {
+  return `https://coda.io/apis/v1/docs/${encodeURIComponent(crm.docId)}/tables/${encodeURIComponent(crm.tableId)}`;
+}
+
+/** 通知メールに載せる「お問い合わせ」表へのリンク。取れなければ空 */
+async function crmTableLink(crm: Crm): Promise<string> {
+  const res = await fetch(crmTableUrl(crm), {
+    headers: { Authorization: `Bearer ${crm.token}` },
+    signal: AbortSignal.timeout(TIMEOUT_MS),
+  }).catch(() => null);
+  if (!res?.ok) return '';
+  const table = (await res.json().catch(() => null)) as { browserLink?: string } | null;
+  return table?.browserLink ?? '';
+}
 
 /** 列名は案件管理CRM の「お問い合わせ」表と同じ。受付日時は表の初期値 Now() に任せる */
-async function recordToCrm(
-  crm: { token: string; docId: string; tableId: string },
-  inquiry: Inquiry,
-  property: InquiryProperty | null,
-  pageUrl: string,
-): Promise<boolean> {
-  const cells = [
-    { column: '問い合わせ元フォーム', value: CRM_SOURCE[inquiry.category] },
-    { column: 'お問い合わせ大分類', value: CRM_TOPIC[inquiry.category] },
-    { column: 'お名前', value: inquiry.name },
-    { column: 'メールアドレス', value: inquiry.email },
-    { column: '電話番号', value: inquiry.phone },
-    { column: 'お問い合わせ物件', value: property?.title ?? '' },
-    { column: 'お問い合わせ内容', value: inquiry.message },
-    { column: '送信元ページURL', value: pageUrl },
+async function recordToCrm(crm: Crm, inquiry: Inquiry, property: InquiryProperty | null, pageUrl: string): Promise<boolean> {
+  const cells: { column: string; value: string | string[] | boolean }[] = [
+    { column: '問い合わせ元フォーム', value: inquiry.form.source },
+    ...inquiry.form.fields
+      .filter((field) => inquiry.values[field.name] !== undefined)
+      .map((field) => ({ column: field.column, value: inquiry.values[field.name] })),
+    ...(property ? [{ column: 'お問い合わせ物件', value: property.location ? `${property.location}（${property.title}）` : property.title }] : []),
+    ...(pageUrl ? [{ column: '送信元ページURL', value: pageUrl }] : []),
     { column: 'プライバシーポリシー同意', value: true },
     { column: '対応状況', value: '未対応' },
-  ].filter((cell) => cell.value !== '');
-  const url = `https://coda.io/apis/v1/docs/${encodeURIComponent(crm.docId)}/tables/${encodeURIComponent(crm.tableId)}/rows`;
-  const res = await fetch(url, {
+  ];
+  const res = await fetch(`${crmTableUrl(crm)}/rows`, {
     method: 'POST',
     headers: { Authorization: `Bearer ${crm.token}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({ rows: [{ cells }] }),
@@ -136,17 +131,19 @@ export async function deliverInquiry(inquiry: Inquiry, property: InquiryProperty
     return { ok: false, reason: 'not_configured' };
   }
 
+  const { name, email } = customer(inquiry);
+  const [recorded, tableLink] = crm ? await Promise.all([recordToCrm(crm, inquiry, property, pageUrl), crmTableLink(crm)]) : [false, ''];
   const crmNote = !crm
     ? '※ CRM の設定がないため、CRM には記録していません。'
-    : (await recordToCrm(crm, inquiry, property, pageUrl))
-      ? 'CRM（Superhuman Docs）に記録しました。'
+    : recorded
+      ? `CRM（Superhuman Docs）の「お問い合わせ」表に記録しました。${tableLink ? `\n${tableLink}` : ''}`
       : '※ CRM（Superhuman Docs）への記録に失敗しました。お手数ですが手で追加してください。';
 
   const notified = await sendEmail(resend.apiKey, {
     from: resend.from,
     to: resend.to,
-    replyTo: inquiry.email,
-    subject: `【HP問い合わせ】${INQUIRY_CATEGORIES[inquiry.category]}｜${inquiry.name}様`,
+    replyTo: email,
+    subject: `【HP問い合わせ】${inquiry.form.label}｜${name}様`,
     text: [
       `ホームページからお問い合わせがありました（${receivedAt(at)}）。`,
       'このメールに返信すると、お客様に届きます。',
@@ -161,11 +158,11 @@ export async function deliverInquiry(inquiry: Inquiry, property: InquiryProperty
 
   await sendEmail(resend.apiKey, {
     from: resend.from,
-    to: [inquiry.email],
+    to: [email],
     replyTo: resend.to[0],
     subject: '【アイ企画】お問い合わせを受け付けました',
     text: [
-      `${inquiry.name} 様`,
+      `${name} 様`,
       '',
       'このたびはアイ企画にお問い合わせいただき、ありがとうございます。',
       '以下の内容で受け付けました。内容を確認のうえ、担当者よりご連絡いたします。',
