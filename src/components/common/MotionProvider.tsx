@@ -176,7 +176,11 @@ export default function MotionProvider() {
         // 外側がすでに対象（文字のまとまり・枠）なら、その中身は外側と一緒に出す
         if (el.parentElement?.closest('.m-hide')) continue;
         observed.add(el);
-        if (instant) continue;
+        if (instant) {
+          // 写真だけは、まだ読み込み中なら読み込み後にフェードする（空の枠からパッと出ると点滅して見える）
+          const img = el instanceof HTMLImageElement ? el : el.matches('[data-motion-fade]') ? el.querySelector('img') : null;
+          if (!img || (img.complete && img.naturalWidth > 0)) continue;
+        }
         el.classList.add('m-hide');
         if (el instanceof HTMLImageElement && !/opacity-/.test(el.className)) markLarge(el);
         io.observe(el);
