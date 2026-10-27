@@ -297,7 +297,7 @@ export default async function HomePage() {
           </div>
           <div className="relative z-10">
             <Link
-              href="/for-customer"
+              href="/contact"
               className="flex items-center justify-center w-full h-12 rounded-full bg-cream/95 border border-cream shadow-[0_0_16px_rgba(0,0,0,0.16)] font-gothic font-medium text-base text-dark-green hover:opacity-70 transition-opacity"
             >
               不動産に関するご相談はこちら
@@ -333,7 +333,7 @@ export default async function HomePage() {
             </div>
             <div className="flex-1 flex gap-3 justify-end">
               <Link
-                href="/for-customer"
+                href="/contact"
                 className="group bg-cream/95 rounded-3xl px-[1.875rem] pt-10 pb-[1.875rem] text-center w-[16.5rem] flex flex-col items-center gap-[1.875rem]"
               >
                 <span className="font-gothic font-medium text-category-2 text-dark-green">
