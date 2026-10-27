@@ -49,6 +49,7 @@ export default function CmsImage({ image, alt, onError, ...rest }: CmsImageProps
   const [fallback, setFallback] = useState<0 | 1 | 2>(0);
 
   if (!url || fallback === 2) {
+    if (isListSwapPending()) use(preload(getImageProps({ src: PLACEHOLDER_IMAGE_URL, alt, unoptimized: true, ...rest }).props));
     return <Image src={PLACEHOLDER_IMAGE_URL} alt={alt} unoptimized {...rest} />;
   }
 
