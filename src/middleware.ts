@@ -7,10 +7,7 @@ import { NextRequest, NextResponse } from 'next/server';
  *   未設定なら認証なし (本番公開後に環境変数を外せば全公開モードに戻せる)。
  * - 認証は HTTP Basic 認証 (Authorization: Basic base64(user:pass))。
  * - /_next/static, favicon, /robots.txt 等の公開アセットは除外。
- *
- * Vercel での使い方:
- *   BASIC_AUTH_USER=ai-kikaku
- *   BASIC_AUTH_PASSWORD=ai-kikaku
+ * - 本番（Production）環境には設定せず、プレビュー環境にだけ設定する。
  */
 export function middleware(req: NextRequest) {
   const user = process.env.BASIC_AUTH_USER;
@@ -48,7 +45,7 @@ export function middleware(req: NextRequest) {
 export const config = {
   matcher: [
     // 全ページに適用しつつ、以下を除外:
-    //   /_next/static, /_next/image, /favicon.ico, /images, /robots.txt, /sitemap.xml
-    '/((?!_next/static|_next/image|favicon\\.ico|images|robots\\.txt|sitemap\\.xml).*)',
+    //   /_next/static, /_next/image, /images, /robots.txt, /sitemap.xml
+    '/((?!_next/static|_next/image|images|robots\\.txt|sitemap\\.xml).*)',
   ],
 };

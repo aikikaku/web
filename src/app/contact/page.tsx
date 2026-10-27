@@ -1,5 +1,8 @@
 import ContactForm from './ContactForm';
 import type { Metadata } from 'next';
+import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
+import type { FormKind } from '@/lib/contact/inquiry';
+import { getProperty } from '@/lib/microcms/queries';
 
 export const metadata: Metadata = {
   title: 'お問い合わせ',
@@ -7,10 +10,19 @@ export const metadata: Metadata = {
     '不動産の購入・売却・賃貸に関するご相談やお問い合わせは、アイ企画までお気軽にどうぞ。',
 };
 
-export default function ContactPage() {
+/**
+ * お問い合わせ。総合・購入相談・売却相談をタブで切り替える。?category=buy|sell でそのタブを開く。
+ * ?property=<物件ID> のときは、物件お問い合わせのフォームだけを出す（物件ページからだけ開く）。
+ */
+export default async function ContactPage(props: { searchParams: Promise<{ category?: string; property?: string }> }) {
+  const searchParams = await props.searchParams;
+  const found = searchParams.property ? await getProperty(searchParams.property).catch(() => null) : null;
+  const property = found ? { id: found.id, title: found.title, location: found.location ?? '' } : null;
+  const initialKind: FormKind = searchParams.category === 'buy' || searchParams.category === 'sell' ? searchParams.category : 'general';
+
   return (
     <div className="bg-cream">
-
+      <Breadcrumb items={[{ label: 'お問い合わせ' }]} />
       <section className="page-container py-16 tablet:py-24">
         <div className="max-w-[49.5rem] mx-auto">
           {/* Heading */}
@@ -56,7 +68,7 @@ export default function ContactPage() {
           </div>
 
           {/* Form */}
-          <ContactForm />
+          <ContactForm initialKind={initialKind} property={property} />
         </div>
       </section>
     </div>

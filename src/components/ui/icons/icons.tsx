@@ -1,3 +1,5 @@
+import { INSTAGRAM_URL, YOUTUBE_URL } from '@/lib/site';
+
 interface BookIconProps {
   size?: number;
   stroke?: string;
@@ -39,10 +41,10 @@ export function YoutubeIcon({ size = 28 }: { size?: number }) {
 export function FooterSocialLinks() {
   return (
     <>
-      <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-white hover:text-white/70 transition-colors">
+      <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-white hover:text-white/70 transition-colors">
         <InstagramIcon />
       </a>
-      <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="text-white hover:text-white/70 transition-colors">
+      <a href={YOUTUBE_URL} target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="text-white hover:text-white/70 transition-colors">
         <YoutubeIcon />
       </a>
     </>

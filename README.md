@@ -143,6 +143,22 @@ cp .env.local.example .env.local
 npm run dev
 ```
 
+### 環境変数
+
+| 変数 | 必須 | 用途 |
+|---|---|---|
+| `MICROCMS_SERVICE_DOMAIN` / `MICROCMS_API_KEY` | 必須 | microCMS からの取得 |
+| `NEXT_PUBLIC_SITE_URL` | 任意 | サイトの正規 URL。既定は `https://www.aikikaku.net`（sitemap・OGP・構造化データに使う） |
+| `RESEND_API_KEY` | 本番で必須 | 問い合わせメールの送信（Resend） |
+| `CONTACT_FROM` | 本番で必須 | 送信元。例: `アイ企画 <noreply@aikikaku.net>`。Resend で認証済みのドメインにする |
+| `CONTACT_TO` | 本番で必須 | 問い合わせの通知先。カンマ区切りで複数可 |
+| `CODA_API_TOKEN` / `CODA_DOC_ID` / `CODA_TABLE_ID` | 任意 | 問い合わせを Superhuman Docs（Coda）の表に1行ずつ記録する。未設定なら記録しない |
+| `BASIC_AUTH_USER` / `BASIC_AUTH_PASSWORD` | 任意 | プレビュー環境だけに設定する Basic 認証。**本番には設定しない** |
+| `USE_MOCK` | 任意 | `true` で microCMS の代わりにモックデータを使う |
+
+- 開発環境（`npm run dev`）で Resend の設定がないときは、問い合わせはメールを送らずにサーバーのログに出すだけになる。
+- 書き込み先は案件管理CRM の「お問い合わせ」表。列名で書き込むので、`src/lib/contact/deliver.ts` の列名・選択肢と表側を完全に一致させる。
+
 ## プロジェクト構造
 
 ```

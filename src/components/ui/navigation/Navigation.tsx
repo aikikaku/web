@@ -3,9 +3,9 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import Arrow from '@/components/ui/interactive/Arrow';
-import { getContactUrl } from '@/lib/typeform';
 import { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
+import { NAKABITO_URL } from '@/lib/site';
 
 const navLinks = [
   { href: '/properties', label: '物件を探す' },
@@ -33,12 +33,9 @@ const dropdownCards = [
   },
 ];
 
-const CONTACT_URL = getContactUrl();
-const CONTACT_EXTERNAL = CONTACT_URL.startsWith('http');
-
 const navLinksAfter = [
   { href: '/voice', label: 'お客様の声' },
-  { href: CONTACT_URL, label: 'お問い合わせ', external: CONTACT_EXTERNAL },
+  { href: '/contact', label: 'お問い合わせ' },
 ];
 
 // Mobile用: 全navItems
@@ -51,8 +48,8 @@ const allNavItems = [
     cards: dropdownCards,
   },
   { href: '/voice', label: 'お客様の声' },
-  { href: CONTACT_URL, label: 'お問い合わせ', external: CONTACT_EXTERNAL },
-  { href: 'https://nakabito.jp', label: '仲人', external: true, showExternalIcon: true },
+  { href: '/contact', label: 'お問い合わせ' },
+  { href: NAKABITO_URL, label: '仲人', external: true, showExternalIcon: true },
 ];
 
 export default function Navigation() {
@@ -200,8 +197,6 @@ export default function Navigation() {
               <Link
                 key={item.href}
                 href={item.href}
-                target={item.external ? '_blank' : undefined}
-                rel={item.external ? 'noopener noreferrer' : undefined}
                 aria-current={currentKey === item.href ? 'page' : undefined}
                 className={navItemClass(item.href)}
               >
