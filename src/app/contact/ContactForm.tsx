@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState, type FormEvent, type ReactNode } from 'react';
+import Dropdown from '@/components/ui/interactive/Dropdown';
 import Toggle from '@/components/ui/interactive/Toggle';
 import {
   FORMS,
@@ -31,8 +32,6 @@ const inputClass = (hasError: boolean) =>
     hasError ? 'border-red-400 focus:border-red-400' : 'border-dark-green/20 focus:border-accent-blue'
   }`;
 
-const selectArrow =
-  "appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%232a363b%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M6%209l6%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:24px] bg-[right_16px_center] bg-no-repeat";
 
 function RequiredMark({ required }: { required: boolean }) {
   return required ? <span className="ml-2 text-body-s text-red-500">必須</span> : <span className="ml-2 text-body-s text-dark-green/50">任意</span>;
@@ -102,20 +101,16 @@ function FieldInput({
     );
   } else if (field.type === 'select') {
     control = (
-      <select
+      <Dropdown
         id={field.name}
-        value={text}
-        onChange={(e) => onChange(e.target.value)}
-        className={`${inputClass(!!error)} ${selectArrow} ${text ? '' : 'text-dark-green/30'}`}
-        {...a11y}
-      >
-        <option value="">選んでください</option>
-        {field.options!.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
+        label="選んでください"
+        options={field.options!.map((option) => ({ value: option, label: option }))}
+        selected={text ? [text] : []}
+        onToggle={(option) => onChange(option === text ? '' : option)}
+        closeOnSelect
+        invalid={!!error}
+        widthClassName="w-full"
+      />
     );
   } else {
     control = (
