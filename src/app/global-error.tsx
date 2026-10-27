@@ -15,6 +15,8 @@ export default function GlobalError({ reset }: { error: Error & { digest?: strin
             <button type="button" onClick={reset} style={{ font: 'inherit', color: 'inherit', background: 'none', border: 0, textDecoration: 'underline', cursor: 'pointer' }}>
               もう一度読み込む
             </button>
+            {/* レイアウトごと壊れているので、クライアント遷移ではなくページを読み込み直す */}
+            {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
             <a href="/" style={{ color: 'inherit' }}>トップページへ戻る</a>
           </p>
         </main>
