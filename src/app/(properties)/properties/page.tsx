@@ -161,7 +161,7 @@ export default async function PropertiesPage(props: PropertiesPageProps) {
 
           {/* 物件カードグリッド */}
           {gridProperties.length > 0 ? (
-            <div id="properties-grid" data-list-items className="grid grid-cols-1 tablet:grid-cols-3 gap-y-[3.75rem] tablet:gap-x-[1.875rem] tablet:gap-y-24">
+            <div id="properties-grid" className="grid grid-cols-1 tablet:grid-cols-3 gap-y-[3.75rem] tablet:gap-x-[1.875rem] tablet:gap-y-24">
               {gridProperties.map((property) => (
                 <CardProperty key={property.id} property={property} />
               ))}
