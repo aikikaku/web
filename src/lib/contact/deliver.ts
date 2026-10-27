@@ -1,4 +1,4 @@
-import { INQUIRY_CATEGORIES, type Inquiry } from './inquiry';
+import { INQUIRY_CATEGORIES, type Inquiry, type InquiryCategory } from './inquiry';
 
 /**
  * お問い合わせを届ける（サーバー専用。API キーを使うのでブラウザ側から import しない）。順番は CRM への記録 → 社内への通知メール → お客様への自動返信。
@@ -73,22 +73,41 @@ async function sendEmail(
   return res.ok;
 }
 
-/** 表の列名は Superhuman Docs 側の表と同じ名前にしておく（列 ID でも可） */
+/** 案件管理CRM の「お問い合わせ」表の選択肢。表側の文字列と完全に一致させる（一致しないと選択肢に入らない） */
+const CRM_SOURCE: Record<InquiryCategory, string> = {
+  property: '物件お問い合わせ',
+  buy: '購入相談',
+  sell: '売却相談',
+  parking: '総合お問い合わせ',
+  other: '総合お問い合わせ',
+};
+const CRM_TOPIC: Record<InquiryCategory, string> = {
+  property: '',
+  buy: '買いたい',
+  sell: '売りたい',
+  parking: '借りたい',
+  other: 'その他',
+};
+
+/** 列名は案件管理CRM の「お問い合わせ」表と同じ。受付日時は表の初期値 Now() に任せる */
 async function recordToCrm(
   crm: { token: string; docId: string; tableId: string },
   inquiry: Inquiry,
   property: InquiryProperty | null,
-  at: Date,
+  pageUrl: string,
 ): Promise<boolean> {
   const cells = [
-    { column: '受付日時', value: at.toISOString() },
-    { column: '種類', value: INQUIRY_CATEGORIES[inquiry.category] },
+    { column: '問い合わせ元フォーム', value: CRM_SOURCE[inquiry.category] },
+    { column: 'お問い合わせ大分類', value: CRM_TOPIC[inquiry.category] },
     { column: 'お名前', value: inquiry.name },
-    { column: 'メール', value: inquiry.email },
-    { column: '電話', value: inquiry.phone },
-    { column: '物件', value: property ? `${property.title} ${property.url}` : '' },
-    { column: '内容', value: inquiry.message },
-  ];
+    { column: 'メールアドレス', value: inquiry.email },
+    { column: '電話番号', value: inquiry.phone },
+    { column: 'お問い合わせ物件', value: property?.title ?? '' },
+    { column: 'お問い合わせ内容', value: inquiry.message },
+    { column: '送信元ページURL', value: pageUrl },
+    { column: 'プライバシーポリシー同意', value: true },
+    { column: '対応状況', value: '未対応' },
+  ].filter((cell) => cell.value !== '');
   const url = `https://coda.io/apis/v1/docs/${encodeURIComponent(crm.docId)}/tables/${encodeURIComponent(crm.tableId)}/rows`;
   const res = await fetch(url, {
     method: 'POST',
@@ -104,7 +123,7 @@ async function recordToCrm(
   return res.ok;
 }
 
-export async function deliverInquiry(inquiry: Inquiry, property: InquiryProperty | null): Promise<DeliveryResult> {
+export async function deliverInquiry(inquiry: Inquiry, property: InquiryProperty | null, pageUrl: string): Promise<DeliveryResult> {
   const { resend, crm } = config();
   const at = new Date();
 
@@ -119,7 +138,7 @@ export async function deliverInquiry(inquiry: Inquiry, property: InquiryProperty
 
   const crmNote = !crm
     ? '※ CRM の設定がないため、CRM には記録していません。'
-    : (await recordToCrm(crm, inquiry, property, at))
+    : (await recordToCrm(crm, inquiry, property, pageUrl))
       ? 'CRM（Superhuman Docs）に記録しました。'
       : '※ CRM（Superhuman Docs）への記録に失敗しました。お手数ですが手で追加してください。';
 
