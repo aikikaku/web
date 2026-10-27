@@ -13,6 +13,11 @@ interface DropdownProps {
   /** 外枠の幅クラス。省略時は SP 全幅 / PC 360px 固定（stories 側の既存挙動）。
       /properties の PC フィルタ行は Figma 4470:14414 に合わせ flex-1 で等分するため上書きする */
   widthClassName?: string;
+  /** 1 つ選んだら閉じる（フォームの単一選択で使う） */
+  closeOnSelect?: boolean;
+  /** トリガーのボタンの id（フォームの label やエラー時のフォーカスに使う） */
+  id?: string;
+  invalid?: boolean;
 }
 
 /**
@@ -33,6 +38,9 @@ export default function Dropdown({
   onToggle,
   onClear,
   widthClassName = 'w-full tablet:w-[22.5rem]',
+  closeOnSelect = false,
+  id,
+  invalid = false,
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -68,10 +76,12 @@ export default function Dropdown({
     <div className={`relative ${widthClassName}`} ref={ref}>
       <button
         type="button"
+        id={id}
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
+        aria-invalid={invalid || undefined}
         aria-haspopup="listbox"
-        className={`w-full h-[3.5rem] px-4 border border-dark-green rounded-lg font-gothic font-medium text-[1rem] flex items-center justify-between gap-2 cursor-pointer transition-colors ${triggerBg}`}
+        className={`w-full h-[3.5rem] px-4 border ${invalid ? 'border-red-400' : 'border-dark-green'} rounded-lg font-gothic font-medium text-[1rem] flex items-center justify-between gap-2 cursor-pointer transition-colors ${triggerBg}`}
       >
         {/* placeholder or selected chips */}
         {hasSelection ? (
@@ -176,7 +186,10 @@ export default function Dropdown({
                 type="button"
                 role="option"
                 aria-selected={checked}
-                onClick={() => onToggle(option.value)}
+                onClick={() => {
+                  onToggle(option.value);
+                  if (closeOnSelect) setIsOpen(false);
+                }}
                 className="group flex items-center gap-2 h-[2.5rem] w-[calc(100%+1.5rem)] -mx-3 px-3 rounded-md text-left cursor-pointer transition-colors hover:bg-light-green"
               >
                 <span
