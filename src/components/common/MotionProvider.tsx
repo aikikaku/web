@@ -43,6 +43,10 @@ function hasOwnText(el: Element) {
   return false;
 }
 
+function textKey(el: Element) {
+  return `${el.tagName}|${el.textContent?.trim()}`;
+}
+
 export default function MotionProvider() {
   // ページをまたいで1つだけ動かす（遷移で作り直すと、その間に新しいページの文字が一瞬見えてしまう）。
   // 遷移後の新しい要素は MutationObserver が次の描画の前に拾う
@@ -163,6 +167,9 @@ export default function MotionProvider() {
     let lastPath = location.pathname;
     let lastSearch = location.search;
     let instantUntil = 0;
+    // 読み込み表示から本体に切り替わる時など、消えた文字と同じ文字が出し直された時は演出しない
+    // （「物件を探す」の見出しが読み込み表示で出た後、本体でもう一度フェードして点滅して見える）
+    const removedTexts = new Set<string>();
     const scan = () => {
       if (location.pathname === lastPath && location.search !== lastSearch) instantUntil = performance.now() + QUERY_SWAP_MS;
       lastPath = location.pathname;
@@ -176,6 +183,7 @@ export default function MotionProvider() {
         // 外側がすでに対象（文字のまとまり・枠）なら、その中身は外側と一緒に出す
         if (el.parentElement?.closest('.m-hide')) continue;
         observed.add(el);
+        if (!isMedia && removedTexts.has(textKey(el))) continue;
         if (instant) {
           // 写真だけは、まだ読み込み中なら読み込み後にフェードする（空の枠からパッと出ると点滅して見える）
           const img = el instanceof HTMLImageElement ? el : el.matches('[data-motion-fade]') ? el.querySelector('img') : null;
@@ -185,6 +193,7 @@ export default function MotionProvider() {
         if (el instanceof HTMLImageElement && !/opacity-/.test(el.className)) markLarge(el);
         io.observe(el);
       }
+      removedTexts.clear();
     };
 
     // 速いスクロールで画面に入らないまま上へ通り過ぎた要素は IntersectionObserver から通知が来ないため、
@@ -206,11 +215,16 @@ export default function MotionProvider() {
     };
     window.addEventListener('scroll', onScroll, { passive: true });
 
-    // 絞り込み・ページ送り・カルーセル等で後から追加される要素も対象にする（次の描画の前に印を付ける）
-    let raf = 0;
-    const mo = new MutationObserver(() => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(scan);
+    // 絞り込み・ページ送り・カルーセル等で後から追加される要素も対象にする。
+    // 変化の直後（マイクロタスク）に印を付ける。requestAnimationFrame まで待つと、その前に 1 コマ見えてから消えることがある
+    const mo = new MutationObserver((records) => {
+      for (const r of records) {
+        r.removedNodes.forEach((n) => {
+          if (!(n instanceof Element)) return;
+          for (const el of [n, ...Array.from(n.querySelectorAll('*'))]) if (hasOwnText(el)) removedTexts.add(textKey(el));
+        });
+      }
+      scan();
     });
     // React の hydration（Suspense 境界の後追い分を含む）が終わってから始める。それまで main は CSS で見えない
     const start = window.setTimeout(() => {
@@ -230,7 +244,6 @@ export default function MotionProvider() {
       pio.disconnect();
       parallaxEls.forEach((img) => (img.style.translate = ''));
       mo.disconnect();
-      cancelAnimationFrame(raf);
       cancelAnimationFrame(scrollRaf);
       window.removeEventListener('scroll', onScroll);
     };
