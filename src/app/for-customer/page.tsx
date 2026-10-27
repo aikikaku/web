@@ -334,7 +334,7 @@ export default async function ForCustomerPage() {
         bgImage="/images/for-customer/cta-banner.jpg"
         heading={<>不動産に関すること、<br />ぜひご相談ください。</>}
         ctas={[
-          { label: '不動産をお探しの方', href: '/contact' },
+          { label: '不動産をお探しの方', href: '/contact?category=buy' },
           { label: 'その他のお問い合わせ', href: '/contact' },
         ]}
         />
