@@ -89,7 +89,7 @@ export default function Select({ id, value, options, onChange, placeholder = 'é
       >
         <span className={value ? 'text-dark-green' : 'text-dark-green/30'}>{value || placeholder}</span>
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden className={`shrink-0 transition-transform ${open ? 'rotate-180' : ''}`}>
-          <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-dark-green" />
+          <path d="M3 5l5 6 5-6" className="fill-dark-green" />
         </svg>
       </button>
 
