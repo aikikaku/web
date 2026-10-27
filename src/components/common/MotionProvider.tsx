@@ -32,6 +32,8 @@ const LARGE_MIN_W = 480;
 const LARGE_MIN_H = 280;
 // パララックスで写真が枠の中で動く量（枠の高さに対する割合・片側）
 const PARALLAX_AMP = 0.03;
+// ?page= 等が変わってから、入れ替わった中身を演出なしで出す時間（中身が数回に分けて差し込まれても漏らさない）
+const QUERY_SWAP_MS = 1000;
 
 /** 空白以外の文字を直接（子のテキストノードとして）持っているか */
 function hasOwnText(el: Element) {
@@ -156,7 +158,16 @@ export default function MotionProvider() {
 
     // 対象の選び方: 写真・動画・枠、または文字を直接持つ要素。すでに対象になっている要素の中は外側と一緒に出す
     const observed = new WeakSet<Element>();
+    // ページ送り・絞り込み（同じページで ?page= 等だけが変わる）で入れ替わった中身はフェードし直さない。
+    // 演出はページに来た時のもので、同じページの中身の更新でやると一覧が点滅して見える
+    let lastPath = location.pathname;
+    let lastSearch = location.search;
+    let instantUntil = 0;
     const scan = () => {
+      if (location.pathname === lastPath && location.search !== lastSearch) instantUntil = performance.now() + QUERY_SWAP_MS;
+      lastPath = location.pathname;
+      lastSearch = location.search;
+      const instant = performance.now() < instantUntil;
       for (const el of Array.from(main.querySelectorAll('*'))) {
         if (observed.has(el) || el.classList.contains('m-in')) continue;
         if (el instanceof SVGElement || el.closest(EXCLUDE)) continue;
@@ -165,6 +176,7 @@ export default function MotionProvider() {
         // 外側がすでに対象（文字のまとまり・枠）なら、その中身は外側と一緒に出す
         if (el.parentElement?.closest('.m-hide')) continue;
         observed.add(el);
+        if (instant) continue;
         el.classList.add('m-hide');
         if (el instanceof HTMLImageElement && !/opacity-/.test(el.className)) markLarge(el);
         io.observe(el);
