@@ -15,6 +15,8 @@
  * 未設定なら内部の /contact ページを返す（フォールバック）。
  * (デザインレビュー #XL17LU1-pxjw: お問い合わせを外部フォームへ)
  */
+import { SITE_URL } from '@/lib/site';
+
 export function getContactUrl(): string {
   const form = process.env.NEXT_PUBLIC_TYPEFORM_FORM_ID;
   if (!form) return '/contact';
@@ -32,8 +34,7 @@ export function getTypeformContactUrl(property: {
     ? form
     : `https://form.typeform.com/to/${form}`;
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp';
-  const propertyUrl = `${baseUrl}/properties/${property.id}`;
+  const propertyUrl = `${SITE_URL}/properties/${property.id}`;
 
   // Hidden Fields は `#key=value&key2=value2` 形式。各値は URL エンコードする
   const params = [

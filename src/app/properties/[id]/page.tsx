@@ -19,6 +19,7 @@ import ListItemDeco from '@/components/ui/content/ListItemDeco';
 import ListItemDef from '@/components/ui/content/ListItemDef';
 import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
 import { getPriceLabel, getPropertyLayoutCell } from '@/components/property/propertyCells';
+import { SITE_URL } from '@/lib/site';
 
 export const revalidate = 3600;
 
@@ -165,7 +166,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
     description: property.description
       ? property.description.replace(/<[^>]*>/g, '').slice(0, 200)
       : property.title,
-    url: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp'}/properties/${property.id}`,
+    url: `${SITE_URL}/properties/${property.id}`,
     image: property.mainImage?.url,
     datePosted: property.publishedAt,
     ...(property.location && {
@@ -197,13 +198,13 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
         '@type': 'ListItem',
         position: 1,
         name: 'ホーム',
-        item: process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp',
+        item: SITE_URL,
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: '物件を探す',
-        item: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp'}/properties`,
+        item: `${SITE_URL}/properties`,
       },
       {
         '@type': 'ListItem',

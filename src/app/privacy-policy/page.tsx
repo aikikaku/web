@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
+import { SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'プライバシーポリシーについて',
@@ -28,12 +29,18 @@ const sections = [
     body: 'アイ企画は以下の場合を除き、お客様の個人情報を第三者に開示または提供致しません。\n・法令に基づく場合\n・生命・身体または財産の保護のために必要であって、お客様の同意を得ることが困難な場合\n・お客様の同意がある場合',
   },
   {
-    heading: '5.プライバシーポリシーの変更',
+    heading: '5.業務の委託と外部サービスの利用について',
+    body: 'アイ企画は、お問い合わせへの対応に必要な範囲で、個人情報の取扱いを外部のサービスに委託することがあります。委託先には適切な管理を求めます。\n・お問い合わせ内容の通知・自動返信メールの送信（Resend）\n・お問い合わせ内容の記録・管理（Superhuman Docs）\nまた、当サイトでは利用状況を把握するためにアクセス解析（Vercel Web Analytics）を利用しています。このアクセス解析は Cookie を使わず、個人を特定する情報は収集しません。',
+  },
+  {
+    heading: '6.個人情報の開示・訂正・削除について',
+    body: 'お客様ご本人から個人情報の開示・訂正・利用停止・削除のご依頼があった場合は、ご本人であることを確認したうえで、速やかに対応いたします。お問い合わせフォームからご連絡下さい。',
+  },
+  {
+    heading: '7.プライバシーポリシーの変更',
     body: 'アイ企画は、プライバシーポリシーについて定期的な見直し、および継続的な改善を実施致します。プライバシーポリシーに重要な変更がある場合は当サイトに掲示いたします。個人情報の取扱いについて、ご質問等がございましたらお問い合わせフォームからご連絡下さい。',
   },
 ];
-
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://ai-kikaku.co.jp';
 
 export default function PrivacyPolicyPage() {
   return (
@@ -45,7 +52,7 @@ export default function PrivacyPolicyPage() {
             '@context': 'https://schema.org',
             '@type': 'BreadcrumbList',
             itemListElement: [
-              { '@type': 'ListItem', position: 1, name: 'ホーム', item: BASE_URL },
+              { '@type': 'ListItem', position: 1, name: 'ホーム', item: SITE_URL },
               { '@type': 'ListItem', position: 2, name: 'プライバシーポリシー' },
             ],
           }),
@@ -63,7 +70,7 @@ export default function PrivacyPolicyPage() {
           <div className="w-full max-w-[44rem] flex flex-col gap-[3.75rem] tablet:gap-16">
             {/* イントロ */}
             <p className="text-body-m tablet:text-body-l text-black">
-              アイ企画が運営する当サイト「 izuip.com 」における、個人情報に関する取扱いについて以下に記載致します。
+              アイ企画が運営する当サイト（aikikaku.net）における、個人情報に関する取扱いについて以下に記載致します。
             </p>
 
             {/* セクション */}
@@ -76,9 +83,9 @@ export default function PrivacyPolicyPage() {
               </div>
             ))}
 
-            {/* 制定日（公開日） */}
+            {/* 制定日（公開日）。公開日が決まったら合わせる */}
             <p className="text-body-m tablet:text-body-l text-black">
-              2026.8.1　アイ企画
+              2026.10.30　アイ企画
             </p>
           </div>
         </div>
