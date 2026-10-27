@@ -1,7 +1,11 @@
 import SearchProgress from '@/components/common/SearchProgress';
 import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
 
-/** ページ本体（page.tsx）のパンくず・見出し・リード文と同じ配置にし、読み込み完了時にずれないようにする */
+/**
+ * 一覧の外から来た時だけ出す読み込み表示。ルートグループに置くのは、ページ送り・絞り込み（?page= 等の変更）で
+ * 出さないため。properties/ 直下に置くと検索条件ごとに作り直されて毎回スケルトンに切り替わり、今の一覧が消える。
+ * ページ本体（page.tsx）のパンくず・見出し・リード文と同じ配置にし、読み込み完了時にずれないようにする。
+ */
 export default function Loading() {
   return (
     <div className="bg-cream">

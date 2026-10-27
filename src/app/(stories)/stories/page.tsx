@@ -255,7 +255,7 @@ export default async function StoriesPage(props: StoriesPageProps) {
 
               {/* グリッド: SP は overlay variant の縦並び gap-32、PC は 3 列 gap-y-48 */}
               {gridStories.length > 0 && (
-                <div data-stories-grid className="grid grid-cols-1 tablet:grid-cols-3 gap-y-8 tablet:gap-y-[3rem] gap-x-0 tablet:gap-x-[1.875rem]">
+                <div data-stories-grid data-list-items className="grid grid-cols-1 tablet:grid-cols-3 gap-y-8 tablet:gap-y-[3rem] gap-x-0 tablet:gap-x-[1.875rem]">
                   {gridStories.map((story) => (
                     <StoryCardLarge key={story.id} story={story} />
                   ))}

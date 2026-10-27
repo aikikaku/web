@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useLayoutEffect } from 'react';
+import { useCallback, useLayoutEffect, useTransition } from 'react';
 
 /** ページ送りの行き先。新しいページが差し込まれたら PaginationScrollRestorer がここへ戻す */
 let pendingScrollTargetId: string | null = null;
@@ -48,6 +48,7 @@ export default function Pagination({
   scrollTargetId,
 }: PaginationProps) {
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
   const totalPages = Math.ceil(totalCount / perPage);
 
   const buildHref = useCallback(
@@ -66,7 +67,7 @@ export default function Pagination({
       if (page === currentPage || page < 1 || page > Math.max(1, totalPages)) return;
       e.preventDefault();
       pendingScrollTargetId = scrollTargetId ?? '';
-      router.push(buildHref(page), { scroll: false });
+      startTransition(() => router.push(buildHref(page), { scroll: false }));
       // 一覧の先頭へ smooth scroll（Pagination がページ切替後に再描画されても同じ id 要素が残るのでズレない）
       requestAnimationFrame(() => window.scrollTo({ top: scrollTargetTop(scrollTargetId ?? ''), behavior: 'smooth' }));
     },
@@ -98,6 +99,8 @@ export default function Pagination({
   return (
     <nav
       aria-label="ページネーション"
+      // 読み込み中は globals.css で一覧（data-list-items）を薄くする
+      aria-busy={isPending || undefined}
       // Figma 4211:10722 SP / 4211:10269 PC: cards bottom → nav top は 96px gap
       className="flex justify-center items-center gap-2 mt-24"
     >
