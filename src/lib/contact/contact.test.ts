@@ -55,6 +55,7 @@ describe('parseInquiry', () => {
 describe('deliverInquiry', () => {
   const inquiry = { category: 'property' as const, name: '山田 太郎', email: 'yamada@example.jp', phone: '', message: '内見したいです', propertyId: 'abc' };
   const property = { title: '加茂の平屋', url: 'https://www.aikikaku.net/properties/abc' };
+  const page = 'https://www.aikikaku.net/contact?property=abc';
   let calls: { url: string; body: Record<string, unknown> }[];
 
   function stubFetch(status: Record<string, number>) {
@@ -85,15 +86,28 @@ describe('deliverInquiry', () => {
 
   it('CRM に記録し、社内に通知し、お客様に自動返信する', async () => {
     stubFetch({});
-    expect(await deliverInquiry(inquiry, property)).toEqual({ ok: true });
+    expect(await deliverInquiry(inquiry, property, page)).toEqual({ ok: true });
 
     expect(calls.map((c) => c.url)).toEqual([
       'https://coda.io/apis/v1/docs/doc1/tables/%E5%95%8F%E3%81%84%E5%90%88%E3%82%8F%E3%81%9B/rows',
       'https://api.resend.com/emails',
       'https://api.resend.com/emails',
     ]);
-    expect(calls[0].body).toMatchObject({
-      rows: [{ cells: expect.arrayContaining([{ column: '物件', value: '加茂の平屋 https://www.aikikaku.net/properties/abc' }]) }],
+    expect(calls[0].body).toEqual({
+      rows: [
+        {
+          cells: [
+            { column: '問い合わせ元フォーム', value: '物件お問い合わせ' },
+            { column: 'お名前', value: '山田 太郎' },
+            { column: 'メールアドレス', value: 'yamada@example.jp' },
+            { column: 'お問い合わせ物件', value: '加茂の平屋' },
+            { column: 'お問い合わせ内容', value: '内見したいです' },
+            { column: '送信元ページURL', value: 'https://www.aikikaku.net/contact?property=abc' },
+            { column: 'プライバシーポリシー同意', value: true },
+            { column: '対応状況', value: '未対応' },
+          ],
+        },
+      ],
     });
     expect(calls[1].body).toMatchObject({
       to: ['info@aikikaku.net', 'staff@aikikaku.net'],
@@ -106,20 +120,20 @@ describe('deliverInquiry', () => {
 
   it('CRM に書けなくても受け付け、通知メールにそのことを書く', async () => {
     stubFetch({ 'coda.io': 500 });
-    expect(await deliverInquiry(inquiry, property)).toEqual({ ok: true });
+    expect(await deliverInquiry(inquiry, property, page)).toEqual({ ok: true });
     expect(calls[1].body.text).toContain('CRM（Superhuman Docs）への記録に失敗しました');
   });
 
   it('社内への通知が届かなければ失敗にし、自動返信も送らない', async () => {
     stubFetch({ 'api.resend.com': 500 });
-    expect(await deliverInquiry(inquiry, property)).toEqual({ ok: false, reason: 'notify_failed' });
+    expect(await deliverInquiry(inquiry, property, page)).toEqual({ ok: false, reason: 'notify_failed' });
     expect(calls).toHaveLength(2);
   });
 
   it('本番でメールの設定がなければ失敗にする', async () => {
     vi.stubEnv('RESEND_API_KEY', '');
     stubFetch({});
-    expect(await deliverInquiry(inquiry, property)).toEqual({ ok: false, reason: 'not_configured' });
+    expect(await deliverInquiry(inquiry, property, page)).toEqual({ ok: false, reason: 'not_configured' });
     expect(calls).toHaveLength(0);
   });
 });
