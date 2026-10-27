@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState, type FormEvent, type ReactNode } from 'react';
-import Dropdown from '@/components/ui/interactive/Dropdown';
+import Select from '@/components/ui/interactive/Select';
 import Toggle from '@/components/ui/interactive/Toggle';
 import {
   FORMS,
@@ -101,15 +101,13 @@ function FieldInput({
     );
   } else if (field.type === 'select') {
     control = (
-      <Dropdown
+      <Select
         id={field.name}
-        label="選んでください"
-        options={field.options!.map((option) => ({ value: option, label: option }))}
-        selected={text ? [text] : []}
-        onToggle={(option) => onChange(option === text ? '' : option)}
-        closeOnSelect
+        value={text}
+        options={field.options!}
+        onChange={onChange}
         invalid={!!error}
-        widthClassName="w-full"
+        describedBy={a11y['aria-describedby']}
       />
     );
   } else {
