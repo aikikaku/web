@@ -1,0 +1,22 @@
+# Dependabot のパッチ更新（x.y.Z）とセキュリティ修正は、CI が通ったら自動でマージする。
+# 前提: リポジトリ設定で「Allow auto-merge」をオンにし、main の保護ルールで CI の build を必須にする。
+# 前提がそろっていないと gh pr merge --auto が失敗するだけで、勝手にマージはされない。
+name: Dependabot auto-merge
+on: pull_request
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto-merge:
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - id: meta
+        uses: dependabot/fetch-metadata@v2
+      - if: steps.meta.outputs.update-type == 'version-update:semver-patch' || steps.meta.outputs.ghsa-id != ''
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
