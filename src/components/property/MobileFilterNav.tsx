@@ -10,6 +10,7 @@ import SpFloatingTrigger from '@/components/ui/popup/SpFloatingTrigger';
 import SpModalBackdrop from '@/components/ui/popup/SpModalBackdrop';
 import SpModalCloseButton from '@/components/ui/popup/SpModalCloseButton';
 import { useScrollVisibility } from '@/lib/useScrollVisibility';
+import { startNavigation } from '@/lib/navigation';
 
 const statusOptions = [
   { value: 'all', label: 'すべて' },
@@ -104,6 +105,7 @@ export default function MobileFilterNav() {
     if (localTypes.length > 0) params.set('types', localTypes.join(','));
     if (localRegions.length > 0) params.set('regions', localRegions.join(','));
     const qs = params.toString();
+    startNavigation();
     router.push(qs ? `/properties?${qs}` : '/properties', { scroll: false });
     closeModal();
   }, [router, localStatus, localTypes, localRegions, closeModal]);

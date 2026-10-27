@@ -5,6 +5,7 @@ import { useCallback, useState } from 'react';
 import Dropdown from '@/components/ui/interactive/Dropdown';
 import Sort from '@/components/ui/interactive/Sort';
 import SortClear from '@/components/ui/interactive/SortClear';
+import { startNavigation } from '@/lib/navigation';
 
 const regionOptions = [
   { value: 'すべて', label: 'すべて' },
@@ -73,6 +74,7 @@ export default function StoriesFilter({
   };
 
   const applyFilter = () => {
+    startNavigation();
     router.push(
       buildUrl({
         category: selectedCategories[0] || undefined,
@@ -85,6 +87,7 @@ export default function StoriesFilter({
   const handleClear = () => {
     setSelectedCategories([]);
     setSelectedRegions([]);
+    startNavigation();
     router.push('/stories', { scroll: false });
   };
 
