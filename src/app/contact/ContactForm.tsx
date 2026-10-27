@@ -19,7 +19,7 @@ import {
 
 interface ContactFormProps {
   initialKind: FormKind;
-  /** 物件ページから来たときの物件。あれば物件お問い合わせのフォームだけを出す */
+  /** 物件ページから来たときの物件。あれば物件お問い合わせのフォームだけを出す（物件カードはページ側で出す） */
   property: { id: string; title: string; location: string } | null;
 }
 
@@ -140,15 +140,6 @@ function FieldInput({
   );
 }
 
-function PropertyBox({ property }: { property: NonNullable<ContactFormProps['property']> }) {
-  return (
-    <div className="rounded-xl bg-light-green px-5 py-4 font-gothic text-body-m text-dark-green">
-      <p className="text-body-s text-dark-green/70">お問い合わせの物件</p>
-      <p className="font-medium">{property.location || property.title}</p>
-      {property.location && <p className="text-body-s text-dark-green/70">{property.title}</p>}
-    </div>
-  );
-}
 
 export default function ContactForm({ initialKind, property }: ContactFormProps) {
   const [kind, setKind] = useState<FormKind>(property ? 'property' : initialKind);
@@ -234,9 +225,12 @@ export default function ContactForm({ initialKind, property }: ContactFormProps)
           <h2 className="font-mincho text-heading-24 text-dark-green">入力内容の確認</h2>
           <p className="text-body-m font-gothic text-dark-green/70">以下の内容で送信します。よろしければ「送信する」を押してください。</p>
         </div>
-        {property && <PropertyBox property={property} />}
         <dl className="flex flex-col border-t border-dark-green/20 font-gothic text-body-m text-dark-green">
-          {[{ label: 'お問い合わせの種類', value: form.label }, ...describeValues(confirmed)].map(({ label, value }) => (
+          {[
+            { label: 'お問い合わせの種類', value: form.label },
+            ...(property ? [{ label: 'お問い合わせ物件', value: property.location || property.title }] : []),
+            ...describeValues(confirmed),
+          ].map(({ label, value }) => (
             <div key={label} className="flex flex-col tablet:flex-row gap-1 tablet:gap-6 py-4 border-b border-dark-green/20">
               <dt className="tablet:w-[14rem] shrink-0 font-medium">{label}</dt>
               <dd className="whitespace-pre-wrap break-words">{value}</dd>
@@ -274,9 +268,7 @@ export default function ContactForm({ initialKind, property }: ContactFormProps)
 
   return (
     <form onSubmit={handleConfirm} noValidate className="flex flex-col gap-8">
-      {property ? (
-        <PropertyBox property={property} />
-      ) : (
+      {!property && (
         <div className="flex flex-col gap-3">
           <p className="font-gothic font-medium text-body-m text-dark-green">お問い合わせの種類</p>
           <Toggle
