@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useLayoutEffect, useOptimistic, useTransition } from 'react';
+import { setListSwapPending } from '@/lib/listSwap';
 
 /** ページ送りの行き先。新しいページが差し込まれたら PaginationScrollRestorer がここへ戻す */
 let pendingScrollTargetId: string | null = null;
@@ -21,6 +22,7 @@ function scrollTargetTop(id: string): number {
 export function PaginationScrollRestorer() {
   const searchParams = useSearchParams();
   useLayoutEffect(() => {
+    setListSwapPending(false);
     if (pendingScrollTargetId === null) return;
     const top = scrollTargetTop(pendingScrollTargetId);
     pendingScrollTargetId = null;
@@ -69,6 +71,7 @@ export default function Pagination({
       if (page === currentPage || page < 1 || page > Math.max(1, totalPages)) return;
       e.preventDefault();
       pendingScrollTargetId = scrollTargetId ?? '';
+      setListSwapPending(true);
       startTransition(() => {
         setOptimisticPage(page);
         router.push(buildHref(page), { scroll: false });
