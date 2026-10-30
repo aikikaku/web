@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import SpFloatingTrigger from '@/components/ui/popup/SpFloatingTrigger';
 import SpModalBackdrop from '@/components/ui/popup/SpModalBackdrop';
 import SpModalCloseButton from '@/components/ui/popup/SpModalCloseButton';
+import { usePresence, presenceClass } from '@/lib/usePresence';
 
 interface Props {
   items: string[];
@@ -16,6 +17,8 @@ interface Props {
  */
 export default function PageNavSp({ items }: Props) {
   const [isOpen, setIsOpen] = useState(false);
+  // 開く時も閉じる時もふわっと（背景とパネルを一緒にフェード）
+  const modal = usePresence(isOpen, 300);
   const [showBar, setShowBar] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -97,8 +100,8 @@ export default function PageNavSp({ items }: Props) {
       </SpFloatingTrigger>
 
       {/* Open: 右寄せ x ボタン + 縦リスト */}
-      {isOpen && (
-        <div className="fixed inset-0 z-50">
+      {modal.mounted && (
+        <div className={`fixed inset-0 z-50 ${presenceClass(modal.visible)}`}>
           <SpModalBackdrop onClick={close} />
           <div className="absolute bottom-6 right-4 left-4 flex flex-col items-end gap-2">
             <SpModalCloseButton onClick={close} className="inline-flex" />

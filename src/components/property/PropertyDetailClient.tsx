@@ -57,7 +57,7 @@ export default function PropertyDetailClient({
     <div className="flex flex-col tablet:flex-row tablet:gap-[3.75rem] w-full">
       {/* 画像 + (SP のみ) サムネイル */}
       <div className="w-full tablet:w-[40.375rem] tablet:shrink-0">
-        <div ref={wrapRef} className="relative aspect-[646/485] rounded-2xl tablet:rounded-3xl overflow-hidden bg-light-green">
+        <div ref={wrapRef} data-motion-fade className="relative aspect-[646/485] rounded-2xl tablet:rounded-3xl overflow-hidden bg-light-green">
           {/* 全画像をスタックし opacity で切り替え → クリック時に即時切替（都度ロード待ちが無い） */}
           {allImages.map((image, i) => (
             <CmsImage

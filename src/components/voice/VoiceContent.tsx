@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { CustomerVoice } from '@/types/microcms';
 import { useAccordionHeight } from '@/lib/useAccordionHeight';
 import AccordionChevron from '@/components/ui/content/AccordionChevron';
+import { usePresence, presenceClass } from '@/lib/usePresence';
 
 const categories = [
   { key: 'all', label: 'すべて' },
@@ -243,6 +244,8 @@ function MobileVoiceFilter({
   onSelect: (key: CategoryKey) => void;
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  // 開く時も閉じる時もふわっと（背景とパネルを一緒にフェード）
+  const modal = usePresence(isOpen, 300);
   const [showBar, setShowBar] = useState(false);
   const [draftKey, setDraftKey] = useState<CategoryKey>(activeKey);
 
@@ -312,8 +315,8 @@ function MobileVoiceFilter({
       </button>
 
       {/* Open: 全画面モーダル (Figma 4211:12157) */}
-      {isOpen && (
-        <div className="fixed inset-0 z-50">
+      {modal.mounted && (
+        <div className={`fixed inset-0 z-50 ${presenceClass(modal.visible)}`}>
           <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" onClick={close} />
           <div className="absolute inset-0 flex items-center justify-center px-6 py-12">
             <div className="flex flex-col items-end gap-2 w-full max-w-[21.375rem]">

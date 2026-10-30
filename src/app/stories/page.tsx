@@ -238,8 +238,11 @@ export default async function StoriesPage(props: StoriesPageProps) {
       {/* フィルター + リスト (Figma 4470:15357 PC: px-75 pb-96 / 4470:15116 SP: pb-120) */}
       <Reveal as="section" className="px-4 tablet:px-[4.6875rem] pb-[7.5rem] tablet:pb-24 max-w-[90rem] mx-auto">
         <div>
-          {/* PC用フィルターバー（pickup の上に配置） */}
-          <div className="hidden tablet:block mb-[6rem]">
+          {/* ページャー遷移時のスクロール着地点（絞り込みバーを含む位置）。バーの下に置くと一覧の先頭がバーに隠れる */}
+          <div id="stories-list" />
+          {/* PC用フィルターバー（pickup の上に配置）。物件一覧 (#68) と同じく、ヘッダー直下に sticky 固定。
+              スクロール時にカードが透けないよう bg-cream + 上下に余白。-mt-6 で pt-6 の分を相殺し、位置は変えない */}
+          <div className="hidden tablet:block sticky top-[6.125rem] z-30 bg-cream -mt-6 pt-6 pb-8 mb-16">
             <Suspense fallback={<div className="h-14 bg-cream animate-pulse rounded-lg" />}>
               <StoriesFilter
                 countItems={countItems}
@@ -251,7 +254,7 @@ export default async function StoriesPage(props: StoriesPageProps) {
           </div>
 
           {/* SP の「記事を絞り込む」ボタンを出し始める位置。0件で特集ストーリーがない時も出せるよう、一覧の外に置く */}
-          <div data-stories-filter-start id="stories-list" />
+          <div data-stories-filter-start />
           {filteredContents.length > 0 ? (
             <>
               {/* フィーチャードストーリー (Figma 4470:15097 SP: pb-60 / PC: 下の一覧まで 96) */}
