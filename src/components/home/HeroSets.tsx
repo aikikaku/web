@@ -23,8 +23,8 @@ const VIDEO_FALLBACK_MS = 15000;
 /**
  * トップ PC ヒーローのセット切り替え。3枠は配置の都合で別々の要素にあるため、
  * Provider で「いま何番目のセットか」を共有し、各枠（HeroSetSlot）が同時に切り替わる。
- * 動画を含むセットは、動画をループさせず、セット内でいちばん短い動画が再生し終わったら次のセットへ移る
- * （長い方の動画はフェードアウト中も再生を続ける）。
+ * 動画を含むセットは、動画をループさせず、セット内でいちばん短い動画が終わる HERO_FADE_MS 前から
+ * 次のセットへ切り替え始める（動画の終わりとフェードの終わりが揃う。長い方の動画はフェードアウト中も再生を続ける）。
  * 画像だけのセットは durationMs（Figma の After delay 6 秒）表示して次へ。
  * prefers-reduced-motion 時は切り替えず先頭セットを静止表示。
  */
@@ -113,6 +113,11 @@ export function HeroSetSlot({ slot, alt, priority, sizes }: SlotProps) {
                 pauseDelayMs={HERO_FADE_MS}
                 loop={false}
                 onEnded={() => onVideoEnded(i)}
+                // 動画が止まってから切り替えると最後のコマで静止した間が見えるため、終わる HERO_FADE_MS 前から
+                // 切り替えを始め、動画の終わりとフェードの終わりを揃える
+                onNearEnd={() => onVideoEnded(i)}
+                nearEndMs={HERO_FADE_MS}
+                playbackRate={set.playbackRate}
                 className="absolute inset-0 h-full w-full object-cover"
               />
             ) : (

@@ -168,7 +168,9 @@ export default function Navigation() {
               <span
                 onMouseEnter={openDropdown}
                 onMouseLeave={scheduleCloseDropdown}
-                className="relative flex items-center gap-1"
+                // ホバーで開く範囲は、文字の上下をヘッダーの上端〜下端まで広げる（文字だけだと狭く開きにくい。
+                // デザインレビュー3 コメント 3dI818B98FGN）。左右は項目間 32px の内側 8px まで
+                className="relative flex items-center gap-1 before:absolute before:-inset-x-2 before:-inset-y-10 before:content-['']"
               >
                 アイ企画を知る
                 <svg
@@ -226,7 +228,7 @@ export default function Navigation() {
       {/* Desktop: フル幅ドロップダウンセクション。ホバー維持し、離れたら閉じる (#17)。 */}
       {dropdownOpen && (
         <div
-          className="hidden tablet:block bg-light-green"
+          className="hidden tablet:block bg-light-green paper-texture paper-texture-light"
           onMouseEnter={openDropdown}
           onMouseLeave={scheduleCloseDropdown}
         >
@@ -288,7 +290,7 @@ export default function Navigation() {
 
       {/* Mobile menu (Figma 4211:25413 SP_nav_open 準拠: bg-light-green, px-56/py-80, gap-32) */}
       {mobileOpen && (
-        <div className="tablet:hidden bg-light-green px-[3.5rem] py-[5rem] flex flex-col gap-8">
+        <div className="tablet:hidden bg-light-green paper-texture paper-texture-light px-[3.5rem] py-[5rem] flex flex-col gap-8">
           {allNavItems.map((item) =>
             'children' in item && item.children ? (
               <div key={item.label} className="flex flex-col gap-4">

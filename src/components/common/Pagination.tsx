@@ -103,6 +103,9 @@ export default function Pagination({
 
   const pageNumbers = getPageNumbers();
 
+  // 0件（絞り込みで該当なし）のときは、押せないページ送りだけが残って紛らわしいので出さない
+  if (totalCount === 0) return null;
+
   return (
     <nav
       aria-label="ページネーション"

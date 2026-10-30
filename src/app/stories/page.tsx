@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { getStories } from '@/lib/microcms/queries';
+import { fetchAllPages, getStories } from '@/lib/microcms/queries';
 import { Story } from '@/types/microcms';
 import CmsImage from '@/components/common/CmsImage';
 import Pagination from '@/components/common/Pagination';
@@ -13,6 +13,7 @@ import Reveal from '@/components/common/Reveal';
 import Arrow from '@/components/ui/interactive/Arrow';
 import type { Metadata } from 'next';
 import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
+import { toStoryCountItem } from '@/lib/filterOptions';
 
 export const metadata: Metadata = {
   title: '暮らしを知る',
@@ -65,7 +66,7 @@ function StoryCardLarge({ story }: { story: Story }) {
             alt={story.title}
             fill
             className="object-cover transition-transform group-hover:scale-[1.02]"
-            sizes="410px"
+            sizes="(min-width: 1440px) 28.47vw, 410px"
           />
         </Link>
         <div className="flex flex-col gap-6 items-start justify-center pt-[1.875rem] px-3 w-full">
@@ -122,7 +123,7 @@ function FeaturedStoryCard({ story }: { story: Story }) {
             alt={story.title}
             fill
             className="object-cover transition-transform group-hover:scale-[1.02]"
-            sizes="(max-width: 992px) 100vw, 675px"
+            sizes="(min-width: 1440px) 46.88vw, (max-width: 992px) 100vw, 675px"
             priority
           />
         </Link>
@@ -173,11 +174,11 @@ export default async function StoriesPage(props: StoriesPageProps) {
   // 取得した1ページ分を絞り込むと、件数とページネーションが絞り込み前の総数のままになるため
   const hasFilter = !!searchParams.category || !!searchParams.regions;
 
-  const data = await getStories({
-    limit: hasFilter ? 100 : PER_PAGE,
-    offset: hasFilter ? 0 : offset,
-    orders: '-publishedAt',
-  }).catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: PER_PAGE }));
+  // 絞り込む時は全件（100 件を超える分も）
+  const data = await (hasFilter
+    ? fetchAllPages((q) => getStories({ orders: '-publishedAt', ...q })).then((contents) => ({ contents, totalCount: contents.length }))
+    : getStories({ limit: PER_PAGE, offset, orders: '-publishedAt' })
+  ).catch(() => ({ contents: [], totalCount: 0 }));
 
   let filteredContents = data.contents;
 
@@ -201,6 +202,10 @@ export default async function StoriesPage(props: StoriesPageProps) {
 
   // 最初の1件をフィーチャード、残りをグリッド
   const featuredStory = filteredContents[0];
+  // 「絞り込み」ボタンに押す前の該当件数を出すため、全ストーリーの絞り込み項目だけを渡す
+  const countItems = await fetchAllPages((q) => getStories({ ...q, fields: 'category,regions' }))
+    .then((all) => all.map(toStoryCountItem))
+    .catch(() => undefined);
   const gridStories = filteredContents.slice(1);
 
   return (
@@ -227,7 +232,7 @@ export default async function StoriesPage(props: StoriesPageProps) {
 
       {/* SP用フローティングフィルター */}
       <Suspense fallback={null}>
-        <MobileStoriesFilter />
+        <MobileStoriesFilter countItems={countItems} />
       </Suspense>
 
       {/* フィルター + リスト (Figma 4470:15357 PC: px-75 pb-96 / 4470:15116 SP: pb-120) */}
@@ -237,6 +242,7 @@ export default async function StoriesPage(props: StoriesPageProps) {
           <div className="hidden tablet:block mb-[6rem]">
             <Suspense fallback={<div className="h-14 bg-cream animate-pulse rounded-lg" />}>
               <StoriesFilter
+                countItems={countItems}
                 categories={categoryLabels}
                 currentCategory={searchParams.category}
                 currentRegions={searchParams.regions}
@@ -244,11 +250,13 @@ export default async function StoriesPage(props: StoriesPageProps) {
             </Suspense>
           </div>
 
+          {/* SP の「記事を絞り込む」ボタンを出し始める位置。0件で特集ストーリーがない時も出せるよう、一覧の外に置く */}
+          <div data-stories-filter-start id="stories-list" />
           {filteredContents.length > 0 ? (
             <>
               {/* フィーチャードストーリー (Figma 4470:15097 SP: pb-60 / PC: 下の一覧まで 96) */}
               {featuredStory && (
-                <div data-stories-filter-start id="stories-list" className="mb-[3.75rem] tablet:mb-24">
+                <div className="mb-[3.75rem] tablet:mb-24">
                   <FeaturedStoryCard story={featuredStory} />
                 </div>
               )}
@@ -289,7 +297,7 @@ export default async function StoriesPage(props: StoriesPageProps) {
       <Reveal as="section" className="px-4 tablet:px-[2.8125rem] pb-[7.5rem] tablet:pb-36 max-w-[90rem] mx-auto flex justify-center">
         <Link
           href="/about"
-          className="block group bg-light-green rounded-[1.5rem] pt-12 pb-[1.875rem] px-[1.875rem] tablet:p-[1.875rem] w-full max-w-[40.375rem] overflow-hidden"
+          className="block group bg-light-green paper-texture paper-texture-light rounded-[1.5rem] pt-12 pb-[1.875rem] px-[1.875rem] tablet:p-[1.875rem] w-full max-w-[40.375rem] overflow-hidden"
         >
           <div className="flex flex-col items-center text-center gap-[1.875rem] tablet:flex-row tablet:items-end tablet:justify-between tablet:text-left">
             <div className="flex flex-col gap-[1.875rem] tablet:gap-4 items-center tablet:items-start justify-center tablet:p-3 tablet:flex-1">

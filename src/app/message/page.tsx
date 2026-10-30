@@ -230,7 +230,7 @@ export default function MessagePage() {
                     alt={section.imageAlt}
                     fill
                     className="object-cover"
-                    sizes="(max-width: 992px) 100vw, 720px"
+                    sizes="(min-width: 1440px) 50.0vw, (max-width: 992px) 100vw, 720px"
                   />
                 </div>
               </div>

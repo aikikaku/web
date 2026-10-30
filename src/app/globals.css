@@ -174,7 +174,8 @@
   }
 
   /* Figma の「Paper」パターン塗り（450px の紙テクスチャを敷き詰め）。背景色の上・中身の下に重ねる。
-     濃さは --paper-opacity（Figma の PATTERN の opacity。既定 0.2）で指定する */
+     紺の面（フッター・帯）は .paper-texture（20%）、薄緑の面は .paper-texture .paper-texture-light（50%・Darken）。
+     Figma では同じ種類の面でも付いている所と無い所が混在するため、サイトでは面の色ごとに揃えている */
   .paper-texture {
     position: relative;
     isolation: isolate;
@@ -188,6 +189,27 @@
     border-radius: inherit;
     background: url('/images/textures/paper.png') repeat 0 0 / 450px 450px;
     opacity: var(--paper-opacity, 0.2);
+    mix-blend-mode: var(--paper-blend, normal);
+  }
+  /* 薄緑（light-green）の面用。Figma は opacity 50%・多くが Darken 合成 */
+  .paper-texture-light {
+    --paper-opacity: 0.5;
+    --paper-blend: darken;
+  }
+
+  /* 写真の上に重ねる紙テクスチャ（Figma の画像レイヤーの Paper パターン）。写真の直後に置き、
+     グラデーション・文字より下に重ねる。濃さは --paper-opacity。-sp は SP（〜992px）のみ（Figma で SP だけの指定） */
+  .paper-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: url('/images/textures/paper.png') repeat 0 0 / 450px 450px;
+    opacity: var(--paper-opacity, 0.4);
+  }
+  @media (min-width: 993px) {
+    .paper-overlay-sp {
+      display: none;
+    }
   }
 
   /* btn-outline-fill と同じ見た目で、ボタン自体のホバーでだけ反転する（カード全体がリンクでない場合用） */

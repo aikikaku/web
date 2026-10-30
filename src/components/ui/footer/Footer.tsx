@@ -44,7 +44,7 @@ export default function Footer() {
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
 
   return (
-    <footer className="bg-dark-green text-white">
+    <footer className="bg-dark-green text-white paper-texture">
       {/* Mobile: single column, px-4, pt-16, pb-8 */}
       {/* Desktop: two columns side-by-side, px-[4.6875rem], py-[6rem] */}
       <div className="px-4 pt-16 pb-8 tablet:px-[4.6875rem] tablet:py-[6rem] max-w-[90rem] mx-auto">

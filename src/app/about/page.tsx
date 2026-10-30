@@ -99,7 +99,7 @@ export default function AboutPage() {
               className="object-cover"
               priority
               quality={90}
-              sizes="(min-width: 992px) 1290px, 0px"
+              sizes="(min-width: 1440px) 89.58vw, (min-width: 992px) 1290px, 0px"
             />
           </div>
         </div>
@@ -164,7 +164,7 @@ export default function AboutPage() {
                 alt="三島の街並み"
                 fill
                 className="object-cover"
-                sizes="(min-width: 992px) 557px, 0px"
+                sizes="(min-width: 1440px) 38.68vw, (min-width: 992px) 557px, 0px"
                 quality={90}
               />
             </div>
@@ -209,7 +209,7 @@ export default function AboutPage() {
                 alt="スタッフインタビュー"
                 fill
                 className="object-cover"
-                sizes="(min-width: 992px) 557px, 0px"
+                sizes="(min-width: 1440px) 38.68vw, (min-width: 992px) 557px, 0px"
                 quality={90}
               />
             </div>
@@ -235,7 +235,7 @@ export default function AboutPage() {
       {/* コンポスト活動セクション (Figma Handoff 20260724: PC 4470:14163 / SP 4470:15258)。
           左テキストを上部「スタッフインタビュー」section と同じ左45px(pl-[2.8125rem])に揃える (#23)。
           SP はブロック間すべて 32px・py-60、PC は図 554 + 本文 616 の両端揃え */}
-      <Reveal as="section" className="bg-light-green py-[3.75rem] tablet:py-24 tablet:pb-32">
+      <Reveal as="section" className="bg-light-green paper-texture paper-texture-light py-[3.75rem] tablet:py-24 tablet:pb-32">
         <div className="px-4 tablet:pl-[2.8125rem] tablet:pr-[4.6875rem] max-w-[90rem] mx-auto">
           {/* 見出し (SP 32px / PC 48px) */}
           <div className="mb-8 tablet:mb-24">
@@ -256,7 +256,7 @@ export default function AboutPage() {
                   alt="コンポスト活動の循環図"
                   fill
                   className="object-contain"
-                  sizes="(min-width: 992px) 554px, 100vw"
+                  sizes="(min-width: 1440px) 38.47vw, (min-width: 992px) 554px, 100vw"
                 />
               </div>
             </div>

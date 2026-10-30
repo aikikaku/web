@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import DropdownSp from '@/components/ui/interactive/DropdownSp';
 import SortSp from '@/components/ui/interactive/SortSp';
@@ -9,39 +9,31 @@ import SpFloatingTrigger from '@/components/ui/popup/SpFloatingTrigger';
 import SpModalBackdrop from '@/components/ui/popup/SpModalBackdrop';
 import SpModalCloseButton from '@/components/ui/popup/SpModalCloseButton';
 import { useScrollVisibility } from '@/lib/useScrollVisibility';
+import { REGION_OPTIONS, countStories, sameSet, sortLabel, type StoryCountItem } from '@/lib/filterOptions';
 import { startNavigation } from '@/lib/navigation';
 
 const categories = [
-  { value: '', label: 'すべて' },
   { value: 'daily', label: '日々のこと' },
   { value: 'regional', label: '地域のこと' },
   { value: 'property', label: '物件のつづき' },
-];
-
-const regions = [
-  '三島市',
-  '長泉町',
-  '清水町',
-  '沼津市',
-  '裾野市',
-  '函南町',
-  '伊豆の国市',
-  'そのほかの地域',
 ];
 
 /**
  * /stories SP 用フィルター（Figma 4211:11098 floating button + 4211:11572 popup）
  * - floating: cream rounded-50 + 内側 drop-shadow + 右に filter icon
  * - popup: cream rounded-24 + drop-shadow、ドロップダウン式 trigger でクリックすると inline で list を展開、絞り込み + × clear ボタン
+ * - 挙動は /properties の MobileFilterNav に揃えている（共通 DropdownSp・「すべて」はチェック方式・
+ *   「絞り込み」は未反映の変更がある時だけ押せる）
  */
-export default function MobileStoriesFilter() {
+export default function MobileStoriesFilter({ countItems }: { countItems?: StoryCountItem[] }) {
   const [isOpen, setIsOpen] = useState(false);
   const [openSection, setOpenSection] = useState<'category' | 'region' | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const currentCategory = searchParams.get('category') || '';
-  const currentRegions = searchParams.get('regions')?.split(',').filter(Boolean) || [];
+  const currentRegionsParam = searchParams.get('regions') || '';
+  const currentRegions = useMemo(() => currentRegionsParam.split(',').filter(Boolean), [currentRegionsParam]);
 
   const [localCategory, setLocalCategory] = useState(currentCategory);
   const [localRegions, setLocalRegions] = useState<string[]>(currentRegions);
@@ -83,9 +75,10 @@ export default function MobileStoriesFilter() {
     setLocalRegions([]);
   }, []);
 
+  // 絞り込みボタン: URL に対し未適用の変更があるとき有効（/properties と同じ）
+  const hasPendingChange = localCategory !== currentCategory || !sameSet(localRegions, currentRegions);
+  // × クリアボタン: 絞り込みなしと異なるとき有効
   const hasActiveFilters = !!localCategory || localRegions.length > 0;
-
-  const categoryLabel = categories.find((c) => c.value === localCategory)?.label || 'カテゴリ';
 
   return (
     <div className="tablet:hidden">
@@ -124,63 +117,22 @@ export default function MobileStoriesFilter() {
               {/* modal box: height 固定、内部 overflow scroll */}
               <div className="bg-cream rounded-3xl shadow-[0_0_8px_rgba(0,0,0,0.16)] w-full h-[30rem] max-h-[calc(100vh-120px)] px-6 py-8 flex flex-col gap-8 overflow-y-auto">
               <div className="flex flex-col gap-4">
-                {/* category dropdown */}
-                <div className="flex flex-col gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setOpenSection(openSection === 'category' ? null : 'category')}
-                    className="flex items-center gap-2 h-14 px-4 rounded-lg border border-dark-green w-full bg-light-green"
-                  >
-                    <span className={`flex-1 text-left font-gothic font-medium text-body-m ${localCategory ? 'text-dark-green' : 'text-black opacity-20'}`}>
-                      {categoryLabel}
-                    </span>
-                    <svg
-                      width="21" height="21" viewBox="0 0 21 21" fill="none"
-                      className={`shrink-0 transition-transform ${openSection === 'category' ? 'rotate-180' : ''}`}
-                    >
-                      <path d="M5.5 8L10.5 13L15.5 8" className="stroke-dark-green" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </button>
-                  {openSection === 'category' && (
-                    <div className="bg-cream rounded-lg shadow-[0_0_8px_rgba(0,0,0,0.16)] py-4 flex flex-col">
-                      {categories.map((cat) => {
-                        const isChecked = localCategory === cat.value;
-                        return (
-                          <button
-                            key={cat.value}
-                            type="button"
-                            onClick={() => {
-                              setLocalCategory(cat.value);
-                              setOpenSection(null);
-                            }}
-                            className="flex items-center gap-2 h-8 pl-4 pr-2 hover:bg-light-green/50 text-left"
-                          >
-                            <span
-                              className={`size-[1.125rem] inline-flex items-center justify-center rounded border shrink-0 ${
-                                isChecked ? 'bg-dark-green border-dark-green' : 'border-dark-green/40'
-                              }`}
-                            >
-                              {isChecked && (
-                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                                  <path d="M3 7l3 3 5-6" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                              )}
-                            </span>
-                            <span className="font-gothic font-medium text-body-s text-black">
-                              {cat.label}
-                            </span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
+                {/* category dropdown (共通 DropdownSp。カテゴリは1つだけ選べる) */}
+                <DropdownSp
+                  isOpen={openSection === 'category'}
+                  onToggle={() => setOpenSection(openSection === 'category' ? null : 'category')}
+                  options={categories}
+                  selected={localCategory ? [localCategory] : []}
+                  onChange={(value) => setLocalCategory((prev) => (prev === value ? '' : value))}
+                  onClear={() => setLocalCategory('')}
+                  placeholder="カテゴリ"
+                />
 
                 {/* region dropdown (Figma 4211:26323 共通 DropdownSp) */}
                 <DropdownSp
                   isOpen={openSection === 'region'}
                   onToggle={() => setOpenSection(openSection === 'region' ? null : 'region')}
-                  options={regions.map((r) => ({ value: r, label: r }))}
+                  options={REGION_OPTIONS}
                   selected={localRegions}
                   onChange={toggleRegion}
                   onClear={() => setLocalRegions([])}
@@ -190,7 +142,16 @@ export default function MobileStoriesFilter() {
 
               {/* action: 絞り込み + × clear (shrink-0 で dropdown 開時に潰れない) */}
               <div className="flex gap-2 h-10 shrink-0">
-                <SortSp onClick={applyFilters} disabled={!hasActiveFilters} />
+                <SortSp
+                  onClick={applyFilters}
+                  disabled={!hasPendingChange}
+                  // 押せる時だけ、押した後の該当件数を出す（PC と同じ）
+                  label={sortLabel(
+                    hasPendingChange && countItems
+                      ? countStories(countItems, { category: localCategory, regions: localRegions })
+                      : undefined,
+                  )}
+                />
                 <SortClearSp onClick={clearFilters} disabled={!hasActiveFilters} />
               </div>
               </div>
