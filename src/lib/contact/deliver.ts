@@ -7,7 +7,8 @@ import { describeValues, type Inquiry } from './inquiry';
  *
  * 必要な環境変数:
  *   RESEND_API_KEY        Resend の API キー
- *   CONTACT_FROM          送信元。例: アイ企画 <noreply@aikikaku.net>（Resend で認証済みのドメイン）
+ *   CONTACT_FROM          送信元のアドレス。例: noreply@mail.aikikaku.net（Resend で認証済みのドメイン）。
+ *                         「名前 <アドレス>」の形でもよいが、名前は使わず SENDER_NAMES の名前で送る
  *   CONTACT_TO            通知先。カンマ区切りで複数可
  *   CODA_API_TOKEN        Superhuman Docs（Coda）の API トークン。未設定なら CRM への記録はしない
  *   CODA_DOC_ID / CODA_TABLE_ID  書き込み先の Doc と表
@@ -24,12 +25,24 @@ export type DeliveryResult = { ok: true } | { ok: false; reason: 'not_configured
 
 const TIMEOUT_MS = 8000;
 
+/** 送信者名（アイ企画からの依頼）。お客様が受信箱で見分けやすい名前と、社内で HP からの問い合わせと分かる名前 */
+const SENDER_NAMES = { customer: 'アイ企画', staff: 'アイ企画 HPお問い合わせ' };
+
+/** 「名前 <アドレス>」からアドレスだけを取り出す */
+function addressOf(from: string): string {
+  return from.match(/<([^>]+)>/)?.[1]?.trim() ?? from.trim();
+}
+
+function sender(name: string, address: string): string {
+  return `"${name}" <${address}>`;
+}
+
 function config() {
   const resend =
     process.env.RESEND_API_KEY && process.env.CONTACT_FROM && process.env.CONTACT_TO
       ? {
           apiKey: process.env.RESEND_API_KEY,
-          from: process.env.CONTACT_FROM,
+          from: addressOf(process.env.CONTACT_FROM),
           to: process.env.CONTACT_TO.split(',').map((s) => s.trim()).filter(Boolean),
         }
       : null;
@@ -140,7 +153,7 @@ export async function deliverInquiry(inquiry: Inquiry, property: InquiryProperty
       : '※ CRM（Superhuman Docs）への記録に失敗しました。お手数ですが手で追加してください。';
 
   const notified = await sendEmail(resend.apiKey, {
-    from: resend.from,
+    from: sender(SENDER_NAMES.staff, resend.from),
     to: resend.to,
     replyTo: email,
     subject: `【HP問い合わせ】${inquiry.form.label}｜${name}様`,
@@ -157,7 +170,7 @@ export async function deliverInquiry(inquiry: Inquiry, property: InquiryProperty
   if (!notified) return { ok: false, reason: 'notify_failed' };
 
   await sendEmail(resend.apiKey, {
-    from: resend.from,
+    from: sender(SENDER_NAMES.customer, resend.from),
     to: [email],
     replyTo: resend.to[0],
     subject: '【アイ企画】お問い合わせを受け付けました',
