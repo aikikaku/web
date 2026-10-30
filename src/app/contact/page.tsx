@@ -49,7 +49,7 @@ export default async function ContactPage(props: { searchParams: Promise<{ categ
           <div className="flex flex-col gap-1">
             <p className="font-gothic font-medium text-body-s text-dark-green/60">営業時間</p>
             <p className="font-gothic font-medium text-body-m text-dark-green">
-              9:00〜19:00（時間外の対応可）
+              9:00〜19:00
               <br />
               定休日：日曜日・祝日
             </p>
