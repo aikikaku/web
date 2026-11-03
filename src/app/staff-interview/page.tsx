@@ -118,8 +118,12 @@ const articleSections: ArticleSection[] = [
 const tocItems = articleSections.flatMap((s) => (s.heading ? [s.heading] : []));
 
 const writer = {
-  name: '宮﨑 美咲｜nemurineco',
-  description: '写真家。日本とインドの２拠点生活。写真のこと、仕事のこと、旅の記憶、日々の想いを綴っています。',
+  /** 記事冒頭の「文：」に出す名前 */
+  byline: '宮﨑 美咲｜nemurineco',
+  /** 記事末尾の「この記事を書いた人」 */
+  name: '宮﨑美咲　Misaki Miyazaki',
+  description:
+    '1994年生まれ、群馬県出身。介護職、スタジオ勤務を経て、2018年よりフリーランスの写真家として活動。企業や作家、家族などの撮影を手がけるほか、インドを中心に作品制作を行う。',
 };
 
 const staffProfiles = [
@@ -127,13 +131,13 @@ const staffProfiles = [
     name: '髙野大地',
     avatar: '/images/staff-interview/avatar-daichi.jpg',
     description:
-      '髙野家の第三子で長男。現在は一児の父であり、山田学区の子育て環境に魅力を感じ、妻と共に住まい探し中。前職は大工で、黙々と何かを作ることが好き。',
+      '髙野家の第三子で長男。二児の父。息子たちと参加する三島の伝統「しゃぎり」で、地域が大家族のように子どもを育てるあたたかさを知る。前職は大工で、黙々と何かを作ることが好き。',
   },
   {
     name: '髙野恒成',
     avatar: '/images/staff-interview/avatar-tsunenari.jpg',
     description:
-      '髙野家の第四子で次男。アメリカ・ポートランドへの留学で「街を作っているのは人だ」と気づき、後に三島の人の魅力に惹かれて帰郷。自然やアウトドアが好き。',
+      '髙野家の第四子で次男。アメリカ・ポートランドへの留学で「街を作っているのは人だ」と気づき、後に三島の人の魅力に惹かれて帰郷。休日は海や山で過ごすことが好き。',
   },
 ];
 
@@ -199,7 +203,7 @@ export default function StaffInterviewPage() {
             </div>
 
             <p className="max-tablet:order-3 w-full text-body-m tablet:text-body-l font-gothic font-medium text-dark-green text-center">
-              文：{writer.name}
+              文：{writer.byline}
             </p>
           </div>
         </div>
