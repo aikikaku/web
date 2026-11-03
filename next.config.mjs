@@ -7,6 +7,8 @@ const nextConfig = {
     // 表示されない問題が出ていたため、上限を 1920 に。1600px 縮小済みアセットと整合。
     deviceSizes: [640, 750, 828, 1080, 1200, 1440, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    // Next.js 16 から、ここにない画質は使われない（近い値に丸められる）。写真の一部は quality={90} で出している
+    qualities: [75, 90],
     remotePatterns: [
       {
         protocol: 'https',
