@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { checkBotId } from 'botid/server';
 import { isBot, parseInquiry } from '@/lib/contact/inquiry';
 import { deliverInquiry, type InquiryProperty } from '@/lib/contact/deliver';
 import { getProperty } from '@/lib/microcms/queries';
@@ -23,6 +24,15 @@ function sourcePageUrl(request: Request): string {
 }
 
 export async function POST(request: Request) {
+  // Vercel BotID（基本の判定・無料）。ハニーポットをすり抜ける、人間のように振る舞う bot を止める。
+  // 人を bot と誤判定した時に送れたと思わせないよう、成功のふりはせず 403 を返す（画面は「送信できませんでした」になり、電話を案内する）。
+  // 判定自体が失敗した時（Vercel の外で動かした時や設定の不備）は、問い合わせを止めないよう受け付けてハニーポットだけで守る
+  const verification = await checkBotId().catch((e: unknown) => {
+    console.error('[contact] BotID check failed', e);
+    return null;
+  });
+  if (verification?.isBot) return NextResponse.json({ ok: false }, { status: 403 });
+
   const raw: unknown = await request.json().catch(() => null);
 
   // 機械による送信には、成功したように見せて何もしない
