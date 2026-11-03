@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 /**
- * 公開前の Basic 認証ミドルウェア。
+ * 公開前の Basic 認証（Next.js 16 の proxy。旧 middleware）。
  *
  * - 環境変数 BASIC_AUTH_USER / BASIC_AUTH_PASSWORD が設定されている時のみ有効。
  *   未設定なら認証なし (本番公開後に環境変数を外せば全公開モードに戻せる)。
@@ -9,7 +9,7 @@ import { NextRequest, NextResponse } from 'next/server';
  * - /_next/static, favicon, /robots.txt 等の公開アセットは除外。
  * - 本番（Production）環境には設定せず、プレビュー環境にだけ設定する。
  */
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   const user = process.env.BASIC_AUTH_USER;
   const password = process.env.BASIC_AUTH_PASSWORD;
 
@@ -22,7 +22,6 @@ export function middleware(req: NextRequest) {
   if (auth) {
     const [scheme, encoded] = auth.split(' ');
     if (scheme === 'Basic' && encoded) {
-      // Edge Runtime では atob が使える
       const decoded = atob(encoded);
       const idx = decoded.indexOf(':');
       const u = decoded.slice(0, idx);
