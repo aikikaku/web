@@ -1,3 +1,5 @@
+import { withBotId } from 'botid/next/config';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -18,4 +20,5 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+// BotID（問い合わせフォームの bot 判定）が使う通信の経路を足す
+export default withBotId(nextConfig);
