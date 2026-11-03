@@ -36,6 +36,8 @@ export interface Property extends MicroCMSListContent {
   images?: MicroCMSImage[];
   googleMapUrl?: string;
   documentUrl?: string;
+  /** 担当者（セレクト）。本文の吹き出しにこの人の名前と写真を出す。未設定なら「アイ企画」 */
+  staff?: string[];
   location?: string;
   nearestStation?: string;
   landArea?: number;

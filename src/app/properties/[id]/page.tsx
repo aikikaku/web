@@ -12,7 +12,7 @@ import type { Metadata } from 'next';
 import { getImageUrl } from '@/lib/microcms/image';
 import type { MicroCMSImage } from '@/types/microcms';
 import PropertyDetailClient from '@/components/property/PropertyDetailClient';
-import RichText, { extractTocFromHtml } from '@/components/ui/post/RichText';
+import RichText, { extractTocFromHtml, speakerFromStaff } from '@/components/ui/post/RichText';
 import TocNav from '@/components/ui/navigation/TocNav';
 import ListItemDeco from '@/components/ui/content/ListItemDeco';
 import ListItemDef from '@/components/ui/content/ListItemDef';
@@ -380,7 +380,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
             {/* リッチテキスト（description） */}
             {property.description && (
               <div className="max-w-[48rem] pt-6">
-                <RichText content={property.description} />
+                <RichText content={property.description} speaker={speakerFromStaff(property.staff)} />
               </div>
             )}
 
