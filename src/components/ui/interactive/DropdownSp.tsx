@@ -1,5 +1,7 @@
 'use client';
 
+import { usePresence, presenceClass } from '@/lib/usePresence';
+
 interface Option {
   value: string;
   label: string;
@@ -30,6 +32,7 @@ export default function DropdownSp({
   onClear,
   placeholder,
 }: Props) {
+  const list = usePresence(isOpen, 200);
   const firstSelectedLabel = options.find((o) => o.value === selected[0])?.label ?? selected[0];
 
   return (
@@ -92,8 +95,8 @@ export default function DropdownSp({
           />
         </svg>
       </button>
-      {isOpen && (
-        <div className="bg-cream rounded-lg shadow-[0_0_8px_rgba(0,0,0,0.16)] py-4 flex flex-col">
+      {list.mounted && (
+        <div className={`bg-cream rounded-lg shadow-[0_0_8px_rgba(0,0,0,0.16)] py-4 flex flex-col ${presenceClass(list.visible, 'duration-200')}`}>
           <button
             type="button"
             onClick={onClear}

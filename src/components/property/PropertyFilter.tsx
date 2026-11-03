@@ -1,9 +1,10 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState, useTransition } from 'react';
 import Dropdown from '@/components/ui/interactive/Dropdown';
 import Sort from '@/components/ui/interactive/Sort';
+import { REGION_OPTIONS, countProperties, sameSet, sortLabel, type PropertyCountItem } from '@/lib/filterOptions';
 import SortClear from '@/components/ui/interactive/SortClear';
 import Toggle from '@/components/ui/interactive/Toggle';
 import { startNavigation } from '@/lib/navigation';
@@ -20,27 +21,13 @@ const propertyTypes = [
   { value: 'rent_land', label: '貸土地' },
 ];
 
-const regions = [
-  '三島市',
-  '長泉町',
-  '清水町',
-  '沼津市',
-  '裾野市',
-  '函南町',
-  '伊豆の国市',
-  'そのほかの地域',
-];
 
-/** 2つの文字列配列が同じ要素集合かどうか（順序無視） */
-function sameSet(a: string[], b: string[]): boolean {
-  if (a.length !== b.length) return false;
-  const sb = new Set(b);
-  return a.every((x) => sb.has(x));
-}
 
-export default function PropertyFilter() {
+export default function PropertyFilter({ countItems }: { countItems?: PropertyCountItem[] }) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  // 絞り込みの適用〜結果の表示まで（ボタンを「絞り込み中…」にする）
+  const [isPending, startTransition] = useTransition();
 
   // デフォルトは「ご案内中」。status=all の時のみ全件 (#65)
   const currentStatus = searchParams.get('status') || 'available';
@@ -71,7 +58,7 @@ export default function PropertyFilter() {
       if (regions.length > 0) params.set('regions', regions.join(','));
       const qs = params.toString();
       startNavigation();
-      router.push(qs ? `/properties?${qs}` : '/properties', { scroll: false });
+      startTransition(() => router.push(qs ? `/properties?${qs}` : '/properties', { scroll: false }));
     },
     [router],
   );
@@ -121,7 +108,7 @@ export default function PropertyFilter() {
     setOptimisticTypes([]);
     setOptimisticRegions([]);
     startNavigation();
-    router.push('/properties', { scroll: false });
+    startTransition(() => router.push('/properties', { scroll: false }));
   };
 
   // 絞り込みボタン: URL に対し未適用の変更があるとき有効（戻し操作も適用できる）
@@ -166,7 +153,7 @@ export default function PropertyFilter() {
         />
         <Dropdown
           label="地域"
-          options={regions.map((r) => ({ value: r, label: r }))}
+          options={REGION_OPTIONS}
           selected={optimisticRegions}
           onToggle={toggleRegion}
           onClear={clearRegions}
@@ -175,7 +162,17 @@ export default function PropertyFilter() {
       </div>
 
       <div className="flex gap-2 shrink-0">
-        <Sort onClick={applyFilters} disabled={!hasPendingChange} />
+        <Sort
+          onClick={applyFilters}
+          disabled={!hasPendingChange}
+          pending={isPending}
+          // 押せる時だけ、押した後の該当件数を出す（コメント NWv6SpfgM7n2）
+          label={sortLabel(
+            hasPendingChange && countItems
+              ? countProperties(countItems, { status: optimisticStatus, types: optimisticTypes, regions: optimisticRegions })
+              : undefined,
+          )}
+        />
         <SortClear onClick={clearFilters} disabled={!hasActiveFilters} />
       </div>
     </div>

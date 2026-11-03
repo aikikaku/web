@@ -4,6 +4,7 @@ import CmsImage from '@/components/common/CmsImage';
 import { BookIcon } from '@/components/ui/icons/icons';
 import { getPropertyStatus, getPropertyCategoryLabel, formatPropertyPrice } from '@/lib/propertyDisplay';
 import { getPriceLabel, getPropertyLayoutCell } from '@/components/property/propertyCells';
+import LayoutValue from '@/components/property/LayoutValue';
 
 interface CardPropertyProps {
   property: Property;
@@ -38,8 +39,10 @@ export default function CardProperty({ property }: CardPropertyProps) {
           alt={property.title}
           fill
           className="object-cover"
-          sizes="(max-width: 992px) 100vw, 410px"
+          sizes="(min-width: 1440px) 28.47vw, (max-width: 992px) 100vw, 410px"
         />
+        {/* Figma card-propaty-sp: 写真に Paper 40%（SP のみ） */}
+        <div aria-hidden className="paper-overlay paper-overlay-sp" style={{ '--paper-opacity': 0.4 } as React.CSSProperties} />
         {isSold && (
           <div className="absolute inset-0 bg-dark-green/50 pointer-events-none" aria-hidden="true" />
         )}
@@ -112,9 +115,7 @@ export default function CardProperty({ property }: CardPropertyProps) {
                   </span>
                 </div>
                 <div className="flex items-end justify-center">
-                  <span className="font-gothic font-medium text-category-2 tablet:text-category-1 text-black tablet:text-dark-green">
-                    {layoutCell.value}
-                  </span>
+                  <LayoutValue value={layoutCell.value} className="text-black tablet:text-dark-green" />
                 </div>
               </div>
             )}

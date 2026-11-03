@@ -142,7 +142,7 @@ export default function HeroCardStory({
             alt=""
             fill
             className="object-cover"
-            sizes="(min-width: 992px) 280px, 0px"
+            sizes="(min-width: 1440px) 19.44vw, (min-width: 992px) 280px, 0px"
           />
         </div>
         {/* 中央メインは -translate-x-1/2 で中央寄せ。登場アニメの transform と競合するため
@@ -155,7 +155,7 @@ export default function HeroCardStory({
               fill
               className="object-cover"
               priority={priority}
-              sizes="(min-width: 992px) 704px, 0px"
+              sizes="(min-width: 1440px) 48.89vw, (min-width: 992px) 704px, 0px"
             />
           </div>
         </div>
@@ -165,7 +165,7 @@ export default function HeroCardStory({
             alt=""
             fill
             className="object-cover"
-            sizes="(min-width: 992px) 280px, 0px"
+            sizes="(min-width: 1440px) 19.44vw, (min-width: 992px) 280px, 0px"
           />
         </div>
       </div>

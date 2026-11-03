@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Arrow from '@/components/ui/interactive/Arrow';
 import { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
+import { usePresence, presenceClass } from '@/lib/usePresence';
 import { NAKABITO_URL } from '@/lib/site';
 
 const navLinks = [
@@ -55,6 +56,9 @@ const allNavItems = [
 export default function Navigation() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  // 開閉のフェード（出る時も消える時もふわっと）
+  const mega = usePresence(dropdownOpen, 300);
+  const mobileMenu = usePresence(mobileOpen, 400);
   const pathname = usePathname();
 
   // 表示中のページが属するナビ項目（詳細ページ含む）。「アイ企画を知る」配下は 'about'
@@ -168,7 +172,9 @@ export default function Navigation() {
               <span
                 onMouseEnter={openDropdown}
                 onMouseLeave={scheduleCloseDropdown}
-                className="relative flex items-center gap-1"
+                // ホバーで開く範囲は、文字の上下をヘッダーの上端〜下端まで広げる（文字だけだと狭く開きにくい。
+                // デザインレビュー3 コメント 3dI818B98FGN）。左右は項目間 32px の内側 8px まで
+                className="relative flex items-center gap-1 before:absolute before:-inset-x-2 before:-inset-y-10 before:content-['']"
               >
                 アイ企画を知る
                 <svg
@@ -226,13 +232,18 @@ export default function Navigation() {
       {/* Desktop: フル幅ドロップダウンセクション。ホバー維持し、離れたら閉じる (#17)。
           ヘッダーの下に重ねて出す（ヘッダーの中に並べると、開いた分だけページ全体が押し下げられる。
           デザインレビュー3 コメント 250QL3zQ0pUX） */}
-      {dropdownOpen && (
+      {mega.mounted && (
         <div
-          className="hidden tablet:block absolute inset-x-0 top-full bg-light-green"
+          className={`hidden tablet:block absolute inset-x-0 top-full bg-light-green paper-texture paper-texture-light ${presenceClass(mega.visible)}`}
           onMouseEnter={openDropdown}
           onMouseLeave={scheduleCloseDropdown}
         >
-          <div className="flex items-start justify-between px-[4.6875rem] py-12 max-w-[90rem] mx-auto">
+          {/* パネルが開いてから中身が少し遅れてふわっと出る */}
+          <div
+            className={`flex items-start justify-between px-[4.6875rem] py-12 max-w-[90rem] mx-auto transition-opacity duration-500 ease-out motion-reduce:transition-none ${
+              mega.visible ? 'opacity-100 delay-100' : 'opacity-0'
+            }`}
+          >
             {/* 左: サブページリンク */}
             <div className="flex flex-col gap-4 w-[34.875rem] py-[1.875rem]">
               {dropdownLinks.map((link) => (
@@ -289,8 +300,8 @@ export default function Navigation() {
       )}
 
       {/* Mobile menu (Figma 4211:25413 SP_nav_open 準拠: bg-light-green, px-56/py-80, gap-32) */}
-      {mobileOpen && (
-        <div className="tablet:hidden bg-light-green px-[3.5rem] py-[5rem] flex flex-col gap-8">
+      {mobileMenu.mounted && (
+        <div className={`tablet:hidden bg-light-green paper-texture paper-texture-light px-[3.5rem] py-[5rem] flex flex-col gap-8 ${presenceClass(mobileMenu.visible, 'duration-[400ms]')}`}>
           {allNavItems.map((item) =>
             'children' in item && item.children ? (
               <div key={item.label} className="flex flex-col gap-4">

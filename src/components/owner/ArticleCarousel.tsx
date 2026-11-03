@@ -78,7 +78,7 @@ export default function ArticleCarousel({ articles, href = '/for-owner' }: Props
                     alt=""
                     fill
                     className="object-cover"
-                    sizes="(max-width: 992px) 332px, 410px"
+                    sizes="(min-width: 1440px) 28.47vw, (max-width: 992px) 332px, 410px"
                   />
                 ) : (
                   <div className="absolute inset-0 bg-dark-green/10" />

@@ -17,6 +17,11 @@ interface Props {
   /** ループ再生するか。false なら最後のコマで止まり onEnded を呼ぶ。省略時は true */
   loop?: boolean;
   onEnded?: () => void;
+  /** 再生の残りが nearEndMs 以下になったら1回呼ぶ（終わる少し前から次へ切り替え始めるため） */
+  onNearEnd?: () => void;
+  nearEndMs?: number;
+  /** 再生速度（1 未満でゆっくり）。省略時は 1 */
+  playbackRate?: number;
 }
 
 /**
@@ -33,8 +38,13 @@ export default function HeroVideo({
   pauseDelayMs = 0,
   loop = true,
   onEnded,
+  onNearEnd,
+  nearEndMs = 0,
+  playbackRate = 1,
 }: Props) {
   const ref = useRef<HTMLVideoElement>(null);
+  // onNearEnd は再生1回につき1回だけ
+  const nearEndFired = useRef(false);
 
   useEffect(() => {
     const v = ref.current;
@@ -48,9 +58,12 @@ export default function HeroVideo({
       return () => clearTimeout(t);
     }
     v.currentTime = 0;
+    v.defaultPlaybackRate = playbackRate;
+    v.playbackRate = playbackRate;
+    nearEndFired.current = false;
     // 自動再生がブロックされても poster のまま表示されるだけなので握りつぶす
     v.play().catch(() => {});
-  }, [active, pauseDelayMs]);
+  }, [active, pauseDelayMs, playbackRate]);
 
   return (
     <video
@@ -61,6 +74,19 @@ export default function HeroVideo({
       muted
       loop={loop}
       onEnded={onEnded}
+      onTimeUpdate={
+        onNearEnd
+          ? (e) => {
+              const v = e.currentTarget;
+              if (!active || nearEndFired.current || !v.duration) return;
+              // 残りは実時間で比べる（ゆっくり再生ではその分だけ長い）
+              if (((v.duration - v.currentTime) * 1000) / v.playbackRate <= nearEndMs) {
+                nearEndFired.current = true;
+                onNearEnd();
+              }
+            }
+          : undefined
+      }
       playsInline
       preload={active ? 'auto' : 'metadata'}
       aria-hidden="true"

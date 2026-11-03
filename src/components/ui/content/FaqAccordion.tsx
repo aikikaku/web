@@ -45,7 +45,7 @@ function FaqItemRow({ item, isOpen, onToggle }: FaqItemRowProps) {
       >
         <div className="pt-6">
           {/* Item-open: SP px29 py32 r12 / PC px30 py32 r16。本文 SP dark-green / PC black */}
-          <div className="bg-[rgba(225,237,225,0.5)] rounded-xl tablet:rounded-2xl px-[1.8125rem] tablet:px-[1.875rem] py-8">
+          <div className="bg-[rgba(225,237,225,0.5)] paper-texture paper-texture-light rounded-xl tablet:rounded-2xl px-[1.8125rem] tablet:px-[1.875rem] py-8">
             <p className="font-gothic font-medium text-body-m text-dark-green tablet:text-black whitespace-pre-line">
               {item.answer}
             </p>

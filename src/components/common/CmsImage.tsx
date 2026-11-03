@@ -1,9 +1,9 @@
 'use client';
 
-import { use } from 'react';
+import { use, useState } from 'react';
 import Image, { getImageProps, type ImageProps } from 'next/image';
 import type { MicroCMSImage } from '@/types/microcms';
-import { PLACEHOLDER_IMAGE_URL } from '@/lib/microcms/image';
+import { PLACEHOLDER_IMAGE_URL, hasNoImage } from '@/lib/microcms/image';
 import { isMicrocmsImage, microcmsLoader } from '@/lib/microcms/loader';
 import { isWaitingForImages } from '@/lib/navigation';
 
@@ -35,21 +35,36 @@ type CmsImageProps = Omit<ImageProps, 'src' | 'loader'> & {
 /**
  * microCMS 画像を表示する next/image ラッパー。
  * - microCMS CDN の画像は {@link microcmsLoader} を使い、表示幅に応じた解像度を CDN から配信
- * - 画像未設定時は「画像準備中」プレースホルダにフォールバック
+ * - 画像未設定時（CMS の「画像なし」用画像を含む）は「画像準備中」プレースホルダにフォールバック
+ * - 読み込みに失敗した場合は段階的に救済する:
+ *   変換付き URL → 変換なしの元画像 → 「画像準備中」プレースホルダ
+ *   （例: CMS に登録された一部の PNG は microCMS の画像変換 API（fm=webp 等）が 422 を返す）
  *
  * 呼び出し側は width を焼き込まず、fill + sizes（または width/height）を渡すだけでよい。
  */
-export default function CmsImage({ image, alt, ...rest }: CmsImageProps) {
-  const url = image?.url;
+export default function CmsImage({ image, alt, onError, ...rest }: CmsImageProps) {
+  // CMS の「画像なし」用画像は未設定と同じ扱いにし、サイト共通のシンプルなプレースホルダに揃える
+  const url = hasNoImage(image) ? undefined : image?.url;
+  // 0: 通常 / 1: 変換なしの元画像 / 2: プレースホルダ
+  const [fallback, setFallback] = useState<0 | 1 | 2>(0);
 
-  if (!url) {
+  if (!url || fallback === 2) {
     if (isWaitingForImages()) use(preload(getImageProps({ src: PLACEHOLDER_IMAGE_URL, alt, unoptimized: true, ...rest }).props));
     return <Image src={PLACEHOLDER_IMAGE_URL} alt={alt} unoptimized {...rest} />;
+  }
+
+  const handleError: ImageProps['onError'] = (e) => {
+    setFallback((f) => (f === 0 ? 1 : 2));
+    onError?.(e);
+  };
+
+  if (fallback === 1) {
+    return <Image key="raw" src={url} alt={alt} unoptimized onError={handleError} {...rest} />;
   }
 
   const loader = isMicrocmsImage(url) ? microcmsLoader : undefined;
   // ページ移動の最中は写真がそろうまで描画を保留する（移動は transition なので、今のページが出たままになる）
   if (isWaitingForImages()) use(preload(getImageProps({ src: url, loader, alt, ...rest }).props));
 
-  return <Image src={url} loader={loader} alt={alt} {...rest} />;
+  return <Image src={url} loader={loader} alt={alt} onError={handleError} {...rest} />;
 }

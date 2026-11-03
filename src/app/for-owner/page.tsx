@@ -148,7 +148,7 @@ export default async function ForOwnerPage() {
                 fill
                 className="object-cover hidden tablet:block"
                 priority
-                sizes="675px"
+                sizes="(min-width: 1440px) 46.88vw, 675px"
               />
             </div>
           </div>
@@ -232,7 +232,7 @@ export default async function ForOwnerPage() {
       </Reveal>
 
       {/* アイ企画で物件を活用する (SP タイポ・余白を Round 24 と同パターンに) */}
-      <Reveal as="section" className="bg-light-green py-[3.75rem] tablet:py-24">
+      <Reveal as="section" className="bg-light-green paper-texture paper-texture-light py-[3.75rem] tablet:py-24">
         <div className="page-container">
           <div className="flex flex-col gap-2 mb-6 tablet:mb-8">
             <p className="font-gothic font-medium text-body-s tablet:text-body-m text-dark-green">
@@ -275,7 +275,7 @@ export default async function ForOwnerPage() {
                       alt={feature.title}
                       fill
                       className="object-cover hidden tablet:block"
-                      sizes="616px"
+                      sizes="(min-width: 1440px) 42.78vw, 616px"
                     />
                   </div>
                 </div>
@@ -344,7 +344,7 @@ export default async function ForOwnerPage() {
       {/* お客様の声 (Figma 4211:11890 / 11447) */}
       {voices.contents.length > 0 && (
         // Figma PC 4470:13405 (pt96 / pb64 / 見出し→カード 64) / SP 4470:13745 (py60 / 32)
-        <Reveal as="section" className="bg-light-green py-[3.75rem] tablet:pt-24 tablet:pb-16">
+        <Reveal as="section" className="bg-light-green paper-texture paper-texture-light py-[3.75rem] tablet:pt-24 tablet:pb-16">
           <div className="px-4 tablet:px-[4.6875rem] max-w-[90rem] mx-auto mb-8 tablet:mb-16">
             <h2 className="font-mincho text-heading-24 tablet:text-heading-32 text-dark-green" style={{ fontFeatureSettings: "'palt' 1" }}>
               お客様の声

@@ -45,8 +45,8 @@ export const ModalWithCategoryOpen: Story = {
     const canvas = within(canvasElement);
     const openButton = await canvas.findByRole('button', { name: '記事を絞り込む' });
     await userEvent.click(openButton);
-    // 未選択時のカテゴリラベルは 'すべて'（categories[0] = { value: '', label: 'すべて' }）
-    const categoryButton = await canvas.findByText('すべて');
+    // 未選択時のカテゴリはプレースホルダ「カテゴリ」（共通 DropdownSp）
+    const categoryButton = await canvas.findByText('カテゴリ');
     await userEvent.click(categoryButton);
   },
 };

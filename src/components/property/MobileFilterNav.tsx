@@ -5,11 +5,13 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import DropdownSp from '@/components/ui/interactive/DropdownSp';
 import Toggle from '@/components/ui/interactive/Toggle';
 import SortSp from '@/components/ui/interactive/SortSp';
+import { REGION_OPTIONS, countProperties, sameSet, sortLabel, type PropertyCountItem } from '@/lib/filterOptions';
 import SortClearSp from '@/components/ui/interactive/SortClearSp';
 import SpFloatingTrigger from '@/components/ui/popup/SpFloatingTrigger';
 import SpModalBackdrop from '@/components/ui/popup/SpModalBackdrop';
 import SpModalCloseButton from '@/components/ui/popup/SpModalCloseButton';
 import { useScrollVisibility } from '@/lib/useScrollVisibility';
+import { usePresence, presenceClass } from '@/lib/usePresence';
 import { startNavigation } from '@/lib/navigation';
 
 const statusOptions = [
@@ -24,31 +26,17 @@ const propertyTypes = [
   { value: 'rent_land', label: '貸土地' },
 ];
 
-const regions = [
-  '三島市',
-  '長泉町',
-  '清水町',
-  '沼津市',
-  '裾野市',
-  '函南町',
-  '伊豆の国市',
-  'そのほかの地域',
-];
 
-/** 2つの文字列配列が同じ要素集合かどうか（順序無視） */
-function sameSet(a: string[], b: string[]): boolean {
-  if (a.length !== b.length) return false;
-  const sb = new Set(b);
-  return a.every((x) => sb.has(x));
-}
 
 /**
  * /properties SP 用フィルター（Figma 4211:11098 floating button + 4211:11572 popup）
  * - floating: cream rounded-50 + drop-shadow + filter icon
  * - popup: cream rounded-24 + drop-shadow、ステータストグル + ドロップダウン (inline 展開) + 絞り込み/× clear
  */
-export default function MobileFilterNav() {
+export default function MobileFilterNav({ countItems }: { countItems?: PropertyCountItem[] }) {
   const [isOpen, setIsOpen] = useState(false);
+  // 開く時も閉じる時もふわっと（背景とパネルを一緒にフェード）
+  const modal = usePresence(isOpen, 300);
   const [openSection, setOpenSection] = useState<'types' | 'regions' | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -153,8 +141,8 @@ export default function MobileFilterNav() {
       </SpFloatingTrigger>
 
       {/* modal: Figma 4211:11572 / 4211:10793 (height 固定・上下中央配置・内部スクロール) */}
-      {isOpen && (
-        <div className="fixed inset-0 z-50">
+      {modal.mounted && (
+        <div className={`fixed inset-0 z-50 ${presenceClass(modal.visible)}`}>
           <SpModalBackdrop onClick={closeModal} />
           {/* 上下中央配置のラッパ */}
           <div className="absolute inset-0 flex items-center justify-center px-6 py-12">
@@ -187,7 +175,7 @@ export default function MobileFilterNav() {
                 <DropdownSp
                   isOpen={openSection === 'regions'}
                   onToggle={() => setOpenSection(openSection === 'regions' ? null : 'regions')}
-                  options={regions.map((r) => ({ value: r, label: r }))}
+                  options={REGION_OPTIONS}
                   selected={localRegions}
                   onChange={toggleRegion}
                   onClear={() => setLocalRegions([])}
@@ -197,7 +185,16 @@ export default function MobileFilterNav() {
 
               {/* action: 絞り込み + × clear (shrink-0 で dropdown 開時に潰れない) */}
               <div className="flex gap-2 h-10 shrink-0">
-                <SortSp onClick={applyFilters} disabled={!hasPendingChange} />
+                <SortSp
+                  onClick={applyFilters}
+                  disabled={!hasPendingChange}
+                  // 押せる時だけ、押した後の該当件数を出す（PC と同じ）
+                  label={sortLabel(
+                    hasPendingChange && countItems
+                      ? countProperties(countItems, { status: localStatus, types: localTypes, regions: localRegions })
+                      : undefined,
+                  )}
+                />
                 <SortClearSp onClick={clearFilters} disabled={!hasActiveFilters} />
               </div>
               </div>

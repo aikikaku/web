@@ -131,7 +131,7 @@ export default function ServiceCTA({
                 alt="不動産をお探しの方へ"
                 fill
                 className="object-cover transition-transform group-hover:scale-[1.02]"
-                sizes="294px"
+                sizes="(min-width: 1440px) 20.42vw, 294px"
               />
             </div>
           </Link>
@@ -155,7 +155,7 @@ export default function ServiceCTA({
                 alt="不動産をお持ちの方へ"
                 fill
                 className="object-cover transition-transform group-hover:scale-[1.02]"
-                sizes="294px"
+                sizes="(min-width: 1440px) 20.42vw, 294px"
               />
             </div>
           </Link>
