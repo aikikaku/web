@@ -7,6 +7,8 @@ import { startNavigation } from '@/lib/navigation';
 
 /** ページ送りの行き先。新しいページが差し込まれたら PaginationScrollRestorer がここへ戻す */
 let pendingScrollTargetId: string | null = null;
+/** ページ番号を押した時に始めた smooth スクロールがまだ動いているか */
+let smoothScrolling = false;
 
 function scrollTargetTop(id: string): number {
   const target = id ? document.getElementById(id) : null;
@@ -25,7 +27,9 @@ export function PaginationScrollRestorer() {
     if (pendingScrollTargetId === null) return;
     const top = scrollTargetTop(pendingScrollTargetId);
     pendingScrollTargetId = null;
-    window.scrollTo({ top, behavior: 'instant' });
+    // 応答が速いと、押した時の smooth スクロールの途中で差し込まれる。そこへ instant を割り込ませると
+    // smooth の続きとぶつかって行き先を 100〜200px 通り過ぎるので、同じ行き先への smooth に引き継ぐ
+    window.scrollTo({ top, behavior: smoothScrolling ? 'smooth' : 'instant' });
   }, [searchParams]);
   return null;
 }
@@ -76,7 +80,17 @@ export default function Pagination({
         router.push(buildHref(page), { scroll: false });
       });
       // 一覧の先頭へ smooth scroll（Pagination がページ切替後に再描画されても同じ id 要素が残るのでズレない）
-      requestAnimationFrame(() => window.scrollTo({ top: scrollTargetTop(scrollTargetId ?? ''), behavior: 'smooth' }));
+      requestAnimationFrame(() => {
+        smoothScrolling = true;
+        // scrollend が来ない環境（古い Safari 等）でも、いずれは「動いていない」に戻す
+        const done = () => {
+          smoothScrolling = false;
+          window.clearTimeout(fallback);
+        };
+        const fallback = window.setTimeout(done, 1500);
+        window.addEventListener('scrollend', done, { once: true });
+        window.scrollTo({ top: scrollTargetTop(scrollTargetId ?? ''), behavior: 'smooth' });
+      });
     },
     [router, buildHref, currentPage, totalPages, scrollTargetId, setOptimisticPage],
   );
