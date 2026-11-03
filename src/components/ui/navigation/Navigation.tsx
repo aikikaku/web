@@ -223,10 +223,12 @@ export default function Navigation() {
         </div>
       </nav>
 
-      {/* Desktop: フル幅ドロップダウンセクション。ホバー維持し、離れたら閉じる (#17)。 */}
+      {/* Desktop: フル幅ドロップダウンセクション。ホバー維持し、離れたら閉じる (#17)。
+          ヘッダーの下に重ねて出す（ヘッダーの中に並べると、開いた分だけページ全体が押し下げられる。
+          デザインレビュー3 コメント 250QL3zQ0pUX） */}
       {dropdownOpen && (
         <div
-          className="hidden tablet:block bg-light-green"
+          className="hidden tablet:block absolute inset-x-0 top-full bg-light-green"
           onMouseEnter={openDropdown}
           onMouseLeave={scheduleCloseDropdown}
         >
