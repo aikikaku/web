@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, type FormEvent, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import Select from '@/components/ui/interactive/Select';
 import Toggle from '@/components/ui/interactive/Toggle';
 import {
@@ -148,6 +148,12 @@ export default function ContactForm({ initialKind, property }: ContactFormProps)
   const [status, setStatus] = useState<Status>('editing');
   const [confirmed, setConfirmed] = useState<Inquiry | null>(null);
   const form = FORMS[kind];
+  // 確認画面・受付完了画面に切り替わったら、その見出しまでスクロールする。
+  // ページの一番上に戻すと、SP では物件情報・電話番号の欄を毎回スクロールしないと見出しにたどり着けない（高野さんのコメント）
+  const screenTopRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (status === 'confirming' || status === 'sent') screenTopRef.current?.scrollIntoView({ block: 'start' });
+  }, [status]);
 
   function input(): InquiryInput {
     return { kind, values, propertyId: property?.id ?? '', consent, website };
@@ -174,7 +180,6 @@ export default function ContactForm({ initialKind, property }: ContactFormProps)
     if (!parsed.ok) return showErrors(parsed.errors);
     setConfirmed(parsed.inquiry);
     setStatus('confirming');
-    window.scrollTo({ top: 0 });
   }
 
   async function handleSend() {
@@ -186,7 +191,6 @@ export default function ContactForm({ initialKind, property }: ContactFormProps)
     }).catch(() => null);
     if (res?.ok) {
       setStatus('sent');
-      window.scrollTo({ top: 0 });
       return;
     }
     if (res?.status === 400) {
@@ -198,7 +202,7 @@ export default function ContactForm({ initialKind, property }: ContactFormProps)
 
   if (status === 'sent') {
     return (
-      <div className="bg-light-green rounded-3xl p-8 tablet:p-16 text-center" role="status">
+      <div ref={screenTopRef} className="bg-light-green rounded-3xl p-8 tablet:p-16 text-center scroll-mt-28" role="status">
         <h2 className="font-mincho text-heading-24 tablet:text-heading-32 text-dark-green mb-6" style={{ fontFeatureSettings: "'palt' 1" }}>
           お問い合わせを受け付けました
         </h2>
@@ -218,7 +222,7 @@ export default function ContactForm({ initialKind, property }: ContactFormProps)
 
   if ((status === 'confirming' || status === 'sending' || status === 'failed') && confirmed) {
     return (
-      <div className="flex flex-col gap-8">
+      <div ref={screenTopRef} className="flex flex-col gap-8 scroll-mt-28">
         <div className="flex flex-col gap-2">
           <h2 className="font-mincho text-heading-24 text-dark-green">入力内容の確認</h2>
           <p className="text-body-m font-gothic text-dark-green/70">以下の内容で送信します。よろしければ「送信する」を押してください。</p>

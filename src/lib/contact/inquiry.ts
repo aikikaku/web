@@ -37,7 +37,15 @@ const kana: FieldDef = { name: 'kana', label: 'フリガナ', type: 'text', requ
 const phone: FieldDef = { name: 'phone', label: '電話番号', type: 'tel', required: true, column: '電話番号', placeholder: '例: 090-1234-5678', autoComplete: 'tel' };
 const email: FieldDef = { name: 'email', label: 'メールアドレス', type: 'email', required: true, column: 'メールアドレス', placeholder: '例: yamada@example.jp', autoComplete: 'email' };
 const contactMethod: FieldDef = { name: 'contactMethod', label: '希望連絡方法', type: 'select', required: false, column: '希望連絡方法', options: CONTACT_METHOD };
-const contactNote: FieldDef = { name: 'contactNote', label: '希望連絡日時・備考', type: 'text', required: false, column: '希望連絡日時・備考', placeholder: '例: 平日の夕方以降だと助かります' };
+const callTimes: FieldDef = {
+  name: 'callTimes',
+  label: 'お電話できる時間帯（複数選択可）',
+  type: 'multi',
+  required: false,
+  column: '連絡可能な時間帯',
+  options: ['09：00〜12：00', '12：00〜13：00', '13：00〜15：00', '15：00〜18：00', '18：00〜19：00', '19：00〜21：00', 'いつでも可能'],
+};
+const note: FieldDef = { name: 'note', label: '備考', type: 'textarea', required: false, column: 'ご質問・ご要望（備考）' };
 const referral: FieldDef = { name: 'referral', label: 'このサイトを知ったきっかけ', type: 'select', required: false, column: '流入元', options: REFERRAL };
 
 export const FORMS: Record<FormKind, FormDef> = {
@@ -54,7 +62,8 @@ export const FORMS: Record<FormKind, FormDef> = {
       { name: 'subject', label: '件名', type: 'text', required: false, column: '件名' },
       { name: 'message', label: 'お問い合わせ内容', type: 'textarea', required: true, column: 'お問い合わせ内容' },
       contactMethod,
-      contactNote,
+      callTimes,
+      note,
       referral,
     ],
   },
@@ -78,7 +87,8 @@ export const FORMS: Record<FormKind, FormDef> = {
       { name: 'message', label: '詳細', type: 'textarea', required: true, column: 'お問い合わせ内容', placeholder: '例: 三島市内で、小学校に近い土地を探しています。予算は2,000万円ほどです。' },
       { name: 'lifestyle', label: '購入後どのような暮らし方をしたいか', type: 'textarea', required: false, column: '購入後の暮らし方' },
       contactMethod,
-      contactNote,
+      callTimes,
+      note,
       referral,
     ],
   },
@@ -94,17 +104,10 @@ export const FORMS: Record<FormKind, FormDef> = {
       phone,
       email,
       { name: 'requests', label: 'ご希望内容', type: 'multi', required: false, column: 'お問い合わせ種別', options: ['訪問査定', '机上査定', 'まずは相談にのって欲しい', 'オンライン相談'] },
-      { name: 'propertyTypes', label: '査定不動産の種類', type: 'multi', required: false, column: '物件種別', options: ['土地', '一戸建て', 'マンション', '店舗', 'その他'] },
+      { name: 'propertyTypes', label: '査定不動産の種類', type: 'multi', required: false, column: '物件種別', options: ['土地', '一戸建て', 'マンション', '店舗・収益物件', 'その他'] },
       { name: 'sellTiming', label: 'ご売却希望時期', type: 'select', required: false, column: '売却希望時期', options: ['3ヶ月以内', '6ヶ月以内', '1年以内', 'その他'] },
       { name: 'propertyLocation', label: '査定不動産の所在地', type: 'text', required: true, column: '物件所在地' },
-      {
-        name: 'callTimes',
-        label: 'お電話できる時間帯（複数選択可）',
-        type: 'multi',
-        required: false,
-        column: '連絡可能な時間帯',
-        options: ['09：00〜12：00', '12：00〜13：00', '13：00〜15：00', '15：00〜18：00', '18：00〜19：00', '19：00〜21：00', 'いつでも可能'],
-      },
+      callTimes,
       { name: 'message', label: 'ご質問・ご要望', type: 'textarea', required: false, column: 'お問い合わせ内容' },
       contactMethod,
       referral,
@@ -130,7 +133,8 @@ export const FORMS: Record<FormKind, FormDef> = {
       { name: 'message', label: '詳細', type: 'textarea', required: true, column: 'お問い合わせ内容', placeholder: '例: 内見を希望します。土日の午前中だと助かります。' },
       { name: 'buyTiming', label: '購入希望時期', type: 'select', required: false, column: '購入希望時期', options: ['すぐに', '3ヶ月以内', 'いいものがあれば', '検討中'] },
       contactMethod,
-      contactNote,
+      callTimes,
+      note,
       referral,
     ],
   },
