@@ -143,8 +143,9 @@ export default function MobileStoriesFilter({ countItems }: { countItems?: Story
                 />
               </div>
 
-              {/* action: 絞り込み + × clear (shrink-0 で dropdown 開時に潰れない) */}
-              <div className="flex gap-2 h-10 shrink-0">
+              {/* action: 絞り込み + × clear (shrink-0 で dropdown 開時に潰れない)。
+                  高さ 44px（デザインレビュー ropeeuTPF_4o。物件・ストーリーの両方で共通） */}
+              <div className="flex gap-2 h-11 shrink-0">
                 <SortSp
                   onClick={applyFilters}
                   disabled={!hasPendingChange}

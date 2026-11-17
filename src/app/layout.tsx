@@ -57,8 +57,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    // motion-ready は下の inline script がクライアントで付けるため、html の class 差分の警告を抑止
-    <html lang="ja" className={`${shipporiMincho.variable} ${zenKaku.variable}`} suppressHydrationWarning>
+    // motion-ready は下の inline script がクライアントで付けるため、html の class 差分の警告を抑止。
+    // data-scroll-behavior="smooth": globals.css の scroll-behavior: smooth はページ内の移動だけに効かせ、
+    // ページ遷移で一番上へ戻す時は Next.js が一時的に auto にして即座に戻す（Next 16 からは、この属性が無いと
+    // 遷移のたびに一番上までなめらかにスクロールする動きが見えてしまう。デザインレビュー H-JCOndZu3Mu）
+    <html
+      lang="ja"
+      data-scroll-behavior="smooth"
+      className={`${shipporiMincho.variable} ${zenKaku.variable}`}
+      suppressHydrationWarning
+    >
       <body className="antialiased">
         {/* 表示演出（MotionProvider）の準備。main の描画前に html.motion-ready を付け、対象を最初から隠しておく
             （後から隠すと一瞬表示されてちらつく）。reduced-motion では付けない。

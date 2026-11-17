@@ -348,17 +348,16 @@ export default function AboutPage() {
                 {companyRows.slice(2, 4).map((row) => (
                   <CompanyRow key={row.label} label={row.label}>{row.value}</CompanyRow>
                 ))}
-                {/* 営業時間: dd 右寄せ・縦中央 (Figma 4470:14237 / SP 4470:15294) */}
-                <div className="flex items-center justify-between gap-4 py-6">
-                  <dt className="text-dark-green shrink-0">営業時間</dt>
-                  <dd className="flex flex-col gap-1 items-end text-right">
+                {/* 営業時間: ほかの行と同じく dd 左寄せ・縦中央（Figma は右寄せだったが誤り。デザインレビュー TEQY4ifqF6NT） */}
+                <CompanyRow label="営業時間">
+                  <div className="flex flex-col gap-1">
                     <div className="text-dark-green">
                       <p>月曜日～土曜日</p>
                       <p>9:00～19:00</p>
                     </div>
                     <p className="text-caption tablet:text-body-s text-dark-green/50">※ご予約により営業時間外の対応も可能</p>
-                  </dd>
-                </div>
+                  </div>
+                </CompanyRow>
                 {companyRows.slice(4).map((row) => (
                   <CompanyRow key={row.label} label={row.label}>{row.value}</CompanyRow>
                 ))}

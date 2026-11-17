@@ -65,7 +65,7 @@ function StoryCardLarge({ story }: { story: Story }) {
             image={story.thumbnail}
             alt={story.title}
             fill
-            className="object-cover transition-transform group-hover:scale-[1.02]"
+            className="object-cover transition-transform duration-[800ms] group-hover:scale-[1.02]"
             sizes="(min-width: 1440px) 28.47vw, 410px"
           />
         </Link>
@@ -122,7 +122,7 @@ function FeaturedStoryCard({ story }: { story: Story }) {
             image={story.thumbnail}
             alt={story.title}
             fill
-            className="object-cover transition-transform group-hover:scale-[1.02]"
+            className="object-cover transition-transform duration-[800ms] group-hover:scale-[1.02]"
             sizes="(min-width: 1440px) 46.88vw, (max-width: 992px) 100vw, 675px"
             priority
           />
@@ -200,13 +200,14 @@ export default async function StoriesPage(props: StoriesPageProps) {
   const totalCount = hasFilter ? filteredContents.length : data.totalCount;
   if (hasFilter) filteredContents = filteredContents.slice(offset, offset + PER_PAGE);
 
-  // 最初の1件をフィーチャード、残りをグリッド
-  const featuredStory = filteredContents[0];
+  // 1ページ目だけ、最初の1件をフィーチャードにして残りをグリッドにする。
+  // 2ページ目以降はフィーチャードを置かず、3列のカードだけにする（デザインレビュー XBOGS6lVbtW7）
+  const featuredStory = currentPage === 1 ? filteredContents[0] : undefined;
   // 「絞り込み」ボタンに押す前の該当件数を出すため、全ストーリーの絞り込み項目だけを渡す
   const countItems = await fetchAllPages((q) => getStories({ ...q, fields: 'category,regions' }))
     .then((all) => all.map(toStoryCountItem))
     .catch(() => undefined);
-  const gridStories = filteredContents.slice(1);
+  const gridStories = featuredStory ? filteredContents.slice(1) : filteredContents;
 
   return (
     <div className="bg-cream">
