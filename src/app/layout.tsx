@@ -56,7 +56,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja" className={`${shipporiMincho.variable} ${zenKaku.variable}`}>
+    // data-scroll-behavior="smooth": globals.css の scroll-behavior: smooth をページ内の移動だけに効かせる。
+    // Next 16 から、これが無いとページ遷移でも一番上までなめらかにスクロールして戻ってしまう
+    <html lang="ja" className={`${shipporiMincho.variable} ${zenKaku.variable}`} data-scroll-behavior="smooth">
       <body className="antialiased">
         {/* JS 無効時はフェードイン (#74) を無効化して確実に表示する */}
         <noscript>
