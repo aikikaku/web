@@ -12,7 +12,7 @@
 @layer base {
   /* レスポンシブ (#Pd9lJMyO318a): 1440px 基準の比例拡大。
      ルート font-size を 1440→1920 で 16px→21.33px に可変させ、
-     全 rem 値（レイアウト/文字）を比例拡大。<1440 は等倍（ユーザー既定を尊重）、
+     全 rem 値（レイアウト/文字）を比例拡大。993–1439 は下の指定で比例縮小、<993 は等倍、
      >1920 は停止。1.1111vw = 16/1440*100。 */
   html {
     scroll-behavior: smooth;
@@ -28,12 +28,12 @@
 
   /* レイアウトは SP(<993px) と PC(>=993px) の2層のみ。中間レイアウトは作らない。
      PC レイアウト(旧 desktop: の 1440px 用レイアウト含む)は tablet:(993px) に統一済み。
-     993–1439px では 1440px 設計の PC をそのまま描画し、収まらない分は横スクロールで
-     見せるため body に min-width:1440px をかける(Figma にタブレット専用デザインが
-     無いためユーザー確定の方針)。>=1440px は等倍〜比例拡大(html の clamp)。 */
+     993–1439px では 1440px 設計の PC を画面幅に合わせて比例縮小する（ルート font-size を
+     1.1111vw にして rem ごと縮める。参考サイト iwatetown-sdgs.jp と同じ考え方。
+     デザインレビュー 6tYZdAZc8BGD。以前は min-width:1440px で横スクロールさせていた）。 */
   @media (min-width: 993px) and (max-width: 1439.98px) {
-    body {
-      min-width: 90rem; /* 1440px */
+    html {
+      font-size: 1.1111vw;
     }
   }
 
