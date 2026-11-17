@@ -303,7 +303,7 @@ export default function AboutPage() {
 
       {/* 会社概要セクション (Figma Handoff 20260724: PC 4470:14220 = px-75 + 410 heading + 616 table 両端揃え /
           SP 4470:15275 = pb-120)。各行は dt 幅 147 + gap 30 + dd 左揃え・縦中央 (List Item-def)、
-          所在地・営業時間のみ右寄せ。区切り線 rgba(42,54,59,0.2)、行の上下 24px */}
+          所在地の地図だけ右端そろえの幅 528。区切り線 rgba(42,54,59,0.2)、行の上下 24px */}
       <Reveal as="section" className="bg-cream pt-[3.75rem] pb-[7.5rem] tablet:pt-24 tablet:pb-36">
         <div className="px-4 tablet:px-[4.6875rem] max-w-[90rem] mx-auto">
           <div className="flex flex-col tablet:flex-row tablet:items-start tablet:justify-between gap-8 tablet:gap-[3.75rem]">
@@ -319,12 +319,12 @@ export default function AboutPage() {
                 {companyRows.slice(0, 2).map((row) => (
                   <CompanyRow key={row.label} label={row.label}>{row.value}</CompanyRow>
                 ))}
-                {/* 所在地: PC は dd 列 (幅 528) に住所 + MAP、その下に地図 (Figma 4470:14228)。
-                    SP は住所行の下に全幅の地図 (Figma 4470:15284)。住所→地図 24px */}
-                <div className="grid grid-cols-[auto_1fr] tablet:grid-cols-[1fr_33rem] items-center gap-x-4 gap-y-6 py-6">
+                {/* 所在地: 住所 + MAP はほかの行と同じ位置に左寄せ（デザインレビュー TEQY4ifqF6NT）。
+                    地図は PC は右端そろえの幅 528 (Figma 4470:14228)、SP は全幅 (Figma 4470:15284)。住所→地図 24px */}
+                <div className="grid grid-cols-[9.1875rem_1fr] items-center gap-x-[1.875rem] gap-y-6 py-6">
                   <dt className="text-dark-green">所在地</dt>
-                  <dd className="flex items-center justify-end gap-3">
-                    <span className="text-[0.875rem] tablet:text-[1rem] leading-[1.8] text-dark-green text-right">静岡県三島市加茂18番地の7</span>
+                  <dd className="flex items-center gap-3">
+                    <span className="text-[0.875rem] tablet:text-[1rem] leading-[1.8] text-dark-green">静岡県三島市加茂18番地の7</span>
                     {/* Tag (Figma 4470:14233): 14px / px12・py6 + pb2 */}
                     <a
                       href="https://maps.google.com/?q=静岡県三島市加茂18番地の7"
@@ -342,7 +342,7 @@ export default function AboutPage() {
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
                     allowFullScreen
-                    className="block w-full aspect-[528/370] rounded-2xl overflow-hidden border border-solid border-dark-green/20 col-span-2 tablet:col-span-1 tablet:col-start-2"
+                    className="block w-full aspect-[528/370] rounded-2xl overflow-hidden border border-solid border-dark-green/20 col-span-2 tablet:w-[33rem] tablet:justify-self-end"
                   />
                 </div>
                 {companyRows.slice(2, 4).map((row) => (
