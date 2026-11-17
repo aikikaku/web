@@ -36,7 +36,8 @@ function ReadStoryButton({ isDark }: { isDark: boolean }) {
           : 'border-dark-green text-dark-green group-hover:bg-dark-green group-hover:border-[rgba(252,255,247,0.3)] group-hover:text-white'
       }`}
     >
-      <BookIcon />
+      {/* 本のアイコンは中央の折り目だけが下に出ていて、文字より約 1px 上に見えるので下げる */}
+      <BookIcon className="shrink-0 translate-y-px" />
       ストーリーを読む
     </span>
   );
