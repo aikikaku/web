@@ -1,6 +1,8 @@
 # Dependabot のパッチ更新（x.y.Z）は、CI が通ったら自動でマージする。マイナー以上は人が見てからマージする。
-# 前提: リポジトリ設定で「Allow auto-merge」をオンにし、main の保護ルールで CI の build を必須にする。
-# 前提がそろっていないと gh pr merge --auto が失敗するだけで、勝手にマージはされない。
+# main には「承認 1 件」のルールがあるので、パッチ更新だけはこの仕組みが承認を付ける。
+# 前提: リポジトリ設定で「Allow auto-merge」と「Allow GitHub Actions to create and approve pull requests」をオンにし、
+# main の保護ルールで CI の build を必須にする。
+# 前提がそろっていないと gh pr review / gh pr merge --auto が失敗するだけで、勝手にマージはされない。
 name: Dependabot auto-merge
 on: pull_request
 
@@ -16,7 +18,9 @@ jobs:
       - id: meta
         uses: dependabot/fetch-metadata@v3
       - if: steps.meta.outputs.update-type == 'version-update:semver-patch'
-        run: gh pr merge --auto --squash "$PR_URL"
+        run: |
+          gh pr review --approve "$PR_URL"
+          gh pr merge --auto --squash "$PR_URL"
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
