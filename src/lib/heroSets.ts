@@ -8,15 +8,21 @@ export type HeroMedia =
 export type HeroSet = Record<HeroSlot, HeroMedia> & {
   /**
    * 画像だけのセットの表示時間（切り替えのフェード時間は含まない）。省略時は DEFAULT_HERO_SET_MS。
-   * 動画を含むセットは、いちばん短い動画が再生し終わったら次へ移るので使わない
+   * 動画を含むセットは、いちばん短い動画の終わりに合わせて次へ移るので使わない
    */
   durationMs?: number;
+  /**
+   * 動画の再生速度（セット内の全動画に同じ値）。いちばん短い動画で切り替えるため、短い動画を含むセットは
+   * そのままだと表示時間が短すぎる（セット1は右下が 4 秒で、全部見えるのは約 2 秒）。
+   * ゆっくり再生して、どのセットも約 7 秒見えるようにそろえる。省略時は 1
+   */
+  playbackRate?: number;
 };
 
 /**
  * Figma Handoff(20260724) のプロトタイプ「Hero_Preview_20260731」(Hero 4470:17400 → 17407 → 17414 → 17400)。
  * 各セットを 6 秒表示 → 2 秒の Smart Animate（ease-in）で次のセットへ、をループする。
- * 実装では動画はループさせず、セット内でいちばん短い動画が再生し終わったら次へ移る（2026-10-15 指示）。
+ * 実装では動画はループさせず、セット内でいちばん短い動画が終わる 2 秒前から次へ切り替え始める（2026-10-15 指示）。
  */
 export const DEFAULT_HERO_SET_MS = 6000;
 export const HERO_FADE_MS = 2000;
@@ -41,17 +47,21 @@ export const HERO_SETS: HeroSet[] = [
     main: image('set1-main'),
     topRight: video('set1-top-right'),
     bottomRight: video('set1-bottom-right'),
+    playbackRate: 0.6, // 最短 4.0 秒 → 6.7 秒
   },
   {
     // 4470:17407: 富士山と稲穂（動画）/ トマトの無人販売 / 田んぼ道のバイク（動画）
+    // 稲の動画は中田さん提供のアップスケール版（hero_video_03_4K, 2160×3840）から 1440×1918 に切り抜き・縮小（デザインレビュー3）
     main: video('set2-main'),
     topRight: image('set2-top-right'),
     bottomRight: video('set2-bottom-right'),
+    playbackRate: 0.7, // 最短 5.0 秒 → 7.1 秒
   },
   {
     // 4470:17414: 神社の屋根と鳥 / 木立（動画）/ 湧水（動画）
     main: image('set3-main'),
     topRight: video('set3-top-right'),
     bottomRight: video('set3-bottom-right'),
+    playbackRate: 0.85, // 最短 6.0 秒 → 7.1 秒
   },
 ];

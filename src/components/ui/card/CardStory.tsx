@@ -24,17 +24,20 @@ const sizeConfig = {
   s: { imageAspect: 'aspect-[4/3]', imageR: 'rounded-2xl', titleSize: 'text-heading-24', width: 'w-full' },
 };
 
-// Button-secondary (Figma 4470:14103 / 4470:14105): 左右 24px (px-12 + State-layer px-12)、アイコン↔文字 4px
+// Button-secondary (Figma 4470:14103 / 4470:14105): 左右 24px (px-12 + State-layer px-12)、アイコン↔文字 4px。
+// 中身の幅で揃え、文字は中央に置く（デザインレビュー qs-GUVlUIeD3）。
+// self-start: card-story-m は縦並びの flex の中に置くため、指定しないと列の幅いっぱいに伸びて大カードのボタンと幅が揃わない
 function ReadStoryButton({ isDark }: { isDark: boolean }) {
   return (
     <span
-      className={`inline-flex items-center gap-1 h-[2.75rem] px-6 border rounded-full font-gothic font-medium text-[1rem] leading-none transition-colors ${
+      className={`inline-flex self-start items-center justify-center gap-1 h-[2.75rem] px-6 border rounded-full font-gothic font-medium text-[1rem] leading-none transition-colors ${
         isDark
           ? 'border-white text-white hover:opacity-70'
           : 'border-dark-green text-dark-green group-hover:bg-dark-green group-hover:border-[rgba(252,255,247,0.3)] group-hover:text-white'
       }`}
     >
-      <BookIcon />
+      {/* 本のアイコンは中央の折り目だけが下に出ていて、文字より約 1px 上に見えるので下げる */}
+      <BookIcon className="shrink-0 translate-y-px" />
       ストーリーを読む
     </span>
   );
@@ -54,8 +57,8 @@ export default function CardStory({ story, size = 's', variant = 'light' }: Card
             image={story.thumbnail}
             alt={story.title}
             fill
-            className="object-cover transition-transform group-hover:scale-[1.02]"
-            sizes="264px"
+            className="object-cover transition-transform duration-[800ms] group-hover:scale-[1.02]"
+            sizes="(min-width: 1440px) 18.33vw, 264px"
           />
         </div>
         <div className="flex flex-col gap-6 flex-1 min-w-0">
@@ -91,8 +94,8 @@ export default function CardStory({ story, size = 's', variant = 'light' }: Card
           image={story.thumbnail}
           alt={story.title}
           fill
-          className="object-cover transition-transform group-hover:scale-[1.02]"
-          sizes="(max-width: 992px) 100vw, 646px"
+          className="object-cover transition-transform duration-[800ms] group-hover:scale-[1.02]"
+          sizes="(min-width: 1440px) 44.86vw, (max-width: 992px) 100vw, 646px"
         />
       </div>
 

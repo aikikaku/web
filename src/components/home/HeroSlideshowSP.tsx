@@ -60,14 +60,17 @@ export default function HeroSlideshowSP() {
               }}
               aria-hidden={i === activeIndex ? undefined : true}
             >
-              <Image
-                src={src}
-                alt={`三島の風景 ${i + 1}`}
-                fill
-                className="object-cover"
-                priority={i === 0}
-                sizes="100vw"
-              />
+              {/* 表示中の写真はゆっくり引いていく（Ken Burns）。表示のたびに最初から */}
+              <div className={`absolute inset-0 ${i === activeIndex && !reduced ? 'ken-burns' : ''}`}>
+                <Image
+                  src={src}
+                  alt={`三島の風景 ${i + 1}`}
+                  fill
+                  className="object-cover"
+                  priority={i === 0}
+                  sizes="100vw"
+                />
+              </div>
             </div>
           ))}
         </div>

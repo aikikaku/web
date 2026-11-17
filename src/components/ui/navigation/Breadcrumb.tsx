@@ -43,7 +43,8 @@ export default function Breadcrumb({ items }: BreadcrumbProps) {
               ) : item.href ? (
                 <Link
                   href={item.href}
-                  className="font-normal tablet:font-medium whitespace-nowrap opacity-50 hover:opacity-100 transition-opacity"
+                  // SP は文字 12px・高さ約 22px と小さく指で押しにくいため、見た目を変えずに押せる範囲を上下左右へ広げる
+                  className="relative font-normal tablet:font-medium whitespace-nowrap opacity-50 hover:opacity-100 transition-opacity after:absolute after:-inset-x-2 after:-top-2 after:-bottom-3 after:content-['']"
                 >
                   {item.label}
                 </Link>
