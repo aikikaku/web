@@ -3,6 +3,7 @@ import { checkBotId } from 'botid/server';
 import { isBot, parseInquiry } from '@/lib/contact/inquiry';
 import { deliverInquiry, type InquiryProperty } from '@/lib/contact/deliver';
 import { getProperty } from '@/lib/microcms/queries';
+import { reportError } from '@/lib/monitoring';
 import { SITE_URL } from '@/lib/site';
 
 /** 物件名はブラウザから受け取らず、ID から microCMS で引き直す（書き換えられた物件名がメールに載らないように） */
@@ -31,7 +32,11 @@ export async function POST(request: Request) {
     console.error('[contact] BotID check failed', e);
     return null;
   });
-  if (verification?.isBot) return NextResponse.json({ ok: false }, { status: 403 });
+  if (verification?.isBot) {
+    // 人を bot と誤判定していないか後から追えるよう、止めたことだけ記録する（入力の中身は送らない）
+    reportError('問い合わせを bot と判定して止めた', 'warning');
+    return NextResponse.json({ ok: false }, { status: 403 });
+  }
 
   const raw: unknown = await request.json().catch(() => null);
 
@@ -46,7 +51,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, errors: { property: 'お問い合わせの物件が見つかりません。物件のページからもう一度お試しください' } }, { status: 400 });
   }
   const result = await deliverInquiry(parsed.inquiry, property, sourcePageUrl(request));
-  if (!result.ok) return NextResponse.json({ ok: false }, { status: 502 });
+  if (!result.ok) {
+    // お客様には「送信できませんでした」と出ている。届かなかったことにすぐ気づけるよう記録する（入力の中身は送らない）
+    reportError(`問い合わせを届けられなかった（${result.reason}）`);
+    return NextResponse.json({ ok: false }, { status: 502 });
+  }
 
   return NextResponse.json({ ok: true });
 }

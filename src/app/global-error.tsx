@@ -1,10 +1,17 @@
 'use client';
 
+import { useEffect } from 'react';
+import { reportError } from '@/lib/monitoring';
+
 /**
  * レイアウト自体が落ちたときの最終手段の画面。globals.css もフォントも読み込めない前提で、
  * 素の HTML とインラインのスタイルだけで組む。
  */
-export default function GlobalError({ reset }: { error: Error & { digest?: string }; reset: () => void }) {
+export default function GlobalError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
+  useEffect(() => {
+    reportError(error);
+  }, [error]);
+
   return (
     <html lang="ja">
       <body style={{ margin: 0, background: '#FCFFF7', color: '#2A363B', fontFamily: 'sans-serif' }}>

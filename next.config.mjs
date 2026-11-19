@@ -1,4 +1,5 @@
 import { withBotId } from 'botid/next/config';
+import { withSentryConfig } from '@sentry/nextjs/config';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -23,4 +24,16 @@ const nextConfig = {
 };
 
 // BotID（問い合わせフォームの bot 判定）が使う通信の経路を足す
-export default withBotId(nextConfig);
+const config = withBotId(nextConfig);
+
+// Sentry（エラーの記録）を使うときだけ、ビルドに Sentry の処理を足す（設定が無い間は今までと同じビルド）。
+// SENTRY_AUTH_TOKEN・SENTRY_ORG・SENTRY_PROJECT があれば、エラーの発生箇所を元のコードの行で読めるようソースマップを送る
+export default process.env.NEXT_PUBLIC_SENTRY_DSN
+  ? withSentryConfig(config, {
+      org: process.env.SENTRY_ORG,
+      project: process.env.SENTRY_PROJECT,
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+      silent: !process.env.CI,
+      telemetry: false,
+    })
+  : config;
