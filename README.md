@@ -21,6 +21,7 @@
 | ドキュメント | 対象 | 概要 |
 |---|---|---|
 | [リッチエディタ入力マニュアル](./docs/operations/richeditor-manual.md) | コンテンツ編集者 | microCMSリッチエディタでストーリー・物件詳細を入力する手順書 |
+| [スタッフインタビューの入力欄](./docs/operations/microcms/staff-interview.md) | 開発者・コンテンツ編集者 | スタッフインタビューを microCMS から直すための API の作り方と入力のきまり |
 
 ## 技術スタック
 

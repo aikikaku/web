@@ -15,7 +15,6 @@ import {
   mockGetStory,
   mockGetRegions,
   mockGetCustomerVoices,
-  mockGetStaffInterviews,
   mockGetPageBySlug,
 } from '@/lib/mock/data';
 import { isMockMode } from '@/lib/env';
@@ -141,11 +140,17 @@ export async function getCustomerVoices(options?: { orders?: string; limit?: num
   });
 }
 
-export async function getStaffInterviews() {
-  if (isMockMode) return mockGetStaffInterviews();
+/**
+ * スタッフインタビューの記事（オブジェクト形式の API）。
+ * API がまだ無い・入力がまだ無い時（404）は null を返し、ページはコードに持つ原稿を出す。
+ * それ以外の失敗（通信の不調など）は投げる。作り直しが失敗になり、前に作ったページが出続ける
+ * （null にすると、入力済みの記事がコードの原稿に戻ってしまう）
+ */
+export async function getStaffInterview(): Promise<StaffInterview | null> {
+  if (isMockMode) return null;
 
-  return client.getList<StaffInterview>({
-    endpoint: 'staff-interviews',
-    queries: { limit: 20, orders: 'order' },
+  return client.getObject<StaffInterview>({ endpoint: 'staff-interview' }).catch((error: unknown) => {
+    if (error instanceof Error && /\b404\b/.test(error.message)) return null;
+    throw error;
   });
 }

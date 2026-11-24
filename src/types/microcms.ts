@@ -76,18 +76,32 @@ export interface CustomerVoice extends MicroCMSListContent {
   order: number;
 }
 
-export interface QA {
-  fieldId: string;
-  question: string;
-  answer: string;
-}
-
-export interface StaffInterview extends MicroCMSListContent {
-  staffName: string;
-  position?: string;
-  photo?: MicroCMSImage;
-  questions: QA[];
-  order?: number;
+/**
+ * スタッフインタビューの記事（オブジェクト形式の API `staff-interview`。1 件だけ）。
+ * 必須はタイトルと本文だけ。空の項目は、コードに持つはじめの原稿のものを出す（src/lib/staffInterview.ts）
+ */
+export interface StaffInterview {
+  /** 改行した位置で句を区切る（句の途中では折り返さない） */
+  title?: string;
+  lead?: string;
+  heroImage?: MicroCMSImage;
+  /** 記事冒頭の「文：」に出す名前 */
+  byline?: string;
+  sections?: {
+    fieldId: string;
+    heading?: string;
+    /** 空行で段落を区切る。段落の中の改行はそのまま出る */
+    body?: string;
+    image?: MicroCMSImage;
+  }[];
+  writerName?: string;
+  writerDescription?: string;
+  staffProfiles?: {
+    fieldId: string;
+    name?: string;
+    avatar?: MicroCMSImage;
+    description?: string;
+  }[];
 }
 
 export interface Page extends MicroCMSListContent {
