@@ -155,6 +155,9 @@ npm run dev
 | `CONTACT_FROM` | 本番で必須 | 送信元。例: `アイ企画 <noreply@aikikaku.net>`。Resend で認証済みのドメインにする |
 | `CONTACT_TO` | 本番で必須 | 問い合わせの通知先。カンマ区切りで複数可 |
 | `CODA_API_TOKEN` / `CODA_DOC_ID` / `CODA_TABLE_ID` | 任意 | 問い合わせを Superhuman Docs（Coda）の表に1行ずつ記録する。未設定なら記録しない |
+| `NEXT_PUBLIC_SENTRY_DSN` | 任意 | エラーの記録（Sentry）。未設定なら何も送らず、SDK も読み込まない |
+| `SENTRY_AUTH_TOKEN` / `SENTRY_ORG` / `SENTRY_PROJECT` | 任意 | Sentry にソースマップを送る（エラーの場所を元のコードの行で読むため）。ビルドの時だけ使う |
+| `NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN` / `NEXT_PUBLIC_POSTHOG_HOST` | 任意 | 利用状況と画面操作の記録（PostHog）。未設定なら何も送らず、SDK も読み込まない。ホストの既定は米国リージョン |
 | `BASIC_AUTH_USER` / `BASIC_AUTH_PASSWORD` | 任意 | プレビュー環境だけに設定する Basic 認証。**本番には設定しない** |
 | `USE_MOCK` | 任意 | `true` で microCMS の代わりにモックデータを使う |
 

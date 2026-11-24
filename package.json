@@ -11,11 +11,13 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@sentry/nextjs": "11.10.0",
     "@tailwindcss/typography": "^0.5.19",
     "@vercel/analytics": "^2.0.1",
     "botid": "^1.5.13",
     "microcms-js-sdk": "^3.6.0",
     "next": "16.4.6",
+    "posthog-js": "1.446.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },
