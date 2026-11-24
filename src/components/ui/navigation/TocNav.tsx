@@ -61,17 +61,17 @@ export default function TocNav({ items }: TocNavProps) {
             key={i}
             type="button"
             onClick={() => handleClick(i)}
-            className="flex items-center h-[2.5rem] text-left cursor-pointer"
+            // 1行なら Figma どおり高さ 40px・点は中央。長い項目は折り返して行が伸び、点は1行目に揃え、線は次の項目へつながる
+            className="flex items-stretch min-h-[2.5rem] text-left cursor-pointer"
           >
             {/* タイムラインドット + 線 */}
-            <div className="w-[2.5rem] flex flex-col items-center h-full shrink-0">
-              {/* 上の線 */}
-              {i > 0 && (
-                <div className={`w-[0.09375rem] flex-1 ${
-                  i <= activeIndex ? 'bg-dark-green' : 'bg-dark-green/50'
-                } transition-colors duration-300`} />
-              )}
-              {i === 0 && <div className="flex-1" />}
+            <div className="w-[2.5rem] flex flex-col items-center shrink-0">
+              {/* 上の線（1行目の中央に点が来る高さ: 余白 8px + 行の半分 12px - 点の半分 5px = 15px） */}
+              <div
+                className={`w-[0.09375rem] h-[0.9375rem] shrink-0 ${
+                  i === 0 ? '' : i <= activeIndex ? 'bg-dark-green' : 'bg-dark-green/50'
+                } transition-colors duration-300`}
+              />
 
               {/* ドット */}
               <div className={`w-[0.625rem] h-[0.625rem] rounded-full shrink-0 transition-colors duration-300 ${
@@ -82,17 +82,16 @@ export default function TocNav({ items }: TocNavProps) {
                     : 'bg-dark-green/50'
               }`} />
 
-              {/* 下の線 */}
-              {i < arr.length - 1 && (
-                <div className={`w-[0.09375rem] flex-1 ${
-                  i < activeIndex ? 'bg-dark-green' : 'bg-dark-green/50'
-                } transition-colors duration-300`} />
-              )}
-              {i === arr.length - 1 && <div className="flex-1" />}
+              {/* 下の線（行の残りの高さいっぱい） */}
+              <div
+                className={`w-[0.09375rem] flex-1 ${
+                  i === arr.length - 1 ? '' : i < activeIndex ? 'bg-dark-green' : 'bg-dark-green/50'
+                } transition-colors duration-300`}
+              />
             </div>
 
             {/* テキスト */}
-            <span className={`font-gothic font-medium text-[1rem] leading-[1.5] text-dark-green transition-opacity duration-300 ${
+            <span className={`flex-1 min-w-0 py-2 font-gothic font-medium text-[1rem] leading-[1.5] text-dark-green transition-opacity duration-300 ${
               isActive ? 'opacity-100' : 'opacity-50'
             }`}>
               {item}
