@@ -1,0 +1,46 @@
+{
+  "apiFields": [
+    {
+      "fieldId": "title",
+      "name": "タイトル",
+      "kind": "textArea",
+      "description": "改行した位置で句を区切ります（句の途中では折り返しません）。",
+      "required": true
+    },
+    {
+      "fieldId": "lead",
+      "name": "リード",
+      "kind": "textArea",
+      "description": "本文のはじめに大きく出す文。改行した位置で句を区切ります。",
+      "required": false
+    },
+    {
+      "fieldId": "heroImage",
+      "name": "メインの写真",
+      "kind": "media",
+      "description": "ページの一番上に、横長（3:2）で出ます。",
+      "required": false
+    },
+    {
+      "fieldId": "byline",
+      "name": "文（書いた人の表記）",
+      "kind": "text",
+      "description": "タイトルの下の「文：」に続けて出ます。",
+      "required": false
+    },
+    {
+      "fieldId": "writerName",
+      "name": "書いた人の名前",
+      "kind": "text",
+      "description": "記事の最後の「この記事を書いた人」に出ます。",
+      "required": false
+    },
+    {
+      "fieldId": "writerDescription",
+      "name": "書いた人の紹介",
+      "kind": "textArea",
+      "required": false
+    }
+  ],
+  "customFields": []
+}
