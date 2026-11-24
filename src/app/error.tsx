@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import ButtonPrimary from '@/components/ui/interactive/ButtonPrimary';
 import ButtonPrimarySp from '@/components/ui/interactive/ButtonPrimarySp';
+import { reportError } from '@/lib/monitoring';
 
 /**
  * ページの表示中に想定外のエラーが起きたとき（microCMS が応答しない等）の画面。
@@ -11,6 +12,7 @@ import ButtonPrimarySp from '@/components/ui/interactive/ButtonPrimarySp';
 export default function ErrorPage({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   useEffect(() => {
     console.error(error);
+    reportError(error);
   }, [error]);
 
   return (
