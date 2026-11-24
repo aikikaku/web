@@ -259,9 +259,10 @@ export default async function StaffInterviewPage() {
                       {section.heading}
                     </h3>
                   )}
-                  {section.paragraphs.map((text, pIdx) => (
+                  {/* 話し手の付いた発言（microCMS で「大地：」などと書いた段落）は、吹き出しの見た目が入るまで「」の文で出す */}
+                  {section.paragraphs.map((paragraph, pIdx) => (
                     <p key={pIdx} className="whitespace-pre-line">
-                      {text}
+                      {typeof paragraph === 'string' ? paragraph : `「${paragraph.text}」`}
                     </p>
                   ))}
                   {section.image && (
