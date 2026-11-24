@@ -46,6 +46,24 @@ describe('スタッフインタビュー: microCMS の入力 → 表示用の形
     ]);
   });
 
+  it('「大地：」「恒成：」「ふたり：」で始まる段落は、その人の発言になる。話し手の無い「」は地の文のまま', () => {
+    const body = [
+      '大地：「残せるものは残したいんです」',
+      '恒成: 三島は、ゆるいんですよね',
+      'ふたり：「この街に\n住んでいるということ」',
+      '「話し手を書いていない発言」',
+      '地の文：コロンのある普通の段落。',
+    ].join('\n\n');
+    const article = staffInterviewFromCms({ title: 'タイトル', sections: [{ fieldId: 's', body }] }, fallback);
+    expect(article.sections[0].paragraphs).toEqual([
+      { speaker: 'daichi', text: '残せるものは残したいんです' },
+      { speaker: 'tsunenari', text: '三島は、ゆるいんですよね' },
+      { speaker: 'both', text: 'この街に\n住んでいるということ' },
+      '「話し手を書いていない発言」',
+      '地の文：コロンのある普通の段落。',
+    ]);
+  });
+
   it('空のままの項目だけ、はじめの原稿のものを使う', () => {
     const article = staffInterviewFromCms({ title: 'タイトル', sections: [{ fieldId: 's', body: '本文' }] }, fallback);
     expect(article.title).toEqual(['タイトル']);

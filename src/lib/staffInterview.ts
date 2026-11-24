@@ -1,5 +1,25 @@
 import type { StaffInterview } from '@/types/microcms';
 
+/** 「」の発言の話し手。both は二人の言葉 */
+export type StaffInterviewSpeaker = 'daichi' | 'tsunenari' | 'both';
+
+/**
+ * 原稿の「」の発言。どちらの言葉か分かるよう、ストーリー本文と同じアバター付きの吹き出し（Figma Comment 4470:14684）で出す。
+ * はじめの原稿の話し手は、原稿に書かれていないため仮置き。microCMS では、段落の頭に「大地：」「恒成：」「ふたり：」と書いて決める
+ */
+export interface StaffInterviewQuote {
+  speaker: StaffInterviewSpeaker;
+  text: string;
+}
+
+/** microCMS の本文で、段落の頭に書く話し手の名前 */
+const SPEAKER_LABELS: Record<string, StaffInterviewSpeaker> = {
+  大地: 'daichi',
+  恒成: 'tsunenari',
+  ふたり: 'both',
+  二人: 'both',
+};
+
 /** スタッフインタビューのページが表示に使う形 */
 export interface StaffInterviewArticle {
   /** タイトル。意味の切れ目で改行させるため、句ごとに分けて持つ */
@@ -13,8 +33,8 @@ export interface StaffInterviewArticle {
   sections: {
     /** 目次に出す見出し。冒頭の部分は見出しなし */
     heading?: string;
-    /** 段落。段落の中の改行は \n のまま持ち、white-space: pre-line で表示する */
-    paragraphs: string[];
+    /** 段落。段落の中の改行は \n のまま持ち、white-space: pre-line で表示する。発言は吹き出しで出す */
+    paragraphs: (string | StaffInterviewQuote)[];
     /** セクションの末尾に置く写真の URL */
     image?: string;
   }[];
@@ -41,6 +61,17 @@ function paragraphs(text: string | undefined): string[] {
 }
 
 /**
+ * 「大地：」「恒成：」「ふたり：」で始まる段落を、その人の発言（吹き出し）にする。前後の「」は外す。
+ * 話し手を書いていない段落は、「」で囲んであっても地の文のまま出す
+ */
+function quoteOrText(paragraph: string): string | StaffInterviewQuote {
+  const match = paragraph.match(/^(\S+?)[ \t\u3000]*[：:][ \t\u3000]*([\s\S]+)$/);
+  const speaker = match && SPEAKER_LABELS[match[1]];
+  if (!match || !speaker) return paragraph;
+  return { speaker, text: match[2].trim().replace(/^「([\s\S]*)」$/, '$1') };
+}
+
+/**
  * microCMS の「スタッフインタビュー」の入力を、ページの表示用の形に変える。
  *
  * - タイトルか本文が空のあいだ（まだ入力していない・取得できない）は、fallback（はじめの原稿）をそのまま返す
@@ -54,7 +85,7 @@ export function staffInterviewFromCms(cms: StaffInterview | null, fallback: Staf
   const sections = (cms.sections ?? [])
     .map((section) => ({
       heading: section.heading?.trim() || undefined,
-      paragraphs: paragraphs(section.body),
+      paragraphs: paragraphs(section.body).map(quoteOrText),
       image: section.image?.url,
     }))
     .filter((section) => section.heading || section.paragraphs.length > 0 || section.image);
