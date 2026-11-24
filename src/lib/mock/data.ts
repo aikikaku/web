@@ -3,7 +3,6 @@ import {
   Story,
   Region,
   CustomerVoice,
-  StaffInterview,
   Page,
   MicroCMSListResponse,
 } from '@/types/microcms';
@@ -423,34 +422,6 @@ export const mockCustomerVoices: CustomerVoice[] = [
   },
 ];
 
-// ===== StaffInterviews =====
-export const mockStaffInterviews: StaffInterview[] = [
-  {
-    ...base('staff-1'),
-    staffName: '山田 太郎',
-    position: '代表取締役',
-    photo: img('/images/home/about.jpg', 200, 200),
-    questions: [
-      { fieldId: 'qa', question: 'アイ企画を設立したきっかけは？', answer: '三島で生まれ育ち、この地域の良さを多くの方に知ってもらいたいという想いから不動産業を始めました。物件だけでなく、暮らしそのものを提案できる会社を目指しています。' },
-      { fieldId: 'qa', question: '大切にしていることは？', answer: 'お客様との信頼関係です。一生に一度の大きなお買い物だからこそ、正直に、誠実にお付き合いすることを心がけています。' },
-      { fieldId: 'qa', question: '今後のビジョンを教えてください', answer: 'テクノロジーを活用しながらも、地域に根ざした温かいサービスを提供し続けたいです。AIを活用した物件提案なども検討しています。' },
-    ],
-    order: 1,
-  },
-  {
-    ...base('staff-2'),
-    staffName: '鈴木 花子',
-    position: '営業主任',
-    photo: img('/images/home/about.jpg', 200, 200),
-    questions: [
-      { fieldId: 'qa', question: '入社のきっかけは？', answer: '地元三島で、人の暮らしに寄り添える仕事がしたいと思い入社しました。お客様の笑顔が何よりのやりがいです。' },
-      { fieldId: 'qa', question: '得意な分野は？', answer: '子育て世代のお客様へのご提案が得意です。自分自身も三島で子育てをしているので、学区や公園、小児科の情報など実体験を交えてご案内できます。' },
-      { fieldId: 'qa', question: '休日の過ごし方は？', answer: '子どもと一緒に三島の公園めぐりをしています。楽寿園や源兵衛川は何度行っても癒されますね。' },
-    ],
-    order: 2,
-  },
-];
-
 // ===== Pages =====
 export const mockPages: Page[] = [
   {
@@ -616,10 +587,6 @@ export function mockGetRegions(): MicroCMSListResponse<Region> {
 
 export function mockGetCustomerVoices(): MicroCMSListResponse<CustomerVoice> {
   return listResponse(mockCustomerVoices);
-}
-
-export function mockGetStaffInterviews(): MicroCMSListResponse<StaffInterview> {
-  return listResponse(mockStaffInterviews);
 }
 
 export function mockGetPageBySlug(slug: string): Page | null {

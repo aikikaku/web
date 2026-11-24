@@ -1,4 +1,5 @@
-import Image from 'next/image';
+import { cache } from 'react';
+import CmsImage from '@/components/common/CmsImage';
 import TocNav from '@/components/ui/navigation/TocNav';
 import PageNavSp from '@/components/ui/navigation/PageNavSp';
 import ServiceCTA from '@/components/ui/card/ServiceCTA';
@@ -6,39 +7,30 @@ import Reveal from '@/components/common/Reveal';
 import type { Metadata } from 'next';
 import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
 import { SITE_URL } from '@/lib/site';
+import { getStaffInterview } from '@/lib/microcms/queries';
+import {
+  staffInterviewFromCms,
+  type StaffInterviewArticle,
+  type StaffInterviewQuote,
+  type StaffInterviewSpeaker,
+} from '@/lib/staffInterview';
+
+// microCMS の入力を 1 時間以内に反映する（ストーリーと同じ間隔）
+export const revalidate = 3600;
 
 // 意味の切れ目で改行させるため、句ごとに分けて持つ（BreakPhrases で inline-block にする）
 const ARTICLE_TITLE = ['街をつくるのは、', 'そこに暮らす人たち。'];
 const ARTICLE_LEAD = ['三島で暮らし、三島で働く。', 'アイ企画が大切にしていること。'];
 
-export const metadata: Metadata = {
-  title: 'スタッフインタビュー',
-  description: `${ARTICLE_LEAD.join('')}三島で不動産業を営むアイ企画の二人を、nakabito の取材メンバーが紹介します。`,
-};
-
 /**
+ * 記事の中身は microCMS の「スタッフインタビュー」（API `staff-interview`）から読む。
+ * このファイルの原稿は、microCMS にまだ入力が無い時と、入力が空の項目に出す「はじめの原稿」。
+ *
  * 原稿は nakabito の取材メンバー（宮﨑 美咲さん）による読み物記事。
  * 以前の「司会／話し手」の対談形式から、ストーリー詳細（/stories/[id]）と同じ記事レイアウトに変更。
  * 段落内の改行は原稿どおり \n で持ち、white-space: pre-line で表示する。
  */
-type Speaker = 'daichi' | 'tsunenari' | 'both';
-
-/**
- * 原稿の「」の発言。どちらの言葉か分かるよう、ストーリー本文と同じアバター付きの吹き出し（Figma Comment 4470:14684）で出す。
- * 発言者は原稿に書かれていないため仮置き。高野さんから Vercel コメントで確定をもらって直す。
- */
-interface Quote {
-  speaker: Speaker;
-  text: string;
-}
-
-interface ArticleSection {
-  /** 目次に出す見出し。冒頭のリード部分は見出しなし */
-  heading?: string;
-  paragraphs: (string | Quote)[];
-  /** セクション末尾に置く写真 */
-  image?: string;
-}
+type ArticleSection = StaffInterviewArticle['sections'][number];
 
 const articleSections: ArticleSection[] = [
   {
@@ -126,8 +118,6 @@ const articleSections: ArticleSection[] = [
   },
 ];
 
-const tocItems = articleSections.flatMap((s) => (s.heading ? [s.heading] : []));
-
 const writer = {
   /** 記事冒頭の「文：」に出す名前 */
   byline: '宮﨑 美咲｜nemurineco',
@@ -137,12 +127,12 @@ const writer = {
     '1994年生まれ、群馬県出身。介護職、スタジオ勤務を経て、2018年よりフリーランスの写真家として活動。企業や作家、家族などの撮影を手がけるほか、インドを中心に作品制作を行う。',
 };
 
-const speakers: Record<Exclude<Speaker, 'both'>, { name: string; avatar: string }> = {
+const speakers: Record<Exclude<StaffInterviewSpeaker, 'both'>, { name: string; avatar: string }> = {
   daichi: { name: '大地', avatar: '/images/staff-interview/avatar-daichi.jpg' },
   tsunenari: { name: '恒成', avatar: '/images/staff-interview/avatar-tsunenari.jpg' },
 };
 
-function QuoteBubble({ quote }: { quote: Quote }) {
+function QuoteBubble({ quote }: { quote: StaffInterviewQuote }) {
   const people = quote.speaker === 'both' ? [speakers.daichi, speakers.tsunenari] : [speakers[quote.speaker]];
   return (
     <div className="rich-comment">
@@ -156,7 +146,7 @@ function QuoteBubble({ quote }: { quote: Quote }) {
                 i > 0 ? '-ml-4 ring-2 ring-cream' : ''
               }`}
             >
-              <Image src={person.avatar} alt="" fill className="object-cover" sizes="50px" />
+              <CmsImage image={{ url: person.avatar }} alt="" fill className="object-cover" sizes="50px" />
             </div>
           ))}
         </div>
@@ -184,6 +174,29 @@ const staffProfiles = [
   },
 ];
 
+const defaultArticle: StaffInterviewArticle = {
+  title: ARTICLE_TITLE,
+  lead: ARTICLE_LEAD,
+  heroImage: '/images/staff-interview/hero.jpg',
+  byline: writer.byline,
+  sections: articleSections,
+  writer: { name: writer.name, description: writer.description },
+  staffProfiles,
+};
+
+// メタ情報とページ本体の 2 か所で使うので、1 回の表示で 1 度だけ取りに行く
+const getArticle = cache(
+  async (): Promise<StaffInterviewArticle> => staffInterviewFromCms(await getStaffInterview(), defaultArticle),
+);
+
+export async function generateMetadata(): Promise<Metadata> {
+  const article = await getArticle();
+  return {
+    title: 'スタッフインタビュー',
+    description: `${article.lead.join('')}三島で不動産業を営むアイ企画の二人を、nakabito の取材メンバーが紹介します。`,
+  };
+}
+
 /** 句の途中で改行されないよう、句ごとに inline-block で並べる（幅が足りない句だけ中で折り返す） */
 function BreakPhrases({ phrases }: { phrases: string[] }) {
   return (
@@ -197,7 +210,9 @@ function BreakPhrases({ phrases }: { phrases: string[] }) {
   );
 }
 
-export default function StaffInterviewPage() {
+export default async function StaffInterviewPage() {
+  const article = await getArticle();
+  const tocItems = article.sections.flatMap((s) => (s.heading ? [s.heading] : []));
   let tocIndex = 0;
 
   return (
@@ -224,9 +239,9 @@ export default function StaffInterviewPage() {
         <div className="flex max-tablet:flex-col gap-0 max-tablet:gap-8">
           {/* 写真は二人が横に並んだ横長のため、ストーリーの正方形に近い枠だと端の人が切れる。元写真と同じ 3:2 で見せる */}
           <div className="max-tablet:order-2 tablet:w-[42.1875rem] shrink-0 aspect-[3/2] rounded-3xl overflow-hidden relative">
-            <Image
-              src="/images/staff-interview/hero.jpg"
-              alt="髙野大地と髙野恒成"
+            <CmsImage
+              image={{ url: article.heroImage }}
+              alt={article.staffProfiles.map((staff) => staff.name).join('と')}
               fill
               className="object-cover"
               sizes="(min-width: 1440px) 46.88vw, (max-width: 992px) 100vw, 675px"
@@ -243,12 +258,12 @@ export default function StaffInterviewPage() {
                 className="font-mincho text-heading-32 tablet:text-heading-48 text-dark-green text-left tablet:text-center"
                 style={{ fontFeatureSettings: "'palt' 1" }}
               >
-                <BreakPhrases phrases={ARTICLE_TITLE} />
+                <BreakPhrases phrases={article.title} />
               </h1>
             </div>
 
             <p className="max-tablet:order-3 w-full text-body-m tablet:text-body-l font-gothic font-medium text-dark-green text-center">
-              文：{writer.byline}
+              文：{article.byline}
             </p>
           </div>
         </div>
@@ -274,9 +289,9 @@ export default function StaffInterviewPage() {
             <div className="rich-content tablet:pt-6">
               {/* SP 24px だと2句目が1文字だけ次の行に落ちるため、リードだけ SP 22px にする */}
               <h3 className="max-tablet:!text-[1.375rem]">
-                <BreakPhrases phrases={ARTICLE_LEAD} />
+                <BreakPhrases phrases={article.lead} />
               </h3>
-              {articleSections.map((section, sIdx) => (
+              {article.sections.map((section, sIdx) => (
                 <div key={sIdx}>
                   {section.heading && (
                     <h3 id={`toc-${tocIndex++}`} className="pt-7 tablet:pt-12">
@@ -294,8 +309,8 @@ export default function StaffInterviewPage() {
                   )}
                   {section.image && (
                     <div className="relative w-full aspect-[763/509] rounded-2xl tablet:rounded-3xl overflow-hidden mb-8 tablet:mb-12">
-                      <Image
-                        src={section.image}
+                      <CmsImage
+                        image={{ url: section.image }}
                         alt=""
                         fill
                         className="object-cover"
@@ -320,20 +335,22 @@ export default function StaffInterviewPage() {
                   className="font-mincho text-heading-16 tablet:text-heading-18 text-dark-green mb-1 tablet:mb-2"
                   style={{ fontFeatureSettings: "'palt' 1" }}
                 >
-                  {writer.name}
+                  {article.writer.name}
                 </p>
-                <p className="font-gothic text-body-s text-dark-green">{writer.description}</p>
+                <p className="font-gothic text-body-s text-dark-green">{article.writer.description}</p>
               </div>
 
               <div className="border-t border-dark-green/10 pt-8 tablet:pt-10">
                 <p className="font-gothic font-medium text-body-s text-dark-green mb-4">アイ企画のふたり</p>
                 <div className="grid grid-cols-1 tablet:grid-cols-2 gap-6 tablet:gap-[1.875rem]">
-                  {staffProfiles.map((staff) => (
+                  {article.staffProfiles.map((staff) => (
                     <div key={staff.name}>
                       <div className="flex items-center gap-3 tablet:gap-4 h-[3.1875rem] mb-1 tablet:mb-2">
-                        <div className="w-11 h-11 tablet:w-[3.1875rem] tablet:h-[3.1875rem] rounded-full overflow-hidden relative shrink-0">
-                          <Image src={staff.avatar} alt={staff.name} fill className="object-cover" sizes="51px" />
-                        </div>
+                        {staff.avatar && (
+                          <div className="w-11 h-11 tablet:w-[3.1875rem] tablet:h-[3.1875rem] rounded-full overflow-hidden relative shrink-0">
+                            <CmsImage image={{ url: staff.avatar }} alt={staff.name} fill className="object-cover" sizes="51px" />
+                          </div>
+                        )}
                         <h4
                           className="font-mincho text-heading-16 tablet:text-heading-18 text-dark-green"
                           style={{ fontFeatureSettings: "'palt' 1" }}
