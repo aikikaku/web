@@ -18,6 +18,7 @@ import ListItemDeco from '@/components/ui/content/ListItemDeco';
 import ListItemDef from '@/components/ui/content/ListItemDef';
 import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
 import { getPriceLabel, getPropertyLayoutCell } from '@/components/property/propertyCells';
+import { propertyDocumentHref } from '@/lib/propertyDocument';
 import { SITE_URL } from '@/lib/site';
 
 export const revalidate = 3600;
@@ -120,6 +121,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
   const tocItems = [...tocFromContent, '物件概要'];
 
   const isSold = property.status === 'sold';
+  const documentHref = propertyDocumentHref(property);
   // 状態ラベル: 成約済み or 商談中（案内中は非表示）(#35)
   const statusLabel = isSold ? '成約済み' : property.status === 'negotiating' ? '商談中' : null;
 
@@ -429,9 +431,9 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
             {/* アクションカード */}
             {!isSold && (
               <div className="flex flex-col tablet:flex-row gap-3">
-                {/* 物件資料: documentUrl があれば資料を別タブで開く。無ければこの物件のお問い合わせへ */}
-                {property.documentUrl ? (
-                  <CardLink href={property.documentUrl} label="物件資料" external />
+                {/* 物件資料: 資料があれば別タブで開く（行き先は lib/propertyDocument）。無ければこの物件のお問い合わせへ */}
+                {documentHref ? (
+                  <CardLink href={documentHref} label="物件資料" external />
                 ) : (
                   <CardLink href={`/contact?property=${property.id}`} label="物件資料" />
                 )}

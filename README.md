@@ -150,6 +150,7 @@ npm run dev
 |---|---|---|
 | `MICROCMS_SERVICE_DOMAIN` / `MICROCMS_API_KEY` | 必須 | microCMS からの取得 |
 | `NEXT_PUBLIC_SITE_URL` | 任意 | サイトの正規 URL。既定は `https://www.aikikaku.net`（sitemap・OGP・構造化データに使う） |
+| `NEXT_PUBLIC_PROPERTY_DOCS_URL` | 任意 | 物件資料のサイトの URL。既定は `https://docs.aikikaku.net`（物件ページの「物件資料」ボタンの行き先に使う） |
 | `RESEND_API_KEY` | 本番で必須 | 問い合わせメールの送信（Resend） |
 | `CONTACT_FROM` | 本番で必須 | 送信元。例: `アイ企画 <noreply@aikikaku.net>`。Resend で認証済みのドメインにする |
 | `CONTACT_TO` | 本番で必須 | 問い合わせの通知先。カンマ区切りで複数可 |
