@@ -4,6 +4,7 @@ import './globals.css';
 import Navigation from '@/components/ui/navigation/Navigation';
 import Footer from '@/components/ui/footer/Footer';
 import { Analytics } from '@vercel/analytics/next';
+import MotionProvider from '@/components/common/MotionProvider';
 import { SITE_URL } from '@/lib/site';
 import { Suspense } from 'react';
 import { PaginationScrollRestorer } from '@/components/common/Pagination';
@@ -56,10 +57,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    // data-scroll-behavior="smooth": globals.css の scroll-behavior: smooth をページ内の移動だけに効かせる。
-    // Next 16 から、これが無いとページ遷移でも一番上までなめらかにスクロールして戻ってしまう
-    <html lang="ja" className={`${shipporiMincho.variable} ${zenKaku.variable}`} data-scroll-behavior="smooth">
+    // motion-ready は下の inline script がクライアントで付けるため、html の class 差分の警告を抑止。
+    // data-scroll-behavior="smooth": globals.css の scroll-behavior: smooth はページ内の移動だけに効かせ、
+    // ページ遷移で一番上へ戻す時は Next.js が一時的に auto にして即座に戻す（Next 16 からは、この属性が無いと
+    // 遷移のたびに一番上までなめらかにスクロールする動きが見えてしまう。デザインレビュー H-JCOndZu3Mu）
+    <html
+      lang="ja"
+      data-scroll-behavior="smooth"
+      className={`${shipporiMincho.variable} ${zenKaku.variable}`}
+      suppressHydrationWarning
+    >
       <body className="antialiased">
+        {/* 表示演出（MotionProvider）の準備。main の描画前に html.motion-ready を付け、対象を最初から隠しておく
+            （後から隠すと一瞬表示されてちらつく）。reduced-motion では付けない。
+            MotionProvider が 4 秒以内に動かなければ外して、中身が見えなくなる事故を防ぐ */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;var d=document.documentElement;d.classList.add('motion-ready');setTimeout(function(){if(!window.__motionReady)d.classList.remove('motion-ready')},4000)}catch(e){}})()",
+          }}
+        />
         {/* JS 無効時はフェードイン (#74) を無効化して確実に表示する */}
         <noscript>
           {/* eslint-disable-next-line react/no-danger */}
@@ -95,6 +112,7 @@ export default function RootLayout({
         />
         <Navigation />
         <main className="min-h-screen">{children}</main>
+        <MotionProvider />
         <Suspense fallback={null}>
           <PaginationScrollRestorer />
           <NavigationProgress />

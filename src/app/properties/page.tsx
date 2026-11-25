@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import { unstable_noStore as noStore } from 'next/cache';
-import { getProperties } from '@/lib/microcms/queries';
+import { fetchAllPages, getProperties } from '@/lib/microcms/queries';
 import CardProperty from '@/components/ui/card/CardProperty';
 import PickupCard from '@/components/property/PickupCard';
 import PropertyFilter from '@/components/property/PropertyFilter';
@@ -11,6 +11,7 @@ import BannerContact from '@/components/ui/card/BannerContact';
 import Reveal from '@/components/common/Reveal';
 import type { Metadata } from 'next';
 import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
+import { toPropertyCountItem } from '@/lib/filterOptions';
 import { SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
@@ -60,13 +61,16 @@ export default async function PropertiesPage(props: PropertiesPageProps) {
   // 地域フィルタがある場合は全件取得→クライアント側でフィルタ＆ページネーション
   const hasRegionFilter = !!searchParams.regions;
 
-  const data = await getProperties({
-    limit: hasRegionFilter ? 100 : PER_PAGE,
-    offset: hasRegionFilter ? 0 : offset,
+  const baseQuery = {
     filters: filters.length > 0 ? filters.join('[and]') : undefined,
     orders: '-publishedAt',
     q: searchParams.q || undefined,
-  }).catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: PER_PAGE }));
+  };
+  // 地域で絞る時は全件（100 件を超える分も。成約済みを含めると 100 件を超える）
+  const data = await (hasRegionFilter
+    ? fetchAllPages((q) => getProperties({ ...baseQuery, ...q })).then((contents) => ({ contents, totalCount: contents.length }))
+    : getProperties({ ...baseQuery, limit: PER_PAGE, offset })
+  ).catch(() => ({ contents: [], totalCount: 0 }));
 
   // 地域フィルターをクライアントサイドで適用
   let allFiltered = data.contents;
@@ -91,8 +95,17 @@ export default async function PropertiesPage(props: PropertiesPageProps) {
     orders: '-publishedAt',
   }).catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: 1 }));
   const featuredProperty = pickupData.contents[0];
-  // grid は paginatedContents から pickup と同じ ID を除外（同じ物件を 2 回描画しないため）
-  const gridProperties = paginatedContents.filter((p) => p.id !== featuredProperty?.id);
+  // 「絞り込み」ボタンに押す前の該当件数を出すため、全物件の絞り込み項目だけを渡す
+  const countItems = await fetchAllPages((q) => getProperties({ ...q, fields: 'status,type,category,regions' }))
+    .then((all) => all.map(toPropertyCountItem))
+    .catch(() => undefined);
+  // 絞り込みなしの時は、grid から pickup と同じ ID を除外（同じ物件を 2 回描画しないため）。
+  // 絞り込み中は除外しない。pickup は条件に関係なく固定なので、除くと「条件に合うのが pickup の物件だけ」の時に
+  // 一覧が「見つかりませんでした」になり、件数・ページ送りとも食い違う
+  const isFiltered = !!(searchParams.types || searchParams.regions || searchParams.q || searchParams.status === 'all');
+  const gridProperties = isFiltered
+    ? paginatedContents
+    : paginatedContents.filter((p) => p.id !== featuredProperty?.id);
 
   return (
     <div className="bg-cream">
@@ -111,7 +124,7 @@ export default async function PropertiesPage(props: PropertiesPageProps) {
       />
       <Breadcrumb items={[{ label: '物件を探す' }]} />
       <Suspense fallback={null}>
-        <MobileFilterNav />
+        <MobileFilterNav countItems={countItems} />
       </Suspense>
 
       {/* PC: 下余白は ParkingBanner 側 (tablet:py-24) で確保。SP: Figma 4211:10722 通り pagination→駐車場の gap を 120px に。 */}
@@ -123,6 +136,8 @@ export default async function PropertiesPage(props: PropertiesPageProps) {
           {/* pickup 物件（サムネイル切替対応） */}
           {/* SP: pickup → grid 60px / PC: pickup → filter row 128px (Figma Handoff 4470:14406 gap-128)。
               PC は sticky バー側の pt-6(24px) と合わせて 104 + 24 = 128px */}
+          {/* SP の「物件を絞り込む」ボタンを出し始める位置。条件に合う PICK UP がない時も出せるよう、カードの外に置く */}
+          <div data-mobile-filter-start />
           {featuredProperty && (
             <div className="mb-[3.75rem] tablet:mb-[6.5rem]">
               <PickupCard property={featuredProperty} />
@@ -140,7 +155,7 @@ export default async function PropertiesPage(props: PropertiesPageProps) {
           {/* filter → grid は 96px (Figma 4470:14411 gap-96) = pb-8(32) + mb-16(64) */}
           <div className="hidden tablet:block sticky top-[6.125rem] z-30 bg-cream pt-6 pb-8 mb-16">
             <Suspense fallback={<div className="h-14 bg-cream animate-pulse rounded-lg" />}>
-              <PropertyFilter />
+              <PropertyFilter countItems={countItems} />
             </Suspense>
           </div>
 

@@ -39,8 +39,10 @@ export default function CardProperty({ property }: CardPropertyProps) {
           alt={property.title}
           fill
           className="object-cover"
-          sizes="(max-width: 992px) 100vw, 410px"
+          sizes="(min-width: 1440px) 28.47vw, (max-width: 992px) 100vw, 410px"
         />
+        {/* Figma card-propaty-sp: 写真に Paper 40%（SP のみ） */}
+        <div aria-hidden className="paper-overlay paper-overlay-sp" style={{ '--paper-opacity': 0.4 } as React.CSSProperties} />
         {isSold && (
           <div className="absolute inset-0 bg-dark-green/50 pointer-events-none" aria-hidden="true" />
         )}
@@ -100,7 +102,8 @@ export default function CardProperty({ property }: CardPropertyProps) {
                 <span className="font-gothic font-medium text-category-2 tablet:text-category-1 text-black tablet:text-dark-green px-2">
                   {priceAmount}
                 </span>
-                <span className="font-gothic font-medium text-body-s text-black tablet:text-dark-green pb-1 whitespace-nowrap">
+                {/* 単位の下の余白: SP 2px（デザインレビュー apTVGzSl3h7f）/ PC 4px */}
+                <span className="font-gothic font-medium text-body-s text-black tablet:text-dark-green pb-0.5 tablet:pb-1 whitespace-nowrap">
                   {priceUnit}
                 </span>
               </div>
@@ -134,8 +137,8 @@ export default function CardProperty({ property }: CardPropertyProps) {
               </span>
             )}
           </div>
-          {/* 矢印は右端から 8px 内側 (Figma I4470:14852;4646:28893: x250 幅108 内の x56 → 右余白 8) */}
-          <span className="flex items-center justify-center w-[2.75rem] h-[2.75rem] mr-2 border border-dark-green rounded-full shrink-0">
+          {/* 矢印はカードの右端に揃える（右の余白をなくす。デザインレビュー G2ngZs3lrfew） */}
+          <span className="flex items-center justify-center w-[2.75rem] h-[2.75rem] border border-dark-green rounded-full shrink-0">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>

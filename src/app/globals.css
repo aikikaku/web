@@ -12,7 +12,7 @@
 @layer base {
   /* レスポンシブ (#Pd9lJMyO318a): 1440px 基準の比例拡大。
      ルート font-size を 1440→1920 で 16px→21.33px に可変させ、
-     全 rem 値（レイアウト/文字）を比例拡大。<1440 は等倍（ユーザー既定を尊重）、
+     全 rem 値（レイアウト/文字）を比例拡大。993–1439 は下の指定で比例縮小、<993 は等倍、
      >1920 は停止。1.1111vw = 16/1440*100。 */
   html {
     scroll-behavior: smooth;
@@ -28,12 +28,12 @@
 
   /* レイアウトは SP(<993px) と PC(>=993px) の2層のみ。中間レイアウトは作らない。
      PC レイアウト(旧 desktop: の 1440px 用レイアウト含む)は tablet:(993px) に統一済み。
-     993–1439px では 1440px 設計の PC をそのまま描画し、収まらない分は横スクロールで
-     見せるため body に min-width:1440px をかける(Figma にタブレット専用デザインが
-     無いためユーザー確定の方針)。>=1440px は等倍〜比例拡大(html の clamp)。 */
+     993–1439px では 1440px 設計の PC を画面幅に合わせて比例縮小する（ルート font-size を
+     1.1111vw にして rem ごと縮める。参考サイト iwatetown-sdgs.jp と同じ考え方。
+     デザインレビュー 6tYZdAZc8BGD。以前は min-width:1440px で横スクロールさせていた）。 */
   @media (min-width: 993px) and (max-width: 1439.98px) {
-    body {
-      min-width: 90rem; /* 1440px */
+    html {
+      font-size: 1.1111vw;
     }
   }
 
@@ -75,17 +75,67 @@
   /* NOTE: will-change は指定しない。permanent な will-change:transform は
      子孫の position:sticky が参照する containing block を生成し、
      staff-interview の追従 TOC 等を壊すため (is-visible 後も残る)。 */
-  .reveal {
+  /* セクション丸ごとのフェード（.reveal）は、要素ごとの演出（下の .m-* / MotionProvider）に置き換えたため無効。
+     Reveal コンポーネントはマークアップ互換のため残している */
+
+  /* ─── 表示演出（MotionProvider）。html.motion-ready の時だけ有効 ───
+     文字も写真も、位置は動かさず、その場でふわっとフェードインするだけ（写真・動画は読み込み後）。
+     対象は MotionProvider が main 内から自動で選び .m-hide を付ける（文字を直接持つ要素・写真・動画）。
+     印を付け終わるまで main は見えなくしておく（付ける前に一瞬見えてからフェードし直す、ちらつき防止） */
+  :root {
+    --ease-soft: cubic-bezier(0.16, 1, 0.3, 1);
+    /* フェード（濃さ）用。expo-out だと最初の 0.1〜0.2 秒で 7 割以上濃くなり「パッと出る」、
+       ease-in-out だと出だしが遅く「出るのが遅い」ため、出だしから変わり始めて最後をゆるめる ease-out（quad） */
+    --ease-fade: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  html.motion-ready main:not(.m-ready) {
+    visibility: hidden;
+  }
+  html.motion-ready main .m-hide:not(.m-in) {
     opacity: 0;
-    transform: translateY(1.5rem);
+  }
+  html.motion-ready main :is(img, video).m-hide:not(.m-in) {
+    scale: 1.03;
+  }
+  /* 大きな写真: 出たあと約4秒かけて、わずかな拡大から落ち着く（ゆっくり時間が流れる余韻） */
+  html.motion-ready main img.m-large.m-hide:not(.m-in) {
+    scale: 1.08;
+  }
+  /* PC のパララックス対象は、枠の中で上下 3% ずらしても端が見えないよう、ごくわずかに拡大したまま落ち着く */
+  html.motion-ready main img.m-parallax.m-hide:not(.m-in) {
+    scale: 1.13;
+  }
+  html.motion-ready main img.m-parallax.m-in {
+    scale: 1.07;
+  }
+  /* 表示中だけ付く（MotionProvider が出し終わったら外す）。要素自身のホバー用トランジションを上書きし続けないため */
+  html.motion-ready main .m-anim {
     transition:
-      opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-      transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+      opacity 0.9s var(--ease-fade),
+      scale 1.4s var(--ease-soft);
+  }
+  html.motion-ready main img.m-large.m-anim {
+    transition:
+      opacity 0.9s var(--ease-fade),
+      scale 4.2s var(--ease-soft);
   }
 
-  .reveal.is-visible {
-    opacity: 1;
-    transform: none;
+  /* ヒーロー写真の Ken Burns（表示中にゆっくり引いていく。参考: notahotel / hachi-to-waltz） */
+  @keyframes ken-burns {
+    from {
+      transform: scale(1.12);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+  .ken-burns {
+    animation: ken-burns 9s linear both;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ken-burns {
+      animation: none;
+    }
   }
 
   /* ─── ヒーロー(画像3枚)の登場アニメーション (#lB0tVZMFjn0S / #eS_5ZxrNoxye) ─── */
@@ -119,6 +169,24 @@
     .hero-card-in,
     .hero-card-fade {
       animation: none !important;
+    }
+  }
+
+  /* 読み込み中表示: 0.3 秒待ってからふわっと出す（すぐ終わる読み込みで一瞬出て消える点滅を避ける） */
+  @keyframes search-progress-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  .search-progress-in {
+    animation: search-progress-in 0.5s ease-out 0.3s both;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .search-progress-in {
+      animation: none;
     }
   }
 
@@ -174,7 +242,8 @@
   }
 
   /* Figma の「Paper」パターン塗り（450px の紙テクスチャを敷き詰め）。背景色の上・中身の下に重ねる。
-     濃さは --paper-opacity（Figma の PATTERN の opacity。既定 0.2）で指定する */
+     紺の面（フッター・帯）は .paper-texture（20%）、薄緑の面は .paper-texture .paper-texture-light（50%・Darken）。
+     Figma では同じ種類の面でも付いている所と無い所が混在するため、サイトでは面の色ごとに揃えている */
   .paper-texture {
     position: relative;
     isolation: isolate;
@@ -188,6 +257,27 @@
     border-radius: inherit;
     background: url('/images/textures/paper.png') repeat 0 0 / 450px 450px;
     opacity: var(--paper-opacity, 0.2);
+    mix-blend-mode: var(--paper-blend, normal);
+  }
+  /* 薄緑（light-green）の面用。Figma は opacity 50%・多くが Darken 合成 */
+  .paper-texture-light {
+    --paper-opacity: 0.5;
+    --paper-blend: darken;
+  }
+
+  /* 写真の上に重ねる紙テクスチャ（Figma の画像レイヤーの Paper パターン）。写真の直後に置き、
+     グラデーション・文字より下に重ねる。濃さは --paper-opacity。-sp は SP（〜992px）のみ（Figma で SP だけの指定） */
+  .paper-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: url('/images/textures/paper.png') repeat 0 0 / 450px 450px;
+    opacity: var(--paper-opacity, 0.4);
+  }
+  @media (min-width: 993px) {
+    .paper-overlay-sp {
+      display: none;
+    }
   }
 
   /* btn-outline-fill と同じ見た目で、ボタン自体のホバーでだけ反転する（カード全体がリンクでない場合用） */

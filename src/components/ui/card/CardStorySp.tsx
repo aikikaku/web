@@ -34,9 +34,11 @@ export default function CardStorySp({ story, className }: Props) {
           image={story.thumbnail}
           alt={story.title}
           fill
-          className="object-cover transition-transform group-hover:scale-[1.02]"
-          sizes="(max-width: 992px) 332px, 410px"
+          className="object-cover transition-transform duration-[800ms] group-hover:scale-[1.02]"
+          sizes="(min-width: 1440px) 28.47vw, (max-width: 992px) 332px, 410px"
         />
+        {/* Figma card-story-sp: 写真に Paper 20%（SP のみ） */}
+        <div aria-hidden className="paper-overlay paper-overlay-sp" style={{ '--paper-opacity': 0.2 } as React.CSSProperties} />
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
