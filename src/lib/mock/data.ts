@@ -51,7 +51,7 @@ export const mockProperties: Property[] = [
     constructionDate: '昭和50年10月',
     schoolDistrict: '三島市立北小学校',
     transactionType: '仲介',
-    price: 1800,
+    price: 18000000,
     regions: [{ ...base('region-mishima-yata'), name: '三島市谷田', slug: 'mishima', order: 1 }],
   },
   {
@@ -71,7 +71,7 @@ export const mockProperties: Property[] = [
     layout: '3LDK',
     constructionDate: '2015年9月',
     transactionType: '仲介',
-    price: 2480,
+    price: 24800000,
     regions: [mockRegions[1]],
   },
   {
@@ -88,7 +88,7 @@ export const mockProperties: Property[] = [
     nearestStation: 'JR長泉なめり駅 徒歩8分',
     landArea: 198.3,
     transactionType: '仲介',
-    price: 1980,
+    price: 19800000,
     regions: [mockRegions[2]],
   },
   {
@@ -157,7 +157,7 @@ export const mockProperties: Property[] = [
     layout: '4LDK',
     constructionDate: '2024年3月',
     transactionType: '仲介',
-    price: 3280,
+    price: 32800000,
     regions: [mockRegions[3]],
   },
   {
@@ -173,7 +173,7 @@ export const mockProperties: Property[] = [
     nearestStation: '東海道本線 三島駅 徒歩10分',
     landArea: 220.0,
     transactionType: '仲介',
-    price: 2800,
+    price: 28000000,
     regions: [mockRegions[0]],
   },
   {
@@ -207,7 +207,7 @@ export const mockProperties: Property[] = [
     buildingArea: 68.0,
     layout: '2LDK',
     constructionDate: '2000年8月',
-    price: 1980,
+    price: 19800000,
     regions: [mockRegions[1]],
   },
   {
@@ -223,7 +223,7 @@ export const mockProperties: Property[] = [
     nearestStation: '伊豆箱根鉄道 三島田町駅 徒歩7分',
     landArea: 180.5,
     transactionType: '仲介',
-    price: 2200,
+    price: 22000000,
     regions: [mockRegions[0]],
   },
 ];

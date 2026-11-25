@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import PropertyDetailClient from './PropertyDetailClient';
 import { mockProperties } from '@/lib/mock/data';
+import { formatYen } from '@/lib/propertyDisplay';
 import type { Property, MicroCMSImage } from '@/types/microcms';
 
 /**
@@ -20,14 +21,15 @@ function buildSlots(property: Property) {
         ? '売土地'
         : '貸土地');
   const locationText = property.regions?.map((r) => r.name).join('・') || property.location || '';
+  const priceYen = property.price ? formatYen(property.price) : null;
   const priceValue = isSold
     ? '-'
-    : property.price
-      ? property.price.toLocaleString()
+    : priceYen
+      ? priceYen.amount
       : property.rent
         ? property.rent.toLocaleString()
         : null;
-  const priceUnit = property.price ? '万円' : property.rent ? '円/月' : '';
+  const priceUnit = priceYen ? (isSold ? '万円' : priceYen.unit) : property.rent ? '円/月' : '';
 
   const spLabelsSlot = (
     <div className="flex items-center gap-2 min-w-0">

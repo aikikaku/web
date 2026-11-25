@@ -109,7 +109,7 @@ microCMS管理画面でAPI作成（リスト形式）:
 | constructionDate | 築年月 | テキストフィールド |  | 例: 2020年3月 |
 | schoolDistrict | 学区 | テキストフィールド |  |  |
 | transactionType | 取引態様 | テキストフィールド |  |  |
-| price | 価格 | 数値 |  | 単位: 万円 |
+| price | 価格 | 数値 |  | 単位: 円（表示は「3,800万円」の形） |
 | rent | 賃料 | 数値 |  | 単位: 円/月 |
 | remarks | 備考 | テキストエリア |  |  |
 | story | 関連ストーリー | コンテンツ参照（stories） |  |  |
