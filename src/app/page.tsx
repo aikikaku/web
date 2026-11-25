@@ -1,4 +1,4 @@
-import { getProperties, getStories, getCustomerVoices } from '@/lib/microcms/queries';
+import { getProperties, getStories, getLatestCustomerVoices } from '@/lib/microcms/queries';
 import { HERO_SETS } from '@/lib/heroSets';
 import CardProperty from '@/components/ui/card/CardProperty';
 import VoiceCarousel from '@/components/home/VoiceCarousel';
@@ -30,8 +30,8 @@ export default async function HomePage() {
     orders: '-publishedAt',
   }).catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: 3 }));
 
-  const voices = await getCustomerVoices({ orders: '-publishedAt' })
-    .catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: 50 }));
+  const voices = await getLatestCustomerVoices()
+    .catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: 5 }));
 
   return (
     <div>

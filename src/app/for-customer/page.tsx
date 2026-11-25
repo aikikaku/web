@@ -1,4 +1,4 @@
-import { getProperties, getCustomerVoices, getStories } from '@/lib/microcms/queries';
+import { getProperties, getLatestCustomerVoices, getStories } from '@/lib/microcms/queries';
 import MoreProperties from '@/components/property/MoreProperties';
 import VoiceCarousel from '@/components/home/VoiceCarousel';
 import StorySection from '@/components/story/StorySection';
@@ -88,8 +88,8 @@ export default async function ForCustomerPage() {
   const [properties, voices, stories] = await Promise.all([
     getProperties({ limit: 6, filters: 'status[contains]available', orders: '-publishedAt' })
       .catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: 6 })),
-    getCustomerVoices()
-      .catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: 50 })),
+    getLatestCustomerVoices()
+      .catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: 5 })),
     getStories({ limit: 3 })
       .catch(() => ({ contents: [], totalCount: 0, offset: 0, limit: 3 })),
   ]);
