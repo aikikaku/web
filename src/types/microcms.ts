@@ -46,7 +46,9 @@ export interface Property extends MicroCMSListContent {
   constructionDate?: string;
   schoolDistrict?: string;
   transactionType?: string;
+  /** 価格（円）。表示は formatYen で「3,800 万円」の形にする */
   price?: number;
+  /** 賃料（円/月） */
   rent?: number;
   remarks?: string;
   story?: Story;

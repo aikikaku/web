@@ -22,15 +22,30 @@ export function getPropertyCategoryLabel(property: Property): string {
   );
 }
 
-/** 価格/賃料の表示用フォーマット。PropertyCard/PickupCard共通。 */
+const formatNumber = (n: number) => n.toLocaleString('ja-JP', { maximumFractionDigits: 4 });
+
+/**
+ * 円の金額を、数字と単位に分けた表示にする。CMS の「価格」は円で入力する（38000000 → 3,800 万円）。
+ * 1億円以上は「1億2,000 万円」、ちょうどの時は「1 億円」。
+ */
+export function formatYen(yen: number): { amount: string; unit: string } {
+  const oku = Math.floor(yen / 100_000_000);
+  const man = (yen - oku * 100_000_000) / 10_000;
+  if (oku === 0) return { amount: formatNumber(man), unit: '万円' };
+  if (man === 0) return { amount: formatNumber(oku), unit: '億円' };
+  return { amount: `${formatNumber(oku)}億${formatNumber(man)}`, unit: '万円' };
+}
+
+/** 円の金額を1つの文字列にする（38000000 → 「3,800万円」）。説明文など、数字と単位を分けない所で使う */
+export function formatYenText(yen: number): string {
+  const { amount, unit } = formatYen(yen);
+  return amount + unit;
+}
+
+/** 価格/賃料の表示用フォーマット。PropertyCard/PickupCard/物件詳細で共通。価格は円、賃料は円/月で入力されている。 */
 export function formatPropertyPrice(property: Property, isSold: boolean) {
-  const amount = isSold
-    ? '-'
-    : property.price
-      ? property.price.toLocaleString()
-      : property.rent
-        ? property.rent.toLocaleString()
-        : '応談';
-  const unit = isSold ? '万円' : property.price ? '万円' : property.rent ? '円/月' : '';
-  return { amount, unit };
+  if (isSold) return { amount: '-', unit: '万円' };
+  if (property.price) return formatYen(property.price);
+  if (property.rent) return { amount: property.rent.toLocaleString('ja-JP'), unit: '円/月' };
+  return { amount: '応談', unit: '' };
 }
