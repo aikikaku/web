@@ -1,8 +1,9 @@
-import Link from 'next/link';
+import { PARKING_URL } from '@/lib/site';
 import Arrow from '@/components/ui/interactive/Arrow';
 
 /**
  * 駐車場バナー（PC・SP 兼用）。Figma 4211:10353 (PC) / 4211:10741 (SP) に準拠。
+ * リンク先は別サイトの駐車場マップ（parking.aikikaku.net）。ナビの「仲人」と同じく別タブで開く。
  * - PC: section py-[6rem] px-[2.8125rem]、Card max-w-[40.375rem] h-[11.25rem] pt-24 pb-32 px-30、サブ→タイトル順
  * - SP: section pb-[3.75rem] px-4、Card pt-36 pb-40 px-16 角丸12 (Figma 4470:14816)、タイトル→サブ順
  */
@@ -10,8 +11,10 @@ export default function ParkingBanner() {
   return (
     <section className="pb-[3.75rem] tablet:py-[6rem]">
       <div className="px-4 tablet:px-[2.8125rem] tablet:flex tablet:justify-center">
-        <Link
-          href="/for-customer"
+        <a
+          href={PARKING_URL}
+          target="_blank"
+          rel="noopener noreferrer"
           className="block bg-light-green paper-texture paper-texture-light rounded-xl tablet:rounded-[1.5rem] pt-9 pb-10 px-4 tablet:p-[1.875rem] tablet:h-[11.25rem] tablet:flex tablet:flex-col tablet:justify-center tablet:max-w-[40.375rem] tablet:w-[40.375rem] w-full group"
         >
           <div className="flex items-center tablet:items-end justify-between gap-6 tablet:gap-4">
@@ -36,7 +39,7 @@ export default function ParkingBanner() {
             </div>
             <Arrow sizeClassName="w-11 h-11 tablet:w-12 tablet:h-12" />
           </div>
-        </Link>
+        </a>
       </div>
     </section>
   );
