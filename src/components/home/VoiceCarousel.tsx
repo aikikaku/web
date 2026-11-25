@@ -16,8 +16,9 @@ const PAGE_SIZE = 1;
 /**
  * お客様の声カルーセル。Figma 4211:10009 (PC) / 4211:9317 (SP) 準拠。
  * - 1枚送り: dot/矢印クリックで voices[page] を track 左端に smooth scroll。
- * - dot はカード枚数分。新着順、初期 activePage=0。
- * - PC/SP どちらも全件レンダリング + 横スクロール peek (PC card w-644 / SP w-322)。
+ * - dot はカード枚数分。初期 activePage=0。
+ * - 渡された声をすべて並べる + 横スクロール peek (PC card w-644 / SP w-322)。
+ * - 呼び出し側は getLatestCustomerVoices() で新しい順の5件だけを渡す。残りは「すべて見る」(/voice) で見せる。
  */
 export default function VoiceCarousel({ voices }: Props) {
   const trackRef = useRef<HTMLDivElement>(null);

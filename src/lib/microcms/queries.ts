@@ -120,18 +120,29 @@ export async function getRegions() {
   });
 }
 
+/** カルーセルに出すお客様の声の件数。残りは一覧ページ（/voice）で見せる */
+export const VOICE_CAROUSEL_LIMIT = 5;
+
+/** 声の日付（date）の新しい順。同じ日付は「並び順」の小さい方を先に */
+const LATEST_VOICES_ORDER = '-date,order';
+
+/**
+ * カルーセル用に、お客様の声を新しい順に VOICE_CAROUSEL_LIMIT 件だけ取る。
+ * 公開日時（publishedAt）ではなく声の日付で並べる。まとめて登録すると公開日時は登録順になり、古い声が先頭に来るため。
+ */
+export function getLatestCustomerVoices() {
+  return getCustomerVoices({ orders: LATEST_VOICES_ORDER, limit: VOICE_CAROUSEL_LIMIT });
+}
+
 export async function getCustomerVoices(options?: { orders?: string; limit?: number }) {
   if (isMockMode) {
     const data = mockGetCustomerVoices();
-    if (options?.orders === '-publishedAt') {
-      return {
-        ...data,
-        contents: [...data.contents].sort(
-          (a, b) => new Date(b.publishedAt || 0).getTime() - new Date(a.publishedAt || 0).getTime(),
-        ),
-      };
+    let contents = data.contents;
+    if (options?.orders === LATEST_VOICES_ORDER) {
+      contents = [...contents].sort((a, b) => b.date.localeCompare(a.date) || a.order - b.order);
     }
-    return data;
+    if (options?.limit) contents = contents.slice(0, options.limit);
+    return { ...data, contents };
   }
 
   return client.getList<CustomerVoice>({
