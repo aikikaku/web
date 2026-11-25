@@ -13,6 +13,7 @@ import Reveal from '@/components/common/Reveal';
 import Arrow from '@/components/ui/interactive/Arrow';
 import type { Metadata } from 'next';
 import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
+import { NAKABITO_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: '暮らしを知る',
@@ -287,8 +288,10 @@ export default async function StoriesPage(props: StoriesPageProps) {
 
       {/* 仲人バナー (Figma 4470:15412 PC: px-45 pb-144, Card p-30 / 4470:15135 SP: pb-120, Card pt-48 pb-30 px-30, ロゴ→文言 gap-30) */}
       <Reveal as="section" className="px-4 tablet:px-[2.8125rem] pb-[7.5rem] tablet:pb-36 max-w-[90rem] mx-auto flex justify-center">
-        <Link
-          href="/about"
+        <a
+          href={NAKABITO_URL}
+          target="_blank"
+          rel="noopener noreferrer"
           className="block group bg-light-green rounded-[1.5rem] pt-12 pb-[1.875rem] px-[1.875rem] tablet:p-[1.875rem] w-full max-w-[40.375rem] overflow-hidden"
         >
           <div className="flex flex-col items-center text-center gap-[1.875rem] tablet:flex-row tablet:items-end tablet:justify-between tablet:text-left">
@@ -318,7 +321,7 @@ export default async function StoriesPage(props: StoriesPageProps) {
             {/* 矢印リンク */}
             <Arrow size="sm" />
           </div>
-        </Link>
+        </a>
       </Reveal>
     </div>
   );

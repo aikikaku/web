@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import ParkingBanner from './ParkingBanner';
 
-// ParkingBanner は props を取らない（内容・リンク先とも固定）
+// ParkingBanner は props を取らない（内容・リンク先とも固定。リンク先は駐車場マップ parking.aikikaku.net）
 const meta: Meta<typeof ParkingBanner> = {
   title: 'common/ParkingBanner',
   component: ParkingBanner,
