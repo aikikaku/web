@@ -20,6 +20,7 @@ import Breadcrumb from '@/components/ui/navigation/Breadcrumb';
 import { getPriceLabel, getPropertyLayoutCell } from '@/components/property/propertyCells';
 import LayoutValue from '@/components/property/LayoutValue';
 import { propertyDocumentHref } from '@/lib/propertyDocument';
+import { formatYen, formatYenText } from '@/lib/propertyDisplay';
 import { SITE_URL } from '@/lib/site';
 
 export const revalidate = 3600;
@@ -50,7 +51,7 @@ export async function generateMetadata({
     property.location,
     property.layout,
     property.price
-      ? `${property.price.toLocaleString()}万円`
+      ? formatYenText(property.price)
       : property.rent
         ? `${property.rent.toLocaleString()}円/月`
         : '',
@@ -131,14 +132,16 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
   const layoutCell = getPropertyLayoutCell(property);
 
   // 価格フィールド（特別扱い）
+  // 価格は円で入力されている（38000000 → 3,800 万円）。賃料は円/月
+  const priceYen = property.price ? formatYen(property.price) : null;
   const priceValue = isSold
     ? '-'
-    : property.price
-      ? property.price.toLocaleString()
+    : priceYen
+      ? priceYen.amount
       : property.rent
         ? property.rent.toLocaleString()
         : null;
-  const priceUnit = property.price ? '万円' : property.rent ? '円/月' : '';
+  const priceUnit = priceYen ? (isSold ? '万円' : priceYen.unit) : property.rent ? '円/月' : '';
 
   // 物件概要フィールド。成約時は所在地・土地面積・建物面積を非表示 (#31/#32)。
   // 並びは Figma 4470:14376 / 付箋 4470:16691 通り「…取引態様 → 価格 → 備考」。
@@ -178,7 +181,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
     ...(property.price && {
       offers: {
         '@type': 'Offer',
-        price: property.price * 10000,
+        price: property.price,
         priceCurrency: 'JPY',
         availability:
           property.status === 'available'
